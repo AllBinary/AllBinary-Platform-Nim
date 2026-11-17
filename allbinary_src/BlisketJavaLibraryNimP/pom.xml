@@ -1,0 +1,147 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>org.allbinary.business</groupId>
+    <artifactId>BlisketJavaLibraryPNim</artifactId>
+    <packaging>pom</packaging>
+    <!-- AllBinary Platform Version Start -->
+    <version>1.0.0-SNAPSHOT</version>
+    <!-- AllBinary Platform Version End -->
+
+    <name>BlisketJavaLibraryPNim</name>
+    <url>http://www.allbinary.com/</url>
+    <distributionManagement>
+        <snapshotRepository>
+            <id>nexus-snapshots</id>
+            <name>AllBinary Snapshots Nexus</name>
+            <url>https://nexus-allbinary.rhcloud.com/nexus/content/repositories/snapshots/</url>
+        </snapshotRepository>
+        <repository>
+            <id>nexus-releases</id>
+            <name>AllBinary Releases Nexus</name>
+            <url>https://nexus-allbinary.rhcloud.com/nexus/content/repositories/releases/</url>
+        </repository>
+    </distributionManagement>
+    
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>3.8.1</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+    
+    <modules>
+
+        <!--
+        <module>../../j2me/AllBinaryJ2MELibraryNimP</module>
+        -->
+        <!--
+        <module>../data/DataJavaLibraryNimM</module>
+        -->
+
+        <module>../licensing/TestServiceClientInfoJavaLibraryNimM</module>        
+
+        <module>../data/DataTableInterfacesNimM</module>
+        
+        <module>../QueueJavaLibraryNimM</module>
+        
+        <!--
+        <module>../TokenizerJavaLibraryNimM</module>
+        -->
+
+        <module>../logging/LogConfigTypeFreeblisketJavaLibraryNimM</module>
+
+        <module>../JavaUtilLibraryNimM</module>
+        <module>../NullInitInfoJavaLibraryNimM</module>        
+        <module>../InitInfoJavaLibraryNimM</module>
+        <module>../PreLoaderHttpJavaLibraryNimM</module>
+        
+        <module>../TagsBaseJavaLibraryNimM</module>
+        <module>../CustomLoaderJavaLibraryNimM</module>
+        
+        <!--
+        <module>../logic/data/file/FileJ2SEJavaLibraryNimM</module>
+        <module>../logic/data/file/FileJavaLibraryNimM</module>
+        -->
+
+        <module>../data/SQLAllBinaryJavaLibraryNimM</module>
+
+        <!--
+        <module>../licensing/FileLicenseInitInfoJavaLibraryNimM</module>
+        -->
+
+        <module>../DocumentObjectModelJavaLibraryNimM</module>
+
+        <module>../VisualStyleJavaLibraryNimM</module>
+
+        <module>../ConfigurationJavaLibraryNimM</module>
+
+        <module>../VisualTransformBaseJavaLibraryNimM</module>
+
+        <module>../CategoryBaseJavaLibraryNimM</module>
+        <module>../CategoryJavaLibraryNimM</module>
+
+        <module>../UserJavaLibraryNimM</module>
+
+        <module>../PaymentGatewayBaseJavaLibraryNimM</module>
+
+        <module>../data/vo/EntitiesBlisketVOJavaLibraryNimM</module>
+        <module>../PaymentGatewayJavaLibraryNimM</module>
+        <module>../data/vo/EntitiesOrderHistoryVOJavaLibraryNimM</module>
+        <module>../data/vo/EntityPaymentGatewayVOJavaLibraryNimM</module>
+        <module>../data/vo/EntityStoreFrontVOJavaLibraryNimM</module>
+
+        <module>../data/EntitiesBlisketBaseInterfacesJavaLibraryNimM</module>
+        <module>../data/EntitiesBlisketBaseJavaLibraryNimM</module>
+        
+        <module>../data/EntitiesAdvertisementBaseJavaLibraryNimM</module>
+        <module>../data/EntityOrderHistoryJavaLibraryNimM</module>
+        <module>../data/EntityPaymentGatewayJavaLibraryNimM</module>
+        <module>../data/EntityVisualTransformJavaLibraryNimM</module>
+        <module>../data/EntityUserJavaLibraryNimM</module>
+        <module>../data/EntityWorkflowJavaLibraryNimM</module>
+
+        <module>../SMTPConfigurationJavaLibraryNimM</module>
+        <module>../SMTPBaseJavaLibraryNimM</module>
+
+        <module>../VisualTransformJavaLibraryNimM</module>
+
+        <module>../../replace_these_stub_projects/allbinary_src/YourRuntimeEnvironmentJavaLibraryNimM</module>
+        <module>../GatewayJavaLibraryNimM</module>
+        
+        <module>../WorkflowBaseJavaLibraryNimM</module>
+        <module>../WorkflowJavaLibraryNimM</module>
+
+        <module>../IdGeneratorUsingFilesJavaLibraryNimM</module>
+        <module>../BlisketPreVOJavaLibraryNimM</module>
+
+        <!-- 
+        EntitiesOrderHistoryVOJavaLibrary
+        UserJavaLibrary
+        -->
+        
+        <module>../BlisketVOJavaLibraryNimM</module>
+
+        <module>../UserCommerceJavaLibraryNimM</module>
+
+        <module>../CustomizerValidatorsJavaLibraryNimM</module>
+
+        <!-- 
+        AllBinaryCacheForShiftOneJavaLibrary
+        AllBinaryJSECacheJavaLibrary
+        ColorJavaLibrary
+        ImageJavaLibrary
+        -->
+        
+        <module>../logic/data/file/FileMediaJ2SEJavaLibraryNimM</module>
+        <module>../BlisketBaseJavaLibraryNimM</module>
+
+        <module>../logging/LoggingGAEAllNimM</module>
+        <module>../BlisketJavaLibraryNimM</module>
+        
+    </modules>
+
+</project>
+

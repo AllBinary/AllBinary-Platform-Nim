@@ -1,0 +1,88 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>org.allbinary</groupId>
+    <artifactId>AllBinaryBaseLibraryPOMNim</artifactId>
+    <packaging>pom</packaging>
+    <!-- AllBinary Platform Version Start -->
+    <version>1.0.0-SNAPSHOT</version>
+    <!-- AllBinary Platform Version End -->
+
+    <name>AllBinaryBaseLibraryPOMNim</name>
+    <url>http://www.allbinary.com/</url>
+    <distributionManagement>
+        <snapshotRepository>
+            <id>nexus-snapshots</id>
+            <name>AllBinary Snapshots Nexus</name>
+            <url>https://nexus-allbinary.rhcloud.com/nexus/content/repositories/snapshots/</url>
+        </snapshotRepository>
+        <repository>
+            <id>nexus-releases</id>
+            <name>AllBinary Releases Nexus</name>
+            <url>https://nexus-allbinary.rhcloud.com/nexus/content/repositories/releases/</url>
+        </repository>
+    </distributionManagement>
+    
+    <properties>
+        <buildLabel>${project.version}</buildLabel>
+        <assemblyPluginVersion>2.2-beta-1</assemblyPluginVersion>
+    </properties>
+
+    <modules>
+        <module>../CommonJavaLibraryNimM</module>
+        <module>../TempBaseJavaLibraryNimM</module>
+        
+        <module>../../allbinary_src/LogNimM</module>
+        <module>../../allbinary_src/allbinary_src_designpatterns_srcNimM</module>
+        <module>../../allbinary_src/data/BaseDataJavaLibraryNimM</module>
+        <module>../../allbinary_src/cache/BaseCacheJavaLibraryNimM</module>
+        <module>../../allbinary_src/logic/BasePreloaderJavaLibraryNimM</module>
+        <module>../../allbinary_src/logic/BasePreloaderJ2MEJavaLibraryNimM</module>
+
+        <module>../ExceptionHTMLJavaLibraryNimM</module>
+        <module>../J2MEExceptionLibraryNimM</module>
+        <module>../../allbinary_src/J2SEExceptionLibraryNimM</module>
+        <module>../J2MEUtilJavaLibraryNimM</module>
+        <module>../J2MEColorJavaLibraryNimM</module>
+        <module>../EventJ2MELibraryNimM</module>
+
+        <module>../../allbinary_src/LogNoPlatformJavaLibraryNimM</module>
+        <module>../../allbinary_src/LogJ2MEJavaLibraryNimM</module>
+        <module>../../allbinary_src/LogJ2SEJavaLibraryNimM</module>
+        <!--<module>../../allbinary_src/LogAndroidJavaLibraryNimM</module>-->
+        <module>../logging/LoggingNoneNimM</module>
+        <module>../logging/LoggingJ2MEAllNimM</module>
+        <module>../logging/LoggingJ2MEExceptionNimM</module>
+        <!--<module>../logging/LoggingAndroidAllNimM</module>-->
+        <!--
+        //While it is a possible dependency option it really does not fit here
+        //as such it is actually build in the final POM builds instead
+        <module>../logging/LoggingRemoteExceptionNimM</module>  
+        -->
+        
+        <module>../J2MEWindowingJavaLibraryNimM</module>
+        
+        <module>../lib/BaseMathLibraryNimM</module>
+        <module>../lib/BasicMathLibraryNimM</module>
+        
+        <module>../../allbinary_src/ThreadLibraryNimM</module>
+        <module>../../allbinary_src/ThreadHTMLLibraryNimM</module>
+        <module>../../replace_these_stub_projects/allbinary_src/NoneOnlyJavaLibraryNimM</module>
+        <module>../../allbinary_src/ThreadJ2MELibraryNimM</module>
+        <module>../time/TimeJavaLibraryNimM</module>
+
+        <module>../statistics/ApplicationStatisticsJ2SELibraryNimM</module>
+        <module>../statistics/ApplicationStatisticsJ2MELibraryNimM</module>
+        <module>../statistics/ApplicationStatisticsJavaLibraryNimM</module>
+
+        <module>../../allbinary_src/logging/BasicLogConfigTypeJavaLibraryNimM</module>
+        <module>../../allbinary_src/logging/LogConfigTypeGameClientJavaLibraryNimM</module>
+
+        <module>../../allbinary_src/hardware/HardwareLibraryPONimM</module>
+
+        <module>../lib/TrigBaseLibraryNimM</module>
+
+    </modules>
+
+</project>
+

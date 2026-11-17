@@ -1,0 +1,39 @@
+# 
+# AllBinary Open License Version 1 
+# Copyright (c) 2022 AllBinary 
+#  
+# By agreeing to this license you and any business entity you represent are 
+# legally bound to the AllBinary Open License Version 1 legal agreement. 
+#  
+# You may obtain the AllBinary Open License Version 1 legal agreement from 
+# AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
+#  
+# Created By: Travis Berthelot 
+#   
+# Generated Code Do Not Modify
+# package javax.microedition.lcdui
+
+from __future__ import annotations
+
+from java.lang.JavaRuntimeStatic import lazy_static
+from javax.microedition.lcdui.PlatformImage import PlatformImage
+
+
+#PlatformNullImageJavaLibrary
+class PreLoadPlatformImage(PlatformImage):
+    instance: PreLoadPlatformImage = None
+
+    def __init__(self) -> None:
+        super().__init__()
+    
+
+    @staticmethod
+    def getInstance() -> PreLoadPlatformImage:
+        return PreLoadPlatformImage.instance
+
+
+def _PreLoadPlatformImage_instance() -> object:
+    return PreLoadPlatformImage()
+
+lazy_static(PreLoadPlatformImage, "instance", _PreLoadPlatformImage_instance)
+

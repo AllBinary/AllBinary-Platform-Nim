@@ -1,0 +1,73 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>org.allbinary</groupId>
+    <artifactId>AllBinaryPlatformWithIntegrationPOMNim</artifactId>
+    <packaging>pom</packaging>
+    <!-- AllBinary Platform Version Start -->
+    <version>1.0.0-SNAPSHOT</version>
+    <!-- AllBinary Platform Version End -->
+
+    <name>AllBinaryPlatformWithIntegrationPOMNim</name>
+    <url>http://www.allbinary.com/</url>
+    
+    <distributionManagement>
+        <snapshotRepository>
+            <id>nexus-snapshots</id>
+            <name>AllBinary Snapshots Nexus</name>
+            <url>https://nexus-allbinary.rhcloud.com/nexus/content/repositories/snapshots/</url>
+        </snapshotRepository>
+        <repository>
+            <id>nexus-releases</id>
+            <name>AllBinary Releases Nexus</name>
+            <url>https://nexus-allbinary.rhcloud.com/nexus/content/repositories/releases/</url>
+        </repository>
+    </distributionManagement>
+
+    <properties>
+        <buildLabel>${project.version}</buildLabel>
+        <assemblyPluginVersion>2.2-beta-1</assemblyPluginVersion>
+    </properties>
+
+    <modules>
+
+        <!--
+        -->
+        <module>../../AllBinary-Platform-Integration</module>
+        
+<!--        <module>../j2me/games/platform/j2se/AllBinaryOnJ2SEBasePlatformJavaLibraryNimM</module>-->
+        <module>../j2me/games/platform/j2se/AllBinaryOnJ2SEPlatformJavaLibraryNimM</module>
+        
+        <!--<module>../j2me/FullScreenJavaLibraryNimM</module>-->
+
+        <!--<module>../j2me/SWTToJ2MELibraryNimM</module>-->
+        
+        <module>../j2me/media/graphics/ImageCacheOpenGLESJavaLibraryNimM</module>
+        <module>../graphics/opengl/Min3dForNullJavaLibraryNimM</module>
+        <module>../graphics/opengl/OpenGLESFileConfigurationJavaLibraryNimM</module>
+        <module>../graphics/opengl/OpenGLESJavaLibraryNimM</module>
+        <module>../j2me/media/graphics/animation/vector/SVGToAllBinaryJavaLibraryNimM</module>
+        <!--<module>../j2me/media/graphics/animation/image/ImageSwtJ2SEJavaLibraryNimM</module>-->
+
+        <module>../j2me/media/graphics/layer/AllBinaryTiledLayerJavaLibraryNimM</module>        
+        <module>../j2me/media/graphics/geography/map/GeographicMapLibraryNimM</module>
+        <module>../j2me/media/graphics/geography/GeographicPathFindingLibraryNimM</module>
+        <module>../j2me/media/graphics/geography/map/RaceTrackGeographicMapLibraryNimM</module>
+        <module>../j2me/media/graphics/geography/map/BasicTopViewGeographicMapJavaLibraryNimM</module>
+        <module>../j2me/games/arcade/platformer/TopViewGameBehaviorJavaLibraryNimM</module>
+
+        <module>../j2me/games/GameJ2MEOptionalLibraryPONimM</module>
+
+        <module>../j2me/media/graphics/geography/map/GraphNimP</module>
+        <module>../j2me/games/strategy/rts/RTSGameJavaLibraryNimP</module>
+        
+        <!--<module>../j2me/android/AllBinaryPlatformAndroidLibraryPONimM</module>-->
+
+    </modules>
+
+    <dependencies>
+        
+    </dependencies>
+
+</project>
+

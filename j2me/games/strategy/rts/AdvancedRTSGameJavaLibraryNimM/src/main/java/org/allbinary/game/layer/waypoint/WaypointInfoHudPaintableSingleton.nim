@@ -1,0 +1,35 @@
+# 
+# AllBinary Open License Version 1 
+# Copyright (c) 2006 AllBinary 
+#  
+# By agreeing to this license you and any business entity you represent are 
+# legally bound to the AllBinary Open License Version 1 legal agreement. 
+#  
+# You may obtain the AllBinary Open License Version 1 legal agreement from 
+# AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
+#  
+# Created By: Travis Berthelot 
+#   
+# Generated Code Do Not Modify
+# package org.allbinary.game.layer.waypoint
+
+from __future__ import annotations
+
+from java.lang.JavaRuntimeStatic import lazy_static
+
+
+class WaypointInfoHudPaintableSingleton:
+    instance: WaypointInfoHudPaintable = None
+    
+
+    @staticmethod
+    def getInstance() -> WaypointInfoHudPaintable:
+        return WaypointInfoHudPaintableSingleton.instance
+
+
+def _WaypointInfoHudPaintableSingleton_instance() -> object:
+    from org.allbinary.game.layer.waypoint.WaypointInfoHudPaintable import WaypointInfoHudPaintable
+    return WaypointInfoHudPaintable()
+
+lazy_static(WaypointInfoHudPaintableSingleton, "instance", _WaypointInfoHudPaintableSingleton_instance)
+

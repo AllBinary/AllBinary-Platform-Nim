@@ -1,0 +1,49 @@
+#
+# AllBinary Open License Version 1
+# Copyright (c) 2011 AllBinary
+# 
+# By agreeing to this license you and any business entity you represent are
+# legally bound to the AllBinary Open License Version 1 legal agreement.
+# 
+# You may obtain the AllBinary Open License Version 1 legal agreement from
+# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+# 
+# Created By: Travis Berthelot
+#  
+# Generated Code Do Not Modify
+# package org.allbinary.business.entry
+
+from __future__ import annotations
+
+from java.lang.JavaRuntimeStatic import lazy_static
+
+
+class EntryData:
+    instance: EntryData = None
+
+    def _init_fields(self) -> None:
+        self.ID: str = "ENTRY_ID"
+        self.ENCRYPTION: str = "ENTRY_ENCRYPTION"
+        self.TIMECREATED: str = "ENTRY_TIMECREATED"
+        self.LASTMODIFIED: str = "ENTRY_LASTMODIFIED"
+        self.DEFAULT: str = "ENTRY_DEFAULT"
+        self.SPECIAL: str = "ENTRY_SPECIAL"
+        self.ENABLE: str = "ENTRY_ENABLE"
+        self.YES: str = "Yes"
+        self.NO: str = "No"
+    
+
+    @staticmethod
+    def getInstance() -> EntryData:
+        return EntryData.instance
+    
+
+    def __init__(self) -> None:
+        self._init_fields()
+
+
+def _EntryData_instance() -> object:
+    return EntryData()
+
+lazy_static(EntryData, "instance", _EntryData_instance)
+

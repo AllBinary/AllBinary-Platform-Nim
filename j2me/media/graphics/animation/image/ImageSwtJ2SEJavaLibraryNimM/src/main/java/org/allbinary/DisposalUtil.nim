@@ -1,0 +1,65 @@
+# 
+# AllBinary Open License Version 1 
+# Copyright (c) 2022 AllBinary 
+#  
+# By agreeing to this license you and any business entity you represent are 
+# legally bound to the AllBinary Open License Version 1 legal agreement. 
+#  
+# You may obtain the AllBinary Open License Version 1 legal agreement from 
+# AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
+#  
+# Created By: Travis Berthelot 
+#   
+# Generated Code Do Not Modify
+# package org.allbinary
+
+from __future__ import annotations
+
+from java.lang.JavaRuntimeStatic import lazy_static
+
+
+class DisposalUtil:
+    instance: DisposalUtil = None
+
+    def _init_fields(self) -> None:
+        from org.allbinary.string.CommonStrings import CommonStrings
+        self.commonStrings: CommonStrings = CommonStrings.getInstance()
+
+    def __init__(self) -> None:
+        self._init_fields()
+    
+
+    @staticmethod
+    def getInstance() -> DisposalUtil:
+        return DisposalUtil.instance
+    
+
+    def disposeImage(self, image: Image) -> None:
+        from javax.microedition.lcdui.Image import Image
+        from org.eclipse.swt.graphics.Resource import Resource
+        from org.microemu.device.swt.SwtMutableImage import SwtMutableImage
+        if image is None:
+            return
+        if image.isMutable():
+            mutableImage: SwtMutableImage = image
+            self.disposeResource(mutableImage.getImage())
+        else:
+            pass
+    
+
+    def disposeResource(self, resource: Resource) -> None:
+        from org.eclipse.swt.graphics.Resource import Resource
+        if not resource.isDisposed():
+            print(self.commonStrings.CLOSE)
+            resource.dispose()
+# from javax.microedition.lcdui.Image import Image
+# from org.allbinary.string.CommonStrings import CommonStrings
+# from org.eclipse.swt.graphics.Resource import Resource
+# from org.microemu.device.swt.SwtMutableImage import SwtMutableImage
+
+
+def _DisposalUtil_instance() -> object:
+    return DisposalUtil()
+
+lazy_static(DisposalUtil, "instance", _DisposalUtil_instance)
+

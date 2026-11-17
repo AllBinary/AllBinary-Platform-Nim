@@ -1,0 +1,38 @@
+#
+# AllBinary Open License Version 1
+# Copyright (c) 2011 AllBinary
+# 
+# By agreeing to this license you and any business entity you represent are
+# legally bound to the AllBinary Open License Version 1 legal agreement.
+# 
+# You may obtain the AllBinary Open License Version 1 legal agreement from
+# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+# 
+# Created By: Travis Berthelot
+#  
+# Generated Code Do Not Modify
+# package org.allbinary.logic.visual.dhtml.html
+
+from __future__ import annotations
+
+
+
+class HtmlTag:
+
+    def _init_fields(self) -> None:
+        from java.util.HashMap import HashMap
+        self.otherAttributes: HashMap = None
+    
+
+    def __init__(self) -> None:
+        from org.allbinary.logic.StdUtil import StdUtil
+        self._init_fields()
+        self.otherAttributes = StdUtil.getInstance().createHashMap()
+    
+
+    def addAttribute(self, key: str, value: str) -> None:
+        self.otherAttributes.put(key, value)
+# from java.util.HashMap import HashMap
+# from org.allbinary.logic.StdUtil import StdUtil
+
+

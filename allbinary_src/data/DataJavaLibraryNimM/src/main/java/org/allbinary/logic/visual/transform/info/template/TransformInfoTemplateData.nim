@@ -1,0 +1,42 @@
+#
+# AllBinary Open License Version 1
+# Copyright (c) 2011 AllBinary
+# 
+# By agreeing to this license you and any business entity you represent are
+# legally bound to the AllBinary Open License Version 1 legal agreement.
+# 
+# You may obtain the AllBinary Open License Version 1 legal agreement from
+# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+# 
+# Created By: Travis Berthelot
+#  
+# Generated Code Do Not Modify
+# package org.allbinary.logic.visual.transform.info.template
+
+from __future__ import annotations
+
+from java.lang.JavaRuntimeStatic import lazy_static
+
+
+class TransformInfoTemplateData:
+    instance: TransformInfoTemplateData = None
+
+    def _init_fields(self) -> None:
+        self.UNCRYPTED_EXTENSION: str = "xsl"
+        self.ENCRYPTED_EXTENSION: str = "abv"
+    
+
+    @staticmethod
+    def getInstance() -> TransformInfoTemplateData:
+        return TransformInfoTemplateData.instance
+    
+
+    def __init__(self) -> None:
+        self._init_fields()
+
+
+def _TransformInfoTemplateData_instance() -> object:
+    return TransformInfoTemplateData()
+
+lazy_static(TransformInfoTemplateData, "instance", _TransformInfoTemplateData_instance)
+

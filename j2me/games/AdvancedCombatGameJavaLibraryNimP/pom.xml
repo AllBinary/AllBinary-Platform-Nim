@@ -1,0 +1,90 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.allbinary</groupId>
+  <artifactId>AdvancedCombatGameJavaLibraryPOMNim</artifactId>
+  <packaging>pom</packaging>
+  <!-- AllBinary Platform Version Start -->
+  <version>1.0.0-SNAPSHOT</version>
+  <!-- AllBinary Platform Version End -->
+
+  <name>AdvancedCombatGameJavaLibraryPOMNim</name>
+  <url>http://www.allbinary.com/</url>
+    <distributionManagement>
+        <snapshotRepository>
+            <id>nexus-snapshots</id>
+            <name>AllBinary Snapshots Nexus</name>
+            <url>https://nexus-allbinary.rhcloud.com/nexus/content/repositories/snapshots/</url>
+        </snapshotRepository>
+        <repository>
+            <id>nexus-releases</id>
+            <name>AllBinary Releases Nexus</name>
+            <url>https://nexus-allbinary.rhcloud.com/nexus/content/repositories/releases/</url>
+        </repository>
+    </distributionManagement>
+
+    <properties>
+        <buildLabel>${project.version}</buildLabel>
+        <assemblyPluginVersion>2.2-beta-1</assemblyPluginVersion>
+    </properties>
+
+    <modules>
+
+        <!--
+
+        -->
+
+        <!-- Should be in OtherGraphicsMediaLibrary but android dependencies ar not available then 
+        <module>../workingnim/media/graphics/animation/image/ImageAndroidJavaLibraryNimM</module>
+        -->
+        <!--
+        <module>../workingnim/media/graphics/animation/image/ImageHTMLJavaLibraryNimM</module>
+        <module>../workingnim/media/graphics/animation/image/ImageHTMLJavaLibraryM_1_1</module>
+        -->
+
+        <!--
+        HTML logging should be in the AllBinaryPOM, but they depend on playn
+        which depends on midp that depends on some of the AllBinary Platform
+        <module>../workingnim/allbinary_src/LogPlayNJavaLibraryNimM</module>
+        <module>../workingnim/logging/LoggingHTMLAllNimM</module>
+        <module>../workingnim/logging/LoggingHTMLExceptionNimM</module>
+        -->
+
+        <!--
+        <module>../../../graphics/opengl/OpenGLESJavaLibraryNimM</module>
+        -->
+        <!--<module>../../../graphics/opengl/OpenGLJOGLJavaLibraryNimM</module>-->
+        <module>../../../graphics/opengl/OpenGLESBaseJavaLibraryNimM</module>
+
+        <!-- Not used in Platform Libraries -->
+        <module>../licensing/LicensingJavaLibraryNimP</module>
+        <module>../../../allbinary_src/allbinary_src_generic_event_srcNimM</module>
+        <!--
+        -->
+
+        <!--<module>../../android/AllBinaryAndroidLibraryNimP</module>-->
+        <!-- Not used in Platform Libraries -->
+        <!--
+        <module>../../ProgressAndroidJavaLibraryNimM</module>
+        <module>../../media/graphics/animation/image/AllBinaryAndroidImageRotationJavaLibraryNimM</module>
+        -->
+
+        <module>../CommonPickupJavaLibraryNimM</module>
+        <module>../../../physics/FrictionJavaLibraryNimM</module>
+
+        <module>../Resources/images/GameImageLowResourcesJavaLibraryNimM</module>
+        <module>../Resources/images/GameImageMediumResourcesJavaLibraryNimM</module>
+
+    </modules>
+
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>3.8.1</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+</project>
+
