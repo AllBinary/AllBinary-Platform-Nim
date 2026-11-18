@@ -1,150 +1,167 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.media.audio
 
-from __future__ import annotations
-
-import threading
-from javax.microedition.media.Controllable import Controllable
-from javax.microedition.media.Player import Player
-
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import javax/microedition/media/Control as ControlModule
+export ControlModule
+import javax/microedition/media/Controllable as ControllableModule
+export ControllableModule
+import javax/microedition/media/Player as PlayerModule
+export PlayerModule
+import javax/microedition/media/PlayerListener as PlayerListenerModule
+export PlayerListenerModule
+import org/allbinary/logic/communication/log/LogUtil as LogUtilModule
+export LogUtilModule
+import org/allbinary/string/CommonStrings as CommonStringsModule
+export CommonStringsModule
+import org/allbinary/time/GameTickTimeDelayHelper as GameTickTimeDelayHelperModule
+export GameTickTimeDelayHelperModule
+import org/allbinary/time/TimeDelayHelper as TimeDelayHelperModule
+export TimeDelayHelperModule
 
 #BasicPlayer
-class PlayerComposite(Controllable, Player):
-    _lock = threading.RLock()
+type
+    PlayerComposite* = ref object of Controllable
+        logUtil*: LogUtil
+        commonStrings*: CommonStrings
+        player*: Player
+        timeElapsedHelper*: TimeDelayHelper
+        gameTickTimeDelayHelper*: GameTickTimeDelayHelper
 
-    def _init_fields(self) -> None:
-        from org.allbinary.logic.communication.log.LogUtil import LogUtil
-        from org.allbinary.string.CommonStrings import CommonStrings
-        from org.allbinary.time.GameTickTimeDelayHelper import GameTickTimeDelayHelper
-        from org.allbinary.time.GameTickTimeDelayHelperFactory import GameTickTimeDelayHelperFactory
-        from org.allbinary.time.TimeDelayHelper import TimeDelayHelper
-        self.logUtil: LogUtil = LogUtil.getInstance()
-        self.commonStrings: CommonStrings = CommonStrings.getInstance()
-        self.player: Player = None
-        self.timeElapsedHelper: TimeDelayHelper = TimeDelayHelper(0)
-        self.gameTickTimeDelayHelper: GameTickTimeDelayHelper = GameTickTimeDelayHelperFactory.getInstance()
+converter jAsPlayer*(value: PlayerComposite): Player = cast[Player](value)
+proc newPlayerComposite*(player: Player, repeatTime: int32): PlayerComposite
+proc initPlayerComposite*(this: PlayerComposite, player: Player, repeatTime: int32)
+method addPlayerListener*(this: PlayerComposite, playerListener: PlayerListener)
+method removePlayerListener*(this: PlayerComposite, playerListener: PlayerListener)
+method close*(this: PlayerComposite)
+method deallocate*(this: PlayerComposite)
+method getContentType*(this: PlayerComposite): string {.discardable.}
+method getDuration*(this: PlayerComposite): int64 {.discardable.}
+method getMediaTime*(this: PlayerComposite): int64 {.discardable.}
+method prefetch*(this: PlayerComposite)
+method realize*(this: PlayerComposite)
+method getState*(this: PlayerComposite): int32 {.discardable.}
+method setLoopCount*(this: PlayerComposite, count: int32)
+method setMediaTime*(this: PlayerComposite, now: int64): int64 {.discardable.}
+method start*(this: PlayerComposite)
+method stop*(this: PlayerComposite)
+method getControl*(this: PlayerComposite, controlType: string): Control {.discardable.}
+method getControls*(this: PlayerComposite): JArray[Control] {.discardable.}
+method setVolume*(this: PlayerComposite, leftVolume: int32, rightVolume: int32) {.base.}
+method getPlayerP*(this: PlayerComposite): Player {.base, discardable.}
+import org/allbinary/time/GameTickTimeDelayHelperFactory as GameTickTimeDelayHelperFactoryModule
+export GameTickTimeDelayHelperFactoryModule
+import org/allbinary/media/audio/Controllable2 as Controllable2Module
+export Controllable2Module
+
+
+# Java field initializers run after the base initializer
+proc initFieldsPlayerComposite(this: PlayerComposite) =
+    this.logUtil = LogUtil.getInstance()
+    this.commonStrings = CommonStrings.getInstance()
     
+    this.timeElapsedHelper = newTimeDelayHelper(0)
+    this.gameTickTimeDelayHelper = GameTickTimeDelayHelperFactory.getInstance()
+    discard
 
-    def __init__(self, player: Player, repeatTime: int) -> None:
-        self._init_fields()
-        self.player = player
-        self.timeElapsedHelper.delay = repeatTime
-    
+proc initPlayerComposite*(this: PlayerComposite, player: Player, repeatTime: int32) =
+        this.initFieldsPlayerComposite()
+        this.player = player
+        this.timeElapsedHelper.delay = repeatTime
 
-    def addPlayerListener(self, playerListener: PlayerListener) -> None:
-        with self._lock:
-            return self._addPlayerListener_unlocked(playerListener)
+proc newPlayerComposite*(player: Player, repeatTime: int32): PlayerComposite =
+    result = PlayerComposite()
+    initPlayerComposite(result, player, repeatTime)
 
-    def _addPlayerListener_unlocked(self, playerListener: PlayerListener) -> None:
-        from javax.microedition.media.PlayerListener import PlayerListener
-        self.player.addPlayerListener(playerListener)
-    
+method addPlayerListener*(this: PlayerComposite, playerListener: PlayerListener) =
+        this.player.addPlayerListener(playerListener)
 
-    def removePlayerListener(self, playerListener: PlayerListener) -> None:
-        from javax.microedition.media.PlayerListener import PlayerListener
-        self.player.removePlayerListener(playerListener)
-    
+method removePlayerListener*(this: PlayerComposite, playerListener: PlayerListener) =
+        this.player.removePlayerListener(playerListener)
 
-    def close(self) -> None:
-        self.player.close()
-    
+method close*(this: PlayerComposite) =
+        this.player.close()
 
-    def deallocate(self) -> None:
-        self.player.deallocate()
-    
+method deallocate*(this: PlayerComposite) =
+        this.player.deallocate()
 
-    def getContentType(self) -> str:
-        return self.player.getContentType()
-    
+method getContentType*(this: PlayerComposite): string {.discardable.} =
+        return this.player.getContentType()
 
-    def getDuration(self) -> int:
-        return self.player.getDuration()
-    
+method getDuration*(this: PlayerComposite): int64 {.discardable.} =
+        return this.player.getDuration()
 
-    def getMediaTime(self) -> int:
-        return self.player.getMediaTime()
-    
+method getMediaTime*(this: PlayerComposite): int64 {.discardable.} =
+        return this.player.getMediaTime()
 
-    def prefetch(self) -> None:
+method prefetch*(this: PlayerComposite) =
         try:
-            self.player.prefetch()
-        except Exception as e:
-            self.logUtil.put(self.commonStrings.EXCEPTION, self, "prefetch", e)
-    
+            this.player.prefetch()
+        except CatchableError as jcaught:
+            let e = jToException(jcaught)
+            this.logUtil.put(this.commonStrings.EXCEPTION, this, "prefetch", e)
 
-    def realize(self) -> None:
+method realize*(this: PlayerComposite) =
         try:
-            self.player.realize()
-        except Exception as e:
-            self.logUtil.put(self.commonStrings.EXCEPTION, self, "realize", e)
-    
+            this.player.realize()
+        except CatchableError as jcaught:
+            let e = jToException(jcaught)
+            this.logUtil.put(this.commonStrings.EXCEPTION, this, "realize", e)
 
-    def getState(self) -> int:
-        return self.player.getState()
-    
+method getState*(this: PlayerComposite): int32 {.discardable.} =
+        return this.player.getState()
 
-    def setLoopCount(self, count: int) -> None:
-        self.player.setLoopCount(count)
-    
+method setLoopCount*(this: PlayerComposite, count: int32) =
+        this.player.setLoopCount(count)
 
-    def setMediaTime(self, now: int) -> int:
+method setMediaTime*(this: PlayerComposite, now: int64): int64 {.discardable.} =
         try:
-            return self.player.setMediaTime(now)
-        except Exception as e:
-            self.logUtil.put(self.commonStrings.EXCEPTION, self, "setMediaTime", e)
-            return -1
-    
+            return this.player.setMediaTime(now)
+        except CatchableError as jcaught:
+            let e = jToException(jcaught)
+            this.logUtil.put(this.commonStrings.EXCEPTION, this, "setMediaTime", e)
+            return int64(-1)
 
-    def start(self) -> None:
+method start*(this: PlayerComposite) =
         try:
-            if self.timeElapsedHelper.isTime(self.gameTickTimeDelayHelper.startTime):
-                self.player.start()
-        except Exception as e:
-            self.logUtil.put(self.commonStrings.EXCEPTION, self, self.commonStrings.START_METHOD_NAME, e)
-    
+            if this.timeElapsedHelper.isTime(this.gameTickTimeDelayHelper.startTime):
+                this.player.start()
+        except CatchableError as jcaught:
+            let e = jToException(jcaught)
+            this.logUtil.put(this.commonStrings.EXCEPTION, this, this.commonStrings.START_METHOD_NAME, e)
 
-    def stop(self) -> None:
+method stop*(this: PlayerComposite) =
         try:
-            self.player.stop()
-        except Exception as e:
-            self.logUtil.put(self.commonStrings.EXCEPTION, self, "stop", e)
-    
+            this.player.stop()
+        except CatchableError as jcaught:
+            let e = jToException(jcaught)
+            this.logUtil.put(this.commonStrings.EXCEPTION, this, "stop", e)
 
-    def getControl(self, controlType: str) -> Control:
-        from javax.microedition.media.Control import Control
-        return self.player.getControl(controlType)
-    
+method getControl*(this: PlayerComposite, controlType: string): Control {.discardable.} =
+        return this.player.getControl(controlType)
 
-    def getControls(self) -> list[Control]:
-        from javax.microedition.media.Control import Control
-        raise RuntimeError()
-    
+method getControls*(this: PlayerComposite): JArray[Control] {.discardable.} =
+        raise newJException("RuntimeException", "")
 
-    def setVolume(self, leftVolume: int, rightVolume: int) -> None:
-        controllable2: Controllable2 = (self.player)
+method setVolume*(this: PlayerComposite, leftVolume: int32, rightVolume: int32) {.base.} =
+        let controllable2: Controllable2 = (Controllable2(JObject(this.player)))
         controllable2.setVolume(leftVolume, rightVolume)
-    
 
-    def getPlayerP(self) -> Player:
-        return self.player
-# from javax.microedition.media.Control import Control
-# from javax.microedition.media.PlayerListener import PlayerListener
-# from org.allbinary.logic.communication.log.LogUtil import LogUtil
-# from org.allbinary.string.CommonStrings import CommonStrings
-# from org.allbinary.time.GameTickTimeDelayHelper import GameTickTimeDelayHelper
-# from org.allbinary.time.GameTickTimeDelayHelperFactory import GameTickTimeDelayHelperFactory
-# from org.allbinary.time.TimeDelayHelper import TimeDelayHelper
-
+method getPlayerP*(this: PlayerComposite): Player {.base, discardable.} =
+        return this.player
 

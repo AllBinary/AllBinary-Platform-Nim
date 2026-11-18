@@ -1,83 +1,104 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.animation
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/util/BasicArrayList as BasicArrayListModule
+export BasicArrayListModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    VectorAnimationUtil* = ref object of JObject
 
+proc newVectorAnimationUtil*(): VectorAnimationUtil
+proc initVectorAnimationUtil*(this: VectorAnimationUtil)
+proc getInstance*(t: typedesc[VectorAnimationUtil]): VectorAnimationUtil {.discardable.}
+method toAnimationArrayFromListOfPointListWithPointsPerFrame*(this: VectorAnimationUtil, vector: BasicArrayList, pointsPerFrame: int32): JArray[JArray[JArray[int32]]] {.base, discardable.}
+method toAnimationArrayFromListOfPointList*(this: VectorAnimationUtil, vector: BasicArrayList): JArray[JArray[JArray[int32]]] {.base, discardable.}
+method toFrameArrayFromPointBasicArrayList*(this: VectorAnimationUtil, list: BasicArrayList): JArray[JArray[int32]] {.base, discardable.}
+import org/allbinary/graphics/GPoint as GPointModule
+export GPointModule
 
-class VectorAnimationUtil:
-    instance: VectorAnimationUtil = None
-    
+var VectorAnimationUtil_instanceValue: VectorAnimationUtil
+var VectorAnimationUtil_instanceSet = false
+proc instance*(t: typedesc[VectorAnimationUtil]): VectorAnimationUtil =
+    if not VectorAnimationUtil_instanceSet:
+        VectorAnimationUtil_instanceSet = true
+        VectorAnimationUtil_instanceValue = newVectorAnimationUtil()
+    VectorAnimationUtil_instanceValue
 
-    @staticmethod
-    def getInstance() -> VectorAnimationUtil:
+proc getInstance*(t: typedesc[VectorAnimationUtil]): VectorAnimationUtil {.discardable.} =
         return VectorAnimationUtil.instance
-    
 
-    def __init__(self) -> None:
-        pass
-    
+proc initVectorAnimationUtil*(this: VectorAnimationUtil) =
+        discard
+        discard
 
-    def toAnimationArrayFromListOfPointListWithPointsPerFrame(self, vector: BasicArrayList, pointsPerFrame: int) -> list[list[list[int]]]:
-        from org.allbinary.util.BasicArrayList import BasicArrayList
-        size: int = vector.size()
-        points: list[list[list[int]]] = [[[0] * (2) for _ in range(pointsPerFrame)] for _ in range(size)]
-        nextBasicArrayList: BasicArrayList = None
-        framePoints: list[list[int]] = None
-        for index in range(0, size):
-            nextBasicArrayList = vector.objectArray[index]
-            framePoints = self.toFrameArrayFromPointBasicArrayList(nextBasicArrayList)
-            for pointIndex in range(0, len(framePoints)):
-                points[index][pointIndex][0] = framePoints[pointIndex][0]
-                points[index][pointIndex][1] = framePoints[pointIndex][1]
+proc newVectorAnimationUtil*(): VectorAnimationUtil =
+    result = VectorAnimationUtil()
+    initVectorAnimationUtil(result)
+
+method toAnimationArrayFromListOfPointListWithPointsPerFrame*(this: VectorAnimationUtil, vector: BasicArrayList, pointsPerFrame: int32): JArray[JArray[JArray[int32]]] {.base, discardable.} =
+        let size: int32 = vector.size()
+        let points: JArray[JArray[JArray[int32]]] = newJArrayOf[JArray[JArray[int32]]](size, proc (): JArray[JArray[int32]] = newJArrayOf[JArray[int32]](pointsPerFrame, proc (): JArray[int32] = newJArray[int32](2, default(int32))))
+        var nextBasicArrayList: BasicArrayList = nil
+        var framePoints: JArray[JArray[int32]] = nil
+        block:
+            var index: int32 = 0
+            while index < size:
+                defer: index = index +% 1
+                nextBasicArrayList = BasicArrayList(JObject(vector.objectArray[index]))
+                framePoints = this.toFrameArrayFromPointBasicArrayList(nextBasicArrayList)
+                block:
+                    var pointIndex: int32 = 0
+                    while pointIndex < framePoints.length:
+                        defer: pointIndex = pointIndex +% 1
+                        points[index][pointIndex][0] = framePoints[pointIndex][0]
+                        points[index][pointIndex][1] = framePoints[pointIndex][1]
         return points
-    
 
-    def toAnimationArrayFromListOfPointList(self, vector: BasicArrayList) -> list[list[list[int]]]:
-        from org.allbinary.util.BasicArrayList import BasicArrayList
-        size: int = vector.size()
-        points: list[list[list[int]]] = [[[0] * (0) for _ in range(0)] for _ in range(size)]
-        nextBasicArrayList: BasicArrayList = None
-        framePoints: list[list[int]] = None
-        for index in range(0, size):
-            nextBasicArrayList = vector.objectArray[index]
-            framePoints = self.toFrameArrayFromPointBasicArrayList(nextBasicArrayList)
-            points[index] = [[0] * (2) for _ in range(len(framePoints))]
-            for pointIndex in range(0, len(framePoints)):
-                points[index][pointIndex][0] = framePoints[pointIndex][0]
-                points[index][pointIndex][1] = framePoints[pointIndex][1]
+method toAnimationArrayFromListOfPointList*(this: VectorAnimationUtil, vector: BasicArrayList): JArray[JArray[JArray[int32]]] {.base, discardable.} =
+        let size: int32 = vector.size()
+        let points: JArray[JArray[JArray[int32]]] = newJArrayOf[JArray[JArray[int32]]](size, proc (): JArray[JArray[int32]] = newJArrayOf[JArray[int32]](0, proc (): JArray[int32] = newJArray[int32](0, default(int32))))
+        var nextBasicArrayList: BasicArrayList = nil
+        var framePoints: JArray[JArray[int32]] = nil
+        block:
+            var index: int32 = 0
+            while index < size:
+                defer: index = index +% 1
+                nextBasicArrayList = BasicArrayList(JObject(vector.objectArray[index]))
+                framePoints = this.toFrameArrayFromPointBasicArrayList(nextBasicArrayList)
+                points[index] = newJArrayOf[JArray[int32]](framePoints.length, proc (): JArray[int32] = newJArray[int32](2, default(int32)))
+                block:
+                    var pointIndex: int32 = 0
+                    while pointIndex < framePoints.length:
+                        defer: pointIndex = pointIndex +% 1
+                        points[index][pointIndex][0] = framePoints[pointIndex][0]
+                        points[index][pointIndex][1] = framePoints[pointIndex][1]
         return points
-    
 
-    def toFrameArrayFromPointBasicArrayList(self, list_: BasicArrayList) -> list[list[int]]:
-        from org.allbinary.graphics.GPoint import GPoint
-        from org.allbinary.util.BasicArrayList import BasicArrayList
-        points: list[list[int]] = [[0] * (2) for _ in range(list_.size())]
-        size: int = list_.size()
-        for index in range(0, size):
-            nextPoint: GPoint = list_.objectArray[index]
-            points[index][0] = nextPoint.getX()
-            points[index][1] = nextPoint.getY()
+method toFrameArrayFromPointBasicArrayList*(this: VectorAnimationUtil, list: BasicArrayList): JArray[JArray[int32]] {.base, discardable.} =
+        var points: JArray[JArray[int32]] = newJArrayOf[JArray[int32]](list.size(), proc (): JArray[int32] = newJArray[int32](2, default(int32)))
+        var size: int32 = list.size()
+        block:
+            var index: int32 = 0
+            while index < size:
+                defer: index = index +% 1
+                var nextPoint: GPoint = GPoint(JObject(list.objectArray[index]))
+                points[index][0] = nextPoint.getX()
+                points[index][1] = nextPoint.getY()
         return points
-# from org.allbinary.graphics.GPoint import GPoint
-# from org.allbinary.util.BasicArrayList import BasicArrayList
-
-
-def _VectorAnimationUtil_instance() -> object:
-    return VectorAnimationUtil()
-
-lazy_static(VectorAnimationUtil, "instance", _VectorAnimationUtil_instance)
 

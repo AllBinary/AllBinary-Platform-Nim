@@ -1,59 +1,72 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.combat.destroy.event
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/game/displayable/canvas/AllBinaryGameCanvas as AllBinaryGameCanvasModule
+export AllBinaryGameCanvasModule
+import org/allbinary/layer/AllBinaryLayer as AllBinaryLayerModule
+export AllBinaryLayerModule
+import org/allbinary/logic/util/event/AllBinaryEventCircularPool as AllBinaryEventCircularPoolModule
+export AllBinaryEventCircularPoolModule
+import org/allbinary/game/combat/destroy/event/DestroyedEvent as DestroyedEventModule
+export DestroyedEventModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    DestroyEventCircularStaticPool* = ref object of JObject
+        EVENT_POOL*: AllBinaryEventCircularPool
 
+proc newDestroyEventCircularStaticPool*(): DestroyEventCircularStaticPool
+proc initDestroyEventCircularStaticPool*(this: DestroyEventCircularStaticPool)
+proc getInstance*(t: typedesc[DestroyEventCircularStaticPool]): DestroyEventCircularStaticPool {.discardable.}
+method init*(this: DestroyEventCircularStaticPool, combatGameCanvas: AllBinaryGameCanvas) {.base.}
+method getInstanceForLayer*(this: DestroyEventCircularStaticPool, layerInterface: AllBinaryLayer): DestroyedEvent {.base, discardable.}
+import org/allbinary/game/combat/destroy/event/DestroyEventFactory as DestroyEventFactoryModule
+export DestroyEventFactoryModule
 
-class DestroyEventCircularStaticPool:
-    instance: DestroyEventCircularStaticPool = None
+var DestroyEventCircularStaticPool_instanceValue: DestroyEventCircularStaticPool
+var DestroyEventCircularStaticPool_instanceSet = false
+proc instance*(t: typedesc[DestroyEventCircularStaticPool]): DestroyEventCircularStaticPool =
+    if not DestroyEventCircularStaticPool_instanceSet:
+        DestroyEventCircularStaticPool_instanceSet = true
+        DestroyEventCircularStaticPool_instanceValue = newDestroyEventCircularStaticPool()
+    DestroyEventCircularStaticPool_instanceValue
 
-    def _init_fields(self) -> None:
-        from org.allbinary.logic.util.event.AllBinaryEventCircularPool import AllBinaryEventCircularPool
-        self.EVENT_POOL: AllBinaryEventCircularPool = AllBinaryEventCircularPool(20)
-    
+# Java field initializers run after the base initializer
+proc initFieldsDestroyEventCircularStaticPool(this: DestroyEventCircularStaticPool) =
+    this.EVENT_POOL = newAllBinaryEventCircularPool(20)
+    discard
 
-    @staticmethod
-    def getInstance() -> DestroyEventCircularStaticPool:
+proc getInstance*(t: typedesc[DestroyEventCircularStaticPool]): DestroyEventCircularStaticPool {.discardable.} =
         return DestroyEventCircularStaticPool.instance
-    
 
-    def __init__(self) -> None:
-        self._init_fields()
-    
+proc initDestroyEventCircularStaticPool*(this: DestroyEventCircularStaticPool) =
+        this.initFieldsDestroyEventCircularStaticPool()
+        discard
 
-    def init(self, combatGameCanvas: AllBinaryGameCanvas) -> None:
-        from org.allbinary.game.combat.destroy.event.DestroyEventFactory import DestroyEventFactory
-        from org.allbinary.game.displayable.canvas.AllBinaryGameCanvas import AllBinaryGameCanvas
-        self.EVENT_POOL.initAllBinaryEventCircularPool(DestroyEventFactory(combatGameCanvas))
-    
+proc newDestroyEventCircularStaticPool*(): DestroyEventCircularStaticPool =
+    result = DestroyEventCircularStaticPool()
+    initDestroyEventCircularStaticPool(result)
 
-    # throws Exception
-    def getInstanceForLayer(self, layerInterface: AllBinaryLayer) -> DestroyedEvent:
-        from org.allbinary.layer.AllBinaryLayer import AllBinaryLayer
-        destroyedEvent: DestroyedEvent = self.EVENT_POOL.getNextInstance()
+method init*(this: DestroyEventCircularStaticPool, combatGameCanvas: AllBinaryGameCanvas) {.base.} =
+        this.EVENT_POOL.initAllBinaryEventCircularPool(newDestroyEventFactory(combatGameCanvas))
+
+method getInstanceForLayer*(this: DestroyEventCircularStaticPool, layerInterface: AllBinaryLayer): DestroyedEvent {.base, discardable.} =
+        var destroyedEvent: DestroyedEvent = DestroyedEvent(JObject(this.EVENT_POOL.getNextInstance()))
         destroyedEvent.setLayerInterfaceForCircularStaticPool(layerInterface)
         return destroyedEvent
-# from org.allbinary.game.displayable.canvas.AllBinaryGameCanvas import AllBinaryGameCanvas
-# from org.allbinary.layer.AllBinaryLayer import AllBinaryLayer
-# from org.allbinary.logic.util.event.AllBinaryEventCircularPool import AllBinaryEventCircularPool
-
-
-def _DestroyEventCircularStaticPool_instance() -> object:
-    return DestroyEventCircularStaticPool()
-
-lazy_static(DestroyEventCircularStaticPool, "instance", _DestroyEventCircularStaticPool_instance)
 

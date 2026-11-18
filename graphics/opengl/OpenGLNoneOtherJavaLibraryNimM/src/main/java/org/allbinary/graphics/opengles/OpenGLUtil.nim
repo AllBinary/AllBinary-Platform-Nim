@@ -1,36 +1,46 @@
 # Generated Code Do Not Modify
 # package org.allbinary.graphics.opengles
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import java/lang/Runnable as RunnableModule
+export RunnableModule
+import javax/microedition/lcdui/Image as ImageModule
+export ImageModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    OpenGLUtil* = ref object of JObject
 
+proc newOpenGLUtil*(): OpenGLUtil
+proc getInstance*(t: typedesc[OpenGLUtil]): OpenGLUtil {.discardable.}
+method addImage*(this: OpenGLUtil, image: Image): Image {.base, discardable.}
+method clear*(this: OpenGLUtil) {.base.}
+method addRunnable*(this: OpenGLUtil, runnable: Runnable) {.base.}
 
-class OpenGLUtil:
-    instance: OpenGLUtil = None
-    
+var OpenGLUtil_instanceValue: OpenGLUtil
+var OpenGLUtil_instanceSet = false
+proc instance*(t: typedesc[OpenGLUtil]): OpenGLUtil =
+    if not OpenGLUtil_instanceSet:
+        OpenGLUtil_instanceSet = true
+        OpenGLUtil_instanceValue = newOpenGLUtil()
+    OpenGLUtil_instanceValue
 
-    @staticmethod
-    def getInstance() -> OpenGLUtil:
+proc initOpenGLUtil*(this: OpenGLUtil) =
+    discard
+
+proc newOpenGLUtil*(): OpenGLUtil =
+    result = OpenGLUtil()
+    initOpenGLUtil(result)
+
+proc getInstance*(t: typedesc[OpenGLUtil]): OpenGLUtil {.discardable.} =
         return OpenGLUtil.instance
-    
 
-    def addImage(self, image: Image) -> Image:
-        from javax.microedition.lcdui.Image import Image
+method addImage*(this: OpenGLUtil, image: Image): Image {.base, discardable.} =
         return image
-    
 
-    def clear(self) -> None:
-        pass
-    
+method clear*(this: OpenGLUtil) {.base.} =
+        discard
 
-    def addRunnable(self, runnable: object) -> None:
-        pass
-# from javax.microedition.lcdui.Image import Image
-
-
-def _OpenGLUtil_instance() -> object:
-    return OpenGLUtil()
-
-lazy_static(OpenGLUtil, "instance", _OpenGLUtil_instance)
+method addRunnable*(this: OpenGLUtil, runnable: Runnable) {.base.} =
+        discard
 

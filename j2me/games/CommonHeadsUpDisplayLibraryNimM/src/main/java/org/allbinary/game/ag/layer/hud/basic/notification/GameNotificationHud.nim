@@ -1,88 +1,107 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#   
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+    
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.ag.layer.hud.basic.notification
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import java/lang/Integer as IntegerModule
+export IntegerModule
+import java/lang/Boolean as BooleanModule
+export BooleanModule
+import javax/microedition/lcdui/Graphics as GraphicsModule
+export GraphicsModule
+import org/allbinary/game/graphics/hud/BasicHud as BasicHudModule
+export BasicHudModule
+import org/allbinary/game/layer/hud/event/GameNotificationEvent as GameNotificationEventModule
+export GameNotificationEventModule
+import org/allbinary/game/layer/hud/event/GameNotificationListenerInterface as GameNotificationListenerInterfaceModule
+export GameNotificationListenerInterfaceModule
+import org/allbinary/graphics/color/BasicColor as BasicColorModule
+export BasicColorModule
+import org/allbinary/logic/util/event/AllBinaryEventObject as AllBinaryEventObjectModule
+export AllBinaryEventObjectModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
-from org.allbinary.game.graphics.hud.BasicHud import BasicHud
-from org.allbinary.game.layer.hud.event.GameNotificationListenerInterface import GameNotificationListenerInterface
+type
+    GameNotificationHud* = ref object of BasicHud
+        METHOD_NAME*: string
+        lastGameNotificationEvent*: GameNotificationEvent
 
+converter jAsGameNotificationListenerInterface*(value: GameNotificationHud): GameNotificationListenerInterface = cast[GameNotificationListenerInterface](value)
+proc newGameNotificationHud*(location: int32, direction: int32, bufferZone: int32, basicColor: BasicColor): GameNotificationHud
+proc initGameNotificationHud*(this: GameNotificationHud, location: int32, direction: int32, bufferZone: int32, basicColor: BasicColor)
+method onEvent*(this: GameNotificationHud, eventObject: AllBinaryEventObject)
+method onGameNotificationEvent*(this: GameNotificationHud, gameNotificationEvent: GameNotificationEvent)
+method add*(this: GameNotificationHud, string: string, seconds: int32, basicColor: BasicColor, permanent: bool) {.base.}
+method processTick*(this: GameNotificationHud) {.base.}
+method paint*(this: GameNotificationHud, graphics: Graphics) {.base.}
+method clear*(this: GameNotificationHud) {.base.}
+import org/allbinary/game/graphics/hud/BasicHudFactory as BasicHudFactoryModule
+export BasicHudFactoryModule
+import org/allbinary/graphics/color/BasicColorFactory as BasicColorFactoryModule
+export BasicColorFactoryModule
+import org/allbinary/logic/communication/log/ForcedLogUtil as ForcedLogUtilModule
+export ForcedLogUtilModule
+import org/allbinary/logic/util/event/EventStrings as EventStringsModule
+export EventStringsModule
+import org/allbinary/game/ag/layer/hud/basic/notification/GameNotification as GameNotificationModule
+export GameNotificationModule
 
-class GameNotificationHud(BasicHud, GameNotificationListenerInterface):
-    NULL_GAME_NOTIFICATION: GameNotificationHud = None
+var GameNotificationHud_NULL_GAME_NOTIFICATIONValue: GameNotificationHud
+var GameNotificationHud_NULL_GAME_NOTIFICATIONSet = false
+proc NULL_GAME_NOTIFICATION*(t: typedesc[GameNotificationHud]): GameNotificationHud =
+    if not GameNotificationHud_NULL_GAME_NOTIFICATIONSet:
+        GameNotificationHud_NULL_GAME_NOTIFICATIONSet = true
+        GameNotificationHud_NULL_GAME_NOTIFICATIONValue = newGameNotificationHud(BasicHudFactory.getInstance().TOPCENTER, BasicHudFactory.getInstance().HORIZONTAL, 0, BasicColorFactory.getInstance().RED)
+    GameNotificationHud_NULL_GAME_NOTIFICATIONValue
 
-    def _init_fields(self) -> None:
-        from org.allbinary.game.layer.hud.event.GameNotificationEvent import GameNotificationEvent
-        self.METHOD_NAME: str = "onGameNotificationEvent"
-        self.lastGameNotificationEvent: GameNotificationEvent = GameNotification.NULL_GAME_NOTIFICATION_EVENT
-    
+# Java field initializers run after the base initializer
+proc initFieldsGameNotificationHud(this: GameNotificationHud) =
+    this.METHOD_NAME = "onGameNotificationEvent"
+    this.lastGameNotificationEvent = GameNotification.NULL_GAME_NOTIFICATION_EVENT
+    discard
 
-    def __init__(self, location: int, direction: int, bufferZone: int, basicColor: BasicColor) -> None:
-        from org.allbinary.graphics.color.BasicColor import BasicColor
-        super().__init__(location, direction, bufferZone, basicColor)
-        self._init_fields()
-    
+proc initGameNotificationHud*(this: GameNotificationHud, location: int32, direction: int32, bufferZone: int32, basicColor: BasicColor) =
+        initBasicHud(this, location, direction, bufferZone, basicColor)
+        this.initFieldsGameNotificationHud()
 
-    def onEvent(self, eventObject: AllBinaryEventObject) -> None:
-        from org.allbinary.logic.communication.log.ForcedLogUtil import ForcedLogUtil
-        from org.allbinary.logic.util.event.AllBinaryEventObject import AllBinaryEventObject
-        from org.allbinary.logic.util.event.EventStrings import EventStrings
-        ForcedLogUtil.log(EventStrings.getInstance().PERFORMANCE_MESSAGE, self)
-    
+proc newGameNotificationHud*(location: int32, direction: int32, bufferZone: int32, basicColor: BasicColor): GameNotificationHud =
+    result = GameNotificationHud()
+    initGameNotificationHud(result, location, direction, bufferZone, basicColor)
 
-    # throws Exception
-    def onGameNotificationEvent(self, gameNotificationEvent: GameNotificationEvent) -> None:
-        from org.allbinary.game.layer.hud.event.GameNotificationEvent import GameNotificationEvent
-        if self.lastGameNotificationEvent != gameNotificationEvent:
-            self.lastGameNotificationEvent = gameNotificationEvent
-            self.logUtil.putF(gameNotificationEvent.getString(), self, self.METHOD_NAME)
-        self.add(gameNotificationEvent.getString(), gameNotificationEvent.getSeconds(), gameNotificationEvent.getBasicColorP(), gameNotificationEvent.getPermanent())
-    
+method onEvent*(this: GameNotificationHud, eventObject: AllBinaryEventObject) =
+        ForcedLogUtil.log(EventStrings.getInstance().PERFORMANCE_MESSAGE, this)
 
-    def add(self, string: str, seconds: int, basicColor: BasicColor, permanent: bool) -> None:
-        from org.allbinary.graphics.color.BasicColor import BasicColor
-        pass
-    
+method onGameNotificationEvent*(this: GameNotificationHud, gameNotificationEvent: GameNotificationEvent) =
+        if this.lastGameNotificationEvent != gameNotificationEvent:
+            this.lastGameNotificationEvent = gameNotificationEvent
+            this.logUtil.putF(gameNotificationEvent.getString(), this, this.METHOD_NAME)
+        this.add(gameNotificationEvent.getString(), gameNotificationEvent.getSeconds(), gameNotificationEvent.getBasicColorP(), gameNotificationEvent.getPermanent())
 
-    # throws Exception
-    def processTick(self) -> None:
-        pass
-    
+method add*(this: GameNotificationHud, string: string, seconds: int32, basicColor: BasicColor, permanent: bool) {.base.} =
+        discard
 
-    def paint(self, graphics: Graphics) -> None:
-        from javax.microedition.lcdui.Graphics import Graphics
-        pass
-    
+method processTick*(this: GameNotificationHud) {.base.} =
+        discard
 
-    def clear(self) -> None:
-        pass
-# from javax.microedition.lcdui.Graphics import Graphics
-# from org.allbinary.game.graphics.hud.BasicHudFactory import BasicHudFactory
-# from org.allbinary.game.layer.hud.event.GameNotificationEvent import GameNotificationEvent
-# from org.allbinary.graphics.color.BasicColor import BasicColor
-# from org.allbinary.graphics.color.BasicColorFactory import BasicColorFactory
-# from org.allbinary.logic.communication.log.ForcedLogUtil import ForcedLogUtil
-# from org.allbinary.logic.util.event.AllBinaryEventObject import AllBinaryEventObject
-# from org.allbinary.logic.util.event.EventStrings import EventStrings
-from org.allbinary.game.ag.layer.hud.basic.notification.GameNotification import GameNotification
+method paint*(this: GameNotificationHud, graphics: Graphics) {.base.} =
+        discard
 
+method clear*(this: GameNotificationHud) {.base.} =
+        discard
 
-def _GameNotificationHud_NULL_GAME_NOTIFICATION() -> object:
-    from org.allbinary.game.graphics.hud.BasicHudFactory import BasicHudFactory
-    from org.allbinary.graphics.color.BasicColorFactory import BasicColorFactory
-    return GameNotificationHud(BasicHudFactory.getInstance().TOPCENTER, BasicHudFactory.getInstance().HORIZONTAL, 0, BasicColorFactory.getInstance().RED)
-
-lazy_static(GameNotificationHud, "NULL_GAME_NOTIFICATION", _GameNotificationHud_NULL_GAME_NOTIFICATION)
+when declared(newGameNotificationHudHook4):
+    newGameNotificationHudHook4 = proc (location: int32, direction: int32, bufferZone: int32, basicColor: BasicColor): BasicHud = newGameNotificationHud(location, direction, bufferZone, basicColor)
 

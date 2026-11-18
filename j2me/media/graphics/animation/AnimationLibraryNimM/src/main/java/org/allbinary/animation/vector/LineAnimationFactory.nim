@@ -1,48 +1,59 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#   
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+    
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.animation.vector
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/animation/Animation as AnimationModule
+export AnimationModule
+import org/allbinary/animation/AnimationInterfaceFactoryInterface as AnimationInterfaceFactoryInterfaceModule
+export AnimationInterfaceFactoryInterfaceModule
+import org/allbinary/graphics/color/BasicColor as BasicColorModule
+export BasicColorModule
+import org/allbinary/media/ScaleProperties as ScalePropertiesModule
+export ScalePropertiesModule
 
-from org.allbinary.animation.AnimationInterfaceFactoryInterface import AnimationInterfaceFactoryInterface
+type
+    LineAnimationFactory* = ref object of AnimationInterfaceFactoryInterface
+        basicColor*: BasicColor
+
+proc newLineAnimationFactory*(basicColor: BasicColor): LineAnimationFactory
+proc initLineAnimationFactory*(this: LineAnimationFactory, basicColor: BasicColor)
+method getInstance*(this: LineAnimationFactory, instanceId: int32): Animation {.discardable.}
+method setInitialScale*(this: LineAnimationFactory, scaleProperties: ScaleProperties)
+import org/allbinary/animation/vector/LineAnimation as LineAnimationModule
+export LineAnimationModule
 
 
-class LineAnimationFactory(AnimationInterfaceFactoryInterface):
-
-    def _init_fields(self) -> None:
-        from org.allbinary.graphics.color.BasicColor import BasicColor
-        self.basicColor: BasicColor = None
+# Java field initializers run after the base initializer
+proc initFieldsLineAnimationFactory(this: LineAnimationFactory) =
     
+    discard
 
-    def __init__(self, basicColor: BasicColor) -> None:
-        from org.allbinary.graphics.color.BasicColor import BasicColor
-        self._init_fields()
-        self.basicColor = basicColor
-    
+proc initLineAnimationFactory*(this: LineAnimationFactory, basicColor: BasicColor) =
+        this.initFieldsLineAnimationFactory()
+        this.basicColor = basicColor
 
-    # throws Exception
-    def getInstance(self, instanceId: int) -> Animation:
-        from org.allbinary.animation.vector.LineAnimation import LineAnimation
-        from org.allbinary.animation.Animation import Animation
-        return LineAnimation(self.basicColor)
-    
+proc newLineAnimationFactory*(basicColor: BasicColor): LineAnimationFactory =
+    result = LineAnimationFactory()
+    initLineAnimationFactory(result, basicColor)
 
-    def setInitialScale(self, scaleProperties: ScaleProperties) -> None:
-        from org.allbinary.media.ScaleProperties import ScaleProperties
-        pass
-# from org.allbinary.animation.Animation import Animation
-# from org.allbinary.graphics.color.BasicColor import BasicColor
-# from org.allbinary.media.ScaleProperties import ScaleProperties
+method getInstance*(this: LineAnimationFactory, instanceId: int32): Animation {.discardable.} =
+        return newLineAnimation(this.basicColor)
 
+method setInitialScale*(this: LineAnimationFactory, scaleProperties: ScaleProperties) =
+        discard
 

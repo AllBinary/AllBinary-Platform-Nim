@@ -1,56 +1,59 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.logic.io
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import java/io/FileNotFoundException as FileNotFoundExceptionModule
+export FileNotFoundExceptionModule
+import java/io/FileOutputStream as FileOutputStreamModule
+export FileOutputStreamModule
+import org/allbinary/logic/io/file/AbFile as AbFileModule
+export AbFileModule
 
-from java.io.FileOutputStream import FileOutputStream
+type
+    AbFileOutputStream* = ref object of FileOutputStream
+
+proc newAbFileOutputStream*(name: string, append: bool): AbFileOutputStream
+proc initAbFileOutputStream*(this: AbFileOutputStream, name: string, append: bool)
+proc createFromAbFile*(t: typedesc[AbFileOutputStream], file: AbFile): AbFileOutputStream {.discardable.}
+proc createFromAbFileAppend*(t: typedesc[AbFileOutputStream], file: AbFile, append: bool): AbFileOutputStream {.discardable.}
+proc createFromFilePath*(t: typedesc[AbFileOutputStream], name: string): AbFileOutputStream {.discardable.}
+proc createFromFilePathAppend*(t: typedesc[AbFileOutputStream], name: string, append: bool): AbFileOutputStream {.discardable.}
 
 
-class AbFileOutputStream(FileOutputStream):
-    
+proc createFromAbFile*(t: typedesc[AbFileOutputStream], file: AbFile): AbFileOutputStream {.discardable.} =
+        return newAbFileOutputStream(file.getPath(), false)
 
-    # throws FileNotFoundException
-    @staticmethod
-    def createFromAbFile(file: AbFile) -> AbFileOutputStream:
-        from org.allbinary.logic.io.file.AbFile import AbFile
-        return AbFileOutputStream(file.getPath(), False)
-    
+proc createFromAbFileAppend*(t: typedesc[AbFileOutputStream], file: AbFile, append: bool): AbFileOutputStream {.discardable.} =
+        return newAbFileOutputStream(file.getPath(), append)
 
-    # throws FileNotFoundException
-    @staticmethod
-    def createFromAbFileAppend(file: AbFile, append: bool) -> AbFileOutputStream:
-        from org.allbinary.logic.io.file.AbFile import AbFile
-        return AbFileOutputStream(file.getPath(), append)
-    
+proc createFromFilePath*(t: typedesc[AbFileOutputStream], name: string): AbFileOutputStream {.discardable.} =
+        return newAbFileOutputStream(name, false)
 
-    # throws FileNotFoundException
-    @staticmethod
-    def createFromFilePath(name: str) -> AbFileOutputStream:
-        return AbFileOutputStream(name, False)
-    
+proc createFromFilePathAppend*(t: typedesc[AbFileOutputStream], name: string, append: bool): AbFileOutputStream {.discardable.} =
+        return newAbFileOutputStream(name, append)
 
-    # throws FileNotFoundException
-    @staticmethod
-    def createFromFilePathAppend(name: str, append: bool) -> AbFileOutputStream:
-        return AbFileOutputStream(name, append)
-    
+proc initAbFileOutputStream*(this: AbFileOutputStream, name: string, append: bool) =
+        initFileOutputStream(this, name, append)
 
-    def __init__(self, name: str, append: bool) -> None:
-        super().__init__(name, append)
-# from java.io.FileNotFoundException import FileNotFoundException
-# from org.allbinary.logic.io.file.AbFile import AbFile
-# from org.allbinary.logic.io.file.AbFileNativeUtil import AbFileNativeUtil
+proc newAbFileOutputStream*(name: string, append: bool): AbFileOutputStream =
+    result = AbFileOutputStream()
+    initAbFileOutputStream(result, name, append)
 
+when declared(newAbFileOutputStreamHook2):
+    newAbFileOutputStreamHook2 = proc (name: string, append: bool): FileOutputStream = newAbFileOutputStream(name, append)
 

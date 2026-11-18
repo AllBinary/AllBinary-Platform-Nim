@@ -1,43 +1,56 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.logic.system.security.licensing
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/logic/system/security/licensing/LockedUtilInterface as LockedUtilInterfaceModule
+export LockedUtilInterfaceModule
+import org/allbinary/logic/system/security/licensing/LockableFeature as LockableFeatureModule
+export LockableFeatureModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
-from org.allbinary.logic.system.security.licensing.LockedUtilInterface import LockedUtilInterface
+type
+    LockedUtil* = ref object of LockedUtilInterface
 
+proc newLockedUtil*(): LockedUtil
+proc getInstance*(t: typedesc[LockedUtil]): LockedUtil {.discardable.}
+method isLocked*(this: LockedUtil): bool {.discardable.}
+method isLockedFeature*(this: LockedUtil, lockableFeatrue: LockableFeature): bool {.discardable.}
 
-class LockedUtil(LockedUtilInterface):
-    instance: LockedUtil = None
-    
+var LockedUtil_instanceValue: LockedUtil
+var LockedUtil_instanceSet = false
+proc instance*(t: typedesc[LockedUtil]): LockedUtil =
+    if not LockedUtil_instanceSet:
+        LockedUtil_instanceSet = true
+        LockedUtil_instanceValue = newLockedUtil()
+    LockedUtil_instanceValue
 
-    @staticmethod
-    def getInstance() -> LockedUtil:
+proc initLockedUtil*(this: LockedUtil) =
+    discard
+
+proc newLockedUtil*(): LockedUtil =
+    result = LockedUtil()
+    initLockedUtil(result)
+
+proc getInstance*(t: typedesc[LockedUtil]): LockedUtil {.discardable.} =
         return LockedUtil.instance
-    
 
-    def isLocked(self) -> bool:
-        return False
-    
+method isLocked*(this: LockedUtil): bool {.discardable.} =
+        return false
 
-    def isLockedFeature(self, lockableFeatrue: LockableFeature) -> bool:
-        return False
-
-
-def _LockedUtil_instance() -> object:
-    return LockedUtil()
-
-lazy_static(LockedUtil, "instance", _LockedUtil_instance)
+method isLockedFeature*(this: LockedUtil, lockableFeatrue: LockableFeature): bool {.discardable.} =
+        return false
 

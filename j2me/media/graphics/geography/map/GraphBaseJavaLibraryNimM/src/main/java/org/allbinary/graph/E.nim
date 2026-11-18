@@ -1,21 +1,30 @@
 # Generated Code Do Not Modify
 # package org.allbinary.graph
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    E* = ref object of JObject
 
+proc newE*(): E
+method newInstance*(this: E): E {.base, discardable.}
 
-class E:
-    e: E = None
-    
+var E_eValue: E
+var E_eSet = false
+proc e*(t: typedesc[E]): E =
+    if not E_eSet:
+        E_eSet = true
+        E_eValue = newE()
+    E_eValue
 
-    def newInstance(self) -> E:
+proc initE*(this: E) =
+    discard
+
+proc newE*(): E =
+    result = E()
+    initE(result)
+
+method newInstance*(this: E): E {.base, discardable.} =
         return E.e
-
-
-def _E_e() -> object:
-    return E()
-
-lazy_static(E, "e", _E_e)
 

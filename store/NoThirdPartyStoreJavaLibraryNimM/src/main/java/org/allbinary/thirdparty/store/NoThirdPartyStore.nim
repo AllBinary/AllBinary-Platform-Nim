@@ -1,35 +1,47 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.thirdparty.store
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/logic/system/security/licensing/AbeClientInformationInterface as AbeClientInformationInterfaceModule
+export AbeClientInformationInterfaceModule
+import org/allbinary/thirdparty/store/ThirdPartyStore as ThirdPartyStoreModule
+export ThirdPartyStoreModule
 
-from org.allbinary.thirdparty.store.ThirdPartyStore import ThirdPartyStore
+type
+    NoThirdPartyStore* = ref object of ThirdPartyStore
+
+proc newNoThirdPartyStore*(): NoThirdPartyStore
+proc initNoThirdPartyStore*(this: NoThirdPartyStore)
+method authorize*(this: NoThirdPartyStore, clientInformationInterface: AbeClientInformationInterface)
+import org/allbinary/logic/string/StringUtil as StringUtilModule
+export StringUtilModule
 
 
-class NoThirdPartyStore(ThirdPartyStore):
-    
+proc initNoThirdPartyStore*(this: NoThirdPartyStore) =
+        initThirdPartyStore(this, StringUtil.getInstance().EMPTY_STRING)
 
-    def __init__(self) -> None:
-        from org.allbinary.logic.string.StringUtil import StringUtil
-        super().__init__(StringUtil.getInstance().EMPTY_STRING)
-    
+proc newNoThirdPartyStore*(): NoThirdPartyStore =
+    result = NoThirdPartyStore()
+    initNoThirdPartyStore(result)
 
-    def authorize(self, clientInformationInterface: AbeClientInformationInterface) -> None:
-        from org.allbinary.logic.system.security.licensing.AbeClientInformationInterface import AbeClientInformationInterface
-        self.setAuthorized(True)
-# from org.allbinary.logic.string.StringUtil import StringUtil
-# from org.allbinary.logic.system.security.licensing.AbeClientInformationInterface import AbeClientInformationInterface
+method authorize*(this: NoThirdPartyStore, clientInformationInterface: AbeClientInformationInterface) =
+        this.setAuthorized(true)
 
+when declared(newNoThirdPartyStoreHook0):
+    newNoThirdPartyStoreHook0 = proc (): ThirdPartyStore = newNoThirdPartyStore()
 

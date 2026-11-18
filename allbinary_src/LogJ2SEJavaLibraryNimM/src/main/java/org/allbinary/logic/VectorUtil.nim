@@ -47,10 +47,10 @@ proc getInstance*(t: typedesc[VectorUtil]): VectorUtil {.discardable.} =
         return VectorUtil.instance
 
 method getSize*(this: VectorUtil, anyType: JObject): int32 {.base, discardable.} =
-        let vector: Vector = Vector(anyType)
+        let vector: Vector = Vector(JObject(anyType))
         return vector.size()
 
 method elementAt*(this: VectorUtil, anyType: JObject, index: int32): JObject {.base, discardable.} =
-        let vector: Vector = Vector(anyType)
+        let vector: Vector = Vector(JObject(anyType))
         return vector.elementAt(index)
 

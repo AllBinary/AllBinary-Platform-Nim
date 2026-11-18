@@ -1,54 +1,67 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.score
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import javax/microedition/lcdui/Command as CommandModule
+export CommandModule
+import org/allbinary/logic/communication/log/LogUtil as LogUtilModule
+export LogUtilModule
+
+type
+    HighScoreCommandsBaseFactory* = ref object of JObject
+        logUtil*: LogUtil
+        HIGH_SCORE_COMMANDS*: JArray[Command]
+
+proc newHighScoreCommandsBaseFactory*(HIGH_SCORE_COMMANDS: JArray[Command]): HighScoreCommandsBaseFactory
+proc initHighScoreCommandsBaseFactory*(this: HighScoreCommandsBaseFactory, HIGH_SCORE_COMMANDS: JArray[Command])
+method isHighScoreCommand*(this: HighScoreCommandsBaseFactory, command: Command): bool {.base, discardable.}
+method getIndex*(this: HighScoreCommandsBaseFactory, command: Command): int32 {.base, discardable.}
 
 
-
-class HighScoreCommandsBaseFactory:
-
-    def _init_fields(self) -> None:
-        from javax.microedition.lcdui.Command import Command
-        from org.allbinary.logic.communication.log.LogUtil import LogUtil
-        self.logUtil: LogUtil = LogUtil.getInstance()
-        self.HIGH_SCORE_COMMANDS: list[Command] = None
+# Java field initializers run after the base initializer
+proc initFieldsHighScoreCommandsBaseFactory(this: HighScoreCommandsBaseFactory) =
+    this.logUtil = LogUtil.getInstance()
     
+    discard
 
-    def __init__(self, HIGH_SCORE_COMMANDS: list[Command]) -> None:
-        from javax.microedition.lcdui.Command import Command
-        self._init_fields()
-        self.HIGH_SCORE_COMMANDS = HIGH_SCORE_COMMANDS
-    
+proc initHighScoreCommandsBaseFactory*(this: HighScoreCommandsBaseFactory, HIGH_SCORE_COMMANDS: JArray[Command]) =
+        this.initFieldsHighScoreCommandsBaseFactory()
+        this.HIGH_SCORE_COMMANDS = HIGH_SCORE_COMMANDS
 
-    def isHighScoreCommand(self, command: Command) -> bool:
-        from javax.microedition.lcdui.Command import Command
-        for index in range(len(self.HIGH_SCORE_COMMANDS) - 1, 0 - 1, -1):
-            if command == self.HIGH_SCORE_COMMANDS[index]:
-                return True
-        return False
-    
+proc newHighScoreCommandsBaseFactory*(HIGH_SCORE_COMMANDS: JArray[Command]): HighScoreCommandsBaseFactory =
+    result = HighScoreCommandsBaseFactory()
+    initHighScoreCommandsBaseFactory(result, HIGH_SCORE_COMMANDS)
 
-    # throws Exception
-    def getIndex(self, command: Command) -> int:
-        from javax.microedition.lcdui.Command import Command
-        for index in range(len(self.HIGH_SCORE_COMMANDS) - 1, 0 - 1, -1):
-            if command == self.HIGH_SCORE_COMMANDS[index]:
-                return index
-        raise Exception("No Such Command")
-# from javax.microedition.lcdui.Command import Command
-# from org.allbinary.J2MEUtil import J2MEUtil
-# from org.allbinary.logic.communication.log.LogUtil import LogUtil
+method isHighScoreCommand*(this: HighScoreCommandsBaseFactory, command: Command): bool {.base, discardable.} =
+        block:
+            var index: int32 = this.HIGH_SCORE_COMMANDS.length -% 1
+            while index >= 0:
+                defer: index = index -% 1
+                if command == this.HIGH_SCORE_COMMANDS[index]:
+                    return true
+        return false
 
+method getIndex*(this: HighScoreCommandsBaseFactory, command: Command): int32 {.base, discardable.} =
+        block:
+            var index: int32 = this.HIGH_SCORE_COMMANDS.length -% 1
+            while index >= 0:
+                defer: index = index -% 1
+                if command == this.HIGH_SCORE_COMMANDS[index]:
+                    return index
+        raise newJException("Exception", "No Such Command")
 

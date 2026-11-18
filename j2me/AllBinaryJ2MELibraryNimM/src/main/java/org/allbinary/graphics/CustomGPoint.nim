@@ -1,74 +1,89 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.graphics
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/graphics/GPoint as GPointModule
+export GPointModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
-from org.allbinary.graphics.GPoint import GPoint
+type
+    CustomGPoint* = ref object of GPoint
+        cx*: int32
+        cy*: int32
+        cz*: int32
 
+proc newCustomGPoint*(x: int32, y: int32, z: int32): CustomGPoint
+proc initCustomGPoint*(this: CustomGPoint, x: int32, y: int32, z: int32)
+proc getInstance*(t: typedesc[CustomGPoint], point: GPoint): CustomGPoint {.discardable.}
+proc getInstance3*(t: typedesc[CustomGPoint], x: int32, y: int32): CustomGPoint {.discardable.}
+method setX*(this: CustomGPoint, x: int32) {.base.}
+method getX*(this: CustomGPoint): int32 {.discardable.}
+method setY*(this: CustomGPoint, y: int32) {.base.}
+method getY*(this: CustomGPoint): int32 {.discardable.}
+method setZ*(this: CustomGPoint, z: int32) {.base.}
+method getZ*(this: CustomGPoint): int32 {.discardable.}
 
-class CustomGPoint(GPoint):
-    NULL_CUSTOM_POINT: CustomGPoint = None
+var CustomGPoint_NULL_CUSTOM_POINTValue: CustomGPoint
+var CustomGPoint_NULL_CUSTOM_POINTSet = false
+proc NULL_CUSTOM_POINT*(t: typedesc[CustomGPoint]): CustomGPoint =
+    if not CustomGPoint_NULL_CUSTOM_POINTSet:
+        CustomGPoint_NULL_CUSTOM_POINTSet = true
+        CustomGPoint_NULL_CUSTOM_POINTValue = newCustomGPoint(0, 0, 0)
+    CustomGPoint_NULL_CUSTOM_POINTValue
 
-    def _init_fields(self) -> None:
-        self.cx: int = 0
-        self.cy: int = 0
-        self.cz: int = 0
-    
+# Java field initializers run after the base initializer
+proc initFieldsCustomGPoint(this: CustomGPoint) =
+    this.cx = 0
+    this.cy = 0
+    this.cz = 0
+    discard
 
-    @staticmethod
-    def getInstance(point: GPoint) -> CustomGPoint:
-        return CustomGPoint(point.getX(), point.getY(), point.getZ())
-    
+proc getInstance*(t: typedesc[CustomGPoint], point: GPoint): CustomGPoint {.discardable.} =
+        return newCustomGPoint(point.getX(), point.getY(), point.getZ())
 
-    @staticmethod
-    def getInstance3(x: int, y: int) -> CustomGPoint:
-        return CustomGPoint(x, y, 3)
-    
+proc getInstance3*(t: typedesc[CustomGPoint], x: int32, y: int32): CustomGPoint {.discardable.} =
+        return newCustomGPoint(x, y, 3)
 
-    def __init__(self, x: int, y: int, z: int) -> None:
-        super().__init__(x, y, z)
-        self._init_fields()
-    
+proc initCustomGPoint*(this: CustomGPoint, x: int32, y: int32, z: int32) =
+        initGPoint(this, x, y, z)
+        this.initFieldsCustomGPoint()
 
-    def setX(self, x: int) -> None:
-        self.cx = x
-    
+proc newCustomGPoint*(x: int32, y: int32, z: int32): CustomGPoint =
+    result = CustomGPoint()
+    initCustomGPoint(result, x, y, z)
 
-    def getX(self) -> int:
-        return self.cx
-    
+method setX*(this: CustomGPoint, x: int32) {.base.} =
+        this.cx = x
 
-    def setY(self, y: int) -> None:
-        self.cy = y
-    
+method getX*(this: CustomGPoint): int32 {.discardable.} =
+        return this.cx
 
-    def getY(self) -> int:
-        return self.cy
-    
+method setY*(this: CustomGPoint, y: int32) {.base.} =
+        this.cy = y
 
-    def setZ(self, z: int) -> None:
-        self.cz = z
-    
+method getY*(this: CustomGPoint): int32 {.discardable.} =
+        return this.cy
 
-    def getZ(self) -> int:
-        return self.cz
+method setZ*(this: CustomGPoint, z: int32) {.base.} =
+        this.cz = z
 
+method getZ*(this: CustomGPoint): int32 {.discardable.} =
+        return this.cz
 
-def _CustomGPoint_NULL_CUSTOM_POINT() -> object:
-    return CustomGPoint(0, 0, 0)
-
-lazy_static(CustomGPoint, "NULL_CUSTOM_POINT", _CustomGPoint_NULL_CUSTOM_POINT)
+when declared(newCustomGPointHook3):
+    newCustomGPointHook3 = proc (x: int32, y: int32, z: int32): GPoint = newCustomGPoint(x, y, z)
 

@@ -69,6 +69,6 @@ method getStackTrace*(this: ExceptionUtil, e: JException): string {.base, discar
             let printStream: PrintStream = newPrintStream(byteArrayOutputStream)
             e.printStackTrace(printStream)
             let output: string = byteArrayOutputStream.toString()
-            return output
+            return jNewString(output)
         return this.NONE
 

@@ -1,34 +1,27 @@
 # Generated Code Do Not Modify
 # package org.allbinary.graphics.form.item
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import javax/microedition/lcdui/Graphics as GraphicsModule
+export GraphicsModule
+
+type
+    ABCustomItemInterface* = ref object of JObject
 
 
+method getMinimumWidth*(this: ABCustomItemInterface): int32 {.base, discardable.} =
+        raise newJException("AbstractMethodError", "getMinimumWidth")
 
-# Java interface
-class ABCustomItemInterface:
-    
+method getMinimumHeight*(this: ABCustomItemInterface): int32 {.base, discardable.} =
+        raise newJException("AbstractMethodError", "getMinimumHeight")
 
-    def getMinimumWidth(self) -> int:
-        raise NotImplementedError()
-    
+method getLabel*(this: ABCustomItemInterface): string {.base, discardable.} =
+        raise newJException("AbstractMethodError", "getLabel")
 
-    def getMinimumHeight(self) -> int:
-        raise NotImplementedError()
-    
+method paintXY*(this: ABCustomItemInterface, graphics: Graphics, x: int32, y: int32) {.base.} =
+        raise newJException("AbstractMethodError", "paintXY")
 
-    def getLabel(self) -> str:
-        raise NotImplementedError()
-    
-
-    def paintXY(self, graphics: Graphics, x: int, y: int) -> None:
-        from javax.microedition.lcdui.Graphics import Graphics
-        raise NotImplementedError()
-    
-
-    def paintUnselected(self, graphics: Graphics, x: int, y: int) -> None:
-        from javax.microedition.lcdui.Graphics import Graphics
-        raise NotImplementedError()
-# from javax.microedition.lcdui.Graphics import Graphics
-
+method paintUnselected*(this: ABCustomItemInterface, graphics: Graphics, x: int32, y: int32) {.base.} =
+        raise newJException("AbstractMethodError", "paintUnselected")
 

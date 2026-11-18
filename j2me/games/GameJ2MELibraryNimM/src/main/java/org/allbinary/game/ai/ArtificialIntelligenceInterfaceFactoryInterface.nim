@@ -1,36 +1,35 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.ai
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/ai/ArtificialIntelligenceInterface as ArtificialIntelligenceInterfaceModule
+export ArtificialIntelligenceInterfaceModule
+import org/allbinary/game/input/GameInput as GameInputModule
+export GameInputModule
+import org/allbinary/layer/AllBinaryLayer as AllBinaryLayerModule
+export AllBinaryLayerModule
+import org/allbinary/util/ABHashtable as ABHashtableModule
+export ABHashtableModule
+
+type
+    ArtificialIntelligenceInterfaceFactoryInterface* = ref object of JObject
 
 
-
-# Java interface
-class ArtificialIntelligenceInterfaceFactoryInterface:
-    
-
-    # throws Exception
-    def getInstance(self, hashtable: ABHashtable[object, object], ownerLayerInterface: AllBinaryLayer, gameInput: GameInput) -> ArtificialIntelligenceInterface:
-        from org.allbinary.ai.ArtificialIntelligenceInterface import ArtificialIntelligenceInterface
-        from org.allbinary.game.input.GameInput import GameInput
-        from org.allbinary.layer.AllBinaryLayer import AllBinaryLayer
-        from org.allbinary.util.ABHashtable import ABHashtable
-        raise NotImplementedError()
-# from org.allbinary.ai.ArtificialIntelligenceInterface import ArtificialIntelligenceInterface
-# from org.allbinary.game.input.GameInput import GameInput
-# from org.allbinary.layer.AllBinaryLayer import AllBinaryLayer
-# from org.allbinary.util.ABHashtable import ABHashtable
-
+method getInstance*(this: ArtificialIntelligenceInterfaceFactoryInterface, hashtable: ABHashtable, ownerLayerInterface: AllBinaryLayer, gameInput: GameInput): ArtificialIntelligenceInterface {.base, discardable.} =
+        raise newJException("AbstractMethodError", "getInstance")
 

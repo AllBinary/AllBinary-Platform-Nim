@@ -1,43 +1,57 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-# 
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+  
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.layer
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/layer/AllBinaryLayer as AllBinaryLayerModule
+export AllBinaryLayerModule
+import org/allbinary/layer/LayerManager as LayerManagerModule
+export LayerManagerModule
+
+type
+    LayerManagerLoggingBase* = ref object of JObject
+
+proc newLayerManagerLoggingBase*(): LayerManagerLoggingBase
+method append*(this: LayerManagerLoggingBase, layerInterface: AllBinaryLayer) {.base.}
+method appendAt*(this: LayerManagerLoggingBase, layerInterface: AllBinaryLayer, index: int32) {.base.}
+method remove*(this: LayerManagerLoggingBase, layerInterface: AllBinaryLayer) {.base.}
+method removeResult*(this: LayerManagerLoggingBase, layerManager: LayerManager, layerInterface: AllBinaryLayer, `result`: bool) {.base.}
+method clear*(this: LayerManagerLoggingBase) {.base.}
 
 
+proc initLayerManagerLoggingBase*(this: LayerManagerLoggingBase) =
+    discard
 
-class LayerManagerLoggingBase:
-    
+proc newLayerManagerLoggingBase*(): LayerManagerLoggingBase =
+    result = LayerManagerLoggingBase()
+    initLayerManagerLoggingBase(result)
 
-    # throws Exception
-    def append(self, layerInterface: AllBinaryLayer) -> None:
-        pass
-    
+method append*(this: LayerManagerLoggingBase, layerInterface: AllBinaryLayer) {.base.} =
+        discard
 
-    def appendAt(self, layerInterface: AllBinaryLayer, index: int) -> None:
-        pass
-    
+method appendAt*(this: LayerManagerLoggingBase, layerInterface: AllBinaryLayer, index: int32) {.base.} =
+        discard
 
-    def remove(self, layerInterface: AllBinaryLayer) -> None:
-        pass
-    
+method remove*(this: LayerManagerLoggingBase, layerInterface: AllBinaryLayer) {.base.} =
+        discard
 
-    def removeResult(self, layerManager: LayerManager, layerInterface: AllBinaryLayer, result: bool) -> None:
-        pass
-    
+method removeResult*(this: LayerManagerLoggingBase, layerManager: LayerManager, layerInterface: AllBinaryLayer, `result`: bool) {.base.} =
+        discard
 
-    def clear(self) -> None:
-        pass
-
+method clear*(this: LayerManagerLoggingBase) {.base.} =
+        discard
 

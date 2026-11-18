@@ -1,87 +1,91 @@
-# 
-# AllBinary Open License Version 1 
-# Copyright (c) 2022 AllBinary 
-#  
-# By agreeing to this license you and any business entity you represent are 
-# legally bound to the AllBinary Open License Version 1 legal agreement. 
-#  
-# You may obtain the AllBinary Open License Version 1 legal agreement from 
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
-#  
-# Created By: Travis Berthelot 
-#   
+#[
+  
+  AllBinary Open License Version 1 
+  Copyright (c) 2022 AllBinary 
+   
+  By agreeing to this license you and any business entity you represent are 
+  legally bound to the AllBinary Open License Version 1 legal agreement. 
+   
+  You may obtain the AllBinary Open License Version 1 legal agreement from 
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
+   
+  Created By: Travis Berthelot 
+    
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.image
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import javax/microedition/lcdui/Image as ImageModule
+export ImageModule
+import org/allbinary/animation/image/BaseImageAnimationFactory as BaseImageAnimationFactoryModule
+export BaseImageAnimationFactoryModule
+import org/allbinary/media/image/ImageJ2MEScaleUtil as ImageJ2MEScaleUtilModule
+export ImageJ2MEScaleUtilModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    AnimationFactoryImageScaleUtil* = ref object of JObject
+        imageScaleUtil*: ImageJ2MEScaleUtil
 
+proc newAnimationFactoryImageScaleUtil*(): AnimationFactoryImageScaleUtil
+proc getInstance*(t: typedesc[AnimationFactoryImageScaleUtil]): AnimationFactoryImageScaleUtil {.discardable.}
+method createImage*(this: AnimationFactoryImageScaleUtil, image: Image, width: int32, height: int32, scaleWidth: int32, scaleHeight: int32): Image {.base, discardable.}
+method processAdjust*(this: AnimationFactoryImageScaleUtil, baseImageAnimationFactory: BaseImageAnimationFactory) {.base.}
+import org/allbinary/animation/image/AnimationFactoryInitializationVisitor as AnimationFactoryInitializationVisitorModule
+export AnimationFactoryInitializationVisitorModule
+import org/allbinary/media/ScaleProperties as ScalePropertiesModule
+export ScalePropertiesModule
 
-class AnimationFactoryImageScaleUtil:
-    instance: AnimationFactoryImageScaleUtil = None
+var AnimationFactoryImageScaleUtil_instanceValue: AnimationFactoryImageScaleUtil
+var AnimationFactoryImageScaleUtil_instanceSet = false
+proc instance*(t: typedesc[AnimationFactoryImageScaleUtil]): AnimationFactoryImageScaleUtil =
+    if not AnimationFactoryImageScaleUtil_instanceSet:
+        AnimationFactoryImageScaleUtil_instanceSet = true
+        AnimationFactoryImageScaleUtil_instanceValue = newAnimationFactoryImageScaleUtil()
+    AnimationFactoryImageScaleUtil_instanceValue
 
-    def _init_fields(self) -> None:
-        from org.allbinary.media.image.ImageJ2MEScaleUtil import ImageJ2MEScaleUtil
-        self.imageScaleUtil: ImageJ2MEScaleUtil = ImageJ2MEScaleUtil.getInstance()
+# Java field initializers run after the base initializer
+proc initFieldsAnimationFactoryImageScaleUtil(this: AnimationFactoryImageScaleUtil) =
+    this.imageScaleUtil = ImageJ2MEScaleUtil.getInstance()
+    discard
 
-    def __init__(self) -> None:
-        self._init_fields()
-    
+proc initAnimationFactoryImageScaleUtil*(this: AnimationFactoryImageScaleUtil) =
+    this.initFieldsAnimationFactoryImageScaleUtil()
 
-    @staticmethod
-    def getInstance() -> AnimationFactoryImageScaleUtil:
+proc newAnimationFactoryImageScaleUtil*(): AnimationFactoryImageScaleUtil =
+    result = AnimationFactoryImageScaleUtil()
+    initAnimationFactoryImageScaleUtil(result)
+
+proc getInstance*(t: typedesc[AnimationFactoryImageScaleUtil]): AnimationFactoryImageScaleUtil {.discardable.} =
         return AnimationFactoryImageScaleUtil.instance
-    
 
-    # throws Exception
-    def createImage(self, image: Image, width: int, height: int, scaleWidth: int, scaleHeight: int) -> Image:
-        from javax.microedition.lcdui.Image import Image
-        scaledImage: Image = None
+method createImage*(this: AnimationFactoryImageScaleUtil, image: Image, width: int32, height: int32, scaleWidth: int32, scaleHeight: int32): Image {.base, discardable.} =
+        var scaledImage: Image = nil
         if scaleWidth != 0 and scaleHeight != 0:
-            scaleX: float = (float(scaleWidth)) / (float(width))
-            scaleY: float = (float(scaleHeight)) / (float(height))
-            if (scaleX == 1.0 and scaleY == 1.0) or (scaleX == 0.0 or scaleY == 0.0):
+            let scaleX: float32 = (float32(scaleWidth)) / (float32(width))
+            let scaleY: float32 = (float32(scaleHeight)) / (float32(height))
+            if (scaleX == 1.0'f32 and scaleY == 1.0'f32) or (scaleX == 0.0'f32 or scaleY == 0.0'f32):
                 scaledImage = image
             else:
-                scaledWidth: int = int((scaleX * float(width)))
-                scaledHeight: int = int((scaleY * float(height)))
-                scaledImage = self.imageScaleUtil.scale(image, scaledWidth, scaledHeight)
+                let scaledWidth: int32 = jToInt32(float64((scaleX * float32(width))))
+                let scaledHeight: int32 = jToInt32(float64((scaleY * float32(height))))
+                scaledImage = this.imageScaleUtil.scale(image, scaledWidth, scaledHeight)
         else:
             scaledImage = image
         return scaledImage
-    
 
-    # throws Exception
-    def processAdjust(self, baseImageAnimationFactory: BaseImageAnimationFactory) -> None:
-        from org.allbinary.animation.image.AnimationFactoryInitializationVisitor import AnimationFactoryInitializationVisitor
-        from org.allbinary.animation.image.BaseImageAnimationFactory import BaseImageAnimationFactory
-        from org.allbinary.media.ScaleProperties import ScaleProperties
-        scaleProperties: ScaleProperties = baseImageAnimationFactory.getScalePropertiesP()
+method processAdjust*(this: AnimationFactoryImageScaleUtil, baseImageAnimationFactory: BaseImageAnimationFactory) {.base.} =
+        let scaleProperties: ScaleProperties = baseImageAnimationFactory.getScalePropertiesP()
         if scaleProperties.scaleWidth != 0 and scaleProperties.scaleHeight != 0:
-            animationFactoryInitializationVisitor: AnimationFactoryInitializationVisitor = baseImageAnimationFactory.getAnimationFactoryInitializationVisitorP()
-            scaleX: float = (float(scaleProperties.scaleWidth)) / (float(animationFactoryInitializationVisitor.width))
-            scaleY: float = (float(scaleProperties.scaleHeight)) / (float(animationFactoryInitializationVisitor.height))
-            if (scaleX == 1.0 and scaleY == 1.0) or (scaleX == 0.0 or scaleY == 0.0):
-                pass
+            let animationFactoryInitializationVisitor: AnimationFactoryInitializationVisitor = baseImageAnimationFactory.getAnimationFactoryInitializationVisitorP()
+            let scaleX: float32 = (float32(scaleProperties.scaleWidth)) / (float32(animationFactoryInitializationVisitor.width))
+            let scaleY: float32 = (float32(scaleProperties.scaleHeight)) / (float32(animationFactoryInitializationVisitor.height))
+            if (scaleX == 1.0'f32 and scaleY == 1.0'f32) or (scaleX == 0.0'f32 or scaleY == 0.0'f32):
+                discard
             else:
-                animationFactoryInitializationVisitor.dx = int((animationFactoryInitializationVisitor.originalDx * scaleX))
-                animationFactoryInitializationVisitor.dy = int((animationFactoryInitializationVisitor.originalDy * scaleY))
+                animationFactoryInitializationVisitor.dx = jToInt32(float64((float32(animationFactoryInitializationVisitor.originalDx) * scaleX)))
+                animationFactoryInitializationVisitor.dy = jToInt32(float64((float32(animationFactoryInitializationVisitor.originalDy) * scaleY)))
         else:
-            pass
-# from javax.microedition.lcdui.Image import Image
-# from org.allbinary.animation.image.AnimationFactoryInitializationVisitor import AnimationFactoryInitializationVisitor
-# from org.allbinary.animation.image.BaseImageAnimationFactory import BaseImageAnimationFactory
-# from org.allbinary.logic.communication.log.LogUtil import LogUtil
-# from org.allbinary.logic.string.StringMaker import StringMaker
-# from org.allbinary.media.ScaleProperties import ScaleProperties
-# from org.allbinary.media.image.ImageJ2MEScaleUtil import ImageJ2MEScaleUtil
-# from org.allbinary.string.CommonLabels import CommonLabels
-# from org.allbinary.string.CommonStrings import CommonStrings
-
-
-def _AnimationFactoryImageScaleUtil_instance() -> object:
-    return AnimationFactoryImageScaleUtil()
-
-lazy_static(AnimationFactoryImageScaleUtil, "instance", _AnimationFactoryImageScaleUtil_instance)
+            discard
 

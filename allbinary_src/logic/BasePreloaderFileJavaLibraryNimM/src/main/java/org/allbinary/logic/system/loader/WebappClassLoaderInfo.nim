@@ -1,57 +1,57 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.logic.system.loader
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import java/lang/ClassLoader as ClassLoaderModule
+export ClassLoaderModule
 
-import threading
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    WebappClassLoaderInfo* = ref object of JObject
 
+proc newWebappClassLoaderInfo*(): WebappClassLoaderInfo
+proc initWebappClassLoaderInfo*(this: WebappClassLoaderInfo)
+proc setLoader*(t: typedesc[WebappClassLoaderInfo], classLoader: ClassLoader)
+proc getLoader*(t: typedesc[WebappClassLoaderInfo]): ClassLoader {.discardable.}
+import org/allbinary/logic/NullUtil as NullUtilModule
+export NullUtilModule
 
-class WebappClassLoaderInfo:
-    classLoader: object = None
-    _lock = threading.RLock()
-    
+var WebappClassLoaderInfo_classLoaderValue: JObject
+var WebappClassLoaderInfo_classLoaderSet = false
+proc classLoader*(t: typedesc[WebappClassLoaderInfo]): JObject =
+    if not WebappClassLoaderInfo_classLoaderSet:
+        WebappClassLoaderInfo_classLoaderSet = true
+        WebappClassLoaderInfo_classLoaderValue = NullUtil.getInstance().NULL_OBJECT
+    WebappClassLoaderInfo_classLoaderValue
+proc `classLoader=`*(t: typedesc[WebappClassLoaderInfo], value: JObject) =
+    WebappClassLoaderInfo_classLoaderSet = true
+    WebappClassLoaderInfo_classLoaderValue = value
 
-    def __init__(self) -> None:
-        pass
-    
+proc initWebappClassLoaderInfo*(this: WebappClassLoaderInfo) =
+        discard
+        discard
 
-    @staticmethod
-    def setLoader(classLoader: ClassLoader) -> None:
-        with WebappClassLoaderInfo._lock:
-            return WebappClassLoaderInfo._setLoader_unlocked(classLoader)
+proc newWebappClassLoaderInfo*(): WebappClassLoaderInfo =
+    result = WebappClassLoaderInfo()
+    initWebappClassLoaderInfo(result)
 
-    @staticmethod
-    def _setLoader_unlocked(classLoader: ClassLoader) -> None:
+proc setLoader*(t: typedesc[WebappClassLoaderInfo], classLoader: ClassLoader) =
         WebappClassLoaderInfo.classLoader = classLoader
-    
 
-    @staticmethod
-    def getLoader() -> ClassLoader:
-        with WebappClassLoaderInfo._lock:
-            return WebappClassLoaderInfo._getLoader_unlocked()
-
-    @staticmethod
-    def _getLoader_unlocked() -> ClassLoader:
-        return WebappClassLoaderInfo.classLoader
-# from org.allbinary.logic.NullUtil import NullUtil
-
-
-def _WebappClassLoaderInfo_classLoader() -> object:
-    from org.allbinary.logic.NullUtil import NullUtil
-    return NullUtil.getInstance().NULL_OBJECT
-
-lazy_static(WebappClassLoaderInfo, "classLoader", _WebappClassLoaderInfo_classLoader)
+proc getLoader*(t: typedesc[WebappClassLoaderInfo]): ClassLoader {.discardable.} =
+        return ClassLoader(JObject(WebappClassLoaderInfo.classLoader))
 

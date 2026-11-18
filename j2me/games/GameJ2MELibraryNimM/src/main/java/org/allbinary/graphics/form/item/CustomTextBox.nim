@@ -1,121 +1,139 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.graphics.form.item
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import javax/microedition/lcdui/CommandListener as CommandListenerModule
+export CommandListenerModule
+import javax/microedition/lcdui/Font as FontModule
+export FontModule
+import javax/microedition/lcdui/Graphics as GraphicsModule
+export GraphicsModule
+import org/allbinary/game/displayable/canvas/GameCommandCanvas as GameCommandCanvasModule
+export GameCommandCanvasModule
+import org/allbinary/game/input/InputFactory as InputFactoryModule
+export InputFactoryModule
+import org/allbinary/game/input/event/RawKeyEventListener as RawKeyEventListenerModule
+export RawKeyEventListenerModule
+import org/allbinary/graphics/color/BasicColor as BasicColorModule
+export BasicColorModule
+import org/allbinary/graphics/form/item/ABTextFieldItem as ABTextFieldItemModule
+export ABTextFieldItemModule
 
-from org.allbinary.game.displayable.canvas.GameCommandCanvas import GameCommandCanvas
-from org.allbinary.game.input.event.RawKeyEventListener import RawKeyEventListener
+type
+    CustomTextBox* = ref object of GameCommandCanvas
+        textFieldItem*: ABTextFieldItem
+        inputFactory*: InputFactory
+
+converter jAsRawKeyEventListener*(value: CustomTextBox): RawKeyEventListener = cast[RawKeyEventListener](value)
+proc newCustomTextBox*(cmdListener: CommandListener, label: string, text: string, maxSize: int32, constraints: int32, font: Font, backgroundBasicColor: BasicColor, foregroundBasicColor: BasicColor): CustomTextBox
+proc initCustomTextBox*(this: CustomTextBox, cmdListener: CommandListener, label: string, text: string, maxSize: int32, constraints: int32, font: Font, backgroundBasicColor: BasicColor, foregroundBasicColor: BasicColor)
+method submit*(this: CustomTextBox) {.base.}
+method onEventRaw*(this: CustomTextBox, keyCode: int32, deviceId: int32, repeated: bool)
+method keyPressed*(this: CustomTextBox, keyCode: int32)
+method keyReleased*(this: CustomTextBox, keyCode: int32)
+method keyRepeated*(this: CustomTextBox, keyCode: int32)
+method keyPressedByDevice*(this: CustomTextBox, keyCode: int32, deviceId: int32)
+method keyReleasedByDevice*(this: CustomTextBox, keyCode: int32, deviceId: int32)
+method paint*(this: CustomTextBox, graphics: Graphics)
+method paintXY*(this: CustomTextBox, graphics: Graphics, x: int32, y: int32) {.base.}
+method getTextFieldItem*(this: CustomTextBox): ABTextFieldItem {.base, discardable.}
+import org/allbinary/J2MEUtil as J2MEUtilModule
+export J2MEUtilModule
+import org/allbinary/game/input/Input as InputModule
+export InputModule
+import org/allbinary/game/input/PlatformKeyFactory as PlatformKeyFactoryModule
+export PlatformKeyFactoryModule
+import org/allbinary/graphics/form/item/validation/TextItemVisitor as TextItemVisitorModule
+export TextItemVisitorModule
+import org/allbinary/logic/string/StringMaker as StringMakerModule
+export StringMakerModule
+import org/allbinary/logic/string/StringUtil as StringUtilModule
+export StringUtilModule
+import org/allbinary/string/CommonSeps as CommonSepsModule
+export CommonSepsModule
 
 
-class CustomTextBox(GameCommandCanvas, RawKeyEventListener):
-
-    def _init_fields(self) -> None:
-        from org.allbinary.game.input.InputFactory import InputFactory
-        self.textFieldItem: ABTextFieldItem = None
-        self.inputFactory: InputFactory = InputFactory.getInstance()
+# Java field initializers run after the base initializer
+proc initFieldsCustomTextBox(this: CustomTextBox) =
     
+    this.inputFactory = InputFactory.getInstance()
+    discard
 
-    def __init__(self, cmdListener: CommandListener, label: str, text: str, maxSize: int, constraints: int, font: Font, backgroundBasicColor: BasicColor, foregroundBasicColor: BasicColor) -> None:
-        from org.allbinary.graphics.form.item.ABTextFieldItem import ABTextFieldItem
-        from javax.microedition.lcdui.CommandListener import CommandListener
-        from javax.microedition.lcdui.Font import Font
-        from org.allbinary.graphics.color.BasicColor import BasicColor
-        from org.allbinary.graphics.form.item.validation.TextItemVisitor import TextItemVisitor
-        from org.allbinary.logic.string.StringUtil import StringUtil
-        super().__init__(cmdListener, label, backgroundBasicColor, foregroundBasicColor)
-        self._init_fields()
-        stringUtil: StringUtil = StringUtil.getInstance()
-        textFieldItem: ABTextFieldItem = ABTextFieldItem(self, TextItemVisitor(), stringUtil.EMPTY_STRING, stringUtil.EMPTY_STRING, maxSize, 0, stringUtil.EMPTY_STRING, font, backgroundBasicColor, foregroundBasicColor)
+proc initCustomTextBox*(this: CustomTextBox, cmdListener: CommandListener, label: string, text: string, maxSize: int32, constraints: int32, font: Font, backgroundBasicColor: BasicColor, foregroundBasicColor: BasicColor) =
+        initGameCommandCanvas(this, cmdListener, label, backgroundBasicColor, foregroundBasicColor)
+        this.initFieldsCustomTextBox()
+        let stringUtil: StringUtil = StringUtil.getInstance()
+        let textFieldItem: ABTextFieldItem = newABTextFieldItem(this, newTextItemVisitor(), stringUtil.EMPTY_STRING, stringUtil.EMPTY_STRING, maxSize, 0, stringUtil.EMPTY_STRING, font, backgroundBasicColor, foregroundBasicColor)
         textFieldItem.setString(text)
-        self.textFieldItem = textFieldItem
-        self.setTitle(label)
-    
+        this.textFieldItem = textFieldItem
+        this.setTitle(label)
 
-    def submit(self) -> None:
-        pass
-    
+proc newCustomTextBox*(cmdListener: CommandListener, label: string, text: string, maxSize: int32, constraints: int32, font: Font, backgroundBasicColor: BasicColor, foregroundBasicColor: BasicColor): CustomTextBox =
+    result = CustomTextBox()
+    initCustomTextBox(result, cmdListener, label, text, maxSize, constraints, font, backgroundBasicColor, foregroundBasicColor)
 
-    def onEventRaw(self, keyCode: int, deviceId: int, repeated: bool) -> None:
-        from org.allbinary.logic.string.StringMaker import StringMaker
-        self.logUtil.putF(str(StringMaker().append(self.commonStrings.START).appendint(keyCode)), self, "onEvent")
-        self.keyPressedByDevice(keyCode, deviceId)
-    
+method submit*(this: CustomTextBox) {.base.} =
+        discard
 
-    def keyPressed(self, keyCode: int) -> None:
-        self.keyPressedByDevice(keyCode, 0)
-    
+method onEventRaw*(this: CustomTextBox, keyCode: int32, deviceId: int32, repeated: bool) =
+        this.logUtil.putF(newStringMaker().append(this.commonStrings.START).appendint(keyCode).toString(), this, "onEvent")
+        this.keyPressedByDevice(keyCode, deviceId)
 
-    def keyReleased(self, keyCode: int) -> None:
-        self.keyReleasedByDevice(keyCode, 0)
-    
+method keyPressed*(this: CustomTextBox, keyCode: int32) =
+        this.keyPressedByDevice(keyCode, 0)
 
-    def keyRepeated(self, keyCode: int) -> None:
-        self.keyRepeatedByDevice(keyCode, 0)
-    
+method keyReleased*(this: CustomTextBox, keyCode: int32) =
+        this.keyReleasedByDevice(keyCode, 0)
 
-    def keyPressedByDevice(self, keyCode: int, deviceId: int) -> None:
-        from org.allbinary.game.input.Input import Input
-        from org.allbinary.game.input.PlatformKeyFactory import PlatformKeyFactory
-        from org.allbinary.logic.string.StringMaker import StringMaker
-        from org.allbinary.string.CommonSeps import CommonSeps
+method keyRepeated*(this: CustomTextBox, keyCode: int32) =
+        this.keyRepeatedByDevice(keyCode, 0)
+
+method keyPressedByDevice*(this: CustomTextBox, keyCode: int32, deviceId: int32) =
         try:
-            self.logUtil.putF(str(StringMaker().append(CommonSeps.getInstance().SPACE).appendint(keyCode)), self, self.gameInputStrings.KEY_PRESSED)
-            platformKeyFactory: PlatformKeyFactory = PlatformKeyFactory.getInstance()
-            input: Input = self.inputFactory.getInstanceById(keyCode)
+            this.logUtil.putF(newStringMaker().append(CommonSeps.getInstance().SPACE).appendint(keyCode).toString(), this, this.gameInputStrings.KEY_PRESSED)
+            let platformKeyFactory: PlatformKeyFactory = PlatformKeyFactory.getInstance()
+            let input: Input = this.inputFactory.getInstanceById(keyCode)
             if platformKeyFactory.isSubmission(input):
-                self.submit()
+                this.submit()
             else:
-                self.textFieldItem.keyPressed(keyCode)
-        except Exception as e:
-            self.logUtil.put(self.commonStrings.EXCEPTION, self, self.gameInputStrings.KEY_PRESSED, e)
-    
+                this.textFieldItem.keyPressed(keyCode)
+        except CatchableError as jcaught:
+            let e = jToException(jcaught)
+            this.logUtil.put(this.commonStrings.EXCEPTION, this, this.gameInputStrings.KEY_PRESSED, e)
 
-    def keyReleasedByDevice(self, keyCode: int, deviceId: int) -> None:
-        pass
-    
+method keyReleasedByDevice*(this: CustomTextBox, keyCode: int32, deviceId: int32) =
+        discard
 
-    def paint(self, graphics: Graphics) -> None:
-        from javax.microedition.lcdui.Graphics import Graphics
-        from org.allbinary.J2MEUtil import J2MEUtil
-        graphics.setColor(self.backgroundColor)
-        graphics.fillRect(0, 0, self.displayInfo.getLastWidth(), self.displayInfo.getLastHeight())
-        graphics.setColor(self.foregroundColor)
-        if not J2MEUtil.isJ2ME():
-            graphics.drawString(self.getTitle(), 8, 1, 0)
-        self.paintXY(graphics, 8, graphics.getFont().getHeight() + 2)
-        super().paint(graphics)
-    
+method paint*(this: CustomTextBox, graphics: Graphics) =
+        graphics.setColor(this.backgroundColor)
+        graphics.fillRect(0, 0, this.displayInfo.getLastWidth(), this.displayInfo.getLastHeight())
+        graphics.setColor(this.foregroundColor)
+        if (not J2MEUtil.isJ2ME()):
+            graphics.drawString(this.getTitle(), 8, 1, 0)
+        this.paintXY(graphics, 8, graphics.getFont().getHeight() +% 2)
+        procCall GameCommandCanvas(this).paint(graphics)
 
-    def paintXY(self, graphics: Graphics, x: int, y: int) -> None:
-        from javax.microedition.lcdui.Graphics import Graphics
-        self.textFieldItem.paintXY(graphics, x, y)
-    
+method paintXY*(this: CustomTextBox, graphics: Graphics, x: int32, y: int32) {.base.} =
+        this.textFieldItem.paintXY(graphics, x, y)
 
-    def getTextFieldItem(self) -> ABTextFieldItem:
-        return self.textFieldItem
-# from javax.microedition.lcdui.CommandListener import CommandListener
-# from javax.microedition.lcdui.Font import Font
-# from javax.microedition.lcdui.Graphics import Graphics
-# from org.allbinary.J2MEUtil import J2MEUtil
-# from org.allbinary.game.input.Input import Input
-# from org.allbinary.game.input.InputFactory import InputFactory
-# from org.allbinary.game.input.PlatformKeyFactory import PlatformKeyFactory
-# from org.allbinary.graphics.color.BasicColor import BasicColor
-# from org.allbinary.graphics.form.item.validation.TextItemVisitor import TextItemVisitor
-# from org.allbinary.logic.string.StringMaker import StringMaker
-# from org.allbinary.logic.string.StringUtil import StringUtil
-# from org.allbinary.string.CommonSeps import CommonSeps
+method getTextFieldItem*(this: CustomTextBox): ABTextFieldItem {.base, discardable.} =
+        return this.textFieldItem
 
+when declared(newCustomTextBoxHook8):
+    newCustomTextBoxHook8 = proc (cmdListener: CommandListener, label: string, text: string, maxSize: int32, constraints: int32, font: Font, backgroundBasicColor: BasicColor, foregroundBasicColor: BasicColor): GameCommandCanvas = newCustomTextBox(cmdListener, label, text, maxSize, constraints, font, backgroundBasicColor, foregroundBasicColor)
 

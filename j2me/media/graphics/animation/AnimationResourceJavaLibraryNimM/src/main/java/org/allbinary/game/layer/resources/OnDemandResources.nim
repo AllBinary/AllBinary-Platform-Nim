@@ -1,57 +1,66 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.layer.resources
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/animation/resource/BaseResourceAnimationInterfaceFactoryInterfaceFactory as BaseResourceAnimationInterfaceFactoryInterfaceFactoryModule
+export BaseResourceAnimationInterfaceFactoryInterfaceFactoryModule
+import org/allbinary/image/ImageCache as ImageCacheModule
+export ImageCacheModule
+import org/allbinary/logic/communication/log/LogUtil as LogUtilModule
+export LogUtilModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    OnDemandResources* = ref object of JObject
+        logUtil*: LogUtil
 
+proc newOnDemandResources*(): OnDemandResources
+proc initOnDemandResources*(this: OnDemandResources)
+method waitFor*(this: OnDemandResources) {.base.}
+method init*(this: OnDemandResources) {.base.}
+method initAt*(this: OnDemandResources, imageCache: ImageCache, resourceAnimationInterfaceFactoryInterfaceFactory: BaseResourceAnimationInterfaceFactoryInterfaceFactory, portion: int32, loadingString: string, index: int32): int32 {.base, discardable.}
 
-class OnDemandResources:
-    NULL_ON_DEMAND_RESOURCES: OnDemandResources = None
+var OnDemandResources_NULL_ON_DEMAND_RESOURCESValue: OnDemandResources
+var OnDemandResources_NULL_ON_DEMAND_RESOURCESSet = false
+proc NULL_ON_DEMAND_RESOURCES*(t: typedesc[OnDemandResources]): OnDemandResources =
+    if not OnDemandResources_NULL_ON_DEMAND_RESOURCESSet:
+        OnDemandResources_NULL_ON_DEMAND_RESOURCESSet = true
+        OnDemandResources_NULL_ON_DEMAND_RESOURCESValue = newOnDemandResources()
+    OnDemandResources_NULL_ON_DEMAND_RESOURCESValue
 
-    def _init_fields(self) -> None:
-        from org.allbinary.logic.communication.log.LogUtil import LogUtil
-        self.logUtil: LogUtil = LogUtil.getInstance()
-    
+# Java field initializers run after the base initializer
+proc initFieldsOnDemandResources(this: OnDemandResources) =
+    this.logUtil = LogUtil.getInstance()
+    discard
 
-    def __init__(self) -> None:
-        self._init_fields()
-    
+proc initOnDemandResources*(this: OnDemandResources) =
+        this.initFieldsOnDemandResources()
+        discard
 
-    # throws Exception
-    def waitFor(self) -> None:
-        pass
-    
+proc newOnDemandResources*(): OnDemandResources =
+    result = OnDemandResources()
+    initOnDemandResources(result)
 
-    # throws Exception
-    def init(self) -> None:
-        pass
-    
+method waitFor*(this: OnDemandResources) {.base.} =
+        discard
 
-    # throws Exception
-    def initAt(self, imageCache: ImageCache, resourceAnimationInterfaceFactoryInterfaceFactory: BaseResourceAnimationInterfaceFactoryInterfaceFactory, portion: int, loadingString: str, index: int) -> int:
-        from org.allbinary.animation.resource.BaseResourceAnimationInterfaceFactoryInterfaceFactory import BaseResourceAnimationInterfaceFactoryInterfaceFactory
-        from org.allbinary.image.ImageCache import ImageCache
+method init*(this: OnDemandResources) {.base.} =
+        discard
+
+method initAt*(this: OnDemandResources, imageCache: ImageCache, resourceAnimationInterfaceFactoryInterfaceFactory: BaseResourceAnimationInterfaceFactoryInterfaceFactory, portion: int32, loadingString: string, index: int32): int32 {.base, discardable.} =
         return 0
-# from org.allbinary.animation.resource.BaseResourceAnimationInterfaceFactoryInterfaceFactory import BaseResourceAnimationInterfaceFactoryInterfaceFactory
-# from org.allbinary.image.ImageCache import ImageCache
-# from org.allbinary.logic.communication.log.LogUtil import LogUtil
-
-
-def _OnDemandResources_NULL_ON_DEMAND_RESOURCES() -> object:
-    return OnDemandResources()
-
-lazy_static(OnDemandResources, "NULL_ON_DEMAND_RESOURCES", _OnDemandResources_NULL_ON_DEMAND_RESOURCES)
 

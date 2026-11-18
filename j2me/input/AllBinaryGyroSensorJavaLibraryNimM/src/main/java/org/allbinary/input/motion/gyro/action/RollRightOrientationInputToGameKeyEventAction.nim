@@ -1,48 +1,61 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.input.motion.gyro.action
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/game/input/motion/action/GameKeyCompleteMotionGestureInputEvent as GameKeyCompleteMotionGestureInputEventModule
+export GameKeyCompleteMotionGestureInputEventModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
-from org.allbinary.game.input.motion.action.GameKeyCompleteMotionGestureInputEvent import GameKeyCompleteMotionGestureInputEvent
+type
+    RollRightOrientationInputToGameKeyEventAction* = ref object of GameKeyCompleteMotionGestureInputEvent
 
+proc newRollRightOrientationInputToGameKeyEventAction*(): RollRightOrientationInputToGameKeyEventAction
+proc initRollRightOrientationInputToGameKeyEventAction*(this: RollRightOrientationInputToGameKeyEventAction)
+proc getInstance*(t: typedesc[RollRightOrientationInputToGameKeyEventAction]): GameKeyCompleteMotionGestureInputEvent {.discardable.}
+import org/allbinary/game/input/PlatformInputMappingFactory as PlatformInputMappingFactoryModule
+export PlatformInputMappingFactoryModule
+import org/allbinary/input/gyro/OrientationMotionGestureFactory as OrientationMotionGestureFactoryModule
+export OrientationMotionGestureFactoryModule
+import org/allbinary/logic/NullUtil as NullUtilModule
+export NullUtilModule
 
-class RollRightOrientationInputToGameKeyEventAction(GameKeyCompleteMotionGestureInputEvent):
-    instance: object = None
-    
+var RollRightOrientationInputToGameKeyEventAction_instanceValue: JObject
+var RollRightOrientationInputToGameKeyEventAction_instanceSet = false
+proc instance*(t: typedesc[RollRightOrientationInputToGameKeyEventAction]): JObject =
+    if not RollRightOrientationInputToGameKeyEventAction_instanceSet:
+        RollRightOrientationInputToGameKeyEventAction_instanceSet = true
+        RollRightOrientationInputToGameKeyEventAction_instanceValue = NullUtil.getInstance().NULL_OBJECT
+    RollRightOrientationInputToGameKeyEventAction_instanceValue
+proc `instance=`*(t: typedesc[RollRightOrientationInputToGameKeyEventAction], value: JObject) =
+    RollRightOrientationInputToGameKeyEventAction_instanceSet = true
+    RollRightOrientationInputToGameKeyEventAction_instanceValue = value
 
-    @staticmethod
-    def getInstance() -> GameKeyCompleteMotionGestureInputEvent:
-        from org.allbinary.logic.NullUtil import NullUtil
+proc getInstance*(t: typedesc[RollRightOrientationInputToGameKeyEventAction]): GameKeyCompleteMotionGestureInputEvent {.discardable.} =
         if RollRightOrientationInputToGameKeyEventAction.instance == NullUtil.getInstance().NULL_OBJECT:
-            RollRightOrientationInputToGameKeyEventAction.instance = RollRightOrientationInputToGameKeyEventAction()
-        return RollRightOrientationInputToGameKeyEventAction.instance
-    
+            RollRightOrientationInputToGameKeyEventAction.instance = newRollRightOrientationInputToGameKeyEventAction()
+        return GameKeyCompleteMotionGestureInputEvent(JObject(RollRightOrientationInputToGameKeyEventAction.instance))
 
-    def __init__(self) -> None:
-        from org.allbinary.game.input.PlatformInputMappingFactory import PlatformInputMappingFactory
-        from org.allbinary.input.gyro.OrientationMotionGestureFactory import OrientationMotionGestureFactory
-        super().__init__("Roll Right Action", OrientationMotionGestureFactory.getInstance().ROLL_RIGHT, PlatformInputMappingFactory.getInstance().getPersistentInputMappingInstance().getInputMapping())
-# from org.allbinary.game.input.PlatformInputMappingFactory import PlatformInputMappingFactory
-# from org.allbinary.input.gyro.OrientationMotionGestureFactory import OrientationMotionGestureFactory
-# from org.allbinary.logic.NullUtil import NullUtil
+proc initRollRightOrientationInputToGameKeyEventAction*(this: RollRightOrientationInputToGameKeyEventAction) =
+        initGameKeyCompleteMotionGestureInputEvent(this, "Roll Right Action", OrientationMotionGestureFactory.getInstance().ROLL_RIGHT, PlatformInputMappingFactory.getInstance().getPersistentInputMappingInstance().getInputMapping())
 
+proc newRollRightOrientationInputToGameKeyEventAction*(): RollRightOrientationInputToGameKeyEventAction =
+    result = RollRightOrientationInputToGameKeyEventAction()
+    initRollRightOrientationInputToGameKeyEventAction(result)
 
-def _RollRightOrientationInputToGameKeyEventAction_instance() -> object:
-    from org.allbinary.logic.NullUtil import NullUtil
-    return NullUtil.getInstance().NULL_OBJECT
-
-lazy_static(RollRightOrientationInputToGameKeyEventAction, "instance", _RollRightOrientationInputToGameKeyEventAction_instance)
+when declared(newRollRightOrientationInputToGameKeyEventActionHook0):
+    newRollRightOrientationInputToGameKeyEventActionHook0 = proc (): GameKeyCompleteMotionGestureInputEvent = newRollRightOrientationInputToGameKeyEventAction()
 

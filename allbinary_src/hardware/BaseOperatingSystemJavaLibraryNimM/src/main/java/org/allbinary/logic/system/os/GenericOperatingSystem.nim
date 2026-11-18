@@ -56,9 +56,9 @@ export SystemPropertiesModule
 
 # Java field initializers run after the base initializer
 proc initFieldsGenericOperatingSystem(this: GenericOperatingSystem) =
-    
-    
-    
+    this.osName = ""
+    this.osArch = ""
+    this.osVersion = ""
     this.characterSet = newCharacterSet()
     this.scalable = false
     discard

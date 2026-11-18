@@ -1,44 +1,54 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2022 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-# 
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2022 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+  
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.graphics.displayable.screen
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import javax/microedition/lcdui/Canvas as CanvasModule
+export CanvasModule
+import javax/microedition/lcdui/Command as CommandModule
+export CommandModule
+import javax/microedition/lcdui/CommandListener as CommandListenerModule
+export CommandListenerModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    AboutCommandProcessor* = ref object of JObject
 
+proc newAboutCommandProcessor*(): AboutCommandProcessor
+proc getInstance*(t: typedesc[AboutCommandProcessor]): AboutCommandProcessor {.discardable.}
+method process*(this: AboutCommandProcessor, midletCommandListener: CommandListener, command: Command, canvas: Canvas) {.base.}
 
-class AboutCommandProcessor:
-    instance: AboutCommandProcessor = None
-    
+var AboutCommandProcessor_instanceValue: AboutCommandProcessor
+var AboutCommandProcessor_instanceSet = false
+proc instance*(t: typedesc[AboutCommandProcessor]): AboutCommandProcessor =
+    if not AboutCommandProcessor_instanceSet:
+        AboutCommandProcessor_instanceSet = true
+        AboutCommandProcessor_instanceValue = newAboutCommandProcessor()
+    AboutCommandProcessor_instanceValue
 
-    @staticmethod
-    def getInstance() -> AboutCommandProcessor:
+proc initAboutCommandProcessor*(this: AboutCommandProcessor) =
+    discard
+
+proc newAboutCommandProcessor*(): AboutCommandProcessor =
+    result = AboutCommandProcessor()
+    initAboutCommandProcessor(result)
+
+proc getInstance*(t: typedesc[AboutCommandProcessor]): AboutCommandProcessor {.discardable.} =
         return AboutCommandProcessor.instance
-    
 
-    def process(self, midletCommandListener: CommandListener, command: Command, canvas: Canvas) -> None:
-        from javax.microedition.lcdui.Canvas import Canvas
-        from javax.microedition.lcdui.Command import Command
-        from javax.microedition.lcdui.CommandListener import CommandListener
+method process*(this: AboutCommandProcessor, midletCommandListener: CommandListener, command: Command, canvas: Canvas) {.base.} =
         midletCommandListener.commandAction(command, canvas)
-# from javax.microedition.lcdui.Canvas import Canvas
-# from javax.microedition.lcdui.Command import Command
-# from javax.microedition.lcdui.CommandListener import CommandListener
-
-
-def _AboutCommandProcessor_instance() -> object:
-    return AboutCommandProcessor()
-
-lazy_static(AboutCommandProcessor, "instance", _AboutCommandProcessor_instance)
 

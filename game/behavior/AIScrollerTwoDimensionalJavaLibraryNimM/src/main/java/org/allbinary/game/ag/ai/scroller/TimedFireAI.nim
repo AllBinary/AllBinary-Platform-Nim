@@ -1,62 +1,81 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.ag.ai.scroller
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import java/lang/Integer as IntegerModule
+export IntegerModule
+import org/allbinary/game/ai/BasicAI as BasicAIModule
+export BasicAIModule
+import org/allbinary/game/input/GameInput as GameInputModule
+export GameInputModule
+import org/allbinary/layer/AllBinaryLayer as AllBinaryLayerModule
+export AllBinaryLayerModule
+import org/allbinary/layer/AllBinaryLayerManager as AllBinaryLayerManagerModule
+export AllBinaryLayerManagerModule
+import org/allbinary/time/TimeDelayHelper as TimeDelayHelperModule
+export TimeDelayHelperModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
-from org.allbinary.game.ai.BasicAI import BasicAI
+type
+    TimedFireAI* = ref object of BasicAI
+        maxFireDelayTimeHelper*: TimeDelayHelper
+        delay*: int32
 
+proc newTimedFireAI*(delay: int32, ownerLayerInterface: AllBinaryLayer, gameInput: GameInput): TimedFireAI
+proc initTimedFireAI*(this: TimedFireAI, delay: int32, ownerLayerInterface: AllBinaryLayer, gameInput: GameInput)
+method processAI*(this: TimedFireAI, allBinaryLayerManager: AllBinaryLayerManager)
+import javax/microedition/lcdui/Canvas as CanvasModule
+export CanvasModule
+import org/allbinary/logic/math/SmallIntegerSingletonFactory as SmallIntegerSingletonFactoryModule
+export SmallIntegerSingletonFactoryModule
+import org/allbinary/time/GameTickTimeDelayHelperFactory as GameTickTimeDelayHelperFactoryModule
+export GameTickTimeDelayHelperFactoryModule
+import org/allbinary/game/ag/ai/scroller/TimeFiredInterface as TimeFiredInterfaceModule
+export TimeFiredInterfaceModule
 
-class TimedFireAI(BasicAI):
-    TIME: int = None
+var TimedFireAI_TIMEValue: int32
+var TimedFireAI_TIMESet = false
+proc TIME*(t: typedesc[TimedFireAI]): int32 =
+    if not TimedFireAI_TIMESet:
+        TimedFireAI_TIMESet = true
+        TimedFireAI_TIMEValue = SmallIntegerSingletonFactory.getInstance().getAt(1)
+    TimedFireAI_TIMEValue
 
-    def _init_fields(self) -> None:
-        from org.allbinary.time.TimeDelayHelper import TimeDelayHelper
-        self.maxFireDelayTimeHelper: TimeDelayHelper = TimeDelayHelper(0)
-        self.delay: int = None
+# Java field initializers run after the base initializer
+proc initFieldsTimedFireAI(this: TimedFireAI) =
+    this.maxFireDelayTimeHelper = newTimeDelayHelper(0)
     
+    discard
 
-    def __init__(self, delay: int, ownerLayerInterface: AllBinaryLayer, gameInput: GameInput) -> None:
-        from org.allbinary.game.input.GameInput import GameInput
-        from org.allbinary.layer.AllBinaryLayer import AllBinaryLayer
-        super().__init__(ownerLayerInterface, gameInput)
-        self._init_fields()
-        self.delay = delay
-    
+proc initTimedFireAI*(this: TimedFireAI, delay: int32, ownerLayerInterface: AllBinaryLayer, gameInput: GameInput) =
+        initBasicAI(this, ownerLayerInterface, gameInput)
+        this.initFieldsTimedFireAI()
+        this.delay = delay
 
-    # throws Exception
-    def processAI(self, allBinaryLayerManager: AllBinaryLayerManager) -> None:
-        from javax.microedition.lcdui.Canvas import Canvas
-        from org.allbinary.layer.AllBinaryLayerManager import AllBinaryLayerManager
-        from org.allbinary.time.GameTickTimeDelayHelperFactory import GameTickTimeDelayHelperFactory
-        timeFiredInterface: TimeFiredInterface = self.getOwnerLayerInterface()
-        if self.maxFireDelayTimeHelper.isTime(GameTickTimeDelayHelperFactory.getInstance().startTime) and timeFiredInterface.getLastFireTime() + self.maxFireDelayTimeHelper.delay < self.maxFireDelayTimeHelper.getStartTime():
-            super().processKeyAI(Canvas.KEY_NUM1)
-            self.maxFireDelayTimeHelper.delay = self.delay
-# from javax.microedition.lcdui.Canvas import Canvas
-# from org.allbinary.game.input.GameInput import GameInput
-# from org.allbinary.layer.AllBinaryLayer import AllBinaryLayer
-# from org.allbinary.layer.AllBinaryLayerManager import AllBinaryLayerManager
-# from org.allbinary.logic.math.SmallIntegerSingletonFactory import SmallIntegerSingletonFactory
-# from org.allbinary.time.GameTickTimeDelayHelperFactory import GameTickTimeDelayHelperFactory
-# from org.allbinary.time.TimeDelayHelper import TimeDelayHelper
+proc newTimedFireAI*(delay: int32, ownerLayerInterface: AllBinaryLayer, gameInput: GameInput): TimedFireAI =
+    result = TimedFireAI()
+    initTimedFireAI(result, delay, ownerLayerInterface, gameInput)
 
+method processAI*(this: TimedFireAI, allBinaryLayerManager: AllBinaryLayerManager) =
+        var timeFiredInterface: TimeFiredInterface = TimeFiredInterface(JObject(this.getOwnerLayerInterface()))
+        if this.maxFireDelayTimeHelper.isTime(GameTickTimeDelayHelperFactory.getInstance().startTime) and timeFiredInterface.getLastFireTime() +% this.maxFireDelayTimeHelper.delay < this.maxFireDelayTimeHelper.getStartTime():
+            procCall BasicAI(this).processKeyAI(Canvas.KEY_NUM1)
+            this.maxFireDelayTimeHelper.delay = this.delay
 
-def _TimedFireAI_TIME() -> object:
-    from org.allbinary.logic.math.SmallIntegerSingletonFactory import SmallIntegerSingletonFactory
-    return SmallIntegerSingletonFactory.getInstance().getAt(1)
-
-lazy_static(TimedFireAI, "TIME", _TimedFireAI_TIME)
+when declared(newTimedFireAIHook3):
+    newTimedFireAIHook3 = proc (delay: int32, ownerLayerInterface: AllBinaryLayer, gameInput: GameInput): BasicAI = newTimedFireAI(delay, ownerLayerInterface, gameInput)
 

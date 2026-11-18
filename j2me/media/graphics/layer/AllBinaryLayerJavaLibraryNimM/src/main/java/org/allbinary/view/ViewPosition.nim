@@ -1,67 +1,80 @@
-# 
-# AllBinary Open License Version 1 
-# Copyright (c) 2025 AllBinary 
-#  
-# By agreeing to this license you and any business entity you represent are 
-# legally bound to the AllBinary Open License Version 1 legal agreement. 
-#  
-# You may obtain the AllBinary Open License Version 1 legal agreement from 
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
-#  
-# Created By: Travis Berthelot 
-#   
+#[
+  
+  AllBinary Open License Version 1 
+  Copyright (c) 2025 AllBinary 
+   
+  By agreeing to this license you and any business entity you represent are 
+  legally bound to the AllBinary Open License Version 1 legal agreement. 
+   
+  You may obtain the AllBinary Open License Version 1 legal agreement from 
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
+   
+  Created By: Travis Berthelot 
+    
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.view
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/layer/AllBinaryLayer as AllBinaryLayerModule
+export AllBinaryLayerModule
+import org/allbinary/view/ViewPositionBase as ViewPositionBaseModule
+export ViewPositionBaseModule
 
-from org.allbinary.view.ViewPositionBase import ViewPositionBase
+type
+    ViewPosition* = ref object of ViewPositionBase
+        allbinaryLayer*: AllBinaryLayer
+
+proc newViewPosition*(x: int32, y: int32, z: int32): ViewPosition
+proc initViewPosition*(this: ViewPosition, x: int32, y: int32, z: int32)
+proc getInstanceD*(t: typedesc[ViewPosition]): ViewPosition {.discardable.}
+method getX*(this: ViewPosition): int32 {.discardable.}
+method getY*(this: ViewPosition): int32 {.discardable.}
+method getZ*(this: ViewPosition): int32 {.discardable.}
+method getX2*(this: ViewPosition): int32 {.discardable.}
+method getY2*(this: ViewPosition): int32 {.discardable.}
+method getZ2*(this: ViewPosition): int32 {.discardable.}
+method setAllbinaryLayer*(this: ViewPosition, allbinaryLayer: JObject)
 
 
-class ViewPosition(ViewPositionBase):
+# Java field initializers run after the base initializer
+proc initFieldsViewPosition(this: ViewPosition) =
+    this.allbinaryLayer = AllBinaryLayer.NULL_ALLBINARY_LAYER
+    discard
 
-    def _init_fields(self) -> None:
-        from org.allbinary.layer.AllBinaryLayer import AllBinaryLayer
-        self.allbinaryLayer: AllBinaryLayer = AllBinaryLayer.NULL_ALLBINARY_LAYER
-    
+proc getInstanceD*(t: typedesc[ViewPosition]): ViewPosition {.discardable.} =
+        return newViewPosition(0, 0, 0)
 
-    @staticmethod
-    def getInstanceD() -> ViewPosition:
-        return ViewPosition(0, 0, 0)
-    
+proc initViewPosition*(this: ViewPosition, x: int32, y: int32, z: int32) =
+        initViewPositionBase(this, x, y, z)
+        this.initFieldsViewPosition()
 
-    def __init__(self, x: int, y: int, z: int) -> None:
-        super().__init__(x, y, z)
-        self._init_fields()
-    
+proc newViewPosition*(x: int32, y: int32, z: int32): ViewPosition =
+    result = ViewPosition()
+    initViewPosition(result, x, y, z)
 
-    def getX(self) -> int:
-        return self.allbinaryLayer.getXP()
-    
+method getX*(this: ViewPosition): int32 {.discardable.} =
+        return this.allbinaryLayer.getXP()
 
-    def getY(self) -> int:
-        return self.allbinaryLayer.getYP()
-    
+method getY*(this: ViewPosition): int32 {.discardable.} =
+        return this.allbinaryLayer.getYP()
 
-    def getZ(self) -> int:
-        return self.allbinaryLayer.getZP()
-    
+method getZ*(this: ViewPosition): int32 {.discardable.} =
+        return this.allbinaryLayer.getZP()
 
-    def getX2(self) -> int:
-        return self.getX() + self.allbinaryLayer.getWidth()
-    
+method getX2*(this: ViewPosition): int32 {.discardable.} =
+        return this.getX() +% this.allbinaryLayer.getWidth()
 
-    def getY2(self) -> int:
-        return self.getY() + self.allbinaryLayer.getHeight()
-    
+method getY2*(this: ViewPosition): int32 {.discardable.} =
+        return this.getY() +% this.allbinaryLayer.getHeight()
 
-    def getZ2(self) -> int:
-        return int((self.getZ() + self.allbinaryLayer.getDepth()))
-    
+method getZ2*(this: ViewPosition): int32 {.discardable.} =
+        return jToInt32((int64(this.getZ()) +% this.allbinaryLayer.getDepth()))
 
-    def setAllbinaryLayer(self, allbinaryLayer: object) -> None:
-        from org.allbinary.layer.AllBinaryLayer import AllBinaryLayer
-        self.allbinaryLayer = allbinaryLayer
-# from org.allbinary.layer.AllBinaryLayer import AllBinaryLayer
+method setAllbinaryLayer*(this: ViewPosition, allbinaryLayer: JObject) =
+        this.allbinaryLayer = AllBinaryLayer(JObject(allbinaryLayer))
 
+when declared(newViewPositionHook3):
+    newViewPositionHook3 = proc (x: int32, y: int32, z: int32): ViewPositionBase = newViewPosition(x, y, z)
 

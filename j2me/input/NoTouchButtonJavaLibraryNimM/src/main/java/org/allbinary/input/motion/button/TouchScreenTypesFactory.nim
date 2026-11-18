@@ -1,44 +1,58 @@
-# 
-# AllBinary Open License Version 1 
-# Copyright (c) 2025 AllBinary 
-#  
-# By agreeing to this license you and any business entity you represent are 
-# legally bound to the AllBinary Open License Version 1 legal agreement. 
-#  
-# You may obtain the AllBinary Open License Version 1 legal agreement from 
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
-#  
-# Created By: Travis Berthelot 
-#   
+#[
+  
+  AllBinary Open License Version 1 
+  Copyright (c) 2025 AllBinary 
+   
+  By agreeing to this license you and any business entity you represent are 
+  legally bound to the AllBinary Open License Version 1 legal agreement. 
+   
+  You may obtain the AllBinary Open License Version 1 legal agreement from 
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
+   
+  Created By: Travis Berthelot 
+    
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.input.motion.button
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/input/motion/button/TouchScreenType as TouchScreenTypeModule
+export TouchScreenTypeModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    TouchScreenTypesFactory* = ref object of JObject
+        FINGER*: TouchScreenType
+        NOTOUCH*: TouchScreenType
+        STYLUS*: TouchScreenType
+        UNDEFINED*: TouchScreenType
 
+proc newTouchScreenTypesFactory*(): TouchScreenTypesFactory
+proc getInstance*(t: typedesc[TouchScreenTypesFactory]): TouchScreenTypesFactory {.discardable.}
 
-class TouchScreenTypesFactory:
-    instance: TouchScreenTypesFactory = None
+var TouchScreenTypesFactory_instanceValue: TouchScreenTypesFactory
+var TouchScreenTypesFactory_instanceSet = false
+proc instance*(t: typedesc[TouchScreenTypesFactory]): TouchScreenTypesFactory =
+    if not TouchScreenTypesFactory_instanceSet:
+        TouchScreenTypesFactory_instanceSet = true
+        TouchScreenTypesFactory_instanceValue = newTouchScreenTypesFactory()
+    TouchScreenTypesFactory_instanceValue
 
-    def _init_fields(self) -> None:
-        self.FINGER: TouchScreenType = TouchScreenType("Finger")
-        self.NOTOUCH: TouchScreenType = TouchScreenType("No Touch")
-        self.STYLUS: TouchScreenType = TouchScreenType("Stylus")
-        self.UNDEFINED: TouchScreenType = TouchScreenType("Undefined")
+# Java field initializers run after the base initializer
+proc initFieldsTouchScreenTypesFactory(this: TouchScreenTypesFactory) =
+    this.FINGER = newTouchScreenType("Finger")
+    this.NOTOUCH = newTouchScreenType("No Touch")
+    this.STYLUS = newTouchScreenType("Stylus")
+    this.UNDEFINED = newTouchScreenType("Undefined")
+    discard
 
-    def __init__(self) -> None:
-        self._init_fields()
-    
+proc initTouchScreenTypesFactory*(this: TouchScreenTypesFactory) =
+    this.initFieldsTouchScreenTypesFactory()
 
-    @staticmethod
-    def getInstance() -> TouchScreenTypesFactory:
+proc newTouchScreenTypesFactory*(): TouchScreenTypesFactory =
+    result = TouchScreenTypesFactory()
+    initTouchScreenTypesFactory(result)
+
+proc getInstance*(t: typedesc[TouchScreenTypesFactory]): TouchScreenTypesFactory {.discardable.} =
         return TouchScreenTypesFactory.instance
-from org.allbinary.input.motion.button.TouchScreenType import TouchScreenType
-
-
-def _TouchScreenTypesFactory_instance() -> object:
-    return TouchScreenTypesFactory()
-
-lazy_static(TouchScreenTypesFactory, "instance", _TouchScreenTypesFactory_instance)
 

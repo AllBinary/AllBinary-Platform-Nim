@@ -1,48 +1,43 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.graphics.displayable
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import javax/microedition/lcdui/Command as CommandModule
+export CommandModule
+import javax/microedition/lcdui/CommandListener as CommandListenerModule
+export CommandListenerModule
+
+type
+    DisplayableInterface* = ref object of JObject
 
 
+method addCommand*(this: DisplayableInterface, cmd: Command) {.base.} =
+        raise newJException("AbstractMethodError", "addCommand")
 
-# Java interface
-class DisplayableInterface:
-    
+method getHeight*(this: DisplayableInterface): int32 {.base, discardable.} =
+        raise newJException("AbstractMethodError", "getHeight")
 
-    def addCommand(self, cmd: Command) -> None:
-        from javax.microedition.lcdui.Command import Command
-        raise NotImplementedError()
-    
+method getWidth*(this: DisplayableInterface): int32 {.base, discardable.} =
+        raise newJException("AbstractMethodError", "getWidth")
 
-    def getHeight(self) -> int:
-        raise NotImplementedError()
-    
+method removeCommand*(this: DisplayableInterface, cmd: Command) {.base.} =
+        raise newJException("AbstractMethodError", "removeCommand")
 
-    def getWidth(self) -> int:
-        raise NotImplementedError()
-    
-
-    def removeCommand(self, cmd: Command) -> None:
-        from javax.microedition.lcdui.Command import Command
-        raise NotImplementedError()
-    
-
-    def setCommandListener(self, l: CommandListener) -> None:
-        from javax.microedition.lcdui.CommandListener import CommandListener
-        raise NotImplementedError()
-# from javax.microedition.lcdui.Command import Command
-# from javax.microedition.lcdui.CommandListener import CommandListener
-
+method setCommandListener*(this: DisplayableInterface, l: CommandListener) {.base.} =
+        raise newJException("AbstractMethodError", "setCommandListener")
 

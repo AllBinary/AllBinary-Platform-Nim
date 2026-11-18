@@ -1,68 +1,85 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.score.displayable
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/thread/ARunnable as ARunnableModule
+export ARunnableModule
+import org/allbinary/game/score/displayable/HighScoresCanvas as HighScoresCanvasModule
+export HighScoresCanvasModule
 
-import time
-from org.allbinary.thread.ARunnable import ARunnable
+type
+    HighScoreRunnable* = ref object of ARunnable
+        highScoresCanvas*: HighScoresCanvas
+
+proc newHighScoreRunnable*(highScoresCanvas: HighScoresCanvas): HighScoreRunnable
+proc initHighScoreRunnable*(this: HighScoreRunnable, highScoresCanvas: HighScoresCanvas)
+method run*(this: HighScoreRunnable)
+import org/allbinary/J2MEUtil as J2MEUtilModule
+export J2MEUtilModule
+import org/allbinary/logic/ABSystemWrapper as ABSystemWrapperModule
+export ABSystemWrapperModule
+import org/allbinary/logic/communication/log/LogUtil as LogUtilModule
+export LogUtilModule
+import org/allbinary/logic/string/StringMaker as StringMakerModule
+export StringMakerModule
+import org/allbinary/string/CommonStrings as CommonStringsModule
+export CommonStringsModule
 
 
-class HighScoreRunnable(ARunnable):
-
-    def _init_fields(self) -> None:
-        self.highScoresCanvas: HighScoresCanvas = None
+# Java field initializers run after the base initializer
+proc initFieldsHighScoreRunnable(this: HighScoreRunnable) =
     
+    discard
 
-    def __init__(self, highScoresCanvas: HighScoresCanvas) -> None:
-        super().__init__()
-        self._init_fields()
-        self.highScoresCanvas = highScoresCanvas
-    
+proc initHighScoreRunnable*(this: HighScoreRunnable, highScoresCanvas: HighScoresCanvas) =
+        initARunnable(this)
+        this.initFieldsHighScoreRunnable()
+        this.highScoresCanvas = highScoresCanvas
 
-    def run(self) -> None:
-        from org.allbinary.J2MEUtil import J2MEUtil
-        from org.allbinary.logic.ABSystemWrapper import ABSystemWrapper
-        from org.allbinary.logic.communication.log.LogUtil import LogUtil
-        from org.allbinary.logic.string.StringMaker import StringMaker
-        from org.allbinary.string.CommonStrings import CommonStrings
-        commonStrings: CommonStrings = CommonStrings.getInstance()
-        logUtil: LogUtil = LogUtil.getInstance()
-        highScoresCanvas: HighScoresCanvas = self.highScoresCanvas
+proc newHighScoreRunnable*(highScoresCanvas: HighScoresCanvas): HighScoreRunnable =
+    result = HighScoreRunnable()
+    initHighScoreRunnable(result, highScoresCanvas)
+
+method run*(this: HighScoreRunnable) =
+        let commonStrings: CommonStrings = CommonStrings.getInstance()
+        let logUtil: LogUtil = LogUtil.getInstance()
+        let highScoresCanvas: HighScoresCanvas = this.highScoresCanvas
         try:
-            isHTML: bool = J2MEUtil.isHTML()
-            if not isHTML:
-                while not highScoresCanvas.hasPainted:
-                    pass
-                highScoresCanvas.hasPainted = False
-            stringMaker: StringMaker = StringMaker()
-            systemWrapper: ABSystemWrapper = ABSystemWrapper.getInstance()
-            currentTimeMillis: int = systemWrapper.currentTimeMillis()
-            logUtil.putF(str(stringMaker.append("HighScoresCanvas - Request repaint to be sure: ").appendlong(currentTimeMillis)), self, commonStrings.RUN)
+            let isHTML: bool = J2MEUtil.isHTML()
+            if (not isHTML):
+                while (not highScoresCanvas.hasPainted):
+                    discard
+                highScoresCanvas.hasPainted = false
+            let stringMaker: StringMaker = newStringMaker()
+            let systemWrapper: ABSystemWrapper = ABSystemWrapper.getInstance()
+            let currentTimeMillis: int64 = systemWrapper.currentTimeMillis()
+            logUtil.putF(stringMaker.append("HighScoresCanvas - Request repaint to be sure: ").appendlong(currentTimeMillis).toString(), this, commonStrings.RUN)
             highScoresCanvas.repaintBehavior.onChangeRepaint(highScoresCanvas)
-            if not isHTML:
-                while not highScoresCanvas.hasPainted:
-                    pass
+            if (not isHTML):
+                while (not highScoresCanvas.hasPainted):
+                    discard
             stringMaker.delete(0, stringMaker.length())
-            logUtil.putF(str(stringMaker.append("HighScoresCanvas - Now that the canvas has completed repaint go ahead and fetch the scores: ").appendlong(currentTimeMillis)), self, commonStrings.RUN)
+            logUtil.putF(stringMaker.append("HighScoresCanvas - Now that the canvas has completed repaint go ahead and fetch the scores: ").appendlong(currentTimeMillis).toString(), this, commonStrings.RUN)
             highScoresCanvas.executeUpdate()
-        except Exception as e:
-            logUtil.put(commonStrings.EXCEPTION, self, commonStrings.RUN, e)
-# from org.allbinary.J2MEUtil import J2MEUtil
-# from org.allbinary.logic.ABSystemWrapper import ABSystemWrapper
-# from org.allbinary.logic.communication.log.LogUtil import LogUtil
-# from org.allbinary.logic.string.StringMaker import StringMaker
-# from org.allbinary.string.CommonStrings import CommonStrings
+        except CatchableError as jcaught:
+            let e = jToException(jcaught)
+            logUtil.put(commonStrings.EXCEPTION, this, commonStrings.RUN, e)
 
+when declared(newHighScoreRunnableHook1):
+    newHighScoreRunnableHook1 = proc (highScoresCanvas: HighScoresCanvas): ARunnable = newHighScoreRunnable(highScoresCanvas)
 

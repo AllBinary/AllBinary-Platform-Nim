@@ -1,42 +1,55 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.ag.weapon.media.audio
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/media/audio/CompositeSound as CompositeSoundModule
+export CompositeSoundModule
+import org/allbinary/media/audio/Sound as SoundModule
+export SoundModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
-from org.allbinary.media.audio.CompositeSound import CompositeSound
+type
+    ExplosionBasicSound* = ref object of CompositeSound
 
+proc newExplosionBasicSound*(): ExplosionBasicSound
+proc initExplosionBasicSound*(this: ExplosionBasicSound)
+proc getInstance*(t: typedesc[ExplosionBasicSound]): Sound {.discardable.}
 
-class ExplosionBasicSound(CompositeSound):
-    soundInterface: Sound = None
-    
+var ExplosionBasicSound_soundInterfaceValue: Sound
+var ExplosionBasicSound_soundInterfaceSet = false
+proc soundInterface*(t: typedesc[ExplosionBasicSound]): Sound =
+    if not ExplosionBasicSound_soundInterfaceSet:
+        ExplosionBasicSound_soundInterfaceSet = true
+        ExplosionBasicSound_soundInterfaceValue = newExplosionBasicSound()
+    ExplosionBasicSound_soundInterfaceValue
+proc `soundInterface=`*(t: typedesc[ExplosionBasicSound], value: Sound) =
+    ExplosionBasicSound_soundInterfaceSet = true
+    ExplosionBasicSound_soundInterfaceValue = value
 
-    def __init__(self) -> None:
-        super().__init__("resource:/wav/explosion.wav")
-    
+proc initExplosionBasicSound*(this: ExplosionBasicSound) =
+        initCompositeSound(this, "resource:/wav/explosion.wav")
 
-    @staticmethod
-    def getInstance() -> Sound:
-        from org.allbinary.media.audio.Sound import Sound
+proc newExplosionBasicSound*(): ExplosionBasicSound =
+    result = ExplosionBasicSound()
+    initExplosionBasicSound(result)
+
+proc getInstance*(t: typedesc[ExplosionBasicSound]): Sound {.discardable.} =
         return ExplosionBasicSound.soundInterface
-# from org.allbinary.media.audio.Sound import Sound
 
-
-def _ExplosionBasicSound_soundInterface() -> object:
-    from org.allbinary.media.audio.Sound import Sound
-    return ExplosionBasicSound()
-
-lazy_static(ExplosionBasicSound, "soundInterface", _ExplosionBasicSound_soundInterface)
+when declared(newExplosionBasicSoundHook0):
+    newExplosionBasicSoundHook0 = proc (): CompositeSound = newExplosionBasicSound()
 

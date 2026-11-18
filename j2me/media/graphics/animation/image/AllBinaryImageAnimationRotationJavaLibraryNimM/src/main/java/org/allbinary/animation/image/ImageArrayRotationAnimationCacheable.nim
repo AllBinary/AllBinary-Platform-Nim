@@ -1,45 +1,58 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.animation.image
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/animation/AnimationBehavior as AnimationBehaviorModule
+export AnimationBehaviorModule
+import org/allbinary/logic/util/cache/CacheableInterface as CacheableInterfaceModule
+export CacheableInterfaceModule
+import org/allbinary/animation/image/AdjustedImageArrayRotationAnimation as AdjustedImageArrayRotationAnimationModule
+export AdjustedImageArrayRotationAnimationModule
 
-from org.allbinary.logic.util.cache.CacheableInterface import CacheableInterface
-from org.allbinary.animation.image.AdjustedImageArrayRotationAnimation import AdjustedImageArrayRotationAnimation
+type
+    ImageArrayRotationAnimationCacheable* = ref object of AdjustedImageArrayRotationAnimation
+
+converter jAsCacheableInterface*(value: ImageArrayRotationAnimationCacheable): CacheableInterface = cast[CacheableInterface](value)
+proc newImageArrayRotationAnimationCacheable*(anyType: JObject, animationBehavior: AnimationBehavior): ImageArrayRotationAnimationCacheable
+proc initImageArrayRotationAnimationCacheable*(this: ImageArrayRotationAnimationCacheable, anyType: JObject, animationBehavior: AnimationBehavior)
+method getKey*(this: ImageArrayRotationAnimationCacheable): JObject {.discardable.}
+method toString*(this: ImageArrayRotationAnimationCacheable): string {.discardable.}
+import org/allbinary/logic/NullUtil as NullUtilModule
+export NullUtilModule
+import org/allbinary/logic/string/StringUtil as StringUtilModule
+export StringUtilModule
+import org/allbinary/animation/image/ImageArrayRotationAnimationInfo as ImageArrayRotationAnimationInfoModule
+export ImageArrayRotationAnimationInfoModule
 
 
-class ImageArrayRotationAnimationCacheable(AdjustedImageArrayRotationAnimation, CacheableInterface):
-    
+proc initImageArrayRotationAnimationCacheable*(this: ImageArrayRotationAnimationCacheable, anyType: JObject, animationBehavior: AnimationBehavior) =
+        initAdjustedImageArrayRotationAnimation(this, (ImageArrayRotationAnimationInfo(JObject(anyType))).getImageArray(), (ImageArrayRotationAnimationInfo(JObject(anyType))).getAngleInfoP(), (ImageArrayRotationAnimationInfo(JObject(anyType))).getTotalAngle(), (ImageArrayRotationAnimationInfo(JObject(anyType))).getDx(), (ImageArrayRotationAnimationInfo(JObject(anyType))).getDy(), animationBehavior)
 
-    def __init__(self, anyType: object, animationBehavior: AnimationBehavior) -> None:
-        from org.allbinary.animation.AnimationBehavior import AnimationBehavior
-        super().__init__((anyType).getImageArray(), (anyType).getAngleInfoP(), (anyType).getTotalAngle(), (anyType).getDx(), (anyType).getDy(), animationBehavior)
-    
+proc newImageArrayRotationAnimationCacheable*(anyType: JObject, animationBehavior: AnimationBehavior): ImageArrayRotationAnimationCacheable =
+    result = ImageArrayRotationAnimationCacheable()
+    initImageArrayRotationAnimationCacheable(result, anyType, animationBehavior)
 
-    def getKey(self) -> object:
-        from org.allbinary.logic.NullUtil import NullUtil
+method getKey*(this: ImageArrayRotationAnimationCacheable): JObject {.discardable.} =
         return NullUtil.getInstance().NULL_OBJECT
-    
 
-    def toString(self) -> str:
-        from org.allbinary.logic.string.StringUtil import StringUtil
+method toString*(this: ImageArrayRotationAnimationCacheable): string {.discardable.} =
         return StringUtil.getInstance().EMPTY_STRING
 
-    def __str__(self) -> str:
-        return self.toString()
-# from org.allbinary.animation.AnimationBehavior import AnimationBehavior
-# from org.allbinary.logic.NullUtil import NullUtil
-# from org.allbinary.logic.string.StringUtil import StringUtil
-
+when declared(newImageArrayRotationAnimationCacheableHook2):
+    newImageArrayRotationAnimationCacheableHook2 = proc (anyType: JObject, animationBehavior: AnimationBehavior): AdjustedImageArrayRotationAnimation = newImageArrayRotationAnimationCacheable(anyType, animationBehavior)
 

@@ -1,45 +1,54 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.input
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/game/input/Input as InputModule
+export InputModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
-from org.allbinary.game.input.Input import Input
+type
+    GameKey* = ref object of Input
 
+proc newGameKey*(key: int32, name: string): GameKey
+proc initGameKey*(this: GameKey, key: int32, name: string)
+method toString*(this: GameKey): string {.discardable.}
+import org/allbinary/logic/string/StringMaker as StringMakerModule
+export StringMakerModule
+import org/allbinary/logic/string/StringUtil as StringUtilModule
+export StringUtilModule
 
-class GameKey(Input):
-    NULL_GAME_KEY: GameKey = None
-    
+var GameKey_NULL_GAME_KEYValue: GameKey
+var GameKey_NULL_GAME_KEYSet = false
+proc NULL_GAME_KEY*(t: typedesc[GameKey]): GameKey =
+    if not GameKey_NULL_GAME_KEYSet:
+        GameKey_NULL_GAME_KEYSet = true
+        GameKey_NULL_GAME_KEYValue = newGameKey(-1, StringUtil.getInstance().NULL_STRING)
+    GameKey_NULL_GAME_KEYValue
 
-    def __init__(self, key: int, name: str) -> None:
-        super().__init__(key, name)
-    
+proc initGameKey*(this: GameKey, key: int32, name: string) =
+        initInput(this, key, name)
 
-    def toString(self) -> str:
-        from org.allbinary.logic.string.StringMaker import StringMaker
-        return str(StringMaker().append("GameKey ").append(str(super())))
+proc newGameKey*(key: int32, name: string): GameKey =
+    result = GameKey()
+    initGameKey(result, key, name)
 
-    def __str__(self) -> str:
-        return self.toString()
-# from org.allbinary.logic.string.StringMaker import StringMaker
-# from org.allbinary.logic.string.StringUtil import StringUtil
+method toString*(this: GameKey): string {.discardable.} =
+        return newStringMaker().append("GameKey ").append(procCall Input(this).toString()).toString()
 
-
-def _GameKey_NULL_GAME_KEY() -> object:
-    from org.allbinary.logic.string.StringUtil import StringUtil
-    return GameKey(-1, StringUtil.getInstance().NULL_STRING)
-
-lazy_static(GameKey, "NULL_GAME_KEY", _GameKey_NULL_GAME_KEY)
+when declared(newGameKeyHook2):
+    newGameKeyHook2 = proc (key: int32, name: string): Input = newGameKey(key, name)
 

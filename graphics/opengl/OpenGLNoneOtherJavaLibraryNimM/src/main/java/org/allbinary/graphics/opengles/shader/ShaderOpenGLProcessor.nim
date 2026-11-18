@@ -1,41 +1,48 @@
 # Generated Code Do Not Modify
 # package org.allbinary.graphics.opengles.shader
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import javax/microedition/khronos/opengles/GL10 as GL10Module
+export GL10Module
+import org/allbinary/graphics/opengles/OpenGLProcessor as OpenGLProcessorModule
+export OpenGLProcessorModule
 
-from org.allbinary.graphics.opengles.OpenGLProcessor import OpenGLProcessor
+type
+    ShaderOpenGLProcessor* = ref object of OpenGLProcessor
+
+proc newShaderOpenGLProcessor*(): ShaderOpenGLProcessor
+proc initShaderOpenGLProcessor*(this: ShaderOpenGLProcessor)
+method process0*(this: ShaderOpenGLProcessor, gl: GL10) {.base.}
+method process1*(this: ShaderOpenGLProcessor, gl: GL10) {.base.}
+method process*(this: ShaderOpenGLProcessor, gl: GL10)
+method process2*(this: ShaderOpenGLProcessor, gl: GL10) {.base.}
+method process3*(this: ShaderOpenGLProcessor, gl: GL10) {.base.}
 
 
-class ShaderOpenGLProcessor(OpenGLProcessor):
-    
+proc initShaderOpenGLProcessor*(this: ShaderOpenGLProcessor) =
+        initOpenGLProcessor(this)
+        discard
 
-    def __init__(self) -> None:
-        super().__init__()
-    
+proc newShaderOpenGLProcessor*(): ShaderOpenGLProcessor =
+    result = ShaderOpenGLProcessor()
+    initShaderOpenGLProcessor(result)
 
-    def process0(self, gl: GL10) -> None:
-        from javax.microedition.khronos.opengles.GL10 import GL10
-        pass
-    
+method process0*(this: ShaderOpenGLProcessor, gl: GL10) {.base.} =
+        discard
 
-    def process1(self, gl: GL10) -> None:
-        from javax.microedition.khronos.opengles.GL10 import GL10
-        pass
-    
+method process1*(this: ShaderOpenGLProcessor, gl: GL10) {.base.} =
+        discard
 
-    def process(self, gl: GL10) -> None:
-        from javax.microedition.khronos.opengles.GL10 import GL10
-        pass
-    
+method process*(this: ShaderOpenGLProcessor, gl: GL10) =
+        discard
 
-    def process2(self, gl: GL10) -> None:
-        from javax.microedition.khronos.opengles.GL10 import GL10
-        pass
-    
+method process2*(this: ShaderOpenGLProcessor, gl: GL10) {.base.} =
+        discard
 
-    def process3(self, gl: GL10) -> None:
-        from javax.microedition.khronos.opengles.GL10 import GL10
-        pass
-# from javax.microedition.khronos.opengles.GL10 import GL10
+method process3*(this: ShaderOpenGLProcessor, gl: GL10) {.base.} =
+        discard
 
+when declared(newShaderOpenGLProcessorHook0):
+    newShaderOpenGLProcessorHook0 = proc (): OpenGLProcessor = newShaderOpenGLProcessor()
 

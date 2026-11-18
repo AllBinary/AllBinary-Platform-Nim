@@ -1,134 +1,149 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.input.motion.button
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/input/motion/button/CurrentlyPressedTouchButtonSingleton as CurrentlyPressedTouchButtonSingletonModule
+export CurrentlyPressedTouchButtonSingletonModule
+import org/allbinary/input/motion/button/TouchButtonInput as TouchButtonInputModule
+export TouchButtonInputModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
-from org.allbinary.input.motion.button.CurrentlyPressedTouchButtonSingleton import CurrentlyPressedTouchButtonSingleton
+type
+    CurrentlyPressedTouchButtonSingletonDebug* = ref object of CurrentlyPressedTouchButtonSingleton
+        string*: string
+        listString*: string
+        appendText*: string
+        PRESSED_AND_FIRED*: string
+        PRESSED_AND_NOT_FIRED*: string
+        ASSOCIATED_RELEASED_AND_FIRED*: string
+        RELEASED_AND_FIRED*: string
+        RELEASED_AND_FIRED_2*: string
+        RELEASED_AND_NOT_FIRED*: string
 
+proc newCurrentlyPressedTouchButtonSingletonDebug*(): CurrentlyPressedTouchButtonSingletonDebug
+proc getInstance*(t: typedesc[CurrentlyPressedTouchButtonSingletonDebug]): CurrentlyPressedTouchButtonSingleton {.discardable.}
+method appendTouchButtonInput*(this: CurrentlyPressedTouchButtonSingletonDebug, append: string, touchButtonInput: TouchButtonInput) {.base.}
+method append*(this: CurrentlyPressedTouchButtonSingletonDebug, append: string) {.base.}
+method clearLog*(this: CurrentlyPressedTouchButtonSingletonDebug, x: int32, y: int32) {.base.}
+method releaseAndNotFired*(this: CurrentlyPressedTouchButtonSingletonDebug) {.base.}
+method releaseAndFired*(this: CurrentlyPressedTouchButtonSingletonDebug, touchButtonInput: TouchButtonInput) {.base.}
+method releaseAndFired2*(this: CurrentlyPressedTouchButtonSingletonDebug, touchButtonInput: TouchButtonInput) {.base.}
+method releaseAndFiredAssociated*(this: CurrentlyPressedTouchButtonSingletonDebug, touchButtonInput: TouchButtonInput) {.base.}
+method pressedAndFired*(this: CurrentlyPressedTouchButtonSingletonDebug, touchButtonInput: TouchButtonInput) {.base.}
+method pressedAndNotFired*(this: CurrentlyPressedTouchButtonSingletonDebug, touchButtonInput: TouchButtonInput) {.base.}
+method removeAt*(this: CurrentlyPressedTouchButtonSingletonDebug, index: int32): TouchButtonInput {.discardable.}
+method remove*(this: CurrentlyPressedTouchButtonSingletonDebug, touchButtonInput: TouchButtonInput): bool {.discardable.}
+method add*(this: CurrentlyPressedTouchButtonSingletonDebug, touchButtonInput: TouchButtonInput)
+method toString*(this: CurrentlyPressedTouchButtonSingletonDebug): string {.discardable.}
+import org/allbinary/graphics/GPoint as GPointModule
+export GPointModule
+import org/allbinary/logic/string/StringMaker as StringMakerModule
+export StringMakerModule
+import org/allbinary/logic/string/StringUtil as StringUtilModule
+export StringUtilModule
+import org/allbinary/string/CommonSeps as CommonSepsModule
+export CommonSepsModule
 
-class CurrentlyPressedTouchButtonSingletonDebug(CurrentlyPressedTouchButtonSingleton):
-    instanceC: CurrentlyPressedTouchButtonSingletonDebug = None
+var CurrentlyPressedTouchButtonSingletonDebug_instanceCValue: CurrentlyPressedTouchButtonSingletonDebug
+var CurrentlyPressedTouchButtonSingletonDebug_instanceCSet = false
+proc instanceC*(t: typedesc[CurrentlyPressedTouchButtonSingletonDebug]): CurrentlyPressedTouchButtonSingletonDebug =
+    if not CurrentlyPressedTouchButtonSingletonDebug_instanceCSet:
+        CurrentlyPressedTouchButtonSingletonDebug_instanceCSet = true
+        CurrentlyPressedTouchButtonSingletonDebug_instanceCValue = newCurrentlyPressedTouchButtonSingletonDebug()
+    CurrentlyPressedTouchButtonSingletonDebug_instanceCValue
 
-    def _init_fields(self) -> None:
-        from org.allbinary.logic.string.StringUtil import StringUtil
-        self.string: str = StringUtil.getInstance().EMPTY_STRING
-        self.listString: str = StringUtil.getInstance().EMPTY_STRING
-        self.appendText: str = StringUtil.getInstance().EMPTY_STRING
-        self.PRESSED_AND_FIRED: str = "pressed & fired"
-        self.PRESSED_AND_NOT_FIRED: str = "pressed in button but not fired"
-        self.ASSOCIATED_RELEASED_AND_FIRED: str = "assoc. rel & fired"
-        self.RELEASED_AND_FIRED: str = "rel & fired 1"
-        self.RELEASED_AND_FIRED_2: str = "rel & fired 2"
-        self.RELEASED_AND_NOT_FIRED: str = "rel & not fired"
+# Java field initializers run after the base initializer
+proc initFieldsCurrentlyPressedTouchButtonSingletonDebug(this: CurrentlyPressedTouchButtonSingletonDebug) =
+    this.string = StringUtil.getInstance().EMPTY_STRING
+    this.listString = StringUtil.getInstance().EMPTY_STRING
+    this.appendText = StringUtil.getInstance().EMPTY_STRING
+    this.PRESSED_AND_FIRED = "pressed & fired"
+    this.PRESSED_AND_NOT_FIRED = "pressed in button but not fired"
+    this.ASSOCIATED_RELEASED_AND_FIRED = "assoc. rel & fired"
+    this.RELEASED_AND_FIRED = "rel & fired 1"
+    this.RELEASED_AND_FIRED_2 = "rel & fired 2"
+    this.RELEASED_AND_NOT_FIRED = "rel & not fired"
+    discard
 
-    def __init__(self) -> None:
-        super().__init__()
-        self._init_fields()
-    
+proc initCurrentlyPressedTouchButtonSingletonDebug*(this: CurrentlyPressedTouchButtonSingletonDebug) =
+    initCurrentlyPressedTouchButtonSingleton(this)
+    this.initFieldsCurrentlyPressedTouchButtonSingletonDebug()
 
-    @staticmethod
-    def getInstance() -> CurrentlyPressedTouchButtonSingleton:
+proc newCurrentlyPressedTouchButtonSingletonDebug*(): CurrentlyPressedTouchButtonSingletonDebug =
+    result = CurrentlyPressedTouchButtonSingletonDebug()
+    initCurrentlyPressedTouchButtonSingletonDebug(result)
+
+proc getInstance*(t: typedesc[CurrentlyPressedTouchButtonSingletonDebug]): CurrentlyPressedTouchButtonSingleton {.discardable.} =
         return CurrentlyPressedTouchButtonSingletonDebug.instanceC
-    
 
-    def appendTouchButtonInput(self, append: str, touchButtonInput: TouchButtonInput) -> None:
-        from org.allbinary.logic.string.StringMaker import StringMaker
-        from org.allbinary.string.CommonSeps import CommonSeps
-        stringBuffer: StringMaker = StringMaker()
-        stringBuffer.append(str(touchButtonInput))
+method appendTouchButtonInput*(this: CurrentlyPressedTouchButtonSingletonDebug, append: string, touchButtonInput: TouchButtonInput) {.base.} =
+        var stringBuffer: StringMaker = newStringMaker()
+        stringBuffer.append(touchButtonInput.toString())
         stringBuffer.append(CommonSeps.getInstance().SPACE)
         stringBuffer.append(append)
-        self.appendText = str(stringBuffer)
-        self.string = str(StringMaker().append(self.listString).append(self.appendText))
-    
+        this.appendText = stringBuffer.toString()
+        this.string = newStringMaker().append(this.listString).append(this.appendText).toString()
 
-    def append(self, append: str) -> None:
-        from org.allbinary.logic.string.StringMaker import StringMaker
-        self.appendText = str(StringMaker().append(self.appendText).append(append))
-        self.string = str(StringMaker().append(self.listString).append(self.appendText))
-    
+method append*(this: CurrentlyPressedTouchButtonSingletonDebug, append: string) {.base.} =
+        this.appendText = newStringMaker().append(this.appendText).append(append).toString()
+        this.string = newStringMaker().append(this.listString).append(this.appendText).toString()
 
-    def clearLog(self, x: int, y: int) -> None:
-        from org.allbinary.graphics.GPoint import GPoint
-        from org.allbinary.logic.string.StringMaker import StringMaker
-        from org.allbinary.string.CommonSeps import CommonSeps
-        self.appendText = str(StringMaker().append(GPoint.toStringStatic(x, y, 0)).append(CommonSeps.getInstance().SPACE))
-        self.string = str(StringMaker().append(self.listString).append(self.appendText))
-    
+method clearLog*(this: CurrentlyPressedTouchButtonSingletonDebug, x: int32, y: int32) {.base.} =
+        this.appendText = newStringMaker().append(GPoint.toStringStatic(x, y, 0)).append(CommonSeps.getInstance().SPACE).toString()
+        this.string = newStringMaker().append(this.listString).append(this.appendText).toString()
 
-    def releaseAndNotFired(self) -> None:
-        self.append(self.RELEASED_AND_NOT_FIRED)
-    
+method releaseAndNotFired*(this: CurrentlyPressedTouchButtonSingletonDebug) {.base.} =
+        this.append(this.RELEASED_AND_NOT_FIRED)
 
-    def releaseAndFired(self, touchButtonInput: TouchButtonInput) -> None:
-        self.appendTouchButtonInput(self.RELEASED_AND_FIRED, touchButtonInput)
-    
+method releaseAndFired*(this: CurrentlyPressedTouchButtonSingletonDebug, touchButtonInput: TouchButtonInput) {.base.} =
+        this.appendTouchButtonInput(this.RELEASED_AND_FIRED, touchButtonInput)
 
-    def releaseAndFired2(self, touchButtonInput: TouchButtonInput) -> None:
-        self.appendTouchButtonInput(self.RELEASED_AND_FIRED_2, touchButtonInput)
-    
+method releaseAndFired2*(this: CurrentlyPressedTouchButtonSingletonDebug, touchButtonInput: TouchButtonInput) {.base.} =
+        this.appendTouchButtonInput(this.RELEASED_AND_FIRED_2, touchButtonInput)
 
-    def releaseAndFiredAssociated(self, touchButtonInput: TouchButtonInput) -> None:
-        self.appendTouchButtonInput(self.ASSOCIATED_RELEASED_AND_FIRED, touchButtonInput)
-    
+method releaseAndFiredAssociated*(this: CurrentlyPressedTouchButtonSingletonDebug, touchButtonInput: TouchButtonInput) {.base.} =
+        this.appendTouchButtonInput(this.ASSOCIATED_RELEASED_AND_FIRED, touchButtonInput)
 
-    def pressedAndFired(self, touchButtonInput: TouchButtonInput) -> None:
-        self.appendTouchButtonInput(self.PRESSED_AND_FIRED, touchButtonInput)
-    
+method pressedAndFired*(this: CurrentlyPressedTouchButtonSingletonDebug, touchButtonInput: TouchButtonInput) {.base.} =
+        this.appendTouchButtonInput(this.PRESSED_AND_FIRED, touchButtonInput)
 
-    def pressedAndNotFired(self, touchButtonInput: TouchButtonInput) -> None:
-        self.appendTouchButtonInput(self.PRESSED_AND_NOT_FIRED, touchButtonInput)
-    
+method pressedAndNotFired*(this: CurrentlyPressedTouchButtonSingletonDebug, touchButtonInput: TouchButtonInput) {.base.} =
+        this.appendTouchButtonInput(this.PRESSED_AND_NOT_FIRED, touchButtonInput)
 
-    def removeAt(self, index: int) -> TouchButtonInput:
-        from org.allbinary.logic.string.StringMaker import StringMaker
-        touchButtonInput: TouchButtonInput = super().removeAt(index)
-        self.listString = str(self.list_)
-        self.string = str(StringMaker().append(self.listString).append(self.appendText))
+method removeAt*(this: CurrentlyPressedTouchButtonSingletonDebug, index: int32): TouchButtonInput {.discardable.} =
+        var touchButtonInput: TouchButtonInput = procCall CurrentlyPressedTouchButtonSingleton(this).removeAt(index)
+        this.listString = this.list.toString()
+        this.string = newStringMaker().append(this.listString).append(this.appendText).toString()
         return touchButtonInput
-    
 
-    def remove(self, touchButtonInput: TouchButtonInput) -> bool:
-        from org.allbinary.logic.string.StringMaker import StringMaker
-        isRemoved: bool = super().remove(touchButtonInput)
-        self.listString = str(self.list_)
-        self.string = str(StringMaker().append(self.listString).append(self.appendText))
+method remove*(this: CurrentlyPressedTouchButtonSingletonDebug, touchButtonInput: TouchButtonInput): bool {.discardable.} =
+        var isRemoved: bool = procCall CurrentlyPressedTouchButtonSingleton(this).remove(touchButtonInput)
+        this.listString = this.list.toString()
+        this.string = newStringMaker().append(this.listString).append(this.appendText).toString()
         return isRemoved
-    
 
-    def add(self, touchButtonInput: TouchButtonInput) -> None:
-        from org.allbinary.logic.string.StringMaker import StringMaker
-        super().add(touchButtonInput)
-        self.listString = str(self.list_)
-        self.string = str(StringMaker().append(self.listString).append(self.appendText))
-    
+method add*(this: CurrentlyPressedTouchButtonSingletonDebug, touchButtonInput: TouchButtonInput) =
+        procCall CurrentlyPressedTouchButtonSingleton(this).add(touchButtonInput)
+        this.listString = this.list.toString()
+        this.string = newStringMaker().append(this.listString).append(this.appendText).toString()
 
-    def toString(self) -> str:
-        return self.string
+method toString*(this: CurrentlyPressedTouchButtonSingletonDebug): string {.discardable.} =
+        return this.string
 
-    def __str__(self) -> str:
-        return self.toString()
-# from org.allbinary.graphics.GPoint import GPoint
-# from org.allbinary.logic.string.StringMaker import StringMaker
-# from org.allbinary.logic.string.StringUtil import StringUtil
-# from org.allbinary.string.CommonSeps import CommonSeps
-
-
-def _CurrentlyPressedTouchButtonSingletonDebug_instanceC() -> object:
-    return CurrentlyPressedTouchButtonSingletonDebug()
-
-lazy_static(CurrentlyPressedTouchButtonSingletonDebug, "instanceC", _CurrentlyPressedTouchButtonSingletonDebug_instanceC)
+when declared(newCurrentlyPressedTouchButtonSingletonDebugHook0):
+    newCurrentlyPressedTouchButtonSingletonDebugHook0 = proc (): CurrentlyPressedTouchButtonSingleton = newCurrentlyPressedTouchButtonSingletonDebug()
 

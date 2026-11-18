@@ -1,45 +1,60 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.configuration.feature
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/game/configuration/feature/Feature as FeatureModule
+export FeatureModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    MainFeatureFactory* = ref object of JObject
+        FULL_SCREEN*: Feature
+        TITLE_BAR*: Feature
+        STATIC*: Feature
+        LOAD_ONDEMAND*: Feature
+        LOAD_ALL*: Feature
 
+proc newMainFeatureFactory*(): MainFeatureFactory
+proc getInstance*(t: typedesc[MainFeatureFactory]): MainFeatureFactory {.discardable.}
 
-class MainFeatureFactory:
-    instance: MainFeatureFactory = None
+var MainFeatureFactory_instanceValue: MainFeatureFactory
+var MainFeatureFactory_instanceSet = false
+proc instance*(t: typedesc[MainFeatureFactory]): MainFeatureFactory =
+    if not MainFeatureFactory_instanceSet:
+        MainFeatureFactory_instanceSet = true
+        MainFeatureFactory_instanceValue = newMainFeatureFactory()
+    MainFeatureFactory_instanceValue
 
-    def _init_fields(self) -> None:
-        self.FULL_SCREEN: Feature = Feature("Full Screen")
-        self.TITLE_BAR: Feature = Feature("Title Bar")
-        self.STATIC: Feature = Feature("Static Dependent Feature")
-        self.LOAD_ONDEMAND: Feature = Feature("Load OnDemand")
-        self.LOAD_ALL: Feature = Feature("Load All")
+# Java field initializers run after the base initializer
+proc initFieldsMainFeatureFactory(this: MainFeatureFactory) =
+    this.FULL_SCREEN = newFeature("Full Screen")
+    this.TITLE_BAR = newFeature("Title Bar")
+    this.STATIC = newFeature("Static Dependent Feature")
+    this.LOAD_ONDEMAND = newFeature("Load OnDemand")
+    this.LOAD_ALL = newFeature("Load All")
+    discard
 
-    def __init__(self) -> None:
-        self._init_fields()
-    
+proc initMainFeatureFactory*(this: MainFeatureFactory) =
+    this.initFieldsMainFeatureFactory()
 
-    @staticmethod
-    def getInstance() -> MainFeatureFactory:
+proc newMainFeatureFactory*(): MainFeatureFactory =
+    result = MainFeatureFactory()
+    initMainFeatureFactory(result)
+
+proc getInstance*(t: typedesc[MainFeatureFactory]): MainFeatureFactory {.discardable.} =
         return MainFeatureFactory.instance
-from org.allbinary.game.configuration.feature.Feature import Feature
-
-
-def _MainFeatureFactory_instance() -> object:
-    return MainFeatureFactory()
-
-lazy_static(MainFeatureFactory, "instance", _MainFeatureFactory_instance)
 

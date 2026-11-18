@@ -1,115 +1,137 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.input.event
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/game/input/PlayerGameInput as PlayerGameInputModule
+export PlayerGameInputModule
+import org/allbinary/logic/util/event/AllBinaryEventObject as AllBinaryEventObjectModule
+export AllBinaryEventObjectModule
+import org/allbinary/logic/util/event/EventListenerInterface as EventListenerInterfaceModule
+export EventListenerInterfaceModule
+import org/allbinary/logic/util/event/handler/BasicEventHandler as BasicEventHandlerModule
+export BasicEventHandlerModule
+import org/allbinary/util/BasicArrayList as BasicArrayListModule
+export BasicArrayListModule
 
-import threading
-from org.allbinary.logic.util.event.handler.BasicEventHandler import BasicEventHandler
+type
+    UpGameKeyEventHandlerBase* = ref object of BasicEventHandler
+        list*: BasicArrayList
 
+proc newUpGameKeyEventHandlerBase*(): UpGameKeyEventHandlerBase
+proc initUpGameKeyEventHandlerBase*(this: UpGameKeyEventHandlerBase)
+method addListener*(this: UpGameKeyEventHandlerBase, playerGameInput: PlayerGameInput) {.base.}
+method removeAllListeners*(this: UpGameKeyEventHandlerBase)
+method removeListenerSingleThreaded*(this: UpGameKeyEventHandlerBase, eventListenerInterface: EventListenerInterface)
+method removeListener*(this: UpGameKeyEventHandlerBase, eventListenerInterface: EventListenerInterface)
+method fireEvent*(this: UpGameKeyEventHandlerBase, eventObject: AllBinaryEventObject)
+method process*(this: UpGameKeyEventHandlerBase, eventObject: AllBinaryEventObject, eventListenerInterface: EventListenerInterface)
+method toString*(this: UpGameKeyEventHandlerBase): string {.discardable.}
+import org/allbinary/logic/string/StringMaker as StringMakerModule
+export StringMakerModule
+import org/allbinary/logic/util/event/EventStrings as EventStringsModule
+export EventStringsModule
+import org/allbinary/util/BasicArrayListD as BasicArrayListDModule
+export BasicArrayListDModule
+import org/allbinary/game/input/event/GameKeyEvent as GameKeyEventModule
+export GameKeyEventModule
+import org/allbinary/game/input/event/UpGameKeyEventListenerInterface as UpGameKeyEventListenerInterfaceModule
+export UpGameKeyEventListenerInterfaceModule
 
-class UpGameKeyEventHandlerBase(BasicEventHandler):
-    TOTAL_LISTENERS: str = " Total PlayerGameInput Listeners: "
-    LISTENER_LABEL: str = " PlayerGameInput Listener: "
-    _lock = threading.RLock()
+var UpGameKeyEventHandlerBase_TOTAL_LISTENERSValue: string
+var UpGameKeyEventHandlerBase_TOTAL_LISTENERSSet = false
+proc TOTAL_LISTENERS*(t: typedesc[UpGameKeyEventHandlerBase]): string =
+    if not UpGameKeyEventHandlerBase_TOTAL_LISTENERSSet:
+        UpGameKeyEventHandlerBase_TOTAL_LISTENERSSet = true
+        UpGameKeyEventHandlerBase_TOTAL_LISTENERSValue = " Total PlayerGameInput Listeners: "
+    UpGameKeyEventHandlerBase_TOTAL_LISTENERSValue
+var UpGameKeyEventHandlerBase_LISTENER_LABELValue: string
+var UpGameKeyEventHandlerBase_LISTENER_LABELSet = false
+proc LISTENER_LABEL*(t: typedesc[UpGameKeyEventHandlerBase]): string =
+    if not UpGameKeyEventHandlerBase_LISTENER_LABELSet:
+        UpGameKeyEventHandlerBase_LISTENER_LABELSet = true
+        UpGameKeyEventHandlerBase_LISTENER_LABELValue = " PlayerGameInput Listener: "
+    UpGameKeyEventHandlerBase_LISTENER_LABELValue
 
-    def _init_fields(self) -> None:
-        from org.allbinary.util.BasicArrayList import BasicArrayList
-        from org.allbinary.util.BasicArrayListD import BasicArrayListD
-        self.list_: BasicArrayList = BasicArrayListD()
-    
+# Java field initializers run after the base initializer
+proc initFieldsUpGameKeyEventHandlerBase(this: UpGameKeyEventHandlerBase) =
+    this.list = newBasicArrayListD()
+    discard
 
-    def __init__(self) -> None:
-        super().__init__()
-        self._init_fields()
-    
+proc initUpGameKeyEventHandlerBase*(this: UpGameKeyEventHandlerBase) =
+        initBasicEventHandler(this)
+        this.initFieldsUpGameKeyEventHandlerBase()
+        discard
 
-    def addListener(self, playerGameInput: PlayerGameInput) -> None:
-        from org.allbinary.game.input.PlayerGameInput import PlayerGameInput
-        if not self.list_.contains(playerGameInput):
-            self.list_.add(playerGameInput)
-    
+proc newUpGameKeyEventHandlerBase*(): UpGameKeyEventHandlerBase =
+    result = UpGameKeyEventHandlerBase()
+    initUpGameKeyEventHandlerBase(result)
 
-    def removeAllListeners(self) -> None:
-        self.list_.clear()
-        super().removeAllListeners()
-    
+method addListener*(this: UpGameKeyEventHandlerBase, playerGameInput: PlayerGameInput) {.base.} =
+        if (not this.list.contains(playerGameInput)):
+            this.list.add(playerGameInput)
 
-    def removeListenerSingleThreaded(self, eventListenerInterface: EventListenerInterface) -> None:
-        from org.allbinary.logic.util.event.EventListenerInterface import EventListenerInterface
-        self.list_.remove(eventListenerInterface)
-        super().removeListenerSingleThreaded(eventListenerInterface)
-    
+method removeAllListeners*(this: UpGameKeyEventHandlerBase) =
+        this.list.clear()
+        procCall BasicEventHandler(this).removeAllListeners()
 
-    def removeListener(self, eventListenerInterface: EventListenerInterface) -> None:
-        with self._lock:
-            return self._removeListener_unlocked(eventListenerInterface)
+method removeListenerSingleThreaded*(this: UpGameKeyEventHandlerBase, eventListenerInterface: EventListenerInterface) =
+        this.list.remove(eventListenerInterface)
+        procCall BasicEventHandler(this).removeListenerSingleThreaded(eventListenerInterface)
 
-    def _removeListener_unlocked(self, eventListenerInterface: EventListenerInterface) -> None:
-        from org.allbinary.logic.util.event.EventListenerInterface import EventListenerInterface
-        self.list_.remove(eventListenerInterface)
-        super().removeListener(eventListenerInterface)
-    
+method removeListener*(this: UpGameKeyEventHandlerBase, eventListenerInterface: EventListenerInterface) =
+        this.list.remove(eventListenerInterface)
+        procCall BasicEventHandler(this).removeListener(eventListenerInterface)
 
-    # throws Exception
-    def fireEvent(self, eventObject: AllBinaryEventObject) -> None:
-        from org.allbinary.game.input.PlayerGameInput import PlayerGameInput
-        from org.allbinary.logic.util.event.AllBinaryEventObject import AllBinaryEventObject
-        from org.allbinary.logic.util.event.EventStrings import EventStrings
-        index = self.list_.size()
-        while (index := index - 1) >= 0:
-            try:
-                playerGameInput: PlayerGameInput = self.list_.objectArray[index]
-                playerGameInput.onUpGameKeyEvent(eventObject)
-            except Exception as e:
-                self.logUtil.put(self.commonStrings.EXCEPTION, self, EventStrings.getInstance().FIRE_EVENT, e)
-        super().fireEvent(eventObject)
-    
+method fireEvent*(this: UpGameKeyEventHandlerBase, eventObject: AllBinaryEventObject) =
+        block:
+            var index: int32 = this.list.size()
+            while jPreDecrement(index) >= 0:
+                try:
+                    var playerGameInput: PlayerGameInput = PlayerGameInput(JObject(this.list.objectArray[index]))
+                    playerGameInput.onUpGameKeyEvent(GameKeyEvent(JObject(eventObject)))
+                except CatchableError as jcaught:
+                    let e = jToException(jcaught)
+                    this.logUtil.put(this.commonStrings.EXCEPTION, this, EventStrings.getInstance().FIRE_EVENT, e)
+        procCall BasicEventHandler(this).fireEvent(eventObject)
 
-    # throws Exception
-    def process(self, eventObject: AllBinaryEventObject, eventListenerInterface: EventListenerInterface) -> None:
-        from org.allbinary.logic.util.event.AllBinaryEventObject import AllBinaryEventObject
-        from org.allbinary.logic.util.event.EventListenerInterface import EventListenerInterface
-        upGameKeyEventListenerInterface: UpGameKeyEventListenerInterface = eventListenerInterface
-        upGameKeyEventListenerInterface.onUpGameKeyEvent(eventObject)
-    
+method process*(this: UpGameKeyEventHandlerBase, eventObject: AllBinaryEventObject, eventListenerInterface: EventListenerInterface) =
+        let upGameKeyEventListenerInterface: UpGameKeyEventListenerInterface = UpGameKeyEventListenerInterface(JObject(eventListenerInterface))
+        upGameKeyEventListenerInterface.onUpGameKeyEvent(GameKeyEvent(JObject(eventObject)))
 
-    def toString(self) -> str:
-        from org.allbinary.logic.string.StringMaker import StringMaker
-        from org.allbinary.logic.util.event.EventListenerInterface import EventListenerInterface
-        stringBuffer: StringMaker = StringMaker()
-        size: int = self.list_.size()
-        stringBuffer.append(str(super()))
+method toString*(this: UpGameKeyEventHandlerBase): string {.discardable.} =
+        let stringBuffer: StringMaker = newStringMaker()
+        let size: int32 = this.list.size()
+        stringBuffer.append(procCall BasicEventHandler(this).toString())
         stringBuffer.append(UpGameKeyEventHandlerBase.TOTAL_LISTENERS)
         stringBuffer.appendint(size)
-        for index in range(0, size):
-            try:
-                eventListenerInterface: EventListenerInterface = self.list_.get(index)
-                stringBuffer.append(UpGameKeyEventHandlerBase.LISTENER_LABEL)
-                stringBuffer.append(str(eventListenerInterface))
-            except Exception as e:
-                self.logUtil.put(self.commonStrings.EXCEPTION, self, self.commonStrings.TOSTRING, e)
-        return str(stringBuffer)
+        block:
+            var index: int32 = 0
+            while index < size:
+                defer: index = index +% 1
+                try:
+                    var eventListenerInterface: EventListenerInterface = EventListenerInterface(JObject(this.list.get(index)))
+                    stringBuffer.append(UpGameKeyEventHandlerBase.LISTENER_LABEL)
+                    stringBuffer.append(eventListenerInterface.toString())
+                except CatchableError as jcaught:
+                    let e = jToException(jcaught)
+                    this.logUtil.put(this.commonStrings.EXCEPTION, this, this.commonStrings.TOSTRING, e)
+        return stringBuffer.toString()
 
-    def __str__(self) -> str:
-        return self.toString()
-# from org.allbinary.game.input.PlayerGameInput import PlayerGameInput
-# from org.allbinary.logic.string.StringMaker import StringMaker
-# from org.allbinary.logic.util.event.AllBinaryEventObject import AllBinaryEventObject
-# from org.allbinary.logic.util.event.EventListenerInterface import EventListenerInterface
-# from org.allbinary.logic.util.event.EventStrings import EventStrings
-# from org.allbinary.util.BasicArrayList import BasicArrayList
-# from org.allbinary.util.BasicArrayListD import BasicArrayListD
-
+when declared(newUpGameKeyEventHandlerBaseHook0):
+    newUpGameKeyEventHandlerBaseHook0 = proc (): BasicEventHandler = newUpGameKeyEventHandlerBase()
 

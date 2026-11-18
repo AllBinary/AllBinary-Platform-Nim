@@ -1,78 +1,87 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.combat.destroy.event
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/game/displayable/canvas/AllBinaryGameCanvas as AllBinaryGameCanvasModule
+export AllBinaryGameCanvasModule
+import org/allbinary/layer/AllBinaryLayer as AllBinaryLayerModule
+export AllBinaryLayerModule
+import org/allbinary/logic/util/event/AllBinaryEventObject as AllBinaryEventObjectModule
+export AllBinaryEventObjectModule
 
-from org.allbinary.logic.util.event.AllBinaryEventObject import AllBinaryEventObject
+type
+    DestroyedEvent* = ref object of AllBinaryEventObject
+        allBinaryGameCanvas*: AllBinaryGameCanvas
+        allBinaryLayerInterface*: AllBinaryLayer
+
+proc newDestroyedEvent*(combatGameCanvas: AllBinaryGameCanvas): DestroyedEvent
+proc initDestroyedEvent*(this: DestroyedEvent, combatGameCanvas: AllBinaryGameCanvas)
+method getAllBinaryGameCanvas*(this: DestroyedEvent): AllBinaryGameCanvas {.base, discardable.}
+method getLayerInterface*(this: DestroyedEvent): AllBinaryLayer {.base, discardable.}
+method setAllBinaryGameCanvas*(this: DestroyedEvent, allBinaryGameCanvas: AllBinaryGameCanvas) {.base.}
+method setLayerInterfaceForCircularStaticPool*(this: DestroyedEvent, allBinaryLayerInterface: AllBinaryLayer) {.base.}
+method toString*(this: DestroyedEvent): string {.discardable.}
+import org/allbinary/game/displayable/canvas/NullGameCanvas as NullGameCanvasModule
+export NullGameCanvasModule
+import org/allbinary/logic/string/StringMaker as StringMakerModule
+export StringMakerModule
+import org/allbinary/logic/string/StringUtil as StringUtilModule
+export StringUtilModule
+import org/allbinary/game/combat/destroy/event/DestroyedEventHandler as DestroyedEventHandlerModule
+export DestroyedEventHandlerModule
 
 
-class DestroyedEvent(AllBinaryEventObject):
+# Java field initializers run after the base initializer
+proc initFieldsDestroyedEvent(this: DestroyedEvent) =
+    this.allBinaryGameCanvas = NullGameCanvas.getInstance()
+    this.allBinaryLayerInterface = AllBinaryLayer.NULL_ALLBINARY_LAYER
+    discard
 
-    def _init_fields(self) -> None:
-        from org.allbinary.game.displayable.canvas.AllBinaryGameCanvas import AllBinaryGameCanvas
-        from org.allbinary.game.displayable.canvas.NullGameCanvas import NullGameCanvas
-        from org.allbinary.layer.AllBinaryLayer import AllBinaryLayer
-        self.allBinaryGameCanvas: AllBinaryGameCanvas = NullGameCanvas.getInstance()
-        self.allBinaryLayerInterface: AllBinaryLayer = AllBinaryLayer.NULL_ALLBINARY_LAYER
-    
+proc initDestroyedEvent*(this: DestroyedEvent, combatGameCanvas: AllBinaryGameCanvas) =
+        initAllBinaryEventObject(this, DestroyedEventHandler.getInstance())
+        this.initFieldsDestroyedEvent()
+        this.setAllBinaryGameCanvas(combatGameCanvas)
 
-    def __init__(self, combatGameCanvas: AllBinaryGameCanvas) -> None:
-        from org.allbinary.game.combat.destroy.event.DestroyedEventHandler import DestroyedEventHandler
-        from org.allbinary.game.displayable.canvas.AllBinaryGameCanvas import AllBinaryGameCanvas
-        super().__init__(DestroyedEventHandler.getInstance())
-        self._init_fields()
-        self.setAllBinaryGameCanvas(combatGameCanvas)
-    
+proc newDestroyedEvent*(combatGameCanvas: AllBinaryGameCanvas): DestroyedEvent =
+    result = DestroyedEvent()
+    initDestroyedEvent(result, combatGameCanvas)
 
-    def getAllBinaryGameCanvas(self) -> AllBinaryGameCanvas:
-        from org.allbinary.game.displayable.canvas.AllBinaryGameCanvas import AllBinaryGameCanvas
-        return self.allBinaryGameCanvas
-    
+method getAllBinaryGameCanvas*(this: DestroyedEvent): AllBinaryGameCanvas {.base, discardable.} =
+        return this.allBinaryGameCanvas
 
-    def getLayerInterface(self) -> AllBinaryLayer:
-        from org.allbinary.layer.AllBinaryLayer import AllBinaryLayer
-        return self.allBinaryLayerInterface
-    
+method getLayerInterface*(this: DestroyedEvent): AllBinaryLayer {.base, discardable.} =
+        return this.allBinaryLayerInterface
 
-    def setAllBinaryGameCanvas(self, allBinaryGameCanvas: AllBinaryGameCanvas) -> None:
-        from org.allbinary.game.displayable.canvas.AllBinaryGameCanvas import AllBinaryGameCanvas
-        self.allBinaryGameCanvas = allBinaryGameCanvas
-    
+method setAllBinaryGameCanvas*(this: DestroyedEvent, allBinaryGameCanvas: AllBinaryGameCanvas) {.base.} =
+        this.allBinaryGameCanvas = allBinaryGameCanvas
 
-    def setLayerInterfaceForCircularStaticPool(self, allBinaryLayerInterface: AllBinaryLayer) -> None:
-        from org.allbinary.layer.AllBinaryLayer import AllBinaryLayer
-        self.allBinaryLayerInterface = allBinaryLayerInterface
-    
+method setLayerInterfaceForCircularStaticPool*(this: DestroyedEvent, allBinaryLayerInterface: AllBinaryLayer) {.base.} =
+        this.allBinaryLayerInterface = allBinaryLayerInterface
 
-    def toString(self) -> str:
-        from org.allbinary.logic.string.StringMaker import StringMaker
-        from org.allbinary.logic.string.StringUtil import StringUtil
-        stringBuffer: StringMaker = StringMaker()
+method toString*(this: DestroyedEvent): string {.discardable.} =
+        let stringBuffer: StringMaker = newStringMaker()
         stringBuffer.append("DestroyedEvent: \n")
         stringBuffer.append("AllBinaryLayerInterface: ")
-        stringBuffer.append(str(self.allBinaryLayerInterface))
+        stringBuffer.append(this.allBinaryLayerInterface.toString())
         stringBuffer.append("\nAllBinaryGameCanvas: ")
-        stringBuffer.append(StringUtil.getInstance().toString(self.getAllBinaryGameCanvas()))
-        return str(stringBuffer)
+        stringBuffer.append(StringUtil.getInstance().toString(this.getAllBinaryGameCanvas()))
+        return stringBuffer.toString()
 
-    def __str__(self) -> str:
-        return self.toString()
-# from org.allbinary.game.displayable.canvas.AllBinaryGameCanvas import AllBinaryGameCanvas
-# from org.allbinary.game.displayable.canvas.NullGameCanvas import NullGameCanvas
-# from org.allbinary.layer.AllBinaryLayer import AllBinaryLayer
-# from org.allbinary.logic.string.StringMaker import StringMaker
-# from org.allbinary.logic.string.StringUtil import StringUtil
-
+when declared(newDestroyedEventHook1):
+    newDestroyedEventHook1 = proc (combatGameCanvas: AllBinaryGameCanvas): AllBinaryEventObject = newDestroyedEvent(combatGameCanvas)
 

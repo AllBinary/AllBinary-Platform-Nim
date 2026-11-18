@@ -1,47 +1,59 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.ai
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/layer/AllBinaryLayer as AllBinaryLayerModule
+export AllBinaryLayerModule
+import org/allbinary/layer/AllBinaryLayerManager as AllBinaryLayerManagerModule
+export AllBinaryLayerManagerModule
+import org/allbinary/layer/LayerProcessor as LayerProcessorModule
+export LayerProcessorModule
 
-from org.allbinary.layer.LayerProcessor import LayerProcessor
+type
+    ArtificialIntelligenceLayerProcessor* = ref object of LayerProcessor
+
+proc newArtificialIntelligenceLayerProcessor*(): ArtificialIntelligenceLayerProcessor
+proc initArtificialIntelligenceLayerProcessor*(this: ArtificialIntelligenceLayerProcessor)
+method processAt*(this: ArtificialIntelligenceLayerProcessor, allBinaryLayerManager: AllBinaryLayerManager, layerInterface: AllBinaryLayer, index: int32)
+method isProcessorLayer*(this: ArtificialIntelligenceLayerProcessor, layerInterface: AllBinaryLayer): bool {.discardable.}
+import org/allbinary/ai/ArtificialIntelligenceLayerManager as ArtificialIntelligenceLayerManagerModule
+export ArtificialIntelligenceLayerManagerModule
+import org/allbinary/ai/ArtificialIntelligenceCompositeInterface as ArtificialIntelligenceCompositeInterfaceModule
+export ArtificialIntelligenceCompositeInterfaceModule
 
 
-class ArtificialIntelligenceLayerProcessor(LayerProcessor):
-    
+proc initArtificialIntelligenceLayerProcessor*(this: ArtificialIntelligenceLayerProcessor) =
+        initLayerProcessor(this, newArtificialIntelligenceLayerManager())
 
-    def __init__(self) -> None:
-        from org.allbinary.ai.ArtificialIntelligenceLayerManager import ArtificialIntelligenceLayerManager
-        super().__init__(ArtificialIntelligenceLayerManager())
-    
+proc newArtificialIntelligenceLayerProcessor*(): ArtificialIntelligenceLayerProcessor =
+    result = ArtificialIntelligenceLayerProcessor()
+    initArtificialIntelligenceLayerProcessor(result)
 
-    # throws Exception
-    def processAt(self, allBinaryLayerManager: AllBinaryLayerManager, layerInterface: AllBinaryLayer, index: int) -> None:
-        from org.allbinary.layer.AllBinaryLayer import AllBinaryLayer
-        from org.allbinary.layer.AllBinaryLayerManager import AllBinaryLayerManager
-        artificialIntelligenceCompositeInterface: ArtificialIntelligenceCompositeInterface = layerInterface
+method processAt*(this: ArtificialIntelligenceLayerProcessor, allBinaryLayerManager: AllBinaryLayerManager, layerInterface: AllBinaryLayer, index: int32) =
+        var artificialIntelligenceCompositeInterface: ArtificialIntelligenceCompositeInterface = ArtificialIntelligenceCompositeInterface(JObject(layerInterface))
         artificialIntelligenceCompositeInterface.getArtificialIntelligenceInterface().processAI(allBinaryLayerManager)
-    
 
-    # throws Exception
-    def isProcessorLayer(self, layerInterface: AllBinaryLayer) -> bool:
-        from org.allbinary.layer.AllBinaryLayer import AllBinaryLayer
+method isProcessorLayer*(this: ArtificialIntelligenceLayerProcessor, layerInterface: AllBinaryLayer): bool {.discardable.} =
         if layerInterface.implmentsArtificialIntelligenceCompositeInterface():
-            return True
+            return true
         else:
-            return False
-# from org.allbinary.layer.AllBinaryLayer import AllBinaryLayer
-# from org.allbinary.layer.AllBinaryLayerManager import AllBinaryLayerManager
+            return false
 
+when declared(newArtificialIntelligenceLayerProcessorHook0):
+    newArtificialIntelligenceLayerProcessorHook0 = proc (): LayerProcessor = newArtificialIntelligenceLayerProcessor()
 

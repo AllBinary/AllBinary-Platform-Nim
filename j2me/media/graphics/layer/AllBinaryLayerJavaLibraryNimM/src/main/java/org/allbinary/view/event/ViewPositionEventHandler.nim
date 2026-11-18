@@ -1,91 +1,110 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.view.event
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/layer/AllBinaryLayer as AllBinaryLayerModule
+export AllBinaryLayerModule
+import org/allbinary/logic/util/event/AllBinaryEventObject as AllBinaryEventObjectModule
+export AllBinaryEventObjectModule
+import org/allbinary/logic/util/event/EventListenerInterface as EventListenerInterfaceModule
+export EventListenerInterfaceModule
+import org/allbinary/logic/util/event/handler/BasicEventHandler as BasicEventHandlerModule
+export BasicEventHandlerModule
+import org/allbinary/util/BasicArrayList as BasicArrayListModule
+export BasicArrayListModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
-from org.allbinary.logic.util.event.handler.BasicEventHandler import BasicEventHandler
+type
+    ViewPositionEventHandler* = ref object of BasicEventHandler
+        list*: BasicArrayList
 
+proc newViewPositionEventHandler*(): ViewPositionEventHandler
+proc initViewPositionEventHandler*(this: ViewPositionEventHandler)
+proc getInstance*(t: typedesc[ViewPositionEventHandler]): ViewPositionEventHandler {.discardable.}
+method addListener*(this: ViewPositionEventHandler, layerInterface: AllBinaryLayer) {.base.}
+method removeAllListeners*(this: ViewPositionEventHandler)
+method removeListener*(this: ViewPositionEventHandler, eventListenerInterface: EventListenerInterface)
+method fireEvent*(this: ViewPositionEventHandler, eventObject: AllBinaryEventObject)
+method process*(this: ViewPositionEventHandler, eventObject: AllBinaryEventObject, eventListenerInterface: EventListenerInterface)
+import org/allbinary/logic/util/event/EventStrings as EventStringsModule
+export EventStringsModule
+import org/allbinary/util/BasicArrayListD as BasicArrayListDModule
+export BasicArrayListDModule
+import org/allbinary/view/event/ViewPositionEvent as ViewPositionEventModule
+export ViewPositionEventModule
+import org/allbinary/view/event/ViewPositionEventListenerInterface as ViewPositionEventListenerInterfaceModule
+export ViewPositionEventListenerInterfaceModule
 
-class ViewPositionEventHandler(BasicEventHandler):
-    SINGLETON: ViewPositionEventHandler = None
+var ViewPositionEventHandler_SINGLETONValue: ViewPositionEventHandler
+var ViewPositionEventHandler_SINGLETONSet = false
+proc SINGLETON*(t: typedesc[ViewPositionEventHandler]): ViewPositionEventHandler =
+    if not ViewPositionEventHandler_SINGLETONSet:
+        ViewPositionEventHandler_SINGLETONSet = true
+        ViewPositionEventHandler_SINGLETONValue = newViewPositionEventHandler()
+    ViewPositionEventHandler_SINGLETONValue
+proc `SINGLETON=`*(t: typedesc[ViewPositionEventHandler], value: ViewPositionEventHandler) =
+    ViewPositionEventHandler_SINGLETONSet = true
+    ViewPositionEventHandler_SINGLETONValue = value
 
-    def _init_fields(self) -> None:
-        from org.allbinary.util.BasicArrayList import BasicArrayList
-        from org.allbinary.util.BasicArrayListD import BasicArrayListD
-        self.list_: BasicArrayList = BasicArrayListD()
-    
+# Java field initializers run after the base initializer
+proc initFieldsViewPositionEventHandler(this: ViewPositionEventHandler) =
+    this.list = newBasicArrayListD()
+    discard
 
-    @staticmethod
-    def getInstance() -> ViewPositionEventHandler:
+proc getInstance*(t: typedesc[ViewPositionEventHandler]): ViewPositionEventHandler {.discardable.} =
         return ViewPositionEventHandler.SINGLETON
-    
 
-    def __init__(self) -> None:
-        super().__init__()
-        self._init_fields()
-    
+proc initViewPositionEventHandler*(this: ViewPositionEventHandler) =
+        initBasicEventHandler(this)
+        this.initFieldsViewPositionEventHandler()
+        discard
 
-    def addListener(self, layerInterface: AllBinaryLayer) -> None:
-        from org.allbinary.layer.AllBinaryLayer import AllBinaryLayer
-        if not self.list_.contains(layerInterface):
-            self.list_.add(layerInterface)
-    
+proc newViewPositionEventHandler*(): ViewPositionEventHandler =
+    result = ViewPositionEventHandler()
+    initViewPositionEventHandler(result)
 
-    def removeAllListeners(self) -> None:
-        self.list_.clear()
-        super().removeAllListeners()
-    
+method addListener*(this: ViewPositionEventHandler, layerInterface: AllBinaryLayer) {.base.} =
+        if (not this.list.contains(layerInterface)):
+            this.list.add(layerInterface)
 
-    def removeListener(self, eventListenerInterface: EventListenerInterface) -> None:
-        from org.allbinary.logic.util.event.EventListenerInterface import EventListenerInterface
-        self.list_.remove(eventListenerInterface)
-        super().removeListener(eventListenerInterface)
-    
+method removeAllListeners*(this: ViewPositionEventHandler) =
+        this.list.clear()
+        procCall BasicEventHandler(this).removeAllListeners()
 
-    # throws Exception
-    def fireEvent(self, eventObject: AllBinaryEventObject) -> None:
-        from org.allbinary.layer.AllBinaryLayer import AllBinaryLayer
-        from org.allbinary.logic.util.event.AllBinaryEventObject import AllBinaryEventObject
-        from org.allbinary.logic.util.event.EventStrings import EventStrings
-        index = self.list_.size()
-        while (index := index - 1) >= 0:
-            try:
-                layerInterface: AllBinaryLayer = self.list_.objectArray[index]
-                layerInterface.onChangeEvent(eventObject)
-            except Exception as e:
-                self.logUtil.put(self.commonStrings.EXCEPTION, self, EventStrings.getInstance().FIRE_EVENT, e)
-        super().fireEvent(eventObject)
-    
+method removeListener*(this: ViewPositionEventHandler, eventListenerInterface: EventListenerInterface) =
+        this.list.remove(eventListenerInterface)
+        procCall BasicEventHandler(this).removeListener(eventListenerInterface)
 
-    # throws Exception
-    def process(self, eventObject: AllBinaryEventObject, eventListenerInterface: EventListenerInterface) -> None:
-        from org.allbinary.logic.util.event.AllBinaryEventObject import AllBinaryEventObject
-        from org.allbinary.logic.util.event.EventListenerInterface import EventListenerInterface
-        viewPositionEventListenerInterface: ViewPositionEventListenerInterface = (eventListenerInterface)
-        viewPositionEventListenerInterface.onChangeEvent(eventObject)
-# from org.allbinary.layer.AllBinaryLayer import AllBinaryLayer
-# from org.allbinary.logic.util.event.AllBinaryEventObject import AllBinaryEventObject
-# from org.allbinary.logic.util.event.EventListenerInterface import EventListenerInterface
-# from org.allbinary.logic.util.event.EventStrings import EventStrings
-# from org.allbinary.util.BasicArrayList import BasicArrayList
-# from org.allbinary.util.BasicArrayListD import BasicArrayListD
+method fireEvent*(this: ViewPositionEventHandler, eventObject: AllBinaryEventObject) =
+        block:
+            var index: int32 = this.list.size()
+            while jPreDecrement(index) >= 0:
+                try:
+                    var layerInterface: AllBinaryLayer = AllBinaryLayer(JObject(this.list.objectArray[index]))
+                    layerInterface.onChangeEvent(ViewPositionEvent(JObject(eventObject)))
+                except CatchableError as jcaught:
+                    let e = jToException(jcaught)
+                    this.logUtil.put(this.commonStrings.EXCEPTION, this, EventStrings.getInstance().FIRE_EVENT, e)
+        procCall BasicEventHandler(this).fireEvent(eventObject)
 
+method process*(this: ViewPositionEventHandler, eventObject: AllBinaryEventObject, eventListenerInterface: EventListenerInterface) =
+        let viewPositionEventListenerInterface: ViewPositionEventListenerInterface = (ViewPositionEventListenerInterface(JObject(eventListenerInterface)))
+        viewPositionEventListenerInterface.onChangeEvent(ViewPositionEvent(JObject(eventObject)))
 
-def _ViewPositionEventHandler_SINGLETON() -> object:
-    return ViewPositionEventHandler()
-
-lazy_static(ViewPositionEventHandler, "SINGLETON", _ViewPositionEventHandler_SINGLETON)
+when declared(newViewPositionEventHandlerHook0):
+    newViewPositionEventHandlerHook0 = proc (): BasicEventHandler = newViewPositionEventHandler()
 

@@ -1,41 +1,52 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.ag.layer.pickup.life
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    LifeResources* = ref object of JObject
+        RESOURCE*: string
 
+proc newLifeResources*(): LifeResources
+proc initLifeResources*(this: LifeResources)
+proc getInstance*(t: typedesc[LifeResources]): LifeResources {.discardable.}
 
-class LifeResources:
-    SINGLETON: LifeResources = None
+var LifeResources_SINGLETONValue: LifeResources
+var LifeResources_SINGLETONSet = false
+proc SINGLETON*(t: typedesc[LifeResources]): LifeResources =
+    if not LifeResources_SINGLETONSet:
+        LifeResources_SINGLETONSet = true
+        LifeResources_SINGLETONValue = newLifeResources()
+    LifeResources_SINGLETONValue
 
-    def _init_fields(self) -> None:
-        self.RESOURCE: str = "life_drop_20_by_20.png"
-    
+# Java field initializers run after the base initializer
+proc initFieldsLifeResources(this: LifeResources) =
+    this.RESOURCE = "life_drop_20_by_20.png"
+    discard
 
-    def __init__(self) -> None:
-        self._init_fields()
-    
+proc initLifeResources*(this: LifeResources) =
+        this.initFieldsLifeResources()
+        discard
 
-    @staticmethod
-    def getInstance() -> LifeResources:
+proc newLifeResources*(): LifeResources =
+    result = LifeResources()
+    initLifeResources(result)
+
+proc getInstance*(t: typedesc[LifeResources]): LifeResources {.discardable.} =
         return LifeResources.SINGLETON
-
-
-def _LifeResources_SINGLETON() -> object:
-    return LifeResources()
-
-lazy_static(LifeResources, "SINGLETON", _LifeResources_SINGLETON)
 

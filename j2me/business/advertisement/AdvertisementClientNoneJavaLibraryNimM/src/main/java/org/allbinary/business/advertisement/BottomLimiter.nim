@@ -1,72 +1,87 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.business.advertisement
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    BottomLimiter* = ref object of JObject
+        bottom*: int32
+        deltaY*: int32
+        lower*: int32
+        higher*: int32
 
+proc newBottomLimiter*(): BottomLimiter
+proc initBottomLimiter*(this: BottomLimiter)
+proc getInstance*(t: typedesc[BottomLimiter]): BottomLimiter {.discardable.}
+method init*(this: BottomLimiter, lower: int32, higher: int32) {.base.}
+method update*(this: BottomLimiter) {.base.}
+method getDeltaY*(this: BottomLimiter): int32 {.base, discardable.}
+method getBottom*(this: BottomLimiter): int32 {.base, discardable.}
+import org/allbinary/game/GameAdState as GameAdStateModule
+export GameAdStateModule
+import org/allbinary/graphics/displayable/DisplayInfoSingleton as DisplayInfoSingletonModule
+export DisplayInfoSingletonModule
+import org/allbinary/business/advertisement/GameAdStateFactory as GameAdStateFactoryModule
+export GameAdStateFactoryModule
 
-class BottomLimiter:
-    instance: BottomLimiter = None
+var BottomLimiter_instanceValue: BottomLimiter
+var BottomLimiter_instanceSet = false
+proc instance*(t: typedesc[BottomLimiter]): BottomLimiter =
+    if not BottomLimiter_instanceSet:
+        BottomLimiter_instanceSet = true
+        BottomLimiter_instanceValue = newBottomLimiter()
+    BottomLimiter_instanceValue
 
-    def _init_fields(self) -> None:
-        self.bottom: int = 0
-        self.deltaY: int = 0
-        self.lower: int = 0
-        self.higher: int = 0
-    
+# Java field initializers run after the base initializer
+proc initFieldsBottomLimiter(this: BottomLimiter) =
+    this.bottom = 0
+    this.deltaY = 0
+    this.lower = 0
+    this.higher = 0
+    discard
 
-    @staticmethod
-    def getInstance() -> BottomLimiter:
+proc getInstance*(t: typedesc[BottomLimiter]): BottomLimiter {.discardable.} =
         return BottomLimiter.instance
-    
 
-    def __init__(self) -> None:
-        self._init_fields()
-    
+proc initBottomLimiter*(this: BottomLimiter) =
+        this.initFieldsBottomLimiter()
+        discard
 
-    def init(self, lower: int, higher: int) -> None:
-        self.lower = lower
-        self.higher = higher
-    
+proc newBottomLimiter*(): BottomLimiter =
+    result = BottomLimiter()
+    initBottomLimiter(result)
 
-    def update(self) -> None:
-        from org.allbinary.business.advertisement.GameAdStateFactory import GameAdStateFactory
-        from org.allbinary.game.GameAdState import GameAdState
-        from org.allbinary.graphics.displayable.DisplayInfoSingleton import DisplayInfoSingleton
-        displayInfo: DisplayInfoSingleton = DisplayInfoSingleton.getInstance()
-        gameAdState: GameAdState = GameAdStateFactory.getInstance().getCurrentInstance()
+method init*(this: BottomLimiter, lower: int32, higher: int32) {.base.} =
+        this.lower = lower
+        this.higher = higher
+
+method update*(this: BottomLimiter) {.base.} =
+        var displayInfo: DisplayInfoSingleton = DisplayInfoSingleton.getInstance()
+        var gameAdState: GameAdState = GameAdStateFactory.getInstance().getCurrentInstance()
         if gameAdState.isShowingAt():
-            self.deltaY = self.higher
+            this.deltaY = this.higher
         else:
-            self.deltaY = self.lower
-        self.bottom = displayInfo.getLastHeight() - self.deltaY
-    
+            this.deltaY = this.lower
+        this.bottom = displayInfo.getLastHeight() -% this.deltaY
 
-    def getDeltaY(self) -> int:
-        return self.deltaY
-    
+method getDeltaY*(this: BottomLimiter): int32 {.base, discardable.} =
+        return this.deltaY
 
-    def getBottom(self) -> int:
-        return self.bottom
-# from org.allbinary.game.GameAdState import GameAdState
-# from org.allbinary.graphics.displayable.DisplayInfoSingleton import DisplayInfoSingleton
-
-
-def _BottomLimiter_instance() -> object:
-    return BottomLimiter()
-
-lazy_static(BottomLimiter, "instance", _BottomLimiter_instance)
+method getBottom*(this: BottomLimiter): int32 {.base, discardable.} =
+        return this.bottom
 

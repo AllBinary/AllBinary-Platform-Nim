@@ -1,46 +1,59 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/business/advertisement/GameAdStateBase as GameAdStateBaseModule
+export GameAdStateBaseModule
+import org/allbinary/business/advertisement/AdConfiguration as AdConfigurationModule
+export AdConfigurationModule
+import org/allbinary/input/event/VirtualKeyboardEvent as VirtualKeyboardEventModule
+export VirtualKeyboardEventModule
+import org/allbinary/input/event/VirtualKeyboardEventListenerInterface as VirtualKeyboardEventListenerInterfaceModule
+export VirtualKeyboardEventListenerInterfaceModule
+import org/allbinary/logic/util/event/AllBinaryEventObject as AllBinaryEventObjectModule
+export AllBinaryEventObjectModule
 
-from org.allbinary.business.advertisement.GameAdStateBase import GameAdStateBase
-from org.allbinary.input.event.VirtualKeyboardEventListenerInterface import VirtualKeyboardEventListenerInterface
+type
+    GameAdState* = ref object of GameAdStateBase
+
+converter jAsVirtualKeyboardEventListenerInterface*(value: GameAdState): VirtualKeyboardEventListenerInterface = cast[VirtualKeyboardEventListenerInterface](value)
+proc newGameAdState*(adConfiguration: AdConfiguration): GameAdState
+proc initGameAdState*(this: GameAdState, adConfiguration: AdConfiguration)
+method onVirtualKeyboardEvent*(this: GameAdState, virtualKeyboardEvent: VirtualKeyboardEvent)
+method onEvent*(this: GameAdState, eventObject: AllBinaryEventObject)
+import org/allbinary/input/event/VirtualKeyboardEventHandler as VirtualKeyboardEventHandlerModule
+export VirtualKeyboardEventHandlerModule
 
 
-class GameAdState(GameAdStateBase, VirtualKeyboardEventListenerInterface):
-    
+proc initGameAdState*(this: GameAdState, adConfiguration: AdConfiguration) =
+        initGameAdStateBase(this, adConfiguration)
+        VirtualKeyboardEventHandler.getInstance().addListenerInterface(this)
 
-    def __init__(self, adConfiguration: AdConfiguration) -> None:
-        from org.allbinary.business.advertisement.AdConfiguration import AdConfiguration
-        from org.allbinary.input.event.VirtualKeyboardEventHandler import VirtualKeyboardEventHandler
-        super().__init__(adConfiguration)
-        VirtualKeyboardEventHandler.getInstance().addListenerInterface(self)
-    
+proc newGameAdState*(adConfiguration: AdConfiguration): GameAdState =
+    result = GameAdState()
+    initGameAdState(result, adConfiguration)
 
-    # throws Exception
-    def onVirtualKeyboardEvent(self, virtualKeyboardEvent: VirtualKeyboardEvent) -> None:
-        from org.allbinary.input.event.VirtualKeyboardEvent import VirtualKeyboardEvent
-        pass
-    
+method onVirtualKeyboardEvent*(this: GameAdState, virtualKeyboardEvent: VirtualKeyboardEvent) =
+        discard
 
-    def onEvent(self, eventObject: AllBinaryEventObject) -> None:
-        from org.allbinary.logic.util.event.AllBinaryEventObject import AllBinaryEventObject
-        super().onEvent(eventObject)
-# from org.allbinary.business.advertisement.AdConfiguration import AdConfiguration
-# from org.allbinary.input.event.VirtualKeyboardEvent import VirtualKeyboardEvent
-# from org.allbinary.input.event.VirtualKeyboardEventHandler import VirtualKeyboardEventHandler
-# from org.allbinary.logic.util.event.AllBinaryEventObject import AllBinaryEventObject
+method onEvent*(this: GameAdState, eventObject: AllBinaryEventObject) =
+        procCall GameAdStateBase(this).onEvent(eventObject)
 
+when declared(newGameAdStateHook1):
+    newGameAdStateHook1 = proc (adConfiguration: AdConfiguration): GameAdStateBase = newGameAdState(adConfiguration)
 

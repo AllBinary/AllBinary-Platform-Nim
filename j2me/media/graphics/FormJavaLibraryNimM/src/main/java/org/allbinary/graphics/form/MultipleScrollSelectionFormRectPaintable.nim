@@ -1,38 +1,55 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.graphics.form
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import javax/microedition/lcdui/Graphics as GraphicsModule
+export GraphicsModule
+import org/allbinary/graphics/paint/Paintable as PaintableModule
+export PaintableModule
+import org/allbinary/graphics/form/MultipleScrollSelectionHorizontalForm as MultipleScrollSelectionHorizontalFormModule
+export MultipleScrollSelectionHorizontalFormModule
 
-from org.allbinary.graphics.paint.Paintable import Paintable
+type
+    MultipleScrollSelectionFormRectPaintable* = ref object of Paintable
+        multipleScrollSelectionForm*: MultipleScrollSelectionHorizontalForm
+
+proc newMultipleScrollSelectionFormRectPaintable*(multipleScrollSelectionForm: MultipleScrollSelectionHorizontalForm): MultipleScrollSelectionFormRectPaintable
+proc initMultipleScrollSelectionFormRectPaintable*(this: MultipleScrollSelectionFormRectPaintable, multipleScrollSelectionForm: MultipleScrollSelectionHorizontalForm)
+method paint*(this: MultipleScrollSelectionFormRectPaintable, graphics: Graphics)
 
 
-class MultipleScrollSelectionFormRectPaintable(Paintable):
-
-    def _init_fields(self) -> None:
-        self.multipleScrollSelectionForm: MultipleScrollSelectionHorizontalForm = None
+# Java field initializers run after the base initializer
+proc initFieldsMultipleScrollSelectionFormRectPaintable(this: MultipleScrollSelectionFormRectPaintable) =
     
+    discard
 
-    def __init__(self, multipleScrollSelectionForm: MultipleScrollSelectionHorizontalForm) -> None:
-        super().__init__()
-        self._init_fields()
-        self.multipleScrollSelectionForm = multipleScrollSelectionForm
-    
+proc initMultipleScrollSelectionFormRectPaintable*(this: MultipleScrollSelectionFormRectPaintable, multipleScrollSelectionForm: MultipleScrollSelectionHorizontalForm) =
+        initPaintable(this)
+        this.initFieldsMultipleScrollSelectionFormRectPaintable()
+        this.multipleScrollSelectionForm = multipleScrollSelectionForm
 
-    def paint(self, graphics: Graphics) -> None:
-        from javax.microedition.lcdui.Graphics import Graphics
-        self.multipleScrollSelectionForm.fillRect(graphics)
-# from javax.microedition.lcdui.Graphics import Graphics
+proc newMultipleScrollSelectionFormRectPaintable*(multipleScrollSelectionForm: MultipleScrollSelectionHorizontalForm): MultipleScrollSelectionFormRectPaintable =
+    result = MultipleScrollSelectionFormRectPaintable()
+    initMultipleScrollSelectionFormRectPaintable(result, multipleScrollSelectionForm)
 
+method paint*(this: MultipleScrollSelectionFormRectPaintable, graphics: Graphics) =
+        this.multipleScrollSelectionForm.fillRect(graphics)
+
+when declared(newMultipleScrollSelectionFormRectPaintableHook1):
+    newMultipleScrollSelectionFormRectPaintableHook1 = proc (multipleScrollSelectionForm: MultipleScrollSelectionHorizontalForm): Paintable = newMultipleScrollSelectionFormRectPaintable(multipleScrollSelectionForm)
 

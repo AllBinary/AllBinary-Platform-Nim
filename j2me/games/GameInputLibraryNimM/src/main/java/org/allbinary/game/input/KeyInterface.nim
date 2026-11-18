@@ -1,39 +1,36 @@
-# 
-# AllBinary Open License Version 1 
-# Copyright (c) 2025 AllBinary 
-#  
-# By agreeing to this license you and any business entity you represent are 
-# legally bound to the AllBinary Open License Version 1 legal agreement. 
-#  
-# You may obtain the AllBinary Open License Version 1 legal agreement from 
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
-#  
-# Created By: Travis Berthelot 
-#   
+#[
+  
+  AllBinary Open License Version 1 
+  Copyright (c) 2025 AllBinary 
+   
+  By agreeing to this license you and any business entity you represent are 
+  legally bound to the AllBinary Open License Version 1 legal agreement. 
+   
+  You may obtain the AllBinary Open License Version 1 legal agreement from 
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
+   
+  Created By: Travis Berthelot 
+    
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.input
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+
+type
+    KeyInterface* = ref object of JObject
 
 
+method keyPressed*(this: KeyInterface, keyCode: int32) {.base.} =
+        raise newJException("AbstractMethodError", "keyPressed")
 
-# Java interface
-class KeyInterface:
-    
+method keyReleased*(this: KeyInterface, keyCode: int32) {.base.} =
+        raise newJException("AbstractMethodError", "keyReleased")
 
-    def keyPressed(self, keyCode: int) -> None:
-        raise NotImplementedError()
-    
+method keyPressedByDevice*(this: KeyInterface, keyCode: int32, deviceId: int32) {.base.} =
+        raise newJException("AbstractMethodError", "keyPressedByDevice")
 
-    def keyReleased(self, keyCode: int) -> None:
-        raise NotImplementedError()
-    
-
-    def keyPressedByDevice(self, keyCode: int, deviceId: int) -> None:
-        raise NotImplementedError()
-    
-
-    def keyReleasedByDevice(self, keyCode: int, deviceId: int) -> None:
-        raise NotImplementedError()
-
+method keyReleasedByDevice*(this: KeyInterface, keyCode: int32, deviceId: int32) {.base.} =
+        raise newJException("AbstractMethodError", "keyReleasedByDevice")
 

@@ -1,51 +1,66 @@
-# 
-# AllBinary Open License Version 1 
-# Copyright (c) 2022 AllBinary 
-# 
-# By agreeing to this license you and any business entity you represent are 
-# legally bound to the AllBinary Open License Version 1 legal agreement. 
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from 
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
-# 
-# Created By: Travis Berthelot 
-#  
+#[
+  
+  AllBinary Open License Version 1 
+  Copyright (c) 2022 AllBinary 
+  
+  By agreeing to this license you and any business entity you represent are 
+  legally bound to the AllBinary Open License Version 1 legal agreement. 
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from 
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
+  
+  Created By: Travis Berthelot 
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.displayable
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import javax/microedition/lcdui/Canvas as CanvasModule
+export CanvasModule
+import org/allbinary/thread/ARunnable as ARunnableModule
+export ARunnableModule
 
-from org.allbinary.thread.ARunnable import ARunnable
+type
+    RepaintRunnable* = ref object of ARunnable
+        canvas*: Canvas
+
+proc newRepaintRunnable*(canvas: Canvas): RepaintRunnable
+proc initRepaintRunnable*(this: RepaintRunnable, canvas: Canvas)
+method run*(this: RepaintRunnable)
+import org/allbinary/graphics/displayable/DisplayInfoSingleton as DisplayInfoSingletonModule
+export DisplayInfoSingletonModule
+import org/allbinary/logic/communication/log/LogUtil as LogUtilModule
+export LogUtilModule
+import org/allbinary/string/CommonStrings as CommonStringsModule
+export CommonStringsModule
 
 
-class RepaintRunnable(ARunnable):
-
-    def _init_fields(self) -> None:
-        from javax.microedition.lcdui.Canvas import Canvas
-        self.canvas: Canvas = None
+# Java field initializers run after the base initializer
+proc initFieldsRepaintRunnable(this: RepaintRunnable) =
     
+    discard
 
-    def __init__(self, canvas: Canvas) -> None:
-        from javax.microedition.lcdui.Canvas import Canvas
-        super().__init__()
-        self._init_fields()
-        self.canvas = canvas
-    
+proc initRepaintRunnable*(this: RepaintRunnable, canvas: Canvas) =
+        initARunnable(this)
+        this.initFieldsRepaintRunnable()
+        this.canvas = canvas
 
-    def run(self) -> None:
-        from org.allbinary.graphics.displayable.DisplayInfoSingleton import DisplayInfoSingleton
-        from org.allbinary.logic.communication.log.LogUtil import LogUtil
-        from org.allbinary.string.CommonStrings import CommonStrings
+proc newRepaintRunnable*(canvas: Canvas): RepaintRunnable =
+    result = RepaintRunnable()
+    initRepaintRunnable(result, canvas)
+
+method run*(this: RepaintRunnable) =
         try:
-            self.canvas.repaint()
+            this.canvas.repaint()
             DisplayInfoSingleton.getInstance().process()
-        except Exception as e:
-            commonStrings: CommonStrings = CommonStrings.getInstance()
-            logUtil: LogUtil = LogUtil.getInstance()
-            logUtil.put(commonStrings.EXCEPTION, self, commonStrings.RUN, e)
-# from javax.microedition.lcdui.Canvas import Canvas
-# from org.allbinary.graphics.displayable.DisplayInfoSingleton import DisplayInfoSingleton
-# from org.allbinary.logic.communication.log.LogUtil import LogUtil
-# from org.allbinary.string.CommonStrings import CommonStrings
+        except CatchableError as jcaught:
+            let e = jToException(jcaught)
+            let commonStrings: CommonStrings = CommonStrings.getInstance()
+            let logUtil: LogUtil = LogUtil.getInstance()
+            logUtil.put(commonStrings.EXCEPTION, this, commonStrings.RUN, e)
 
+when declared(newRepaintRunnableHook1):
+    newRepaintRunnableHook1 = proc (canvas: Canvas): ARunnable = newRepaintRunnable(canvas)
 

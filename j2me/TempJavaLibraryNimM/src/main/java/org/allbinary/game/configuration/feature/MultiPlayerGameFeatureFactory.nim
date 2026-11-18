@@ -1,30 +1,36 @@
 # Generated Code Do Not Modify
 # package org.allbinary.game.configuration.feature
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    MultiPlayerGameFeatureFactory* = ref object of JObject
 
+proc newMultiPlayerGameFeatureFactory*(): MultiPlayerGameFeatureFactory
+proc initMultiPlayerGameFeatureFactory*(this: MultiPlayerGameFeatureFactory)
+proc getInstance*(t: typedesc[MultiPlayerGameFeatureFactory]): MultiPlayerGameFeatureFactory {.discardable.}
+method addCommands*(this: MultiPlayerGameFeatureFactory, anyType: JObject) {.base.}
 
-class MultiPlayerGameFeatureFactory:
-    instance: MultiPlayerGameFeatureFactory = None
-    
+var MultiPlayerGameFeatureFactory_instanceValue: MultiPlayerGameFeatureFactory
+var MultiPlayerGameFeatureFactory_instanceSet = false
+proc instance*(t: typedesc[MultiPlayerGameFeatureFactory]): MultiPlayerGameFeatureFactory =
+    if not MultiPlayerGameFeatureFactory_instanceSet:
+        MultiPlayerGameFeatureFactory_instanceSet = true
+        MultiPlayerGameFeatureFactory_instanceValue = newMultiPlayerGameFeatureFactory()
+    MultiPlayerGameFeatureFactory_instanceValue
 
-    @staticmethod
-    def getInstance() -> MultiPlayerGameFeatureFactory:
+proc getInstance*(t: typedesc[MultiPlayerGameFeatureFactory]): MultiPlayerGameFeatureFactory {.discardable.} =
         return MultiPlayerGameFeatureFactory.instance
-    
 
-    def __init__(self) -> None:
-        pass
-    
+proc initMultiPlayerGameFeatureFactory*(this: MultiPlayerGameFeatureFactory) =
+        discard
+        discard
 
-    def addCommands(self, anyType: object) -> None:
-        pass
+proc newMultiPlayerGameFeatureFactory*(): MultiPlayerGameFeatureFactory =
+    result = MultiPlayerGameFeatureFactory()
+    initMultiPlayerGameFeatureFactory(result)
 
-
-def _MultiPlayerGameFeatureFactory_instance() -> object:
-    return MultiPlayerGameFeatureFactory()
-
-lazy_static(MultiPlayerGameFeatureFactory, "instance", _MultiPlayerGameFeatureFactory_instance)
+method addCommands*(this: MultiPlayerGameFeatureFactory, anyType: JObject) {.base.} =
+        discard
 

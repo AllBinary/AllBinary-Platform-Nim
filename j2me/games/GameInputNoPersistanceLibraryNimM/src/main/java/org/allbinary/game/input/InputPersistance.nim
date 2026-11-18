@@ -1,97 +1,114 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.input
 
-from __future__ import annotations
-
-from org.allbinary.game.configuration.persistance.BasicPersitance import BasicPersitance
-
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/game/configuration/persistance/BasicPersitance as BasicPersitanceModule
+export BasicPersitanceModule
+import org/allbinary/logic/system/security/licensing/AbeClientInformationInterface as AbeClientInformationInterfaceModule
+export AbeClientInformationInterfaceModule
+import org/allbinary/util/HashtableUtil as HashtableUtilModule
+export HashtableUtilModule
+import org/allbinary/util/ABHashtable as ABHashtableModule
+export ABHashtableModule
 
 #GameInputNoPersistanceLibrary
-class InputPersistance(BasicPersitance):
+type
+    InputPersistance* = ref object of BasicPersitance
+        hashtableUtil*: HashtableUtil
 
-    def _init_fields(self) -> None:
-        from org.allbinary.util.HashtableUtil import HashtableUtil
-        self.hashtableUtil: HashtableUtil = HashtableUtil.getInstance()
-    
+proc newInputPersistance*(name: string): InputPersistance
+proc initInputPersistance*(this: InputPersistance, name: string)
+method loadAll*(this: InputPersistance, abeClientInformation: AbeClientInformationInterface) {.base.}
+method save*(this: InputPersistance, abeClientInformation: AbeClientInformationInterface, hashtable: ABHashtable) {.base.}
+import javax/microedition/rms/RecordEnumeration as RecordEnumerationModule
+export RecordEnumerationModule
+import javax/microedition/rms/RecordStore as RecordStoreModule
+export RecordStoreModule
+import org/allbinary/game/configuration/persistance/NullRecordComparator as NullRecordComparatorModule
+export NullRecordComparatorModule
+import org/allbinary/game/configuration/persistance/NullRecordFilter as NullRecordFilterModule
+export NullRecordFilterModule
+import org/allbinary/logic/communication/log/PreLogUtil as PreLogUtilModule
+export PreLogUtilModule
+import org/allbinary/logic/math/SmallIntegerSingletonFactory as SmallIntegerSingletonFactoryModule
+export SmallIntegerSingletonFactoryModule
+import org/allbinary/logic/string/StringMaker as StringMakerModule
+export StringMakerModule
+import org/allbinary/logic/string/StringUtil as StringUtilModule
+export StringUtilModule
+import org/allbinary/util/BasicArrayList as BasicArrayListModule
+export BasicArrayListModule
+import org/allbinary/logic/StdUtil as StdUtilModule
+export StdUtilModule
+import org/allbinary/game/input/Input as InputModule
+export InputModule
 
-    def __init__(self, name: str) -> None:
-        super().__init__(name)
-        self._init_fields()
-    
 
-    # throws Exception
-    def loadAll(self, abeClientInformation: AbeClientInformationInterface) -> None:
-        from javax.microedition.rms.RecordEnumeration import RecordEnumeration
-        from javax.microedition.rms.RecordStore import RecordStore
-        from org.allbinary.game.configuration.persistance.NullRecordComparator import NullRecordComparator
-        from org.allbinary.game.configuration.persistance.NullRecordFilter import NullRecordFilter
-        from org.allbinary.logic.math.SmallIntegerSingletonFactory import SmallIntegerSingletonFactory
-        from org.allbinary.logic.string.StringMaker import StringMaker
-        from org.allbinary.logic.system.security.licensing.AbeClientInformationInterface import AbeClientInformationInterface
-        from org.allbinary.logic.StdUtil import StdUtil
-        from org.allbinary.util.ABHashtable import ABHashtable
-        recordStore: RecordStore = RecordStore.openRecordStore(self.getRecordId(abeClientInformation), True)
-        recordEnum: RecordEnumeration = recordStore.enumerateRecords(NullRecordFilter.NULL_RECORD_FILTER, NullRecordComparator.NULL_RECORD_COMPARATOR, True)
-        hashtable: ABHashtable[object, object] = None
-        stringBuffer: StringMaker = StringMaker()
-        smallIntegerSingletonFactory: SmallIntegerSingletonFactory = SmallIntegerSingletonFactory.getInstance()
-        id: int = 0
+# Java field initializers run after the base initializer
+proc initFieldsInputPersistance(this: InputPersistance) =
+    this.hashtableUtil = HashtableUtil.getInstance()
+    discard
+
+proc initInputPersistance*(this: InputPersistance, name: string) =
+        initBasicPersitance(this, name)
+        this.initFieldsInputPersistance()
+
+proc newInputPersistance*(name: string): InputPersistance =
+    result = InputPersistance()
+    initInputPersistance(result, name)
+
+method loadAll*(this: InputPersistance, abeClientInformation: AbeClientInformationInterface) {.base.} =
+        let recordStore: RecordStore = RecordStore.openRecordStore(this.getRecordId(abeClientInformation), true)
+        let recordEnum: RecordEnumeration = recordStore.enumerateRecords(NullRecordFilter.NULL_RECORD_FILTERStatic, NullRecordComparator.NULL_RECORD_COMPARATORStatic, true)
+        var hashtable: ABHashtable = nil
+        let stringBuffer: StringMaker = newStringMaker()
+        let smallIntegerSingletonFactory: SmallIntegerSingletonFactory = SmallIntegerSingletonFactory.getInstance()
+        var id: int32 = 0
         while recordEnum.hasNextElement():
             id = recordEnum.nextRecordId()
             stringBuffer.delete(0, stringBuffer.length())
-            self.logUtil.putF(str(stringBuffer.append(self.persistanceStrings.LOADING_ID).appendint(id)), self, self.persistanceStrings.LOAD_ALL)
+            this.logUtil.putF(stringBuffer.append(this.persistanceStrings.LOADING_ID).appendint(id).toString(), this, this.persistanceStrings.LOAD_ALL)
             hashtable = StdUtil.getInstance().createHashtable()
-            self.valueList.add(hashtable)
-            self.idList.add(smallIntegerSingletonFactory.getAt(id))
+            this.valueList.add(hashtable)
+            this.idList.add(smallIntegerSingletonFactory.getAt(id))
         recordStore.closeRecordStore()
-    
 
-    # throws Exception
-    def save(self, abeClientInformation: AbeClientInformationInterface, hashtable: ABHashtable[object, object]) -> None:
-        from javax.microedition.rms.RecordStore import RecordStore
-        from org.allbinary.logic.communication.log.PreLogUtil import PreLogUtil
-        from org.allbinary.logic.string.StringMaker import StringMaker
-        from org.allbinary.logic.string.StringUtil import StringUtil
-        from org.allbinary.logic.system.security.licensing.AbeClientInformationInterface import AbeClientInformationInterface
-        from org.allbinary.util.BasicArrayList import BasicArrayList
-        from org.allbinary.util.ABHashtable import ABHashtable
-        PreLogUtil.put(str(StringMaker().append(self.persistanceStrings.NOT_SAVING).append(StringUtil.getInstance().toString(hashtable))), self, self.commonStrings.SAVE)
-        recordStore: RecordStore = RecordStore.openRecordStore(self.getRecordId(abeClientInformation), True)
-        gameActionInput: Input = None
-        list_: BasicArrayList = None
-        input: Input = None
-        inputObjectArray: list[object] = self.hashtableUtil.getKeysAsArray(hashtable)
-        size: int = len(inputObjectArray)
-        for index in range(0, size):
-            gameActionInput = inputObjectArray[index]
-            list_ = hashtable.get(inputObjectArray[index])
-            for index2 in range(0, list_.size()):
-                input = list_.get(index2)
+method save*(this: InputPersistance, abeClientInformation: AbeClientInformationInterface, hashtable: ABHashtable) {.base.} =
+        PreLogUtil.put(newStringMaker().append(this.persistanceStrings.NOT_SAVING).append(StringUtil.getInstance().toString(hashtable)).toString(), this, this.commonStrings.SAVE)
+        let recordStore: RecordStore = RecordStore.openRecordStore(this.getRecordId(abeClientInformation), true)
+        var gameActionInput: Input = nil
+        var list: BasicArrayList = nil
+        var input: Input = nil
+        let inputObjectArray: JArray[JObject] = this.hashtableUtil.getKeysAsArray(hashtable)
+        let size: int32 = inputObjectArray.length
+        block:
+            var index: int32 = 0
+            while index < size:
+                defer: index = index +% 1
+                gameActionInput = Input(JObject(inputObjectArray[index]))
+                list = BasicArrayList(JObject(hashtable.get(inputObjectArray[index])))
+                block:
+                    var index2: int32 = 0
+                    while index2 < list.size():
+                        defer: index2 = index2 +% 1
+                        input = Input(JObject(list.get(index2)))
         recordStore.closeRecordStore()
-# from javax.microedition.rms.RecordEnumeration import RecordEnumeration
-# from javax.microedition.rms.RecordStore import RecordStore
-# from org.allbinary.game.configuration.persistance.NullRecordComparator import NullRecordComparator
-# from org.allbinary.game.configuration.persistance.NullRecordFilter import NullRecordFilter
-# from org.allbinary.logic.communication.log.PreLogUtil import PreLogUtil
-# from org.allbinary.logic.math.SmallIntegerSingletonFactory import SmallIntegerSingletonFactory
-# from org.allbinary.logic.string.StringMaker import StringMaker
-# from org.allbinary.logic.string.StringUtil import StringUtil
-# from org.allbinary.logic.system.security.licensing.AbeClientInformationInterface import AbeClientInformationInterface
-# from org.allbinary.util.BasicArrayList import BasicArrayList
-# from org.allbinary.util.HashtableUtil import HashtableUtil
-# from org.allbinary.logic.StdUtil import StdUtil
-# from org.allbinary.util.ABHashtable import ABHashtable
 
+when declared(newInputPersistanceHook1):
+    newInputPersistanceHook1 = proc (name: string): BasicPersitance = newInputPersistance(name)
 

@@ -1,134 +1,141 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.input.mapping
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/game/input/Input as InputModule
+export InputModule
+import org/allbinary/logic/communication/log/LogUtil as LogUtilModule
+export LogUtilModule
+import org/allbinary/string/CommonStrings as CommonStringsModule
+export CommonStringsModule
+import org/allbinary/util/BasicArrayList as BasicArrayListModule
+export BasicArrayListModule
+import org/allbinary/util/ABHashtable as ABHashtableModule
+export ABHashtableModule
+import org/allbinary/game/input/mapping/InputToGameKeyMapping as InputToGameKeyMappingModule
+export InputToGameKeyMappingModule
+
+type
+    InputMapping* = ref object of JObject
+        logUtil*: LogUtil
+        commonStrings*: CommonStrings
+        hashtable*: ABHashtable
+        mappedList*: BasicArrayList
+
+proc newInputMapping*(): InputMapping
+proc initInputMapping*(this: InputMapping)
+method getTotalMapped*(this: InputMapping): int32 {.base, discardable.}
+method isDefaultNew*(this: InputMapping): bool {.base, discardable.}
+method getDefault*(this: InputMapping): InputToGameKeyMapping {.base, discardable.}
+method removeAll*(this: InputMapping) {.base.}
+method remove*(this: InputMapping, input: Input, mappedToInput: Input) {.base.}
+method addMapping*(this: InputMapping, inputToGameKeyMapping: InputToGameKeyMapping) {.base.}
+method add*(this: InputMapping, input: Input, mappedToInput: Input) {.base.}
+method isMapped*(this: InputMapping, input: Input): bool {.base, discardable.}
+method getMappedInput*(this: InputMapping, id: Input): BasicArrayList {.base, discardable.}
+method getHashtable*(this: InputMapping): ABHashtable {.base, discardable.}
+import org/allbinary/logic/string/StringMaker as StringMakerModule
+export StringMakerModule
+import org/allbinary/logic/string/StringUtil as StringUtilModule
+export StringUtilModule
+import org/allbinary/string/CommonLabels as CommonLabelsModule
+export CommonLabelsModule
+import org/allbinary/util/BasicArrayListD as BasicArrayListDModule
+export BasicArrayListDModule
+import org/allbinary/logic/StdUtil as StdUtilModule
+export StdUtilModule
 
 
+# Java field initializers run after the base initializer
+proc initFieldsInputMapping(this: InputMapping) =
+    this.logUtil = LogUtil.getInstance()
+    this.commonStrings = CommonStrings.getInstance()
+    this.hashtable = StdUtil.getInstance().createHashtable()
+    this.mappedList = newBasicArrayListD()
+    discard
 
-class InputMapping:
+proc initInputMapping*(this: InputMapping) =
+        this.initFieldsInputMapping()
+        discard
 
-    def _init_fields(self) -> None:
-        from org.allbinary.logic.communication.log.LogUtil import LogUtil
-        from org.allbinary.string.CommonStrings import CommonStrings
-        from org.allbinary.util.BasicArrayList import BasicArrayList
-        from org.allbinary.util.BasicArrayListD import BasicArrayListD
-        from org.allbinary.logic.StdUtil import StdUtil
-        from org.allbinary.util.ABHashtable import ABHashtable
-        self.logUtil: LogUtil = LogUtil.getInstance()
-        self.commonStrings: CommonStrings = CommonStrings.getInstance()
-        self.hashtable: ABHashtable[object, object] = StdUtil.getInstance().createHashtable()
-        self.mappedList: BasicArrayList = BasicArrayListD()
-    
+proc newInputMapping*(): InputMapping =
+    result = InputMapping()
+    initInputMapping(result)
 
-    def __init__(self) -> None:
-        self._init_fields()
-    
+method getTotalMapped*(this: InputMapping): int32 {.base, discardable.} =
+        return this.hashtable.size()
 
-    def getTotalMapped(self) -> int:
-        return self.hashtable.size()
-    
+method isDefaultNew*(this: InputMapping): bool {.base, discardable.} =
+        return false
 
-    def isDefaultNew(self) -> bool:
-        return False
-    
-
-    def getDefault(self) -> InputToGameKeyMapping:
-        from org.allbinary.game.input.mapping.InputToGameKeyMapping import InputToGameKeyMapping
+method getDefault*(this: InputMapping): InputToGameKeyMapping {.base, discardable.} =
         return InputToGameKeyMapping.getNullInstance()
-    
 
-    def removeAll(self) -> None:
-        self.hashtable.clear()
-        self.mappedList.clear()
-    
+method removeAll*(this: InputMapping) {.base.} =
+        this.hashtable.clear()
+        this.mappedList.clear()
 
-    def remove(self, input: Input, mappedToInput: Input) -> None:
-        from org.allbinary.game.input.Input import Input
-        from org.allbinary.logic.string.StringMaker import StringMaker
-        from org.allbinary.logic.string.StringUtil import StringUtil
-        from org.allbinary.string.CommonLabels import CommonLabels
-        from org.allbinary.util.BasicArrayList import BasicArrayList
-        stringBuffer: StringMaker = StringMaker()
-        stringUtil: StringUtil = StringUtil.getInstance()
+method remove*(this: InputMapping, input: Input, mappedToInput: Input) {.base.} =
+        let stringBuffer: StringMaker = newStringMaker()
+        let stringUtil: StringUtil = StringUtil.getInstance()
         stringBuffer.append(CommonLabels.getInstance().START_LABEL)
         stringBuffer.append(stringUtil.toString(input))
         stringBuffer.append(" == ")
         stringBuffer.append(stringUtil.toString(mappedToInput))
-        self.logUtil.putF(str(stringBuffer), self, "InputMapping::remove")
-        list_: BasicArrayList = self.getMappedInput(input)
-        if list_.contains(mappedToInput):
-            list_.remove(mappedToInput)
-            self.mappedList.remove(mappedToInput)
+        this.logUtil.putF(stringBuffer.toString(), this, "InputMapping::remove")
+        let list: BasicArrayList = this.getMappedInput(input)
+        if list.contains(mappedToInput):
+            list.remove(mappedToInput)
+            this.mappedList.remove(mappedToInput)
             stringBuffer.delete(0, stringBuffer.length())
             stringBuffer.append("Removed: ")
             stringBuffer.append(stringUtil.toString(input))
             stringBuffer.append(" == ")
             stringBuffer.append(stringUtil.toString(mappedToInput))
-            self.logUtil.putF(str(stringBuffer), self, "InputMapping::remove")
+            this.logUtil.putF(stringBuffer.toString(), this, "InputMapping::remove")
         else:
             stringBuffer.delete(0, stringBuffer.length())
             stringBuffer.append("Not Deleted: ")
             stringBuffer.append(stringUtil.toString(input))
             stringBuffer.append(" == ")
             stringBuffer.append(stringUtil.toString(mappedToInput))
-            self.logUtil.putF(str(stringBuffer), self, "InputMapping::remove")
-    
+            this.logUtil.putF(stringBuffer.toString(), this, "InputMapping::remove")
 
-    # throws Exception
-    def addMapping(self, inputToGameKeyMapping: InputToGameKeyMapping) -> None:
-        raise Exception(self.commonStrings.NOT_IMPLEMENTED)
-    
+method addMapping*(this: InputMapping, inputToGameKeyMapping: InputToGameKeyMapping) {.base.} =
+        raise newJException("Exception", this.commonStrings.NOT_IMPLEMENTED)
 
-    def add(self, input: Input, mappedToInput: Input) -> None:
-        from org.allbinary.game.input.Input import Input
-        from org.allbinary.util.BasicArrayList import BasicArrayList
-        list_: BasicArrayList = self.getMappedInput(input)
-        if not list_.contains(mappedToInput):
-            list_.add(mappedToInput)
-            self.mappedList.add(mappedToInput)
-    
+method add*(this: InputMapping, input: Input, mappedToInput: Input) {.base.} =
+        var list: BasicArrayList = this.getMappedInput(input)
+        if (not list.contains(mappedToInput)):
+            list.add(mappedToInput)
+            this.mappedList.add(mappedToInput)
 
-    def isMapped(self, input: Input) -> bool:
-        from org.allbinary.game.input.Input import Input
-        return self.mappedList.contains(input)
-    
+method isMapped*(this: InputMapping, input: Input): bool {.base, discardable.} =
+        return this.mappedList.contains(input)
 
-    def getMappedInput(self, id: Input) -> BasicArrayList:
-        from org.allbinary.game.input.Input import Input
-        from org.allbinary.util.BasicArrayList import BasicArrayList
-        from org.allbinary.util.BasicArrayListD import BasicArrayListD
-        mappingInputCanBeNullList: object = self.hashtable.get(id)
-        if mappingInputCanBeNullList is None:
-            list_: BasicArrayList = BasicArrayListD()
-            self.hashtable.put(id, list_)
-            return list_
-        return mappingInputCanBeNullList
-    
+method getMappedInput*(this: InputMapping, id: Input): BasicArrayList {.base, discardable.} =
+        let mappingInputCanBeNullList: JObject = this.hashtable.get(id)
+        if (jIsNil(mappingInputCanBeNullList)):
+            let list: BasicArrayList = newBasicArrayListD()
+            this.hashtable.put(id, list)
+            return list
+        return BasicArrayList(JObject(mappingInputCanBeNullList))
 
-    def getHashtable(self) -> ABHashtable[object, object]:
-        from org.allbinary.util.ABHashtable import ABHashtable
-        return self.hashtable
-# from org.allbinary.game.input.Input import Input
-# from org.allbinary.logic.communication.log.LogUtil import LogUtil
-# from org.allbinary.logic.string.StringMaker import StringMaker
-# from org.allbinary.logic.string.StringUtil import StringUtil
-# from org.allbinary.string.CommonLabels import CommonLabels
-# from org.allbinary.string.CommonStrings import CommonStrings
-# from org.allbinary.util.BasicArrayList import BasicArrayList
-# from org.allbinary.util.BasicArrayListD import BasicArrayListD
-# from org.allbinary.logic.StdUtil import StdUtil
-# from org.allbinary.util.ABHashtable import ABHashtable
-
+method getHashtable*(this: InputMapping): ABHashtable {.base, discardable.} =
+        return this.hashtable
 

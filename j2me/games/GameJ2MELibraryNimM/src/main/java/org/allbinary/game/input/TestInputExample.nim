@@ -1,64 +1,75 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.input
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import javax/microedition/lcdui/Graphics as GraphicsModule
+export GraphicsModule
+import org/allbinary/game/input/TestInputInterface as TestInputInterfaceModule
+export TestInputInterfaceModule
 
-from org.allbinary.game.input.TestInputInterface import TestInputInterface
+type
+    TestInputExample* = ref object of TestInputInterface
+        testValue*: int32
+
+proc newTestInputExample*(): TestInputExample
+method up*(this: TestInputExample)
+method down*(this: TestInputExample)
+method left*(this: TestInputExample)
+method right*(this: TestInputExample)
+method strafeLeft*(this: TestInputExample)
+method strafeRight*(this: TestInputExample)
+method paint*(this: TestInputExample, graphics: Graphics)
+method paintThreed*(this: TestInputExample, graphics: Graphics)
 
 
-class TestInputExample(TestInputInterface):
+# Java field initializers run after the base initializer
+proc initFieldsTestInputExample(this: TestInputExample) =
+    this.testValue = 0
+    discard
 
-    def _init_fields(self) -> None:
-        self.testValue: int = 0
+proc initTestInputExample*(this: TestInputExample) =
+    this.initFieldsTestInputExample()
 
-    def __init__(self) -> None:
-        self._init_fields()
-    
+proc newTestInputExample*(): TestInputExample =
+    result = TestInputExample()
+    initTestInputExample(result)
 
-    def up(self) -> None:
-        pass
-    
+method up*(this: TestInputExample) =
+        discard
 
-    def down(self) -> None:
-        pass
-    
+method down*(this: TestInputExample) =
+        discard
 
-    def left(self) -> None:
-        self.testValue += 1
-    
+method left*(this: TestInputExample) =
+        this.testValue = this.testValue +% 1
 
-    def right(self) -> None:
-        self.testValue -= 1
-    
+method right*(this: TestInputExample) =
+        this.testValue = this.testValue -% 1
 
-    def strafeLeft(self) -> None:
-        pass
-    
+method strafeLeft*(this: TestInputExample) =
+        discard
 
-    def strafeRight(self) -> None:
-        pass
-    
+method strafeRight*(this: TestInputExample) =
+        discard
 
-    def paint(self, graphics: Graphics) -> None:
-        from javax.microedition.lcdui.Graphics import Graphics
-        pass
-    
+method paint*(this: TestInputExample, graphics: Graphics) =
+        discard
 
-    def paintThreed(self, graphics: Graphics) -> None:
-        from javax.microedition.lcdui.Graphics import Graphics
-        pass
-# from javax.microedition.lcdui.Graphics import Graphics
-
+method paintThreed*(this: TestInputExample, graphics: Graphics) =
+        discard
 

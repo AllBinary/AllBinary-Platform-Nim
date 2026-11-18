@@ -1,84 +1,93 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.input
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/game/input/Input as InputModule
+export InputModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    PlatformKeyFactory* = ref object of JObject
 
+proc newPlatformKeyFactory*(): PlatformKeyFactory
+proc getInstance*(t: typedesc[PlatformKeyFactory]): PlatformKeyFactory {.discardable.}
+method getString*(this: PlatformKeyFactory, keyCode: int32): string {.base, discardable.}
+method isSubmission*(this: PlatformKeyFactory, input: Input): bool {.base, discardable.}
+method isDelete*(this: PlatformKeyFactory, input: Input): bool {.base, discardable.}
+method isBackSpace*(this: PlatformKeyFactory, input: Input): bool {.base, discardable.}
+method isLeft*(this: PlatformKeyFactory, input: Input): bool {.base, discardable.}
+method isRight*(this: PlatformKeyFactory, input: Input): bool {.base, discardable.}
+method isUp*(this: PlatformKeyFactory, input: Input): bool {.base, discardable.}
+method isDown*(this: PlatformKeyFactory, input: Input): bool {.base, discardable.}
+method isEnter*(this: PlatformKeyFactory, input: Input): bool {.base, discardable.}
+import org/allbinary/logic/NullUtil as NullUtilModule
+export NullUtilModule
+import org/allbinary/game/input/J2MEGameKey as J2MEGameKeyModule
+export J2MEGameKeyModule
+import org/allbinary/game/input/J2MEKeyFactory as J2MEKeyFactoryModule
+export J2MEKeyFactoryModule
 
-class PlatformKeyFactory:
-    instance: object = None
-    
+var PlatformKeyFactory_instanceValue: JObject
+var PlatformKeyFactory_instanceSet = false
+proc instance*(t: typedesc[PlatformKeyFactory]): JObject =
+    if not PlatformKeyFactory_instanceSet:
+        PlatformKeyFactory_instanceSet = true
+        PlatformKeyFactory_instanceValue = NullUtil.getInstance().NULL_OBJECT
+    PlatformKeyFactory_instanceValue
+proc `instance=`*(t: typedesc[PlatformKeyFactory], value: JObject) =
+    PlatformKeyFactory_instanceSet = true
+    PlatformKeyFactory_instanceValue = value
 
-    @staticmethod
-    def getInstance() -> PlatformKeyFactory:
-        from org.allbinary.logic.NullUtil import NullUtil
+proc initPlatformKeyFactory*(this: PlatformKeyFactory) =
+    discard
+
+proc newPlatformKeyFactory*(): PlatformKeyFactory =
+    result = PlatformKeyFactory()
+    initPlatformKeyFactory(result)
+
+proc getInstance*(t: typedesc[PlatformKeyFactory]): PlatformKeyFactory {.discardable.} =
         if PlatformKeyFactory.instance == NullUtil.getInstance().NULL_OBJECT:
-            PlatformKeyFactory.instance = PlatformKeyFactory()
-        return PlatformKeyFactory.instance
-    
+            PlatformKeyFactory.instance = newPlatformKeyFactory()
+        return PlatformKeyFactory(JObject(PlatformKeyFactory.instance))
 
-    def getString(self, keyCode: int) -> str:
-        from org.allbinary.game.input.J2MEGameKey import J2MEGameKey
+method getString*(this: PlatformKeyFactory, keyCode: int32): string {.base, discardable.} =
         return J2MEGameKey.getString(keyCode)
-    
 
-    def isSubmission(self, input: Input) -> bool:
-        from org.allbinary.game.input.J2MEKeyFactory import J2MEKeyFactory
+method isSubmission*(this: PlatformKeyFactory, input: Input): bool {.base, discardable.} =
         return J2MEKeyFactory.getInstance().isSubmission(input)
-    
 
-    def isDelete(self, input: Input) -> bool:
-        from org.allbinary.game.input.J2MEKeyFactory import J2MEKeyFactory
+method isDelete*(this: PlatformKeyFactory, input: Input): bool {.base, discardable.} =
         return J2MEKeyFactory.getInstance().isDelete(input)
-    
 
-    def isBackSpace(self, input: Input) -> bool:
-        from org.allbinary.game.input.J2MEKeyFactory import J2MEKeyFactory
+method isBackSpace*(this: PlatformKeyFactory, input: Input): bool {.base, discardable.} =
         return J2MEKeyFactory.getInstance().isBackSpace(input)
-    
 
-    def isLeft(self, input: Input) -> bool:
-        from org.allbinary.game.input.J2MEKeyFactory import J2MEKeyFactory
+method isLeft*(this: PlatformKeyFactory, input: Input): bool {.base, discardable.} =
         return J2MEKeyFactory.getInstance().isLeft(input)
-    
 
-    def isRight(self, input: Input) -> bool:
-        from org.allbinary.game.input.J2MEKeyFactory import J2MEKeyFactory
+method isRight*(this: PlatformKeyFactory, input: Input): bool {.base, discardable.} =
         return J2MEKeyFactory.getInstance().isRight(input)
-    
 
-    def isUp(self, input: Input) -> bool:
-        from org.allbinary.game.input.J2MEKeyFactory import J2MEKeyFactory
+method isUp*(this: PlatformKeyFactory, input: Input): bool {.base, discardable.} =
         return J2MEKeyFactory.getInstance().isUp(input)
-    
 
-    def isDown(self, input: Input) -> bool:
-        from org.allbinary.game.input.J2MEKeyFactory import J2MEKeyFactory
+method isDown*(this: PlatformKeyFactory, input: Input): bool {.base, discardable.} =
         return J2MEKeyFactory.getInstance().isDown(input)
-    
 
-    def isEnter(self, input: Input) -> bool:
-        from org.allbinary.game.input.J2MEKeyFactory import J2MEKeyFactory
+method isEnter*(this: PlatformKeyFactory, input: Input): bool {.base, discardable.} =
         return J2MEKeyFactory.getInstance().isEnter(input)
-# from org.allbinary.logic.NullUtil import NullUtil
-
-
-def _PlatformKeyFactory_instance() -> object:
-    from org.allbinary.logic.NullUtil import NullUtil
-    return NullUtil.getInstance().NULL_OBJECT
-
-lazy_static(PlatformKeyFactory, "instance", _PlatformKeyFactory_instance)
 

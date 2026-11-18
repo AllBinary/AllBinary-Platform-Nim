@@ -1,102 +1,117 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.score
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import javax/microedition/lcdui/Graphics as GraphicsModule
+export GraphicsModule
+import org/allbinary/game/score/displayable/HighScoresCanvas as HighScoresCanvasModule
+export HighScoresCanvasModule
+import org/allbinary/graphics/displayable/DisplayInfoSingleton as DisplayInfoSingletonModule
+export DisplayInfoSingletonModule
+import org/allbinary/graphics/font/MyFontProcessor as MyFontProcessorModule
+export MyFontProcessorModule
+import org/allbinary/graphics/font/UpdateMyFontInterface as UpdateMyFontInterfaceModule
+export UpdateMyFontInterfaceModule
+import org/allbinary/game/score/HighScoresCanvasInputProcessor as HighScoresCanvasInputProcessorModule
+export HighScoresCanvasInputProcessorModule
 
-import threading
-from org.allbinary.graphics.font.UpdateMyFontInterface import UpdateMyFontInterface
-from org.allbinary.game.score.HighScoresCanvasInputProcessor import HighScoresCanvasInputProcessor
+type
+    HighScoresCanvasLevelChangeInputProcessor* = ref object of HighScoresCanvasInputProcessor
+        displayInfoSingleton*: DisplayInfoSingleton
+        INSTRUCTIONS*: string
+        myFontProcessor*: MyFontProcessor
+        anchor*: int32
+        fontHeight*: int32
+
+converter jAsUpdateMyFontInterface*(value: HighScoresCanvasLevelChangeInputProcessor): UpdateMyFontInterface = cast[UpdateMyFontInterface](value)
+proc newHighScoresCanvasLevelChangeInputProcessor*(highScoresCanvas: HighScoresCanvas): HighScoresCanvasLevelChangeInputProcessor
+proc initHighScoresCanvasLevelChangeInputProcessor*(this: HighScoresCanvasLevelChangeInputProcessor, highScoresCanvas: HighScoresCanvas)
+method updateMeasurement*(this: HighScoresCanvasLevelChangeInputProcessor, graphics: Graphics)
+method open*(this: HighScoresCanvasLevelChangeInputProcessor)
+method close*(this: HighScoresCanvasLevelChangeInputProcessor)
+method update*(this: HighScoresCanvasLevelChangeInputProcessor)
+method paint*(this: HighScoresCanvasLevelChangeInputProcessor, graphics: Graphics)
+import javax/microedition/lcdui/Canvas as CanvasModule
+export CanvasModule
+import javax/microedition/lcdui/Font as FontModule
+export FontModule
+import org/allbinary/game/input/event/GameKeyEventHandler as GameKeyEventHandlerModule
+export GameKeyEventHandlerModule
+import org/allbinary/game/input/event/GameKeyEventUtil as GameKeyEventUtilModule
+export GameKeyEventUtilModule
+import org/allbinary/graphics/Anchor as AnchorModule
+export AnchorModule
+import org/allbinary/graphics/font/UpdateMyFontProcessor as UpdateMyFontProcessorModule
+export UpdateMyFontProcessorModule
+import org/allbinary/util/BasicArrayList as BasicArrayListModule
+export BasicArrayListModule
 
 
-class HighScoresCanvasLevelChangeInputProcessor(HighScoresCanvasInputProcessor, UpdateMyFontInterface):
-    _lock = threading.RLock()
+# Java field initializers run after the base initializer
+proc initFieldsHighScoresCanvasLevelChangeInputProcessor(this: HighScoresCanvasLevelChangeInputProcessor) =
+    this.displayInfoSingleton = DisplayInfoSingleton.getInstance()
+    this.INSTRUCTIONS = "(Right = Next Track, Left = Previous Track)"
+    this.myFontProcessor = newUpdateMyFontProcessor(this)
+    this.anchor = Anchor.TOP_LEFT
+    this.fontHeight = 0
+    discard
 
-    def _init_fields(self) -> None:
-        from org.allbinary.graphics.Anchor import Anchor
-        from org.allbinary.graphics.displayable.DisplayInfoSingleton import DisplayInfoSingleton
-        from org.allbinary.graphics.font.MyFontProcessor import MyFontProcessor
-        from org.allbinary.graphics.font.UpdateMyFontProcessor import UpdateMyFontProcessor
-        self.displayInfoSingleton: DisplayInfoSingleton = DisplayInfoSingleton.getInstance()
-        self.INSTRUCTIONS: str = "(Right = Next Track, Left = Previous Track)"
-        self.myFontProcessor: MyFontProcessor = UpdateMyFontProcessor(self)
-        self.anchor: int = Anchor.TOP_LEFT
-        self.fontHeight: int = 0
-    
+proc initHighScoresCanvasLevelChangeInputProcessor*(this: HighScoresCanvasLevelChangeInputProcessor, highScoresCanvas: HighScoresCanvas) =
+        initHighScoresCanvasInputProcessor(this, highScoresCanvas)
+        this.initFieldsHighScoresCanvasLevelChangeInputProcessor()
 
-    def __init__(self, highScoresCanvas: HighScoresCanvas) -> None:
-        from org.allbinary.game.score.displayable.HighScoresCanvas import HighScoresCanvas
-        super().__init__(highScoresCanvas)
-        self._init_fields()
-    
+proc newHighScoresCanvasLevelChangeInputProcessor*(highScoresCanvas: HighScoresCanvas): HighScoresCanvasLevelChangeInputProcessor =
+    result = HighScoresCanvasLevelChangeInputProcessor()
+    initHighScoresCanvasLevelChangeInputProcessor(result, highScoresCanvas)
 
-    def updateMeasurement(self, graphics: Graphics) -> None:
-        from javax.microedition.lcdui.Font import Font
-        from javax.microedition.lcdui.Graphics import Graphics
-        from org.allbinary.graphics.font.MyFontProcessor import MyFontProcessor
-        font: Font = graphics.getFont()
-        self.fontHeight = font.getHeight()
-        self.myFontProcessor = MyFontProcessor.getInstance()
-    
+method updateMeasurement*(this: HighScoresCanvasLevelChangeInputProcessor, graphics: Graphics) =
+        let font: Font = graphics.getFont()
+        this.fontHeight = font.getHeight()
+        this.myFontProcessor = MyFontProcessor.getInstance()
 
-    def open(self) -> None:
-        from org.allbinary.game.input.event.GameKeyEventHandler import GameKeyEventHandler
-        GameKeyEventHandler.getInstance().addListener(self)
-    
+method open*(this: HighScoresCanvasLevelChangeInputProcessor) =
+        GameKeyEventHandler.getInstance().addListener(this)
 
-    def close(self) -> None:
-        from org.allbinary.game.input.event.GameKeyEventHandler import GameKeyEventHandler
-        GameKeyEventHandler.getInstance().removeListener(self)
-    
+method close*(this: HighScoresCanvasLevelChangeInputProcessor) =
+        GameKeyEventHandler.getInstance().removeListener(this)
 
-    def update(self) -> None:
-        with self._lock:
-            return self._update_unlocked()
+method update*(this: HighScoresCanvasLevelChangeInputProcessor) =
+        let list: BasicArrayList = this.getGameKeyEventList()
+        let size: int32 = list.size()
+        block:
+            var index: int32 = 0
+            while index < size:
+                defer: index = index +% 1
+                let anyType: JObject = list.objectArray[index]
+                let key: int32 = GameKeyEventUtil.getKey(anyType)
+                if key == Canvas.RIGHT:
+                    this.getHighScoresCanvas().getGameInfo().nextGameLevel()
+                elif key == Canvas.LEFT:
+                    this.getHighScoresCanvas().getGameInfo().previousGameLevel()
+                this.getHighScoresCanvas().executeUpdate()
+        list.clear()
 
-    def _update_unlocked(self) -> None:
-        from javax.microedition.lcdui.Canvas import Canvas
-        from org.allbinary.game.input.event.GameKeyEventUtil import GameKeyEventUtil
-        from org.allbinary.util.BasicArrayList import BasicArrayList
-        list_: BasicArrayList = self.getGameKeyEventList()
-        size: int = list_.size()
-        for index in range(0, size):
-            anyType: object = list_.objectArray[index]
-            key: int = GameKeyEventUtil.getKey(anyType)
-            if key == Canvas.RIGHT:
-                self.getHighScoresCanvas().getGameInfo().nextGameLevel()
-            elif key == Canvas.LEFT:
-                self.getHighScoresCanvas().getGameInfo().previousGameLevel()
-            self.getHighScoresCanvas().executeUpdate()
-        list_.clear()
-    
+method paint*(this: HighScoresCanvasLevelChangeInputProcessor, graphics: Graphics) =
+        this.myFontProcessor.process(graphics)
+        let width: int32 = this.displayInfoSingleton.getLastWidth()
+        let topScoresWidth: int32 = (ashr(graphics.getFont().stringWidth(this.INSTRUCTIONS), 1))
+        graphics.drawString(this.INSTRUCTIONS, (ashr(width, 1)) -% topScoresWidth, this.fontHeight *% 2, this.anchor)
 
-    def paint(self, graphics: Graphics) -> None:
-        from javax.microedition.lcdui.Graphics import Graphics
-        self.myFontProcessor.process(graphics)
-        width: int = self.displayInfoSingleton.getLastWidth()
-        topScoresWidth: int = (graphics.getFont().stringWidth(self.INSTRUCTIONS) >> 1)
-        graphics.drawString(self.INSTRUCTIONS, (width >> 1) - topScoresWidth, self.fontHeight * 2, self.anchor)
-# from javax.microedition.lcdui.Canvas import Canvas
-# from javax.microedition.lcdui.Font import Font
-# from javax.microedition.lcdui.Graphics import Graphics
-# from org.allbinary.game.input.event.GameKeyEventHandler import GameKeyEventHandler
-# from org.allbinary.game.input.event.GameKeyEventUtil import GameKeyEventUtil
-# from org.allbinary.game.score.displayable.HighScoresCanvas import HighScoresCanvas
-# from org.allbinary.graphics.Anchor import Anchor
-# from org.allbinary.graphics.displayable.DisplayInfoSingleton import DisplayInfoSingleton
-# from org.allbinary.graphics.font.MyFontProcessor import MyFontProcessor
-# from org.allbinary.graphics.font.UpdateMyFontProcessor import UpdateMyFontProcessor
-# from org.allbinary.util.BasicArrayList import BasicArrayList
-
+when declared(newHighScoresCanvasLevelChangeInputProcessorHook1):
+    newHighScoresCanvasLevelChangeInputProcessorHook1 = proc (highScoresCanvas: HighScoresCanvas): HighScoresCanvasInputProcessor = newHighScoresCanvasLevelChangeInputProcessor(highScoresCanvas)
 

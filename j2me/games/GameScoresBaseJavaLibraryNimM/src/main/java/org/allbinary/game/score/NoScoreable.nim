@@ -1,47 +1,58 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.score
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/game/score/Scoreable as ScoreableModule
+export ScoreableModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
-from org.allbinary.game.score.Scoreable import Scoreable
+type
+    NoScoreable* = ref object of Scoreable
 
+proc newNoScoreable*(): NoScoreable
+proc initNoScoreable*(this: NoScoreable)
+proc getInstance*(t: typedesc[NoScoreable]): NoScoreable {.discardable.}
+method addPoints*(this: NoScoreable, points: int32)
+method removePoints*(this: NoScoreable, points: int32)
 
-class NoScoreable(Scoreable):
-    SINGLETON: NoScoreable = None
-    
+var NoScoreable_SINGLETONValue: NoScoreable
+var NoScoreable_SINGLETONSet = false
+proc SINGLETON*(t: typedesc[NoScoreable]): NoScoreable =
+    if not NoScoreable_SINGLETONSet:
+        NoScoreable_SINGLETONSet = true
+        NoScoreable_SINGLETONValue = newNoScoreable()
+    NoScoreable_SINGLETONValue
 
-    @staticmethod
-    def getInstance() -> NoScoreable:
+proc getInstance*(t: typedesc[NoScoreable]): NoScoreable {.discardable.} =
         return NoScoreable.SINGLETON
-    
 
-    def __init__(self) -> None:
-        super().__init__(0)
-    
+proc initNoScoreable*(this: NoScoreable) =
+        initScoreable(this, 0)
 
-    def addPoints(self, points: int) -> None:
-        pass
-    
+proc newNoScoreable*(): NoScoreable =
+    result = NoScoreable()
+    initNoScoreable(result)
 
-    def removePoints(self, points: int) -> None:
-        pass
+method addPoints*(this: NoScoreable, points: int32) =
+        discard
 
+method removePoints*(this: NoScoreable, points: int32) =
+        discard
 
-def _NoScoreable_SINGLETON() -> object:
-    return NoScoreable()
-
-lazy_static(NoScoreable, "SINGLETON", _NoScoreable_SINGLETON)
+when declared(newNoScoreableHook0):
+    newNoScoreableHook0 = proc (): Scoreable = newNoScoreable()
 

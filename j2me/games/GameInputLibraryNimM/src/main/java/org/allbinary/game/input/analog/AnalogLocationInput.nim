@@ -1,66 +1,77 @@
 # Generated Code Do Not Modify
 # package org.allbinary.game.input.analog
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/graphics/CustomGPoint as CustomGPointModule
+export CustomGPointModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    AnalogLocationInput* = ref object of JObject
+        playerId*: int32
+        customGPoint*: CustomGPoint
+        rz*: int32
+        rightTrigger*: int32
+        leftTrigger*: int32
 
+proc newAnalogLocationInput*(playerId: int32): AnalogLocationInput
+proc initAnalogLocationInput*(this: AnalogLocationInput, playerId: int32)
+method getPlayerId*(this: AnalogLocationInput): int32 {.base, discardable.}
+method getCustomGPoint*(this: AnalogLocationInput): CustomGPoint {.base, discardable.}
+method getRz*(this: AnalogLocationInput): int32 {.base, discardable.}
+method setRz*(this: AnalogLocationInput, rz: int32) {.base.}
+method getRightTrigger*(this: AnalogLocationInput): int32 {.base, discardable.}
+method setRightTrigger*(this: AnalogLocationInput, rightTrigger: int32) {.base.}
+method getLeftTrigger*(this: AnalogLocationInput): int32 {.base, discardable.}
+method setLeftTrigger*(this: AnalogLocationInput, leftTrigger: int32) {.base.}
 
-class AnalogLocationInput:
-    NULL_ANALOG_LOCATION_INPUT: AnalogLocationInput = None
+var AnalogLocationInput_NULL_ANALOG_LOCATION_INPUTValue: AnalogLocationInput
+var AnalogLocationInput_NULL_ANALOG_LOCATION_INPUTSet = false
+proc NULL_ANALOG_LOCATION_INPUT*(t: typedesc[AnalogLocationInput]): AnalogLocationInput =
+    if not AnalogLocationInput_NULL_ANALOG_LOCATION_INPUTSet:
+        AnalogLocationInput_NULL_ANALOG_LOCATION_INPUTSet = true
+        AnalogLocationInput_NULL_ANALOG_LOCATION_INPUTValue = newAnalogLocationInput(-1)
+    AnalogLocationInput_NULL_ANALOG_LOCATION_INPUTValue
 
-    def _init_fields(self) -> None:
-        from org.allbinary.graphics.CustomGPoint import CustomGPoint
-        self.playerId: int = None
-        self.customGPoint: CustomGPoint = None
-        self.rz: int = 0
-        self.rightTrigger: int = 0
-        self.leftTrigger: int = 0
+# Java field initializers run after the base initializer
+proc initFieldsAnalogLocationInput(this: AnalogLocationInput) =
     
-
-    def __init__(self, playerId: int) -> None:
-        from org.allbinary.graphics.CustomGPoint import CustomGPoint
-        self._init_fields()
-        self.playerId = playerId
-        self.customGPoint = CustomGPoint(0, 0, 0)
     
+    this.rz = 0
+    this.rightTrigger = 0
+    this.leftTrigger = 0
+    discard
 
-    def getPlayerId(self) -> int:
-        return self.playerId
-    
+proc initAnalogLocationInput*(this: AnalogLocationInput, playerId: int32) =
+        this.initFieldsAnalogLocationInput()
+        this.playerId = playerId
+        this.customGPoint = newCustomGPoint(0, 0, 0)
 
-    def getCustomGPoint(self) -> CustomGPoint:
-        from org.allbinary.graphics.CustomGPoint import CustomGPoint
-        return self.customGPoint
-    
+proc newAnalogLocationInput*(playerId: int32): AnalogLocationInput =
+    result = AnalogLocationInput()
+    initAnalogLocationInput(result, playerId)
 
-    def getRz(self) -> int:
-        return self.rz
-    
+method getPlayerId*(this: AnalogLocationInput): int32 {.base, discardable.} =
+        return this.playerId
 
-    def setRz(self, rz: int) -> None:
-        self.rz = rz
-    
+method getCustomGPoint*(this: AnalogLocationInput): CustomGPoint {.base, discardable.} =
+        return this.customGPoint
 
-    def getRightTrigger(self) -> int:
-        return self.rightTrigger
-    
+method getRz*(this: AnalogLocationInput): int32 {.base, discardable.} =
+        return this.rz
 
-    def setRightTrigger(self, rightTrigger: int) -> None:
-        self.rightTrigger = rightTrigger
-    
+method setRz*(this: AnalogLocationInput, rz: int32) {.base.} =
+        this.rz = rz
 
-    def getLeftTrigger(self) -> int:
-        return self.leftTrigger
-    
+method getRightTrigger*(this: AnalogLocationInput): int32 {.base, discardable.} =
+        return this.rightTrigger
 
-    def setLeftTrigger(self, leftTrigger: int) -> None:
-        self.leftTrigger = leftTrigger
-# from org.allbinary.graphics.CustomGPoint import CustomGPoint
+method setRightTrigger*(this: AnalogLocationInput, rightTrigger: int32) {.base.} =
+        this.rightTrigger = rightTrigger
 
+method getLeftTrigger*(this: AnalogLocationInput): int32 {.base, discardable.} =
+        return this.leftTrigger
 
-def _AnalogLocationInput_NULL_ANALOG_LOCATION_INPUT() -> object:
-    return AnalogLocationInput(-1)
-
-lazy_static(AnalogLocationInput, "NULL_ANALOG_LOCATION_INPUT", _AnalogLocationInput_NULL_ANALOG_LOCATION_INPUT)
+method setLeftTrigger*(this: AnalogLocationInput, leftTrigger: int32) {.base.} =
+        this.leftTrigger = leftTrigger
 

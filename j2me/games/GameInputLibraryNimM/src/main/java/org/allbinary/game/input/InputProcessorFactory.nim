@@ -1,45 +1,56 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.input
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/game/input/InputProcessor as InputProcessorModule
+export InputProcessorModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    InputProcessorFactory* = ref object of JObject
+        inputProcessor*: InputProcessor
 
+proc newInputProcessorFactory*(): InputProcessorFactory
+proc getInstance*(t: typedesc[InputProcessorFactory]): InputProcessorFactory {.discardable.}
+method getInputProcessor*(this: InputProcessorFactory): InputProcessor {.base, discardable.}
 
-class InputProcessorFactory:
-    instance: InputProcessorFactory = None
+var InputProcessorFactory_instanceValue: InputProcessorFactory
+var InputProcessorFactory_instanceSet = false
+proc instance*(t: typedesc[InputProcessorFactory]): InputProcessorFactory =
+    if not InputProcessorFactory_instanceSet:
+        InputProcessorFactory_instanceSet = true
+        InputProcessorFactory_instanceValue = newInputProcessorFactory()
+    InputProcessorFactory_instanceValue
 
-    def _init_fields(self) -> None:
-        self.inputProcessor: InputProcessor = InputProcessor()
+# Java field initializers run after the base initializer
+proc initFieldsInputProcessorFactory(this: InputProcessorFactory) =
+    this.inputProcessor = newInputProcessor()
+    discard
 
-    def __init__(self) -> None:
-        self._init_fields()
-    
+proc initInputProcessorFactory*(this: InputProcessorFactory) =
+    this.initFieldsInputProcessorFactory()
 
-    @staticmethod
-    def getInstance() -> InputProcessorFactory:
+proc newInputProcessorFactory*(): InputProcessorFactory =
+    result = InputProcessorFactory()
+    initInputProcessorFactory(result)
+
+proc getInstance*(t: typedesc[InputProcessorFactory]): InputProcessorFactory {.discardable.} =
         return InputProcessorFactory.instance
-    
 
-    def getInputProcessor(self) -> InputProcessor:
-        return self.inputProcessor
-from org.allbinary.game.input.InputProcessor import InputProcessor
-
-
-def _InputProcessorFactory_instance() -> object:
-    return InputProcessorFactory()
-
-lazy_static(InputProcessorFactory, "instance", _InputProcessorFactory_instance)
+method getInputProcessor*(this: InputProcessorFactory): InputProcessor {.base, discardable.} =
+        return this.inputProcessor
 

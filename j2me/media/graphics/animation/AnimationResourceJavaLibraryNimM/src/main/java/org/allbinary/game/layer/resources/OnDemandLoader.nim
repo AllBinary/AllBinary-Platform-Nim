@@ -1,100 +1,109 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.layer.resources
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/animation/resource/BaseResourceAnimationInterfaceFactoryInterfaceFactory as BaseResourceAnimationInterfaceFactoryInterfaceFactoryModule
+export BaseResourceAnimationInterfaceFactoryInterfaceFactoryModule
+import org/allbinary/game/layer/GameLayerPlacementInterfaceBasicArrayListFactoryInterfaceFactory as GameLayerPlacementInterfaceBasicArrayListFactoryInterfaceFactoryModule
+export GameLayerPlacementInterfaceBasicArrayListFactoryInterfaceFactoryModule
+import org/allbinary/game/layer/LayerPlacementInterfaceBasicArrayListFactoryInterface as LayerPlacementInterfaceBasicArrayListFactoryInterfaceModule
+export LayerPlacementInterfaceBasicArrayListFactoryInterfaceModule
+import org/allbinary/image/ImageCache as ImageCacheModule
+export ImageCacheModule
+import org/allbinary/game/layer/resources/OnDemandResourcesFactory as OnDemandResourcesFactoryModule
+export OnDemandResourcesFactoryModule
+
+type
+    OnDemandLoader* = ref object of JObject
+        onDemandResourcesFactory*: OnDemandResourcesFactory
+        gameLayerPlacementInterfaceBasicArrayListFactoryInterfaceFactory*: GameLayerPlacementInterfaceBasicArrayListFactoryInterfaceFactory
+        resourceAnimationInterfaceFactoryInterfaceFactory*: BaseResourceAnimationInterfaceFactoryInterfaceFactory
+
+proc newOnDemandLoader*(onDemandResourcesFactory: OnDemandResourcesFactory, gameLayerPlacementInterfaceBasicArrayListFactoryInterfaceFactory: GameLayerPlacementInterfaceBasicArrayListFactoryInterfaceFactory, resourceAnimationInterfaceFactoryInterfaceFactory: BaseResourceAnimationInterfaceFactoryInterfaceFactory): OnDemandLoader
+proc initOnDemandLoader*(this: OnDemandLoader, onDemandResourcesFactory: OnDemandResourcesFactory, gameLayerPlacementInterfaceBasicArrayListFactoryInterfaceFactory: GameLayerPlacementInterfaceBasicArrayListFactoryInterfaceFactory, resourceAnimationInterfaceFactoryInterfaceFactory: BaseResourceAnimationInterfaceFactoryInterfaceFactory)
+method init*(this: OnDemandLoader, imageCache: ImageCache, level: int32, loadingString: string) {.base.}
+method initAll*(this: OnDemandLoader, imageCache: ImageCache, loadingString: string) {.base.}
+method initLevel*(this: OnDemandLoader, layerPlacementInterfaceBasicArrayListFactoryInterface: LayerPlacementInterfaceBasicArrayListFactoryInterface, imageCache: ImageCache, level: int32, loadingString: string) {.base.}
+import org/allbinary/game/configuration/feature/Features as FeaturesModule
+export FeaturesModule
+import org/allbinary/game/configuration/feature/MainFeatureFactory as MainFeatureFactoryModule
+export MainFeatureFactoryModule
+import org/allbinary/game/resource/ResourceLoadingLevelFactory as ResourceLoadingLevelFactoryModule
+export ResourceLoadingLevelFactoryModule
+import org/allbinary/logic/communication/log/PreLogUtil as PreLogUtilModule
+export PreLogUtilModule
+import org/allbinary/logic/string/StringMaker as StringMakerModule
+export StringMakerModule
+import org/allbinary/string/CommonStrings as CommonStringsModule
+export CommonStringsModule
+import org/allbinary/game/layer/resources/OnDemandResources as OnDemandResourcesModule
+export OnDemandResourcesModule
 
 
-
-class OnDemandLoader:
-
-    def _init_fields(self) -> None:
-        from org.allbinary.animation.resource.BaseResourceAnimationInterfaceFactoryInterfaceFactory import BaseResourceAnimationInterfaceFactoryInterfaceFactory
-        from org.allbinary.game.layer.GameLayerPlacementInterfaceBasicArrayListFactoryInterfaceFactory import GameLayerPlacementInterfaceBasicArrayListFactoryInterfaceFactory
-        self.onDemandResourcesFactory: OnDemandResourcesFactory = None
-        self.gameLayerPlacementInterfaceBasicArrayListFactoryInterfaceFactory: GameLayerPlacementInterfaceBasicArrayListFactoryInterfaceFactory = None
-        self.resourceAnimationInterfaceFactoryInterfaceFactory: BaseResourceAnimationInterfaceFactoryInterfaceFactory = None
+# Java field initializers run after the base initializer
+proc initFieldsOnDemandLoader(this: OnDemandLoader) =
     
-
-    def __init__(self, onDemandResourcesFactory: OnDemandResourcesFactory, gameLayerPlacementInterfaceBasicArrayListFactoryInterfaceFactory: GameLayerPlacementInterfaceBasicArrayListFactoryInterfaceFactory, resourceAnimationInterfaceFactoryInterfaceFactory: BaseResourceAnimationInterfaceFactoryInterfaceFactory) -> None:
-        from org.allbinary.animation.resource.BaseResourceAnimationInterfaceFactoryInterfaceFactory import BaseResourceAnimationInterfaceFactoryInterfaceFactory
-        from org.allbinary.game.layer.GameLayerPlacementInterfaceBasicArrayListFactoryInterfaceFactory import GameLayerPlacementInterfaceBasicArrayListFactoryInterfaceFactory
-        self._init_fields()
-        self.onDemandResourcesFactory = onDemandResourcesFactory
-        self.gameLayerPlacementInterfaceBasicArrayListFactoryInterfaceFactory = gameLayerPlacementInterfaceBasicArrayListFactoryInterfaceFactory
-        self.resourceAnimationInterfaceFactoryInterfaceFactory = resourceAnimationInterfaceFactoryInterfaceFactory
     
+    
+    discard
 
-    # throws Exception
-    def init(self, imageCache: ImageCache, level: int, loadingString: str) -> None:
-        from org.allbinary.game.configuration.feature.Features import Features
-        from org.allbinary.game.configuration.feature.MainFeatureFactory import MainFeatureFactory
-        from org.allbinary.game.layer.LayerPlacementInterfaceBasicArrayListFactoryInterface import LayerPlacementInterfaceBasicArrayListFactoryInterface
-        from org.allbinary.game.resource.ResourceLoadingLevelFactory import ResourceLoadingLevelFactory
-        from org.allbinary.image.ImageCache import ImageCache
-        resourceLoadingLevelFactory: ResourceLoadingLevelFactory = ResourceLoadingLevelFactory.getInstance()
+proc initOnDemandLoader*(this: OnDemandLoader, onDemandResourcesFactory: OnDemandResourcesFactory, gameLayerPlacementInterfaceBasicArrayListFactoryInterfaceFactory: GameLayerPlacementInterfaceBasicArrayListFactoryInterfaceFactory, resourceAnimationInterfaceFactoryInterfaceFactory: BaseResourceAnimationInterfaceFactoryInterfaceFactory) =
+        this.initFieldsOnDemandLoader()
+        this.onDemandResourcesFactory = onDemandResourcesFactory
+        this.gameLayerPlacementInterfaceBasicArrayListFactoryInterfaceFactory = gameLayerPlacementInterfaceBasicArrayListFactoryInterfaceFactory
+        this.resourceAnimationInterfaceFactoryInterfaceFactory = resourceAnimationInterfaceFactoryInterfaceFactory
+
+proc newOnDemandLoader*(onDemandResourcesFactory: OnDemandResourcesFactory, gameLayerPlacementInterfaceBasicArrayListFactoryInterfaceFactory: GameLayerPlacementInterfaceBasicArrayListFactoryInterfaceFactory, resourceAnimationInterfaceFactoryInterfaceFactory: BaseResourceAnimationInterfaceFactoryInterfaceFactory): OnDemandLoader =
+    result = OnDemandLoader()
+    initOnDemandLoader(result, onDemandResourcesFactory, gameLayerPlacementInterfaceBasicArrayListFactoryInterfaceFactory, resourceAnimationInterfaceFactoryInterfaceFactory)
+
+method init*(this: OnDemandLoader, imageCache: ImageCache, level: int32, loadingString: string) {.base.} =
+        let resourceLoadingLevelFactory: ResourceLoadingLevelFactory = ResourceLoadingLevelFactory.getInstance()
         if Features.getInstance().isFeature(MainFeatureFactory.getInstance().LOAD_ALL):
-            if self.resourceAnimationInterfaceFactoryInterfaceFactory.isInitialized():
+            if this.resourceAnimationInterfaceFactoryInterfaceFactory.isInitialized():
                 return
-            self.initAll(imageCache, loadingString)
+            this.initAll(imageCache, loadingString)
         elif level != resourceLoadingLevelFactory.LOAD_ALL.getLevel():
-            layerPlacementInterfaceBasicArrayListFactoryInterface: LayerPlacementInterfaceBasicArrayListFactoryInterface = self.gameLayerPlacementInterfaceBasicArrayListFactoryInterfaceFactory.getInstance(level)
-            self.initLevel(layerPlacementInterfaceBasicArrayListFactoryInterface, imageCache, level, loadingString)
-    
+            let layerPlacementInterfaceBasicArrayListFactoryInterface: LayerPlacementInterfaceBasicArrayListFactoryInterface = this.gameLayerPlacementInterfaceBasicArrayListFactoryInterfaceFactory.getInstance(level)
+            this.initLevel(layerPlacementInterfaceBasicArrayListFactoryInterface, imageCache, level, loadingString)
 
-    # throws Exception
-    def initAll(self, imageCache: ImageCache, loadingString: str) -> None:
-        from org.allbinary.game.layer.resources.OnDemandResources import OnDemandResources
-        from org.allbinary.image.ImageCache import ImageCache
-        index: int = 0
-        portion: int = 120
-        onDemandResources: OnDemandResources = None
-        onDemandIndex = self.onDemandResourcesFactory.size()
-        while (onDemandIndex := onDemandIndex - 1) >= 0:
-            onDemandResources = self.onDemandResourcesFactory.remove(onDemandIndex)
-            if onDemandResources != OnDemandResources.NULL_ON_DEMAND_RESOURCES:
-                index = onDemandResources.initAt(imageCache, self.resourceAnimationInterfaceFactoryInterfaceFactory, portion, loadingString, index)
-    
+method initAll*(this: OnDemandLoader, imageCache: ImageCache, loadingString: string) {.base.} =
+        var index: int32 = 0
+        let portion: int32 = 120
+        var onDemandResources: OnDemandResources = nil
+        block:
+            var onDemandIndex: int32 = this.onDemandResourcesFactory.size()
+            while jPreDecrement(onDemandIndex) >= 0:
+                onDemandResources = this.onDemandResourcesFactory.remove(onDemandIndex)
+                if onDemandResources != OnDemandResources.NULL_ON_DEMAND_RESOURCES:
+                    index = onDemandResources.initAt(imageCache, this.resourceAnimationInterfaceFactoryInterfaceFactory, portion, loadingString, index)
 
-    # throws Exception
-    def initLevel(self, layerPlacementInterfaceBasicArrayListFactoryInterface: LayerPlacementInterfaceBasicArrayListFactoryInterface, imageCache: ImageCache, level: int, loadingString: str) -> None:
-        from org.allbinary.game.layer.resources.OnDemandResources import OnDemandResources
-        from org.allbinary.game.layer.LayerPlacementInterfaceBasicArrayListFactoryInterface import LayerPlacementInterfaceBasicArrayListFactoryInterface
-        from org.allbinary.image.ImageCache import ImageCache
-        from org.allbinary.logic.communication.log.PreLogUtil import PreLogUtil
-        from org.allbinary.logic.string.StringMaker import StringMaker
-        from org.allbinary.string.CommonStrings import CommonStrings
-        commonStrings: CommonStrings = CommonStrings.getInstance()
-        portion: int = 120
-        index: int = 0
-        onDemandArray: list[int] = layerPlacementInterfaceBasicArrayListFactoryInterface.getOnDemandResources()
-        PreLogUtil.put(str(StringMaker().append(commonStrings.START).appendint(len(onDemandArray))), self, "initLevel")
-        onDemandResources: OnDemandResources = None
-        onDemandIndex = len(onDemandArray)
-        while (onDemandIndex := onDemandIndex - 1) >= 0:
-            onDemandResources = self.onDemandResourcesFactory.remove(onDemandArray[onDemandIndex])
-            if onDemandResources != OnDemandResources.NULL_ON_DEMAND_RESOURCES:
-                index = onDemandResources.initAt(imageCache, self.resourceAnimationInterfaceFactoryInterfaceFactory, portion, loadingString, index)
-# from org.allbinary.animation.resource.BaseResourceAnimationInterfaceFactoryInterfaceFactory import BaseResourceAnimationInterfaceFactoryInterfaceFactory
-# from org.allbinary.game.configuration.feature.Features import Features
-# from org.allbinary.game.configuration.feature.MainFeatureFactory import MainFeatureFactory
-# from org.allbinary.game.layer.GameLayerPlacementInterfaceBasicArrayListFactoryInterfaceFactory import GameLayerPlacementInterfaceBasicArrayListFactoryInterfaceFactory
-# from org.allbinary.game.layer.LayerPlacementInterfaceBasicArrayListFactoryInterface import LayerPlacementInterfaceBasicArrayListFactoryInterface
-# from org.allbinary.game.resource.ResourceLoadingLevelFactory import ResourceLoadingLevelFactory
-# from org.allbinary.image.ImageCache import ImageCache
-# from org.allbinary.logic.communication.log.PreLogUtil import PreLogUtil
-# from org.allbinary.logic.string.StringMaker import StringMaker
-# from org.allbinary.string.CommonStrings import CommonStrings
-
+method initLevel*(this: OnDemandLoader, layerPlacementInterfaceBasicArrayListFactoryInterface: LayerPlacementInterfaceBasicArrayListFactoryInterface, imageCache: ImageCache, level: int32, loadingString: string) {.base.} =
+        let commonStrings: CommonStrings = CommonStrings.getInstance()
+        let portion: int32 = 120
+        var index: int32 = 0
+        let onDemandArray: JArray[int32] = layerPlacementInterfaceBasicArrayListFactoryInterface.getOnDemandResources()
+        PreLogUtil.put(newStringMaker().append(commonStrings.START).appendint(onDemandArray.length).toString(), this, "initLevel")
+        var onDemandResources: OnDemandResources = nil
+        block:
+            var onDemandIndex: int32 = onDemandArray.length
+            while jPreDecrement(onDemandIndex) >= 0:
+                onDemandResources = this.onDemandResourcesFactory.remove(onDemandArray[onDemandIndex])
+                if onDemandResources != OnDemandResources.NULL_ON_DEMAND_RESOURCES:
+                    index = onDemandResources.initAt(imageCache, this.resourceAnimationInterfaceFactoryInterfaceFactory, portion, loadingString, index)
 

@@ -1,67 +1,83 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.animation.vector
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import javax/microedition/lcdui/Graphics as GraphicsModule
+export GraphicsModule
+import org/allbinary/animation/Animation as AnimationModule
+export AnimationModule
+import org/allbinary/graphics/color/BasicColor as BasicColorModule
+export BasicColorModule
+import org/allbinary/graphics/color/ColorCompositeInterface as ColorCompositeInterfaceModule
+export ColorCompositeInterfaceModule
 
-from org.allbinary.animation.Animation import Animation
-from org.allbinary.graphics.color.ColorCompositeInterface import ColorCompositeInterface
+type
+    RectangleFilledAnimation* = ref object of Animation
+        widthP*: int32
+        heightP*: int32
+
+converter jAsColorCompositeInterface*(value: RectangleFilledAnimation): ColorCompositeInterface = cast[ColorCompositeInterface](value)
+proc newRectangleFilledAnimation*(width: int32, height: int32, basicColor: BasicColor): RectangleFilledAnimation
+proc initRectangleFilledAnimation*(this: RectangleFilledAnimation, width: int32, height: int32, basicColor: BasicColor)
+method nextFrame*(this: RectangleFilledAnimation)
+method paintXY*(this: RectangleFilledAnimation, graphics: Graphics, x: int32, y: int32)
+method setWidth*(this: RectangleFilledAnimation, width: int32) {.base.}
+method setHeight*(this: RectangleFilledAnimation, height: int32) {.base.}
+method getBasicColorP*(this: RectangleFilledAnimation): BasicColor {.discardable.}
+method setBasicColorP*(this: RectangleFilledAnimation, basicColor: BasicColor)
 
 
-class RectangleFilledAnimation(Animation, ColorCompositeInterface):
-
-    def _init_fields(self) -> None:
-        self.widthP: int = None
-        self.heightP: int = None
+# Java field initializers run after the base initializer
+proc initFieldsRectangleFilledAnimation(this: RectangleFilledAnimation) =
     
-
-    def __init__(self, width: int, height: int, basicColor: BasicColor) -> None:
-        from org.allbinary.graphics.color.BasicColor import BasicColor
-        super().__init__()
-        self._init_fields()
-        self.widthP = width
-        self.heightP = height
-        self.setBasicColorP(basicColor)
     
+    discard
 
-    def nextFrame(self) -> None:
-        pass
-    
+proc initRectangleFilledAnimation*(this: RectangleFilledAnimation, width: int32, height: int32, basicColor: BasicColor) =
+        initAnimation(this)
+        this.initFieldsRectangleFilledAnimation()
+        this.widthP = width
+        this.heightP = height
+        this.setBasicColorP(basicColor)
 
-    def paintXY(self, graphics: Graphics, x: int, y: int) -> None:
-        from javax.microedition.lcdui.Graphics import Graphics
-        self.basicSetColorUtil.setBasicColorP3(graphics, self.getBasicColorP(), self.getColor())
-        graphics.fillRect(x, y, self.widthP, self.heightP)
-    
+proc newRectangleFilledAnimation*(width: int32, height: int32, basicColor: BasicColor): RectangleFilledAnimation =
+    result = RectangleFilledAnimation()
+    initRectangleFilledAnimation(result, width, height, basicColor)
 
-    def setWidth(self, width: int) -> None:
-        self.widthP = width
-    
+method nextFrame*(this: RectangleFilledAnimation) =
+        discard
 
-    def setHeight(self, height: int) -> None:
-        self.heightP = height
-    
+method paintXY*(this: RectangleFilledAnimation, graphics: Graphics, x: int32, y: int32) =
+        this.basicSetColorUtil.setBasicColorP3(graphics, this.getBasicColorP(), this.getColor())
+        graphics.fillRect(x, y, this.widthP, this.heightP)
 
-    def getBasicColorP(self) -> BasicColor:
-        from org.allbinary.graphics.color.BasicColor import BasicColor
-        return super().getBasicColorP()
-    
+method setWidth*(this: RectangleFilledAnimation, width: int32) {.base.} =
+        this.widthP = width
 
-    def setBasicColorP(self, basicColor: BasicColor) -> None:
-        from org.allbinary.graphics.color.BasicColor import BasicColor
-        super().setBasicColorP(basicColor)
-# from javax.microedition.lcdui.Graphics import Graphics
-# from org.allbinary.graphics.color.BasicColor import BasicColor
+method setHeight*(this: RectangleFilledAnimation, height: int32) {.base.} =
+        this.heightP = height
 
+method getBasicColorP*(this: RectangleFilledAnimation): BasicColor {.discardable.} =
+        return procCall Animation(this).getBasicColorP()
+
+method setBasicColorP*(this: RectangleFilledAnimation, basicColor: BasicColor) =
+        procCall Animation(this).setBasicColorP(basicColor)
+
+when declared(newRectangleFilledAnimationHook3):
+    newRectangleFilledAnimationHook3 = proc (width: int32, height: int32, basicColor: BasicColor): Animation = newRectangleFilledAnimation(width, height, basicColor)
 

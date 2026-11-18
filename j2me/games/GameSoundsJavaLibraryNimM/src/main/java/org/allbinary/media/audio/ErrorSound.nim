@@ -1,39 +1,55 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.media.audio
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/media/audio/CompositeSound as CompositeSoundModule
+export CompositeSoundModule
+import org/allbinary/media/audio/Sound as SoundModule
+export SoundModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
-from org.allbinary.media.audio.CompositeSound import CompositeSound
+type
+    ErrorSound* = ref object of CompositeSound
 
+proc newErrorSound*(): ErrorSound
+proc initErrorSound*(this: ErrorSound)
+proc getInstance*(t: typedesc[ErrorSound]): Sound {.discardable.}
 
-class ErrorSound(CompositeSound):
-    soundInterface: Sound = None
-    
+var ErrorSound_soundInterfaceValue: Sound
+var ErrorSound_soundInterfaceSet = false
+proc soundInterface*(t: typedesc[ErrorSound]): Sound =
+    if not ErrorSound_soundInterfaceSet:
+        ErrorSound_soundInterfaceSet = true
+        ErrorSound_soundInterfaceValue = newErrorSound()
+    ErrorSound_soundInterfaceValue
+proc `soundInterface=`*(t: typedesc[ErrorSound], value: Sound) =
+    ErrorSound_soundInterfaceSet = true
+    ErrorSound_soundInterfaceValue = value
 
-    def __init__(self) -> None:
-        super().__init__("resource:/wav/error.wav")
-    
+proc initErrorSound*(this: ErrorSound) =
+        initCompositeSound(this, "resource:/wav/error.wav")
 
-    @staticmethod
-    def getInstance() -> Sound:
+proc newErrorSound*(): ErrorSound =
+    result = ErrorSound()
+    initErrorSound(result)
+
+proc getInstance*(t: typedesc[ErrorSound]): Sound {.discardable.} =
         return ErrorSound.soundInterface
 
-
-def _ErrorSound_soundInterface() -> object:
-    return ErrorSound()
-
-lazy_static(ErrorSound, "soundInterface", _ErrorSound_soundInterface)
+when declared(newErrorSoundHook0):
+    newErrorSoundHook0 = proc (): CompositeSound = newErrorSound()
 

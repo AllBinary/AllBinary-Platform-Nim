@@ -1,34 +1,47 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-#
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-#
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-#
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+ 
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+ 
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ 
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.animation
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import javax/microedition/lcdui/Graphics as GraphicsModule
+export GraphicsModule
+import org/allbinary/animation/NullIndexedAnimation as NullIndexedAnimationModule
+export NullIndexedAnimationModule
 
-from org.allbinary.animation.NullIndexedAnimation import NullIndexedAnimation
+type
+    NullIndexedAnimationInner* = ref object of NullIndexedAnimation
+
+proc newNullIndexedAnimationInner*(): NullIndexedAnimationInner
+proc initNullIndexedAnimationInner*(this: NullIndexedAnimationInner)
+method paintXY*(this: NullIndexedAnimationInner, graphics: Graphics, x: int32, y: int32)
+import org/allbinary/animation/IndexedAnimationBehavior as IndexedAnimationBehaviorModule
+export IndexedAnimationBehaviorModule
 
 
-class NullIndexedAnimationInner(NullIndexedAnimation):
-    
+proc initNullIndexedAnimationInner*(this: NullIndexedAnimationInner) =
+        initNullIndexedAnimation(this, newIndexedAnimationBehavior(1, 250))
 
-    def __init__(self) -> None:
-        from org.allbinary.animation.IndexedAnimationBehavior import IndexedAnimationBehavior
-        super().__init__(IndexedAnimationBehavior(1, 250))
-    
+proc newNullIndexedAnimationInner*(): NullIndexedAnimationInner =
+    result = NullIndexedAnimationInner()
+    initNullIndexedAnimationInner(result)
 
-    def paintXY(self, graphics: Graphics, x: int, y: int) -> None:
-        from javax.microedition.lcdui.Graphics import Graphics
-        pass
-# from javax.microedition.lcdui.Graphics import Graphics
+method paintXY*(this: NullIndexedAnimationInner, graphics: Graphics, x: int32, y: int32) =
+        discard
 
+when declared(newNullIndexedAnimationInnerHook0):
+    newNullIndexedAnimationInnerHook0 = proc (): NullIndexedAnimation = newNullIndexedAnimationInner()
 

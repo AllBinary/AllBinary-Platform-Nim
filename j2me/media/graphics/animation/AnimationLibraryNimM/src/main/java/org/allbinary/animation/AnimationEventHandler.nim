@@ -1,46 +1,51 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.animation
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/logic/util/event/handler/BasicEventHandler as BasicEventHandlerModule
+export BasicEventHandlerModule
 
-import threading
-from java.lang.JavaRuntimeStatic import lazy_static
-from org.allbinary.logic.util.event.handler.BasicEventHandler import BasicEventHandler
+type
+    AnimationEventHandler* = ref object of BasicEventHandler
 
+proc newAnimationEventHandler*(): AnimationEventHandler
+proc initAnimationEventHandler*(this: AnimationEventHandler)
+proc getInstance*(t: typedesc[AnimationEventHandler]): AnimationEventHandler {.discardable.}
 
-class AnimationEventHandler(BasicEventHandler):
-    eventHandler: AnimationEventHandler = None
-    _lock = threading.RLock()
-    
+var AnimationEventHandler_eventHandlerValue: AnimationEventHandler
+var AnimationEventHandler_eventHandlerSet = false
+proc eventHandler*(t: typedesc[AnimationEventHandler]): AnimationEventHandler =
+    if not AnimationEventHandler_eventHandlerSet:
+        AnimationEventHandler_eventHandlerSet = true
+        AnimationEventHandler_eventHandlerValue = newAnimationEventHandler()
+    AnimationEventHandler_eventHandlerValue
 
-    def __init__(self) -> None:
-        super().__init__()
-    
+proc initAnimationEventHandler*(this: AnimationEventHandler) =
+        initBasicEventHandler(this)
+        discard
 
-    @staticmethod
-    def getInstance() -> AnimationEventHandler:
-        with AnimationEventHandler._lock:
-            return AnimationEventHandler._getInstance_unlocked()
+proc newAnimationEventHandler*(): AnimationEventHandler =
+    result = AnimationEventHandler()
+    initAnimationEventHandler(result)
 
-    @staticmethod
-    def _getInstance_unlocked() -> AnimationEventHandler:
+proc getInstance*(t: typedesc[AnimationEventHandler]): AnimationEventHandler {.discardable.} =
         return AnimationEventHandler.eventHandler
 
-
-def _AnimationEventHandler_eventHandler() -> object:
-    return AnimationEventHandler()
-
-lazy_static(AnimationEventHandler, "eventHandler", _AnimationEventHandler_eventHandler)
+when declared(newAnimationEventHandlerHook0):
+    newAnimationEventHandlerHook0 = proc (): BasicEventHandler = newAnimationEventHandler()
 

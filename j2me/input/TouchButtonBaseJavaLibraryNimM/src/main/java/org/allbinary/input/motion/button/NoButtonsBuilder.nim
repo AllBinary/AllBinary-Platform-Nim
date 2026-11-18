@@ -1,46 +1,62 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.input.motion.button
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/logic/communication/log/LogUtil as LogUtilModule
+export LogUtilModule
+import org/allbinary/util/BasicArrayList as BasicArrayListModule
+export BasicArrayListModule
+import org/allbinary/input/motion/button/BaseTouchInput as BaseTouchInputModule
+export BaseTouchInputModule
 
-from org.allbinary.input.motion.button.BaseTouchInput import BaseTouchInput
+type
+    NoButtonsBuilder* = ref object of BaseTouchInput
+        logUtil*: LogUtil
+
+proc newNoButtonsBuilder*(): NoButtonsBuilder
+method getList*(this: NoButtonsBuilder): BasicArrayList {.discardable.}
+import org/allbinary/util/BasicArrayListUtil as BasicArrayListUtilModule
+export BasicArrayListUtilModule
 
 
-class NoButtonsBuilder(BaseTouchInput):
+# Java field initializers run after the base initializer
+proc initFieldsNoButtonsBuilder(this: NoButtonsBuilder) =
+    this.logUtil = LogUtil.getInstance()
+    discard
 
-    def _init_fields(self) -> None:
-        from org.allbinary.logic.communication.log.LogUtil import LogUtil
-        self.logUtil: LogUtil = LogUtil.getInstance()
+proc initNoButtonsBuilder*(this: NoButtonsBuilder) =
+    initBaseTouchInput(this)
+    this.initFieldsNoButtonsBuilder()
 
-    def __init__(self) -> None:
-        super().__init__()
-        self._init_fields()
-    
+proc newNoButtonsBuilder*(): NoButtonsBuilder =
+    result = NoButtonsBuilder()
+    initNoButtonsBuilder(result)
 
-    def getList(self) -> BasicArrayList:
-        from org.allbinary.util.BasicArrayList import BasicArrayList
-        from org.allbinary.util.BasicArrayListUtil import BasicArrayListUtil
+method getList*(this: NoButtonsBuilder): BasicArrayList {.discardable.} =
         try:
-            self.logUtil.putF(self.commonStrings.START, self, self.commonStrings.CONSTRUCTOR)
-            list_: BasicArrayList = BasicArrayListUtil.getInstance().getImmutableInstance()
-            return list_
-        except Exception as e:
-            self.logUtil.put(self.commonStrings.EXCEPTION, self, self.commonStrings.GET_LIST, e)
+            this.logUtil.putF(this.commonStrings.START, this, this.commonStrings.CONSTRUCTOR)
+            let list: BasicArrayList = BasicArrayListUtil.getInstance().getImmutableInstance()
+            return list
+        except CatchableError as jcaught:
+            let e = jToException(jcaught)
+            this.logUtil.put(this.commonStrings.EXCEPTION, this, this.commonStrings.GET_LIST, e)
             return BasicArrayListUtil.getInstance().getImmutableInstance()
-# from org.allbinary.logic.communication.log.LogUtil import LogUtil
-# from org.allbinary.util.BasicArrayList import BasicArrayList
-# from org.allbinary.util.BasicArrayListUtil import BasicArrayListUtil
 
+when declared(newNoButtonsBuilderHook0):
+    newNoButtonsBuilderHook0 = proc (): BaseTouchInput = newNoButtonsBuilder()
 

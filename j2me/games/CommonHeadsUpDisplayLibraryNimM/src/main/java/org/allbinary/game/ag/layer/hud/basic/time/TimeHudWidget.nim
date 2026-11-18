@@ -1,82 +1,100 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.ag.layer.hud.basic.time
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import javax/microedition/lcdui/Graphics as GraphicsModule
+export GraphicsModule
+import org/allbinary/game/graphics/hud/BasicHud as BasicHudModule
+export BasicHudModule
+import org/allbinary/graphics/color/BasicColor as BasicColorModule
+export BasicColorModule
+import org/allbinary/game/ag/layer/hud/basic/time/HudTimer as HudTimerModule
+export HudTimerModule
 
-from org.allbinary.game.graphics.hud.BasicHud import BasicHud
+type
+    TimeHudWidget* = ref object of BasicHud
+        TIME_STRING*: string
+        TIME_CHAR_ARRAY*: JArray[uint16]
+        offset*: int32
+        string*: JArray[uint16]
+        totalDigits*: int32
+        timer*: HudTimer
+
+proc newTimeHudWidget*(location: int32, direction: int32, bufferZone: int32, basicColor: BasicColor, timer: HudTimer): TimeHudWidget
+proc initTimeHudWidget*(this: TimeHudWidget, location: int32, direction: int32, bufferZone: int32, basicColor: BasicColor, timer: HudTimer)
+proc getInstance*(t: typedesc[TimeHudWidget], location: int32, direction: int32, basicColor: BasicColor, timer: HudTimer): TimeHudWidget {.discardable.}
+method updateMeasurement*(this: TimeHudWidget, graphics: Graphics)
+method update*(this: TimeHudWidget) {.base.}
+method set*(this: TimeHudWidget) {.base.}
+method getTimer*(this: TimeHudWidget): HudTimer {.base, discardable.}
+method paint*(this: TimeHudWidget, graphics: Graphics) {.base.}
+import javax/microedition/lcdui/Font as FontModule
+export FontModule
+import org/allbinary/graphics/font/MyFontProcessor as MyFontProcessorModule
+export MyFontProcessorModule
+import org/allbinary/logic/math/PrimitiveLongSingleton as PrimitiveLongSingletonModule
+export PrimitiveLongSingletonModule
 
 
-class TimeHudWidget(BasicHud):
-
-    def _init_fields(self) -> None:
-        from org.allbinary.logic.math.PrimitiveLongSingleton import PrimitiveLongSingleton
-        self.TIME_STRING: str = "Time "
-        self.TIME_CHAR_ARRAY: list[str] = ['T', 'i', 'm', 'e', ' ']
-        self.offset: int = 0
-        self.string: list[str] = PrimitiveLongSingleton.getInstance().ZERO
-        self.totalDigits: int = 1
-        self.timer: HudTimer = None
+# Java field initializers run after the base initializer
+proc initFieldsTimeHudWidget(this: TimeHudWidget) =
+    this.TIME_STRING = "Time "
+    this.TIME_CHAR_ARRAY = newJArrayFrom[uint16]([uint16(ord('T')), uint16(ord('i')), uint16(ord('m')), uint16(ord('e')), uint16(ord(' '))])
+    this.offset = 0
+    this.string = PrimitiveLongSingleton.getInstance().ZERO
+    this.totalDigits = 1
     
+    discard
 
-    # throws Exception
-    @staticmethod
-    def getInstance(location: int, direction: int, basicColor: BasicColor, timer: HudTimer) -> TimeHudWidget:
-        from org.allbinary.graphics.color.BasicColor import BasicColor
-        return TimeHudWidget(location, direction, 2, basicColor, timer)
-    
+proc getInstance*(t: typedesc[TimeHudWidget], location: int32, direction: int32, basicColor: BasicColor, timer: HudTimer): TimeHudWidget {.discardable.} =
+        return newTimeHudWidget(location, direction, 2, basicColor, timer)
 
-    def __init__(self, location: int, direction: int, bufferZone: int, basicColor: BasicColor, timer: HudTimer) -> None:
-        from org.allbinary.graphics.color.BasicColor import BasicColor
-        super().__init__(location, direction, bufferZone, basicColor)
-        self._init_fields()
-        self.timer = timer
-        self.set()
-        self.updateMaxHeight = 14
-    
+proc initTimeHudWidget*(this: TimeHudWidget, location: int32, direction: int32, bufferZone: int32, basicColor: BasicColor, timer: HudTimer) =
+        initBasicHud(this, location, direction, bufferZone, basicColor)
+        this.initFieldsTimeHudWidget()
+        this.timer = timer
+        this.set()
+        this.updateMaxHeight = 14
 
-    def updateMeasurement(self, graphics: Graphics) -> None:
-        from javax.microedition.lcdui.Font import Font
-        from javax.microedition.lcdui.Graphics import Graphics
-        from org.allbinary.graphics.font.MyFontProcessor import MyFontProcessor
-        font: Font = graphics.getFont()
-        self.updateMaxWidth = font.getSize() * 5
-        self.offset = font.stringWidth(self.TIME_STRING) + MyFontProcessor.defaultStringWidth(font, 3)
-        super().updateMeasurement(graphics)
-    
+proc newTimeHudWidget*(location: int32, direction: int32, bufferZone: int32, basicColor: BasicColor, timer: HudTimer): TimeHudWidget =
+    result = TimeHudWidget()
+    initTimeHudWidget(result, location, direction, bufferZone, basicColor, timer)
 
-    def update(self) -> None:
-        self.timer.update()
-        self.set()
-    
+method updateMeasurement*(this: TimeHudWidget, graphics: Graphics) =
+        let font: Font = graphics.getFont()
+        this.updateMaxWidth = font.getSize() *% 5
+        this.offset = font.stringWidth(this.TIME_STRING) +% MyFontProcessor.defaultStringWidth(font, 3)
+        procCall BasicHud(this).updateMeasurement(graphics)
 
-    def set(self) -> None:
-        self.string = self.timer.getTimeChars()
-        self.totalDigits = self.timer.getCurrentTotalDigits()
-    
+method update*(this: TimeHudWidget) {.base.} =
+        this.timer.update()
+        this.set()
 
-    def getTimer(self) -> HudTimer:
-        return self.timer
-    
+method set*(this: TimeHudWidget) {.base.} =
+        this.string = this.timer.getTimeChars()
+        this.totalDigits = this.timer.getCurrentTotalDigits()
 
-    def paint(self, graphics: Graphics) -> None:
-        from javax.microedition.lcdui.Graphics import Graphics
-        super().paintDX(graphics, self.TIME_CHAR_ARRAY, 0, len(self.TIME_CHAR_ARRAY), self.string, 0, self.totalDigits, self.offset)
-# from javax.microedition.lcdui.Font import Font
-# from javax.microedition.lcdui.Graphics import Graphics
-# from org.allbinary.graphics.color.BasicColor import BasicColor
-# from org.allbinary.graphics.font.MyFontProcessor import MyFontProcessor
-# from org.allbinary.logic.math.PrimitiveLongSingleton import PrimitiveLongSingleton
+method getTimer*(this: TimeHudWidget): HudTimer {.base, discardable.} =
+        return this.timer
 
+method paint*(this: TimeHudWidget, graphics: Graphics) {.base.} =
+        procCall BasicHud(this).paintDX(graphics, this.TIME_CHAR_ARRAY, 0, this.TIME_CHAR_ARRAY.length, this.string, 0, this.totalDigits, this.offset)
+
+when declared(newTimeHudWidgetHook5):
+    newTimeHudWidgetHook5 = proc (location: int32, direction: int32, bufferZone: int32, basicColor: BasicColor, timer: HudTimer): BasicHud = newTimeHudWidget(location, direction, bufferZone, basicColor, timer)
 

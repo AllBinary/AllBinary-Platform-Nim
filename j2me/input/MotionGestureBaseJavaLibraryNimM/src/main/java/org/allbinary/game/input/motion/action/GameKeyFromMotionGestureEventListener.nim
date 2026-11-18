@@ -1,69 +1,87 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.input.motion.action
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/game/input/CompleteMotionGestureInputEvent as CompleteMotionGestureInputEventModule
+export CompleteMotionGestureInputEventModule
+import org/allbinary/game/input/CompleteMotionGestureInputEventListener as CompleteMotionGestureInputEventListenerModule
+export CompleteMotionGestureInputEventListenerModule
+import org/allbinary/game/input/event/GameKeyEvent as GameKeyEventModule
+export GameKeyEventModule
+import org/allbinary/logic/communication/log/LogUtil as LogUtilModule
+export LogUtilModule
+import org/allbinary/logic/util/event/AllBinaryEventObject as AllBinaryEventObjectModule
+export AllBinaryEventObjectModule
 
-from org.allbinary.game.input.CompleteMotionGestureInputEventListener import CompleteMotionGestureInputEventListener
+type
+    GameKeyFromMotionGestureEventListener* = ref object of CompleteMotionGestureInputEventListener
+        logUtil*: LogUtil
+        previousGameKeyEvent*: GameKeyEvent
+
+proc newGameKeyFromMotionGestureEventListener*(): GameKeyFromMotionGestureEventListener
+method onEvent*(this: GameKeyFromMotionGestureEventListener, eventObject: AllBinaryEventObject)
+method onCompleteMotionGestureInputEvent*(this: GameKeyFromMotionGestureEventListener, completeMotionGestureInputEvent: CompleteMotionGestureInputEvent)
+import org/allbinary/game/input/event/DownGameKeyEventHandler as DownGameKeyEventHandlerModule
+export DownGameKeyEventHandlerModule
+import org/allbinary/game/input/event/UpGameKeyEventHandler as UpGameKeyEventHandlerModule
+export UpGameKeyEventHandlerModule
+import org/allbinary/logic/communication/log/ForcedLogUtil as ForcedLogUtilModule
+export ForcedLogUtilModule
+import org/allbinary/logic/util/event/EventStrings as EventStringsModule
+export EventStringsModule
+import org/allbinary/string/CommonStrings as CommonStringsModule
+export CommonStringsModule
+import org/allbinary/game/input/motion/action/GameKeyCompleteMotionGestureInputEvent as GameKeyCompleteMotionGestureInputEventModule
+export GameKeyCompleteMotionGestureInputEventModule
 
 
-class GameKeyFromMotionGestureEventListener(CompleteMotionGestureInputEventListener):
+# Java field initializers run after the base initializer
+proc initFieldsGameKeyFromMotionGestureEventListener(this: GameKeyFromMotionGestureEventListener) =
+    this.logUtil = LogUtil.getInstance()
+    this.previousGameKeyEvent = GameKeyEvent.NONE
+    discard
 
-    def _init_fields(self) -> None:
-        from org.allbinary.game.input.event.GameKeyEvent import GameKeyEvent
-        from org.allbinary.logic.communication.log.LogUtil import LogUtil
-        self.logUtil: LogUtil = LogUtil.getInstance()
-        self.previousGameKeyEvent: GameKeyEvent = GameKeyEvent.NONE
+proc initGameKeyFromMotionGestureEventListener*(this: GameKeyFromMotionGestureEventListener) =
+    initCompleteMotionGestureInputEventListener(this)
+    this.initFieldsGameKeyFromMotionGestureEventListener()
 
-    def __init__(self) -> None:
-        super().__init__()
-        self._init_fields()
-    
+proc newGameKeyFromMotionGestureEventListener*(): GameKeyFromMotionGestureEventListener =
+    result = GameKeyFromMotionGestureEventListener()
+    initGameKeyFromMotionGestureEventListener(result)
 
-    def onEvent(self, eventObject: AllBinaryEventObject) -> None:
-        from org.allbinary.logic.communication.log.ForcedLogUtil import ForcedLogUtil
-        from org.allbinary.logic.util.event.AllBinaryEventObject import AllBinaryEventObject
-        from org.allbinary.logic.util.event.EventStrings import EventStrings
-        ForcedLogUtil.log(EventStrings.getInstance().PERFORMANCE_MESSAGE, self)
-    
+method onEvent*(this: GameKeyFromMotionGestureEventListener, eventObject: AllBinaryEventObject) =
+        ForcedLogUtil.log(EventStrings.getInstance().PERFORMANCE_MESSAGE, this)
 
-    def onCompleteMotionGestureInputEvent(self, completeMotionGestureInputEvent: CompleteMotionGestureInputEvent) -> None:
-        from org.allbinary.game.input.CompleteMotionGestureInputEvent import CompleteMotionGestureInputEvent
-        from org.allbinary.game.input.event.DownGameKeyEventHandler import DownGameKeyEventHandler
-        from org.allbinary.game.input.event.GameKeyEvent import GameKeyEvent
-        from org.allbinary.game.input.event.UpGameKeyEventHandler import UpGameKeyEventHandler
-        from org.allbinary.string.CommonStrings import CommonStrings
+method onCompleteMotionGestureInputEvent*(this: GameKeyFromMotionGestureEventListener, completeMotionGestureInputEvent: CompleteMotionGestureInputEvent) =
         try:
-            gameKeyCompleteMotionGestureInputEvent: GameKeyCompleteMotionGestureInputEvent = completeMotionGestureInputEvent
-            gameKeyEvent: GameKeyEvent = gameKeyCompleteMotionGestureInputEvent.getGameKeyEvent()
-            if gameKeyEvent != self.previousGameKeyEvent:
-                if self.previousGameKeyEvent != GameKeyEvent.NONE:
-                    UpGameKeyEventHandler.getInstance().fireEvent(self.previousGameKeyEvent)
-                self.previousGameKeyEvent = gameKeyEvent
-                if gameKeyEvent is not None and gameKeyEvent != GameKeyEvent.NONE:
+            var gameKeyCompleteMotionGestureInputEvent: GameKeyCompleteMotionGestureInputEvent = GameKeyCompleteMotionGestureInputEvent(JObject(completeMotionGestureInputEvent))
+            var gameKeyEvent: GameKeyEvent = gameKeyCompleteMotionGestureInputEvent.getGameKeyEvent()
+            if gameKeyEvent != this.previousGameKeyEvent:
+                if this.previousGameKeyEvent != GameKeyEvent.NONE:
+                    UpGameKeyEventHandler.getInstance().fireEvent(this.previousGameKeyEvent)
+                this.previousGameKeyEvent = gameKeyEvent
+                if (not jIsNil(gameKeyEvent)) and gameKeyEvent != GameKeyEvent.NONE:
                     DownGameKeyEventHandler.getInstance().fireEvent(gameKeyEvent)
-        except Exception as e:
-            commonStrings: CommonStrings = CommonStrings.getInstance()
-            self.logUtil.put(commonStrings.EXCEPTION, self, "onCompleteMotionGestureInputEvent", e)
-# from org.allbinary.game.input.CompleteMotionGestureInputEvent import CompleteMotionGestureInputEvent
-# from org.allbinary.game.input.event.DownGameKeyEventHandler import DownGameKeyEventHandler
-# from org.allbinary.game.input.event.GameKeyEvent import GameKeyEvent
-# from org.allbinary.game.input.event.UpGameKeyEventHandler import UpGameKeyEventHandler
-# from org.allbinary.logic.communication.log.ForcedLogUtil import ForcedLogUtil
-# from org.allbinary.logic.communication.log.LogUtil import LogUtil
-# from org.allbinary.logic.util.event.AllBinaryEventObject import AllBinaryEventObject
-# from org.allbinary.logic.util.event.EventStrings import EventStrings
-# from org.allbinary.string.CommonStrings import CommonStrings
+        except CatchableError as jcaught:
+            let e = jToException(jcaught)
+            let commonStrings: CommonStrings = CommonStrings.getInstance()
+            this.logUtil.put(commonStrings.EXCEPTION, this, "onCompleteMotionGestureInputEvent", e)
 
+when declared(newGameKeyFromMotionGestureEventListenerHook0):
+    newGameKeyFromMotionGestureEventListenerHook0 = proc (): CompleteMotionGestureInputEventListener = newGameKeyFromMotionGestureEventListener()
 

@@ -1,38 +1,36 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.resource
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/game/configuration/feature/GameFeatureControlledInterface as GameFeatureControlledInterfaceModule
+export GameFeatureControlledInterfaceModule
+import org/allbinary/graphics/RelativeRelationship as RelativeRelationshipModule
+export RelativeRelationshipModule
+import org/allbinary/util/BasicArrayList as BasicArrayListModule
+export BasicArrayListModule
 
-from org.allbinary.game.configuration.feature.GameFeatureControlledInterface import GameFeatureControlledInterface
+type
+    ResourceRelativeRelationshipFactoryInterface* = ref object of GameFeatureControlledInterface
 
 
-# Java interface
-class ResourceRelativeRelationshipFactoryInterface(GameFeatureControlledInterface):
-    
+method getResourceRelativeRelationshipList*(this: ResourceRelativeRelationshipFactoryInterface, resource: string): BasicArrayList {.base, discardable.} =
+        raise newJException("AbstractMethodError", "getResourceRelativeRelationshipList")
 
-    # throws Exception
-    def getResourceRelativeRelationshipList(self, resource: str) -> BasicArrayList:
-        from org.allbinary.util.BasicArrayList import BasicArrayList
-        raise NotImplementedError()
-    
-
-    # throws Exception
-    def addResourceRelativeRelationship(self, resource: str, relativeRelationship: RelativeRelationship) -> None:
-        from org.allbinary.graphics.RelativeRelationship import RelativeRelationship
-        raise NotImplementedError()
-# from org.allbinary.graphics.RelativeRelationship import RelativeRelationship
-# from org.allbinary.util.BasicArrayList import BasicArrayList
-
+method addResourceRelativeRelationship*(this: ResourceRelativeRelationshipFactoryInterface, resource: string, relativeRelationship: RelativeRelationship) {.base.} =
+        raise newJException("AbstractMethodError", "addResourceRelativeRelationship")
 

@@ -1,31 +1,47 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.animation
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/graphics/color/BasicColor as BasicColorModule
+export BasicColorModule
+import org/allbinary/animation/VectorAnimationFactoryInterface as VectorAnimationFactoryInterfaceModule
+export VectorAnimationFactoryInterfaceModule
+import org/allbinary/animation/VectorAnimation as VectorAnimationModule
+export VectorAnimationModule
 
-from org.allbinary.animation.VectorAnimationFactoryInterface import VectorAnimationFactoryInterface
+type
+    TimedVectorAnimationFactory* = ref object of VectorAnimationFactoryInterface
+
+proc newTimedVectorAnimationFactory*(): TimedVectorAnimationFactory
+method getInstance*(this: TimedVectorAnimationFactory, points: JArray[JArray[JArray[int32]]], basicColor: BasicColor): VectorAnimation {.discardable.}
+import org/allbinary/animation/TimedVectorAnimation as TimedVectorAnimationModule
+export TimedVectorAnimationModule
+import org/allbinary/animation/AnimationBehavior as AnimationBehaviorModule
+export AnimationBehaviorModule
 
 
-class TimedVectorAnimationFactory(VectorAnimationFactoryInterface):
-    
+proc initTimedVectorAnimationFactory*(this: TimedVectorAnimationFactory) =
+    discard
 
-    def getInstance(self, points: list[list[list[int]]], basicColor: BasicColor) -> VectorAnimation:
-        from org.allbinary.animation.TimedVectorAnimation import TimedVectorAnimation
-        from org.allbinary.animation.AnimationBehavior import AnimationBehavior
-        from org.allbinary.graphics.color.BasicColor import BasicColor
-        return TimedVectorAnimation(points, basicColor, AnimationBehavior.getInstance())
-# from org.allbinary.graphics.color.BasicColor import BasicColor
+proc newTimedVectorAnimationFactory*(): TimedVectorAnimationFactory =
+    result = TimedVectorAnimationFactory()
+    initTimedVectorAnimationFactory(result)
 
+method getInstance*(this: TimedVectorAnimationFactory, points: JArray[JArray[JArray[int32]]], basicColor: BasicColor): VectorAnimation {.discardable.} =
+        return newTimedVectorAnimation(points, basicColor, AnimationBehavior.getInstance())
 

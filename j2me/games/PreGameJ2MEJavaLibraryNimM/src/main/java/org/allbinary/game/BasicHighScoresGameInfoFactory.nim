@@ -1,45 +1,60 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/game/GameInfo as GameInfoModule
+export GameInfoModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    BasicHighScoresGameInfoFactory* = ref object of JObject
+        MULTI_PLAYER_SERVER*: GameInfo
+        SINGLE_PLAYER_SERVER*: GameInfo
 
+proc newBasicHighScoresGameInfoFactory*(): BasicHighScoresGameInfoFactory
+proc getInstance*(t: typedesc[BasicHighScoresGameInfoFactory]): BasicHighScoresGameInfoFactory {.discardable.}
+import org/allbinary/game/GameTypeFactory as GameTypeFactoryModule
+export GameTypeFactoryModule
+import org/allbinary/game/GameMode as GameModeModule
+export GameModeModule
+import org/allbinary/game/PlayerTypesFactory as PlayerTypesFactoryModule
+export PlayerTypesFactoryModule
 
-class BasicHighScoresGameInfoFactory:
-    SINGLETON: BasicHighScoresGameInfoFactory = None
+var BasicHighScoresGameInfoFactory_SINGLETONValue: BasicHighScoresGameInfoFactory
+var BasicHighScoresGameInfoFactory_SINGLETONSet = false
+proc SINGLETON*(t: typedesc[BasicHighScoresGameInfoFactory]): BasicHighScoresGameInfoFactory =
+    if not BasicHighScoresGameInfoFactory_SINGLETONSet:
+        BasicHighScoresGameInfoFactory_SINGLETONSet = true
+        BasicHighScoresGameInfoFactory_SINGLETONValue = newBasicHighScoresGameInfoFactory()
+    BasicHighScoresGameInfoFactory_SINGLETONValue
 
-    def _init_fields(self) -> None:
-        self.MULTI_PLAYER_SERVER: GameInfo = GameInfo(GameTypeFactory.getInstance().MULTI_PLAYER, GameMode.SERVER, PlayerTypesFactory.getInstance().PLAYER_TYPE_ONE, 0, 0)
-        self.SINGLE_PLAYER_SERVER: GameInfo = GameInfo(GameTypeFactory.getInstance().SINGLE_PLAYER, GameMode.SERVER, PlayerTypesFactory.getInstance().PLAYER_TYPE_ONE, 0, 0)
+# Java field initializers run after the base initializer
+proc initFieldsBasicHighScoresGameInfoFactory(this: BasicHighScoresGameInfoFactory) =
+    this.MULTI_PLAYER_SERVER = newGameInfo(GameTypeFactory.getInstance().MULTI_PLAYER, GameMode.SERVER, PlayerTypesFactory.getInstance().PLAYER_TYPE_ONE, 0, 0)
+    this.SINGLE_PLAYER_SERVER = newGameInfo(GameTypeFactory.getInstance().SINGLE_PLAYER, GameMode.SERVER, PlayerTypesFactory.getInstance().PLAYER_TYPE_ONE, 0, 0)
+    discard
 
-    def __init__(self) -> None:
-        self._init_fields()
-    
+proc initBasicHighScoresGameInfoFactory*(this: BasicHighScoresGameInfoFactory) =
+    this.initFieldsBasicHighScoresGameInfoFactory()
 
-    @staticmethod
-    def getInstance() -> BasicHighScoresGameInfoFactory:
+proc newBasicHighScoresGameInfoFactory*(): BasicHighScoresGameInfoFactory =
+    result = BasicHighScoresGameInfoFactory()
+    initBasicHighScoresGameInfoFactory(result)
+
+proc getInstance*(t: typedesc[BasicHighScoresGameInfoFactory]): BasicHighScoresGameInfoFactory {.discardable.} =
         return BasicHighScoresGameInfoFactory.SINGLETON
-from org.allbinary.game.GameInfo import GameInfo
-from org.allbinary.game.GameTypeFactory import GameTypeFactory
-from org.allbinary.game.GameMode import GameMode
-from org.allbinary.game.PlayerTypesFactory import PlayerTypesFactory
-
-
-def _BasicHighScoresGameInfoFactory_SINGLETON() -> object:
-    return BasicHighScoresGameInfoFactory()
-
-lazy_static(BasicHighScoresGameInfoFactory, "SINGLETON", _BasicHighScoresGameInfoFactory_SINGLETON)
 

@@ -1,34 +1,44 @@
 # Generated Code Do Not Modify
 # package org.allbinary.game.displayable.canvas
 
-from __future__ import annotations
-
-from java.lang.JavaRuntimeStatic import lazy_static
-from javax.microedition.lcdui.Canvas import Canvas
-
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import javax/microedition/lcdui/Canvas as CanvasModule
+export CanvasModule
+import javax/microedition/lcdui/Graphics as GraphicsModule
+export GraphicsModule
 
 #Temp should not be in any build
-class NullDisplayable(Canvas):
-    SINGLETON: NullDisplayable = None
-    
+type
+    NullDisplayable* = ref object of Canvas
 
-    @staticmethod
-    def getInstance() -> NullDisplayable:
+proc newNullDisplayable*(): NullDisplayable
+proc initNullDisplayable*(this: NullDisplayable)
+proc getInstance*(t: typedesc[NullDisplayable]): NullDisplayable {.discardable.}
+method paint*(this: NullDisplayable, graphics: Graphics)
+
+var NullDisplayable_SINGLETONValue: NullDisplayable
+var NullDisplayable_SINGLETONSet = false
+proc SINGLETON*(t: typedesc[NullDisplayable]): NullDisplayable =
+    if not NullDisplayable_SINGLETONSet:
+        NullDisplayable_SINGLETONSet = true
+        NullDisplayable_SINGLETONValue = newNullDisplayable()
+    NullDisplayable_SINGLETONValue
+
+proc getInstance*(t: typedesc[NullDisplayable]): NullDisplayable {.discardable.} =
         return NullDisplayable.SINGLETON
-    
 
-    def __init__(self) -> None:
-        super().__init__()
-    
+proc initNullDisplayable*(this: NullDisplayable) =
+        initCanvas(this)
+        discard
 
-    def paint(self, graphics: Graphics) -> None:
-        from javax.microedition.lcdui.Graphics import Graphics
-        pass
-# from javax.microedition.lcdui.Graphics import Graphics
+proc newNullDisplayable*(): NullDisplayable =
+    result = NullDisplayable()
+    initNullDisplayable(result)
 
+method paint*(this: NullDisplayable, graphics: Graphics) =
+        discard
 
-def _NullDisplayable_SINGLETON() -> object:
-    return NullDisplayable()
-
-lazy_static(NullDisplayable, "SINGLETON", _NullDisplayable_SINGLETON)
+when declared(newNullDisplayableHook0):
+    newNullDisplayableHook0 = proc (): Canvas = newNullDisplayable()
 

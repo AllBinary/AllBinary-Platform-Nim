@@ -1,34 +1,42 @@
 # Generated Code Do Not Modify
 # package org.allbinary.graphics.opengles
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    OpenGLThreadUtil* = ref object of JObject
 
+proc newOpenGLThreadUtil*(): OpenGLThreadUtil
+proc getInstance*(t: typedesc[OpenGLThreadUtil]): OpenGLThreadUtil {.discardable.}
+method set*(this: OpenGLThreadUtil, glSurfaceView: JObject) {.base.}
+method onPause*(this: OpenGLThreadUtil) {.base.}
+method onResume*(this: OpenGLThreadUtil) {.base.}
 
-class OpenGLThreadUtil:
-    instance: OpenGLThreadUtil = None
-    
+var OpenGLThreadUtil_instanceValue: OpenGLThreadUtil
+var OpenGLThreadUtil_instanceSet = false
+proc instance*(t: typedesc[OpenGLThreadUtil]): OpenGLThreadUtil =
+    if not OpenGLThreadUtil_instanceSet:
+        OpenGLThreadUtil_instanceSet = true
+        OpenGLThreadUtil_instanceValue = newOpenGLThreadUtil()
+    OpenGLThreadUtil_instanceValue
 
-    @staticmethod
-    def getInstance() -> OpenGLThreadUtil:
+proc initOpenGLThreadUtil*(this: OpenGLThreadUtil) =
+    discard
+
+proc newOpenGLThreadUtil*(): OpenGLThreadUtil =
+    result = OpenGLThreadUtil()
+    initOpenGLThreadUtil(result)
+
+proc getInstance*(t: typedesc[OpenGLThreadUtil]): OpenGLThreadUtil {.discardable.} =
         return OpenGLThreadUtil.instance
-    
 
-    def set(self, glSurfaceView: object) -> None:
-        pass
-    
+method set*(this: OpenGLThreadUtil, glSurfaceView: JObject) {.base.} =
+        discard
 
-    def onPause(self) -> None:
-        pass
-    
+method onPause*(this: OpenGLThreadUtil) {.base.} =
+        discard
 
-    def onResume(self) -> None:
-        pass
-
-
-def _OpenGLThreadUtil_instance() -> object:
-    return OpenGLThreadUtil()
-
-lazy_static(OpenGLThreadUtil, "instance", _OpenGLThreadUtil_instance)
+method onResume*(this: OpenGLThreadUtil) {.base.} =
+        discard
 

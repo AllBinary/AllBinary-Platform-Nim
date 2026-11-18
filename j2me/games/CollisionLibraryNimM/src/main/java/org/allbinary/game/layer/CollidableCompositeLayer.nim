@@ -1,114 +1,123 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.layer
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/ai/ArtificialIntelligenceInterface as ArtificialIntelligenceInterfaceModule
+export ArtificialIntelligenceInterfaceModule
+import org/allbinary/game/collision/CollidableBaseBehavior as CollidableBaseBehaviorModule
+export CollidableBaseBehaviorModule
+import org/allbinary/game/collision/CollidableBaseBehaviorFactory as CollidableBaseBehaviorFactoryModule
+export CollidableBaseBehaviorFactoryModule
+import org/allbinary/game/collision/CollidableInterfaceCompositeInterface as CollidableInterfaceCompositeInterfaceModule
+export CollidableInterfaceCompositeInterfaceModule
+import org/allbinary/graphics/Rectangle as RectangleModule
+export RectangleModule
+import org/allbinary/logic/string/StringMaker as StringMakerModule
+export StringMakerModule
+import org/allbinary/view/ViewPositionBase as ViewPositionBaseModule
+export ViewPositionBaseModule
+import org/allbinary/game/layer/AllBinaryGameLayer as AllBinaryGameLayerModule
+export AllBinaryGameLayerModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
-from org.allbinary.game.collision.CollidableInterfaceCompositeInterface import CollidableInterfaceCompositeInterface
-from org.allbinary.game.layer.AllBinaryGameLayer import AllBinaryGameLayer
+type
+    CollidableCompositeLayer* = ref object of AllBinaryGameLayer
+        collidableInferface*: CollidableBaseBehavior
 
+converter jAsCollidableInterfaceCompositeInterface*(value: CollidableCompositeLayer): CollidableInterfaceCompositeInterface = cast[CollidableInterfaceCompositeInterface](value)
+proc newCollidableCompositeLayer*(name: string, layerInfo: Rectangle, viewPosition: ViewPositionBase, collidableBaseBehaviorFactory: CollidableBaseBehaviorFactory): CollidableCompositeLayer
+proc initCollidableCompositeLayer*(this: CollidableCompositeLayer, name: string, layerInfo: Rectangle, viewPosition: ViewPositionBase, collidableBaseBehaviorFactory: CollidableBaseBehaviorFactory)
+proc getNullInstance*(t: typedesc[CollidableCompositeLayer]): CollidableCompositeLayer {.discardable.}
+method getArtificialIntelligenceInterface*(this: CollidableCompositeLayer): ArtificialIntelligenceInterface {.base, discardable.}
+method getCollidableInferface*(this: CollidableCompositeLayer): CollidableBaseBehavior {.discardable.}
+method setCollidableInferface*(this: CollidableCompositeLayer, collidableInferface: CollidableBaseBehavior) {.base.}
+method implmentsCollidableInterface*(this: CollidableCompositeLayer): bool {.discardable.}
+method toStringAppend*(this: CollidableCompositeLayer, stringBuffer: StringMaker)
+method toString*(this: CollidableCompositeLayer): string {.discardable.}
+import org/allbinary/ai/ArtificialIntelligence as ArtificialIntelligenceModule
+export ArtificialIntelligenceModule
+import org/allbinary/game/collision/CollidableNeverCollideBehaviorFactory as CollidableNeverCollideBehaviorFactoryModule
+export CollidableNeverCollideBehaviorFactoryModule
+import org/allbinary/graphics/RectangleFactory as RectangleFactoryModule
+export RectangleFactoryModule
+import org/allbinary/logic/communication/log/ForcedLogUtil as ForcedLogUtilModule
+export ForcedLogUtilModule
+import org/allbinary/logic/string/StringUtil as StringUtilModule
+export StringUtilModule
+import org/allbinary/string/CommonSeps as CommonSepsModule
+export CommonSepsModule
+import org/allbinary/logic/NullUtil as NullUtilModule
+export NullUtilModule
 
-class CollidableCompositeLayer(AllBinaryGameLayer, CollidableInterfaceCompositeInterface):
-    NULL_COLLIDABLE_COMPOSITE_LAYER: object = None
+var CollidableCompositeLayer_NULL_COLLIDABLE_COMPOSITE_LAYERValue: JObject
+var CollidableCompositeLayer_NULL_COLLIDABLE_COMPOSITE_LAYERSet = false
+proc NULL_COLLIDABLE_COMPOSITE_LAYER*(t: typedesc[CollidableCompositeLayer]): JObject =
+    if not CollidableCompositeLayer_NULL_COLLIDABLE_COMPOSITE_LAYERSet:
+        CollidableCompositeLayer_NULL_COLLIDABLE_COMPOSITE_LAYERSet = true
+        CollidableCompositeLayer_NULL_COLLIDABLE_COMPOSITE_LAYERValue = NullUtil.getInstance().NULL_OBJECT
+    CollidableCompositeLayer_NULL_COLLIDABLE_COMPOSITE_LAYERValue
+proc `NULL_COLLIDABLE_COMPOSITE_LAYER=`*(t: typedesc[CollidableCompositeLayer], value: JObject) =
+    CollidableCompositeLayer_NULL_COLLIDABLE_COMPOSITE_LAYERSet = true
+    CollidableCompositeLayer_NULL_COLLIDABLE_COMPOSITE_LAYERValue = value
 
-    def _init_fields(self) -> None:
-        from org.allbinary.game.collision.CollidableBaseBehavior import CollidableBaseBehavior
-        from org.allbinary.game.collision.CollidableNeverCollideBehaviorFactory import CollidableNeverCollideBehaviorFactory
-        self.collidableInferface: CollidableBaseBehavior = CollidableNeverCollideBehaviorFactory.getInstance().createBehavior()
-    
+# Java field initializers run after the base initializer
+proc initFieldsCollidableCompositeLayer(this: CollidableCompositeLayer) =
+    this.collidableInferface = CollidableNeverCollideBehaviorFactory.getInstance().createBehavior()
+    discard
 
-    @staticmethod
-    def getNullInstance() -> CollidableCompositeLayer:
-        from org.allbinary.game.collision.CollidableNeverCollideBehaviorFactory import CollidableNeverCollideBehaviorFactory
-        from org.allbinary.graphics.RectangleFactory import RectangleFactory
-        from org.allbinary.logic.string.StringUtil import StringUtil
-        from org.allbinary.view.ViewPositionBase import ViewPositionBase
-        from org.allbinary.logic.NullUtil import NullUtil
+proc getNullInstance*(t: typedesc[CollidableCompositeLayer]): CollidableCompositeLayer {.discardable.} =
         if CollidableCompositeLayer.NULL_COLLIDABLE_COMPOSITE_LAYER == NullUtil.getInstance().NULL_OBJECT:
-            CollidableCompositeLayer.NULL_COLLIDABLE_COMPOSITE_LAYER = CollidableCompositeLayer(StringUtil.getInstance().EMPTY_STRING, RectangleFactory.SINGLETON, ViewPositionBase.NULL_VIEW_POSITION, CollidableNeverCollideBehaviorFactory.getInstance())
-        return CollidableCompositeLayer.NULL_COLLIDABLE_COMPOSITE_LAYER
-    
+            CollidableCompositeLayer.NULL_COLLIDABLE_COMPOSITE_LAYER = newCollidableCompositeLayer(StringUtil.getInstance().EMPTY_STRING, RectangleFactory.SINGLETON, ViewPositionBase.NULL_VIEW_POSITION, CollidableNeverCollideBehaviorFactory.getInstance())
+        return CollidableCompositeLayer(JObject(CollidableCompositeLayer.NULL_COLLIDABLE_COMPOSITE_LAYER))
 
-    def __init__(self, name: str, layerInfo: Rectangle, viewPosition: ViewPositionBase, collidableBaseBehaviorFactory: CollidableBaseBehaviorFactory) -> None:
-        from org.allbinary.game.collision.CollidableBaseBehaviorFactory import CollidableBaseBehaviorFactory
-        from org.allbinary.game.collision.CollidableNeverCollideBehaviorFactory import CollidableNeverCollideBehaviorFactory
-        from org.allbinary.graphics.Rectangle import Rectangle
-        from org.allbinary.view.ViewPositionBase import ViewPositionBase
-        super().__init__(name, layerInfo, viewPosition)
-        self._init_fields()
+proc initCollidableCompositeLayer*(this: CollidableCompositeLayer, name: string, layerInfo: Rectangle, viewPosition: ViewPositionBase, collidableBaseBehaviorFactory: CollidableBaseBehaviorFactory) =
+        initAllBinaryGameLayer(this, name, layerInfo, viewPosition)
+        this.initFieldsCollidableCompositeLayer()
         if collidableBaseBehaviorFactory != CollidableNeverCollideBehaviorFactory.getInstance():
-            self.setCollidableInferface(collidableBaseBehaviorFactory.createBehavior())
-    
+            this.setCollidableInferface(collidableBaseBehaviorFactory.createBehavior())
 
-    def getArtificialIntelligenceInterface(self) -> ArtificialIntelligenceInterface:
-        from org.allbinary.ai.ArtificialIntelligence import ArtificialIntelligence
-        from org.allbinary.ai.ArtificialIntelligenceInterface import ArtificialIntelligenceInterface
-        from org.allbinary.logic.communication.log.ForcedLogUtil import ForcedLogUtil
-        ForcedLogUtil.log(self.commonStrings.NOT_IMPLEMENTED, self)
+proc newCollidableCompositeLayer*(name: string, layerInfo: Rectangle, viewPosition: ViewPositionBase, collidableBaseBehaviorFactory: CollidableBaseBehaviorFactory): CollidableCompositeLayer =
+    result = CollidableCompositeLayer()
+    initCollidableCompositeLayer(result, name, layerInfo, viewPosition, collidableBaseBehaviorFactory)
+
+method getArtificialIntelligenceInterface*(this: CollidableCompositeLayer): ArtificialIntelligenceInterface {.base, discardable.} =
+        ForcedLogUtil.log(this.commonStrings.NOT_IMPLEMENTED, this)
         return ArtificialIntelligence.getInstance()
-    
 
-    def getCollidableInferface(self) -> CollidableBaseBehavior:
-        from org.allbinary.game.collision.CollidableBaseBehavior import CollidableBaseBehavior
-        return self.collidableInferface
-    
+method getCollidableInferface*(this: CollidableCompositeLayer): CollidableBaseBehavior {.discardable.} =
+        return this.collidableInferface
 
-    def setCollidableInferface(self, collidableInferface: CollidableBaseBehavior) -> None:
-        from org.allbinary.game.collision.CollidableBaseBehavior import CollidableBaseBehavior
-        self.collidableInferface = collidableInferface
-    
+method setCollidableInferface*(this: CollidableCompositeLayer, collidableInferface: CollidableBaseBehavior) {.base.} =
+        this.collidableInferface = collidableInferface
 
-    def implmentsCollidableInterface(self) -> bool:
-        return True
-    
+method implmentsCollidableInterface*(this: CollidableCompositeLayer): bool {.discardable.} =
+        return true
 
-    def toStringAppend(self, stringBuffer: StringMaker) -> None:
-        from org.allbinary.logic.string.StringMaker import StringMaker
-        from org.allbinary.string.CommonSeps import CommonSeps
-        commonSeps: CommonSeps = CommonSeps.getInstance()
-        super().toStringAppend(stringBuffer)
+method toStringAppend*(this: CollidableCompositeLayer, stringBuffer: StringMaker) =
+        let commonSeps: CommonSeps = CommonSeps.getInstance()
+        procCall AllBinaryGameLayer(this).toStringAppend(stringBuffer)
         stringBuffer.append(commonSeps.NEW_LINE)
-        stringBuffer.append(str(self.getCollidableInferface()))
-    
+        stringBuffer.append(this.getCollidableInferface().toString())
 
-    def toString(self) -> str:
-        from org.allbinary.logic.string.StringMaker import StringMaker
-        stringBuffer: StringMaker = StringMaker()
-        self.toStringAppend(stringBuffer)
-        return str(stringBuffer)
+method toString*(this: CollidableCompositeLayer): string {.discardable.} =
+        let stringBuffer: StringMaker = newStringMaker()
+        this.toStringAppend(stringBuffer)
+        return stringBuffer.toString()
 
-    def __str__(self) -> str:
-        return self.toString()
-# from org.allbinary.ai.ArtificialIntelligence import ArtificialIntelligence
-# from org.allbinary.ai.ArtificialIntelligenceInterface import ArtificialIntelligenceInterface
-# from org.allbinary.game.collision.CollidableBaseBehavior import CollidableBaseBehavior
-# from org.allbinary.game.collision.CollidableBaseBehaviorFactory import CollidableBaseBehaviorFactory
-# from org.allbinary.game.collision.CollidableNeverCollideBehaviorFactory import CollidableNeverCollideBehaviorFactory
-# from org.allbinary.graphics.Rectangle import Rectangle
-# from org.allbinary.graphics.RectangleFactory import RectangleFactory
-# from org.allbinary.logic.communication.log.ForcedLogUtil import ForcedLogUtil
-# from org.allbinary.logic.string.StringMaker import StringMaker
-# from org.allbinary.logic.string.StringUtil import StringUtil
-# from org.allbinary.string.CommonSeps import CommonSeps
-# from org.allbinary.view.ViewPositionBase import ViewPositionBase
-# from org.allbinary.logic.NullUtil import NullUtil
-
-
-def _CollidableCompositeLayer_NULL_COLLIDABLE_COMPOSITE_LAYER() -> object:
-    from org.allbinary.logic.NullUtil import NullUtil
-    return NullUtil.getInstance().NULL_OBJECT
-
-lazy_static(CollidableCompositeLayer, "NULL_COLLIDABLE_COMPOSITE_LAYER", _CollidableCompositeLayer_NULL_COLLIDABLE_COMPOSITE_LAYER)
+when declared(newCollidableCompositeLayerHook4):
+    newCollidableCompositeLayerHook4 = proc (name: string, layerInfo: Rectangle, viewPosition: ViewPositionBase, collidableBaseBehaviorFactory: CollidableBaseBehaviorFactory): AllBinaryGameLayer = newCollidableCompositeLayer(name, layerInfo, viewPosition, collidableBaseBehaviorFactory)
 

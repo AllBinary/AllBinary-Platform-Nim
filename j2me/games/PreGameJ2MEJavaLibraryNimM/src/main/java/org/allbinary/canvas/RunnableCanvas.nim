@@ -1,245 +1,263 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.canvas
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import java/lang/Thread as ThreadModule
+export ThreadModule
+import javax/microedition/lcdui/CommandListener as CommandListenerModule
+export CommandListenerModule
+import org/allbinary/TsUtil as TsUtilModule
+export TsUtilModule
+import org/allbinary/graphics/displayable/MyCanvas as MyCanvasModule
+export MyCanvasModule
+import org/allbinary/logic/ABSystemWrapper as ABSystemWrapperModule
+export ABSystemWrapperModule
+import org/allbinary/logic/NullUtil as NullUtilModule
+export NullUtilModule
+import org/allbinary/logic/StdUtil as StdUtilModule
+export StdUtilModule
+import org/allbinary/string/CommonLabels as CommonLabelsModule
+export CommonLabelsModule
+import org/allbinary/thread/RunnableInterface as RunnableInterfaceModule
+export RunnableInterfaceModule
+import org/allbinary/thread/ThreadObjectUtil as ThreadObjectUtilModule
+export ThreadObjectUtilModule
+import org/allbinary/time/TimeDelayHelper as TimeDelayHelperModule
+export TimeDelayHelperModule
+import org/allbinary/util/BasicArrayList as BasicArrayListModule
+export BasicArrayListModule
+import org/allbinary/canvas/Processor as ProcessorModule
+export ProcessorModule
 
-import time
-import threading
-from org.allbinary.graphics.displayable.MyCanvas import MyCanvas
-from org.allbinary.thread.RunnableInterface import RunnableInterface
+type
+    RunnableCanvas* = ref object of MyCanvas
+        nullUtil*: NullUtil
+        stdUtil*: StdUtil
+        systemWrapper*: ABSystemWrapper
+        tsUtil*: TsUtil
+        thread*: JThread
+        currentThread*: JThread
+        running*: bool
+        loopTimeHelper*: TimeDelayHelper
+        runnableCanvasRefreshHelper*: Processor
+        commonLabels*: CommonLabels
+        threadObjectUtil*: ThreadObjectUtil
+        SET_RUNNING*: string
+        IS_RUNNING*: string
+        THREAD*: string
+        NOT_EQUAL*: string
+        PAUSE_SLEEP*: string
+        START_PAUSE*: string
+        END_PAUSE*: string
+        PROCESS_LOOP_SLEEP*: string
+        pauseWait*: int64
+        notified*: bool
+
+converter jAsRunnableInterface*(value: RunnableCanvas): RunnableInterface = cast[RunnableInterface](value)
+proc newRunnableCanvas*(commandListener: CommandListener, childNameList: BasicArrayList, hasParam: bool): RunnableCanvas
+proc initRunnableCanvas*(this: RunnableCanvas, commandListener: CommandListener, childNameList: BasicArrayList, hasParam: bool)
+method initCommands*(this: RunnableCanvas, cmdListener: CommandListener) {.base.}
+method isMainCanvas*(this: RunnableCanvas): bool {.base, discardable.}
+method setThread*(this: RunnableCanvas, thread: JThread)
+method setRunning*(this: RunnableCanvas, running: bool)
+method isRunning*(this: RunnableCanvas): bool {.discardable.}
+method getLoopTimeHelperP*(this: RunnableCanvas): TimeDelayHelper {.base, discardable.}
+method setWait*(this: RunnableCanvas, wait: int32) {.base.}
+method getWait*(this: RunnableCanvas): int32 {.base, discardable.}
+method setCurrentThread*(this: RunnableCanvas) {.base.}
+method setCurrentThreadFake*(this: RunnableCanvas) {.base.}
+method showNotify*(this: RunnableCanvas)
+method stopWaiting*(this: RunnableCanvas) {.base.}
+method waitOnNotify*(this: RunnableCanvas, wait: int64) {.base.}
+method processSleep*(this: RunnableCanvas) {.base.}
+method isPausable*(this: RunnableCanvas): bool {.base, discardable.}
+method processGameSleep*(this: RunnableCanvas, sleep: int64) {.base.}
+method processLoopSleep*(this: RunnableCanvas) {.base.}
+method isSingleThread*(this: RunnableCanvas): bool {.base, discardable.}
+method run*(this: RunnableCanvas)
+method end2*(this: RunnableCanvas) {.base.}
+method getType*(this: RunnableCanvas): int32 {.base, discardable.}
+import org/allbinary/game/displayable/canvas/NullWaitGameRunnable as NullWaitGameRunnableModule
+export NullWaitGameRunnableModule
+import org/allbinary/logic/string/StringMaker as StringMakerModule
+export StringMakerModule
+import org/allbinary/logic/string/StringUtil as StringUtilModule
+export StringUtilModule
+import org/allbinary/string/CommonStrings as CommonStringsModule
+export CommonStringsModule
+import org/allbinary/thread/NullThread as NullThreadModule
+export NullThreadModule
+import org/allbinary/canvas/RunnableCanvasRefreshHelper as RunnableCanvasRefreshHelperModule
+export RunnableCanvasRefreshHelperModule
 
 
-class RunnableCanvas(MyCanvas, RunnableInterface):
-    _lock = threading.RLock()
+# Java field initializers run after the base initializer
+proc initFieldsRunnableCanvas(this: RunnableCanvas) =
+    this.nullUtil = NullUtil.getInstance()
+    this.stdUtil = StdUtil.getInstance()
+    this.systemWrapper = ABSystemWrapper.getInstance()
+    this.tsUtil = TsUtil.getInstance()
+    this.thread = NullThread.NULL_THREADStatic
+    this.currentThread = NullThread.NULL_THREADStatic
+    this.running = false
+    this.loopTimeHelper = newTimeDelayHelper(NullWaitGameRunnable.getInstance().WAIT)
+    this.runnableCanvasRefreshHelper = Processor.getInstance()
+    this.commonLabels = CommonLabels.getInstance()
+    this.threadObjectUtil = ThreadObjectUtil.getInstance()
+    this.SET_RUNNING = "setRunning"
+    this.IS_RUNNING = "isRunning"
+    this.THREAD = "Thread: "
+    this.NOT_EQUAL = " != "
+    this.PAUSE_SLEEP = "pause sleep"
+    this.START_PAUSE = "start pause - game thread sleep at: "
+    this.END_PAUSE = "end pause - game thread sleep at: "
+    this.PROCESS_LOOP_SLEEP = "processLoopSleep"
+    this.pauseWait = 0'i64
+    this.notified = false
+    discard
 
-    def _init_fields(self) -> None:
-        from org.allbinary.TsUtil import TsUtil
-        from org.allbinary.game.displayable.canvas.NullWaitGameRunnable import NullWaitGameRunnable
-        from org.allbinary.logic.ABSystemWrapper import ABSystemWrapper
-        from org.allbinary.logic.NullUtil import NullUtil
-        from org.allbinary.logic.StdUtil import StdUtil
-        from org.allbinary.string.CommonLabels import CommonLabels
-        from org.allbinary.thread.NullThread import NullThread
-        from org.allbinary.thread.ThreadObjectUtil import ThreadObjectUtil
-        from org.allbinary.time.TimeDelayHelper import TimeDelayHelper
-        self.nullUtil: NullUtil = NullUtil.getInstance()
-        self.stdUtil: StdUtil = StdUtil.getInstance()
-        self.systemWrapper: ABSystemWrapper = ABSystemWrapper.getInstance()
-        self.tsUtil: TsUtil = TsUtil.getInstance()
-        self.thread: threading.Thread = NullThread.NULL_THREAD
-        self.currentThread: threading.Thread = NullThread.NULL_THREAD
-        self.running: bool = False
-        self.loopTimeHelper: TimeDelayHelper = TimeDelayHelper(NullWaitGameRunnable.getInstance().WAIT)
-        self.runnableCanvasRefreshHelper: Processor = Processor.getInstance()
-        self.commonLabels: CommonLabels = CommonLabels.getInstance()
-        self.threadObjectUtil: ThreadObjectUtil = ThreadObjectUtil.getInstance()
-        self.SET_RUNNING: str = "setRunning"
-        self.IS_RUNNING: str = "isRunning"
-        self.THREAD: str = "Thread: "
-        self.NOT_EQUAL: str = " != "
-        self.PAUSE_SLEEP: str = "pause sleep"
-        self.START_PAUSE: str = "start pause - game thread sleep at: "
-        self.END_PAUSE: str = "end pause - game thread sleep at: "
-        self.PROCESS_LOOP_SLEEP: str = "processLoopSleep"
-        self.pauseWait: int = 0
-        self.notified: bool = False
-    
-
-    def __init__(self, commandListener: CommandListener, childNameList: BasicArrayList, hasParam: bool) -> None:
-        from org.allbinary.canvas.RunnableCanvasRefreshHelper import RunnableCanvasRefreshHelper
-        from javax.microedition.lcdui.CommandListener import CommandListener
-        from org.allbinary.logic.string.StringMaker import StringMaker
-        from org.allbinary.string.CommonStrings import CommonStrings
-        from org.allbinary.util.BasicArrayList import BasicArrayList
-        super().__init__(CommonStrings.getInstance().UNKNOWN, childNameList)
-        self._init_fields()
-        self.logUtil.putF(str(StringMaker().append("RunnableCanvas delay: ").appendint(int(self.loopTimeHelper.delay))), self, self.commonStrings.CONSTRUCTOR)
-        self.runnableCanvasRefreshHelper = RunnableCanvasRefreshHelper(self)
-        if commandListener is not None:
-            self.initCommands(commandListener)
+proc initRunnableCanvas*(this: RunnableCanvas, commandListener: CommandListener, childNameList: BasicArrayList, hasParam: bool) =
+        initMyCanvas(this, CommonStrings.getInstance().UNKNOWN, childNameList)
+        this.initFieldsRunnableCanvas()
+        this.logUtil.putF(newStringMaker().append("RunnableCanvas delay: ").appendint(this.loopTimeHelper.delay).toString(), this, this.commonStrings.CONSTRUCTOR)
+        this.runnableCanvasRefreshHelper = newRunnableCanvasRefreshHelper(this)
+        if (not jIsNil(commandListener)):
+            this.initCommands(commandListener)
         elif hasParam:
-            self.logUtil.putF("commandListener was null", self, "initCommands")
-    
+            this.logUtil.putF("commandListener was null", this, "initCommands")
 
-    def initCommands(self, cmdListener: CommandListener) -> None:
-        from javax.microedition.lcdui.CommandListener import CommandListener
-        self.logUtil.putF(self.commonStrings.NOT_IMPLEMENTED, self, "initCommands")
-    
+proc newRunnableCanvas*(commandListener: CommandListener, childNameList: BasicArrayList, hasParam: bool): RunnableCanvas =
+    result = RunnableCanvas()
+    initRunnableCanvas(result, commandListener, childNameList, hasParam)
 
-    def isMainCanvas(self) -> bool:
-        if self.getCustomCommandListener() is not None:
-            return True
+method initCommands*(this: RunnableCanvas, cmdListener: CommandListener) {.base.} =
+        this.logUtil.putF(this.commonStrings.NOT_IMPLEMENTED, this, "initCommands")
+
+method isMainCanvas*(this: RunnableCanvas): bool {.base, discardable.} =
+        if (not jIsNil(this.getCustomCommandListener())):
+            return true
         else:
-            return False
-    
+            return false
 
-    def setThread(self, thread: threading.Thread) -> None:
-        self.thread = thread
-    
+method setThread*(this: RunnableCanvas, thread: JThread) =
+        this.thread = thread
 
-    def setRunning(self, running: bool) -> None:
-        from org.allbinary.logic.string.StringMaker import StringMaker
-        from org.allbinary.thread.NullThread import NullThread
-        self.running = running
-        if not self.running:
-            self.thread = NullThread.NULL_THREAD
-            with self._lock:  # synchronized (self)
-                self.threadObjectUtil.notifyObject(self)
-        self.logUtil.putF(str(StringMaker().append(self.IS_RUNNING).appendboolean(self.running)), self, self.SET_RUNNING)
-    
+method setRunning*(this: RunnableCanvas, running: bool) =
+        this.running = running
+        if (not this.running):
+            this.thread = NullThread.NULL_THREADStatic
+            block:
+                this.threadObjectUtil.notifyObject(this)
+        this.logUtil.putF(newStringMaker().append(this.IS_RUNNING).appendboolean(this.running).toString(), this, this.SET_RUNNING)
 
-    def isRunning(self) -> bool:
-        with self._lock:
-            return self._isRunning_unlocked()
-
-    def _isRunning_unlocked(self) -> bool:
-        from org.allbinary.logic.string.StringMaker import StringMaker
-        from org.allbinary.logic.string.StringUtil import StringUtil
-        if self.thread == self.currentThread:
-            return self.running
+method isRunning*(this: RunnableCanvas): bool {.discardable.} =
+        if this.thread == this.currentThread:
+            return this.running
         else:
-            stringBuffer: StringMaker = StringMaker()
-            stringBuffer.append(self.THREAD)
-            if self.thread is not None:
-                stringBuffer.append(str(self.thread))
-            stringBuffer.append(self.NOT_EQUAL)
-            if self.currentThread is not None:
-                stringBuffer.append(StringUtil.getInstance().toString(self.currentThread))
-            self.logUtil.putF(str(stringBuffer), self, self.IS_RUNNING)
-            return False
-    
+            let stringBuffer: StringMaker = newStringMaker()
+            stringBuffer.append(this.THREAD)
+            if (not jIsNil(this.thread)):
+                stringBuffer.append(this.thread.toString())
+            stringBuffer.append(this.NOT_EQUAL)
+            if (not jIsNil(this.currentThread)):
+                stringBuffer.append(StringUtil.getInstance().toString(this.currentThread))
+            this.logUtil.putF(stringBuffer.toString(), this, this.IS_RUNNING)
+            return false
 
-    def getLoopTimeHelperP(self) -> TimeDelayHelper:
-        from org.allbinary.time.TimeDelayHelper import TimeDelayHelper
-        return self.loopTimeHelper
-    
+method getLoopTimeHelperP*(this: RunnableCanvas): TimeDelayHelper {.base, discardable.} =
+        return this.loopTimeHelper
 
-    def setWait(self, wait: int) -> None:
-        from org.allbinary.logic.string.StringMaker import StringMaker
-        self.loopTimeHelper.delay = wait
-        self.pauseWait = wait * 3
-        self.logUtil.putF(str(StringMaker().append("setWait - delay: ").appendint(int(self.loopTimeHelper.delay))), self, self.commonStrings.CONSTRUCTOR)
-    
+method setWait*(this: RunnableCanvas, wait: int32) {.base.} =
+        this.loopTimeHelper.delay = wait
+        this.pauseWait = int64(wait) *% 3'i64
+        this.logUtil.putF(newStringMaker().append("setWait - delay: ").appendint(this.loopTimeHelper.delay).toString(), this, this.commonStrings.CONSTRUCTOR)
 
-    def getWait(self) -> int:
-        return self.loopTimeHelper.delay
-    
+method getWait*(this: RunnableCanvas): int32 {.base, discardable.} =
+        return this.loopTimeHelper.delay
 
-    def setCurrentThread(self) -> None:
-        self.currentThread = threading.current_thread()
-    
+method setCurrentThread*(this: RunnableCanvas) {.base.} =
+        this.currentThread = JThread.currentThread()
 
-    def setCurrentThreadFake(self) -> None:
-        self.currentThread = self.thread
-    
+method setCurrentThreadFake*(this: RunnableCanvas) {.base.} =
+        this.currentThread = this.thread
 
-    def showNotify(self) -> None:
+method showNotify*(this: RunnableCanvas) =
         try:
-            self.stopWaiting()
-        except Exception as e:
-            self.logUtil.put(self.commonStrings.EXCEPTION, self, "showNotify", e)
-    
+            this.stopWaiting()
+        except CatchableError as jcaught:
+            let e = jToException(jcaught)
+            this.logUtil.put(this.commonStrings.EXCEPTION, this, "showNotify", e)
 
-    # throws Exception
-    def stopWaiting(self) -> None:
-        self.notified = True
-        with self._lock:  # synchronized (self)
-            self.threadObjectUtil.notifyObject(self)
-        self.repaint()
-    
+method stopWaiting*(this: RunnableCanvas) {.base.} =
+        this.notified = true
+        block:
+            this.threadObjectUtil.notifyObject(this)
+        this.repaint()
 
-    # throws Exception
-    def waitOnNotify(self, wait: int) -> None:
-        with self._lock:
-            return self._waitOnNotify_unlocked(wait)
-
-    def _waitOnNotify_unlocked(self, wait: int) -> None:
-        if not self.notified:
-            if wait > 0:
-                self.threadObjectUtil.waitObjectFor(self, wait)
+method waitOnNotify*(this: RunnableCanvas, wait: int64) {.base.} =
+        if (not this.notified):
+            if wait > 0'i64:
+                this.threadObjectUtil.waitObjectFor(this, wait)
             else:
-                self.threadObjectUtil.waitObject(self)
-    
+                this.threadObjectUtil.waitObject(this)
 
-    # throws Exception
-    def processSleep(self) -> None:
-        time.sleep((self.pauseWait) / 1000)
-    
+method processSleep*(this: RunnableCanvas) {.base.} =
+        JThread.sleep(this.pauseWait)
 
-    def isPausable(self) -> bool:
-        return False
-    
+method isPausable*(this: RunnableCanvas): bool {.base, discardable.} =
+        return false
 
-    # throws Exception
-    def processGameSleep(self, sleep: int) -> None:
-        time.sleep((sleep) / 1000)
-    
+method processGameSleep*(this: RunnableCanvas, sleep: int64) {.base.} =
+        JThread.sleep(sleep)
 
-    # throws Exception
-    def processLoopSleep(self) -> None:
-        from org.allbinary.logic.string.StringMaker import StringMaker
-        self.runnableCanvasRefreshHelper.process()
-        if self.isPaused():
-            stringMaker: StringMaker = StringMaker()
-            if self.isRunning() and not self.isSingleThread():
+method processLoopSleep*(this: RunnableCanvas) {.base.} =
+        this.runnableCanvasRefreshHelper.process()
+        if this.isPaused():
+            let stringMaker: StringMaker = newStringMaker()
+            if this.isRunning() and (not this.isSingleThread()):
                 stringMaker.delete(0, stringMaker.length())
-                currentTimeMillis: int = self.systemWrapper.currentTimeMillis()
-                self.logUtil.putF(str(stringMaker.append(self.START_PAUSE).appendlong(currentTimeMillis).append(self.PAUSE_SLEEP).appendlong(self.pauseWait)), self, self.PROCESS_LOOP_SLEEP)
-                while self.isPaused() and self.isRunning() and not self.isSingleThread():
-                    self.processSleep()
-                    if not self.isPausable():
+                let currentTimeMillis: int64 = this.systemWrapper.currentTimeMillis()
+                this.logUtil.putF(stringMaker.append(this.START_PAUSE).appendlong(currentTimeMillis).append(this.PAUSE_SLEEP).appendlong(this.pauseWait).toString(), this, this.PROCESS_LOOP_SLEEP)
+                while this.isPaused() and this.isRunning() and (not this.isSingleThread()):
+                    this.processSleep()
+                    if (not this.isPausable()):
                         stringMaker.delete(0, stringMaker.length())
-                        self.logUtil.putF(str(stringMaker.append(self.END_PAUSE).appendlong(currentTimeMillis)), self, self.PROCESS_LOOP_SLEEP)
+                        this.logUtil.putF(stringMaker.append(this.END_PAUSE).appendlong(currentTimeMillis).toString(), this, this.PROCESS_LOOP_SLEEP)
                         return
-        elapsedTime: int = self.loopTimeHelper.getElapsedTNT()
-        wait: int = int(self.loopTimeHelper.delay)
+        var elapsedTime: int64 = this.loopTimeHelper.getElapsedTNT()
+        let wait: int64 = int64(this.loopTimeHelper.delay)
         if elapsedTime > wait:
             elapsedTime = wait
         else:
-            self.processGameSleep(wait - elapsedTime)
-    
+            this.processGameSleep(wait -% elapsedTime)
 
-    def isSingleThread(self) -> bool:
-        return False
-    
+method isSingleThread*(this: RunnableCanvas): bool {.base, discardable.} =
+        return false
 
-    def run(self) -> None:
-        self.setCurrentThread()
-    
+method run*(this: RunnableCanvas) =
+        this.setCurrentThread()
 
-    # throws Exception
-    def end2(self) -> None:
-        pass
-    
+method end2*(this: RunnableCanvas) {.base.} =
+        discard
 
-    def getType(self) -> int:
+method getType*(this: RunnableCanvas): int32 {.base, discardable.} =
         return -1
-# from javax.microedition.lcdui.CommandListener import CommandListener
-# from org.allbinary.TsUtil import TsUtil
-# from org.allbinary.game.displayable.canvas.NullWaitGameRunnable import NullWaitGameRunnable
-# from org.allbinary.logic.ABSystemWrapper import ABSystemWrapper
-# from org.allbinary.logic.NullUtil import NullUtil
-# from org.allbinary.logic.StdUtil import StdUtil
-# from org.allbinary.logic.string.StringMaker import StringMaker
-# from org.allbinary.logic.string.StringUtil import StringUtil
-# from org.allbinary.string.CommonLabels import CommonLabels
-# from org.allbinary.string.CommonStrings import CommonStrings
-# from org.allbinary.thread.NullThread import NullThread
-# from org.allbinary.thread.ThreadObjectUtil import ThreadObjectUtil
-# from org.allbinary.time.TimeDelayHelper import TimeDelayHelper
-# from org.allbinary.util.BasicArrayList import BasicArrayList
-from org.allbinary.canvas.Processor import Processor
 
+when declared(newRunnableCanvasHook3):
+    newRunnableCanvasHook3 = proc (commandListener: CommandListener, childNameList: BasicArrayList, hasParam: bool): MyCanvas = newRunnableCanvas(commandListener, childNameList, hasParam)
 

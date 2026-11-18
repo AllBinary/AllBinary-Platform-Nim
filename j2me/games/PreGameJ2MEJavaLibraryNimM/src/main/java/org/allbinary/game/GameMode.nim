@@ -1,67 +1,85 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    GameMode* = ref object of JObject
+        name*: string
 
+proc newGameMode*(name: string): GameMode
+proc initGameMode*(this: GameMode, name: string)
+method setName*(this: GameMode, name: string) {.base.}
+method getName*(this: GameMode): string {.base, discardable.}
+method toString*(this: GameMode): string {.discardable.}
+import org/allbinary/logic/string/StringUtil as StringUtilModule
+export StringUtilModule
 
-class GameMode:
-    NONE: GameMode = None
-    SERVER: GameMode = None
-    CLIENT: GameMode = None
+var GameMode_NONEValue: GameMode
+var GameMode_NONESet = false
+proc NONE*(t: typedesc[GameMode]): GameMode =
+    if not GameMode_NONESet:
+        GameMode_NONESet = true
+        GameMode_NONEValue = newGameMode(StringUtil.getInstance().NULL_STRING)
+    GameMode_NONEValue
+proc `NONE=`*(t: typedesc[GameMode], value: GameMode) =
+    GameMode_NONESet = true
+    GameMode_NONEValue = value
+var GameMode_SERVERValue: GameMode
+var GameMode_SERVERSet = false
+proc SERVER*(t: typedesc[GameMode]): GameMode =
+    if not GameMode_SERVERSet:
+        GameMode_SERVERSet = true
+        GameMode_SERVERValue = newGameMode("Server")
+    GameMode_SERVERValue
+proc `SERVER=`*(t: typedesc[GameMode], value: GameMode) =
+    GameMode_SERVERSet = true
+    GameMode_SERVERValue = value
+var GameMode_CLIENTValue: GameMode
+var GameMode_CLIENTSet = false
+proc CLIENT*(t: typedesc[GameMode]): GameMode =
+    if not GameMode_CLIENTSet:
+        GameMode_CLIENTSet = true
+        GameMode_CLIENTValue = newGameMode("Client")
+    GameMode_CLIENTValue
+proc `CLIENT=`*(t: typedesc[GameMode], value: GameMode) =
+    GameMode_CLIENTSet = true
+    GameMode_CLIENTValue = value
 
-    def _init_fields(self) -> None:
-        from org.allbinary.logic.string.StringUtil import StringUtil
-        self.name: str = StringUtil.getInstance().EMPTY_STRING
-    
+# Java field initializers run after the base initializer
+proc initFieldsGameMode(this: GameMode) =
+    this.name = StringUtil.getInstance().EMPTY_STRING
+    discard
 
-    def __init__(self, name: str) -> None:
-        self._init_fields()
-        self.setName(name)
-    
+proc initGameMode*(this: GameMode, name: string) =
+        this.initFieldsGameMode()
+        this.setName(name)
 
-    def setName(self, name: str) -> None:
-        self.name = name
-    
+proc newGameMode*(name: string): GameMode =
+    result = GameMode()
+    initGameMode(result, name)
 
-    def getName(self) -> str:
-        return self.name
-    
+method setName*(this: GameMode, name: string) {.base.} =
+        this.name = name
 
-    def toString(self) -> str:
-        return self.getName()
+method getName*(this: GameMode): string {.base, discardable.} =
+        return this.name
 
-    def __str__(self) -> str:
-        return self.toString()
-# from org.allbinary.logic.string.StringUtil import StringUtil
-
-
-def _GameMode_NONE() -> object:
-    from org.allbinary.logic.string.StringUtil import StringUtil
-    return GameMode(StringUtil.getInstance().NULL_STRING)
-
-lazy_static(GameMode, "NONE", _GameMode_NONE)
-
-def _GameMode_SERVER() -> object:
-    return GameMode("Server")
-
-lazy_static(GameMode, "SERVER", _GameMode_SERVER)
-
-def _GameMode_CLIENT() -> object:
-    return GameMode("Client")
-
-lazy_static(GameMode, "CLIENT", _GameMode_CLIENT)
+method toString*(this: GameMode): string {.discardable.} =
+        return this.getName()
 

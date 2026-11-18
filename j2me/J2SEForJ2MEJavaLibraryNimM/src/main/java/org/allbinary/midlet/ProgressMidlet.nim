@@ -1,64 +1,85 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.midlet
 
-from __future__ import annotations
-
-from org.allbinary.midlet.AllBinaryMidlet import AllBinaryMidlet
-
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import java/lang/Runnable as RunnableModule
+export RunnableModule
+import org/allbinary/logic/system/security/licensing/AbeClientInformationInterface as AbeClientInformationInterfaceModule
+export AbeClientInformationInterfaceModule
+import org/allbinary/logic/system/security/licensing/ClientInformationFactory as ClientInformationFactoryModule
+export ClientInformationFactoryModule
+import org/allbinary/midlet/AllBinaryMidlet as AllBinaryMidletModule
+export AllBinaryMidletModule
 
 #J2SEForJ2ME
-class ProgressMidlet(AllBinaryMidlet):
+type
+    ProgressMidlet* = ref object of AllBinaryMidlet
+        abeClientInformation*: AbeClientInformationInterface
 
-    def _init_fields(self) -> None:
-        from org.allbinary.logic.system.security.licensing.AbeClientInformationInterface import AbeClientInformationInterface
-        self.abeClientInformation: AbeClientInformationInterface = None
+proc newProgressMidlet*(clientInformationFactory: ClientInformationFactory): ProgressMidlet
+proc initProgressMidlet*(this: ProgressMidlet, clientInformationFactory: ClientInformationFactory)
+method preInit*(this: ProgressMidlet) {.base.}
+method exitProgress*(this: ProgressMidlet, isProgress: bool) {.base.}
+import org/allbinary/canvas/Processor as ProcessorModule
+export ProcessorModule
+import org/allbinary/thread/PrimaryThreadPool as PrimaryThreadPoolModule
+export PrimaryThreadPoolModule
+import org/allbinary/thread/ThreadPool as ThreadPoolModule
+export ThreadPoolModule
+import org/allbinary/midlet/MidletExitProcessorFactory as MidletExitProcessorFactoryModule
+export MidletExitProcessorFactoryModule
+import org/allbinary/midlet/ExitRunnable as ExitRunnableModule
+export ExitRunnableModule
+
+
+# Java field initializers run after the base initializer
+proc initFieldsProgressMidlet(this: ProgressMidlet) =
     
+    discard
 
-    def __init__(self, clientInformationFactory: ClientInformationFactory) -> None:
-        from org.allbinary.logic.system.security.licensing.ClientInformationFactory import ClientInformationFactory
-        super().__init__()
-        self._init_fields()
-        self.preInit()
-        self.abeClientInformation = clientInformationFactory.getInstance()
-    
+proc initProgressMidlet*(this: ProgressMidlet, clientInformationFactory: ClientInformationFactory) =
+        initAllBinaryMidlet(this)
+        this.initFieldsProgressMidlet()
+        this.preInit()
+        this.abeClientInformation = clientInformationFactory.getInstance()
 
-    def preInit(self) -> None:
-        pass
-    
+proc newProgressMidlet*(clientInformationFactory: ClientInformationFactory): ProgressMidlet =
+    result = ProgressMidlet()
+    initProgressMidlet(result, clientInformationFactory)
 
-    def exitProgress(self, isProgress: bool) -> None:
-        from org.allbinary.midlet.MidletExitProcessorFactory import MidletExitProcessorFactory
-        from org.allbinary.midlet.ExitRunnable import ExitRunnable
-        from org.allbinary.canvas.Processor import Processor
-        from org.allbinary.thread.PrimaryThreadPool import PrimaryThreadPool
-        from org.allbinary.thread.ThreadPool import ThreadPool
-        processor: Processor = MidletExitProcessorFactory.getInstance().getExitInstance(self)
+method preInit*(this: ProgressMidlet) {.base.} =
+        discard
+
+method exitProgress*(this: ProgressMidlet, isProgress: bool) {.base.} =
+        let processor: Processor = MidletExitProcessorFactory.getInstance().getExitInstance(this)
         try:
-            primaryThreadPool: ThreadPool = PrimaryThreadPool.getInstance()
-            runnable: object = ExitRunnable(self, processor, isProgress)
+            var primaryThreadPool: ThreadPool = PrimaryThreadPool.getInstance()
+            var runnable: Runnable = newExitRunnable(this, processor, isProgress)
             primaryThreadPool.runTask(runnable)
-        except Exception as e:
-            self.logUtil.put(self.commonStrings.EXCEPTION, self, "exit", e)
+        except CatchableError as jcaught:
+            let e = jToException(jcaught)
+            this.logUtil.put(this.commonStrings.EXCEPTION, this, "exit", e)
             try:
                 processor.process()
-            except Exception as e2:
-                self.logUtil.put(self.commonStrings.EXCEPTION, self, "exit", e)
-# from org.allbinary.canvas.Processor import Processor
-# from org.allbinary.logic.system.security.licensing.AbeClientInformationInterface import AbeClientInformationInterface
-# from org.allbinary.logic.system.security.licensing.ClientInformationFactory import ClientInformationFactory
-# from org.allbinary.thread.PrimaryThreadPool import PrimaryThreadPool
-# from org.allbinary.thread.ThreadPool import ThreadPool
+            except CatchableError as jcaught:
+                let e2 = jToException(jcaught)
+                this.logUtil.put(this.commonStrings.EXCEPTION, this, "exit", e)
 
+when declared(newProgressMidletHook1):
+    newProgressMidletHook1 = proc (clientInformationFactory: ClientInformationFactory): AllBinaryMidlet = newProgressMidlet(clientInformationFactory)
 

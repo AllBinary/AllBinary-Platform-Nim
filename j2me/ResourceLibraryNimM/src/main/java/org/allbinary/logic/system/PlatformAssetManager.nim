@@ -1,45 +1,54 @@
-# 
-# AllBinary Open License Version 1 
-# Copyright (c) 2022 AllBinary 
-#  
-# By agreeing to this license you and any business entity you represent are 
-# legally bound to the AllBinary Open License Version 1 legal agreement. 
-#  
-# You may obtain the AllBinary Open License Version 1 legal agreement from 
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
-#  
-# Created By: Travis Berthelot 
-#   
+#[
+  
+  AllBinary Open License Version 1 
+  Copyright (c) 2022 AllBinary 
+   
+  By agreeing to this license you and any business entity you represent are 
+  legally bound to the AllBinary Open License Version 1 legal agreement. 
+   
+  You may obtain the AllBinary Open License Version 1 legal agreement from 
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
+   
+  Created By: Travis Berthelot 
+    
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.logic.system
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import java/io/InputStream as InputStreamModule
+export InputStreamModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    PlatformAssetManager* = ref object of JObject
 
+proc newPlatformAssetManager*(): PlatformAssetManager
+proc getInstance*(t: typedesc[PlatformAssetManager]): PlatformAssetManager {.discardable.}
+method getResourceAsStream*(this: PlatformAssetManager, resource: string): InputStream {.base, discardable.}
+import org/allbinary/data/resource/ResourceUtil as ResourceUtilModule
+export ResourceUtilModule
 
-class PlatformAssetManager:
-    instance: PlatformAssetManager = None
-    
+var PlatformAssetManager_instanceValue: PlatformAssetManager
+var PlatformAssetManager_instanceSet = false
+proc instance*(t: typedesc[PlatformAssetManager]): PlatformAssetManager =
+    if not PlatformAssetManager_instanceSet:
+        PlatformAssetManager_instanceSet = true
+        PlatformAssetManager_instanceValue = newPlatformAssetManager()
+    PlatformAssetManager_instanceValue
 
-    @staticmethod
-    def getInstance() -> PlatformAssetManager:
+proc initPlatformAssetManager*(this: PlatformAssetManager) =
+    discard
+
+proc newPlatformAssetManager*(): PlatformAssetManager =
+    result = PlatformAssetManager()
+    initPlatformAssetManager(result)
+
+proc getInstance*(t: typedesc[PlatformAssetManager]): PlatformAssetManager {.discardable.} =
         return PlatformAssetManager.instance
-    
 
-    # throws Exception
-    def getResourceAsStream(self, resource: str) -> InputStream:
-        from java.io.InputStream import InputStream
-        from org.allbinary.data.resource.ResourceUtil import ResourceUtil
-        resourceUtil: ResourceUtil = ResourceUtil.getInstance()
-        inputStream: InputStream = resourceUtil.getResourceAsStream(resource)
+method getResourceAsStream*(this: PlatformAssetManager, resource: string): InputStream {.base, discardable.} =
+        let resourceUtil: ResourceUtil = ResourceUtil.getInstance()
+        let inputStream: InputStream = resourceUtil.getResourceAsStream(resource)
         return inputStream
-# from java.io.InputStream import InputStream
-# from org.allbinary.data.resource.ResourceUtil import ResourceUtil
-
-
-def _PlatformAssetManager_instance() -> object:
-    return PlatformAssetManager()
-
-lazy_static(PlatformAssetManager, "instance", _PlatformAssetManager_instance)
 

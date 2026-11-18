@@ -59,7 +59,7 @@ proc put*(t: typedesc[PreLogUtil], specialMessage: string, anyType: JObject, fun
 proc putOE*(t: typedesc[PreLogUtil], specialMessage: string, anyType: JObject, functionName: string, exception: JObject) =
         var className: string = CommonStrings.getInstance().EMPTY
         if (not jIsNil(jClassName(anyType))):
-            className = jClassName(anyType)
+            className = jNewString(jClassName(anyType))
         let message: string = LogFormatUtil.getInstance().get(className, functionName, specialMessage, exception)
         echo jstr(PreLogUtil.LOG_SUCCESS)
         echo jstr(message)

@@ -1,71 +1,78 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.input.gyro
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/input/AllBinarySensor as AllBinarySensorModule
+export AllBinarySensorModule
+
+type
+    SensorGameUpdateProcessor* = ref object of JObject
+        inputSensor*: AllBinarySensor
+
+proc newSensorGameUpdateProcessor*(): SensorGameUpdateProcessor
+method setInputSensor*(this: SensorGameUpdateProcessor, inputSensor: AllBinarySensor) {.base.}
+method getInputSensor*(this: SensorGameUpdateProcessor): AllBinarySensor {.base, discardable.}
+method process*(this: SensorGameUpdateProcessor, anyType: JObject) {.base.}
+method sendNotifications*(this: SensorGameUpdateProcessor, anyType: JObject) {.base.}
+method isAnySensor*(this: SensorGameUpdateProcessor): bool {.base, discardable.}
+method setNoSensors*(this: SensorGameUpdateProcessor) {.base.}
+import org/allbinary/game/input/motion/action/NoCompleteMotionGestureInputEventListener as NoCompleteMotionGestureInputEventListenerModule
+export NoCompleteMotionGestureInputEventListenerModule
+import org/allbinary/input/NoAllBinarySensor as NoAllBinarySensorModule
+export NoAllBinarySensorModule
+import org/allbinary/input/accelerometer/AccelerometerSensorFactory as AccelerometerSensorFactoryModule
+export AccelerometerSensorFactoryModule
+import org/allbinary/input/gyro/GyroSensorFactory as GyroSensorFactoryModule
+export GyroSensorFactoryModule
 
 
-
-class SensorGameUpdateProcessor:
-
-    def _init_fields(self) -> None:
-        from org.allbinary.input.AllBinarySensor import AllBinarySensor
-        self.inputSensor: AllBinarySensor = None
-
-    def __init__(self) -> None:
-        self._init_fields()
+# Java field initializers run after the base initializer
+proc initFieldsSensorGameUpdateProcessor(this: SensorGameUpdateProcessor) =
     
+    discard
 
-    def setInputSensor(self, inputSensor: AllBinarySensor) -> None:
-        from org.allbinary.input.AllBinarySensor import AllBinarySensor
-        self.inputSensor = inputSensor
-    
+proc initSensorGameUpdateProcessor*(this: SensorGameUpdateProcessor) =
+    this.initFieldsSensorGameUpdateProcessor()
 
-    def getInputSensor(self) -> AllBinarySensor:
-        from org.allbinary.input.AllBinarySensor import AllBinarySensor
-        return self.inputSensor
-    
+proc newSensorGameUpdateProcessor*(): SensorGameUpdateProcessor =
+    result = SensorGameUpdateProcessor()
+    initSensorGameUpdateProcessor(result)
 
-    # throws Exception
-    def process(self, anyType: object) -> None:
-        pass
-    
+method setInputSensor*(this: SensorGameUpdateProcessor, inputSensor: AllBinarySensor) {.base.} =
+        this.inputSensor = inputSensor
 
-    # throws Exception
-    def sendNotifications(self, anyType: object) -> None:
-        pass
-    
+method getInputSensor*(this: SensorGameUpdateProcessor): AllBinarySensor {.base, discardable.} =
+        return this.inputSensor
 
-    def isAnySensor(self) -> bool:
-        from org.allbinary.input.NoAllBinarySensor import NoAllBinarySensor
-        if self.inputSensor == NoAllBinarySensor.getInstance():
-            return False
+method process*(this: SensorGameUpdateProcessor, anyType: JObject) {.base.} =
+        discard
+
+method sendNotifications*(this: SensorGameUpdateProcessor, anyType: JObject) {.base.} =
+        discard
+
+method isAnySensor*(this: SensorGameUpdateProcessor): bool {.base, discardable.} =
+        if this.inputSensor == NoAllBinarySensor.getInstance():
+            return false
         else:
-            return True
-    
+            return true
 
-    def setNoSensors(self) -> None:
-        from org.allbinary.input.gyro.GyroSensorFactory import GyroSensorFactory
-        from org.allbinary.game.input.motion.action.NoCompleteMotionGestureInputEventListener import NoCompleteMotionGestureInputEventListener
-        from org.allbinary.input.NoAllBinarySensor import NoAllBinarySensor
-        from org.allbinary.input.accelerometer.AccelerometerSensorFactory import AccelerometerSensorFactory
+method setNoSensors*(this: SensorGameUpdateProcessor) {.base.} =
         GyroSensorFactory.getInstance().setCompleteMotionGestureInputEventListener(NoCompleteMotionGestureInputEventListener.getInstance())
         AccelerometerSensorFactory.getInstance().setCompleteMotionGestureInputEventListener(NoCompleteMotionGestureInputEventListener.getInstance())
-        self.setInputSensor(NoAllBinarySensor.getInstance())
-# from org.allbinary.game.input.motion.action.NoCompleteMotionGestureInputEventListener import NoCompleteMotionGestureInputEventListener
-# from org.allbinary.input.AllBinarySensor import AllBinarySensor
-# from org.allbinary.input.NoAllBinarySensor import NoAllBinarySensor
-# from org.allbinary.input.accelerometer.AccelerometerSensorFactory import AccelerometerSensorFactory
-
+        this.setInputSensor(NoAllBinarySensor.getInstance())
 

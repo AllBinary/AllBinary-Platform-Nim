@@ -1,105 +1,124 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.animation.compound
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import javax/microedition/lcdui/Graphics as GraphicsModule
+export GraphicsModule
+import org/allbinary/animation/Animation as AnimationModule
+export AnimationModule
+import org/allbinary/animation/AnimationBehavior as AnimationBehaviorModule
+export AnimationBehaviorModule
+import org/allbinary/animation/IndexedAnimation as IndexedAnimationModule
+export IndexedAnimationModule
 
-from org.allbinary.animation.IndexedAnimation import IndexedAnimation
+type
+    SimultaneousCompoundIndexedAnimation* = ref object of IndexedAnimation
+        animationInterfaceArray*: JArray[Animation]
+
+proc newSimultaneousCompoundIndexedAnimation*(animationInterfaceArray: JArray[Animation], animationBehavior: AnimationBehavior): SimultaneousCompoundIndexedAnimation
+proc initSimultaneousCompoundIndexedAnimation*(this: SimultaneousCompoundIndexedAnimation, animationInterfaceArray: JArray[Animation], animationBehavior: AnimationBehavior)
+method setFrame*(this: SimultaneousCompoundIndexedAnimation, frameIndex: int32)
+method getFrame*(this: SimultaneousCompoundIndexedAnimation): int32 {.discardable.}
+method getSize*(this: SimultaneousCompoundIndexedAnimation): int32 {.discardable.}
+method previousFrame*(this: SimultaneousCompoundIndexedAnimation)
+method setSequence*(this: SimultaneousCompoundIndexedAnimation, sequence: JArray[int32])
+method getSequence*(this: SimultaneousCompoundIndexedAnimation): JArray[int32] {.discardable.}
+method nextFrame*(this: SimultaneousCompoundIndexedAnimation)
+method paintXY*(this: SimultaneousCompoundIndexedAnimation, graphics: Graphics, x: int32, y: int32)
+method paintThreedXYZ*(this: SimultaneousCompoundIndexedAnimation, graphics: Graphics, x: int32, y: int32, z: int32)
+method getAnimationInterfaceArray*(this: SimultaneousCompoundIndexedAnimation): JArray[Animation] {.base, discardable.}
+method setAnimationInterfaceArray*(this: SimultaneousCompoundIndexedAnimation, animationInterfaceArray: JArray[Animation]) {.base.}
+import org/allbinary/logic/math/PrimitiveIntUtil as PrimitiveIntUtilModule
+export PrimitiveIntUtilModule
 
 
-class SimultaneousCompoundIndexedAnimation(IndexedAnimation):
-
-    def _init_fields(self) -> None:
-        from org.allbinary.animation.Animation import Animation
-        self.animationInterfaceArray: list[Animation] = None
+# Java field initializers run after the base initializer
+proc initFieldsSimultaneousCompoundIndexedAnimation(this: SimultaneousCompoundIndexedAnimation) =
     
+    discard
 
-    def __init__(self, animationInterfaceArray: list[Animation], animationBehavior: AnimationBehavior) -> None:
-        from org.allbinary.animation.Animation import Animation
-        from org.allbinary.animation.AnimationBehavior import AnimationBehavior
-        super().__init__(animationBehavior)
-        self._init_fields()
-        self.animationInterfaceArray = animationInterfaceArray
-    
+proc initSimultaneousCompoundIndexedAnimation*(this: SimultaneousCompoundIndexedAnimation, animationInterfaceArray: JArray[Animation], animationBehavior: AnimationBehavior) =
+        initIndexedAnimation(this, animationBehavior)
+        this.initFieldsSimultaneousCompoundIndexedAnimation()
+        this.animationInterfaceArray = animationInterfaceArray
 
-    def setFrame(self, frameIndex: int) -> None:
-        indexedAnimation: IndexedAnimation = None
-        index = len(self.animationInterfaceArray)
-        while (index := index - 1) >= 0:
-            indexedAnimation = self.animationInterfaceArray[index]
-            indexedAnimation.setFrame(frameIndex)
-    
+proc newSimultaneousCompoundIndexedAnimation*(animationInterfaceArray: JArray[Animation], animationBehavior: AnimationBehavior): SimultaneousCompoundIndexedAnimation =
+    result = SimultaneousCompoundIndexedAnimation()
+    initSimultaneousCompoundIndexedAnimation(result, animationInterfaceArray, animationBehavior)
 
-    def getFrame(self) -> int:
-        indexedAnimation: IndexedAnimation = self.animationInterfaceArray[0]
+method setFrame*(this: SimultaneousCompoundIndexedAnimation, frameIndex: int32) =
+        var indexedAnimation: IndexedAnimation = nil
+        block:
+            var index: int32 = this.animationInterfaceArray.length
+            while jPreDecrement(index) >= 0:
+                indexedAnimation = IndexedAnimation(JObject(this.animationInterfaceArray[index]))
+                indexedAnimation.setFrame(frameIndex)
+
+method getFrame*(this: SimultaneousCompoundIndexedAnimation): int32 {.discardable.} =
+        let indexedAnimation: IndexedAnimation = IndexedAnimation(JObject(this.animationInterfaceArray[0]))
         return indexedAnimation.getFrame()
-    
 
-    def getSize(self) -> int:
-        indexedAnimation: IndexedAnimation = self.animationInterfaceArray[0]
+method getSize*(this: SimultaneousCompoundIndexedAnimation): int32 {.discardable.} =
+        let indexedAnimation: IndexedAnimation = IndexedAnimation(JObject(this.animationInterfaceArray[0]))
         return indexedAnimation.getSize()
-    
 
-    def previousFrame(self) -> None:
-        indexedAnimation: IndexedAnimation = None
-        index = len(self.animationInterfaceArray)
-        while (index := index - 1) >= 0:
-            indexedAnimation = self.animationInterfaceArray[index]
-            indexedAnimation.previousFrame()
-    
+method previousFrame*(this: SimultaneousCompoundIndexedAnimation) =
+        var indexedAnimation: IndexedAnimation = nil
+        block:
+            var index: int32 = this.animationInterfaceArray.length
+            while jPreDecrement(index) >= 0:
+                indexedAnimation = IndexedAnimation(JObject(this.animationInterfaceArray[index]))
+                indexedAnimation.previousFrame()
 
-    def setSequence(self, sequence: list[int]) -> None:
-        pass
-    
+method setSequence*(this: SimultaneousCompoundIndexedAnimation, sequence: JArray[int32]) =
+        discard
 
-    def getSequence(self) -> list[int]:
-        from org.allbinary.logic.math.PrimitiveIntUtil import PrimitiveIntUtil
+method getSequence*(this: SimultaneousCompoundIndexedAnimation): JArray[int32] {.discardable.} =
         return PrimitiveIntUtil.getArrayInstance()
-    
 
-    # throws Exception
-    def nextFrame(self) -> None:
-        index = len(self.animationInterfaceArray)
-        while (index := index - 1) >= 0:
-            self.animationInterfaceArray[index].nextFrame()
-    
+method nextFrame*(this: SimultaneousCompoundIndexedAnimation) =
+        block:
+            var index: int32 = this.animationInterfaceArray.length
+            while jPreDecrement(index) >= 0:
+                this.animationInterfaceArray[index].nextFrame()
 
-    def paintXY(self, graphics: Graphics, x: int, y: int) -> None:
-        from javax.microedition.lcdui.Graphics import Graphics
-        size: int = len(self.animationInterfaceArray)
-        for index in range(0, size):
-            self.animationInterfaceArray[index].paintXY(graphics, x, y)
-    
+method paintXY*(this: SimultaneousCompoundIndexedAnimation, graphics: Graphics, x: int32, y: int32) =
+        var size: int32 = this.animationInterfaceArray.length
+        block:
+            var index: int32 = 0
+            while index < size:
+                defer: index = index +% 1
+                this.animationInterfaceArray[index].paintXY(graphics, x, y)
 
-    def paintThreedXYZ(self, graphics: Graphics, x: int, y: int, z: int) -> None:
-        from javax.microedition.lcdui.Graphics import Graphics
-        size: int = len(self.animationInterfaceArray)
-        for index in range(0, size):
-            self.animationInterfaceArray[index].paintThreedXYZ(graphics, x, y, z)
-    
+method paintThreedXYZ*(this: SimultaneousCompoundIndexedAnimation, graphics: Graphics, x: int32, y: int32, z: int32) =
+        var size: int32 = this.animationInterfaceArray.length
+        block:
+            var index: int32 = 0
+            while index < size:
+                defer: index = index +% 1
+                this.animationInterfaceArray[index].paintThreedXYZ(graphics, x, y, z)
 
-    def getAnimationInterfaceArray(self) -> list[Animation]:
-        from org.allbinary.animation.Animation import Animation
-        return self.animationInterfaceArray
-    
+method getAnimationInterfaceArray*(this: SimultaneousCompoundIndexedAnimation): JArray[Animation] {.base, discardable.} =
+        return this.animationInterfaceArray
 
-    def setAnimationInterfaceArray(self, animationInterfaceArray: list[Animation]) -> None:
-        from org.allbinary.animation.Animation import Animation
-        self.animationInterfaceArray = animationInterfaceArray
-# from javax.microedition.lcdui.Graphics import Graphics
-# from org.allbinary.animation.Animation import Animation
-# from org.allbinary.animation.AnimationBehavior import AnimationBehavior
-# from org.allbinary.logic.math.PrimitiveIntUtil import PrimitiveIntUtil
+method setAnimationInterfaceArray*(this: SimultaneousCompoundIndexedAnimation, animationInterfaceArray: JArray[Animation]) {.base.} =
+        this.animationInterfaceArray = animationInterfaceArray
 
+when declared(newSimultaneousCompoundIndexedAnimationHook2):
+    newSimultaneousCompoundIndexedAnimationHook2 = proc (animationInterfaceArray: JArray[Animation], animationBehavior: AnimationBehavior): IndexedAnimation = newSimultaneousCompoundIndexedAnimation(animationInterfaceArray, animationBehavior)
 

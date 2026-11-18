@@ -1,48 +1,59 @@
 # Generated Code Do Not Modify
 # package org.allbinary.game
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    BasicGameInfoFactory* = ref object of JObject
+        currentReleaseIndex*: int32
+        currentDestroyIndex*: int32
+        total*: int32
 
+proc newBasicGameInfoFactory*(): BasicGameInfoFactory
+proc initBasicGameInfoFactory*(this: BasicGameInfoFactory)
+proc getInstance*(t: typedesc[BasicGameInfoFactory]): BasicGameInfoFactory {.discardable.}
+method init*(this: BasicGameInfoFactory, total: int32) {.base.}
+method isPeaked*(this: BasicGameInfoFactory): bool {.base, discardable.}
+method howManyLeft*(this: BasicGameInfoFactory): int32 {.base, discardable.}
 
-class BasicGameInfoFactory:
-    SINGLETON: BasicGameInfoFactory = None
+var BasicGameInfoFactory_SINGLETONValue: BasicGameInfoFactory
+var BasicGameInfoFactory_SINGLETONSet = false
+proc SINGLETON*(t: typedesc[BasicGameInfoFactory]): BasicGameInfoFactory =
+    if not BasicGameInfoFactory_SINGLETONSet:
+        BasicGameInfoFactory_SINGLETONSet = true
+        BasicGameInfoFactory_SINGLETONValue = newBasicGameInfoFactory()
+    BasicGameInfoFactory_SINGLETONValue
 
-    def _init_fields(self) -> None:
-        self.currentReleaseIndex: int = 0
-        self.currentDestroyIndex: int = 0
-        self.total: int = 0
-    
+# Java field initializers run after the base initializer
+proc initFieldsBasicGameInfoFactory(this: BasicGameInfoFactory) =
+    this.currentReleaseIndex = 0
+    this.currentDestroyIndex = 0
+    this.total = 0
+    discard
 
-    @staticmethod
-    def getInstance() -> BasicGameInfoFactory:
+proc getInstance*(t: typedesc[BasicGameInfoFactory]): BasicGameInfoFactory {.discardable.} =
         return BasicGameInfoFactory.SINGLETON
-    
 
-    def __init__(self) -> None:
-        self._init_fields()
-    
+proc initBasicGameInfoFactory*(this: BasicGameInfoFactory) =
+        this.initFieldsBasicGameInfoFactory()
+        discard
 
-    def init(self, total: int) -> None:
-        self.currentReleaseIndex = 0
-        self.currentDestroyIndex = 0
-        self.total = total
-    
+proc newBasicGameInfoFactory*(): BasicGameInfoFactory =
+    result = BasicGameInfoFactory()
+    initBasicGameInfoFactory(result)
 
-    def isPeaked(self) -> bool:
-        if self.currentDestroyIndex >= self.total:
-            return True
+method init*(this: BasicGameInfoFactory, total: int32) {.base.} =
+        this.currentReleaseIndex = 0
+        this.currentDestroyIndex = 0
+        this.total = total
+
+method isPeaked*(this: BasicGameInfoFactory): bool {.base, discardable.} =
+        if this.currentDestroyIndex >= this.total:
+            return true
         else:
-            return False
-    
+            return false
 
-    def howManyLeft(self) -> int:
-        return self.total - self.currentDestroyIndex
-
-
-def _BasicGameInfoFactory_SINGLETON() -> object:
-    return BasicGameInfoFactory()
-
-lazy_static(BasicGameInfoFactory, "SINGLETON", _BasicGameInfoFactory_SINGLETON)
+method howManyLeft*(this: BasicGameInfoFactory): int32 {.base, discardable.} =
+        return this.total -% this.currentDestroyIndex
 

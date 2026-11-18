@@ -1,281 +1,270 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.logic.io.file
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import java/io/File as FileModule
+export FileModule
+import java/io/FileFilter as FileFilterModule
+export FileFilterModule
+import java/io/FilenameFilter as FilenameFilterModule
+export FilenameFilterModule
+import java/io/IOException as IOExceptionModule
+export IOExceptionModule
+import java/net/URI as URIModule
+export URIModule
+import org/allbinary/logic/io/path/AbPath as AbPathModule
+export AbPathModule
+import org/allbinary/logic/io/file/AbFileInterface as AbFileInterfaceModule
+export AbFileInterfaceModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
-from org.allbinary.logic.io.file.AbFileInterface import AbFileInterface
+type
+    AbFile* = ref object of AbFileInterface
+        file*: JFile
 
+proc newAbFile*(file: JFile): AbFile
+proc initAbFile*(this: AbFile, file: JFile)
+proc createAbFileWithChild*(t: typedesc[AbFile], file: AbFile, childPathName: string): AbFile {.discardable.}
+proc createAbFile*(t: typedesc[AbFile], filePath: string): AbFile {.discardable.}
+proc createAbFilePathAndName*(t: typedesc[AbFile], filePath: string, fileName: string): AbFile {.discardable.}
+proc createAbFileFromAbPath*(t: typedesc[AbFile], abPath: AbPath): AbFile {.discardable.}
+proc createAbFileFromRawPath*(t: typedesc[AbFile], filePath: string): AbFile {.discardable.}
+method getFile*(this: AbFile): JFile {.base, discardable.}
+method getName*(this: AbFile): string {.base, discardable.}
+method getParent*(this: AbFile): string {.discardable.}
+method getParentFile*(this: AbFile): JObject {.base, discardable.}
+method getPath*(this: AbFile): string {.discardable.}
+method isAbsolute*(this: AbFile): bool {.discardable.}
+method getAbsolutePath*(this: AbFile): string {.discardable.}
+method getAbsoluteFile*(this: AbFile): JObject {.base, discardable.}
+method getCanonicalPath*(this: AbFile): string {.discardable.}
+method getCanonicalFile*(this: AbFile): JObject {.base, discardable.}
+method toURI*(this: AbFile): URI {.discardable.}
+method canRead*(this: AbFile): bool {.discardable.}
+method canWrite*(this: AbFile): bool {.discardable.}
+method exists*(this: AbFile): bool {.discardable.}
+method isDirectory*(this: AbFile): bool {.discardable.}
+method isFile*(this: AbFile): bool {.discardable.}
+method isHidden*(this: AbFile): bool {.discardable.}
+method lastModified*(this: AbFile): int64 {.discardable.}
+method length*(this: AbFile): int64 {.discardable.}
+method createNewFile*(this: AbFile): bool {.discardable.}
+method delete*(this: AbFile): bool {.discardable.}
+method deleteOnExit*(this: AbFile)
+method list*(this: AbFile): JArray[string] {.discardable.}
+method listWithFilter*(this: AbFile, filter: FilenameFilter): JArray[string] {.discardable.}
+method listFiles*(this: AbFile): JArray[JObject] {.base, discardable.}
+method listFilesFileNameFilter*(this: AbFile, filter: FilenameFilter): JArray[JObject] {.base, discardable.}
+method listFilesFileFilter*(this: AbFile, filter: FileFilter): JArray[JObject] {.base, discardable.}
+method mkdir*(this: AbFile): bool {.discardable.}
+method mkdirs*(this: AbFile): bool {.discardable.}
+method renameTo*(this: AbFile, dest: AbFile): bool {.base, discardable.}
+method setLastModified*(this: AbFile, time: int64): bool {.discardable.}
+method setReadOnly*(this: AbFile): bool {.discardable.}
+method setWritable*(this: AbFile, writable: bool, ownerOnly: bool): bool {.base, discardable.}
+method setWritable*(this: AbFile, writable: bool): bool {.base, discardable.}
+method setReadable*(this: AbFile, readable: bool, ownerOnly: bool): bool {.base, discardable.}
+method setReadable*(this: AbFile, readable: bool): bool {.base, discardable.}
+method setExecutable*(this: AbFile, executable: bool, ownerOnly: bool): bool {.base, discardable.}
+method setExecutable*(this: AbFile, executable: bool): bool {.base, discardable.}
+method canExecute*(this: AbFile): bool {.base, discardable.}
+method getTotalSpace*(this: AbFile): int64 {.base, discardable.}
+method getFreeSpace*(this: AbFile): int64 {.base, discardable.}
+method getUsableSpace*(this: AbFile): int64 {.base, discardable.}
+method compareTo*(this: AbFile, pathname: JFile): int32 {.base, discardable.}
+method equals*(this: AbFile, obj: JObject): bool {.discardable.}
+method hashCode*(this: AbFile): int32 {.discardable.}
+method toString*(this: AbFile): string {.discardable.}
+import org/allbinary/TsUtil as TsUtilModule
+export TsUtilModule
+import org/allbinary/logic/string/StringUtil as StringUtilModule
+export StringUtilModule
 
-class AbFile(AbFileInterface):
-    NULL_FILE: AbFile = None
+var AbFile_NULL_FILEValue: AbFile
+var AbFile_NULL_FILESet = false
+proc NULL_FILE*(t: typedesc[AbFile]): AbFile =
+    if not AbFile_NULL_FILESet:
+        AbFile_NULL_FILESet = true
+        AbFile_NULL_FILEValue = AbFile.createAbFileFromRawPath(StringUtil.getInstance().EMPTY_STRING)
+    AbFile_NULL_FILEValue
 
-    def _init_fields(self) -> None:
-        self.file: File = None
+# Java field initializers run after the base initializer
+proc initFieldsAbFile(this: AbFile) =
     
+    discard
 
-    # throws Exception
-    @staticmethod
-    def createAbFileWithChild(file: AbFile, childPathName: str) -> AbFile:
-        return AbFile(File(file.getFile(), childPathName))
-    
+proc createAbFileWithChild*(t: typedesc[AbFile], file: AbFile, childPathName: string): AbFile {.discardable.} =
+        return newAbFile(newJFile(file.getFile(), childPathName))
 
-    # throws Exception
-    @staticmethod
-    def createAbFile(filePath: str) -> AbFile:
-        from org.allbinary.logic.io.path.AbPath import AbPath
-        from org.allbinary.logic.string.StringUtil import StringUtil
-        return AbFile(File(AbPath(filePath, StringUtil.getInstance().EMPTY_STRING).toFileSystemString()))
-    
+proc createAbFile*(t: typedesc[AbFile], filePath: string): AbFile {.discardable.} =
+        return newAbFile(newJFile(newAbPath(filePath, StringUtil.getInstance().EMPTY_STRING).toFileSystemString()))
 
-    # throws Exception
-    @staticmethod
-    def createAbFilePathAndName(filePath: str, fileName: str) -> AbFile:
-        from org.allbinary.logic.io.path.AbPath import AbPath
-        from org.allbinary.logic.string.StringUtil import StringUtil
-        return AbFile(File(AbPath(filePath, StringUtil.getInstance().EMPTY_STRING).toFileSystemString(), fileName))
-    
+proc createAbFilePathAndName*(t: typedesc[AbFile], filePath: string, fileName: string): AbFile {.discardable.} =
+        return newAbFile(newJFile(newAbPath(filePath, StringUtil.getInstance().EMPTY_STRING).toFileSystemString(), fileName))
 
-    @staticmethod
-    def createAbFileFromAbPath(abPath: AbPath) -> AbFile:
-        from org.allbinary.logic.io.path.AbPath import AbPath
-        return AbFile(File(abPath.toFileSystemString()))
-    
+proc createAbFileFromAbPath*(t: typedesc[AbFile], abPath: AbPath): AbFile {.discardable.} =
+        return newAbFile(newJFile(abPath.toFileSystemString()))
 
-    @staticmethod
-    def createAbFileFromRawPath(filePath: str) -> AbFile:
-        return AbFile(File(filePath))
-    
+proc createAbFileFromRawPath*(t: typedesc[AbFile], filePath: string): AbFile {.discardable.} =
+        return newAbFile(newJFile(filePath))
 
-    def __init__(self, file: File) -> None:
-        self._init_fields()
-        self.file = file
-    
+proc initAbFile*(this: AbFile, file: JFile) =
+        this.initFieldsAbFile()
+        this.file = file
 
-    def getFile(self) -> File:
-        return self.file
-    
+proc newAbFile*(file: JFile): AbFile =
+    result = AbFile()
+    initAbFile(result, file)
 
-    def getName(self) -> str:
-        return self.file.getName()
-    
+method getFile*(this: AbFile): JFile {.base, discardable.} =
+        return this.file
 
-    def getParent(self) -> str:
-        return self.file.getParent()
-    
+method getName*(this: AbFile): string {.base, discardable.} =
+        return this.file.getName()
 
-    def getParentFile(self) -> object:
-        return self.file.getParentFile()
-    
+method getParent*(this: AbFile): string {.discardable.} =
+        return this.file.getParent()
 
-    def getPath(self) -> str:
-        return self.file.getPath()
-    
+method getParentFile*(this: AbFile): JObject {.base, discardable.} =
+        return this.file.getParentFile()
 
-    def isAbsolute(self) -> bool:
-        return self.file.isAbsolute()
-    
+method getPath*(this: AbFile): string {.discardable.} =
+        return this.file.getPath()
 
-    def getAbsolutePath(self) -> str:
-        return self.file.getAbsolutePath()
-    
+method isAbsolute*(this: AbFile): bool {.discardable.} =
+        return this.file.isAbsolute()
 
-    def getAbsoluteFile(self) -> object:
-        return self.file.getAbsoluteFile()
-    
+method getAbsolutePath*(this: AbFile): string {.discardable.} =
+        return this.file.getAbsolutePath()
 
-    # throws IOException
-    def getCanonicalPath(self) -> str:
-        return self.file.getCanonicalPath()
-    
+method getAbsoluteFile*(this: AbFile): JObject {.base, discardable.} =
+        return this.file.getAbsoluteFile()
 
-    # throws IOException
-    def getCanonicalFile(self) -> object:
-        return self.file.getCanonicalFile()
-    
+method getCanonicalPath*(this: AbFile): string {.discardable.} =
+        return this.file.getCanonicalPath()
 
-    def toURI(self) -> URI:
-        return self.file.toURI()
-    
+method getCanonicalFile*(this: AbFile): JObject {.base, discardable.} =
+        return this.file.getCanonicalFile()
 
-    def canRead(self) -> bool:
-        return self.file.canRead()
-    
+method toURI*(this: AbFile): URI {.discardable.} =
+        return this.file.toURI()
 
-    def canWrite(self) -> bool:
-        return self.file.canWrite()
-    
+method canRead*(this: AbFile): bool {.discardable.} =
+        return this.file.canRead()
 
-    def exists(self) -> bool:
-        return self.file.exists()
-    
+method canWrite*(this: AbFile): bool {.discardable.} =
+        return this.file.canWrite()
 
-    def isDirectory(self) -> bool:
-        return self.file.isDirectory()
-    
+method exists*(this: AbFile): bool {.discardable.} =
+        return this.file.exists()
 
-    def isFile(self) -> bool:
-        return self.file.isFile()
-    
+method isDirectory*(this: AbFile): bool {.discardable.} =
+        return this.file.isDirectory()
 
-    def isHidden(self) -> bool:
-        return self.file.isHidden()
-    
+method isFile*(this: AbFile): bool {.discardable.} =
+        return this.file.isFile()
 
-    def lastModified(self) -> int:
-        return self.file.lastModified()
-    
+method isHidden*(this: AbFile): bool {.discardable.} =
+        return this.file.isHidden()
 
-    def length(self) -> int:
-        return self.file.length()
-    
+method lastModified*(this: AbFile): int64 {.discardable.} =
+        return this.file.lastModified()
 
-    # throws IOException
-    def createNewFile(self) -> bool:
-        return self.file.createNewFile()
-    
+method length*(this: AbFile): int64 {.discardable.} =
+        return int64(this.file.length())
 
-    # throws IOException
-    def delete(self) -> bool:
-        return self.file.delete()
-    
+method createNewFile*(this: AbFile): bool {.discardable.} =
+        return this.file.createNewFile()
 
-    def deleteOnExit(self) -> None:
-        self.file.deleteOnExit()
-    
+method delete*(this: AbFile): bool {.discardable.} =
+        return this.file.delete()
 
-    def list_(self) -> list[str]:
-        return self.file.list_()
-    
+method deleteOnExit*(this: AbFile) =
+        this.file.deleteOnExit()
 
-    def listWithFilter(self, filter: FilenameFilter) -> list[str]:
-        return self.file.list_(filter)
-    
+method list*(this: AbFile): JArray[string] {.discardable.} =
+        return this.file.list()
 
-    def listFiles(self) -> list[object]:
-        return self.file.listFiles()
-    
+method listWithFilter*(this: AbFile, filter: FilenameFilter): JArray[string] {.discardable.} =
+        return this.file.list(filter)
 
-    def listFilesFileNameFilter(self, filter: FilenameFilter) -> list[object]:
-        return self.file.listFiles(filter)
-    
+method listFiles*(this: AbFile): JArray[JObject] {.base, discardable.} =
+        return JArray[JObject](this.file.listFiles())
 
-    def listFilesFileFilter(self, filter: FileFilter) -> list[object]:
-        return self.file.listFiles(filter)
-    
+method listFilesFileNameFilter*(this: AbFile, filter: FilenameFilter): JArray[JObject] {.base, discardable.} =
+        return JArray[JObject](this.file.listFiles(filter))
 
-    def mkdir(self) -> bool:
-        return self.file.mkdir()
-    
+method listFilesFileFilter*(this: AbFile, filter: FileFilter): JArray[JObject] {.base, discardable.} =
+        return JArray[JObject](this.file.listFiles(filter))
 
-    def mkdirs(self) -> bool:
-        return self.file.mkdirs()
-    
+method mkdir*(this: AbFile): bool {.discardable.} =
+        return this.file.mkdir()
 
-    def renameTo(self, dest: AbFile) -> bool:
-        return self.file.renameTo(dest.getFile())
-    
+method mkdirs*(this: AbFile): bool {.discardable.} =
+        return this.file.mkdirs()
 
-    def setLastModified(self, time: int) -> bool:
-        return self.file.setLastModified(time)
-    
+method renameTo*(this: AbFile, dest: AbFile): bool {.base, discardable.} =
+        return this.file.renameTo(dest.getFile())
 
-    def setReadOnly(self) -> bool:
-        return self.file.setReadOnly()
-    
+method setLastModified*(this: AbFile, time: int64): bool {.discardable.} =
+        return this.file.setLastModified(time)
 
-    def setWritable(self, writable: bool, ownerOnly: bool) -> bool:
-        return self.file.setExecutable(writable, ownerOnly)
-    
+method setReadOnly*(this: AbFile): bool {.discardable.} =
+        return this.file.setReadOnly()
 
-    # Java overloaded method: Python keeps the last definition
-    def setWritable(self, writable: bool) -> bool:
-        return self.file.setWritable(writable)
-    
+method setWritable*(this: AbFile, writable: bool, ownerOnly: bool): bool {.base, discardable.} =
+        return this.file.setExecutable(writable, ownerOnly)
 
-    def setReadable(self, readable: bool, ownerOnly: bool) -> bool:
-        return self.file.setReadable(readable, ownerOnly)
-    
+method setWritable*(this: AbFile, writable: bool): bool {.base, discardable.} =
+        return this.file.setWritable(writable)
 
-    # Java overloaded method: Python keeps the last definition
-    def setReadable(self, readable: bool) -> bool:
-        return self.file.setReadable(readable)
-    
+method setReadable*(this: AbFile, readable: bool, ownerOnly: bool): bool {.base, discardable.} =
+        return this.file.setReadable(readable, ownerOnly)
 
-    def setExecutable(self, executable: bool, ownerOnly: bool) -> bool:
-        return self.file.setExecutable(executable, ownerOnly)
-    
+method setReadable*(this: AbFile, readable: bool): bool {.base, discardable.} =
+        return this.file.setReadable(readable)
 
-    # Java overloaded method: Python keeps the last definition
-    def setExecutable(self, executable: bool) -> bool:
-        return self.file.setExecutable(executable)
-    
+method setExecutable*(this: AbFile, executable: bool, ownerOnly: bool): bool {.base, discardable.} =
+        return this.file.setExecutable(executable, ownerOnly)
 
-    def canExecute(self) -> bool:
-        return self.file.canExecute()
-    
+method setExecutable*(this: AbFile, executable: bool): bool {.base, discardable.} =
+        return this.file.setExecutable(executable)
 
-    def getTotalSpace(self) -> int:
-        return self.file.getTotalSpace()
-    
+method canExecute*(this: AbFile): bool {.base, discardable.} =
+        return this.file.canExecute()
 
-    def getFreeSpace(self) -> int:
-        return self.file.getFreeSpace()
-    
+method getTotalSpace*(this: AbFile): int64 {.base, discardable.} =
+        return this.file.getTotalSpace()
 
-    def getUsableSpace(self) -> int:
-        return self.file.getUsableSpace()
-    
+method getFreeSpace*(this: AbFile): int64 {.base, discardable.} =
+        return this.file.getFreeSpace()
 
-    def compareTo(self, pathname: File) -> int:
-        return self.file.compareTo(pathname)
-    
+method getUsableSpace*(this: AbFile): int64 {.base, discardable.} =
+        return this.file.getUsableSpace()
 
-    def equals(self, obj: object) -> bool:
-        from org.allbinary.TsUtil import TsUtil
-        return TsUtil.getInstance().equalsNotstring(self.file, obj)
+method compareTo*(this: AbFile, pathname: JFile): int32 {.base, discardable.} =
+        return this.file.compareTo(pathname)
 
-    def __eq__(self, other: object) -> bool:
-        return self.equals(other)
-    
+method equals*(this: AbFile, obj: JObject): bool {.discardable.} =
+        return TsUtil.getInstance().equalsNotstring(this.file, obj)
 
-    def hashCode(self) -> int:
-        return hash(self.file)
+method hashCode*(this: AbFile): int32 {.discardable.} =
+        return this.file.hashCode()
 
-    def __hash__(self) -> int:
-        return self.hashCode()
-    
-
-    def toString(self) -> str:
-        return str(self.file)
-
-    def __str__(self) -> str:
-        return self.toString()
-# from java.io.File import File
-# from java.io.FileFilter import FileFilter
-# from java.io.FilenameFilter import FilenameFilter
-# from java.io.IOException import IOException
-# from java.net.URI import URI
-# from org.allbinary.TsUtil import TsUtil
-# from org.allbinary.logic.io.path.AbPath import AbPath
-# from org.allbinary.logic.string.StringUtil import StringUtil
-
-
-def _AbFile_NULL_FILE() -> object:
-    from org.allbinary.logic.string.StringUtil import StringUtil
-    return AbFile.createAbFileFromRawPath(StringUtil.getInstance().EMPTY_STRING)
-
-lazy_static(AbFile, "NULL_FILE", _AbFile_NULL_FILE)
+method toString*(this: AbFile): string {.discardable.} =
+        return this.file.toString()
 

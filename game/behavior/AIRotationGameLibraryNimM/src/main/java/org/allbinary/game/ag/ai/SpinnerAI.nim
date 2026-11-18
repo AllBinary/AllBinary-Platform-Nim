@@ -1,51 +1,66 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.ag.ai
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/game/ai/BasicAI as BasicAIModule
+export BasicAIModule
+import org/allbinary/game/input/GameInput as GameInputModule
+export GameInputModule
+import org/allbinary/layer/AllBinaryLayer as AllBinaryLayerModule
+export AllBinaryLayerModule
+import org/allbinary/layer/AllBinaryLayerManager as AllBinaryLayerManagerModule
+export AllBinaryLayerManagerModule
 
-from org.allbinary.game.ai.BasicAI import BasicAI
+type
+    SpinnerAI* = ref object of BasicAI
+        isEven*: bool
+        direction*: JArray[int32]
+
+proc newSpinnerAI*(direction: JArray[int32], ownerLayerInterface: AllBinaryLayer, gameInput: GameInput): SpinnerAI
+proc initSpinnerAI*(this: SpinnerAI, direction: JArray[int32], ownerLayerInterface: AllBinaryLayer, gameInput: GameInput)
+method processAI*(this: SpinnerAI, allBinaryLayerManager: AllBinaryLayerManager)
+import javax/microedition/lcdui/Canvas as CanvasModule
+export CanvasModule
 
 
-class SpinnerAI(BasicAI):
-
-    def _init_fields(self) -> None:
-        self.isEven: bool = False
-        self.direction: list[int] = None
+# Java field initializers run after the base initializer
+proc initFieldsSpinnerAI(this: SpinnerAI) =
+    this.isEven = false
     
+    discard
 
-    def __init__(self, direction: list[int], ownerLayerInterface: AllBinaryLayer, gameInput: GameInput) -> None:
-        from org.allbinary.game.input.GameInput import GameInput
-        from org.allbinary.layer.AllBinaryLayer import AllBinaryLayer
-        super().__init__(ownerLayerInterface, gameInput)
-        self._init_fields()
-        self.direction = direction
-    
+proc initSpinnerAI*(this: SpinnerAI, direction: JArray[int32], ownerLayerInterface: AllBinaryLayer, gameInput: GameInput) =
+        initBasicAI(this, ownerLayerInterface, gameInput)
+        this.initFieldsSpinnerAI()
+        this.direction = direction
 
-    # throws Exception
-    def processAI(self, allBinaryLayerManager: AllBinaryLayerManager) -> None:
-        from javax.microedition.lcdui.Canvas import Canvas
-        from org.allbinary.layer.AllBinaryLayerManager import AllBinaryLayerManager
-        if self.isEven:
-            super().processKeyAI(self.direction[0])
-            self.isEven = False
+proc newSpinnerAI*(direction: JArray[int32], ownerLayerInterface: AllBinaryLayer, gameInput: GameInput): SpinnerAI =
+    result = SpinnerAI()
+    initSpinnerAI(result, direction, ownerLayerInterface, gameInput)
+
+method processAI*(this: SpinnerAI, allBinaryLayerManager: AllBinaryLayerManager) =
+        if this.isEven:
+            procCall BasicAI(this).processKeyAI(this.direction[0])
+            this.isEven = false
         else:
-            super().processKeyAI(Canvas.KEY_NUM1)
-            self.isEven = True
-# from javax.microedition.lcdui.Canvas import Canvas
-# from org.allbinary.game.input.GameInput import GameInput
-# from org.allbinary.layer.AllBinaryLayer import AllBinaryLayer
-# from org.allbinary.layer.AllBinaryLayerManager import AllBinaryLayerManager
+            procCall BasicAI(this).processKeyAI(Canvas.KEY_NUM1)
+            this.isEven = true
 
+when declared(newSpinnerAIHook3):
+    newSpinnerAIHook3 = proc (direction: JArray[int32], ownerLayerInterface: AllBinaryLayer, gameInput: GameInput): BasicAI = newSpinnerAI(direction, ownerLayerInterface, gameInput)
 

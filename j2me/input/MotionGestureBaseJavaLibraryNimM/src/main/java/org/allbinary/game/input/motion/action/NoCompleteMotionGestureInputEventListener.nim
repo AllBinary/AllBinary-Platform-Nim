@@ -1,55 +1,67 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.input.motion.action
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/game/input/CompleteMotionGestureInputEvent as CompleteMotionGestureInputEventModule
+export CompleteMotionGestureInputEventModule
+import org/allbinary/game/input/CompleteMotionGestureInputEventListener as CompleteMotionGestureInputEventListenerModule
+export CompleteMotionGestureInputEventListenerModule
+import org/allbinary/logic/util/event/AllBinaryEventObject as AllBinaryEventObjectModule
+export AllBinaryEventObjectModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
-from org.allbinary.game.input.CompleteMotionGestureInputEventListener import CompleteMotionGestureInputEventListener
+type
+    NoCompleteMotionGestureInputEventListener* = ref object of CompleteMotionGestureInputEventListener
 
+proc newNoCompleteMotionGestureInputEventListener*(): NoCompleteMotionGestureInputEventListener
+proc initNoCompleteMotionGestureInputEventListener*(this: NoCompleteMotionGestureInputEventListener)
+method onEvent*(this: NoCompleteMotionGestureInputEventListener, eventObject: AllBinaryEventObject)
+method onCompleteMotionGestureInputEvent*(this: NoCompleteMotionGestureInputEventListener, completeMotionGestureInputEvent: CompleteMotionGestureInputEvent)
+proc getInstance*(t: typedesc[NoCompleteMotionGestureInputEventListener]): NoCompleteMotionGestureInputEventListener {.discardable.}
+import org/allbinary/logic/communication/log/ForcedLogUtil as ForcedLogUtilModule
+export ForcedLogUtilModule
+import org/allbinary/logic/util/event/EventStrings as EventStringsModule
+export EventStringsModule
 
-class NoCompleteMotionGestureInputEventListener(CompleteMotionGestureInputEventListener):
-    instance: NoCompleteMotionGestureInputEventListener = None
-    
+var NoCompleteMotionGestureInputEventListener_instanceValue: NoCompleteMotionGestureInputEventListener
+var NoCompleteMotionGestureInputEventListener_instanceSet = false
+proc instance*(t: typedesc[NoCompleteMotionGestureInputEventListener]): NoCompleteMotionGestureInputEventListener =
+    if not NoCompleteMotionGestureInputEventListener_instanceSet:
+        NoCompleteMotionGestureInputEventListener_instanceSet = true
+        NoCompleteMotionGestureInputEventListener_instanceValue = newNoCompleteMotionGestureInputEventListener()
+    NoCompleteMotionGestureInputEventListener_instanceValue
 
-    def __init__(self) -> None:
-        super().__init__()
-    
+proc initNoCompleteMotionGestureInputEventListener*(this: NoCompleteMotionGestureInputEventListener) =
+        initCompleteMotionGestureInputEventListener(this)
+        discard
 
-    def onEvent(self, eventObject: AllBinaryEventObject) -> None:
-        from org.allbinary.logic.communication.log.ForcedLogUtil import ForcedLogUtil
-        from org.allbinary.logic.util.event.AllBinaryEventObject import AllBinaryEventObject
-        from org.allbinary.logic.util.event.EventStrings import EventStrings
-        ForcedLogUtil.log(EventStrings.getInstance().PERFORMANCE_MESSAGE, self)
-    
+proc newNoCompleteMotionGestureInputEventListener*(): NoCompleteMotionGestureInputEventListener =
+    result = NoCompleteMotionGestureInputEventListener()
+    initNoCompleteMotionGestureInputEventListener(result)
 
-    def onCompleteMotionGestureInputEvent(self, completeMotionGestureInputEvent: CompleteMotionGestureInputEvent) -> None:
-        from org.allbinary.game.input.CompleteMotionGestureInputEvent import CompleteMotionGestureInputEvent
-        pass
-    
+method onEvent*(this: NoCompleteMotionGestureInputEventListener, eventObject: AllBinaryEventObject) =
+        ForcedLogUtil.log(EventStrings.getInstance().PERFORMANCE_MESSAGE, this)
 
-    @staticmethod
-    def getInstance() -> NoCompleteMotionGestureInputEventListener:
+method onCompleteMotionGestureInputEvent*(this: NoCompleteMotionGestureInputEventListener, completeMotionGestureInputEvent: CompleteMotionGestureInputEvent) =
+        discard
+
+proc getInstance*(t: typedesc[NoCompleteMotionGestureInputEventListener]): NoCompleteMotionGestureInputEventListener {.discardable.} =
         return NoCompleteMotionGestureInputEventListener.instance
-# from org.allbinary.game.input.CompleteMotionGestureInputEvent import CompleteMotionGestureInputEvent
-# from org.allbinary.logic.communication.log.ForcedLogUtil import ForcedLogUtil
-# from org.allbinary.logic.util.event.AllBinaryEventObject import AllBinaryEventObject
-# from org.allbinary.logic.util.event.EventStrings import EventStrings
 
-
-def _NoCompleteMotionGestureInputEventListener_instance() -> object:
-    return NoCompleteMotionGestureInputEventListener()
-
-lazy_static(NoCompleteMotionGestureInputEventListener, "instance", _NoCompleteMotionGestureInputEventListener_instance)
+when declared(newNoCompleteMotionGestureInputEventListenerHook0):
+    newNoCompleteMotionGestureInputEventListenerHook0 = proc (): CompleteMotionGestureInputEventListener = newNoCompleteMotionGestureInputEventListener()
 

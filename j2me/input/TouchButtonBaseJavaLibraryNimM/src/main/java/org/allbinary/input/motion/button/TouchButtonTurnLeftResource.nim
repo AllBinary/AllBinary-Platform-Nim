@@ -1,39 +1,50 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.input.motion.button
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/input/motion/button/TouchButtonResource as TouchButtonResourceModule
+export TouchButtonResourceModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
-from org.allbinary.input.motion.button.TouchButtonResource import TouchButtonResource
+type
+    TouchButtonTurnLeftResource* = ref object of TouchButtonResource
 
+proc newTouchButtonTurnLeftResource*(): TouchButtonTurnLeftResource
+proc initTouchButtonTurnLeftResource*(this: TouchButtonTurnLeftResource)
+proc getInstance*(t: typedesc[TouchButtonTurnLeftResource]): TouchButtonResource {.discardable.}
 
-class TouchButtonTurnLeftResource(TouchButtonResource):
-    instance: TouchButtonResource = None
-    
+var TouchButtonTurnLeftResource_instanceValue: TouchButtonResource
+var TouchButtonTurnLeftResource_instanceSet = false
+proc instance*(t: typedesc[TouchButtonTurnLeftResource]): TouchButtonResource =
+    if not TouchButtonTurnLeftResource_instanceSet:
+        TouchButtonTurnLeftResource_instanceSet = true
+        TouchButtonTurnLeftResource_instanceValue = newTouchButtonTurnLeftResource()
+    TouchButtonTurnLeftResource_instanceValue
 
-    @staticmethod
-    def getInstance() -> TouchButtonResource:
+proc getInstance*(t: typedesc[TouchButtonTurnLeftResource]): TouchButtonResource {.discardable.} =
         return TouchButtonTurnLeftResource.instance
-    
 
-    def __init__(self) -> None:
-        super().__init__("/touch_button_turn_left_arrow_64_by_64.png", "/touch_button_turn_left_arrow_hint_64_by_64.png")
+proc initTouchButtonTurnLeftResource*(this: TouchButtonTurnLeftResource) =
+        initTouchButtonResource(this, "/touch_button_turn_left_arrow_64_by_64.png", "/touch_button_turn_left_arrow_hint_64_by_64.png")
 
+proc newTouchButtonTurnLeftResource*(): TouchButtonTurnLeftResource =
+    result = TouchButtonTurnLeftResource()
+    initTouchButtonTurnLeftResource(result)
 
-def _TouchButtonTurnLeftResource_instance() -> object:
-    return TouchButtonTurnLeftResource()
-
-lazy_static(TouchButtonTurnLeftResource, "instance", _TouchButtonTurnLeftResource_instance)
+when declared(newTouchButtonTurnLeftResourceHook0):
+    newTouchButtonTurnLeftResourceHook0 = proc (): TouchButtonResource = newTouchButtonTurnLeftResource()
 

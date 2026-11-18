@@ -1,45 +1,56 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.input.motion.button
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/input/motion/button/TouchButtonResourceAnimationInterfaceFactoryInterfaceFactory as TouchButtonResourceAnimationInterfaceFactoryInterfaceFactoryModule
+export TouchButtonResourceAnimationInterfaceFactoryInterfaceFactoryModule
 
-from org.allbinary.input.motion.button.TouchButtonResourceAnimationInterfaceFactoryInterfaceFactory import TouchButtonResourceAnimationInterfaceFactoryInterfaceFactory
+type
+    TouchButtonResourceOpenGLESAnimationInterfaceFactoryInterfaceFactory* = ref object of TouchButtonResourceAnimationInterfaceFactoryInterfaceFactory
+
+proc newTouchButtonResourceOpenGLESAnimationInterfaceFactoryInterfaceFactory*(): TouchButtonResourceOpenGLESAnimationInterfaceFactoryInterfaceFactory
+proc initTouchButtonResourceOpenGLESAnimationInterfaceFactoryInterfaceFactory*(this: TouchButtonResourceOpenGLESAnimationInterfaceFactoryInterfaceFactory)
+method init*(this: TouchButtonResourceOpenGLESAnimationInterfaceFactoryInterfaceFactory, level: int32)
+method isFeature*(this: TouchButtonResourceOpenGLESAnimationInterfaceFactoryInterfaceFactory): bool {.discardable.}
+import org/allbinary/game/configuration/feature/Features as FeaturesModule
+export FeaturesModule
+import org/allbinary/graphics/opengles/OpenGLFeatureFactory as OpenGLFeatureFactoryModule
+export OpenGLFeatureFactoryModule
+import org/allbinary/image/opengles/OpenGLImageCacheFactory as OpenGLImageCacheFactoryModule
+export OpenGLImageCacheFactoryModule
 
 
-class TouchButtonResourceOpenGLESAnimationInterfaceFactoryInterfaceFactory(TouchButtonResourceAnimationInterfaceFactoryInterfaceFactory):
-    
+proc initTouchButtonResourceOpenGLESAnimationInterfaceFactoryInterfaceFactory*(this: TouchButtonResourceOpenGLESAnimationInterfaceFactoryInterfaceFactory) =
+        initTouchButtonResourceAnimationInterfaceFactoryInterfaceFactory(this, "OpenGL TouchButton Animations")
 
-    def __init__(self) -> None:
-        super().__init__("OpenGL TouchButton Animations")
-    
+proc newTouchButtonResourceOpenGLESAnimationInterfaceFactoryInterfaceFactory*(): TouchButtonResourceOpenGLESAnimationInterfaceFactoryInterfaceFactory =
+    result = TouchButtonResourceOpenGLESAnimationInterfaceFactoryInterfaceFactory()
+    initTouchButtonResourceOpenGLESAnimationInterfaceFactoryInterfaceFactory(result)
 
-    # throws Exception
-    def init(self, level: int) -> None:
-        from org.allbinary.image.opengles.OpenGLImageCacheFactory import OpenGLImageCacheFactory
-        super().initImageCache(OpenGLImageCacheFactory.getInstance(), level)
-    
+method init*(this: TouchButtonResourceOpenGLESAnimationInterfaceFactoryInterfaceFactory, level: int32) =
+        procCall TouchButtonResourceAnimationInterfaceFactoryInterfaceFactory(this).initImageCache(OpenGLImageCacheFactory.getInstance(), level)
 
-    def isFeature(self) -> bool:
-        from org.allbinary.game.configuration.feature.Features import Features
-        from org.allbinary.graphics.opengles.OpenGLFeatureFactory import OpenGLFeatureFactory
+method isFeature*(this: TouchButtonResourceOpenGLESAnimationInterfaceFactoryInterfaceFactory): bool {.discardable.} =
         if Features.getInstance().isDefault(OpenGLFeatureFactory.getInstance().OPENGL):
-            return True
+            return true
         else:
-            return False
-# from org.allbinary.game.configuration.feature.Features import Features
-# from org.allbinary.graphics.opengles.OpenGLFeatureFactory import OpenGLFeatureFactory
-# from org.allbinary.image.opengles.OpenGLImageCacheFactory import OpenGLImageCacheFactory
+            return false
 
+when declared(newTouchButtonResourceOpenGLESAnimationInterfaceFactoryInterfaceFactoryHook0):
+    newTouchButtonResourceOpenGLESAnimationInterfaceFactoryInterfaceFactoryHook0 = proc (): TouchButtonResourceAnimationInterfaceFactoryInterfaceFactory = newTouchButtonResourceOpenGLESAnimationInterfaceFactoryInterfaceFactory()
 

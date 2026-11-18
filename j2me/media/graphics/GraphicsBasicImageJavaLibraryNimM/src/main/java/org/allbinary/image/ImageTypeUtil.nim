@@ -1,60 +1,80 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.image
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/util/BasicArrayList as BasicArrayListModule
+export BasicArrayListModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    ImageTypeUtil* = ref object of JObject
+        PNG*: string
+        JPG*: string
+        GIF*: string
+        list*: BasicArrayList
 
+proc newImageTypeUtil*(): ImageTypeUtil
+proc initImageTypeUtil*(this: ImageTypeUtil)
+method isSupported*(this: ImageTypeUtil, mediaFileType: string): bool {.base, discardable.}
+proc getInstance*(t: typedesc[ImageTypeUtil]): ImageTypeUtil {.discardable.}
+import org/allbinary/util/BasicArrayListD as BasicArrayListDModule
+export BasicArrayListDModule
 
-class ImageTypeUtil:
-    SINGLETON: ImageTypeUtil = None
+var ImageTypeUtil_SINGLETONValue: ImageTypeUtil
+var ImageTypeUtil_SINGLETONSet = false
+proc SINGLETON*(t: typedesc[ImageTypeUtil]): ImageTypeUtil =
+    if not ImageTypeUtil_SINGLETONSet:
+        ImageTypeUtil_SINGLETONSet = true
+        ImageTypeUtil_SINGLETONValue = newImageTypeUtil()
+    ImageTypeUtil_SINGLETONValue
+proc `SINGLETON=`*(t: typedesc[ImageTypeUtil], value: ImageTypeUtil) =
+    ImageTypeUtil_SINGLETONSet = true
+    ImageTypeUtil_SINGLETONValue = value
 
-    def _init_fields(self) -> None:
-        from org.allbinary.util.BasicArrayList import BasicArrayList
-        from org.allbinary.util.BasicArrayListD import BasicArrayListD
-        self.PNG: str = "png"
-        self.JPG: str = "jpg"
-        self.GIF: str = "gif"
-        self.list_: BasicArrayList = BasicArrayListD()
-    
+# Java field initializers run after the base initializer
+proc initFieldsImageTypeUtil(this: ImageTypeUtil) =
+    this.PNG = "png"
+    this.JPG = "jpg"
+    this.GIF = "gif"
+    this.list = newBasicArrayListD()
+    discard
 
-    def __init__(self) -> None:
-        self._init_fields()
-        self.list_.add(self.JPG)
-        self.list_.add(self.GIF)
-        self.list_.add(self.PNG)
-    
+proc initImageTypeUtil*(this: ImageTypeUtil) =
+        this.initFieldsImageTypeUtil()
+        this.list.add(this.JPG)
+        this.list.add(this.GIF)
+        this.list.add(this.PNG)
 
-    def isSupported(self, mediaFileType: str) -> bool:
-        mediaFileType = mediaFileType.lower()
-        for index in range(self.list_.size() - 1, 0 - 1, -1):
-            name: str = self.list_.get(index)
-            if ((mediaFileType > name) - (mediaFileType < name)) == 0:
-                return True
-        return False
-    
+proc newImageTypeUtil*(): ImageTypeUtil =
+    result = ImageTypeUtil()
+    initImageTypeUtil(result)
 
-    @staticmethod
-    def getInstance() -> ImageTypeUtil:
+method isSupported*(this: ImageTypeUtil, mediaFileType: string): bool {.base, discardable.} =
+        var mediaFileType = mediaFileType
+        mediaFileType = jToLowerCase(mediaFileType)
+        block:
+            var index: int32 = this.list.size() -% 1
+            while index >= 0:
+                defer: index = index -% 1
+                var name: string = jstr(this.list.get(index))
+                if jCompareTo(mediaFileType, name) == 0:
+                    return true
+        return false
+
+proc getInstance*(t: typedesc[ImageTypeUtil]): ImageTypeUtil {.discardable.} =
         return ImageTypeUtil.SINGLETON
-# from org.allbinary.util.BasicArrayList import BasicArrayList
-# from org.allbinary.util.BasicArrayListD import BasicArrayListD
-
-
-def _ImageTypeUtil_SINGLETON() -> object:
-    return ImageTypeUtil()
-
-lazy_static(ImageTypeUtil, "SINGLETON", _ImageTypeUtil_SINGLETON)
 

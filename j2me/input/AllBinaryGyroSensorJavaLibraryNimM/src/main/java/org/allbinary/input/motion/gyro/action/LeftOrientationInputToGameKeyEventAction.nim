@@ -1,48 +1,61 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.input.motion.gyro.action
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/game/input/motion/action/GameKeyCompleteMotionGestureInputEvent as GameKeyCompleteMotionGestureInputEventModule
+export GameKeyCompleteMotionGestureInputEventModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
-from org.allbinary.game.input.motion.action.GameKeyCompleteMotionGestureInputEvent import GameKeyCompleteMotionGestureInputEvent
+type
+    LeftOrientationInputToGameKeyEventAction* = ref object of GameKeyCompleteMotionGestureInputEvent
 
+proc newLeftOrientationInputToGameKeyEventAction*(): LeftOrientationInputToGameKeyEventAction
+proc initLeftOrientationInputToGameKeyEventAction*(this: LeftOrientationInputToGameKeyEventAction)
+proc getInstance*(t: typedesc[LeftOrientationInputToGameKeyEventAction]): GameKeyCompleteMotionGestureInputEvent {.discardable.}
+import org/allbinary/game/input/PlatformInputMappingFactory as PlatformInputMappingFactoryModule
+export PlatformInputMappingFactoryModule
+import org/allbinary/input/gyro/OrientationMotionGestureFactory as OrientationMotionGestureFactoryModule
+export OrientationMotionGestureFactoryModule
+import org/allbinary/logic/NullUtil as NullUtilModule
+export NullUtilModule
 
-class LeftOrientationInputToGameKeyEventAction(GameKeyCompleteMotionGestureInputEvent):
-    instance: object = None
-    
+var LeftOrientationInputToGameKeyEventAction_instanceValue: JObject
+var LeftOrientationInputToGameKeyEventAction_instanceSet = false
+proc instance*(t: typedesc[LeftOrientationInputToGameKeyEventAction]): JObject =
+    if not LeftOrientationInputToGameKeyEventAction_instanceSet:
+        LeftOrientationInputToGameKeyEventAction_instanceSet = true
+        LeftOrientationInputToGameKeyEventAction_instanceValue = NullUtil.getInstance().NULL_OBJECT
+    LeftOrientationInputToGameKeyEventAction_instanceValue
+proc `instance=`*(t: typedesc[LeftOrientationInputToGameKeyEventAction], value: JObject) =
+    LeftOrientationInputToGameKeyEventAction_instanceSet = true
+    LeftOrientationInputToGameKeyEventAction_instanceValue = value
 
-    @staticmethod
-    def getInstance() -> GameKeyCompleteMotionGestureInputEvent:
-        from org.allbinary.logic.NullUtil import NullUtil
+proc getInstance*(t: typedesc[LeftOrientationInputToGameKeyEventAction]): GameKeyCompleteMotionGestureInputEvent {.discardable.} =
         if LeftOrientationInputToGameKeyEventAction.instance == NullUtil.getInstance().NULL_OBJECT:
-            LeftOrientationInputToGameKeyEventAction.instance = LeftOrientationInputToGameKeyEventAction()
-        return LeftOrientationInputToGameKeyEventAction.instance
-    
+            LeftOrientationInputToGameKeyEventAction.instance = newLeftOrientationInputToGameKeyEventAction()
+        return GameKeyCompleteMotionGestureInputEvent(JObject(LeftOrientationInputToGameKeyEventAction.instance))
 
-    def __init__(self) -> None:
-        from org.allbinary.game.input.PlatformInputMappingFactory import PlatformInputMappingFactory
-        from org.allbinary.input.gyro.OrientationMotionGestureFactory import OrientationMotionGestureFactory
-        super().__init__("Left Action", OrientationMotionGestureFactory.getInstance().LEFT, PlatformInputMappingFactory.getInstance().getPersistentInputMappingInstance().getInputMapping())
-# from org.allbinary.game.input.PlatformInputMappingFactory import PlatformInputMappingFactory
-# from org.allbinary.input.gyro.OrientationMotionGestureFactory import OrientationMotionGestureFactory
-# from org.allbinary.logic.NullUtil import NullUtil
+proc initLeftOrientationInputToGameKeyEventAction*(this: LeftOrientationInputToGameKeyEventAction) =
+        initGameKeyCompleteMotionGestureInputEvent(this, "Left Action", OrientationMotionGestureFactory.getInstance().LEFT, PlatformInputMappingFactory.getInstance().getPersistentInputMappingInstance().getInputMapping())
 
+proc newLeftOrientationInputToGameKeyEventAction*(): LeftOrientationInputToGameKeyEventAction =
+    result = LeftOrientationInputToGameKeyEventAction()
+    initLeftOrientationInputToGameKeyEventAction(result)
 
-def _LeftOrientationInputToGameKeyEventAction_instance() -> object:
-    from org.allbinary.logic.NullUtil import NullUtil
-    return NullUtil.getInstance().NULL_OBJECT
-
-lazy_static(LeftOrientationInputToGameKeyEventAction, "instance", _LeftOrientationInputToGameKeyEventAction_instance)
+when declared(newLeftOrientationInputToGameKeyEventActionHook0):
+    newLeftOrientationInputToGameKeyEventActionHook0 = proc (): GameKeyCompleteMotionGestureInputEvent = newLeftOrientationInputToGameKeyEventAction()
 

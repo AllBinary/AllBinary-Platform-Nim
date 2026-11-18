@@ -1,48 +1,61 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.input.motion.trackball.action
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/game/input/motion/action/GameKeyCompleteMotionGestureInputEvent as GameKeyCompleteMotionGestureInputEventModule
+export GameKeyCompleteMotionGestureInputEventModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
-from org.allbinary.game.input.motion.action.GameKeyCompleteMotionGestureInputEvent import GameKeyCompleteMotionGestureInputEvent
+type
+    DownTrackballInputToGameKeyEventAction* = ref object of GameKeyCompleteMotionGestureInputEvent
 
+proc newDownTrackballInputToGameKeyEventAction*(): DownTrackballInputToGameKeyEventAction
+proc initDownTrackballInputToGameKeyEventAction*(this: DownTrackballInputToGameKeyEventAction)
+proc getInstance*(t: typedesc[DownTrackballInputToGameKeyEventAction]): GameKeyCompleteMotionGestureInputEvent {.discardable.}
+import org/allbinary/game/input/PlatformInputMappingFactory as PlatformInputMappingFactoryModule
+export PlatformInputMappingFactoryModule
+import org/allbinary/input/motion/gesture/TrackballMotionGestureFactory as TrackballMotionGestureFactoryModule
+export TrackballMotionGestureFactoryModule
+import org/allbinary/logic/NullUtil as NullUtilModule
+export NullUtilModule
 
-class DownTrackballInputToGameKeyEventAction(GameKeyCompleteMotionGestureInputEvent):
-    instance: object = None
-    
+var DownTrackballInputToGameKeyEventAction_instanceValue: JObject
+var DownTrackballInputToGameKeyEventAction_instanceSet = false
+proc instance*(t: typedesc[DownTrackballInputToGameKeyEventAction]): JObject =
+    if not DownTrackballInputToGameKeyEventAction_instanceSet:
+        DownTrackballInputToGameKeyEventAction_instanceSet = true
+        DownTrackballInputToGameKeyEventAction_instanceValue = NullUtil.getInstance().NULL_OBJECT
+    DownTrackballInputToGameKeyEventAction_instanceValue
+proc `instance=`*(t: typedesc[DownTrackballInputToGameKeyEventAction], value: JObject) =
+    DownTrackballInputToGameKeyEventAction_instanceSet = true
+    DownTrackballInputToGameKeyEventAction_instanceValue = value
 
-    @staticmethod
-    def getInstance() -> GameKeyCompleteMotionGestureInputEvent:
-        from org.allbinary.logic.NullUtil import NullUtil
+proc getInstance*(t: typedesc[DownTrackballInputToGameKeyEventAction]): GameKeyCompleteMotionGestureInputEvent {.discardable.} =
         if DownTrackballInputToGameKeyEventAction.instance == NullUtil.getInstance().NULL_OBJECT:
-            DownTrackballInputToGameKeyEventAction.instance = DownTrackballInputToGameKeyEventAction()
-        return DownTrackballInputToGameKeyEventAction.instance
-    
+            DownTrackballInputToGameKeyEventAction.instance = newDownTrackballInputToGameKeyEventAction()
+        return GameKeyCompleteMotionGestureInputEvent(JObject(DownTrackballInputToGameKeyEventAction.instance))
 
-    def __init__(self) -> None:
-        from org.allbinary.game.input.PlatformInputMappingFactory import PlatformInputMappingFactory
-        from org.allbinary.input.motion.gesture.TrackballMotionGestureFactory import TrackballMotionGestureFactory
-        super().__init__("Down Action", TrackballMotionGestureFactory.getInstance().DOWN, PlatformInputMappingFactory.getInstance().getPersistentInputMappingInstance().getInputMapping())
-# from org.allbinary.game.input.PlatformInputMappingFactory import PlatformInputMappingFactory
-# from org.allbinary.input.motion.gesture.TrackballMotionGestureFactory import TrackballMotionGestureFactory
-# from org.allbinary.logic.NullUtil import NullUtil
+proc initDownTrackballInputToGameKeyEventAction*(this: DownTrackballInputToGameKeyEventAction) =
+        initGameKeyCompleteMotionGestureInputEvent(this, "Down Action", TrackballMotionGestureFactory.getInstance().DOWN, PlatformInputMappingFactory.getInstance().getPersistentInputMappingInstance().getInputMapping())
 
+proc newDownTrackballInputToGameKeyEventAction*(): DownTrackballInputToGameKeyEventAction =
+    result = DownTrackballInputToGameKeyEventAction()
+    initDownTrackballInputToGameKeyEventAction(result)
 
-def _DownTrackballInputToGameKeyEventAction_instance() -> object:
-    from org.allbinary.logic.NullUtil import NullUtil
-    return NullUtil.getInstance().NULL_OBJECT
-
-lazy_static(DownTrackballInputToGameKeyEventAction, "instance", _DownTrackballInputToGameKeyEventAction_instance)
+when declared(newDownTrackballInputToGameKeyEventActionHook0):
+    newDownTrackballInputToGameKeyEventActionHook0 = proc (): GameKeyCompleteMotionGestureInputEvent = newDownTrackballInputToGameKeyEventAction()
 

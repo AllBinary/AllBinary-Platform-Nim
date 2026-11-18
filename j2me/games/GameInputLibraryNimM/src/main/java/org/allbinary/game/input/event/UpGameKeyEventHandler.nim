@@ -1,87 +1,105 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.input.event
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/game/input/LocalPlayerInputIdFactory as LocalPlayerInputIdFactoryModule
+export LocalPlayerInputIdFactoryModule
+import org/allbinary/logic/util/event/EventListenerInterface as EventListenerInterfaceModule
+export EventListenerInterfaceModule
+import org/allbinary/game/input/event/UpGameKeyEventHandlerBase as UpGameKeyEventHandlerBaseModule
+export UpGameKeyEventHandlerBaseModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
-from org.allbinary.game.input.event.UpGameKeyEventHandlerBase import UpGameKeyEventHandlerBase
+type
+    UpGameKeyEventHandler* = ref object of UpGameKeyEventHandlerBase
+        playerInputIdFactory*: LocalPlayerInputIdFactory
 
+proc newUpGameKeyEventHandler*(): UpGameKeyEventHandler
+proc initUpGameKeyEventHandler*(this: UpGameKeyEventHandler)
+proc getInstance*(t: typedesc[UpGameKeyEventHandler]): UpGameKeyEventHandler {.discardable.}
+method getInstanceForDevice*(this: UpGameKeyEventHandler, deviceId: int32): UpGameKeyEventHandlerBase {.base, discardable.}
+method getInstanceForPlayer*(this: UpGameKeyEventHandler, playerInputId: int32): UpGameKeyEventHandlerBase {.base, discardable.}
+method removeAllListeners*(this: UpGameKeyEventHandler)
+method removeListenerSingleThreaded*(this: UpGameKeyEventHandler, eventListenerInterface: EventListenerInterface)
+method removeListener*(this: UpGameKeyEventHandler, eventListenerInterface: EventListenerInterface)
 
-class UpGameKeyEventHandler(UpGameKeyEventHandlerBase):
-    instance: UpGameKeyEventHandler = None
-    instanceArray: list[UpGameKeyEventHandlerBase] = None
+var UpGameKeyEventHandler_instanceValue: UpGameKeyEventHandler
+var UpGameKeyEventHandler_instanceSet = false
+proc instance*(t: typedesc[UpGameKeyEventHandler]): UpGameKeyEventHandler =
+    if not UpGameKeyEventHandler_instanceSet:
+        UpGameKeyEventHandler_instanceSet = true
+        UpGameKeyEventHandler_instanceValue = newUpGameKeyEventHandler()
+    UpGameKeyEventHandler_instanceValue
+var UpGameKeyEventHandler_instanceArrayValue: JArray[UpGameKeyEventHandlerBase]
+var UpGameKeyEventHandler_instanceArraySet = false
+proc instanceArray*(t: typedesc[UpGameKeyEventHandler]): JArray[UpGameKeyEventHandlerBase] =
+    if not UpGameKeyEventHandler_instanceArraySet:
+        UpGameKeyEventHandler_instanceArraySet = true
+        UpGameKeyEventHandler_instanceArrayValue = newJArrayFromRefs[UpGameKeyEventHandlerBase](newUpGameKeyEventHandlerBase(), newUpGameKeyEventHandlerBase(), newUpGameKeyEventHandlerBase(), newUpGameKeyEventHandlerBase(), newUpGameKeyEventHandlerBase(), newUpGameKeyEventHandlerBase())
+    UpGameKeyEventHandler_instanceArrayValue
 
-    def _init_fields(self) -> None:
-        from org.allbinary.game.input.LocalPlayerInputIdFactory import LocalPlayerInputIdFactory
-        self.playerInputIdFactory: LocalPlayerInputIdFactory = LocalPlayerInputIdFactory.getInstance()
-    
+# Java field initializers run after the base initializer
+proc initFieldsUpGameKeyEventHandler(this: UpGameKeyEventHandler) =
+    this.playerInputIdFactory = LocalPlayerInputIdFactory.getInstance()
+    discard
 
-    @staticmethod
-    def getInstance() -> UpGameKeyEventHandler:
+proc getInstance*(t: typedesc[UpGameKeyEventHandler]): UpGameKeyEventHandler {.discardable.} =
         return UpGameKeyEventHandler.instance
-    
 
-    def getInstanceForDevice(self, deviceId: int) -> UpGameKeyEventHandlerBase:
-        playerInputId: int = self.playerInputIdFactory.getPlayerForDevice(deviceId)
+method getInstanceForDevice*(this: UpGameKeyEventHandler, deviceId: int32): UpGameKeyEventHandlerBase {.base, discardable.} =
+        let playerInputId: int32 = this.playerInputIdFactory.getPlayerForDevice(deviceId)
         return UpGameKeyEventHandler.instanceArray[playerInputId]
-    
 
-    def getInstanceForPlayer(self, playerInputId: int) -> UpGameKeyEventHandlerBase:
+method getInstanceForPlayer*(this: UpGameKeyEventHandler, playerInputId: int32): UpGameKeyEventHandlerBase {.base, discardable.} =
         return UpGameKeyEventHandler.instanceArray[playerInputId]
-    
 
-    def __init__(self) -> None:
-        super().__init__()
-        self._init_fields()
-    
+proc initUpGameKeyEventHandler*(this: UpGameKeyEventHandler) =
+        initUpGameKeyEventHandlerBase(this)
+        this.initFieldsUpGameKeyEventHandler()
+        discard
 
-    def removeAllListeners(self) -> None:
-        super().removeAllListeners()
-        for index in range(len(UpGameKeyEventHandler.instanceArray) - 1, 0 - 1, -1):
-            UpGameKeyEventHandler.instanceArray[index].removeAllListeners()
-    
+proc newUpGameKeyEventHandler*(): UpGameKeyEventHandler =
+    result = UpGameKeyEventHandler()
+    initUpGameKeyEventHandler(result)
 
-    def removeListenerSingleThreaded(self, eventListenerInterface: EventListenerInterface) -> None:
-        from org.allbinary.logic.util.event.EventListenerInterface import EventListenerInterface
-        super().removeListenerSingleThreaded(eventListenerInterface)
-        for index in range(len(UpGameKeyEventHandler.instanceArray) - 1, 0 - 1, -1):
-            UpGameKeyEventHandler.instanceArray[index].removeListenerSingleThreaded(eventListenerInterface)
-    
+method removeAllListeners*(this: UpGameKeyEventHandler) =
+        procCall UpGameKeyEventHandlerBase(this).removeAllListeners()
+        block:
+            var index: int32 = UpGameKeyEventHandler.instanceArray.length -% 1
+            while index >= 0:
+                defer: index = index -% 1
+                UpGameKeyEventHandler.instanceArray[index].removeAllListeners()
 
-    def removeListener(self, eventListenerInterface: EventListenerInterface) -> None:
-        from org.allbinary.logic.util.event.EventListenerInterface import EventListenerInterface
-        super().removeListener(eventListenerInterface)
-        for index in range(len(UpGameKeyEventHandler.instanceArray) - 1, 0 - 1, -1):
-            UpGameKeyEventHandler.instanceArray[index].removeListener(eventListenerInterface)
-# from org.allbinary.game.input.LocalPlayerInputIdFactory import LocalPlayerInputIdFactory
-# from org.allbinary.logic.util.event.EventListenerInterface import EventListenerInterface
+method removeListenerSingleThreaded*(this: UpGameKeyEventHandler, eventListenerInterface: EventListenerInterface) =
+        procCall UpGameKeyEventHandlerBase(this).removeListenerSingleThreaded(eventListenerInterface)
+        block:
+            var index: int32 = UpGameKeyEventHandler.instanceArray.length -% 1
+            while index >= 0:
+                defer: index = index -% 1
+                UpGameKeyEventHandler.instanceArray[index].removeListenerSingleThreaded(eventListenerInterface)
 
+method removeListener*(this: UpGameKeyEventHandler, eventListenerInterface: EventListenerInterface) =
+        procCall UpGameKeyEventHandlerBase(this).removeListener(eventListenerInterface)
+        block:
+            var index: int32 = UpGameKeyEventHandler.instanceArray.length -% 1
+            while index >= 0:
+                defer: index = index -% 1
+                UpGameKeyEventHandler.instanceArray[index].removeListener(eventListenerInterface)
 
-def _UpGameKeyEventHandler_instance() -> object:
-    return UpGameKeyEventHandler()
-
-lazy_static(UpGameKeyEventHandler, "instance", _UpGameKeyEventHandler_instance)
-
-def _UpGameKeyEventHandler_instanceArray() -> object:
-    from org.allbinary.game.input.event.UpGameKeyEventHandlerBase import UpGameKeyEventHandlerBase
-    from org.allbinary.game.input.event.UpGameKeyEventHandlerBase import UpGameKeyEventHandlerBase
-    from org.allbinary.game.input.event.UpGameKeyEventHandlerBase import UpGameKeyEventHandlerBase
-    from org.allbinary.game.input.event.UpGameKeyEventHandlerBase import UpGameKeyEventHandlerBase
-    from org.allbinary.game.input.event.UpGameKeyEventHandlerBase import UpGameKeyEventHandlerBase
-    from org.allbinary.game.input.event.UpGameKeyEventHandlerBase import UpGameKeyEventHandlerBase
-    return [UpGameKeyEventHandlerBase(), UpGameKeyEventHandlerBase(), UpGameKeyEventHandlerBase(), UpGameKeyEventHandlerBase(), UpGameKeyEventHandlerBase(), UpGameKeyEventHandlerBase()]
-
-lazy_static(UpGameKeyEventHandler, "instanceArray", _UpGameKeyEventHandler_instanceArray)
+when declared(newUpGameKeyEventHandlerHook0):
+    newUpGameKeyEventHandlerHook0 = proc (): UpGameKeyEventHandlerBase = newUpGameKeyEventHandler()
 

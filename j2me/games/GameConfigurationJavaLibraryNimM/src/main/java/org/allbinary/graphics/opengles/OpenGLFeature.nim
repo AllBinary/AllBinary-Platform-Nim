@@ -1,27 +1,39 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.graphics.opengles
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/game/configuration/feature/Feature as FeatureModule
+export FeatureModule
 
-from org.allbinary.game.configuration.feature.Feature import Feature
+type
+    OpenGLFeature* = ref object of Feature
+
+proc newOpenGLFeature*(name: string): OpenGLFeature
+proc initOpenGLFeature*(this: OpenGLFeature, name: string)
 
 
-class OpenGLFeature(Feature):
-    
+proc initOpenGLFeature*(this: OpenGLFeature, name: string) =
+        initFeature(this, name)
 
-    def __init__(self, name: str) -> None:
-        super().__init__(name)
+proc newOpenGLFeature*(name: string): OpenGLFeature =
+    result = OpenGLFeature()
+    initOpenGLFeature(result, name)
 
+when declared(newOpenGLFeatureHook1):
+    newOpenGLFeatureHook1 = proc (name: string): Feature = newOpenGLFeature(name)
 

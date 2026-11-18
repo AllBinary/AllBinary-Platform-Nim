@@ -58,14 +58,14 @@ proc newSecondaryThreadPool*(poolName: string, numThreads: int32, priority: int3
     initSecondaryThreadPool(result, poolName, numThreads, priority)
 
 method runTask*(this: SecondaryThreadPool, task: Runnable) =
-        this.logUtil.putF(newStringMaker().append(StringUtil.getInstance().toString(task)).appendlong(int64(jCurrentTimeMillis())).toString(), this, this.threadPoolStrings.ADD_TASK)
+        this.logUtil.putF(newStringMaker().append(StringUtil.getInstance().toString(task)).appendlong(jCurrentTimeMillis()).toString(), this, this.threadPoolStrings.ADD_TASK)
         procCall ThreadPool(this).runTask(task)
 
 method startTask*(this: SecondaryThreadPool, task: Runnable) =
-        this.logUtil.putF(newStringMaker().append(this.threadPoolStrings.START_TASK).append(StringUtil.getInstance().toString(task)).appendlong(int64(jCurrentTimeMillis())).toString(), this, this.commonStrings.RUN)
+        this.logUtil.putF(newStringMaker().append(this.threadPoolStrings.START_TASK).append(StringUtil.getInstance().toString(task)).appendlong(jCurrentTimeMillis()).toString(), this, this.commonStrings.RUN)
 
 method completedTask*(this: SecondaryThreadPool, task: Runnable) =
-        this.logUtil.putF(newStringMaker().append(this.threadPoolStrings.COMPLETE_TASK).append(StringUtil.getInstance().toString(task)).appendlong(int64(jCurrentTimeMillis())).toString(), this, this.commonStrings.RUN)
+        this.logUtil.putF(newStringMaker().append(this.threadPoolStrings.COMPLETE_TASK).append(StringUtil.getInstance().toString(task)).appendlong(jCurrentTimeMillis()).toString(), this, this.commonStrings.RUN)
 
 when declared(newSecondaryThreadPoolHook3):
     newSecondaryThreadPoolHook3 = proc (poolName: string, numThreads: int32, priority: int32): ThreadPool = newSecondaryThreadPool(poolName, numThreads, priority)

@@ -1,33 +1,46 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.input
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/game/input/mapping/InputToGameKeyMapping as InputToGameKeyMappingModule
+export InputToGameKeyMappingModule
+import org/allbinary/game/input/J2MEGameInputMapping as J2MEGameInputMappingModule
+export J2MEGameInputMappingModule
 
-from org.allbinary.game.input.J2MEGameInputMapping import J2MEGameInputMapping
+type
+    MotionJ2MEGameInputMapping* = ref object of J2MEGameInputMapping
+
+proc newMotionJ2MEGameInputMapping*(): MotionJ2MEGameInputMapping
+method getDefault*(this: MotionJ2MEGameInputMapping): InputToGameKeyMapping {.discardable.}
+import org/allbinary/game/input/MotionJ2MEDefaultGameInputMapping as MotionJ2MEDefaultGameInputMappingModule
+export MotionJ2MEDefaultGameInputMappingModule
 
 
-class MotionJ2MEGameInputMapping(J2MEGameInputMapping):
+proc initMotionJ2MEGameInputMapping*(this: MotionJ2MEGameInputMapping) =
+    initJ2MEGameInputMapping(this)
 
-    def __init__(self) -> None:
-        super().__init__()
-    
+proc newMotionJ2MEGameInputMapping*(): MotionJ2MEGameInputMapping =
+    result = MotionJ2MEGameInputMapping()
+    initMotionJ2MEGameInputMapping(result)
 
-    def getDefault(self) -> InputToGameKeyMapping:
-        from org.allbinary.game.input.MotionJ2MEDefaultGameInputMapping import MotionJ2MEDefaultGameInputMapping
-        from org.allbinary.game.input.mapping.InputToGameKeyMapping import InputToGameKeyMapping
-        return MotionJ2MEDefaultGameInputMapping().getInputMapping()
-# from org.allbinary.game.input.mapping.InputToGameKeyMapping import InputToGameKeyMapping
+method getDefault*(this: MotionJ2MEGameInputMapping): InputToGameKeyMapping {.discardable.} =
+        return newMotionJ2MEDefaultGameInputMapping().getInputMapping()
 
+when declared(newMotionJ2MEGameInputMappingHook0):
+    newMotionJ2MEGameInputMappingHook0 = proc (): J2MEGameInputMapping = newMotionJ2MEGameInputMapping()
 

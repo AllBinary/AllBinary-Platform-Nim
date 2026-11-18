@@ -1,45 +1,60 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.configuration.feature
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/game/configuration/feature/TouchFeature as TouchFeatureModule
+export TouchFeatureModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    TouchFeatureFactory* = ref object of JObject
+        TOUCH_ENABLED*: TouchFeature
+        SHOW_SCREEN_BUTTONS*: TouchFeature
+        AUTO_HIDE_SHOW_SCREEN_BUTTONS*: TouchFeature
+        HIDE_SCREEN_BUTTONS*: TouchFeature
 
+proc newTouchFeatureFactory*(): TouchFeatureFactory
+proc initTouchFeatureFactory*(this: TouchFeatureFactory)
+proc getInstance*(t: typedesc[TouchFeatureFactory]): TouchFeatureFactory {.discardable.}
 
-class TouchFeatureFactory:
-    instance: TouchFeatureFactory = None
+var TouchFeatureFactory_instanceValue: TouchFeatureFactory
+var TouchFeatureFactory_instanceSet = false
+proc instance*(t: typedesc[TouchFeatureFactory]): TouchFeatureFactory =
+    if not TouchFeatureFactory_instanceSet:
+        TouchFeatureFactory_instanceSet = true
+        TouchFeatureFactory_instanceValue = newTouchFeatureFactory()
+    TouchFeatureFactory_instanceValue
 
-    def _init_fields(self) -> None:
-        self.TOUCH_ENABLED: TouchFeature = TouchFeature("Touch Enabled")
-        self.SHOW_SCREEN_BUTTONS: TouchFeature = TouchFeature("Show")
-        self.AUTO_HIDE_SHOW_SCREEN_BUTTONS: TouchFeature = TouchFeature("Auto Hide (One Level)")
-        self.HIDE_SCREEN_BUTTONS: TouchFeature = TouchFeature("Hide")
-    
+# Java field initializers run after the base initializer
+proc initFieldsTouchFeatureFactory(this: TouchFeatureFactory) =
+    this.TOUCH_ENABLED = newTouchFeature("Touch Enabled")
+    this.SHOW_SCREEN_BUTTONS = newTouchFeature("Show")
+    this.AUTO_HIDE_SHOW_SCREEN_BUTTONS = newTouchFeature("Auto Hide (One Level)")
+    this.HIDE_SCREEN_BUTTONS = newTouchFeature("Hide")
+    discard
 
-    @staticmethod
-    def getInstance() -> TouchFeatureFactory:
+proc getInstance*(t: typedesc[TouchFeatureFactory]): TouchFeatureFactory {.discardable.} =
         return TouchFeatureFactory.instance
-    
 
-    def __init__(self) -> None:
-        self._init_fields()
-from org.allbinary.game.configuration.feature.TouchFeature import TouchFeature
+proc initTouchFeatureFactory*(this: TouchFeatureFactory) =
+        this.initFieldsTouchFeatureFactory()
+        discard
 
-
-def _TouchFeatureFactory_instance() -> object:
-    return TouchFeatureFactory()
-
-lazy_static(TouchFeatureFactory, "instance", _TouchFeatureFactory_instance)
+proc newTouchFeatureFactory*(): TouchFeatureFactory =
+    result = TouchFeatureFactory()
+    initTouchFeatureFactory(result)
 

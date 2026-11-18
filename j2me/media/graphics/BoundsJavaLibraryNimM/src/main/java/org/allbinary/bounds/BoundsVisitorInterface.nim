@@ -1,47 +1,42 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.bounds
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+
+type
+    BoundsVisitorInterface* = ref object of JObject
 
 
+method getX*(this: BoundsVisitorInterface): int32 {.base, discardable.} =
+        raise newJException("AbstractMethodError", "getX")
 
-# Java interface
-class BoundsVisitorInterface:
-    
+method getY*(this: BoundsVisitorInterface): int32 {.base, discardable.} =
+        raise newJException("AbstractMethodError", "getY")
 
-    def getX(self) -> int:
-        raise NotImplementedError()
-    
+method maxX*(this: BoundsVisitorInterface) {.base.} =
+        raise newJException("AbstractMethodError", "maxX")
 
-    def getY(self) -> int:
-        raise NotImplementedError()
-    
+method maxY*(this: BoundsVisitorInterface) {.base.} =
+        raise newJException("AbstractMethodError", "maxY")
 
-    def maxX(self) -> None:
-        raise NotImplementedError()
-    
+method minX*(this: BoundsVisitorInterface) {.base.} =
+        raise newJException("AbstractMethodError", "minX")
 
-    def maxY(self) -> None:
-        raise NotImplementedError()
-    
-
-    def minX(self) -> None:
-        raise NotImplementedError()
-    
-
-    def minY(self) -> None:
-        raise NotImplementedError()
-
+method minY*(this: BoundsVisitorInterface) {.base.} =
+        raise newJException("AbstractMethodError", "minY")
 

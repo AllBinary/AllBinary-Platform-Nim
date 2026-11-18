@@ -1,67 +1,79 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.direction
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/math/Angle as AngleModule
+export AngleModule
+import org/allbinary/direction/Direction as DirectionModule
+export DirectionModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    DirectionUtil* = ref object of JObject
+        directionArray*: JArray[Angle]
+        directionArray2*: JArray[Angle]
 
+proc newDirectionUtil*(): DirectionUtil
+proc initDirectionUtil*(this: DirectionUtil)
+proc getInstance*(t: typedesc[DirectionUtil]): DirectionUtil {.discardable.}
+method getAngle*(this: DirectionUtil, direction: Direction): Angle {.base, discardable.}
+method getFrameAngle*(this: DirectionUtil, direction: Direction): Angle {.base, discardable.}
+import org/allbinary/math/AngleFactory as AngleFactoryModule
+export AngleFactoryModule
+import org/allbinary/direction/DirectionFactory as DirectionFactoryModule
+export DirectionFactoryModule
 
-class DirectionUtil:
-    instance: DirectionUtil = None
+var DirectionUtil_instanceValue: DirectionUtil
+var DirectionUtil_instanceSet = false
+proc instance*(t: typedesc[DirectionUtil]): DirectionUtil =
+    if not DirectionUtil_instanceSet:
+        DirectionUtil_instanceSet = true
+        DirectionUtil_instanceValue = newDirectionUtil()
+    DirectionUtil_instanceValue
 
-    def _init_fields(self) -> None:
-        from org.allbinary.math.Angle import Angle
-        self.directionArray: list[Angle] = [None] * (10)
-        self.directionArray2: list[Angle] = [None] * (10)
-    
+# Java field initializers run after the base initializer
+proc initFieldsDirectionUtil(this: DirectionUtil) =
+    this.directionArray = newJArray[Angle](10, default(Angle))
+    this.directionArray2 = newJArray[Angle](10, default(Angle))
+    discard
 
-    @staticmethod
-    def getInstance() -> DirectionUtil:
+proc getInstance*(t: typedesc[DirectionUtil]): DirectionUtil {.discardable.} =
         return DirectionUtil.instance
-    
 
-    def __init__(self) -> None:
-        from org.allbinary.direction.DirectionFactory import DirectionFactory
-        from org.allbinary.math.AngleFactory import AngleFactory
-        self._init_fields()
-        angleFactory: AngleFactory = AngleFactory.getInstance()
-        directionFactory: DirectionFactory = DirectionFactory.getInstance()
-        self.directionArray[directionFactory.LEFT.getValue()] = angleFactory.LEFT
-        self.directionArray[directionFactory.RIGHT.getValue()] = angleFactory.RIGHT
-        self.directionArray[directionFactory.UP.getValue()] = angleFactory.UP
-        self.directionArray[directionFactory.DOWN.getValue()] = angleFactory.DOWN
-        self.directionArray2[directionFactory.LEFT.getValue()] = angleFactory.LEFT
-        self.directionArray2[directionFactory.RIGHT.getValue()] = angleFactory.RIGHT
-        self.directionArray2[directionFactory.UP.getValue()] = angleFactory.UP
-        self.directionArray2[directionFactory.DOWN.getValue()] = angleFactory.DOWN
-    
+proc initDirectionUtil*(this: DirectionUtil) =
+        this.initFieldsDirectionUtil()
+        var angleFactory: AngleFactory = AngleFactory.getInstance()
+        var directionFactory: DirectionFactory = DirectionFactory.getInstance()
+        this.directionArray[directionFactory.LEFT.getValue()] = angleFactory.LEFT
+        this.directionArray[directionFactory.RIGHT.getValue()] = angleFactory.RIGHT
+        this.directionArray[directionFactory.UP.getValue()] = angleFactory.UP
+        this.directionArray[directionFactory.DOWN.getValue()] = angleFactory.DOWN
+        this.directionArray2[directionFactory.LEFT.getValue()] = angleFactory.LEFT
+        this.directionArray2[directionFactory.RIGHT.getValue()] = angleFactory.RIGHT
+        this.directionArray2[directionFactory.UP.getValue()] = angleFactory.UP
+        this.directionArray2[directionFactory.DOWN.getValue()] = angleFactory.DOWN
 
-    def getAngle(self, direction: Direction) -> Angle:
-        from org.allbinary.math.Angle import Angle
-        return self.directionArray2[direction.getValue()]
-    
+proc newDirectionUtil*(): DirectionUtil =
+    result = DirectionUtil()
+    initDirectionUtil(result)
 
-    def getFrameAngle(self, direction: Direction) -> Angle:
-        from org.allbinary.math.Angle import Angle
-        return self.directionArray[direction.getValue()]
-# from org.allbinary.math.Angle import Angle
-# from org.allbinary.math.AngleFactory import AngleFactory
+method getAngle*(this: DirectionUtil, direction: Direction): Angle {.base, discardable.} =
+        return this.directionArray2[direction.getValue()]
 
-
-def _DirectionUtil_instance() -> object:
-    return DirectionUtil()
-
-lazy_static(DirectionUtil, "instance", _DirectionUtil_instance)
+method getFrameAngle*(this: DirectionUtil, direction: Direction): Angle {.base, discardable.} =
+        return this.directionArray[direction.getValue()]
 

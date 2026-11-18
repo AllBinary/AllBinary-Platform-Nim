@@ -1,48 +1,53 @@
 # Generated Code Do Not Modify
 # package org.allbinary.graphics.font
 
-from __future__ import annotations
-
-from java.lang.JavaRuntimeStatic import lazy_static
-
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import javax/microedition/lcdui/Font as FontModule
+export FontModule
+import org/allbinary/logic/string/StringMaker as StringMakerModule
+export StringMakerModule
 
 #OpenGLESBaseJ2MEJavaLibrary
-class FontDebugBase:
-    instanceBase: FontDebugBase = None
+type
+    FontDebugBase* = ref object of JObject
+        SET_FONT*: string
 
-    def _init_fields(self) -> None:
-        self.SET_FONT: str = "setFont"
+proc newFontDebugBase*(): FontDebugBase
+proc getInstance*(t: typedesc[FontDebugBase]): FontDebugBase {.discardable.}
+method debugMetrics*(this: FontDebugBase, currentFont: Font, convertedTextSize: float32, displayMetrics: JObject, stringBuffer: StringMaker) {.base.}
+method debugDpi*(this: FontDebugBase, densityDpi: int32, stringBuffer: StringMaker) {.base.}
+method debugDimension*(this: FontDebugBase, currentFont: Font, convertedTextSize: float32, longestDimensionTotalPixels: int32, stringBuffer: StringMaker) {.base.}
 
-    def __init__(self) -> None:
-        self._init_fields()
-    
+var FontDebugBase_instanceBaseValue: FontDebugBase
+var FontDebugBase_instanceBaseSet = false
+proc instanceBase*(t: typedesc[FontDebugBase]): FontDebugBase =
+    if not FontDebugBase_instanceBaseSet:
+        FontDebugBase_instanceBaseSet = true
+        FontDebugBase_instanceBaseValue = newFontDebugBase()
+    FontDebugBase_instanceBaseValue
 
-    @staticmethod
-    def getInstance() -> FontDebugBase:
+# Java field initializers run after the base initializer
+proc initFieldsFontDebugBase(this: FontDebugBase) =
+    this.SET_FONT = "setFont"
+    discard
+
+proc initFontDebugBase*(this: FontDebugBase) =
+    this.initFieldsFontDebugBase()
+
+proc newFontDebugBase*(): FontDebugBase =
+    result = FontDebugBase()
+    initFontDebugBase(result)
+
+proc getInstance*(t: typedesc[FontDebugBase]): FontDebugBase {.discardable.} =
         return FontDebugBase.instanceBase
-    
 
-    def debugMetrics(self, currentFont: Font, convertedTextSize: float, displayMetrics: object, stringBuffer: StringMaker) -> None:
-        from javax.microedition.lcdui.Font import Font
-        from org.allbinary.logic.string.StringMaker import StringMaker
-        pass
-    
+method debugMetrics*(this: FontDebugBase, currentFont: Font, convertedTextSize: float32, displayMetrics: JObject, stringBuffer: StringMaker) {.base.} =
+        discard
 
-    def debugDpi(self, densityDpi: int, stringBuffer: StringMaker) -> None:
-        from org.allbinary.logic.string.StringMaker import StringMaker
-        pass
-    
+method debugDpi*(this: FontDebugBase, densityDpi: int32, stringBuffer: StringMaker) {.base.} =
+        discard
 
-    def debugDimension(self, currentFont: Font, convertedTextSize: float, longestDimensionTotalPixels: int, stringBuffer: StringMaker) -> None:
-        from javax.microedition.lcdui.Font import Font
-        from org.allbinary.logic.string.StringMaker import StringMaker
-        pass
-# from javax.microedition.lcdui.Font import Font
-# from org.allbinary.logic.string.StringMaker import StringMaker
-
-
-def _FontDebugBase_instanceBase() -> object:
-    return FontDebugBase()
-
-lazy_static(FontDebugBase, "instanceBase", _FontDebugBase_instanceBase)
+method debugDimension*(this: FontDebugBase, currentFont: Font, convertedTextSize: float32, longestDimensionTotalPixels: int32, stringBuffer: StringMaker) {.base.} =
+        discard
 

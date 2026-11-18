@@ -1,33 +1,49 @@
 # Generated Code Do Not Modify
 # package org.allbinary.graphics.form.item
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import javax/microedition/lcdui/Graphics as GraphicsModule
+export GraphicsModule
+import org/allbinary/graphics/color/BasicColor as BasicColorModule
+export BasicColorModule
+import org/allbinary/graphics/font/MyFontProcessor as MyFontProcessorModule
+export MyFontProcessorModule
+import org/allbinary/graphics/font/UpdateMyFontInterface as UpdateMyFontInterfaceModule
+export UpdateMyFontInterfaceModule
+import org/allbinary/graphics/form/item/ABCustomItem as ABCustomItemModule
+export ABCustomItemModule
 
-from org.allbinary.graphics.font.UpdateMyFontInterface import UpdateMyFontInterface
-from org.allbinary.graphics.form.item.ABCustomItem import ABCustomItem
+type
+    CustomCustomItem* = ref object of ABCustomItem
+        updateMyFontProcessor*: MyFontProcessor
+        myFontProcessor*: MyFontProcessor
+
+converter jAsUpdateMyFontInterface*(value: CustomCustomItem): UpdateMyFontInterface = cast[UpdateMyFontInterface](value)
+proc newCustomCustomItem*(label: string, backgroundBasicColor: BasicColor, foregroundBasicColor: BasicColor): CustomCustomItem
+proc initCustomCustomItem*(this: CustomCustomItem, label: string, backgroundBasicColor: BasicColor, foregroundBasicColor: BasicColor)
+method updateMeasurement*(this: CustomCustomItem, graphics: Graphics)
+import org/allbinary/graphics/font/UpdateMyFontProcessor as UpdateMyFontProcessorModule
+export UpdateMyFontProcessorModule
 
 
-class CustomCustomItem(ABCustomItem, UpdateMyFontInterface):
+# Java field initializers run after the base initializer
+proc initFieldsCustomCustomItem(this: CustomCustomItem) =
+    this.updateMyFontProcessor = newUpdateMyFontProcessor(this)
+    this.myFontProcessor = this.updateMyFontProcessor
+    discard
 
-    def _init_fields(self) -> None:
-        from org.allbinary.graphics.font.MyFontProcessor import MyFontProcessor
-        from org.allbinary.graphics.font.UpdateMyFontProcessor import UpdateMyFontProcessor
-        self.updateMyFontProcessor: MyFontProcessor = UpdateMyFontProcessor(self)
-        self.myFontProcessor: MyFontProcessor = self.updateMyFontProcessor
-    
+proc initCustomCustomItem*(this: CustomCustomItem, label: string, backgroundBasicColor: BasicColor, foregroundBasicColor: BasicColor) =
+        initABCustomItem(this, label, backgroundBasicColor, foregroundBasicColor)
+        this.initFieldsCustomCustomItem()
 
-    def __init__(self, label: str, backgroundBasicColor: BasicColor, foregroundBasicColor: BasicColor) -> None:
-        from org.allbinary.graphics.color.BasicColor import BasicColor
-        super().__init__(label, backgroundBasicColor, foregroundBasicColor)
-        self._init_fields()
-    
+proc newCustomCustomItem*(label: string, backgroundBasicColor: BasicColor, foregroundBasicColor: BasicColor): CustomCustomItem =
+    result = CustomCustomItem()
+    initCustomCustomItem(result, label, backgroundBasicColor, foregroundBasicColor)
 
-    def updateMeasurement(self, graphics: Graphics) -> None:
-        from javax.microedition.lcdui.Graphics import Graphics
-        pass
-# from javax.microedition.lcdui.Graphics import Graphics
-# from org.allbinary.graphics.color.BasicColor import BasicColor
-# from org.allbinary.graphics.font.MyFontProcessor import MyFontProcessor
-# from org.allbinary.graphics.font.UpdateMyFontProcessor import UpdateMyFontProcessor
+method updateMeasurement*(this: CustomCustomItem, graphics: Graphics) =
+        discard
 
+when declared(newCustomCustomItemHook3):
+    newCustomCustomItemHook3 = proc (label: string, backgroundBasicColor: BasicColor, foregroundBasicColor: BasicColor): ABCustomItem = newCustomCustomItem(label, backgroundBasicColor, foregroundBasicColor)
 

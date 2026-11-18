@@ -1,73 +1,72 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.input
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import java/lang/Integer as IntegerModule
+export IntegerModule
+import org/allbinary/game/input/event/GameKeyEvent as GameKeyEventModule
+export GameKeyEventModule
+import org/allbinary/layer/AllBinaryLayerManager as AllBinaryLayerManagerModule
+export AllBinaryLayerManagerModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    GameInputProcessor* = ref object of JObject
 
+proc newGameInputProcessor*(): GameInputProcessor
+proc initGameInputProcessor*(this: GameInputProcessor)
+proc getInstance*(t: typedesc[GameInputProcessor]): GameInputProcessor {.discardable.}
+method processEvent*(this: GameInputProcessor, allbinaryLayerManager: AllBinaryLayerManager, gameKeyEvent: GameKeyEvent) {.base.}
+method processReleasedEvent*(this: GameInputProcessor, allbinaryLayerManager: AllBinaryLayerManager, gameKeyEvent: GameKeyEvent) {.base.}
+method processAnalog*(this: GameInputProcessor, allbinaryLayerManager: AllBinaryLayerManager, gameKeyEvent: GameKeyEvent, analogValue: int32) {.base.}
+method process*(this: GameInputProcessor, allbinaryLayerManager: AllBinaryLayerManager, keyAsInteger: int32) {.base.}
+method processReleased*(this: GameInputProcessor, allbinaryLayerManager: AllBinaryLayerManager, keyAsInteger: int32) {.base.}
 
-class GameInputProcessor:
-    instance: GameInputProcessor = None
-    
+var GameInputProcessor_instanceValue: GameInputProcessor
+var GameInputProcessor_instanceSet = false
+proc instance*(t: typedesc[GameInputProcessor]): GameInputProcessor =
+    if not GameInputProcessor_instanceSet:
+        GameInputProcessor_instanceSet = true
+        GameInputProcessor_instanceValue = newGameInputProcessor()
+    GameInputProcessor_instanceValue
 
-    @staticmethod
-    def getInstance() -> GameInputProcessor:
+proc getInstance*(t: typedesc[GameInputProcessor]): GameInputProcessor {.discardable.} =
         return GameInputProcessor.instance
-    
 
-    def __init__(self) -> None:
-        pass
-    
+proc initGameInputProcessor*(this: GameInputProcessor) =
+        discard
+        discard
 
-    # throws Exception
-    def processEvent(self, allbinaryLayerManager: AllBinaryLayerManager, gameKeyEvent: GameKeyEvent) -> None:
-        from org.allbinary.game.input.event.GameKeyEvent import GameKeyEvent
-        from org.allbinary.layer.AllBinaryLayerManager import AllBinaryLayerManager
-        pass
-    
+proc newGameInputProcessor*(): GameInputProcessor =
+    result = GameInputProcessor()
+    initGameInputProcessor(result)
 
-    # throws Exception
-    def processReleasedEvent(self, allbinaryLayerManager: AllBinaryLayerManager, gameKeyEvent: GameKeyEvent) -> None:
-        from org.allbinary.game.input.event.GameKeyEvent import GameKeyEvent
-        from org.allbinary.layer.AllBinaryLayerManager import AllBinaryLayerManager
-        pass
-    
+method processEvent*(this: GameInputProcessor, allbinaryLayerManager: AllBinaryLayerManager, gameKeyEvent: GameKeyEvent) {.base.} =
+        discard
 
-    # throws Exception
-    def processAnalog(self, allbinaryLayerManager: AllBinaryLayerManager, gameKeyEvent: GameKeyEvent, analogValue: int) -> None:
-        from org.allbinary.game.input.event.GameKeyEvent import GameKeyEvent
-        from org.allbinary.layer.AllBinaryLayerManager import AllBinaryLayerManager
-        pass
-    
+method processReleasedEvent*(this: GameInputProcessor, allbinaryLayerManager: AllBinaryLayerManager, gameKeyEvent: GameKeyEvent) {.base.} =
+        discard
 
-    # throws Exception
-    def process(self, allbinaryLayerManager: AllBinaryLayerManager, keyAsInteger: int) -> None:
-        from org.allbinary.layer.AllBinaryLayerManager import AllBinaryLayerManager
-        pass
-    
+method processAnalog*(this: GameInputProcessor, allbinaryLayerManager: AllBinaryLayerManager, gameKeyEvent: GameKeyEvent, analogValue: int32) {.base.} =
+        discard
 
-    # throws Exception
-    def processReleased(self, allbinaryLayerManager: AllBinaryLayerManager, keyAsInteger: int) -> None:
-        from org.allbinary.layer.AllBinaryLayerManager import AllBinaryLayerManager
-        pass
-# from org.allbinary.game.input.event.GameKeyEvent import GameKeyEvent
-# from org.allbinary.layer.AllBinaryLayerManager import AllBinaryLayerManager
+method process*(this: GameInputProcessor, allbinaryLayerManager: AllBinaryLayerManager, keyAsInteger: int32) {.base.} =
+        discard
 
-
-def _GameInputProcessor_instance() -> object:
-    return GameInputProcessor()
-
-lazy_static(GameInputProcessor, "instance", _GameInputProcessor_instance)
+method processReleased*(this: GameInputProcessor, allbinaryLayerManager: AllBinaryLayerManager, keyAsInteger: int32) {.base.} =
+        discard
 

@@ -1,30 +1,31 @@
-# 
-# AllBinary Open License Version 1 
-# Copyright (c) 2022 AllBinary 
-#  
-# By agreeing to this license you and any business entity you represent are 
-# legally bound to the AllBinary Open License Version 1 legal agreement. 
-#  
-# You may obtain the AllBinary Open License Version 1 legal agreement from 
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
-#  
-# Created By: Travis Berthelot 
-#   
+#[
+  
+  AllBinary Open License Version 1 
+  Copyright (c) 2022 AllBinary 
+   
+  By agreeing to this license you and any business entity you represent are 
+  legally bound to the AllBinary Open License Version 1 legal agreement. 
+   
+  You may obtain the AllBinary Open License Version 1 legal agreement from 
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
+   
+  Created By: Travis Berthelot 
+    
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.logic.util.cache
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import java/util/Set as SetModule
+export SetModule
+import org/allbinary/logic/util/cache/AutomaticCacheInterface as AutomaticCacheInterfaceModule
+export AutomaticCacheInterfaceModule
 
-from org.allbinary.logic.util.cache.AutomaticCacheInterface import AutomaticCacheInterface
+type
+    J2SECacheInterface* = ref object of AutomaticCacheInterface
 
 
-# Java interface
-class J2SECacheInterface(AutomaticCacheInterface):
-    
-
-    def keySet(self) -> Set[object]:
-        from java.util.Set import Set
-        raise NotImplementedError()
-# from java.util.Set import Set
-
+method keySet*(this: J2SECacheInterface): Set {.base, discardable.} =
+        raise newJException("AbstractMethodError", "keySet")
 

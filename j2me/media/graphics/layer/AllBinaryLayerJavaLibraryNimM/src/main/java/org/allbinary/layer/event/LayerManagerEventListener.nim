@@ -1,39 +1,51 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.layer.event
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/logic/util/event/AllBinaryEventObject as AllBinaryEventObjectModule
+export AllBinaryEventObjectModule
+import org/allbinary/layer/event/LayerManagerEventListenerInterface as LayerManagerEventListenerInterfaceModule
+export LayerManagerEventListenerInterfaceModule
+import org/allbinary/layer/event/LayerManagerEvent as LayerManagerEventModule
+export LayerManagerEventModule
 
-from org.allbinary.layer.event.LayerManagerEventListenerInterface import LayerManagerEventListenerInterface
+type
+    LayerManagerEventListener* = ref object of LayerManagerEventListenerInterface
+
+proc newLayerManagerEventListener*(): LayerManagerEventListener
+method onEvent*(this: LayerManagerEventListener, eventObject: AllBinaryEventObject)
+method onCreateLayerManagerEvent*(this: LayerManagerEventListener, layerManagerEvent: LayerManagerEvent)
+method onDeleteLayerManagerEvent*(this: LayerManagerEventListener, layerManagerEvent: LayerManagerEvent)
 
 
-class LayerManagerEventListener(LayerManagerEventListenerInterface):
-    
+proc initLayerManagerEventListener*(this: LayerManagerEventListener) =
+    discard
 
-    def onEvent(self, eventObject: AllBinaryEventObject) -> None:
-        from org.allbinary.logic.util.event.AllBinaryEventObject import AllBinaryEventObject
-        pass
-    
+proc newLayerManagerEventListener*(): LayerManagerEventListener =
+    result = LayerManagerEventListener()
+    initLayerManagerEventListener(result)
 
-    # throws Exception
-    def onCreateLayerManagerEvent(self, layerManagerEvent: LayerManagerEvent) -> None:
-        pass
-    
+method onEvent*(this: LayerManagerEventListener, eventObject: AllBinaryEventObject) =
+        discard
 
-    # throws Exception
-    def onDeleteLayerManagerEvent(self, layerManagerEvent: LayerManagerEvent) -> None:
-        pass
-# from org.allbinary.logic.util.event.AllBinaryEventObject import AllBinaryEventObject
+method onCreateLayerManagerEvent*(this: LayerManagerEventListener, layerManagerEvent: LayerManagerEvent) =
+        discard
 
+method onDeleteLayerManagerEvent*(this: LayerManagerEventListener, layerManagerEvent: LayerManagerEvent) =
+        discard
 

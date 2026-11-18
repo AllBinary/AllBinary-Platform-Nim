@@ -1,76 +1,93 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.ag.layer.pickup.life
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/game/layer/pickup/PickedUpLayerInterfaceFactory as PickedUpLayerInterfaceFactoryModule
+export PickedUpLayerInterfaceFactoryModule
+import org/allbinary/game/layer/pickup/PickedUpLayerInterfaceFactoryInterface as PickedUpLayerInterfaceFactoryInterfaceModule
+export PickedUpLayerInterfaceFactoryInterfaceModule
+import org/allbinary/game/layer/pickup/PickupProcessorInterface as PickupProcessorInterfaceModule
+export PickupProcessorInterfaceModule
+import org/allbinary/layer/AllBinaryLayer as AllBinaryLayerModule
+export AllBinaryLayerModule
+import org/allbinary/game/ag/layer/pickup/life/LifeLayerCircularStaticPool as LifeLayerCircularStaticPoolModule
+export LifeLayerCircularStaticPoolModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
-from org.allbinary.game.layer.pickup.PickedUpLayerInterfaceFactory import PickedUpLayerInterfaceFactory
-from org.allbinary.game.layer.pickup.PickupProcessorInterface import PickupProcessorInterface
+type
+    LifePickedUpLayerInterfaceFactory* = ref object of PickedUpLayerInterfaceFactory
+        pool*: LifeLayerCircularStaticPool
 
+converter jAsPickupProcessorInterface*(value: LifePickedUpLayerInterfaceFactory): PickupProcessorInterface = cast[PickupProcessorInterface](value)
+proc newLifePickedUpLayerInterfaceFactory*(): LifePickedUpLayerInterfaceFactory
+proc initLifePickedUpLayerInterfaceFactory*(this: LifePickedUpLayerInterfaceFactory)
+proc init*(t: typedesc[LifePickedUpLayerInterfaceFactory])
+method getTotal*(this: LifePickedUpLayerInterfaceFactory): int32 {.base, discardable.}
+proc getInstance*(t: typedesc[LifePickedUpLayerInterfaceFactory]): PickedUpLayerInterfaceFactoryInterface {.discardable.}
+method process*(this: LifePickedUpLayerInterfaceFactory, sourceLayerInterface: AllBinaryLayer)
+import org/allbinary/animation/FeaturedAnimationInterfaceFactoryInterfaceFactory as FeaturedAnimationInterfaceFactoryInterfaceFactoryModule
+export FeaturedAnimationInterfaceFactoryInterfaceFactoryModule
+import org/allbinary/game/layer/pickup/CountedPickedUpLayerInterfaceFactory as CountedPickedUpLayerInterfaceFactoryModule
+export CountedPickedUpLayerInterfaceFactoryModule
+import org/allbinary/game/layer/pickup/IconLayerFactory as IconLayerFactoryModule
+export IconLayerFactoryModule
+import org/allbinary/game/layer/pickup/PickedUpLayerTypeFactory as PickedUpLayerTypeFactoryModule
+export PickedUpLayerTypeFactoryModule
+import org/allbinary/game/ag/layer/pickup/life/LifeLayerFactory as LifeLayerFactoryModule
+export LifeLayerFactoryModule
+import org/allbinary/game/ag/layer/pickup/life/LifeResources as LifeResourcesModule
+export LifeResourcesModule
 
-class LifePickedUpLayerInterfaceFactory(PickedUpLayerInterfaceFactory, PickupProcessorInterface):
-    pickedUpLayerInterfaceFactoryInterface: PickedUpLayerInterfaceFactoryInterface = None
+var LifePickedUpLayerInterfaceFactory_pickedUpLayerInterfaceFactoryInterfaceValue: PickedUpLayerInterfaceFactoryInterface
+var LifePickedUpLayerInterfaceFactory_pickedUpLayerInterfaceFactoryInterfaceSet = false
+proc pickedUpLayerInterfaceFactoryInterface*(t: typedesc[LifePickedUpLayerInterfaceFactory]): PickedUpLayerInterfaceFactoryInterface =
+    if not LifePickedUpLayerInterfaceFactory_pickedUpLayerInterfaceFactoryInterfaceSet:
+        LifePickedUpLayerInterfaceFactory_pickedUpLayerInterfaceFactoryInterfaceSet = true
+        LifePickedUpLayerInterfaceFactory_pickedUpLayerInterfaceFactoryInterfaceValue = CountedPickedUpLayerInterfaceFactory.NULL_COUNTED_PICKUP_LAYER_FACTORY
+    LifePickedUpLayerInterfaceFactory_pickedUpLayerInterfaceFactoryInterfaceValue
+proc `pickedUpLayerInterfaceFactoryInterface=`*(t: typedesc[LifePickedUpLayerInterfaceFactory], value: PickedUpLayerInterfaceFactoryInterface) =
+    LifePickedUpLayerInterfaceFactory_pickedUpLayerInterfaceFactoryInterfaceSet = true
+    LifePickedUpLayerInterfaceFactory_pickedUpLayerInterfaceFactoryInterfaceValue = value
 
-    def _init_fields(self) -> None:
-        self.pool: LifeLayerCircularStaticPool = LifeLayerCircularStaticPool(LifeLayerFactory(), 1)
-    
+# Java field initializers run after the base initializer
+proc initFieldsLifePickedUpLayerInterfaceFactory(this: LifePickedUpLayerInterfaceFactory) =
+    this.pool = newLifeLayerCircularStaticPool(newLifeLayerFactory(), 1)
+    discard
 
-    # throws Exception
-    @staticmethod
-    def init() -> None:
-        LifePickedUpLayerInterfaceFactory.pickedUpLayerInterfaceFactoryInterface = LifePickedUpLayerInterfaceFactory()
-    
+proc init*(t: typedesc[LifePickedUpLayerInterfaceFactory]) =
+        LifePickedUpLayerInterfaceFactory.pickedUpLayerInterfaceFactoryInterface = newLifePickedUpLayerInterfaceFactory()
 
-    def __init__(self) -> None:
-        from org.allbinary.game.ag.layer.pickup.life.LifeResources import LifeResources
-        from org.allbinary.game.ag.layer.pickup.life.LifeResources import LifeResources
-        from org.allbinary.animation.FeaturedAnimationInterfaceFactoryInterfaceFactory import FeaturedAnimationInterfaceFactoryInterfaceFactory
-        from org.allbinary.game.layer.pickup.IconLayerFactory import IconLayerFactory
-        from org.allbinary.game.layer.pickup.PickedUpLayerTypeFactory import PickedUpLayerTypeFactory
-        super().__init__(PickedUpLayerTypeFactory.getInstance().LIFE, IconLayerFactory.getInstance(FeaturedAnimationInterfaceFactoryInterfaceFactory.getInstance().get(LifeResources.getInstance().RESOURCE).getInstance(0), 10, 10), FeaturedAnimationInterfaceFactoryInterfaceFactory.getInstance().get(LifeResources.getInstance().RESOURCE).getInstance(0))
-        self._init_fields()
-    
+proc initLifePickedUpLayerInterfaceFactory*(this: LifePickedUpLayerInterfaceFactory) =
+        initPickedUpLayerInterfaceFactory(this, PickedUpLayerTypeFactory.getInstance().LIFE, IconLayerFactory.getInstance(FeaturedAnimationInterfaceFactoryInterfaceFactory.getInstance().get(LifeResources.getInstance().RESOURCE).getInstance(0), 10, 10), FeaturedAnimationInterfaceFactoryInterfaceFactory.getInstance().get(LifeResources.getInstance().RESOURCE).getInstance(0))
+        this.initFieldsLifePickedUpLayerInterfaceFactory()
 
-    def getTotal(self) -> int:
+proc newLifePickedUpLayerInterfaceFactory*(): LifePickedUpLayerInterfaceFactory =
+    result = LifePickedUpLayerInterfaceFactory()
+    initLifePickedUpLayerInterfaceFactory(result)
+
+method getTotal*(this: LifePickedUpLayerInterfaceFactory): int32 {.base, discardable.} =
         return 1
-    
 
-    @staticmethod
-    def getInstance() -> PickedUpLayerInterfaceFactoryInterface:
-        from org.allbinary.game.layer.pickup.PickedUpLayerInterfaceFactoryInterface import PickedUpLayerInterfaceFactoryInterface
+proc getInstance*(t: typedesc[LifePickedUpLayerInterfaceFactory]): PickedUpLayerInterfaceFactoryInterface {.discardable.} =
         return LifePickedUpLayerInterfaceFactory.pickedUpLayerInterfaceFactoryInterface
-    
 
-    # throws Exception
-    def process(self, sourceLayerInterface: AllBinaryLayer) -> None:
-        from org.allbinary.layer.AllBinaryLayer import AllBinaryLayer
-        self.pool.visit(sourceLayerInterface)
-# from org.allbinary.animation.FeaturedAnimationInterfaceFactoryInterfaceFactory import FeaturedAnimationInterfaceFactoryInterfaceFactory
-# from org.allbinary.game.layer.pickup.CountedPickedUpLayerInterfaceFactory import CountedPickedUpLayerInterfaceFactory
-# from org.allbinary.game.layer.pickup.IconLayerFactory import IconLayerFactory
-# from org.allbinary.game.layer.pickup.PickedUpLayerInterfaceFactoryInterface import PickedUpLayerInterfaceFactoryInterface
-# from org.allbinary.game.layer.pickup.PickedUpLayerTypeFactory import PickedUpLayerTypeFactory
-# from org.allbinary.layer.AllBinaryLayer import AllBinaryLayer
-from org.allbinary.game.ag.layer.pickup.life.LifeLayerCircularStaticPool import LifeLayerCircularStaticPool
-from org.allbinary.game.ag.layer.pickup.life.LifeLayerFactory import LifeLayerFactory
+method process*(this: LifePickedUpLayerInterfaceFactory, sourceLayerInterface: AllBinaryLayer) =
+        this.pool.visit(sourceLayerInterface)
 
-
-def _LifePickedUpLayerInterfaceFactory_pickedUpLayerInterfaceFactoryInterface() -> object:
-    from org.allbinary.game.layer.pickup.CountedPickedUpLayerInterfaceFactory import CountedPickedUpLayerInterfaceFactory
-    from org.allbinary.game.layer.pickup.PickedUpLayerInterfaceFactoryInterface import PickedUpLayerInterfaceFactoryInterface
-    return CountedPickedUpLayerInterfaceFactory.NULL_COUNTED_PICKUP_LAYER_FACTORY
-
-lazy_static(LifePickedUpLayerInterfaceFactory, "pickedUpLayerInterfaceFactoryInterface", _LifePickedUpLayerInterfaceFactory_pickedUpLayerInterfaceFactoryInterface)
+when declared(newLifePickedUpLayerInterfaceFactoryHook0):
+    newLifePickedUpLayerInterfaceFactoryHook0 = proc (): PickedUpLayerInterfaceFactory = newLifePickedUpLayerInterfaceFactory()
 

@@ -1,116 +1,135 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.configuration.feature
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import javax/microedition/lcdui/ChoiceGroup as ChoiceGroupModule
+export ChoiceGroupModule
+import org/allbinary/MIDPUtil as MIDPUtilModule
+export MIDPUtilModule
+import org/allbinary/graphics/displayable/screen/CommandForm as CommandFormModule
+export CommandFormModule
+import org/allbinary/logic/communication/log/LogUtil as LogUtilModule
+export LogUtilModule
+import org/allbinary/util/ABHashtable as ABHashtableModule
+export ABHashtableModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    GameFeatureFormUtil* = ref object of JObject
+        logUtil*: LogUtil
+        meUtil*: MIDPUtil
 
+proc newGameFeatureFormUtil*(): GameFeatureFormUtil
+proc getInstance*(t: typedesc[GameFeatureFormUtil]): GameFeatureFormUtil {.discardable.}
+method getChoiceGroup*(this: GameFeatureFormUtil, hashtable: ABHashtable, name: string, option: int32): ChoiceGroup {.base, discardable.}
+method addChoiceGroup*(this: GameFeatureFormUtil, form: CommandForm, hashtable: ABHashtable, option: int32) {.base.}
+method setDefault*(this: GameFeatureFormUtil, form: CommandForm) {.base.}
+import javax/microedition/lcdui/Item as ItemModule
+export ItemModule
+import javax/microedition/lcdui/NullImage as NullImageModule
+export NullImageModule
+import org/allbinary/game/configuration/GameConfigurationGauge as GameConfigurationGaugeModule
+export GameConfigurationGaugeModule
+import org/allbinary/game/configuration/GameConfigurationUtil as GameConfigurationUtilModule
+export GameConfigurationUtilModule
+import org/allbinary/logic/string/StringMaker as StringMakerModule
+export StringMakerModule
+import org/allbinary/logic/string/StringUtil as StringUtilModule
+export StringUtilModule
+import org/allbinary/util/BasicArrayList as BasicArrayListModule
+export BasicArrayListModule
+import org/allbinary/util/HashtableUtil as HashtableUtilModule
+export HashtableUtilModule
+import org/allbinary/game/configuration/feature/Features as FeaturesModule
+export FeaturesModule
+import org/allbinary/game/configuration/feature/Feature as FeatureModule
+export FeatureModule
+import org/allbinary/game/configuration/feature/GameFeatureUtil as GameFeatureUtilModule
+export GameFeatureUtilModule
 
-class GameFeatureFormUtil:
-    instance: GameFeatureFormUtil = None
+var GameFeatureFormUtil_instanceValue: GameFeatureFormUtil
+var GameFeatureFormUtil_instanceSet = false
+proc instance*(t: typedesc[GameFeatureFormUtil]): GameFeatureFormUtil =
+    if not GameFeatureFormUtil_instanceSet:
+        GameFeatureFormUtil_instanceSet = true
+        GameFeatureFormUtil_instanceValue = newGameFeatureFormUtil()
+    GameFeatureFormUtil_instanceValue
 
-    def _init_fields(self) -> None:
-        from org.allbinary.MIDPUtil import MIDPUtil
-        from org.allbinary.logic.communication.log.LogUtil import LogUtil
-        self.logUtil: LogUtil = LogUtil.getInstance()
-        self.meUtil: MIDPUtil = MIDPUtil.getInstance()
+# Java field initializers run after the base initializer
+proc initFieldsGameFeatureFormUtil(this: GameFeatureFormUtil) =
+    this.logUtil = LogUtil.getInstance()
+    this.meUtil = MIDPUtil.getInstance()
+    discard
 
-    def __init__(self) -> None:
-        self._init_fields()
-    
+proc initGameFeatureFormUtil*(this: GameFeatureFormUtil) =
+    this.initFieldsGameFeatureFormUtil()
 
-    @staticmethod
-    def getInstance() -> GameFeatureFormUtil:
+proc newGameFeatureFormUtil*(): GameFeatureFormUtil =
+    result = GameFeatureFormUtil()
+    initGameFeatureFormUtil(result)
+
+proc getInstance*(t: typedesc[GameFeatureFormUtil]): GameFeatureFormUtil {.discardable.} =
         return GameFeatureFormUtil.instance
-    
 
-    def getChoiceGroup(self, hashtable: ABHashtable[object, object], name: str, option: int) -> ChoiceGroup:
-        from org.allbinary.game.configuration.feature.Features import Features
-        from javax.microedition.lcdui.ChoiceGroup import ChoiceGroup
-        from javax.microedition.lcdui.NullImage import NullImage
-        from org.allbinary.logic.string.StringMaker import StringMaker
-        from org.allbinary.logic.string.StringUtil import StringUtil
-        from org.allbinary.util.ABHashtable import ABHashtable
-        from org.allbinary.util.BasicArrayList import BasicArrayList
-        stringMaker: StringMaker = StringMaker()
-        choiceGroup: ChoiceGroup = ChoiceGroup(name, option, StringUtil.getInstance().getArrayInstance(), NullImage.NULL_IMAGE_ARRAY)
-        list_: BasicArrayList = hashtable.get(name)
-        features: Features = Features.getInstance()
-        ADD_CHOICE: str = ": Adding Choice: "
-        GET_CHOICE_GROUP: str = "getChoiceGroup"
-        size: int = list_.size()
-        for index in range(0, size):
-            gameFeature: Feature = list_.objectArray[index]
-            stringMaker.delete(0, stringMaker.length())
-            self.logUtil.putF(str(stringMaker.append(name).append(ADD_CHOICE).append(str(gameFeature))), self, GET_CHOICE_GROUP)
-            choiceGroup.append(str(gameFeature), NullImage.NULL_IMAGE)
-            if features.isFeature(gameFeature):
-                choiceGroup.setSelectedIndex(index, True)
+method getChoiceGroup*(this: GameFeatureFormUtil, hashtable: ABHashtable, name: string, option: int32): ChoiceGroup {.base, discardable.} =
+        let stringMaker: StringMaker = newStringMaker()
+        let choiceGroup: ChoiceGroup = newChoiceGroup(name, option, StringUtil.getInstance().getArrayInstance(), NullImage.NULL_IMAGE_ARRAY)
+        let list: BasicArrayList = BasicArrayList(JObject(hashtable.get(JObject(JObject(name)))))
+        let features: Features = Features.getInstance()
+        let ADD_CHOICE: string = ": Adding Choice: "
+        let GET_CHOICE_GROUP: string = "getChoiceGroup"
+        let size: int32 = list.size()
+        block:
+            var index: int32 = 0
+            while index < size:
+                defer: index = index +% 1
+                let gameFeature: Feature = Feature(JObject(list.objectArray[index]))
+                stringMaker.delete(0, stringMaker.length())
+                this.logUtil.putF(stringMaker.append(name).append(ADD_CHOICE).append(gameFeature.toString()).toString(), this, GET_CHOICE_GROUP)
+                choiceGroup.append(gameFeature.toString(), NullImage.NULL_IMAGEStatic)
+                if features.isFeature(gameFeature):
+                    choiceGroup.setSelectedIndex(index, true)
         return choiceGroup
-    
 
-    def addChoiceGroup(self, form: CommandForm, hashtable: ABHashtable[object, object], option: int) -> None:
-        from org.allbinary.graphics.displayable.screen.CommandForm import CommandForm
-        from org.allbinary.logic.string.StringMaker import StringMaker
-        from org.allbinary.util.ABHashtable import ABHashtable
-        from org.allbinary.util.HashtableUtil import HashtableUtil
-        stringMaker: StringMaker = StringMaker()
-        ADDING_CHOICE_GROUP: str = "Adding Choice Group: "
-        ADD_CHOICE_GROUP: str = "addChoiceGroup"
-        size: int = hashtable.size()
-        objectArray: list[object] = HashtableUtil.getInstance().getKeysAsArray(hashtable)
-        name: str = None
-        for index in range(0, size):
-            name = objectArray[index]
-            stringMaker.delete(0, stringMaker.length())
-            self.logUtil.putF(str(stringMaker.append(ADDING_CHOICE_GROUP).append(name)), self, ADD_CHOICE_GROUP)
-            self.meUtil.appendItem(form, self.getChoiceGroup(hashtable, name, option))
-    
+method addChoiceGroup*(this: GameFeatureFormUtil, form: CommandForm, hashtable: ABHashtable, option: int32) {.base.} =
+        let stringMaker: StringMaker = newStringMaker()
+        let ADDING_CHOICE_GROUP: string = "Adding Choice Group: "
+        let ADD_CHOICE_GROUP: string = "addChoiceGroup"
+        let size: int32 = hashtable.size()
+        let objectArray: JArray[JObject] = HashtableUtil.getInstance().getKeysAsArray(hashtable)
+        var name: string = ""
+        block:
+            var index: int32 = 0
+            while index < size:
+                defer: index = index +% 1
+                name = jstr(objectArray[index])
+                stringMaker.delete(0, stringMaker.length())
+                this.logUtil.putF(stringMaker.append(ADDING_CHOICE_GROUP).append(name).toString(), this, ADD_CHOICE_GROUP)
+                this.meUtil.appendItem(form, this.getChoiceGroup(hashtable, name, option))
 
-    # throws Exception
-    def setDefault(self, form: CommandForm) -> None:
-        from org.allbinary.game.configuration.feature.GameFeatureUtil import GameFeatureUtil
-        from javax.microedition.lcdui.ChoiceGroup import ChoiceGroup
-        from javax.microedition.lcdui.Item import Item
-        from org.allbinary.game.configuration.GameConfigurationGauge import GameConfigurationGauge
-        from org.allbinary.game.configuration.GameConfigurationUtil import GameConfigurationUtil
-        from org.allbinary.graphics.displayable.screen.CommandForm import CommandForm
-        size: int = form.size()
-        for index in range(0, size):
-            item: Item = form.get(index)
-            if isinstance(item, GameConfigurationGauge):
-                GameConfigurationUtil.getInstance().setDefault(item)
-            elif isinstance(item, ChoiceGroup):
-                GameFeatureUtil.getInstance().setDefault(item)
-# from javax.microedition.lcdui.ChoiceGroup import ChoiceGroup
-# from javax.microedition.lcdui.Item import Item
-# from javax.microedition.lcdui.NullImage import NullImage
-# from org.allbinary.MIDPUtil import MIDPUtil
-# from org.allbinary.game.configuration.GameConfigurationGauge import GameConfigurationGauge
-# from org.allbinary.game.configuration.GameConfigurationUtil import GameConfigurationUtil
-# from org.allbinary.graphics.displayable.screen.CommandForm import CommandForm
-# from org.allbinary.logic.communication.log.LogUtil import LogUtil
-# from org.allbinary.logic.string.StringMaker import StringMaker
-# from org.allbinary.logic.string.StringUtil import StringUtil
-# from org.allbinary.util.ABHashtable import ABHashtable
-# from org.allbinary.util.BasicArrayList import BasicArrayList
-# from org.allbinary.util.HashtableUtil import HashtableUtil
-
-
-def _GameFeatureFormUtil_instance() -> object:
-    return GameFeatureFormUtil()
-
-lazy_static(GameFeatureFormUtil, "instance", _GameFeatureFormUtil_instance)
+method setDefault*(this: GameFeatureFormUtil, form: CommandForm) {.base.} =
+        let size: int32 = form.size()
+        block:
+            var index: int32 = 0
+            while index < size:
+                defer: index = index +% 1
+                var item: Item = form.get(index)
+                if (item of GameConfigurationGauge):
+                    GameConfigurationUtil.getInstance().setDefault(GameConfigurationGauge(JObject(item)))
+                elif (item of ChoiceGroup):
+                    GameFeatureUtil.getInstance().setDefault(ChoiceGroup(JObject(item)))
 

@@ -1,67 +1,72 @@
-# 
-# AllBinary Open License Version 1 
-# Copyright (c) 2022 AllBinary 
-#  
-# By agreeing to this license you and any business entity you represent are 
-# legally bound to the AllBinary Open License Version 1 legal agreement. 
-#  
-# You may obtain the AllBinary Open License Version 1 legal agreement from 
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
-#  
-# Created By: Travis Berthelot 
-#   
+#[
+  
+  AllBinary Open License Version 1 
+  Copyright (c) 2022 AllBinary 
+   
+  By agreeing to this license you and any business entity you represent are 
+  legally bound to the AllBinary Open License Version 1 legal agreement. 
+   
+  You may obtain the AllBinary Open License Version 1 legal agreement from 
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
+   
+  Created By: Travis Berthelot 
+    
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.media.image
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import javax/microedition/lcdui/Image as ImageModule
+export ImageModule
+import org/allbinary/graphics/color/BasicColor as BasicColorModule
+export BasicColorModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    ImageModifierUtil* = ref object of JObject
 
+proc newImageModifierUtil*(): ImageModifierUtil
+proc getInstanceOrCreate*(t: typedesc[ImageModifierUtil]): ImageModifierUtil {.discardable.}
+method setColor*(this: ImageModifierUtil, unusedOriginalImage: Image, image: Image, imageIndex: int32, basicColor: BasicColor) {.base.}
+method changeColor*(this: ImageModifierUtil, unusedOriginalImage: Image, image: Image, imageIndex: int32, basicColor: BasicColor) {.base.}
+method setAlpha*(this: ImageModifierUtil, originalImage: Image, image: Image, imageIndex: int32, alphaInt: int32) {.base.}
+method getImageArray*(this: ImageModifierUtil, originalImageArray: JArray[Image]): JArray[Image] {.base, discardable.}
+method handleImage*(this: ImageModifierUtil, imageArray: JArray[Image], index: int32, image: Image) {.base.}
+method reset*(this: ImageModifierUtil) {.base.}
 
-class ImageModifierUtil:
-    instance: ImageModifierUtil = None
-    
+var ImageModifierUtil_instanceValue: ImageModifierUtil
+var ImageModifierUtil_instanceSet = false
+proc instance*(t: typedesc[ImageModifierUtil]): ImageModifierUtil =
+    if not ImageModifierUtil_instanceSet:
+        ImageModifierUtil_instanceSet = true
+        ImageModifierUtil_instanceValue = newImageModifierUtil()
+    ImageModifierUtil_instanceValue
 
-    @staticmethod
-    def getInstanceOrCreate() -> ImageModifierUtil:
+proc initImageModifierUtil*(this: ImageModifierUtil) =
+    discard
+
+proc newImageModifierUtil*(): ImageModifierUtil =
+    result = ImageModifierUtil()
+    initImageModifierUtil(result)
+
+proc getInstanceOrCreate*(t: typedesc[ImageModifierUtil]): ImageModifierUtil {.discardable.} =
         return ImageModifierUtil.instance
-    
 
-    def setColor(self, unusedOriginalImage: Image, image: Image, imageIndex: int, basicColor: BasicColor) -> None:
-        from javax.microedition.lcdui.Image import Image
-        from org.allbinary.graphics.color.BasicColor import BasicColor
-        pass
-    
+method setColor*(this: ImageModifierUtil, unusedOriginalImage: Image, image: Image, imageIndex: int32, basicColor: BasicColor) {.base.} =
+        discard
 
-    def changeColor(self, unusedOriginalImage: Image, image: Image, imageIndex: int, basicColor: BasicColor) -> None:
-        from javax.microedition.lcdui.Image import Image
-        from org.allbinary.graphics.color.BasicColor import BasicColor
-        pass
-    
+method changeColor*(this: ImageModifierUtil, unusedOriginalImage: Image, image: Image, imageIndex: int32, basicColor: BasicColor) {.base.} =
+        discard
 
-    def setAlpha(self, originalImage: Image, image: Image, imageIndex: int, alphaInt: int) -> None:
-        from javax.microedition.lcdui.Image import Image
-        pass
-    
+method setAlpha*(this: ImageModifierUtil, originalImage: Image, image: Image, imageIndex: int32, alphaInt: int32) {.base.} =
+        discard
 
-    def getImageArray(self, originalImageArray: list[Image]) -> list[Image]:
-        from javax.microedition.lcdui.Image import Image
+method getImageArray*(this: ImageModifierUtil, originalImageArray: JArray[Image]): JArray[Image] {.base, discardable.} =
         return originalImageArray
-    
 
-    def handleImage(self, imageArray: list[Image], index: int, image: Image) -> None:
-        from javax.microedition.lcdui.Image import Image
-        pass
-    
+method handleImage*(this: ImageModifierUtil, imageArray: JArray[Image], index: int32, image: Image) {.base.} =
+        discard
 
-    def reset(self) -> None:
-        pass
-# from javax.microedition.lcdui.Image import Image
-# from org.allbinary.graphics.color.BasicColor import BasicColor
-
-
-def _ImageModifierUtil_instance() -> object:
-    return ImageModifierUtil()
-
-lazy_static(ImageModifierUtil, "instance", _ImageModifierUtil_instance)
+method reset*(this: ImageModifierUtil) {.base.} =
+        discard
 

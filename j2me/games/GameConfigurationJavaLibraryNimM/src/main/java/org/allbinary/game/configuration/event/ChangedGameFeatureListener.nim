@@ -1,44 +1,55 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.configuration.event
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/game/configuration/GameConfiguration as GameConfigurationModule
+export GameConfigurationModule
+import org/allbinary/game/configuration/event/BaseChangedGameFeatureListener as BaseChangedGameFeatureListenerModule
+export BaseChangedGameFeatureListenerModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
-from org.allbinary.game.configuration.event.BaseChangedGameFeatureListener import BaseChangedGameFeatureListener
+type
+    ChangedGameFeatureListener* = ref object of BaseChangedGameFeatureListener
 
+proc newChangedGameFeatureListener*(): ChangedGameFeatureListener
+proc getInstance*(t: typedesc[ChangedGameFeatureListener]): ChangedGameFeatureListener {.discardable.}
+method isChangedGameConfiguration*(this: ChangedGameFeatureListener, gameConfiguration: GameConfiguration): bool {.base, discardable.}
 
-class ChangedGameFeatureListener(BaseChangedGameFeatureListener):
-    gameFeatureListener: ChangedGameFeatureListener = None
+var ChangedGameFeatureListener_gameFeatureListenerValue: ChangedGameFeatureListener
+var ChangedGameFeatureListener_gameFeatureListenerSet = false
+proc gameFeatureListener*(t: typedesc[ChangedGameFeatureListener]): ChangedGameFeatureListener =
+    if not ChangedGameFeatureListener_gameFeatureListenerSet:
+        ChangedGameFeatureListener_gameFeatureListenerSet = true
+        ChangedGameFeatureListener_gameFeatureListenerValue = newChangedGameFeatureListener()
+    ChangedGameFeatureListener_gameFeatureListenerValue
 
-    def __init__(self) -> None:
-        super().__init__()
-    
+proc initChangedGameFeatureListener*(this: ChangedGameFeatureListener) =
+    initBaseChangedGameFeatureListener(this)
 
-    @staticmethod
-    def getInstance() -> ChangedGameFeatureListener:
+proc newChangedGameFeatureListener*(): ChangedGameFeatureListener =
+    result = ChangedGameFeatureListener()
+    initChangedGameFeatureListener(result)
+
+proc getInstance*(t: typedesc[ChangedGameFeatureListener]): ChangedGameFeatureListener {.discardable.} =
         return ChangedGameFeatureListener.gameFeatureListener
-    
 
-    def isChangedGameConfiguration(self, gameConfiguration: GameConfiguration) -> bool:
-        from org.allbinary.game.configuration.GameConfiguration import GameConfiguration
-        return self.list_.contains(gameConfiguration)
-# from org.allbinary.game.configuration.GameConfiguration import GameConfiguration
+method isChangedGameConfiguration*(this: ChangedGameFeatureListener, gameConfiguration: GameConfiguration): bool {.base, discardable.} =
+        return this.list.contains(gameConfiguration)
 
-
-def _ChangedGameFeatureListener_gameFeatureListener() -> object:
-    return ChangedGameFeatureListener()
-
-lazy_static(ChangedGameFeatureListener, "gameFeatureListener", _ChangedGameFeatureListener_gameFeatureListener)
+when declared(newChangedGameFeatureListenerHook0):
+    newChangedGameFeatureListenerHook0 = proc (): BaseChangedGameFeatureListener = newChangedGameFeatureListener()
 

@@ -1,56 +1,68 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.resource
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/logic/communication/log/LogUtil as LogUtilModule
+export LogUtilModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    FeatureResourceInitializationUtil* = ref object of JObject
+        logUtil*: LogUtil
 
+proc newFeatureResourceInitializationUtil*(): FeatureResourceInitializationUtil
+proc getInstance*(t: typedesc[FeatureResourceInitializationUtil]): FeatureResourceInitializationUtil {.discardable.}
+method init*(this: FeatureResourceInitializationUtil, level: int32) {.base.}
+import org/allbinary/animation/FeaturedAnimationInterfaceFactoryInterfaceFactory as FeaturedAnimationInterfaceFactoryInterfaceFactoryModule
+export FeaturedAnimationInterfaceFactoryInterfaceFactoryModule
+import org/allbinary/string/CommonStrings as CommonStringsModule
+export CommonStringsModule
+import org/allbinary/game/resource/FeaturedResourceFactory as FeaturedResourceFactoryModule
+export FeaturedResourceFactoryModule
+import org/allbinary/game/resource/FeaturedResourceRelativeRelationshipFactory as FeaturedResourceRelativeRelationshipFactoryModule
+export FeaturedResourceRelativeRelationshipFactoryModule
 
-class FeatureResourceInitializationUtil:
-    instance: FeatureResourceInitializationUtil = None
+var FeatureResourceInitializationUtil_instanceValue: FeatureResourceInitializationUtil
+var FeatureResourceInitializationUtil_instanceSet = false
+proc instance*(t: typedesc[FeatureResourceInitializationUtil]): FeatureResourceInitializationUtil =
+    if not FeatureResourceInitializationUtil_instanceSet:
+        FeatureResourceInitializationUtil_instanceSet = true
+        FeatureResourceInitializationUtil_instanceValue = newFeatureResourceInitializationUtil()
+    FeatureResourceInitializationUtil_instanceValue
 
-    def _init_fields(self) -> None:
-        from org.allbinary.logic.communication.log.LogUtil import LogUtil
-        self.logUtil: LogUtil = LogUtil.getInstance()
+# Java field initializers run after the base initializer
+proc initFieldsFeatureResourceInitializationUtil(this: FeatureResourceInitializationUtil) =
+    this.logUtil = LogUtil.getInstance()
+    discard
 
-    def __init__(self) -> None:
-        self._init_fields()
-    
+proc initFeatureResourceInitializationUtil*(this: FeatureResourceInitializationUtil) =
+    this.initFieldsFeatureResourceInitializationUtil()
 
-    @staticmethod
-    def getInstance() -> FeatureResourceInitializationUtil:
+proc newFeatureResourceInitializationUtil*(): FeatureResourceInitializationUtil =
+    result = FeatureResourceInitializationUtil()
+    initFeatureResourceInitializationUtil(result)
+
+proc getInstance*(t: typedesc[FeatureResourceInitializationUtil]): FeatureResourceInitializationUtil {.discardable.} =
         return FeatureResourceInitializationUtil.instance
-    
 
-    # throws Exception
-    def init(self, level: int) -> None:
-        from org.allbinary.game.resource.FeaturedResourceRelativeRelationshipFactory import FeaturedResourceRelativeRelationshipFactory
-        from org.allbinary.animation.FeaturedAnimationInterfaceFactoryInterfaceFactory import FeaturedAnimationInterfaceFactoryInterfaceFactory
-        from org.allbinary.string.CommonStrings import CommonStrings
-        commonStrings: CommonStrings = CommonStrings.getInstance()
-        self.logUtil.putF(commonStrings.START, self, commonStrings.INIT)
-        featuredResourceFactory: FeaturedResourceFactory = FeaturedAnimationInterfaceFactoryInterfaceFactory.getInstance()
+method init*(this: FeatureResourceInitializationUtil, level: int32) {.base.} =
+        let commonStrings: CommonStrings = CommonStrings.getInstance()
+        this.logUtil.putF(commonStrings.START, this, commonStrings.INIT)
+        var featuredResourceFactory: FeaturedResourceFactory = FeaturedAnimationInterfaceFactoryInterfaceFactory.getInstance()
         featuredResourceFactory.init(level)
         FeaturedResourceRelativeRelationshipFactory.getInstance().init(level)
-# from org.allbinary.animation.FeaturedAnimationInterfaceFactoryInterfaceFactory import FeaturedAnimationInterfaceFactoryInterfaceFactory
-# from org.allbinary.logic.communication.log.LogUtil import LogUtil
-# from org.allbinary.string.CommonStrings import CommonStrings
-
-
-def _FeatureResourceInitializationUtil_instance() -> object:
-    return FeatureResourceInitializationUtil()
-
-lazy_static(FeatureResourceInitializationUtil, "instance", _FeatureResourceInitializationUtil_instance)
 

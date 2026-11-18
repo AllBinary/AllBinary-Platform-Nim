@@ -1,41 +1,40 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/time/TimeDelayHelper as TimeDelayHelperModule
+export TimeDelayHelperModule
+import org/allbinary/game/IntermissionEnableListenerInterface as IntermissionEnableListenerInterfaceModule
+export IntermissionEnableListenerInterfaceModule
+
+type
+    IntermissionInterface* = ref object of JObject
 
 
+method getTimeDelayHelper*(this: IntermissionInterface): TimeDelayHelper {.base, discardable.} =
+        raise newJException("AbstractMethodError", "getTimeDelayHelper")
 
-# Java interface
-class IntermissionInterface:
-    
+method isEnabled*(this: IntermissionInterface): bool {.base, discardable.} =
+        raise newJException("AbstractMethodError", "isEnabled")
 
-    def getTimeDelayHelper(self) -> TimeDelayHelper:
-        from org.allbinary.time.TimeDelayHelper import TimeDelayHelper
-        raise NotImplementedError()
-    
+method setEnabled*(this: IntermissionInterface, value: bool) {.base.} =
+        raise newJException("AbstractMethodError", "setEnabled")
 
-    def isEnabled(self) -> bool:
-        raise NotImplementedError()
-    
-
-    def setEnabled(self, value: bool) -> None:
-        raise NotImplementedError()
-    
-
-    def setListener(self, enableListener: IntermissionEnableListenerInterface) -> None:
-        raise NotImplementedError()
-# from org.allbinary.time.TimeDelayHelper import TimeDelayHelper
-
+method setListener*(this: IntermissionInterface, enableListener: IntermissionEnableListenerInterface) {.base.} =
+        raise newJException("AbstractMethodError", "setListener")
 

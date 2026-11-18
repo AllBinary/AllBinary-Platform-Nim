@@ -1,54 +1,69 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.input
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/game/input/mapping/PersistentInputMapping as PersistentInputMappingModule
+export PersistentInputMappingModule
+import org/allbinary/logic/system/security/licensing/AbeClientInformationInterface as AbeClientInformationInterfaceModule
+export AbeClientInformationInterfaceModule
+import org/allbinary/game/input/Input as InputModule
+export InputModule
 
-from org.allbinary.game.input.mapping.PersistentInputMapping import PersistentInputMapping
+type
+    J2MEGameInputMapping* = ref object of PersistentInputMapping
+
+proc newJ2MEGameInputMapping*(): J2MEGameInputMapping
+proc initJ2MEGameInputMapping*(this: J2MEGameInputMapping)
+method init*(this: J2MEGameInputMapping, abeClientInformation: AbeClientInformationInterface)
+method isDelete*(this: J2MEGameInputMapping, input: Input): bool {.discardable.}
+method isSystemInput*(this: J2MEGameInputMapping, input: Input): bool {.discardable.}
+import org/allbinary/game/configuration/persistance/GamePersistanceStrings as GamePersistanceStringsModule
+export GamePersistanceStringsModule
+import org/allbinary/game/input/J2MEKeyFactory as J2MEKeyFactoryModule
+export J2MEKeyFactoryModule
+import org/allbinary/game/input/GameKeyFactory as GameKeyFactoryModule
+export GameKeyFactoryModule
 
 
-class J2MEGameInputMapping(PersistentInputMapping):
-    
+proc initJ2MEGameInputMapping*(this: J2MEGameInputMapping) =
+        initPersistentInputMapping(this, GamePersistanceStrings.getInstance().SAVED_INPUT_CONFIGURATION_RECORD_ID)
 
-    def __init__(self) -> None:
-        from org.allbinary.game.configuration.persistance.GamePersistanceStrings import GamePersistanceStrings
-        super().__init__(GamePersistanceStrings.getInstance().SAVED_INPUT_CONFIGURATION_RECORD_ID)
-    
+proc newJ2MEGameInputMapping*(): J2MEGameInputMapping =
+    result = J2MEGameInputMapping()
+    initJ2MEGameInputMapping(result)
 
-    # throws Exception
-    def init(self, abeClientInformation: AbeClientInformationInterface) -> None:
-        from org.allbinary.game.input.J2MEKeyFactory import J2MEKeyFactory
-        from org.allbinary.logic.system.security.licensing.AbeClientInformationInterface import AbeClientInformationInterface
-        self.logUtil.putF(self.commonStrings.START, self, self.commonStrings.INIT)
+method init*(this: J2MEGameInputMapping, abeClientInformation: AbeClientInformationInterface) =
+        this.logUtil.putF(this.commonStrings.START, this, this.commonStrings.INIT)
         J2MEKeyFactory.getInstance().init()
-        super().init(abeClientInformation)
-        if self.getTotalMapped() == 0 or self.isDefaultNew():
-            self.getInputMapping().addMapping(self.getDefault())
-            self.save(abeClientInformation)
-    
+        procCall PersistentInputMapping(this).init(abeClientInformation)
+        if this.getTotalMapped() == 0 or this.isDefaultNew():
+            this.getInputMapping().addMapping(this.getDefault())
+            this.save(abeClientInformation)
 
-    def isDelete(self, input: Input) -> bool:
-        from org.allbinary.game.input.GameKeyFactory import GameKeyFactory
+method isDelete*(this: J2MEGameInputMapping, input: Input): bool {.discardable.} =
         if input == GameKeyFactory.getInstance().GAME_D:
-            return True
+            return true
         else:
-            return False
-    
+            return false
 
-    def isSystemInput(self, input: Input) -> bool:
-        return False
-# from org.allbinary.game.configuration.persistance.GamePersistanceStrings import GamePersistanceStrings
-# from org.allbinary.logic.system.security.licensing.AbeClientInformationInterface import AbeClientInformationInterface
+method isSystemInput*(this: J2MEGameInputMapping, input: Input): bool {.discardable.} =
+        return false
 
+when declared(newJ2MEGameInputMappingHook0):
+    newJ2MEGameInputMappingHook0 = proc (): PersistentInputMapping = newJ2MEGameInputMapping()
 

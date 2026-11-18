@@ -1,76 +1,86 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.animation.image.sprite
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import javax/microedition/lcdui/Image as ImageModule
+export ImageModule
+import javax/microedition/lcdui/game/Sprite as SpriteModule
+export SpriteModule
+import org/allbinary/animation/AnimationBehavior as AnimationBehaviorModule
+export AnimationBehaviorModule
+import org/allbinary/direction/Direction as DirectionModule
+export DirectionModule
+import org/allbinary/math/Angle as AngleModule
+export AngleModule
+import org/allbinary/animation/image/sprite/HackRotationSpriteIndexedAnimation as HackRotationSpriteIndexedAnimationModule
+export HackRotationSpriteIndexedAnimationModule
 
-from org.allbinary.animation.image.sprite.HackRotationSpriteIndexedAnimation import HackRotationSpriteIndexedAnimation
+type
+    AllBinarySpriteRotationAnimation* = ref object of HackRotationSpriteIndexedAnimation
+
+proc newAllBinarySpriteRotationAnimation*(sprite: Sprite, image: Image, animationBehavior: AnimationBehavior): AllBinarySpriteRotationAnimation
+proc initAllBinarySpriteRotationAnimation*(this: AllBinarySpriteRotationAnimation, sprite: Sprite, image: Image, animationBehavior: AnimationBehavior)
+method nextRotation*(this: AllBinarySpriteRotationAnimation)
+method previousRotation*(this: AllBinarySpriteRotationAnimation)
+method setFrameByDirection*(this: AllBinarySpriteRotationAnimation, direction: Direction)
+method setFrameToAngle*(this: AllBinarySpriteRotationAnimation, angle: Angle)
+method setFrame*(this: AllBinarySpriteRotationAnimation, index: int32)
+method adjustFrameToAngle*(this: AllBinarySpriteRotationAnimation, angle: Angle)
+method adjustFrame*(this: AllBinarySpriteRotationAnimation, angle: int16)
+import org/allbinary/math/AngleFactory as AngleFactoryModule
+export AngleFactoryModule
+import org/allbinary/math/AngleInfo as AngleInfoModule
+export AngleInfoModule
 
 
-class AllBinarySpriteRotationAnimation(HackRotationSpriteIndexedAnimation):
-    
+proc initAllBinarySpriteRotationAnimation*(this: AllBinarySpriteRotationAnimation, sprite: Sprite, image: Image, animationBehavior: AnimationBehavior) =
+        initHackRotationSpriteIndexedAnimation(this, sprite, image, AngleInfo.getInstance(jToInt16((int32(AngleFactory.getInstance().TOTAL_ANGLE) div sprite.getRawFrameCount()))), animationBehavior)
+        this.angleInfo.adjustAngle(this.sprite.getFrame())
 
-    def __init__(self, sprite: Sprite, image: Image, animationBehavior: AnimationBehavior) -> None:
-        from javax.microedition.lcdui.Image import Image
-        from javax.microedition.lcdui.game.Sprite import Sprite
-        from org.allbinary.animation.AnimationBehavior import AnimationBehavior
-        from org.allbinary.math.AngleFactory import AngleFactory
-        from org.allbinary.math.AngleInfo import AngleInfo
-        super().__init__(sprite, image, AngleInfo.getInstance(((int((AngleFactory.getInstance().TOTAL_ANGLE / sprite.getRawFrameCount())) + 32768) % 65536 - 32768)), animationBehavior)
-        self.angleInfo.adjustAngle(self.sprite.getFrame())
-    
+proc newAllBinarySpriteRotationAnimation*(sprite: Sprite, image: Image, animationBehavior: AnimationBehavior): AllBinarySpriteRotationAnimation =
+    result = AllBinarySpriteRotationAnimation()
+    initAllBinarySpriteRotationAnimation(result, sprite, image, animationBehavior)
 
-    def nextRotation(self) -> None:
-        self.sprite.nextFrame()
-        self.angleInfo.adjustAngle(self.sprite.getFrame())
-    
+method nextRotation*(this: AllBinarySpriteRotationAnimation) =
+        this.sprite.nextFrame()
+        this.angleInfo.adjustAngle(this.sprite.getFrame())
 
-    def previousRotation(self) -> None:
-        self.sprite.prevFrame()
-        self.angleInfo.adjustAngle(self.sprite.getFrame())
-    
+method previousRotation*(this: AllBinarySpriteRotationAnimation) =
+        this.sprite.prevFrame()
+        this.angleInfo.adjustAngle(this.sprite.getFrame())
 
-    def setFrameByDirection(self, direction: Direction) -> None:
-        from org.allbinary.direction.Direction import Direction
-        from org.allbinary.math.Angle import Angle
-        angle: Angle = self.directionUtil.getFrameAngle(direction)
-        self.adjustFrameToAngle(angle)
-    
+method setFrameByDirection*(this: AllBinarySpriteRotationAnimation, direction: Direction) =
+        var angle: Angle = this.directionUtil.getFrameAngle(direction)
+        this.adjustFrameToAngle(angle)
 
-    def setFrameToAngle(self, angle: Angle) -> None:
-        from org.allbinary.math.Angle import Angle
-        self.adjustFrameToAngle(angle)
-    
+method setFrameToAngle*(this: AllBinarySpriteRotationAnimation, angle: Angle) =
+        this.adjustFrameToAngle(angle)
 
-    def setFrame(self, index: int) -> None:
-        self.sprite.setFrame(index)
-        self.angleInfo.adjustAngle(self.getFrame())
-    
+method setFrame*(this: AllBinarySpriteRotationAnimation, index: int32) =
+        this.sprite.setFrame(index)
+        this.angleInfo.adjustAngle(this.getFrame())
 
-    def adjustFrameToAngle(self, angle: Angle) -> None:
-        from org.allbinary.math.Angle import Angle
-        self.adjustFrame(angle.getValue())
-    
+method adjustFrameToAngle*(this: AllBinarySpriteRotationAnimation, angle: Angle) =
+        this.adjustFrame(angle.getValue())
 
-    def adjustFrame(self, angle: int) -> None:
-        self.setFrame(self.frameUtil.getFrameForAngle(angle, int(self.angleInfo.getAngleIncrementInfo().getAngleIncrement())))
-# from javax.microedition.lcdui.Image import Image
-# from javax.microedition.lcdui.game.Sprite import Sprite
-# from org.allbinary.animation.AnimationBehavior import AnimationBehavior
-# from org.allbinary.direction.Direction import Direction
-# from org.allbinary.math.Angle import Angle
-# from org.allbinary.math.AngleFactory import AngleFactory
-# from org.allbinary.math.AngleInfo import AngleInfo
+method adjustFrame*(this: AllBinarySpriteRotationAnimation, angle: int16) =
+        this.setFrame(this.frameUtil.getFrameForAngle(angle, int32(this.angleInfo.getAngleIncrementInfo().getAngleIncrement())))
 
+when declared(newAllBinarySpriteRotationAnimationHook3):
+    newAllBinarySpriteRotationAnimationHook3 = proc (sprite: Sprite, image: Image, animationBehavior: AnimationBehavior): HackRotationSpriteIndexedAnimation = newAllBinarySpriteRotationAnimation(sprite, image, animationBehavior)
 

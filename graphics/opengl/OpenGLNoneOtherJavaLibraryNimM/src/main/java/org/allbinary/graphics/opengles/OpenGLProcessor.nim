@@ -1,27 +1,37 @@
 # Generated Code Do Not Modify
 # package org.allbinary.graphics.opengles
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import javax/microedition/khronos/opengles/GL10 as GL10Module
+export GL10Module
+import org/allbinary/logic/communication/log/LogUtil as LogUtilModule
+export LogUtilModule
+import org/allbinary/string/CommonStrings as CommonStringsModule
+export CommonStringsModule
+
+type
+    OpenGLProcessor* = ref object of JObject
+        logUtil*: LogUtil
+        commonStrings*: CommonStrings
+
+proc newOpenGLProcessor*(): OpenGLProcessor
+method process*(this: OpenGLProcessor, gl: GL10) {.base.}
 
 
+# Java field initializers run after the base initializer
+proc initFieldsOpenGLProcessor(this: OpenGLProcessor) =
+    this.logUtil = LogUtil.getInstance()
+    this.commonStrings = CommonStrings.getInstance()
+    discard
 
-class OpenGLProcessor:
+proc initOpenGLProcessor*(this: OpenGLProcessor) =
+    this.initFieldsOpenGLProcessor()
 
-    def _init_fields(self) -> None:
-        from org.allbinary.logic.communication.log.LogUtil import LogUtil
-        from org.allbinary.string.CommonStrings import CommonStrings
-        self.logUtil: LogUtil = LogUtil.getInstance()
-        self.commonStrings: CommonStrings = CommonStrings.getInstance()
+proc newOpenGLProcessor*(): OpenGLProcessor =
+    result = OpenGLProcessor()
+    initOpenGLProcessor(result)
 
-    def __init__(self) -> None:
-        self._init_fields()
-    
-
-    def process(self, gl: GL10) -> None:
-        from javax.microedition.khronos.opengles.GL10 import GL10
-        pass
-# from javax.microedition.khronos.opengles.GL10 import GL10
-# from org.allbinary.logic.communication.log.LogUtil import LogUtil
-# from org.allbinary.string.CommonStrings import CommonStrings
-
+method process*(this: OpenGLProcessor, gl: GL10) {.base.} =
+        discard
 

@@ -1,48 +1,57 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.displayable.canvas
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/graphics/Rectangle as RectangleModule
+export RectangleModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    FormUtil* = ref object of JObject
 
+proc newFormUtil*(): FormUtil
+proc getInstance*(t: typedesc[FormUtil]): FormUtil {.discardable.}
+method createFormRectangle*(this: FormUtil): Rectangle {.base, discardable.}
+import org/allbinary/graphics/PointFactory as PointFactoryModule
+export PointFactoryModule
+import org/allbinary/graphics/displayable/DisplayInfoSingleton as DisplayInfoSingletonModule
+export DisplayInfoSingletonModule
 
-class FormUtil:
-    instance: FormUtil = None
-    
+var FormUtil_instanceValue: FormUtil
+var FormUtil_instanceSet = false
+proc instance*(t: typedesc[FormUtil]): FormUtil =
+    if not FormUtil_instanceSet:
+        FormUtil_instanceSet = true
+        FormUtil_instanceValue = newFormUtil()
+    FormUtil_instanceValue
 
-    @staticmethod
-    def getInstance() -> FormUtil:
+proc initFormUtil*(this: FormUtil) =
+    discard
+
+proc newFormUtil*(): FormUtil =
+    result = FormUtil()
+    initFormUtil(result)
+
+proc getInstance*(t: typedesc[FormUtil]): FormUtil {.discardable.} =
         return FormUtil.instance
-    
 
-    def createFormRectangle(self) -> Rectangle:
-        from org.allbinary.graphics.PointFactory import PointFactory
-        from org.allbinary.graphics.Rectangle import Rectangle
-        from org.allbinary.graphics.displayable.DisplayInfoSingleton import DisplayInfoSingleton
-        displayInfo: DisplayInfoSingleton = DisplayInfoSingleton.getInstance()
-        pointFactory: PointFactory = PointFactory.getInstance()
-        rectangle: Rectangle = Rectangle(pointFactory.createXY(30, 10), displayInfo.getLastWidth() - 30, displayInfo.getLastHeight() - 35)
+method createFormRectangle*(this: FormUtil): Rectangle {.base, discardable.} =
+        let displayInfo: DisplayInfoSingleton = DisplayInfoSingleton.getInstance()
+        let pointFactory: PointFactory = PointFactory.getInstance()
+        let rectangle: Rectangle = newRectangle(pointFactory.createXY(30, 10), displayInfo.getLastWidth() -% 30, displayInfo.getLastHeight() -% 35)
         return rectangle
-# from org.allbinary.graphics.PointFactory import PointFactory
-# from org.allbinary.graphics.Rectangle import Rectangle
-# from org.allbinary.graphics.displayable.DisplayInfoSingleton import DisplayInfoSingleton
-# from org.allbinary.logic.communication.log.LogUtil import LogUtil
-
-
-def _FormUtil_instance() -> object:
-    return FormUtil()
-
-lazy_static(FormUtil, "instance", _FormUtil_instance)
 

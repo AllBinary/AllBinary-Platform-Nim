@@ -40,8 +40,8 @@ proc newMemory*(): Memory =
 proc getInfo*(t: typedesc[Memory]): string {.discardable.} =
         var stringBuffer: StringMaker = newStringMaker()
         stringBuffer.append("Memory: Free: ")
-        stringBuffer.appendlong(int64(Runtime.getRuntime().freeMemory()))
+        stringBuffer.appendlong(Runtime.getRuntime().freeMemory())
         stringBuffer.append(" Total: ")
-        stringBuffer.appendlong(int64(Runtime.getRuntime().totalMemory()))
+        stringBuffer.appendlong(Runtime.getRuntime().totalMemory())
         return stringBuffer.toString()
 

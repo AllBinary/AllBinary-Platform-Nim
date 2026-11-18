@@ -1,93 +1,108 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#   
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+    
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.data.resource
 
-from __future__ import annotations
-
-from java.lang.JavaRuntimeStatic import lazy_static
-
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import java/lang/Integer as IntegerModule
+export IntegerModule
+import java/lang/ClassLoader as ClassLoaderModule
+export ClassLoaderModule
+import java/io/ByteArrayInputStream as ByteArrayInputStreamModule
+export ByteArrayInputStreamModule
+import java/io/ByteArrayOutputStream as ByteArrayOutputStreamModule
+export ByteArrayOutputStreamModule
+import java/io/FileInputStream as FileInputStreamModule
+export FileInputStreamModule
+import java/io/InputStream as InputStreamModule
+export InputStreamModule
+import org/allbinary/logic/communication/log/LogUtil as LogUtilModule
+export LogUtilModule
 
 #J2SE - PC
-class ResourceUtil:
-    instance: ResourceUtil = None
+type
+    ResourceUtil* = ref object of JObject
+        logUtil*: LogUtil
+        path*: string
+        ext*: string
 
-    def _init_fields(self) -> None:
-        from org.allbinary.logic.communication.log.LogUtil import LogUtil
-        from org.allbinary.logic.string.StringUtil import StringUtil
-        self.logUtil: LogUtil = LogUtil.getInstance()
-        self.path: str = StringUtil.getInstance().EMPTY_STRING
-        self.ext: str = StringUtil.getInstance().EMPTY_STRING
-    
+proc newResourceUtil*(): ResourceUtil
+proc initResourceUtil*(this: ResourceUtil)
+proc getInstance*(t: typedesc[ResourceUtil]): ResourceUtil {.discardable.}
+method setLoadingPaths*(this: ResourceUtil, path: string, ext: string) {.base.}
+method setClassLoader*(this: ResourceUtil, classLoader: ClassLoader) {.base.}
+method getResourceAsStream*(this: ResourceUtil, resource: string): InputStream {.base, discardable.}
+method getResourceAsStreamAtStart*(this: ResourceUtil, resource: string, startIndex: int32): InputStream {.base, discardable.}
+method addResource*(this: ResourceUtil, resource: string, value: int32) {.base.}
+import org/allbinary/logic/io/StreamUtil as StreamUtilModule
+export StreamUtilModule
+import org/allbinary/logic/string/StringMaker as StringMakerModule
+export StringMakerModule
+import org/allbinary/logic/string/StringUtil as StringUtilModule
+export StringUtilModule
 
-    @staticmethod
-    def getInstance() -> ResourceUtil:
+var ResourceUtil_instanceValue: ResourceUtil
+var ResourceUtil_instanceSet = false
+proc instance*(t: typedesc[ResourceUtil]): ResourceUtil =
+    if not ResourceUtil_instanceSet:
+        ResourceUtil_instanceSet = true
+        ResourceUtil_instanceValue = newResourceUtil()
+    ResourceUtil_instanceValue
+
+# Java field initializers run after the base initializer
+proc initFieldsResourceUtil(this: ResourceUtil) =
+    this.logUtil = LogUtil.getInstance()
+    this.path = StringUtil.getInstance().EMPTY_STRING
+    this.ext = StringUtil.getInstance().EMPTY_STRING
+    discard
+
+proc getInstance*(t: typedesc[ResourceUtil]): ResourceUtil {.discardable.} =
         return ResourceUtil.instance
-    
 
-    def __init__(self) -> None:
-        self._init_fields()
-    
+proc initResourceUtil*(this: ResourceUtil) =
+        this.initFieldsResourceUtil()
+        discard
 
-    def setLoadingPaths(self, path: str, ext: str) -> None:
-        self.path = path
-        self.ext = ext
-    
+proc newResourceUtil*(): ResourceUtil =
+    result = ResourceUtil()
+    initResourceUtil(result)
 
-    def setClassLoader(self, classLoader: ClassLoader) -> None:
-        pass
-    
+method setLoadingPaths*(this: ResourceUtil, path: string, ext: string) {.base.} =
+        this.path = path
+        this.ext = ext
 
-    # throws Exception
-    def getResourceAsStream(self, resource: str) -> InputStream:
-        from java.io.InputStream import InputStream
-        from org.allbinary.logic.string.StringMaker import StringMaker
-        inputStream: InputStream = self.getResourceAsStreamAtStart(resource, 2)
-        if inputStream is None:
-            inputStream = self.getResourceAsStreamAtStart(resource, 1)
-            if inputStream is None:
-                raise Exception(str(StringMaker().append("Unable to obtain: ").append(resource)))
+method setClassLoader*(this: ResourceUtil, classLoader: ClassLoader) {.base.} =
+        discard
+
+method getResourceAsStream*(this: ResourceUtil, resource: string): InputStream {.base, discardable.} =
+        var inputStream: InputStream = this.getResourceAsStreamAtStart(resource, 2)
+        if (jIsNil(inputStream)):
+            inputStream = this.getResourceAsStreamAtStart(resource, 1)
+            if (jIsNil(inputStream)):
+                raise newJException("Exception", newStringMaker().append("Unable to obtain: ").append(resource).toString())
         return inputStream
-    
 
-    # throws Exception
-    def getResourceAsStreamAtStart(self, resource: str, startIndex: int) -> InputStream:
-        from java.io.FileInputStream import FileInputStream
-        from java.io.InputStream import InputStream
-        from org.allbinary.logic.io.StreamUtil import StreamUtil
-        from org.allbinary.logic.string.StringMaker import StringMaker
-        inputStream: InputStream = FileInputStream(str(StringMaker().append(self.path).append(resource).append(self.ext)))
-        if inputStream is not None:
-            byteArray: list[int] = [0] * (inputStream.available())
-            StreamUtil.getInstance().getByteArray(inputStream, ByteArrayOutputStream(), byteArray)
-            return ByteArrayInputStream(byteArray)
+method getResourceAsStreamAtStart*(this: ResourceUtil, resource: string, startIndex: int32): InputStream {.base, discardable.} =
+        var inputStream: InputStream = newFileInputStream(newStringMaker().append(this.path).append(resource).append(this.ext).toString())
+        if (not jIsNil(inputStream)):
+            let byteArray: JArray[int8] = newJArray[int8](inputStream.available(), default(int8))
+            StreamUtil.getInstance().getByteArray(inputStream, newByteArrayOutputStream(), byteArray)
+            return newByteArrayInputStream(byteArray)
         return inputStream
-    
 
-    def addResource(self, resource: str, value: int) -> None:
-        pass
-# from java.io.ByteArrayInputStream import ByteArrayInputStream
-# from java.io.ByteArrayOutputStream import ByteArrayOutputStream
-# from java.io.FileInputStream import FileInputStream
-# from java.io.InputStream import InputStream
-# from org.allbinary.logic.communication.log.LogUtil import LogUtil
-# from org.allbinary.logic.io.StreamUtil import StreamUtil
-# from org.allbinary.logic.string.StringMaker import StringMaker
-# from org.allbinary.logic.string.StringUtil import StringUtil
-
-
-def _ResourceUtil_instance() -> object:
-    return ResourceUtil()
-
-lazy_static(ResourceUtil, "instance", _ResourceUtil_instance)
+method addResource*(this: ResourceUtil, resource: string, value: int32) {.base.} =
+        discard
 

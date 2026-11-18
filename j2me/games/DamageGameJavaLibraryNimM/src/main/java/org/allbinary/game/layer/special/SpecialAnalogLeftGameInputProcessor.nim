@@ -1,36 +1,49 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.layer.special
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/game/input/event/GameKeyEvent as GameKeyEventModule
+export GameKeyEventModule
+import org/allbinary/layer/AllBinaryLayerManager as AllBinaryLayerManagerModule
+export AllBinaryLayerManagerModule
+import org/allbinary/game/layer/special/SpecialGameInputProcessor as SpecialGameInputProcessorModule
+export SpecialGameInputProcessorModule
+import org/allbinary/game/layer/special/CollidableDestroyableDamageableLayer as CollidableDestroyableDamageableLayerModule
+export CollidableDestroyableDamageableLayerModule
 
-from org.allbinary.game.layer.special.SpecialGameInputProcessor import SpecialGameInputProcessor
+type
+    SpecialAnalogLeftGameInputProcessor* = ref object of SpecialGameInputProcessor
+
+proc newSpecialAnalogLeftGameInputProcessor*(collidableDestroyableDamageableLayer: CollidableDestroyableDamageableLayer): SpecialAnalogLeftGameInputProcessor
+proc initSpecialAnalogLeftGameInputProcessor*(this: SpecialAnalogLeftGameInputProcessor, collidableDestroyableDamageableLayer: CollidableDestroyableDamageableLayer)
+method processAnalog*(this: SpecialAnalogLeftGameInputProcessor, allbinaryLayerManager: AllBinaryLayerManager, gameKeyEvent: GameKeyEvent, xAnalogValue: int32)
 
 
-class SpecialAnalogLeftGameInputProcessor(SpecialGameInputProcessor):
-    
+proc initSpecialAnalogLeftGameInputProcessor*(this: SpecialAnalogLeftGameInputProcessor, collidableDestroyableDamageableLayer: CollidableDestroyableDamageableLayer) =
+        initSpecialGameInputProcessor(this, collidableDestroyableDamageableLayer)
 
-    def __init__(self, collidableDestroyableDamageableLayer: CollidableDestroyableDamageableLayer) -> None:
-        super().__init__(collidableDestroyableDamageableLayer)
-    
+proc newSpecialAnalogLeftGameInputProcessor*(collidableDestroyableDamageableLayer: CollidableDestroyableDamageableLayer): SpecialAnalogLeftGameInputProcessor =
+    result = SpecialAnalogLeftGameInputProcessor()
+    initSpecialAnalogLeftGameInputProcessor(result, collidableDestroyableDamageableLayer)
 
-    # throws Exception
-    def processAnalog(self, allbinaryLayerManager: AllBinaryLayerManager, gameKeyEvent: GameKeyEvent, xAnalogValue: int) -> None:
-        from org.allbinary.game.input.event.GameKeyEvent import GameKeyEvent
-        from org.allbinary.layer.AllBinaryLayerManager import AllBinaryLayerManager
-        self.collidableDestroyableDamageableLayer.leftAnalog(xAnalogValue)
-# from org.allbinary.game.input.event.GameKeyEvent import GameKeyEvent
-# from org.allbinary.layer.AllBinaryLayerManager import AllBinaryLayerManager
+method processAnalog*(this: SpecialAnalogLeftGameInputProcessor, allbinaryLayerManager: AllBinaryLayerManager, gameKeyEvent: GameKeyEvent, xAnalogValue: int32) =
+        this.collidableDestroyableDamageableLayer.leftAnalog(xAnalogValue)
 
+when declared(newSpecialAnalogLeftGameInputProcessorHook1):
+    newSpecialAnalogLeftGameInputProcessorHook1 = proc (collidableDestroyableDamageableLayer: CollidableDestroyableDamageableLayer): SpecialGameInputProcessor = newSpecialAnalogLeftGameInputProcessor(collidableDestroyableDamageableLayer)
 

@@ -1,46 +1,59 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.media.audio
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/media/audio/SoundsFactoryInterface as SoundsFactoryInterfaceModule
+export SoundsFactoryInterfaceModule
+import org/allbinary/media/audio/Sound as SoundModule
+export SoundModule
 
-from org.allbinary.media.audio.SoundsFactoryInterface import SoundsFactoryInterface
+type
+    BaseSoundsFactory* = ref object of SoundsFactoryInterface
+        initialized*: bool
+
+proc newBaseSoundsFactory*(): BaseSoundsFactory
+method init*(this: BaseSoundsFactory)
+method getSoundInterfaceArray*(this: BaseSoundsFactory): JArray[Sound] {.discardable.}
+method setInitialized*(this: BaseSoundsFactory, initialized: bool)
+method isInitialized*(this: BaseSoundsFactory): bool {.discardable.}
 
 
-class BaseSoundsFactory(SoundsFactoryInterface):
+# Java field initializers run after the base initializer
+proc initFieldsBaseSoundsFactory(this: BaseSoundsFactory) =
+    this.initialized = false
+    discard
 
-    def _init_fields(self) -> None:
-        self.initialized: bool = False
+proc initBaseSoundsFactory*(this: BaseSoundsFactory) =
+    this.initFieldsBaseSoundsFactory()
 
-    def __init__(self) -> None:
-        self._init_fields()
-    
+proc newBaseSoundsFactory*(): BaseSoundsFactory =
+    result = BaseSoundsFactory()
+    initBaseSoundsFactory(result)
 
-    def init(self) -> None:
-        pass
-    
+method init*(this: BaseSoundsFactory) =
+        discard
 
-    # throws Exception
-    def getSoundInterfaceArray(self) -> list[Sound]:
-        return [None] * (0)
-    
+method getSoundInterfaceArray*(this: BaseSoundsFactory): JArray[Sound] {.discardable.} =
+        return newJArray[Sound](0, default(Sound))
 
-    def setInitialized(self, initialized: bool) -> None:
-        self.initialized = initialized
-    
+method setInitialized*(this: BaseSoundsFactory, initialized: bool) =
+        this.initialized = initialized
 
-    def isInitialized(self) -> bool:
-        return self.initialized
-
+method isInitialized*(this: BaseSoundsFactory): bool {.discardable.} =
+        return this.initialized
 

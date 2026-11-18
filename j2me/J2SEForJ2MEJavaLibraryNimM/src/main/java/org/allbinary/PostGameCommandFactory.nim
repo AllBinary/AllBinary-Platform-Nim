@@ -1,42 +1,52 @@
-# 
-# AllBinary Open License Version 1 
-# Copyright (c) 2022 AllBinary 
-#  
-# By agreeing to this license you and any business entity you represent are 
-# legally bound to the AllBinary Open License Version 1 legal agreement. 
-#  
-# You may obtain the AllBinary Open License Version 1 legal agreement from 
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
-#  
-# Created By: Travis Berthelot 
-#   
+#[
+  
+  AllBinary Open License Version 1 
+  Copyright (c) 2022 AllBinary 
+   
+  By agreeing to this license you and any business entity you represent are 
+  legally bound to the AllBinary Open License Version 1 legal agreement. 
+   
+  You may obtain the AllBinary Open License Version 1 legal agreement from 
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
+   
+  Created By: Travis Berthelot 
+    
+]#
 # Generated Code Do Not Modify
 # package org.allbinary
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import javax/microedition/lcdui/Canvas as CanvasModule
+export CanvasModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    PostGameCommandFactory* = ref object of JObject
 
+proc newPostGameCommandFactory*(): PostGameCommandFactory
+proc getInstance*(t: typedesc[PostGameCommandFactory]): PostGameCommandFactory {.discardable.}
+method addCommands*(this: PostGameCommandFactory, canvas: Canvas) {.base.}
+import org/allbinary/game/configuration/feature/MultiPlayerGameFeatureFactory as MultiPlayerGameFeatureFactoryModule
+export MultiPlayerGameFeatureFactoryModule
 
-class PostGameCommandFactory:
-    instance: PostGameCommandFactory = None
-    
+var PostGameCommandFactory_instanceValue: PostGameCommandFactory
+var PostGameCommandFactory_instanceSet = false
+proc instance*(t: typedesc[PostGameCommandFactory]): PostGameCommandFactory =
+    if not PostGameCommandFactory_instanceSet:
+        PostGameCommandFactory_instanceSet = true
+        PostGameCommandFactory_instanceValue = newPostGameCommandFactory()
+    PostGameCommandFactory_instanceValue
 
-    @staticmethod
-    def getInstance() -> PostGameCommandFactory:
+proc initPostGameCommandFactory*(this: PostGameCommandFactory) =
+    discard
+
+proc newPostGameCommandFactory*(): PostGameCommandFactory =
+    result = PostGameCommandFactory()
+    initPostGameCommandFactory(result)
+
+proc getInstance*(t: typedesc[PostGameCommandFactory]): PostGameCommandFactory {.discardable.} =
         return PostGameCommandFactory.instance
-    
 
-    def addCommands(self, canvas: Canvas) -> None:
-        from javax.microedition.lcdui.Canvas import Canvas
-        from org.allbinary.game.configuration.feature.MultiPlayerGameFeatureFactory import MultiPlayerGameFeatureFactory
+method addCommands*(this: PostGameCommandFactory, canvas: Canvas) {.base.} =
         MultiPlayerGameFeatureFactory.getInstance().addCommands(canvas)
-# from javax.microedition.lcdui.Canvas import Canvas
-# from org.allbinary.game.configuration.feature.MultiPlayerGameFeatureFactory import MultiPlayerGameFeatureFactory
-
-
-def _PostGameCommandFactory_instance() -> object:
-    return PostGameCommandFactory()
-
-lazy_static(PostGameCommandFactory, "instance", _PostGameCommandFactory_instance)
 

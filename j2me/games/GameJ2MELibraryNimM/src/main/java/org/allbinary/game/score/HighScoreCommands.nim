@@ -1,46 +1,58 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.score
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import javax/microedition/lcdui/Command as CommandModule
+export CommandModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    HighScoreCommands* = ref object of JObject
+        DISPLAY*: Command
+        PERSONAL*: Command
+        WORLD*: Command
 
+proc newHighScoreCommands*(): HighScoreCommands
+proc getInstance*(t: typedesc[HighScoreCommands]): HighScoreCommands {.discardable.}
+import org/allbinary/logic/string/StringUtil as StringUtilModule
+export StringUtilModule
 
-class HighScoreCommands:
-    instance: HighScoreCommands = None
+var HighScoreCommands_instanceValue: HighScoreCommands
+var HighScoreCommands_instanceSet = false
+proc instance*(t: typedesc[HighScoreCommands]): HighScoreCommands =
+    if not HighScoreCommands_instanceSet:
+        HighScoreCommands_instanceSet = true
+        HighScoreCommands_instanceValue = newHighScoreCommands()
+    HighScoreCommands_instanceValue
 
-    def _init_fields(self) -> None:
-        from javax.microedition.lcdui.Command import Command
-        from org.allbinary.logic.string.StringUtil import StringUtil
-        self.DISPLAY: Command = Command("Scores", StringUtil.getInstance().EMPTY_STRING, Command.SCREEN, 1)
-        self.PERSONAL: Command = Command("Personal", StringUtil.getInstance().EMPTY_STRING, Command.SCREEN, 1)
-        self.WORLD: Command = Command("World", StringUtil.getInstance().EMPTY_STRING, Command.SCREEN, 1)
+# Java field initializers run after the base initializer
+proc initFieldsHighScoreCommands(this: HighScoreCommands) =
+    this.DISPLAY = newCommand("Scores", StringUtil.getInstance().EMPTY_STRING, Command.SCREEN, 1)
+    this.PERSONAL = newCommand("Personal", StringUtil.getInstance().EMPTY_STRING, Command.SCREEN, 1)
+    this.WORLD = newCommand("World", StringUtil.getInstance().EMPTY_STRING, Command.SCREEN, 1)
+    discard
 
-    def __init__(self) -> None:
-        self._init_fields()
-    
+proc initHighScoreCommands*(this: HighScoreCommands) =
+    this.initFieldsHighScoreCommands()
 
-    @staticmethod
-    def getInstance() -> HighScoreCommands:
+proc newHighScoreCommands*(): HighScoreCommands =
+    result = HighScoreCommands()
+    initHighScoreCommands(result)
+
+proc getInstance*(t: typedesc[HighScoreCommands]): HighScoreCommands {.discardable.} =
         return HighScoreCommands.instance
-# from javax.microedition.lcdui.Command import Command
-# from org.allbinary.logic.string.StringUtil import StringUtil
-
-
-def _HighScoreCommands_instance() -> object:
-    return HighScoreCommands()
-
-lazy_static(HighScoreCommands, "instance", _HighScoreCommands_instance)
 

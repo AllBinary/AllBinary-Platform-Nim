@@ -1,62 +1,78 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.logic.util.cache
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/util/BasicArrayList as BasicArrayListModule
+export BasicArrayListModule
+import org/allbinary/logic/util/cache/AbstractArrayListPool as AbstractArrayListPoolModule
+export AbstractArrayListPoolModule
+import org/allbinary/logic/util/cache/CacheableInterfaceFactoryInterface as CacheableInterfaceFactoryInterfaceModule
+export CacheableInterfaceFactoryInterfaceModule
+import org/allbinary/logic/util/cache/CacheableInterface as CacheableInterfaceModule
+export CacheableInterfaceModule
 
-from org.allbinary.logic.util.cache.AbstractArrayListPool import AbstractArrayListPool
+type
+    BasicArrayListPool* = ref object of AbstractArrayListPool
+
+proc newBasicArrayListPool*(cacheableInterfaceFactoryInterface: CacheableInterfaceFactoryInterface): BasicArrayListPool
+proc initBasicArrayListPool*(this: BasicArrayListPool, cacheableInterfaceFactoryInterface: CacheableInterfaceFactoryInterface)
+method clear*(this: BasicArrayListPool)
+method remove*(this: BasicArrayListPool, key: JObject): CacheableInterface {.discardable.}
+method addAll*(this: BasicArrayListPool, usedList: BasicArrayList) {.base.}
+method releaseUsedBackToPool*(this: BasicArrayListPool, usedList: BasicArrayList) {.base.}
+import org/allbinary/logic/util/cache/BasicArrayListCacheable as BasicArrayListCacheableModule
+export BasicArrayListCacheableModule
 
 
-class BasicArrayListPool(AbstractArrayListPool):
-    
+proc initBasicArrayListPool*(this: BasicArrayListPool, cacheableInterfaceFactoryInterface: CacheableInterfaceFactoryInterface) =
+        initAbstractArrayListPool(this, cacheableInterfaceFactoryInterface)
 
-    def __init__(self, cacheableInterfaceFactoryInterface: CacheableInterfaceFactoryInterface) -> None:
-        super().__init__(cacheableInterfaceFactoryInterface)
-    
+proc newBasicArrayListPool*(cacheableInterfaceFactoryInterface: CacheableInterfaceFactoryInterface): BasicArrayListPool =
+    result = BasicArrayListPool()
+    initBasicArrayListPool(result, cacheableInterfaceFactoryInterface)
 
-    def clear(self) -> None:
-        self.buffers.clear()
-    
+method clear*(this: BasicArrayListPool) =
+        this.buffers.clear()
 
-    # throws Exception
-    def remove(self, key: object) -> CacheableInterface:
-        size: int = self.buffers.size()
+method remove*(this: BasicArrayListPool, key: JObject): CacheableInterface {.discardable.} =
+        var size: int32 = this.buffers.size()
         if size > 0:
-            return self.buffers.removeAt(size - 1)
+            return CacheableInterface(JObject(this.buffers.removeAt(size -% 1)))
         else:
-            return self.cacheableInterfaceFactoryInterface.getInstance(key)
-    
+            return this.cacheableInterfaceFactoryInterface.getInstance(key)
 
-    # throws Exception
-    def addAll(self, usedList: BasicArrayList) -> None:
-        from org.allbinary.util.BasicArrayList import BasicArrayList
-        index = usedList.size()
-        while (index := index - 1) >= 0:
-            anyType: CacheableInterface = usedList.objectArray[index]
-            self.add(anyType)
+method addAll*(this: BasicArrayListPool, usedList: BasicArrayList) {.base.} =
+        block:
+            var index: int32 = usedList.size()
+            while jPreDecrement(index) >= 0:
+                var anyType: CacheableInterface = CacheableInterface(JObject(usedList.objectArray[index]))
+                this.add(anyType)
         usedList.clear()
-    
 
-    # throws Exception
-    def releaseUsedBackToPool(self, usedList: BasicArrayList) -> None:
-        from org.allbinary.util.BasicArrayList import BasicArrayList
-        index = usedList.size()
-        while (index := index - 1) >= 0:
-            list_: BasicArrayListCacheable = usedList.objectArray[index]
-            if list_.size() == 0:
-                usedList.removeAt(index)
-                self.add(list_)
-# from org.allbinary.util.BasicArrayList import BasicArrayList
+method releaseUsedBackToPool*(this: BasicArrayListPool, usedList: BasicArrayList) {.base.} =
+        block:
+            var index: int32 = usedList.size()
+            while jPreDecrement(index) >= 0:
+                var list: BasicArrayListCacheable = BasicArrayListCacheable(JObject(usedList.objectArray[index]))
+                if list.size() == 0:
+                    usedList.removeAt(index)
+                    this.add(list)
 
+when declared(newBasicArrayListPoolHook1):
+    newBasicArrayListPoolHook1 = proc (cacheableInterfaceFactoryInterface: CacheableInterfaceFactoryInterface): AbstractArrayListPool = newBasicArrayListPool(cacheableInterfaceFactoryInterface)
 

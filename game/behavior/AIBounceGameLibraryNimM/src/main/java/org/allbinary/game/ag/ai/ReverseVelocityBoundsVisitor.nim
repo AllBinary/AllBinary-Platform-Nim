@@ -1,73 +1,85 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.ag.ai
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/bounds/BoundsVisitorInterface as BoundsVisitorInterfaceModule
+export BoundsVisitorInterfaceModule
+import org/allbinary/game/physics/velocity/VelocityInterface as VelocityInterfaceModule
+export VelocityInterfaceModule
+import org/allbinary/layer/LayerInterface as LayerInterfaceModule
+export LayerInterfaceModule
+import org/allbinary/logic/communication/log/LogUtil as LogUtilModule
+export LogUtilModule
 
-from org.allbinary.bounds.BoundsVisitorInterface import BoundsVisitorInterface
+type
+    ReverseVelocityBoundsVisitor* = ref object of BoundsVisitorInterface
+        logUtil*: LogUtil
+        velocityInterface*: VelocityInterface
+        layerInterface*: LayerInterface
+
+proc newReverseVelocityBoundsVisitor*(layerInterface: LayerInterface): ReverseVelocityBoundsVisitor
+proc initReverseVelocityBoundsVisitor*(this: ReverseVelocityBoundsVisitor, layerInterface: LayerInterface)
+method getX*(this: ReverseVelocityBoundsVisitor): int32 {.discardable.}
+method getY*(this: ReverseVelocityBoundsVisitor): int32 {.discardable.}
+method minX*(this: ReverseVelocityBoundsVisitor)
+method maxX*(this: ReverseVelocityBoundsVisitor)
+method minY*(this: ReverseVelocityBoundsVisitor)
+method maxY*(this: ReverseVelocityBoundsVisitor)
+import org/allbinary/game/physics/velocity/VelocityInterfaceCompositeInterface as VelocityInterfaceCompositeInterfaceModule
+export VelocityInterfaceCompositeInterfaceModule
 
 
-class ReverseVelocityBoundsVisitor(BoundsVisitorInterface):
-
-    def _init_fields(self) -> None:
-        from org.allbinary.game.physics.velocity.VelocityInterface import VelocityInterface
-        from org.allbinary.layer.LayerInterface import LayerInterface
-        from org.allbinary.logic.communication.log.LogUtil import LogUtil
-        self.logUtil: LogUtil = LogUtil.getInstance()
-        self.velocityInterface: VelocityInterface = None
-        self.layerInterface: LayerInterface = None
+# Java field initializers run after the base initializer
+proc initFieldsReverseVelocityBoundsVisitor(this: ReverseVelocityBoundsVisitor) =
+    this.logUtil = LogUtil.getInstance()
     
-
-    def __init__(self, layerInterface: LayerInterface) -> None:
-        from org.allbinary.game.physics.velocity.VelocityInterface import VelocityInterface
-        from org.allbinary.game.physics.velocity.VelocityInterfaceCompositeInterface import VelocityInterfaceCompositeInterface
-        from org.allbinary.layer.LayerInterface import LayerInterface
-        self._init_fields()
-        self.layerInterface = layerInterface
-        velocityInterfaceCompositeInterface: VelocityInterfaceCompositeInterface = layerInterface
-        self.velocityInterface = velocityInterfaceCompositeInterface.getVelocityProperties()
     
+    discard
 
-    def getX(self) -> int:
-        return self.layerInterface.getXP()
-    
+proc initReverseVelocityBoundsVisitor*(this: ReverseVelocityBoundsVisitor, layerInterface: LayerInterface) =
+        this.initFieldsReverseVelocityBoundsVisitor()
+        this.layerInterface = layerInterface
+        var velocityInterfaceCompositeInterface: VelocityInterfaceCompositeInterface = VelocityInterfaceCompositeInterface(JObject(layerInterface))
+        this.velocityInterface = VelocityInterface(JObject(velocityInterfaceCompositeInterface.getVelocityProperties()))
 
-    def getY(self) -> int:
-        return self.layerInterface.getYP()
-    
+proc newReverseVelocityBoundsVisitor*(layerInterface: LayerInterface): ReverseVelocityBoundsVisitor =
+    result = ReverseVelocityBoundsVisitor()
+    initReverseVelocityBoundsVisitor(result, layerInterface)
 
-    def minX(self) -> None:
-        if self.velocityInterface.getVelocityXBasicDecimalP().getUnscaled() < 0:
-            self.velocityInterface.getVelocityXBasicDecimalP().multiplyint(-1)
-    
+method getX*(this: ReverseVelocityBoundsVisitor): int32 {.discardable.} =
+        return this.layerInterface.getXP()
 
-    def maxX(self) -> None:
-        if self.velocityInterface.getVelocityXBasicDecimalP().getUnscaled() > 0:
-            self.velocityInterface.getVelocityXBasicDecimalP().multiplyint(-1)
-    
+method getY*(this: ReverseVelocityBoundsVisitor): int32 {.discardable.} =
+        return this.layerInterface.getYP()
 
-    def minY(self) -> None:
-        if self.velocityInterface.getVelocityYBasicDecimalP().getUnscaled() < 0:
-            self.velocityInterface.getVelocityYBasicDecimalP().multiplyint(-1)
-    
+method minX*(this: ReverseVelocityBoundsVisitor) =
+        if this.velocityInterface.getVelocityXBasicDecimalP().getUnscaled() < 0'i64:
+            this.velocityInterface.getVelocityXBasicDecimalP().multiplyint(-1)
 
-    def maxY(self) -> None:
-        if self.velocityInterface.getVelocityYBasicDecimalP().getUnscaled() > 0:
-            self.velocityInterface.getVelocityYBasicDecimalP().multiplyint(-1)
-# from org.allbinary.game.physics.velocity.VelocityInterface import VelocityInterface
-# from org.allbinary.game.physics.velocity.VelocityInterfaceCompositeInterface import VelocityInterfaceCompositeInterface
-# from org.allbinary.layer.LayerInterface import LayerInterface
-# from org.allbinary.logic.communication.log.LogUtil import LogUtil
+method maxX*(this: ReverseVelocityBoundsVisitor) =
+        if this.velocityInterface.getVelocityXBasicDecimalP().getUnscaled() > 0'i64:
+            this.velocityInterface.getVelocityXBasicDecimalP().multiplyint(-1)
 
+method minY*(this: ReverseVelocityBoundsVisitor) =
+        if this.velocityInterface.getVelocityYBasicDecimalP().getUnscaled() < 0'i64:
+            this.velocityInterface.getVelocityYBasicDecimalP().multiplyint(-1)
+
+method maxY*(this: ReverseVelocityBoundsVisitor) =
+        if this.velocityInterface.getVelocityYBasicDecimalP().getUnscaled() > 0'i64:
+            this.velocityInterface.getVelocityYBasicDecimalP().multiplyint(-1)
 

@@ -1,979 +1,966 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.displayable.canvas
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import java/lang/Thread as ThreadModule
+export ThreadModule
+import javax/microedition/lcdui/CommandListener as CommandListenerModule
+export CommandListenerModule
+import javax/microedition/lcdui/Graphics as GraphicsModule
+export GraphicsModule
+import javax/microedition/lcdui/Item as ItemModule
+export ItemModule
+import org/allbinary/animation/Animation as AnimationModule
+export AnimationModule
+import org/allbinary/animation/special/SpecialAnimation as SpecialAnimationModule
+export SpecialAnimationModule
+import org/allbinary/business/advertisement/GameAdStateFactory as GameAdStateFactoryModule
+export GameAdStateFactoryModule
+import org/allbinary/canvas/BaseGameStatistics as BaseGameStatisticsModule
+export BaseGameStatisticsModule
+import org/allbinary/canvas/FullScreenUtil as FullScreenUtilModule
+export FullScreenUtilModule
+import org/allbinary/canvas/RunnableCanvas as RunnableCanvasModule
+export RunnableCanvasModule
+import org/allbinary/game/init/BasicBuildGameInitializerFactory as BasicBuildGameInitializerFactoryModule
+export BasicBuildGameInitializerFactoryModule
+import org/allbinary/game/input/GameInputStrings as GameInputStringsModule
+export GameInputStringsModule
+import org/allbinary/game/input/GameKey as GameKeyModule
+export GameKeyModule
+import org/allbinary/game/input/event/GameKeyEventFactory as GameKeyEventFactoryModule
+export GameKeyEventFactoryModule
+import org/allbinary/game/input/mapping/InputToGameKeyMapping as InputToGameKeyMappingModule
+export InputToGameKeyMappingModule
+import org/allbinary/game/layer/AllBinaryGameLayerManager as AllBinaryGameLayerManagerModule
+export AllBinaryGameLayerManagerModule
+import org/allbinary/game/score/HighScoresFactoryInterface as HighScoresFactoryInterfaceModule
+export HighScoresFactoryInterfaceModule
+import org/allbinary/game/score/HighScoresHelperBase as HighScoresHelperBaseModule
+export HighScoresHelperBaseModule
+import org/allbinary/game/score/HighScoresPaintable as HighScoresPaintableModule
+export HighScoresPaintableModule
+import org/allbinary/game/state/GameState as GameStateModule
+export GameStateModule
+import org/allbinary/game/state/GameStateFactory as GameStateFactoryModule
+export GameStateFactoryModule
+import org/allbinary/graphics/color/BasicColor as BasicColorModule
+export BasicColorModule
+import org/allbinary/graphics/color/BasicColorFactory as BasicColorFactoryModule
+export BasicColorFactoryModule
+import org/allbinary/graphics/displayable/command/MyCommandsFactory as MyCommandsFactoryModule
+export MyCommandsFactoryModule
+import org/allbinary/graphics/displayable/event/DisplayChangeEvent as DisplayChangeEventModule
+export DisplayChangeEventModule
+import org/allbinary/graphics/displayable/event/DisplayChangeEventListener as DisplayChangeEventListenerModule
+export DisplayChangeEventListenerModule
+import org/allbinary/graphics/form/ScrollSelectionForm as ScrollSelectionFormModule
+export ScrollSelectionFormModule
+import org/allbinary/graphics/paint/InitUpdatePaintable as InitUpdatePaintableModule
+export InitUpdatePaintableModule
+import org/allbinary/graphics/paint/Paintable as PaintableModule
+export PaintableModule
+import org/allbinary/graphics/paint/PaintableInterface as PaintableInterfaceModule
+export PaintableInterfaceModule
+import org/allbinary/graphics/paint/StatePaintable as StatePaintableModule
+export StatePaintableModule
+import org/allbinary/logic/system/security/licensing/AbeClientInformationInterface as AbeClientInformationInterfaceModule
+export AbeClientInformationInterfaceModule
+import org/allbinary/logic/util/event/AllBinaryEventObject as AllBinaryEventObjectModule
+export AllBinaryEventObjectModule
+import org/allbinary/thread/ThreadFactoryUtil as ThreadFactoryUtilModule
+export ThreadFactoryUtilModule
+import org/allbinary/time/TimeDelayHelper as TimeDelayHelperModule
+export TimeDelayHelperModule
+import org/allbinary/util/ABHashtable as ABHashtableModule
+export ABHashtableModule
+import org/allbinary/game/displayable/canvas/GameCanvasRunnableInterface as GameCanvasRunnableInterfaceModule
+export GameCanvasRunnableInterfaceModule
+import org/allbinary/game/displayable/canvas/MenuListener as MenuListenerModule
+export MenuListenerModule
+import org/allbinary/game/displayable/canvas/DemoPaintableInterface as DemoPaintableInterfaceModule
+export DemoPaintableInterfaceModule
+import org/allbinary/game/displayable/canvas/FormUtil as FormUtilModule
+export FormUtilModule
+import org/allbinary/game/displayable/canvas/AllBinaryGameCanvas as AllBinaryGameCanvasModule
+export AllBinaryGameCanvasModule
+import org/allbinary/game/displayable/canvas/BasicMenuInputProcessor as BasicMenuInputProcessorModule
+export BasicMenuInputProcessorModule
+import org/allbinary/game/displayable/canvas/DemoGameStartupRunnable as DemoGameStartupRunnableModule
+export DemoGameStartupRunnableModule
+import org/allbinary/game/displayable/canvas/GameRunnable as GameRunnableModule
+export GameRunnableModule
 
-import threading
-from org.allbinary.canvas.RunnableCanvas import RunnableCanvas
-from org.allbinary.graphics.displayable.event.DisplayChangeEventListener import DisplayChangeEventListener
-from org.allbinary.game.displayable.canvas.GameCanvasRunnableInterface import GameCanvasRunnableInterface
-from org.allbinary.game.displayable.canvas.MenuListener import MenuListener
-from org.allbinary.game.displayable.canvas.DemoPaintableInterface import DemoPaintableInterface
+type
+    DemoCanvas* = ref object of RunnableCanvas
+        basicColorFactory*: BasicColorFactory
+        myCommandsFactory*: MyCommandsFactory
+        gameAdStateFactory*: GameAdStateFactory
+        gameInputStrings*: GameInputStrings
+        gameStateFactory*: GameStateFactory
+        threadFactoryUtil*: ThreadFactoryUtil
+        formUtil*: FormUtil
+        fullscreenPaintable*: Paintable
+        basicGameDemoPaintable*: StatePaintable
+        specialAnimationInterface*: SpecialAnimation
+        paintedSpecialAnimationInterface*: Animation
+        fullScreenUtil*: FullScreenUtil
+        gameCanvas*: AllBinaryGameCanvas
+        highScoresHelper*: HighScoresHelperBase
+        realHighScoresPaintable*: HighScoresPaintable
+        highScoresPaintable*: Paintable
+        state*: int32
+        canvasThread*: JThread
+        timeDelayHelper*: TimeDelayHelper
+        basicColor*: BasicColor
+        abeClientInformation*: AbeClientInformationInterface
+        highScoresFactoryInterface*: HighScoresFactoryInterface
+        menuInputProcessor*: BasicMenuInputProcessor
+        menuForm*: ScrollSelectionForm
+        gameInitializationInterfaceFactoryInterface*: BasicBuildGameInitializerFactory
+        initialized*: bool
+        demoGameRunnable*: DemoGameStartupRunnable
+        defaultPaintableInterface*: Paintable
+        paintableInterface*: PaintableInterface
+        overlayPaintable*: InitUpdatePaintable
+        progressPaintable*: PaintableInterface
+        tempWait*: int32
+        inputToGameKeyMapping*: InputToGameKeyMapping
+        gameRunnable*: GameRunnable
+        isSingleKeyRepeatableProcessing*: bool
+        NONE*: GameKey
+        gameKeyEventFactory*: GameKeyEventFactory
+        lastKeyNotMapped*: int32
+        SET_STATE*: string
+        baseGameStatistics*: BaseGameStatistics
 
+converter jAsGameCanvasRunnableInterface*(value: DemoCanvas): GameCanvasRunnableInterface = cast[GameCanvasRunnableInterface](value)
+converter jAsMenuListener*(value: DemoCanvas): MenuListener = cast[MenuListener](value)
+converter jAsDisplayChangeEventListener*(value: DemoCanvas): DisplayChangeEventListener = cast[DisplayChangeEventListener](value)
+converter jAsDemoPaintableInterface*(value: DemoCanvas): DemoPaintableInterface = cast[DemoPaintableInterface](value)
+proc newDemoCanvas*(abeClientInformation: AbeClientInformationInterface, commandListener: CommandListener, highScoresFactoryInterface: HighScoresFactoryInterface, paintable: Paintable, overlayPaintable: InitUpdatePaintable, gameInitializationInterfaceFactoryInterface: BasicBuildGameInitializerFactory, isContinue: bool): DemoCanvas
+proc initDemoCanvas*(this: DemoCanvas, abeClientInformation: AbeClientInformationInterface, commandListener: CommandListener, highScoresFactoryInterface: HighScoresFactoryInterface, paintable: Paintable, overlayPaintable: InitUpdatePaintable, gameInitializationInterfaceFactoryInterface: BasicBuildGameInitializerFactory, isContinue: bool)
+method onEvent*(this: DemoCanvas, eventObject: AllBinaryEventObject)
+method onDisplayChangeEvent*(this: DemoCanvas, displayChangeEvent: DisplayChangeEvent)
+method getCustomCommands*(this: DemoCanvas): JArray[JObject] {.base, discardable.}
+method initCommands*(this: DemoCanvas, cmdListener: CommandListener)
+method initPostPaint*(this: DemoCanvas) {.base.}
+method mediaInit*(this: DemoCanvas) {.base.}
+method itemStateChanged*(this: DemoCanvas, item: Item)
+method initMenu*(this: DemoCanvas) {.base.}
+method open*(this: DemoCanvas)
+method close*(this: DemoCanvas)
+method getSourceId*(this: DemoCanvas): int32 {.discardable.}
+method keyPressed*(this: DemoCanvas, keyCode: int32)
+method keyReleased*(this: DemoCanvas, keyCode: int32)
+method keyRepeated*(this: DemoCanvas, keyCode: int32)
+method keyPressedByDevice*(this: DemoCanvas, keyCode: int32, deviceId: int32)
+method keyReleasedByDevice*(this: DemoCanvas, keyCode: int32, deviceId: int32)
+method keyRepeatedByDevice*(this: DemoCanvas, keyCode: int32, deviceId: int32)
+method addGameKeyEvent*(this: DemoCanvas, keyCode: int32, repeated: bool) {.base.}
+method removeGameKeyEvent*(this: DemoCanvas, keyCode: int32, repeated: bool) {.base.}
+method pause*(this: DemoCanvas)
+method unPause*(this: DemoCanvas)
+method isPausable*(this: DemoCanvas): bool {.discardable.}
+method isGameOver*(this: DemoCanvas): bool {.discardable.}
+method setLoadStateHashtable*(this: DemoCanvas, hashtable: ABHashtable)
+method getLoadStateHashtable*(this: DemoCanvas): ABHashtable {.discardable.}
+method getCurrentStateHashtable*(this: DemoCanvas): ABHashtable {.discardable.}
+method setHighScoreSubmitted*(this: DemoCanvas, isNotUsed: bool)
+method paint*(this: DemoCanvas, graphics: Graphics)
+method paintThreed*(this: DemoCanvas, graphics: Graphics)
+method processGameOver*(this: DemoCanvas)
+method demoStateChange*(this: DemoCanvas) {.base.}
+method updateDemoState*(this: DemoCanvas) {.base.}
+method getNextRandom*(this: DemoCanvas): int32 {.base, discardable.}
+method createGameLayerManager*(this: DemoCanvas, randomValue: int32): AllBinaryGameLayerManager {.base, discardable.}
+method createRunnable*(this: DemoCanvas, randomLevel: int32): GameCanvasRunnableInterface {.base, discardable.}
+method create*(this: DemoCanvas) {.base.}
+method start*(this: DemoCanvas) {.base.}
+method preDemoProcess*(this: DemoCanvas) {.base.}
+method process*(this: DemoCanvas)
+method startDemoGame*(this: DemoCanvas) {.base.}
+method stopGameDemo*(this: DemoCanvas) {.base.}
+method showGamePaintable*(this: DemoCanvas)
+method isReadyForStateChange*(this: DemoCanvas): bool {.base, discardable.}
+method processGame*(this: DemoCanvas) {.base.}
+method run*(this: DemoCanvas)
+method run3*(this: DemoCanvas) {.base.}
+method setRunning*(this: DemoCanvas, running: bool)
+method `end`*(this: DemoCanvas) {.base.}
+method setGameState*(this: DemoCanvas, gameState: GameState)
+method getGameState*(this: DemoCanvas): GameState {.discardable.}
+method getGameCanvasRunnableInterface*(this: DemoCanvas): AllBinaryGameCanvas {.base, discardable.}
+method isDemoLoading*(this: DemoCanvas): bool {.base, discardable.}
+method getState*(this: DemoCanvas): int32 {.base, discardable.}
+method setState*(this: DemoCanvas, state: int32) {.base.}
+method isHighScoreSubmitted*(this: DemoCanvas): bool {.discardable.}
+method getRealHighScoresPaintable*(this: DemoCanvas): HighScoresPaintable {.base, discardable.}
+method setSpecialAnimationInterface*(this: DemoCanvas, specialAnimationInterface: SpecialAnimation) {.base.}
+method getSpecialAnimationInterface*(this: DemoCanvas): SpecialAnimation {.base, discardable.}
+method setPaintableInterface*(this: DemoCanvas, paintableInterface: PaintableInterface) {.base.}
+method getPaintableInterface*(this: DemoCanvas): PaintableInterface {.base, discardable.}
+method setDefaultPaintableInterface*(this: DemoCanvas, defaultPaintableInterface: Paintable) {.base.}
+method getDefaultPaintableInterface*(this: DemoCanvas): Paintable {.base, discardable.}
+method getHighScoresFactoryInterface*(this: DemoCanvas): HighScoresFactoryInterface {.base, discardable.}
+method setMenuInputProcessor*(this: DemoCanvas, menuInputProcessor: BasicMenuInputProcessor) {.base.}
+method getMenuInputProcessor*(this: DemoCanvas): BasicMenuInputProcessor {.base, discardable.}
+method getMenuForm*(this: DemoCanvas): ScrollSelectionForm {.base, discardable.}
+method setMenuForm*(this: DemoCanvas, menuForm: ScrollSelectionForm) {.base.}
+method isInitialized*(this: DemoCanvas): bool {.discardable.}
+method getOverlayPaintable*(this: DemoCanvas): Paintable {.base, discardable.}
+method setBasicGameDemoPaintable*(this: DemoCanvas, basicGameDemoPaintable: StatePaintable) {.base.}
+method getBasicGameDemoPaintable*(this: DemoCanvas): StatePaintable {.base, discardable.}
+method setTempWait*(this: DemoCanvas, tempWait: int32) {.base.}
+method getTempWait*(this: DemoCanvas): int32 {.base, discardable.}
+method isSingleThread*(this: DemoCanvas): bool {.discardable.}
+method isRunningInAnotherThread*(this: DemoCanvas): bool {.base, discardable.}
+method getGameInitializationInterfaceFactoryInterface*(this: DemoCanvas): BasicBuildGameInitializerFactory {.base, discardable.}
+method getType*(this: DemoCanvas): int32 {.discardable.}
+method getTitle*(this: DemoCanvas): string {.discardable.}
+method isPaused*(this: DemoCanvas): bool {.discardable.}
+import javax/microedition/lcdui/Command as CommandModule
+export CommandModule
+import org/allbinary/J2MEUtil as J2MEUtilModule
+export J2MEUtilModule
+import org/allbinary/animation/IndexedAnimationBehavior as IndexedAnimationBehaviorModule
+export IndexedAnimationBehaviorModule
+import org/allbinary/canvas/CustomGameMenuUtil as CustomGameMenuUtilModule
+export CustomGameMenuUtilModule
+import org/allbinary/canvas/GameStatisticsFactory as GameStatisticsFactoryModule
+export GameStatisticsFactoryModule
+import org/allbinary/game/GameAdState as GameAdStateModule
+export GameAdStateModule
+import org/allbinary/game/GameInfo as GameInfoModule
+export GameInfoModule
+import org/allbinary/game/commands/GameCommandsFactory as GameCommandsFactoryModule
+export GameCommandsFactoryModule
+import org/allbinary/game/configuration/event/ChangedGameFeatureListener as ChangedGameFeatureListenerModule
+export ChangedGameFeatureListenerModule
+import org/allbinary/game/configuration/feature/Features as FeaturesModule
+export FeaturesModule
+import org/allbinary/game/configuration/feature/GameFeatureFactory as GameFeatureFactoryModule
+export GameFeatureFactoryModule
+import org/allbinary/game/configuration/feature/InputFeatureFactory as InputFeatureFactoryModule
+export InputFeatureFactoryModule
+import org/allbinary/game/configuration/feature/MainFeatureFactory as MainFeatureFactoryModule
+export MainFeatureFactoryModule
+import org/allbinary/game/init/GameInitializationUtil as GameInitializationUtilModule
+export GameInitializationUtilModule
+import org/allbinary/game/input/GameKeyFactory as GameKeyFactoryModule
+export GameKeyFactoryModule
+import org/allbinary/game/input/PlatformInputMappingFactory as PlatformInputMappingFactoryModule
+export PlatformInputMappingFactoryModule
+import org/allbinary/game/input/event/DownGameKeyEventHandler as DownGameKeyEventHandlerModule
+export DownGameKeyEventHandlerModule
+import org/allbinary/game/input/event/GameKeyEvent as GameKeyEventModule
+export GameKeyEventModule
+import org/allbinary/game/input/event/GameKeyEventHandler as GameKeyEventHandlerModule
+export GameKeyEventHandlerModule
+import org/allbinary/game/input/event/UpGameKeyEventHandler as UpGameKeyEventHandlerModule
+export UpGameKeyEventHandlerModule
+import org/allbinary/game/layer/SWTUtil as SWTUtilModule
+export SWTUtilModule
+import org/allbinary/game/midlet/DemoGameMidlet as DemoGameMidletModule
+export DemoGameMidletModule
+import org/allbinary/game/score/HighScoreCommands as HighScoreCommandsModule
+export HighScoreCommandsModule
+import org/allbinary/game/score/HighScores as HighScoresModule
+export HighScoresModule
+import org/allbinary/game/score/HighScoresHelper as HighScoresHelperModule
+export HighScoresHelperModule
+import org/allbinary/game/score/NullHighScoresSingletonFactory as NullHighScoresSingletonFactoryModule
+export NullHighScoresSingletonFactoryModule
+import org/allbinary/graphics/Rectangle as RectangleModule
+export RectangleModule
+import org/allbinary/graphics/ResizableListenerHandler as ResizableListenerHandlerModule
+export ResizableListenerHandlerModule
+import org/allbinary/graphics/canvas/transition/progress/ProgressCanvas as ProgressCanvasModule
+export ProgressCanvasModule
+import org/allbinary/graphics/canvas/transition/progress/ProgressCanvasFactory as ProgressCanvasFactoryModule
+export ProgressCanvasFactoryModule
+import org/allbinary/graphics/displayable/event/DisplayChangeEventHandler as DisplayChangeEventHandlerModule
+export DisplayChangeEventHandlerModule
+import org/allbinary/graphics/displayable/screen/FullScreenPaintableFactory as FullScreenPaintableFactoryModule
+export FullScreenPaintableFactoryModule
+import org/allbinary/graphics/form/CommandCurrentSelectionFormFactory as CommandCurrentSelectionFormFactoryModule
+export CommandCurrentSelectionFormFactoryModule
+import org/allbinary/graphics/form/FormType as FormTypeModule
+export FormTypeModule
+import org/allbinary/graphics/form/FormTypeFactory as FormTypeFactoryModule
+export FormTypeFactoryModule
+import org/allbinary/graphics/form/ScrollSelectionFormNoneFactory as ScrollSelectionFormNoneFactoryModule
+export ScrollSelectionFormNoneFactoryModule
+import org/allbinary/graphics/form/item/CommandTextItemArrayFactory as CommandTextItemArrayFactoryModule
+export CommandTextItemArrayFactoryModule
+import org/allbinary/graphics/form/item/ABCustomItem as ABCustomItemModule
+export ABCustomItemModule
+import org/allbinary/graphics/opengles/CurrentDisplayableFactory as CurrentDisplayableFactoryModule
+export CurrentDisplayableFactoryModule
+import org/allbinary/graphics/opengles/OpenGLFeatureFactory as OpenGLFeatureFactoryModule
+export OpenGLFeatureFactoryModule
+import org/allbinary/graphics/opengles/OpenGLFeatureUtil as OpenGLFeatureUtilModule
+export OpenGLFeatureUtilModule
+import org/allbinary/graphics/opengles/OpenGLThreadUtil as OpenGLThreadUtilModule
+export OpenGLThreadUtilModule
+import org/allbinary/graphics/paint/NullPaintable as NullPaintableModule
+export NullPaintableModule
+import org/allbinary/graphics/paint/StatePaintableFactory as StatePaintableFactoryModule
+export StatePaintableFactoryModule
+import org/allbinary/input/motion/gesture/observer/BasicMotionGesturesHandler as BasicMotionGesturesHandlerModule
+export BasicMotionGesturesHandlerModule
+import org/allbinary/logic/communication/log/ForcedLogUtil as ForcedLogUtilModule
+export ForcedLogUtilModule
+import org/allbinary/logic/communication/log/PreLogUtil as PreLogUtilModule
+export PreLogUtilModule
+import org/allbinary/logic/math/SmallIntegerSingletonFactory as SmallIntegerSingletonFactoryModule
+export SmallIntegerSingletonFactoryModule
+import org/allbinary/logic/string/StringMaker as StringMakerModule
+export StringMakerModule
+import org/allbinary/logic/string/StringUtil as StringUtilModule
+export StringUtilModule
+import org/allbinary/logic/system/os/OperatingSystemFactory as OperatingSystemFactoryModule
+export OperatingSystemFactoryModule
+import org/allbinary/logic/system/security/licensing/InApplicationPurchaseFactory as InApplicationPurchaseFactoryModule
+export InApplicationPurchaseFactoryModule
+import org/allbinary/logic/system/security/licensing/LockableFeature as LockableFeatureModule
+export LockableFeatureModule
+import org/allbinary/logic/system/security/licensing/LockableFeatureFactory as LockableFeatureFactoryModule
+export LockableFeatureFactoryModule
+import org/allbinary/logic/util/event/EventStrings as EventStringsModule
+export EventStringsModule
+import org/allbinary/media/audio/AllBinaryMediaManager as AllBinaryMediaManagerModule
+export AllBinaryMediaManagerModule
+import org/allbinary/media/audio/EarlySoundsFactory as EarlySoundsFactoryModule
+export EarlySoundsFactoryModule
+import org/allbinary/media/audio/PrimaryPlayerQueueFactory as PrimaryPlayerQueueFactoryModule
+export PrimaryPlayerQueueFactoryModule
+import org/allbinary/media/audio/SecondaryPlayerQueueFactory as SecondaryPlayerQueueFactoryModule
+export SecondaryPlayerQueueFactoryModule
+import org/allbinary/string/CommonSeps as CommonSepsModule
+export CommonSepsModule
+import org/allbinary/thread/NullThread as NullThreadModule
+export NullThreadModule
+import org/allbinary/thread/ThreadUtil as ThreadUtilModule
+export ThreadUtilModule
+import org/allbinary/util/BasicArrayList as BasicArrayListModule
+export BasicArrayListModule
+import org/allbinary/util/BasicArrayListD as BasicArrayListDModule
+export BasicArrayListDModule
+import org/allbinary/game/displayable/canvas/NullGameCanvas as NullGameCanvasModule
+export NullGameCanvasModule
+import org/allbinary/game/displayable/canvas/NoMenuInputProcessor as NoMenuInputProcessorModule
+export NoMenuInputProcessorModule
+import org/allbinary/game/displayable/canvas/NullWaitGameRunnable as NullWaitGameRunnableModule
+export NullWaitGameRunnableModule
+import org/allbinary/game/displayable/canvas/GameInputMappingCanvas as GameInputMappingCanvasModule
+export GameInputMappingCanvasModule
+import org/allbinary/game/displayable/canvas/DemoLimitedCommandTextItemArrayFactory as DemoLimitedCommandTextItemArrayFactoryModule
+export DemoLimitedCommandTextItemArrayFactoryModule
+import org/allbinary/game/displayable/canvas/CommandFormInputProcessor as CommandFormInputProcessorModule
+export CommandFormInputProcessorModule
+import org/allbinary/game/displayable/canvas/DemoCanvasProgressUtil as DemoCanvasProgressUtilModule
+export DemoCanvasProgressUtilModule
+import org/allbinary/game/displayable/canvas/DemoGameRunnable as DemoGameRunnableModule
+export DemoGameRunnableModule
 
-class DemoCanvas(RunnableCanvas, GameCanvasRunnableInterface, MenuListener, DisplayChangeEventListener, DemoPaintableInterface):
-    id: int = 0
-    BOT_GAME_STATS: str = "Bot Game Statistics: "
-    TYPE: int = 3
-    _lock = threading.RLock()
+var DemoCanvas_idValue: int32
+var DemoCanvas_idSet = false
+proc id*(t: typedesc[DemoCanvas]): int32 =
+    if not DemoCanvas_idSet:
+        DemoCanvas_idSet = true
+        DemoCanvas_idValue = 0
+    DemoCanvas_idValue
+var DemoCanvas_BOT_GAME_STATSValue: string
+var DemoCanvas_BOT_GAME_STATSSet = false
+proc BOT_GAME_STATS*(t: typedesc[DemoCanvas]): string =
+    if not DemoCanvas_BOT_GAME_STATSSet:
+        DemoCanvas_BOT_GAME_STATSSet = true
+        DemoCanvas_BOT_GAME_STATSValue = "Bot Game Statistics: "
+    DemoCanvas_BOT_GAME_STATSValue
+var DemoCanvas_TYPEValue: int32
+var DemoCanvas_TYPESet = false
+proc TYPE*(t: typedesc[DemoCanvas]): int32 =
+    if not DemoCanvas_TYPESet:
+        DemoCanvas_TYPESet = true
+        DemoCanvas_TYPEValue = 3
+    DemoCanvas_TYPEValue
 
-    def _init_fields(self) -> None:
-        from org.allbinary.animation.Animation import Animation
-        from org.allbinary.animation.special.SpecialAnimation import SpecialAnimation
-        from org.allbinary.business.advertisement.GameAdStateFactory import GameAdStateFactory
-        from org.allbinary.canvas.BaseGameStatistics import BaseGameStatistics
-        from org.allbinary.canvas.FullScreenUtil import FullScreenUtil
-        from org.allbinary.canvas.GameStatisticsFactory import GameStatisticsFactory
-        from org.allbinary.game.configuration.feature.Features import Features
-        from org.allbinary.game.configuration.feature.InputFeatureFactory import InputFeatureFactory
-        from org.allbinary.game.init.BasicBuildGameInitializerFactory import BasicBuildGameInitializerFactory
-        from org.allbinary.game.input.GameInputStrings import GameInputStrings
-        from org.allbinary.game.input.GameKey import GameKey
-        from org.allbinary.game.input.GameKeyFactory import GameKeyFactory
-        from org.allbinary.game.input.PlatformInputMappingFactory import PlatformInputMappingFactory
-        from org.allbinary.game.input.event.GameKeyEventFactory import GameKeyEventFactory
-        from org.allbinary.game.input.mapping.InputToGameKeyMapping import InputToGameKeyMapping
-        from org.allbinary.game.score.HighScoresFactoryInterface import HighScoresFactoryInterface
-        from org.allbinary.game.score.HighScoresHelper import HighScoresHelper
-        from org.allbinary.game.score.HighScoresHelperBase import HighScoresHelperBase
-        from org.allbinary.game.score.HighScoresPaintable import HighScoresPaintable
-        from org.allbinary.game.state.GameStateFactory import GameStateFactory
-        from org.allbinary.graphics.canvas.transition.progress.ProgressCanvasFactory import ProgressCanvasFactory
-        from org.allbinary.graphics.color.BasicColor import BasicColor
-        from org.allbinary.graphics.color.BasicColorFactory import BasicColorFactory
-        from org.allbinary.graphics.displayable.command.MyCommandsFactory import MyCommandsFactory
-        from org.allbinary.graphics.displayable.screen.FullScreenPaintableFactory import FullScreenPaintableFactory
-        from org.allbinary.graphics.form.ScrollSelectionForm import ScrollSelectionForm
-        from org.allbinary.graphics.paint.InitUpdatePaintable import InitUpdatePaintable
-        from org.allbinary.graphics.paint.NullPaintable import NullPaintable
-        from org.allbinary.graphics.paint.Paintable import Paintable
-        from org.allbinary.graphics.paint.PaintableInterface import PaintableInterface
-        from org.allbinary.graphics.paint.StatePaintable import StatePaintable
-        from org.allbinary.graphics.paint.StatePaintableFactory import StatePaintableFactory
-        from org.allbinary.logic.system.security.licensing.AbeClientInformationInterface import AbeClientInformationInterface
-        from org.allbinary.thread.NullThread import NullThread
-        from org.allbinary.thread.ThreadFactoryUtil import ThreadFactoryUtil
-        from org.allbinary.time.TimeDelayHelper import TimeDelayHelper
-        self.basicColorFactory: BasicColorFactory = BasicColorFactory.getInstance()
-        self.myCommandsFactory: MyCommandsFactory = MyCommandsFactory.getInstance()
-        self.gameAdStateFactory: GameAdStateFactory = GameAdStateFactory.getInstance()
-        self.gameInputStrings: GameInputStrings = GameInputStrings.getInstance()
-        self.gameStateFactory: GameStateFactory = GameStateFactory.getInstance()
-        self.threadFactoryUtil: ThreadFactoryUtil = ThreadFactoryUtil.getInstance()
-        self.formUtil: FormUtil = FormUtil.getInstance()
-        self.fullscreenPaintable: Paintable = FullScreenPaintableFactory.getInstance().paintable
-        self.basicGameDemoPaintable: StatePaintable = StatePaintableFactory.getInstance()
-        self.specialAnimationInterface: SpecialAnimation = SpecialAnimation.getInstance()
-        self.paintedSpecialAnimationInterface: Animation = SpecialAnimation.getInstance()
-        self.fullScreenUtil: FullScreenUtil = FullScreenUtil.getInstance()
-        self.gameCanvas: AllBinaryGameCanvas = NullGameCanvas.getInstance()
-        self.highScoresHelper: HighScoresHelperBase = HighScoresHelper()
-        self.realHighScoresPaintable: HighScoresPaintable = HighScoresPaintable()
-        self.highScoresPaintable: Paintable = NullPaintable.getInstance()
-        self.state: int = 0
-        self.canvasThread: threading.Thread = NullThread.NULL_THREAD
-        self.timeDelayHelper: TimeDelayHelper = TimeDelayHelper(6000)
-        self.basicColor: BasicColor = self.basicColorFactory.RED
-        self.abeClientInformation: AbeClientInformationInterface = None
-        self.highScoresFactoryInterface: HighScoresFactoryInterface = None
-        self.menuInputProcessor: BasicMenuInputProcessor = NoMenuInputProcessor.getInstance()
-        self.menuForm: ScrollSelectionForm = ScrollSelectionForm.getNullScrollSelectionForm()
-        self.gameInitializationInterfaceFactoryInterface: BasicBuildGameInitializerFactory = None
-        self.initialized: bool = False
-        self.demoGameRunnable: DemoGameStartupRunnable = None
-        self.defaultPaintableInterface: Paintable = NullPaintable.getInstance()
-        self.paintableInterface: PaintableInterface = NullPaintable.getInstance()
-        self.overlayPaintable: InitUpdatePaintable = None
-        self.progressPaintable: PaintableInterface = ProgressCanvasFactory.getLazyInstance()
-        self.tempWait: int = NullWaitGameRunnable.getInstance().WAIT
-        self.inputToGameKeyMapping: InputToGameKeyMapping = PlatformInputMappingFactory.getInstance().getPersistentInputMappingInstance().getInputMapping()
-        self.gameRunnable: GameRunnable = NullWaitGameRunnable.getInstance()
-        self.isSingleKeyRepeatableProcessing: bool = Features.getInstance().isFeature(InputFeatureFactory.getInstance().SINGLE_KEY_REPEAT_PRESS)
-        self.NONE: GameKey = GameKeyFactory.getInstance().NONE
-        self.gameKeyEventFactory: GameKeyEventFactory = GameKeyEventFactory.getInstance()
-        self.lastKeyNotMapped: int = -1
-        self.SET_STATE: str = "setState"
-        self.baseGameStatistics: BaseGameStatistics = GameStatisticsFactory.getInstance()
+# Java field initializers run after the base initializer
+proc initFieldsDemoCanvas(this: DemoCanvas) =
+    this.basicColorFactory = BasicColorFactory.getInstance()
+    this.myCommandsFactory = MyCommandsFactory.getInstance()
+    this.gameAdStateFactory = GameAdStateFactory.getInstance()
+    this.gameInputStrings = GameInputStrings.getInstance()
+    this.gameStateFactory = GameStateFactory.getInstance()
+    this.threadFactoryUtil = ThreadFactoryUtil.getInstance()
+    this.formUtil = FormUtil.getInstance()
+    this.fullscreenPaintable = FullScreenPaintableFactory.getInstance().paintable
+    this.basicGameDemoPaintable = StatePaintableFactory.getInstance()
+    this.specialAnimationInterface = SpecialAnimation.getInstance()
+    this.paintedSpecialAnimationInterface = SpecialAnimation.getInstance()
+    this.fullScreenUtil = FullScreenUtil.getInstance()
+    this.gameCanvas = NullGameCanvas.getInstance()
+    this.highScoresHelper = newHighScoresHelper()
+    this.realHighScoresPaintable = newHighScoresPaintable()
+    this.highScoresPaintable = NullPaintable.getInstance()
+    this.state = 0
+    this.canvasThread = NullThread.NULL_THREADStatic
+    this.timeDelayHelper = newTimeDelayHelper(6000)
+    this.basicColor = this.basicColorFactory.RED
     
+    
+    this.menuInputProcessor = NoMenuInputProcessor.getInstance()
+    this.menuForm = ScrollSelectionForm.getNullScrollSelectionForm()
+    
+    this.initialized = false
+    
+    this.defaultPaintableInterface = NullPaintable.getInstance()
+    this.paintableInterface = NullPaintable.getInstance()
+    
+    this.progressPaintable = ProgressCanvasFactory.getLazyInstance()
+    this.tempWait = NullWaitGameRunnable.getInstance().WAIT
+    this.inputToGameKeyMapping = PlatformInputMappingFactory.getInstance().getPersistentInputMappingInstance().getInputMapping()
+    this.gameRunnable = NullWaitGameRunnable.getInstance()
+    this.isSingleKeyRepeatableProcessing = Features.getInstance().isFeature(InputFeatureFactory.getInstance().SINGLE_KEY_REPEAT_PRESS)
+    this.NONE = GameKeyFactory.getInstance().NONE
+    this.gameKeyEventFactory = GameKeyEventFactory.getInstance()
+    this.lastKeyNotMapped = -1
+    this.SET_STATE = "setState"
+    this.baseGameStatistics = GameStatisticsFactory.getInstance()
+    discard
 
-    def __init__(self, abeClientInformation: AbeClientInformationInterface, commandListener: CommandListener, highScoresFactoryInterface: HighScoresFactoryInterface, paintable: Paintable, overlayPaintable: InitUpdatePaintable, gameInitializationInterfaceFactoryInterface: BasicBuildGameInitializerFactory, isContinue: bool) -> None:
-        from org.allbinary.game.displayable.canvas.NullWaitGameRunnable import NullWaitGameRunnable
-        from org.allbinary.game.displayable.canvas.DemoGameStartupRunnable import DemoGameStartupRunnable
-        from javax.microedition.lcdui.CommandListener import CommandListener
-        from org.allbinary.game.commands.GameCommandsFactory import GameCommandsFactory
-        from org.allbinary.game.configuration.event.ChangedGameFeatureListener import ChangedGameFeatureListener
-        from org.allbinary.game.configuration.feature.GameFeatureFactory import GameFeatureFactory
-        from org.allbinary.game.init.BasicBuildGameInitializerFactory import BasicBuildGameInitializerFactory
-        from org.allbinary.game.init.GameInitializationUtil import GameInitializationUtil
-        from org.allbinary.game.score.HighScoresFactoryInterface import HighScoresFactoryInterface
-        from org.allbinary.graphics.ResizableListenerHandler import ResizableListenerHandler
-        from org.allbinary.graphics.displayable.event.DisplayChangeEventHandler import DisplayChangeEventHandler
-        from org.allbinary.graphics.opengles.CurrentDisplayableFactory import CurrentDisplayableFactory
-        from org.allbinary.graphics.paint.InitUpdatePaintable import InitUpdatePaintable
-        from org.allbinary.graphics.paint.Paintable import Paintable
-        from org.allbinary.logic.system.security.licensing.AbeClientInformationInterface import AbeClientInformationInterface
-        super().__init__(commandListener, CurrentDisplayableFactory.getInstance().DEFAULT_CHILD_NAME_LIST, True)
-        self._init_fields()
-        self.abeClientInformation = abeClientInformation
-        self.setWait(NullWaitGameRunnable.getInstance().WAIT)
-        self.gameInitializationInterfaceFactoryInterface = gameInitializationInterfaceFactoryInterface
-        GameInitializationUtil.getInstance().initDemo(abeClientInformation, self, gameInitializationInterfaceFactoryInterface)
-        ResizableListenerHandler.getInstance().fireEvent(False)
-        self.overlayPaintable = overlayPaintable
-        self.highScoresFactoryInterface = highScoresFactoryInterface
-        self.setDefaultPaintableInterface(paintable)
-        self.setPaintableInterface(self.getDefaultPaintableInterface())
+proc initDemoCanvas*(this: DemoCanvas, abeClientInformation: AbeClientInformationInterface, commandListener: CommandListener, highScoresFactoryInterface: HighScoresFactoryInterface, paintable: Paintable, overlayPaintable: InitUpdatePaintable, gameInitializationInterfaceFactoryInterface: BasicBuildGameInitializerFactory, isContinue: bool) =
+        initRunnableCanvas(this, commandListener, CurrentDisplayableFactory.getInstance().DEFAULT_CHILD_NAME_LIST, true)
+        this.initFieldsDemoCanvas()
+        this.abeClientInformation = abeClientInformation
+        this.setWait(NullWaitGameRunnable.getInstance().WAIT)
+        this.gameInitializationInterfaceFactoryInterface = gameInitializationInterfaceFactoryInterface
+        GameInitializationUtil.getInstance().initDemo(abeClientInformation, this, gameInitializationInterfaceFactoryInterface)
+        ResizableListenerHandler.getInstance().fireEvent(false)
+        this.overlayPaintable = overlayPaintable
+        this.highScoresFactoryInterface = highScoresFactoryInterface
+        this.setDefaultPaintableInterface(paintable)
+        this.setPaintableInterface(this.getDefaultPaintableInterface())
         if isContinue:
-            self.addCommand(GameCommandsFactory.getInstance().CONTINUE_COMMAND)
+            this.addCommand(GameCommandsFactory.getInstance().CONTINUE_COMMAND)
         if ChangedGameFeatureListener.getInstance().isChangedFeature(GameFeatureFactory.getInstance().SOUND):
-            self.mediaInit()
-        self.demoGameRunnable = DemoGameStartupRunnable(self)
-        DisplayChangeEventHandler.getInstance().addListenerInterface(self)
-    
+            this.mediaInit()
+        this.demoGameRunnable = newDemoGameStartupRunnable(this)
+        DisplayChangeEventHandler.getInstance().addListenerInterface(this)
 
-    def onEvent(self, eventObject: AllBinaryEventObject) -> None:
-        from org.allbinary.logic.communication.log.ForcedLogUtil import ForcedLogUtil
-        from org.allbinary.logic.util.event.AllBinaryEventObject import AllBinaryEventObject
-        from org.allbinary.logic.util.event.EventStrings import EventStrings
-        ForcedLogUtil.log(EventStrings.getInstance().PERFORMANCE_MESSAGE, self)
-    
+proc newDemoCanvas*(abeClientInformation: AbeClientInformationInterface, commandListener: CommandListener, highScoresFactoryInterface: HighScoresFactoryInterface, paintable: Paintable, overlayPaintable: InitUpdatePaintable, gameInitializationInterfaceFactoryInterface: BasicBuildGameInitializerFactory, isContinue: bool): DemoCanvas =
+    result = DemoCanvas()
+    initDemoCanvas(result, abeClientInformation, commandListener, highScoresFactoryInterface, paintable, overlayPaintable, gameInitializationInterfaceFactoryInterface, isContinue)
 
-    def onDisplayChangeEvent(self, displayChangeEvent: DisplayChangeEvent) -> None:
-        from org.allbinary.graphics.Rectangle import Rectangle
-        from org.allbinary.graphics.displayable.event.DisplayChangeEvent import DisplayChangeEvent
-        from org.allbinary.graphics.form.FormType import FormType
-        from org.allbinary.graphics.form.FormTypeFactory import FormTypeFactory
-        from org.allbinary.graphics.form.ScrollSelectionForm import ScrollSelectionForm
-        from org.allbinary.logic.string.StringMaker import StringMaker
+method onEvent*(this: DemoCanvas, eventObject: AllBinaryEventObject) =
+        ForcedLogUtil.log(EventStrings.getInstance().PERFORMANCE_MESSAGE, this)
+
+method onDisplayChangeEvent*(this: DemoCanvas, displayChangeEvent: DisplayChangeEvent) =
         try:
-            self.logUtil.putF(str(StringMaker().append(self.commonLabels.START_LABEL).append(str(self.displayInfo))), self, self.canvasStrings.ON_DISPLAY_CHANGE_EVENT)
-            scrollSelectionForm: ScrollSelectionForm = self.getMenuForm()
-            if scrollSelectionForm is not None:
-                formType: FormType = FormTypeFactory.getInstance().getFormType()
-                rectangle: Rectangle = self.formUtil.createFormRectangle()
+            this.logUtil.putF(newStringMaker().append(this.commonLabels.START_LABEL).append(this.displayInfo.toString()).toString(), this, this.canvasStrings.ON_DISPLAY_CHANGE_EVENT)
+            let scrollSelectionForm: ScrollSelectionForm = this.getMenuForm()
+            if (not jIsNil(scrollSelectionForm)):
+                let formType: FormType = FormTypeFactory.getInstance().getFormType()
+                let rectangle: Rectangle = this.formUtil.createFormRectangle()
                 scrollSelectionForm.init(rectangle, formType)
-            self.overlayPaintable.init()
-        except Exception as e:
-            self.logUtil.put(self.commonStrings.EXCEPTION, self, self.canvasStrings.ON_DISPLAY_CHANGE_EVENT, e)
-    
+            this.overlayPaintable.init()
+        except CatchableError as jcaught:
+            let e = jToException(jcaught)
+            this.logUtil.put(this.commonStrings.EXCEPTION, this, this.canvasStrings.ON_DISPLAY_CHANGE_EVENT, e)
 
-    def getCustomCommands(self) -> list[object]:
-        from org.allbinary.game.displayable.canvas.GameInputMappingCanvas import GameInputMappingCanvas
-        from org.allbinary.game.displayable.canvas.GameInputMappingCanvas import GameInputMappingCanvas
-        from org.allbinary.game.displayable.canvas.GameInputMappingCanvas import GameInputMappingCanvas
-        from org.allbinary.J2MEUtil import J2MEUtil
-        from org.allbinary.game.commands.GameCommandsFactory import GameCommandsFactory
-        from org.allbinary.game.layer.SWTUtil import SWTUtil
-        from org.allbinary.game.score.HighScoreCommands import HighScoreCommands
-        from org.allbinary.logic.system.os.OperatingSystemFactory import OperatingSystemFactory
-        from org.allbinary.logic.system.security.licensing.InApplicationPurchaseFactory import InApplicationPurchaseFactory
-        from org.allbinary.logic.system.security.licensing.LockableFeature import LockableFeature
-        from org.allbinary.logic.system.security.licensing.LockableFeatureFactory import LockableFeatureFactory
-        from org.allbinary.util.BasicArrayList import BasicArrayList
-        from org.allbinary.util.BasicArrayListD import BasicArrayListD
-        gameCommandsFactory: GameCommandsFactory = GameCommandsFactory.getInstance()
+method getCustomCommands*(this: DemoCanvas): JArray[JObject] {.base, discardable.} =
+        let gameCommandsFactory: GameCommandsFactory = GameCommandsFactory.getInstance()
         if J2MEUtil.isHTML():
-            commandArray: list[object] = [gameCommandsFactory.START_COMMAND, HighScoreCommands.getInstance().DISPLAY, GameInputMappingCanvas.DISPLAY, gameCommandsFactory.DISPLAY_ABOUT]
+            let commandArray: JArray[JObject] = newJArrayFromRefs[JObject](gameCommandsFactory.START_COMMAND, HighScoreCommands.getInstance().DISPLAY, GameInputMappingCanvas.DISPLAY, gameCommandsFactory.DISPLAY_ABOUT)
             return commandArray
         else:
-            commandList: BasicArrayList = BasicArrayListD()
+            let commandList: BasicArrayList = newBasicArrayListD()
             commandList.add(gameCommandsFactory.START_COMMAND)
-            inApplicationPurchaseFactory: InApplicationPurchaseFactory = InApplicationPurchaseFactory.getInstance()
+            let inApplicationPurchaseFactory: InApplicationPurchaseFactory = InApplicationPurchaseFactory.getInstance()
             if inApplicationPurchaseFactory.isEnabled():
-                list_: BasicArrayList = LockableFeatureFactory.getInstance().getList()
-                if list_.size() > 0 and not inApplicationPurchaseFactory.isPurchased(list_.get(0)):
+                let list: BasicArrayList = LockableFeatureFactory.getInstance().getList()
+                if list.size() > 0 and (not inApplicationPurchaseFactory.isPurchased(LockableFeature(JObject(list.get(0))))):
                     commandList.add(gameCommandsFactory.BUY_COMMAND)
             commandList.add(HighScoreCommands.getInstance().DISPLAY)
             try:
-                isOverScan: bool = OperatingSystemFactory.getInstance().getOperatingSystemInstance().isOverScan()
+                let isOverScan: bool = OperatingSystemFactory.getInstance().getOperatingSystemInstance().isOverScan()
                 if SWTUtil.isSWT:
                     commandList.add(GameInputMappingCanvas.DISPLAY)
-                elif not isOverScan:
+                elif (not isOverScan):
                     commandList.add(gameCommandsFactory.DISPLAY_OPTIONS)
                     commandList.add(gameCommandsFactory.DISPLAY_LOAD_FORM)
                     commandList.add(GameInputMappingCanvas.DISPLAY)
-            except Exception as e:
-                pass
+            except CatchableError as jcaught:
+                discard
             commandList.add(gameCommandsFactory.DISPLAY_ABOUT)
-            commandArray: list[object] = commandList.toArray()
+            let commandArray: JArray[JObject] = commandList.toArray()
             return commandArray
-    
 
-    def initCommands(self, cmdListener: CommandListener) -> None:
-        from javax.microedition.lcdui.Command import Command
-        from javax.microedition.lcdui.CommandListener import CommandListener
-        from org.allbinary.canvas.CustomGameMenuUtil import CustomGameMenuUtil
-        self.removeAllCommands()
-        commandArray: list[object] = self.getCustomCommands()
-        size: int = len(commandArray)
-        for index in range(0, size):
-            self.addCommand(commandArray[index])
-        CustomGameMenuUtil.add(self)
-        self.setCommandListener(cmdListener)
-    
+method initCommands*(this: DemoCanvas, cmdListener: CommandListener) =
+        this.removeAllCommands()
+        let commandArray: JArray[JObject] = this.getCustomCommands()
+        let size: int32 = commandArray.length
+        block:
+            var index: int32 = 0
+            while index < size:
+                defer: index = index +% 1
+                this.addCommand(Command(JObject(commandArray[index])))
+        CustomGameMenuUtil.add(this)
+        this.setCommandListener(cmdListener)
 
-    # throws Exception
-    def initPostPaint(self) -> None:
-        pass
-    
+method initPostPaint*(this: DemoCanvas) {.base.} =
+        discard
 
-    # throws Exception
-    def mediaInit(self) -> None:
-        from org.allbinary.media.audio.AllBinaryMediaManager import AllBinaryMediaManager
-        from org.allbinary.media.audio.EarlySoundsFactory import EarlySoundsFactory
+method mediaInit*(this: DemoCanvas) {.base.} =
         AllBinaryMediaManager.init(EarlySoundsFactory.getInstance())
-    
 
-    def itemStateChanged(self, item: Item) -> None:
-        from javax.microedition.lcdui.Item import Item
-        from org.allbinary.logic.communication.log.ForcedLogUtil import ForcedLogUtil
-        ForcedLogUtil.log(self.commonStrings.NOT_IMPLEMENTED, self)
-    
+method itemStateChanged*(this: DemoCanvas, item: Item) =
+        ForcedLogUtil.log(this.commonStrings.NOT_IMPLEMENTED, this)
 
-    # throws Exception
-    def initMenu(self) -> None:
-        from org.allbinary.game.displayable.canvas.DemoLimitedCommandTextItemArrayFactory import DemoLimitedCommandTextItemArrayFactory
-        from org.allbinary.game.displayable.canvas.CommandFormInputProcessor import CommandFormInputProcessor
-        from org.allbinary.graphics.Rectangle import Rectangle
-        from org.allbinary.graphics.form.CommandCurrentSelectionFormFactory import CommandCurrentSelectionFormFactory
-        from org.allbinary.graphics.form.FormType import FormType
-        from org.allbinary.graphics.form.FormTypeFactory import FormTypeFactory
-        from org.allbinary.graphics.form.ScrollSelectionForm import ScrollSelectionForm
-        from org.allbinary.graphics.form.ScrollSelectionFormNoneFactory import ScrollSelectionFormNoneFactory
-        from org.allbinary.graphics.form.item.CommandTextItemArrayFactory import CommandTextItemArrayFactory
-        from org.allbinary.graphics.form.item.ABCustomItem import ABCustomItem
-        from org.allbinary.logic.communication.log.PreLogUtil import PreLogUtil
-        from org.allbinary.logic.string.StringMaker import StringMaker
-        from org.allbinary.logic.string.StringUtil import StringUtil
-        from org.allbinary.util.BasicArrayListD import BasicArrayListD
-        self.close()
-        commandTextItemArrayFactory: CommandTextItemArrayFactory = DemoLimitedCommandTextItemArrayFactory.getInstance().getCommandTextItemArrayFactory()
-        items: list[ABCustomItem] = commandTextItemArrayFactory.getInstance(self.getCommandStack(), self.basicColorFactory.BLACK, self.basicColorFactory.WHITE)
-        formType: FormType = FormTypeFactory.getInstance().getFormType()
-        rectangle: Rectangle = self.formUtil.createFormRectangle()
-        PreLogUtil.put(str(StringMaker().append(self.commonLabels.START_LABEL).append(str(self.displayInfo))), self, "initMenu")
-        scrollSelectionForm: ScrollSelectionForm = CommandCurrentSelectionFormFactory.getInstance(StringUtil.getInstance().EMPTY_STRING, items, rectangle, formType, 15, True, self.basicColorFactory.BLACK, self.basicColorFactory.WHITE)
-        self.setMenuForm(scrollSelectionForm)
-        formType2: FormType = FormTypeFactory.getInstance().getFormType()
-        rectangle2: Rectangle = self.formUtil.createFormRectangle()
+method initMenu*(this: DemoCanvas) {.base.} =
+        this.close()
+        let commandTextItemArrayFactory: CommandTextItemArrayFactory = DemoLimitedCommandTextItemArrayFactory.getInstance().getCommandTextItemArrayFactory()
+        let items: JArray[ABCustomItem] = commandTextItemArrayFactory.getInstance(this.getCommandStack(), this.basicColorFactory.BLACK, this.basicColorFactory.WHITE)
+        let formType: FormType = FormTypeFactory.getInstance().getFormType()
+        let rectangle: Rectangle = this.formUtil.createFormRectangle()
+        PreLogUtil.put(newStringMaker().append(this.commonLabels.START_LABEL).append(this.displayInfo.toString()).toString(), this, "initMenu")
+        let scrollSelectionForm: ScrollSelectionForm = CommandCurrentSelectionFormFactory.getInstance(StringUtil.getInstance().EMPTY_STRING, items, rectangle, formType, 15, true, this.basicColorFactory.BLACK, this.basicColorFactory.WHITE)
+        this.setMenuForm(scrollSelectionForm)
+        let formType2: FormType = FormTypeFactory.getInstance().getFormType()
+        let rectangle2: Rectangle = this.formUtil.createFormRectangle()
         scrollSelectionForm.init(rectangle2, formType2)
-        if self.getMenuForm() != ScrollSelectionFormNoneFactory.getInstance():
-            self.setMenuInputProcessor(CommandFormInputProcessor(BasicArrayListD(), -1, self, self.getMenuForm()))
-        self.open()
-    
+        if this.getMenuForm() != ScrollSelectionFormNoneFactory.getInstance():
+            this.setMenuInputProcessor(newCommandFormInputProcessor(newBasicArrayListD(), -1, this, this.getMenuForm()))
+        this.open()
 
-    def open(self) -> None:
-        from org.allbinary.game.input.event.GameKeyEventHandler import GameKeyEventHandler
-        from org.allbinary.input.motion.gesture.observer.BasicMotionGesturesHandler import BasicMotionGesturesHandler
-        BasicMotionGesturesHandler.getInstance().addListenerInterface(self.getMenuInputProcessor())
-        GameKeyEventHandler.getInstance().addListener(self.getMenuInputProcessor())
-    
+method open*(this: DemoCanvas) =
+        BasicMotionGesturesHandler.getInstance().addListenerInterface(this.getMenuInputProcessor())
+        GameKeyEventHandler.getInstance().addListener(this.getMenuInputProcessor())
 
-    def close(self) -> None:
-        from org.allbinary.game.input.event.GameKeyEventHandler import GameKeyEventHandler
-        from org.allbinary.input.motion.gesture.observer.BasicMotionGesturesHandler import BasicMotionGesturesHandler
-        BasicMotionGesturesHandler.getInstance().removeListener(self.getMenuInputProcessor())
-        GameKeyEventHandler.getInstance().removeListener(self.getMenuInputProcessor())
-    
+method close*(this: DemoCanvas) =
+        BasicMotionGesturesHandler.getInstance().removeListener(this.getMenuInputProcessor())
+        GameKeyEventHandler.getInstance().removeListener(this.getMenuInputProcessor())
 
-    def getSourceId(self) -> int:
+method getSourceId*(this: DemoCanvas): int32 {.discardable.} =
         return DemoCanvas.id
-    
 
-    def keyPressed(self, keyCode: int) -> None:
-        self.keyPressedByDevice(keyCode, 0)
-    
+method keyPressed*(this: DemoCanvas, keyCode: int32) =
+        this.keyPressedByDevice(keyCode, 0)
 
-    def keyReleased(self, keyCode: int) -> None:
-        self.keyReleasedByDevice(keyCode, 0)
-    
+method keyReleased*(this: DemoCanvas, keyCode: int32) =
+        this.keyReleasedByDevice(keyCode, 0)
 
-    def keyRepeated(self, keyCode: int) -> None:
-        self.keyRepeatedByDevice(keyCode, 0)
-    
+method keyRepeated*(this: DemoCanvas, keyCode: int32) =
+        this.keyRepeatedByDevice(keyCode, 0)
 
-    def keyPressedByDevice(self, keyCode: int, deviceId: int) -> None:
-        self.addGameKeyEvent(keyCode, False)
-    
+method keyPressedByDevice*(this: DemoCanvas, keyCode: int32, deviceId: int32) =
+        this.addGameKeyEvent(keyCode, false)
 
-    def keyReleasedByDevice(self, keyCode: int, deviceId: int) -> None:
-        self.removeGameKeyEvent(keyCode, False)
-    
+method keyReleasedByDevice*(this: DemoCanvas, keyCode: int32, deviceId: int32) =
+        this.removeGameKeyEvent(keyCode, false)
 
-    def keyRepeatedByDevice(self, keyCode: int, deviceId: int) -> None:
-        if self.isSingleKeyRepeatableProcessing:
-            self.addGameKeyEvent(keyCode, True)
-    
+method keyRepeatedByDevice*(this: DemoCanvas, keyCode: int32, deviceId: int32) =
+        if this.isSingleKeyRepeatableProcessing:
+            this.addGameKeyEvent(keyCode, true)
 
-    def addGameKeyEvent(self, keyCode: int, repeated: bool) -> None:
-        from org.allbinary.game.input.GameKey import GameKey
-        from org.allbinary.game.input.event.DownGameKeyEventHandler import DownGameKeyEventHandler
-        from org.allbinary.game.input.event.GameKeyEvent import GameKeyEvent
-        from org.allbinary.logic.string.StringMaker import StringMaker
+method addGameKeyEvent*(this: DemoCanvas, keyCode: int32, repeated: bool) {.base.} =
         try:
-            gameKey: GameKey = self.inputToGameKeyMapping.getInstanceForCanvas(self, keyCode)
-            if gameKey != self.NONE:
-                gameKeyEvent: GameKeyEvent = self.gameKeyEventFactory.getInstanceForInput(self, gameKey)
+            var gameKey: GameKey = this.inputToGameKeyMapping.getInstanceForCanvas(this, keyCode)
+            if gameKey != this.NONE:
+                var gameKeyEvent: GameKeyEvent = this.gameKeyEventFactory.getInstanceForInput(this, gameKey)
                 DownGameKeyEventHandler.getInstance().fireEvent(gameKeyEvent)
             else:
-                if self.lastKeyNotMapped != keyCode:
-                    self.lastKeyNotMapped = keyCode
-                    self.logUtil.putF(str(StringMaker().append(self.gameInputStrings.NO_KEY).appendint(keyCode)), self, self.gameInputStrings.ADD_KEY_EVENT)
-        except Exception as e:
-            self.logUtil.put("Key Event Error", self, self.gameInputStrings.ADD_KEY_EVENT, e)
-    
+                if this.lastKeyNotMapped != keyCode:
+                    this.lastKeyNotMapped = keyCode
+                    this.logUtil.putF(newStringMaker().append(this.gameInputStrings.NO_KEY).appendint(keyCode).toString(), this, this.gameInputStrings.ADD_KEY_EVENT)
+        except CatchableError as jcaught:
+            let e = jToException(jcaught)
+            this.logUtil.put("Key Event Error", this, this.gameInputStrings.ADD_KEY_EVENT, e)
 
-    def removeGameKeyEvent(self, keyCode: int, repeated: bool) -> None:
-        from org.allbinary.game.input.GameKey import GameKey
-        from org.allbinary.game.input.event.GameKeyEvent import GameKeyEvent
-        from org.allbinary.game.input.event.UpGameKeyEventHandler import UpGameKeyEventHandler
-        from org.allbinary.logic.string.StringMaker import StringMaker
+method removeGameKeyEvent*(this: DemoCanvas, keyCode: int32, repeated: bool) {.base.} =
         try:
-            gameKey: GameKey = self.inputToGameKeyMapping.getInstanceForCanvas(self, keyCode)
-            if gameKey != self.NONE:
-                gameKeyEvent: GameKeyEvent = self.gameKeyEventFactory.getInstanceForInput(self, gameKey)
+            var gameKey: GameKey = this.inputToGameKeyMapping.getInstanceForCanvas(this, keyCode)
+            if gameKey != this.NONE:
+                var gameKeyEvent: GameKeyEvent = this.gameKeyEventFactory.getInstanceForInput(this, gameKey)
                 UpGameKeyEventHandler.getInstance().fireEvent(gameKeyEvent)
             else:
-                self.logUtil.putF(str(StringMaker().append(self.gameInputStrings.NO_KEY).appendint(keyCode)), self, self.gameInputStrings.REMOVE_KEY_EVENT)
-        except Exception as e:
-            self.logUtil.put("Key Event Error", self, self.gameInputStrings.REMOVE_KEY_EVENT, e)
-    
+                this.logUtil.putF(newStringMaker().append(this.gameInputStrings.NO_KEY).appendint(keyCode).toString(), this, this.gameInputStrings.REMOVE_KEY_EVENT)
+        except CatchableError as jcaught:
+            let e = jToException(jcaught)
+            this.logUtil.put("Key Event Error", this, this.gameInputStrings.REMOVE_KEY_EVENT, e)
 
-    def pause(self) -> None:
-        with self._lock:
-            return self._pause_unlocked()
+method pause*(this: DemoCanvas) =
+        this.close()
+        this.setPaused(true)
+        this.gameRunnable = NullWaitGameRunnable.getInstance()
+        this.gameCanvas.pause()
 
-    def _pause_unlocked(self) -> None:
-        from org.allbinary.game.displayable.canvas.NullWaitGameRunnable import NullWaitGameRunnable
-        self.close()
-        self.setPaused(True)
-        self.gameRunnable = NullWaitGameRunnable.getInstance()
-        self.gameCanvas.pause()
-    
+method unPause*(this: DemoCanvas) =
+        this.open()
+        this.gameCanvas.unPause()
+        this.gameRunnable = this.gameCanvas.gameRunnable
+        this.setPaused(false)
 
-    def unPause(self) -> None:
-        with self._lock:
-            return self._unPause_unlocked()
-
-    def _unPause_unlocked(self) -> None:
-        self.open()
-        self.gameCanvas.unPause()
-        self.gameRunnable = self.gameCanvas.gameRunnable
-        self.setPaused(False)
-    
-
-    def isPausable(self) -> bool:
-        from org.allbinary.game.displayable.canvas.NullWaitGameRunnable import NullWaitGameRunnable
-        from org.allbinary.graphics.opengles.CurrentDisplayableFactory import CurrentDisplayableFactory
+method isPausable*(this: DemoCanvas): bool {.discardable.} =
         if CurrentDisplayableFactory.getInstance().getUsedRunnable() == NullWaitGameRunnable.getInstance():
-            return True
+            return true
         else:
-            return False
-    
+            return false
 
-    def isGameOver(self) -> bool:
-        from org.allbinary.logic.string.StringMaker import StringMaker
-        self.logUtil.putF(str(StringMaker().append(self.commonStrings.NOT_IMPLEMENTED).append(" since not a game")), self, "isGameOver")
-        return False
-    
+method isGameOver*(this: DemoCanvas): bool {.discardable.} =
+        this.logUtil.putF(newStringMaker().append(this.commonStrings.NOT_IMPLEMENTED).append(" since not a game").toString(), this, "isGameOver")
+        return false
 
-    # throws Exception
-    def setLoadStateHashtable(self, hashtable: ABHashtable[object, object]) -> None:
-        from org.allbinary.util.ABHashtable import ABHashtable
-        self.logUtil.putF("Trying to continue a demo lol - only continue a game canvas not the demo", self, "setLoadStateHashtable")
-    
+method setLoadStateHashtable*(this: DemoCanvas, hashtable: ABHashtable) =
+        this.logUtil.putF("Trying to continue a demo lol - only continue a game canvas not the demo", this, "setLoadStateHashtable")
 
-    # throws Exception
-    def getLoadStateHashtable(self) -> ABHashtable[object, object]:
-        from org.allbinary.util.ABHashtable import ABHashtable
-        self.logUtil.putF("Trying to continue a demo lol - only continue a game canvas not the demo", self, "getLoadStateHashtable")
-        return self.stdUtil.NULL_TABLE
-    
+method getLoadStateHashtable*(this: DemoCanvas): ABHashtable {.discardable.} =
+        this.logUtil.putF("Trying to continue a demo lol - only continue a game canvas not the demo", this, "getLoadStateHashtable")
+        return this.stdUtil.NULL_TABLE
 
-    # throws Exception
-    def getCurrentStateHashtable(self) -> ABHashtable[object, object]:
-        from org.allbinary.util.ABHashtable import ABHashtable
-        self.logUtil.putF("Trying to save the AI lol", self, "getCurrentStateHashtable")
-        return self.stdUtil.NULL_TABLE
-    
+method getCurrentStateHashtable*(this: DemoCanvas): ABHashtable {.discardable.} =
+        this.logUtil.putF("Trying to save the AI lol", this, "getCurrentStateHashtable")
+        return this.stdUtil.NULL_TABLE
 
-    def setHighScoreSubmitted(self, isNotUsed: bool) -> None:
-        pass
-    
+method setHighScoreSubmitted*(this: DemoCanvas, isNotUsed: bool) =
+        discard
 
-    def paint(self, graphics: Graphics) -> None:
-        from javax.microedition.lcdui.Graphics import Graphics
-        self.paintableInterface.paint(graphics)
-        self.paintedSpecialAnimationInterface.paintXY(graphics, 0, 0)
-        self.highScoresPaintable.paint(graphics)
-        self.getBasicGameDemoPaintable().paint(graphics)
-        self.overlayPaintable.paint(graphics)
-        self.fullscreenPaintable.paint(graphics)
-        self.progressPaintable.paint(graphics)
-    
+method paint*(this: DemoCanvas, graphics: Graphics) =
+        this.paintableInterface.paint(graphics)
+        this.paintedSpecialAnimationInterface.paintXY(graphics, 0, 0)
+        this.highScoresPaintable.paint(graphics)
+        this.getBasicGameDemoPaintable().paint(graphics)
+        this.overlayPaintable.paint(graphics)
+        this.fullscreenPaintable.paint(graphics)
+        this.progressPaintable.paint(graphics)
 
-    def paintThreed(self, graphics: Graphics) -> None:
-        from javax.microedition.lcdui.Graphics import Graphics
-        self.paintableInterface.paintThreed(graphics)
-        self.paintedSpecialAnimationInterface.paintThreedXYZ(graphics, 0, 0, 0)
-    
+method paintThreed*(this: DemoCanvas, graphics: Graphics) =
+        this.paintableInterface.paintThreed(graphics)
+        this.paintedSpecialAnimationInterface.paintThreedXYZ(graphics, 0, 0, 0)
 
-    def processGameOver(self) -> None:
-        with self._lock:
-            return self._processGameOver_unlocked()
+method processGameOver*(this: DemoCanvas) =
+        this.logUtil.putF("Not Implemented since not a game", this, "setGameOver")
 
-    def _processGameOver_unlocked(self) -> None:
-        self.logUtil.putF("Not Implemented since not a game", self, "setGameOver")
-    
-
-    def demoStateChange(self) -> None:
-        from org.allbinary.game.score.HighScores import HighScores
-        from org.allbinary.game.score.NullHighScoresSingletonFactory import NullHighScoresSingletonFactory
-        newState: int = self.state + 1
+method demoStateChange*(this: DemoCanvas) {.base.} =
+        var newState: int32 = this.state +% 1
         if newState > 2:
             newState = 0
         elif newState == 2:
-            if not self.highScoresHelper.isAnyHighScores():
+            if (not this.highScoresHelper.isAnyHighScores()):
                 newState = 0
             else:
-                highScores: HighScores = self.highScoresHelper.getNextHighScores()
+                let highScores: HighScores = this.highScoresHelper.getNextHighScores()
                 if highScores == NullHighScoresSingletonFactory.getInstance():
                     newState = 0
                 else:
-                    self.getRealHighScoresPaintable().setHighScores(highScores)
-        self.setState(newState)
-        self.updateDemoState()
-    
+                    this.getRealHighScoresPaintable().setHighScores(highScores)
+        this.setState(newState)
+        this.updateDemoState()
 
-    def updateDemoState(self) -> None:
-        from org.allbinary.animation.special.SpecialAnimation import SpecialAnimation
-        from org.allbinary.game.GameAdState import GameAdState
-        from org.allbinary.graphics.paint.NullPaintable import NullPaintable
-        from org.allbinary.logic.communication.log.PreLogUtil import PreLogUtil
-        from org.allbinary.logic.math.SmallIntegerSingletonFactory import SmallIntegerSingletonFactory
-        PreLogUtil.put(str(SmallIntegerSingletonFactory.getInstance().createInstance(self.state)), self, self.SET_STATE)
-        self.getBasicGameDemoPaintable().setState(self.state)
-        if self.state == 0:
-            self.highScoresPaintable = NullPaintable.getInstance()
-            self.paintedSpecialAnimationInterface = self.getSpecialAnimationInterface()
-            if not self.demoGameRunnable.isRunning() and self.gameCanvas.isInitialized():
-                self.getSpecialAnimationInterface().reset()
-        elif self.state == 1:
-            self.paintedSpecialAnimationInterface = SpecialAnimation.getInstance()
-        elif self.state == 2:
-            self.highScoresPaintable = self.getRealHighScoresPaintable()
-        gameAdState: GameAdState = self.gameAdStateFactory.getCurrentInstance()
+method updateDemoState*(this: DemoCanvas) {.base.} =
+        PreLogUtil.put(SmallIntegerSingletonFactory.getInstance().createInstance(this.state).toString(), this, this.SET_STATE)
+        this.getBasicGameDemoPaintable().setState(this.state)
+        if this.state == 0:
+            this.highScoresPaintable = NullPaintable.getInstance()
+            this.paintedSpecialAnimationInterface = this.getSpecialAnimationInterface()
+            if (not this.demoGameRunnable.isRunning()) and this.gameCanvas.isInitialized():
+                this.getSpecialAnimationInterface().reset()
+        elif this.state == 1:
+            this.paintedSpecialAnimationInterface = SpecialAnimation.getInstance()
+        elif this.state == 2:
+            this.highScoresPaintable = this.getRealHighScoresPaintable()
+        var gameAdState: GameAdState = this.gameAdStateFactory.getCurrentInstance()
         gameAdState.processPageAdState()
-    
 
-    # throws Exception
-    def getNextRandom(self) -> int:
-        raise Exception(self.commonStrings.NOT_IMPLEMENTED)
-    
+method getNextRandom*(this: DemoCanvas): int32 {.base, discardable.} =
+        raise newJException("Exception", this.commonStrings.NOT_IMPLEMENTED)
 
-    # throws Exception
-    def createGameLayerManager(self, randomValue: int) -> AllBinaryGameLayerManager:
-        from org.allbinary.game.layer.AllBinaryGameLayerManager import AllBinaryGameLayerManager
-        raise Exception(self.commonStrings.NOT_IMPLEMENTED)
-    
+method createGameLayerManager*(this: DemoCanvas, randomValue: int32): AllBinaryGameLayerManager {.base, discardable.} =
+        raise newJException("Exception", this.commonStrings.NOT_IMPLEMENTED)
 
-    # throws Exception
-    def createRunnable(self, randomLevel: int) -> GameCanvasRunnableInterface:
-        raise Exception(self.commonStrings.NOT_IMPLEMENTED)
-    
+method createRunnable*(this: DemoCanvas, randomLevel: int32): GameCanvasRunnableInterface {.base, discardable.} =
+        raise newJException("Exception", this.commonStrings.NOT_IMPLEMENTED)
 
-    # throws Exception
-    def create(self) -> None:
-        from org.allbinary.game.GameInfo import GameInfo
-        from org.allbinary.graphics.paint.NullPaintable import NullPaintable
-        from org.allbinary.logic.communication.log.PreLogUtil import PreLogUtil
-        PreLogUtil.put(self.commonStrings.START, self, "create")
-        self.highScoresPaintable = NullPaintable.getInstance()
-        randomLevel: int = self.getNextRandom()
-        self.gameCanvas = self.createRunnable(randomLevel)
-        self.basicColor = self.gameCanvas.getLayerManager().getForegroundBasicColor()
-        self.getRealHighScoresPaintable().setBasicColorP(self.basicColor)
-        self.gameCanvas.setGameCanvasStartListener(self)
-        gameInfo: GameInfo = self.gameCanvas.getLayerManager().getGameInfo()
-        self.getHighScoresFactoryInterface().fetchHighScores(gameInfo, self.highScoresHelper)
-    
+method create*(this: DemoCanvas) {.base.} =
+        PreLogUtil.put(this.commonStrings.START, this, "create")
+        this.highScoresPaintable = NullPaintable.getInstance()
+        var randomLevel: int32 = this.getNextRandom()
+        this.gameCanvas = AllBinaryGameCanvas(JObject(this.createRunnable(randomLevel)))
+        this.basicColor = this.gameCanvas.getLayerManager().getForegroundBasicColor()
+        this.getRealHighScoresPaintable().setBasicColorP(this.basicColor)
+        this.gameCanvas.setGameCanvasStartListener(this)
+        let gameInfo: GameInfo = this.gameCanvas.getLayerManager().getGameInfo()
+        this.getHighScoresFactoryInterface().fetchHighScores(gameInfo, this.highScoresHelper)
 
-    # throws Exception
-    def start(self) -> None:
-        from org.allbinary.game.displayable.canvas.NullWaitGameRunnable import NullWaitGameRunnable
-        from org.allbinary.logic.communication.log.PreLogUtil import PreLogUtil
-        from org.allbinary.logic.string.StringMaker import StringMaker
-        gameCanvas: AllBinaryGameCanvas = self.gameCanvas
-        PreLogUtil.put(str(StringMaker().append("Game Thread in DemoCanvas: ").append(self.stringUtil.toString(gameCanvas))), self, self.commonStrings.START)
-        self.canvasThread = self.threadFactoryUtil.getInstanceGameCanvasRunnable(gameCanvas)
-        self.gameCanvas.setThread(self.canvasThread)
-        self.threadFactoryUtil.start(self.canvasThread)
-        if self.getWait() == NullWaitGameRunnable.getInstance().WAIT:
-            self.setWait(self.getTempWait())
-    
+method start*(this: DemoCanvas) {.base.} =
+        let gameCanvas: AllBinaryGameCanvas = this.gameCanvas
+        PreLogUtil.put(newStringMaker().append("Game Thread in DemoCanvas: ").append(this.stringUtil.toString(gameCanvas)).toString(), this, this.commonStrings.START)
+        this.canvasThread = this.threadFactoryUtil.getInstanceGameCanvasRunnable(gameCanvas)
+        this.gameCanvas.setThread(this.canvasThread)
+        this.threadFactoryUtil.start(this.canvasThread)
+        if this.getWait() == NullWaitGameRunnable.getInstance().WAIT:
+            this.setWait(this.getTempWait())
 
-    def preDemoProcess(self) -> None:
-        from org.allbinary.game.displayable.canvas.NullGameCanvas import NullGameCanvas
-        from org.allbinary.media.audio.AllBinaryMediaManager import AllBinaryMediaManager
-        from org.allbinary.media.audio.PrimaryPlayerQueueFactory import PrimaryPlayerQueueFactory
-        from org.allbinary.media.audio.SecondaryPlayerQueueFactory import SecondaryPlayerQueueFactory
-        if not self.gameCanvas.isInitialized() or self.gameCanvas.getTitle() == NullGameCanvas.NO_GAME:
+method preDemoProcess*(this: DemoCanvas) {.base.} =
+        if (not this.gameCanvas.isInitialized()) or this.gameCanvas.getTitle() == NullGameCanvas.NO_GAME:
             if AllBinaryMediaManager.update():
-                if not PrimaryPlayerQueueFactory.getInstance().process():
+                if (not PrimaryPlayerQueueFactory.getInstance().process()):
                     SecondaryPlayerQueueFactory.getInstance().process()
-        self.overlayPaintable.update()
-    
+        this.overlayPaintable.update()
 
-    # throws Exception
-    def process(self) -> None:
-        from org.allbinary.game.displayable.canvas.NullGameCanvas import NullGameCanvas
-        from org.allbinary.game.displayable.canvas.NullGameCanvas import NullGameCanvas
-        from org.allbinary.animation.IndexedAnimationBehavior import IndexedAnimationBehavior
-        from org.allbinary.game.GameInfo import GameInfo
-        from org.allbinary.game.midlet.DemoGameMidlet import DemoGameMidlet
-        super().process()
-        self.getMenuInputProcessor().processInputList()
-        self.preDemoProcess()
-        if self.state == 0:
-            indexedAnimationBehavior: IndexedAnimationBehavior = (self.getSpecialAnimationInterface().getAnimationBehavior())
+method process*(this: DemoCanvas) =
+        procCall RunnableCanvas(this).process()
+        this.getMenuInputProcessor().processInputList()
+        this.preDemoProcess()
+        if this.state == 0:
+            let indexedAnimationBehavior: IndexedAnimationBehavior = (IndexedAnimationBehavior(JObject(this.getSpecialAnimationInterface().getAnimationBehavior())))
             if indexedAnimationBehavior.loopIndex < 1:
-                self.timeDelayHelper.setStartTimeTNT()
-            demoGameMidlet: DemoGameMidlet = self.getCustomCommandListener()
-            if self.gameCanvas != NullGameCanvas.getInstance() and self.gameCanvas.isGameOver():
-                self.stopGameDemo()
-                randomLevel: int = self.getNextRandom()
-                gameInfo: GameInfo = self.gameCanvas.getLayerManager().getGameInfo()
+                this.timeDelayHelper.setStartTimeTNT()
+            var demoGameMidlet: DemoGameMidlet = DemoGameMidlet(JObject(this.getCustomCommandListener()))
+            if this.gameCanvas != NullGameCanvas.getInstance() and this.gameCanvas.isGameOver():
+                this.stopGameDemo()
+                var randomLevel: int32 = this.getNextRandom()
+                var gameInfo: GameInfo = this.gameCanvas.getLayerManager().getGameInfo()
                 gameInfo.setCurrentLevel(randomLevel)
-                self.gameCanvas.setGameOver(False)
-                self.start()
-            elif self.gameCanvas == NullGameCanvas.getInstance() and demoGameMidlet.isReady():
-                if not self.demoGameRunnable.isRunning():
-                    self.startDemoGame()
-                    self.demoGameRunnable.setRunning(True)
-                    thread: threading.Thread = self.threadFactoryUtil.getInstanceForRunnable(self.demoGameRunnable)
-                    self.demoGameRunnable.setThread(thread)
-                    self.threadFactoryUtil.start(thread)
-    
+                this.gameCanvas.setGameOver(false)
+                this.start()
+            elif this.gameCanvas == NullGameCanvas.getInstance() and demoGameMidlet.isReady():
+                if (not this.demoGameRunnable.isRunning()):
+                    this.startDemoGame()
+                    this.demoGameRunnable.setRunning(true)
+                    let thread: JThread = this.threadFactoryUtil.getInstanceForRunnable(this.demoGameRunnable)
+                    this.demoGameRunnable.setThread(thread)
+                    this.threadFactoryUtil.start(thread)
 
-    # throws Exception
-    def startDemoGame(self) -> None:
-        from org.allbinary.game.displayable.canvas.DemoCanvasProgressUtil import DemoCanvasProgressUtil
-        DemoCanvasProgressUtil.showProgress(self)
-    
+method startDemoGame*(this: DemoCanvas) {.base.} =
+        DemoCanvasProgressUtil.showProgress(this)
 
-    # throws Exception
-    def stopGameDemo(self) -> None:
-        from org.allbinary.game.displayable.canvas.NullGameCanvas import NullGameCanvas
-        from org.allbinary.thread.ThreadUtil import ThreadUtil
-        if self.gameCanvas != NullGameCanvas.getInstance():
-            self.logUtil.putF("Set Running False", self, "stopGameDemo")
-            self.gameCanvas.setRunning(False)
-        ThreadUtil.getInstance().join(self.canvasThread)
-    
+method stopGameDemo*(this: DemoCanvas) {.base.} =
+        if this.gameCanvas != NullGameCanvas.getInstance():
+            this.logUtil.putF("Set Running False", this, "stopGameDemo")
+            this.gameCanvas.setRunning(false)
+        ThreadUtil.getInstance().join(this.canvasThread)
 
-    def showGamePaintable(self) -> None:
-        from org.allbinary.game.displayable.canvas.NullGameCanvas import NullGameCanvas
-        from org.allbinary.game.displayable.canvas.NullGameCanvas import NullGameCanvas
-        from org.allbinary.game.displayable.canvas.NullWaitGameRunnable import NullWaitGameRunnable
-        from org.allbinary.J2MEUtil import J2MEUtil
-        from org.allbinary.game.layer.SWTUtil import SWTUtil
-        from org.allbinary.logic.communication.log.PreLogUtil import PreLogUtil
-        METHOD_NAME: str = "showGamePaintable"
-        PreLogUtil.put(self.commonStrings.START, self, METHOD_NAME)
-        isDefault: bool = J2MEUtil.isHTML()
-        if self.gameCanvas != NullGameCanvas.getInstance() and (self.gameCanvas.isRunning() or isDefault or SWTUtil.isSWT) and not (self.gameCanvas.getType() == NullGameCanvas.TYPE):
-            self.gameRunnable = self.gameCanvas.gameRunnable
-            PreLogUtil.put("Showing Game", self, METHOD_NAME)
-            self.setPaintableInterface(self.gameCanvas)
+method showGamePaintable*(this: DemoCanvas) =
+        let METHOD_NAME: string = "showGamePaintable"
+        PreLogUtil.put(this.commonStrings.START, this, METHOD_NAME)
+        let isDefault: bool = J2MEUtil.isHTML()
+        if this.gameCanvas != NullGameCanvas.getInstance() and (this.gameCanvas.isRunning() or isDefault or SWTUtil.isSWT) and (not (this.gameCanvas.getType() == NullGameCanvas.TYPE)):
+            this.gameRunnable = this.gameCanvas.gameRunnable
+            PreLogUtil.put("Showing Game", this, METHOD_NAME)
+            this.setPaintableInterface(this.gameCanvas)
         else:
-            self.gameRunnable = NullWaitGameRunnable.getInstance()
-            PreLogUtil.put("Not Showing Game", self, METHOD_NAME)
-            self.setPaintableInterface(self.getDefaultPaintableInterface())
-    
+            this.gameRunnable = NullWaitGameRunnable.getInstance()
+            PreLogUtil.put("Not Showing Game", this, METHOD_NAME)
+            this.setPaintableInterface(this.getDefaultPaintableInterface())
 
-    def isReadyForStateChange(self) -> bool:
-        return not self.demoGameRunnable.isRunning() and self.gameCanvas.isInitialized()
-    
+method isReadyForStateChange*(this: DemoCanvas): bool {.base, discardable.} =
+        return (not this.demoGameRunnable.isRunning()) and this.gameCanvas.isInitialized()
 
-    # throws Exception
-    def processGame(self) -> None:
-        self.gameRunnable.run()
-        if not self.specialAnimationInterface.isComplete() and self.isReadyForStateChange():
-            self.specialAnimationInterface.nextFrame()
-        if self.timeDelayHelper.isTimeTNT() and self.isReadyForStateChange():
-            self.demoStateChange()
+method processGame*(this: DemoCanvas) {.base.} =
+        this.gameRunnable.run()
+        if (not this.specialAnimationInterface.isComplete()) and this.isReadyForStateChange():
+            this.specialAnimationInterface.nextFrame()
+        if this.timeDelayHelper.isTimeTNT() and this.isReadyForStateChange():
+            this.demoStateChange()
         else:
-            self.process()
-    
+            this.process()
 
-    def run(self) -> None:
-        from org.allbinary.game.displayable.canvas.NullGameCanvas import NullGameCanvas
-        from org.allbinary.game.displayable.canvas.DemoGameRunnable import DemoGameRunnable
-        from org.allbinary.game.displayable.canvas.DemoGameRunnable import DemoGameRunnable
-        from org.allbinary.J2MEUtil import J2MEUtil
-        from org.allbinary.game.configuration.feature.Features import Features
-        from org.allbinary.game.configuration.feature.MainFeatureFactory import MainFeatureFactory
-        from org.allbinary.graphics.canvas.transition.progress.ProgressCanvas import ProgressCanvas
-        from org.allbinary.graphics.canvas.transition.progress.ProgressCanvasFactory import ProgressCanvasFactory
-        from org.allbinary.graphics.opengles.CurrentDisplayableFactory import CurrentDisplayableFactory
-        from org.allbinary.graphics.opengles.OpenGLFeatureFactory import OpenGLFeatureFactory
-        from org.allbinary.graphics.opengles.OpenGLThreadUtil import OpenGLThreadUtil
-        self.logUtil.putF(self.commonStrings.START_RUNNABLE, self, self.commonStrings.RUN)
+method run*(this: DemoCanvas) =
+        this.logUtil.putF(this.commonStrings.START_RUNNABLE, this, this.commonStrings.RUN)
         try:
-            progressCanvas: ProgressCanvas = ProgressCanvasFactory.getInstance()
-            features: Features = Features.getInstance()
-            openGLFeatureFactory: OpenGLFeatureFactory = OpenGLFeatureFactory.getInstance()
+            let progressCanvas: ProgressCanvas = ProgressCanvasFactory.getInstance()
+            let features: Features = Features.getInstance()
+            let openGLFeatureFactory: OpenGLFeatureFactory = OpenGLFeatureFactory.getInstance()
             progressCanvas.addNormalPortion(50, "Demo Thread")
-            self.setCurrentThread()
-            self.setRunning(True)
+            this.setCurrentThread()
+            this.setRunning(true)
             if features.isFeature(MainFeatureFactory.getInstance().LOAD_ONDEMAND):
-                progressCanvas.end()
+                progressCanvas.`end`()
             else:
                 progressCanvas.addNormalPortion(50, "Demo Thread Running")
-            self.fullScreenUtil.initOnRun(self, self.getCustomCommandListener())
-            self.initMenu()
-            self.initPostPaint()
-            self.updateDemoState()
+            this.fullScreenUtil.initOnRun(this, this.getCustomCommandListener())
+            this.initMenu()
+            this.initPostPaint()
+            this.updateDemoState()
             if features.isDefault(openGLFeatureFactory.OPENGL_AS_GAME_THREAD):
-                while self.gameCanvas == NullGameCanvas.getInstance() or not self.gameCanvas.isInitialized():
-                    self.loopTimeHelper.setStartTimeTNT()
-                    self.processGame()
-                    self.processLoopSleep()
-                demoGameRunnable: DemoGameRunnable = DemoGameRunnable(self)
-                currentDisplayableFactory: CurrentDisplayableFactory = CurrentDisplayableFactory.getInstance()
+                while this.gameCanvas == NullGameCanvas.getInstance() or (not this.gameCanvas.isInitialized()):
+                    this.loopTimeHelper.setStartTimeTNT()
+                    this.processGame()
+                    this.processLoopSleep()
+                let demoGameRunnable: DemoGameRunnable = newDemoGameRunnable(this)
+                let currentDisplayableFactory: CurrentDisplayableFactory = CurrentDisplayableFactory.getInstance()
                 currentDisplayableFactory.setRunnable(demoGameRunnable)
-                currentDisplayableFactory.setMyCanvas(self)
+                currentDisplayableFactory.setMyCanvas(this)
                 OpenGLThreadUtil.getInstance().onResume()
             if features.isDefault(openGLFeatureFactory.OPENGL_AS_GAME_THREAD) or J2MEUtil.isHTML():
-                demoGameRunnable: DemoGameRunnable = DemoGameRunnable(self)
-                currentDisplayableFactory: CurrentDisplayableFactory = CurrentDisplayableFactory.getInstance()
+                let demoGameRunnable: DemoGameRunnable = newDemoGameRunnable(this)
+                let currentDisplayableFactory: CurrentDisplayableFactory = CurrentDisplayableFactory.getInstance()
                 currentDisplayableFactory.setRunnable(demoGameRunnable)
-                currentDisplayableFactory.setMyCanvas(self)
+                currentDisplayableFactory.setMyCanvas(this)
             else:
-                while self.isRunning():
-                    self.run3()
-                self.end()
-        except Exception as e:
-            self.logUtil.put(self.commonStrings.EXCEPTION, self, self.commonStrings.RUN, e)
-        self.logUtil.putF(self.commonStrings.END_RUNNABLE, self, self.commonStrings.RUN)
-    
+                while this.isRunning():
+                    this.run3()
+                this.`end`()
+        except CatchableError as jcaught:
+            let e = jToException(jcaught)
+            this.logUtil.put(this.commonStrings.EXCEPTION, this, this.commonStrings.RUN, e)
+        this.logUtil.putF(this.commonStrings.END_RUNNABLE, this, this.commonStrings.RUN)
 
-    # throws Exception
-    def run3(self) -> None:
-        self.loopTimeHelper.setStartTimeTNT()
-        self.processGame()
-        self.processLoopSleep()
-    
+method run3*(this: DemoCanvas) {.base.} =
+        this.loopTimeHelper.setStartTimeTNT()
+        this.processGame()
+        this.processLoopSleep()
 
-    def setRunning(self, running: bool) -> None:
-        from org.allbinary.J2MEUtil import J2MEUtil
-        from org.allbinary.game.configuration.feature.Features import Features
-        from org.allbinary.game.layer.SWTUtil import SWTUtil
-        from org.allbinary.graphics.opengles.CurrentDisplayableFactory import CurrentDisplayableFactory
-        from org.allbinary.graphics.opengles.OpenGLFeatureFactory import OpenGLFeatureFactory
-        super().setRunning(running)
+method setRunning*(this: DemoCanvas, running: bool) =
+        procCall RunnableCanvas(this).setRunning(running)
         try:
-            features: Features = Features.getInstance()
-            openGLFeatureFactory: OpenGLFeatureFactory = OpenGLFeatureFactory.getInstance()
+            let features: Features = Features.getInstance()
+            let openGLFeatureFactory: OpenGLFeatureFactory = OpenGLFeatureFactory.getInstance()
             if running:
-                pass
+                discard
             else:
                 if (features.isDefault(openGLFeatureFactory.OPENGL) or J2MEUtil.isHTML()) or SWTUtil.isSWT:
-                    currentDisplayableFactory: CurrentDisplayableFactory = CurrentDisplayableFactory.getInstance()
+                    let currentDisplayableFactory: CurrentDisplayableFactory = CurrentDisplayableFactory.getInstance()
                     currentDisplayableFactory.clearRunnable()
-                    self.end()
-        except Exception as e:
-            self.logUtil.put(self.commonStrings.EXCEPTION, self, self.SET_RUNNING, e)
-    
+                    this.`end`()
+        except CatchableError as jcaught:
+            let e = jToException(jcaught)
+            this.logUtil.put(this.commonStrings.EXCEPTION, this, this.SET_RUNNING, e)
 
-    # throws Exception
-    def end(self) -> None:
-        from org.allbinary.game.configuration.feature.Features import Features
-        from org.allbinary.game.configuration.feature.MainFeatureFactory import MainFeatureFactory
-        from org.allbinary.graphics.canvas.transition.progress.ProgressCanvas import ProgressCanvas
-        from org.allbinary.graphics.canvas.transition.progress.ProgressCanvasFactory import ProgressCanvasFactory
-        from org.allbinary.graphics.displayable.event.DisplayChangeEventHandler import DisplayChangeEventHandler
-        from org.allbinary.logic.string.StringMaker import StringMaker
-        from org.allbinary.string.CommonSeps import CommonSeps
-        progressCanvas: ProgressCanvas = ProgressCanvasFactory.getInstance()
-        features: Features = Features.getInstance()
-        self.baseGameStatistics.add(str(StringMaker().append(DemoCanvas.BOT_GAME_STATS).append(str(self.baseGameStatistics)).append(CommonSeps.getInstance().NEW_LINE)))
-        self.baseGameStatistics.init()
+method `end`*(this: DemoCanvas) {.base.} =
+        let progressCanvas: ProgressCanvas = ProgressCanvasFactory.getInstance()
+        let features: Features = Features.getInstance()
+        this.baseGameStatistics.add(newStringMaker().append(DemoCanvas.BOT_GAME_STATS).append(this.baseGameStatistics.toString()).append(CommonSeps.getInstance().NEW_LINE).toString())
+        this.baseGameStatistics.init()
         if features.isFeature(MainFeatureFactory.getInstance().LOAD_ONDEMAND):
             progressCanvas.start()
-        self.logUtil.putF("Demo End", self, self.commonStrings.RUN)
-        self.close()
-        DisplayChangeEventHandler.getInstance().removeListener(self)
-        self.stopGameDemo()
-    
+        this.logUtil.putF("Demo End", this, this.commonStrings.RUN)
+        this.close()
+        DisplayChangeEventHandler.getInstance().removeListener(this)
+        this.stopGameDemo()
 
-    def setGameState(self, gameState: GameState) -> None:
-        from org.allbinary.game.state.GameState import GameState
-        pass
-    
+method setGameState*(this: DemoCanvas, gameState: GameState) =
+        discard
 
-    def getGameState(self) -> GameState:
-        from org.allbinary.game.state.GameState import GameState
-        return self.gameStateFactory.PLAYING_GAME_STATE
-    
+method getGameState*(this: DemoCanvas): GameState {.discardable.} =
+        return this.gameStateFactory.PLAYING_GAME_STATE
 
-    def getGameCanvasRunnableInterface(self) -> AllBinaryGameCanvas:
-        return self.gameCanvas
-    
+method getGameCanvasRunnableInterface*(this: DemoCanvas): AllBinaryGameCanvas {.base, discardable.} =
+        return this.gameCanvas
 
-    def isDemoLoading(self) -> bool:
-        from org.allbinary.game.displayable.canvas.NullGameCanvas import NullGameCanvas
-        gameCanvas: AllBinaryGameCanvas = self.gameCanvas
+method isDemoLoading*(this: DemoCanvas): bool {.base, discardable.} =
+        var gameCanvas: AllBinaryGameCanvas = this.gameCanvas
         if gameCanvas == NullGameCanvas.getInstance():
-            return True
+            return true
         elif gameCanvas.isInitialized():
-            return False
-        return True
-    
+            return false
+        return true
 
-    def getState(self) -> int:
-        return self.state
-    
+method getState*(this: DemoCanvas): int32 {.base, discardable.} =
+        return this.state
 
-    def setState(self, state: int) -> None:
-        self.state = state
-    
+method setState*(this: DemoCanvas, state: int32) {.base.} =
+        this.state = state
 
-    def isHighScoreSubmitted(self) -> bool:
-        self.logUtil.putF("Wow the AI got a high score!", self, "isHighScoreSubmitted")
-        return False
-    
+method isHighScoreSubmitted*(this: DemoCanvas): bool {.discardable.} =
+        this.logUtil.putF("Wow the AI got a high score!", this, "isHighScoreSubmitted")
+        return false
 
-    def getRealHighScoresPaintable(self) -> HighScoresPaintable:
-        from org.allbinary.game.score.HighScoresPaintable import HighScoresPaintable
-        return self.realHighScoresPaintable
-    
+method getRealHighScoresPaintable*(this: DemoCanvas): HighScoresPaintable {.base, discardable.} =
+        return this.realHighScoresPaintable
 
-    def setSpecialAnimationInterface(self, specialAnimationInterface: SpecialAnimation) -> None:
-        from org.allbinary.animation.special.SpecialAnimation import SpecialAnimation
+method setSpecialAnimationInterface*(this: DemoCanvas, specialAnimationInterface: SpecialAnimation) {.base.} =
         specialAnimationInterface.setFrame(0)
-        self.specialAnimationInterface = specialAnimationInterface
-    
+        this.specialAnimationInterface = specialAnimationInterface
 
-    def getSpecialAnimationInterface(self) -> SpecialAnimation:
-        from org.allbinary.animation.special.SpecialAnimation import SpecialAnimation
-        return self.specialAnimationInterface
-    
+method getSpecialAnimationInterface*(this: DemoCanvas): SpecialAnimation {.base, discardable.} =
+        return this.specialAnimationInterface
 
-    def setPaintableInterface(self, paintableInterface: PaintableInterface) -> None:
-        from org.allbinary.graphics.paint.PaintableInterface import PaintableInterface
-        self.paintableInterface = paintableInterface
-    
+method setPaintableInterface*(this: DemoCanvas, paintableInterface: PaintableInterface) {.base.} =
+        this.paintableInterface = paintableInterface
 
-    def getPaintableInterface(self) -> PaintableInterface:
-        from org.allbinary.graphics.paint.PaintableInterface import PaintableInterface
-        return self.paintableInterface
-    
+method getPaintableInterface*(this: DemoCanvas): PaintableInterface {.base, discardable.} =
+        return this.paintableInterface
 
-    def setDefaultPaintableInterface(self, defaultPaintableInterface: Paintable) -> None:
-        from org.allbinary.graphics.paint.Paintable import Paintable
-        self.defaultPaintableInterface = defaultPaintableInterface
-    
+method setDefaultPaintableInterface*(this: DemoCanvas, defaultPaintableInterface: Paintable) {.base.} =
+        this.defaultPaintableInterface = defaultPaintableInterface
 
-    def getDefaultPaintableInterface(self) -> Paintable:
-        from org.allbinary.graphics.paint.Paintable import Paintable
-        return self.defaultPaintableInterface
-    
+method getDefaultPaintableInterface*(this: DemoCanvas): Paintable {.base, discardable.} =
+        return this.defaultPaintableInterface
 
-    def getHighScoresFactoryInterface(self) -> HighScoresFactoryInterface:
-        from org.allbinary.game.score.HighScoresFactoryInterface import HighScoresFactoryInterface
-        return self.highScoresFactoryInterface
-    
+method getHighScoresFactoryInterface*(this: DemoCanvas): HighScoresFactoryInterface {.base, discardable.} =
+        return this.highScoresFactoryInterface
 
-    def setMenuInputProcessor(self, menuInputProcessor: BasicMenuInputProcessor) -> None:
-        self.menuInputProcessor = menuInputProcessor
-    
+method setMenuInputProcessor*(this: DemoCanvas, menuInputProcessor: BasicMenuInputProcessor) {.base.} =
+        this.menuInputProcessor = menuInputProcessor
 
-    def getMenuInputProcessor(self) -> BasicMenuInputProcessor:
-        return self.menuInputProcessor
-    
+method getMenuInputProcessor*(this: DemoCanvas): BasicMenuInputProcessor {.base, discardable.} =
+        return this.menuInputProcessor
 
-    def getMenuForm(self) -> ScrollSelectionForm:
-        from org.allbinary.graphics.form.ScrollSelectionForm import ScrollSelectionForm
-        return self.menuForm
-    
+method getMenuForm*(this: DemoCanvas): ScrollSelectionForm {.base, discardable.} =
+        return this.menuForm
 
-    def setMenuForm(self, menuForm: ScrollSelectionForm) -> None:
-        from org.allbinary.graphics.form.ScrollSelectionForm import ScrollSelectionForm
-        self.menuForm = menuForm
-    
+method setMenuForm*(this: DemoCanvas, menuForm: ScrollSelectionForm) {.base.} =
+        this.menuForm = menuForm
 
-    def isInitialized(self) -> bool:
-        return self.initialized
-    
+method isInitialized*(this: DemoCanvas): bool {.discardable.} =
+        return this.initialized
 
-    def getOverlayPaintable(self) -> Paintable:
-        from org.allbinary.graphics.paint.Paintable import Paintable
-        return self.overlayPaintable
-    
+method getOverlayPaintable*(this: DemoCanvas): Paintable {.base, discardable.} =
+        return this.overlayPaintable
 
-    def setBasicGameDemoPaintable(self, basicGameDemoPaintable: StatePaintable) -> None:
-        from org.allbinary.graphics.paint.StatePaintable import StatePaintable
-        self.basicGameDemoPaintable = basicGameDemoPaintable
-    
+method setBasicGameDemoPaintable*(this: DemoCanvas, basicGameDemoPaintable: StatePaintable) {.base.} =
+        this.basicGameDemoPaintable = basicGameDemoPaintable
 
-    def getBasicGameDemoPaintable(self) -> StatePaintable:
-        from org.allbinary.graphics.paint.StatePaintable import StatePaintable
-        return self.basicGameDemoPaintable
-    
+method getBasicGameDemoPaintable*(this: DemoCanvas): StatePaintable {.base, discardable.} =
+        return this.basicGameDemoPaintable
 
-    def setTempWait(self, tempWait: int) -> None:
-        self.tempWait = tempWait
-    
+method setTempWait*(this: DemoCanvas, tempWait: int32) {.base.} =
+        this.tempWait = tempWait
 
-    def getTempWait(self) -> int:
-        return self.tempWait
-    
+method getTempWait*(this: DemoCanvas): int32 {.base, discardable.} =
+        return this.tempWait
 
-    def isSingleThread(self) -> bool:
-        from org.allbinary.game.layer.SWTUtil import SWTUtil
-        from org.allbinary.graphics.opengles.OpenGLFeatureUtil import OpenGLFeatureUtil
+method isSingleThread*(this: DemoCanvas): bool {.discardable.} =
         return OpenGLFeatureUtil.getInstance().isAnyThreed() or SWTUtil.isSWT
-    
 
-    def isRunningInAnotherThread(self) -> bool:
-        from org.allbinary.game.configuration.feature.Features import Features
-        from org.allbinary.graphics.opengles.OpenGLFeatureFactory import OpenGLFeatureFactory
-        features: Features = Features.getInstance()
-        openGLFeatureFactory: OpenGLFeatureFactory = OpenGLFeatureFactory.getInstance()
+method isRunningInAnotherThread*(this: DemoCanvas): bool {.base, discardable.} =
+        let features: Features = Features.getInstance()
+        let openGLFeatureFactory: OpenGLFeatureFactory = OpenGLFeatureFactory.getInstance()
         if features.isDefault(openGLFeatureFactory.OPENGL_AS_GAME_THREAD):
-            return True
+            return true
         else:
-            return self.isRunning()
-    
+            return this.isRunning()
 
-    def getGameInitializationInterfaceFactoryInterface(self) -> BasicBuildGameInitializerFactory:
-        from org.allbinary.game.init.BasicBuildGameInitializerFactory import BasicBuildGameInitializerFactory
-        return self.gameInitializationInterfaceFactoryInterface
-    
+method getGameInitializationInterfaceFactoryInterface*(this: DemoCanvas): BasicBuildGameInitializerFactory {.base, discardable.} =
+        return this.gameInitializationInterfaceFactoryInterface
 
-    def getType(self) -> int:
+method getType*(this: DemoCanvas): int32 {.discardable.} =
         return DemoCanvas.TYPE
-    
 
-    def getTitle(self) -> str:
-        return super().getTitle()
-    
+method getTitle*(this: DemoCanvas): string {.discardable.} =
+        return procCall RunnableCanvas(this).getTitle()
 
-    def isPaused(self) -> bool:
-        return super().isPaused()
-# from javax.microedition.lcdui.Command import Command
-# from javax.microedition.lcdui.CommandListener import CommandListener
-# from javax.microedition.lcdui.Graphics import Graphics
-# from javax.microedition.lcdui.Item import Item
-# from org.allbinary.J2MEUtil import J2MEUtil
-# from org.allbinary.animation.Animation import Animation
-# from org.allbinary.animation.IndexedAnimationBehavior import IndexedAnimationBehavior
-# from org.allbinary.animation.special.SpecialAnimation import SpecialAnimation
-# from org.allbinary.business.advertisement.GameAdStateFactory import GameAdStateFactory
-# from org.allbinary.canvas.BaseGameStatistics import BaseGameStatistics
-# from org.allbinary.canvas.CustomGameMenuUtil import CustomGameMenuUtil
-# from org.allbinary.canvas.FullScreenUtil import FullScreenUtil
-# from org.allbinary.canvas.GameStatisticsFactory import GameStatisticsFactory
-# from org.allbinary.game.GameAdState import GameAdState
-# from org.allbinary.game.GameInfo import GameInfo
-# from org.allbinary.game.commands.GameCommandsFactory import GameCommandsFactory
-# from org.allbinary.game.configuration.event.ChangedGameFeatureListener import ChangedGameFeatureListener
-# from org.allbinary.game.configuration.feature.Features import Features
-# from org.allbinary.game.configuration.feature.GameFeatureFactory import GameFeatureFactory
-# from org.allbinary.game.configuration.feature.InputFeatureFactory import InputFeatureFactory
-# from org.allbinary.game.configuration.feature.MainFeatureFactory import MainFeatureFactory
-# from org.allbinary.game.init.BasicBuildGameInitializerFactory import BasicBuildGameInitializerFactory
-# from org.allbinary.game.init.GameInitializationUtil import GameInitializationUtil
-# from org.allbinary.game.input.GameInputStrings import GameInputStrings
-# from org.allbinary.game.input.GameKey import GameKey
-# from org.allbinary.game.input.GameKeyFactory import GameKeyFactory
-# from org.allbinary.game.input.PlatformInputMappingFactory import PlatformInputMappingFactory
-# from org.allbinary.game.input.event.DownGameKeyEventHandler import DownGameKeyEventHandler
-# from org.allbinary.game.input.event.GameKeyEvent import GameKeyEvent
-# from org.allbinary.game.input.event.GameKeyEventFactory import GameKeyEventFactory
-# from org.allbinary.game.input.event.GameKeyEventHandler import GameKeyEventHandler
-# from org.allbinary.game.input.event.UpGameKeyEventHandler import UpGameKeyEventHandler
-# from org.allbinary.game.input.mapping.InputToGameKeyMapping import InputToGameKeyMapping
-# from org.allbinary.game.layer.AllBinaryGameLayerManager import AllBinaryGameLayerManager
-# from org.allbinary.game.layer.SWTUtil import SWTUtil
-# from org.allbinary.game.midlet.DemoGameMidlet import DemoGameMidlet
-# from org.allbinary.game.score.HighScoreCommands import HighScoreCommands
-# from org.allbinary.game.score.HighScores import HighScores
-# from org.allbinary.game.score.HighScoresFactoryInterface import HighScoresFactoryInterface
-# from org.allbinary.game.score.HighScoresHelper import HighScoresHelper
-# from org.allbinary.game.score.HighScoresHelperBase import HighScoresHelperBase
-# from org.allbinary.game.score.HighScoresPaintable import HighScoresPaintable
-# from org.allbinary.game.score.NullHighScoresSingletonFactory import NullHighScoresSingletonFactory
-# from org.allbinary.game.state.GameState import GameState
-# from org.allbinary.game.state.GameStateFactory import GameStateFactory
-# from org.allbinary.graphics.Rectangle import Rectangle
-# from org.allbinary.graphics.ResizableListenerHandler import ResizableListenerHandler
-# from org.allbinary.graphics.canvas.transition.progress.ProgressCanvas import ProgressCanvas
-# from org.allbinary.graphics.canvas.transition.progress.ProgressCanvasFactory import ProgressCanvasFactory
-# from org.allbinary.graphics.color.BasicColor import BasicColor
-# from org.allbinary.graphics.color.BasicColorFactory import BasicColorFactory
-# from org.allbinary.graphics.displayable.command.MyCommandsFactory import MyCommandsFactory
-# from org.allbinary.graphics.displayable.event.DisplayChangeEvent import DisplayChangeEvent
-# from org.allbinary.graphics.displayable.event.DisplayChangeEventHandler import DisplayChangeEventHandler
-# from org.allbinary.graphics.displayable.screen.FullScreenPaintableFactory import FullScreenPaintableFactory
-# from org.allbinary.graphics.form.CommandCurrentSelectionFormFactory import CommandCurrentSelectionFormFactory
-# from org.allbinary.graphics.form.FormType import FormType
-# from org.allbinary.graphics.form.FormTypeFactory import FormTypeFactory
-# from org.allbinary.graphics.form.ScrollSelectionForm import ScrollSelectionForm
-# from org.allbinary.graphics.form.ScrollSelectionFormNoneFactory import ScrollSelectionFormNoneFactory
-# from org.allbinary.graphics.form.item.CommandTextItemArrayFactory import CommandTextItemArrayFactory
-# from org.allbinary.graphics.form.item.ABCustomItem import ABCustomItem
-# from org.allbinary.graphics.opengles.CurrentDisplayableFactory import CurrentDisplayableFactory
-# from org.allbinary.graphics.opengles.OpenGLFeatureFactory import OpenGLFeatureFactory
-# from org.allbinary.graphics.opengles.OpenGLFeatureUtil import OpenGLFeatureUtil
-# from org.allbinary.graphics.opengles.OpenGLThreadUtil import OpenGLThreadUtil
-# from org.allbinary.graphics.paint.InitUpdatePaintable import InitUpdatePaintable
-# from org.allbinary.graphics.paint.NullPaintable import NullPaintable
-# from org.allbinary.graphics.paint.Paintable import Paintable
-# from org.allbinary.graphics.paint.PaintableInterface import PaintableInterface
-# from org.allbinary.graphics.paint.StatePaintable import StatePaintable
-# from org.allbinary.graphics.paint.StatePaintableFactory import StatePaintableFactory
-# from org.allbinary.input.motion.gesture.observer.BasicMotionGesturesHandler import BasicMotionGesturesHandler
-# from org.allbinary.logic.communication.log.ForcedLogUtil import ForcedLogUtil
-# from org.allbinary.logic.communication.log.PreLogUtil import PreLogUtil
-# from org.allbinary.logic.math.SmallIntegerSingletonFactory import SmallIntegerSingletonFactory
-# from org.allbinary.logic.string.StringMaker import StringMaker
-# from org.allbinary.logic.string.StringUtil import StringUtil
-# from org.allbinary.logic.system.os.OperatingSystemFactory import OperatingSystemFactory
-# from org.allbinary.logic.system.security.licensing.AbeClientInformationInterface import AbeClientInformationInterface
-# from org.allbinary.logic.system.security.licensing.InApplicationPurchaseFactory import InApplicationPurchaseFactory
-# from org.allbinary.logic.system.security.licensing.LockableFeature import LockableFeature
-# from org.allbinary.logic.system.security.licensing.LockableFeatureFactory import LockableFeatureFactory
-# from org.allbinary.logic.util.event.AllBinaryEventObject import AllBinaryEventObject
-# from org.allbinary.logic.util.event.EventStrings import EventStrings
-# from org.allbinary.media.audio.AllBinaryMediaManager import AllBinaryMediaManager
-# from org.allbinary.media.audio.EarlySoundsFactory import EarlySoundsFactory
-# from org.allbinary.media.audio.PrimaryPlayerQueueFactory import PrimaryPlayerQueueFactory
-# from org.allbinary.media.audio.SecondaryPlayerQueueFactory import SecondaryPlayerQueueFactory
-# from org.allbinary.string.CommonSeps import CommonSeps
-# from org.allbinary.thread.NullThread import NullThread
-# from org.allbinary.thread.ThreadFactoryUtil import ThreadFactoryUtil
-# from org.allbinary.thread.ThreadUtil import ThreadUtil
-# from org.allbinary.time.TimeDelayHelper import TimeDelayHelper
-# from org.allbinary.util.ABHashtable import ABHashtable
-# from org.allbinary.util.BasicArrayList import BasicArrayList
-# from org.allbinary.util.BasicArrayListD import BasicArrayListD
-from org.allbinary.game.displayable.canvas.FormUtil import FormUtil
-from org.allbinary.game.displayable.canvas.NullGameCanvas import NullGameCanvas
-from org.allbinary.game.displayable.canvas.NoMenuInputProcessor import NoMenuInputProcessor
-from org.allbinary.game.displayable.canvas.NullWaitGameRunnable import NullWaitGameRunnable
+method isPaused*(this: DemoCanvas): bool {.discardable.} =
+        return procCall RunnableCanvas(this).isPaused()
 
+when declared(newDemoCanvasHook7):
+    newDemoCanvasHook7 = proc (abeClientInformation: AbeClientInformationInterface, commandListener: CommandListener, highScoresFactoryInterface: HighScoresFactoryInterface, paintable: Paintable, overlayPaintable: InitUpdatePaintable, gameInitializationInterfaceFactoryInterface: BasicBuildGameInitializerFactory, isContinue: bool): RunnableCanvas = newDemoCanvas(abeClientInformation, commandListener, highScoresFactoryInterface, paintable, overlayPaintable, gameInitializationInterfaceFactoryInterface, isContinue)
 

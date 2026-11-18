@@ -1,49 +1,68 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.configuration.feature
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/game/configuration/feature/SensorFeature as SensorFeatureModule
+export SensorFeatureModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    SensorFeatureFactory* = ref object of JObject
+        NO_ORIENTATION*: SensorFeature
+        ORIENTATION_SENSORS*: SensorFeature
+        SIMULATED_ORIENTATION_SENSORS*: SensorFeature
+        YAW*: SensorFeature
+        YAW_MINUS_RIGHT_PLUS_LEFT*: SensorFeature
+        YAW_MINUS_LEFT_PLUS_RIGHT*: SensorFeature
+        PITCH*: SensorFeature
+        ROLL*: SensorFeature
 
+proc newSensorFeatureFactory*(): SensorFeatureFactory
+proc initSensorFeatureFactory*(this: SensorFeatureFactory)
+proc getInstance*(t: typedesc[SensorFeatureFactory]): SensorFeatureFactory {.discardable.}
 
-class SensorFeatureFactory:
-    instance: SensorFeatureFactory = None
+var SensorFeatureFactory_instanceValue: SensorFeatureFactory
+var SensorFeatureFactory_instanceSet = false
+proc instance*(t: typedesc[SensorFeatureFactory]): SensorFeatureFactory =
+    if not SensorFeatureFactory_instanceSet:
+        SensorFeatureFactory_instanceSet = true
+        SensorFeatureFactory_instanceValue = newSensorFeatureFactory()
+    SensorFeatureFactory_instanceValue
 
-    def _init_fields(self) -> None:
-        self.NO_ORIENTATION: SensorFeature = SensorFeature("No Orientation")
-        self.ORIENTATION_SENSORS: SensorFeature = SensorFeature("Orientation Sensors")
-        self.SIMULATED_ORIENTATION_SENSORS: SensorFeature = SensorFeature("Simulated Orientation Sensors")
-        self.YAW: SensorFeature = SensorFeature("Yaw")
-        self.YAW_MINUS_RIGHT_PLUS_LEFT: SensorFeature = SensorFeature("Yaw -Right +Left")
-        self.YAW_MINUS_LEFT_PLUS_RIGHT: SensorFeature = SensorFeature("Yaw -Left +Right ")
-        self.PITCH: SensorFeature = SensorFeature("Pitch")
-        self.ROLL: SensorFeature = SensorFeature("Roll")
-    
+# Java field initializers run after the base initializer
+proc initFieldsSensorFeatureFactory(this: SensorFeatureFactory) =
+    this.NO_ORIENTATION = newSensorFeature("No Orientation")
+    this.ORIENTATION_SENSORS = newSensorFeature("Orientation Sensors")
+    this.SIMULATED_ORIENTATION_SENSORS = newSensorFeature("Simulated Orientation Sensors")
+    this.YAW = newSensorFeature("Yaw")
+    this.YAW_MINUS_RIGHT_PLUS_LEFT = newSensorFeature("Yaw -Right +Left")
+    this.YAW_MINUS_LEFT_PLUS_RIGHT = newSensorFeature("Yaw -Left +Right ")
+    this.PITCH = newSensorFeature("Pitch")
+    this.ROLL = newSensorFeature("Roll")
+    discard
 
-    @staticmethod
-    def getInstance() -> SensorFeatureFactory:
+proc getInstance*(t: typedesc[SensorFeatureFactory]): SensorFeatureFactory {.discardable.} =
         return SensorFeatureFactory.instance
-    
 
-    def __init__(self) -> None:
-        self._init_fields()
-from org.allbinary.game.configuration.feature.SensorFeature import SensorFeature
+proc initSensorFeatureFactory*(this: SensorFeatureFactory) =
+        this.initFieldsSensorFeatureFactory()
+        discard
 
-
-def _SensorFeatureFactory_instance() -> object:
-    return SensorFeatureFactory()
-
-lazy_static(SensorFeatureFactory, "instance", _SensorFeatureFactory_instance)
+proc newSensorFeatureFactory*(): SensorFeatureFactory =
+    result = SensorFeatureFactory()
+    initSensorFeatureFactory(result)
 

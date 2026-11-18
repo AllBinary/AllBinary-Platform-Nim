@@ -1,61 +1,88 @@
-# 
-# AllBinary Open License Version 1 
-# Copyright (c) 2022 AllBinary 
-#  
-# By agreeing to this license you and any business entity you represent are 
-# legally bound to the AllBinary Open License Version 1 legal agreement. 
-#  
-# You may obtain the AllBinary Open License Version 1 legal agreement from 
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
-#  
-# Created By: Travis Berthelot 
-#   
+#[
+  
+  AllBinary Open License Version 1 
+  Copyright (c) 2022 AllBinary 
+   
+  By agreeing to this license you and any business entity you represent are 
+  legally bound to the AllBinary Open License Version 1 legal agreement. 
+   
+  You may obtain the AllBinary Open License Version 1 legal agreement from 
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
+   
+  Created By: Travis Berthelot 
+    
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.graphics.displayable
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/util/BasicArrayList as BasicArrayListModule
+export BasicArrayListModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    CanvasStrings* = ref object of JObject
+        CONSTRUCTOR*: string
+        PAUSE*: string
+        UN_PAUSE*: string
+        SET_FULL_SCREEN_MODE*: string
+        SIZE_CHANGED*: string
+        SCALED_IMAGES*: string
+        PAINT*: string
+        ON_DISPLAY_CHANGE_EVENT*: string
+        UPDATE_MEASUREMENT*: string
+        FD_WIDTH*: string
+        FD_HEIGHT*: string
+        EMPTY_CHILD_NAME_LIST*: BasicArrayList
+        ABOUT*: string
+        OPTIONS*: string
+        FONT_ATLAS*: string
+        OBJ_MODEL*: string
+        MD2_MODEL*: string
+        U_PNG*: string
 
+proc newCanvasStrings*(): CanvasStrings
+proc getInstance*(t: typedesc[CanvasStrings]): CanvasStrings {.discardable.}
+import org/allbinary/util/BasicArrayListUtil as BasicArrayListUtilModule
+export BasicArrayListUtilModule
 
-class CanvasStrings:
-    instance: CanvasStrings = None
+var CanvasStrings_instanceValue: CanvasStrings
+var CanvasStrings_instanceSet = false
+proc instance*(t: typedesc[CanvasStrings]): CanvasStrings =
+    if not CanvasStrings_instanceSet:
+        CanvasStrings_instanceSet = true
+        CanvasStrings_instanceValue = newCanvasStrings()
+    CanvasStrings_instanceValue
 
-    def _init_fields(self) -> None:
-        from org.allbinary.util.BasicArrayList import BasicArrayList
-        from org.allbinary.util.BasicArrayListUtil import BasicArrayListUtil
-        self.CONSTRUCTOR: str = "MyCanvas::MyCanvas"
-        self.PAUSE: str = "MyCanvas::pause"
-        self.UN_PAUSE: str = "MyCanvas::unPause"
-        self.SET_FULL_SCREEN_MODE: str = "setFullScreenMode"
-        self.SIZE_CHANGED: str = "sizeChanged"
-        self.SCALED_IMAGES: str = "scaledImages"
-        self.PAINT: str = "paint"
-        self.ON_DISPLAY_CHANGE_EVENT: str = "onDisplayChangeEvent"
-        self.UPDATE_MEASUREMENT: str = "updateMeasurement"
-        self.FD_WIDTH: str = " font/display width: "
-        self.FD_HEIGHT: str = " font/display height: "
-        self.EMPTY_CHILD_NAME_LIST: BasicArrayList = BasicArrayListUtil.getInstance().getImmutableInstance()
-        self.ABOUT: str = "About"
-        self.OPTIONS: str = "Options"
-        self.FONT_ATLAS: str = "/font.png"
-        self.OBJ_MODEL: str = "_obj"
-        self.MD2_MODEL: str = "_md2"
-        self._PNG: str = ".png"
+# Java field initializers run after the base initializer
+proc initFieldsCanvasStrings(this: CanvasStrings) =
+    this.CONSTRUCTOR = "MyCanvas::MyCanvas"
+    this.PAUSE = "MyCanvas::pause"
+    this.UN_PAUSE = "MyCanvas::unPause"
+    this.SET_FULL_SCREEN_MODE = "setFullScreenMode"
+    this.SIZE_CHANGED = "sizeChanged"
+    this.SCALED_IMAGES = "scaledImages"
+    this.PAINT = "paint"
+    this.ON_DISPLAY_CHANGE_EVENT = "onDisplayChangeEvent"
+    this.UPDATE_MEASUREMENT = "updateMeasurement"
+    this.FD_WIDTH = " font/display width: "
+    this.FD_HEIGHT = " font/display height: "
+    this.EMPTY_CHILD_NAME_LIST = BasicArrayListUtil.getInstance().getImmutableInstance()
+    this.ABOUT = "About"
+    this.OPTIONS = "Options"
+    this.FONT_ATLAS = "/font.png"
+    this.OBJ_MODEL = "_obj"
+    this.MD2_MODEL = "_md2"
+    this.U_PNG = ".png"
+    discard
 
-    def __init__(self) -> None:
-        self._init_fields()
-    
+proc initCanvasStrings*(this: CanvasStrings) =
+    this.initFieldsCanvasStrings()
 
-    @staticmethod
-    def getInstance() -> CanvasStrings:
+proc newCanvasStrings*(): CanvasStrings =
+    result = CanvasStrings()
+    initCanvasStrings(result)
+
+proc getInstance*(t: typedesc[CanvasStrings]): CanvasStrings {.discardable.} =
         return CanvasStrings.instance
-# from org.allbinary.util.BasicArrayList import BasicArrayList
-# from org.allbinary.util.BasicArrayListUtil import BasicArrayListUtil
-
-
-def _CanvasStrings_instance() -> object:
-    return CanvasStrings()
-
-lazy_static(CanvasStrings, "instance", _CanvasStrings_instance)
 

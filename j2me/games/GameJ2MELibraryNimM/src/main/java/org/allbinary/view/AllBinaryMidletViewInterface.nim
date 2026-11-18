@@ -1,27 +1,27 @@
 # Generated Code Do Not Modify
 # package org.allbinary.view
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/game/configuration/event/GameInitializedListenerInterface as GameInitializedListenerInterfaceModule
+export GameInitializedListenerInterfaceModule
+import org/allbinary/game/midlet/DemoGameMidletEventListener as DemoGameMidletEventListenerModule
+export DemoGameMidletEventListenerModule
+import org/allbinary/midlet/MidletCompositeInterface as MidletCompositeInterfaceModule
+export MidletCompositeInterfaceModule
+import org/allbinary/view/EmulatorViewInterface as EmulatorViewInterfaceModule
+export EmulatorViewInterfaceModule
 
-from org.allbinary.game.configuration.event.GameInitializedListenerInterface import GameInitializedListenerInterface
-from org.allbinary.game.midlet.DemoGameMidletEventListener import DemoGameMidletEventListener
-from org.allbinary.midlet.MidletCompositeInterface import MidletCompositeInterface
-from org.allbinary.view.EmulatorViewInterface import EmulatorViewInterface
+type
+    AllBinaryMidletViewInterface* = ref object of MidletCompositeInterface
 
 
-# Java interface
-class AllBinaryMidletViewInterface(MidletCompositeInterface, EmulatorViewInterface, DemoGameMidletEventListener, GameInitializedListenerInterface):
-    
+method onResume*(this: AllBinaryMidletViewInterface) {.base.} =
+        raise newJException("AbstractMethodError", "onResume")
 
-    def onResume(self) -> None:
-        raise NotImplementedError()
-    
+method onPause*(this: AllBinaryMidletViewInterface) {.base.} =
+        raise newJException("AbstractMethodError", "onPause")
 
-    def onPause(self) -> None:
-        raise NotImplementedError()
-    
-
-    def onDestroy(self) -> None:
-        raise NotImplementedError()
-
+method onDestroy*(this: AllBinaryMidletViewInterface) {.base.} =
+        raise newJException("AbstractMethodError", "onDestroy")
 

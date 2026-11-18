@@ -1,32 +1,45 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.logic.java
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+
+type
+    PrimitiveArrayToString* = ref object of JObject
+
+proc newPrimitiveArrayToString*(): PrimitiveArrayToString
+proc toString*(t: typedesc[PrimitiveArrayToString], floats: JArray[float32]): string {.discardable.}
+import org/allbinary/logic/string/StringMaker as StringMakerModule
+export StringMakerModule
 
 
+proc initPrimitiveArrayToString*(this: PrimitiveArrayToString) =
+    discard
 
-class PrimitiveArrayToString:
-    
+proc newPrimitiveArrayToString*(): PrimitiveArrayToString =
+    result = PrimitiveArrayToString()
+    initPrimitiveArrayToString(result)
 
-    @staticmethod
-    def toString(floats: list[float]) -> str:
-        from org.allbinary.logic.string.StringMaker import StringMaker
-        stringBuffer: StringMaker = StringMaker()
-        for index in range(0, len(floats)):
-            stringBuffer.appendfloat(floats[index])
-        return str(stringBuffer)
-# from org.allbinary.logic.string.StringMaker import StringMaker
-
+proc toString*(t: typedesc[PrimitiveArrayToString], floats: JArray[float32]): string {.discardable.} =
+        let stringBuffer: StringMaker = newStringMaker()
+        block:
+            var index: int32 = 0
+            while index < floats.length:
+                defer: index = index +% 1
+                stringBuffer.appendfloat(floats[index])
+        return stringBuffer.toString()
 

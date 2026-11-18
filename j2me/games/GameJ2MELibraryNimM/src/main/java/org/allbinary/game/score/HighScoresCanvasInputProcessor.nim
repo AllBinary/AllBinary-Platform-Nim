@@ -1,90 +1,86 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.score
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import javax/microedition/lcdui/Graphics as GraphicsModule
+export GraphicsModule
+import org/allbinary/game/input/PlayerGameInput as PlayerGameInputModule
+export PlayerGameInputModule
+import org/allbinary/game/input/event/GameKeyEvent as GameKeyEventModule
+export GameKeyEventModule
+import org/allbinary/game/score/displayable/HighScoresCanvas as HighScoresCanvasModule
+export HighScoresCanvasModule
 
-import threading
-from org.allbinary.game.input.PlayerGameInput import PlayerGameInput
+type
+    HighScoresCanvasInputProcessor* = ref object of PlayerGameInput
+        highScoresCanvas*: HighScoresCanvas
+
+proc newHighScoresCanvasInputProcessor*(highScoresCanvas: HighScoresCanvas): HighScoresCanvasInputProcessor
+proc initHighScoresCanvasInputProcessor*(this: HighScoresCanvasInputProcessor, highScoresCanvas: HighScoresCanvas)
+method open*(this: HighScoresCanvasInputProcessor) {.base.}
+method close*(this: HighScoresCanvasInputProcessor) {.base.}
+method onPressGameKeyEvent*(this: HighScoresCanvasInputProcessor, gameKeyEvent: GameKeyEvent)
+method onDownGameKeyEvent*(this: HighScoresCanvasInputProcessor, gameKeyEvent: GameKeyEvent)
+method onUpGameKeyEvent*(this: HighScoresCanvasInputProcessor, gameKeyEvent: GameKeyEvent)
+method paint*(this: HighScoresCanvasInputProcessor, graphics: Graphics) {.base.}
+method getHighScoresCanvas*(this: HighScoresCanvasInputProcessor): HighScoresCanvas {.base, discardable.}
+import org/allbinary/util/BasicArrayListD as BasicArrayListDModule
+export BasicArrayListDModule
 
 
-class HighScoresCanvasInputProcessor(PlayerGameInput):
-    _lock = threading.RLock()
-
-    def _init_fields(self) -> None:
-        from org.allbinary.game.score.displayable.HighScoresCanvas import HighScoresCanvas
-        self.highScoresCanvas: HighScoresCanvas = None
+# Java field initializers run after the base initializer
+proc initFieldsHighScoresCanvasInputProcessor(this: HighScoresCanvasInputProcessor) =
     
+    discard
 
-    def __init__(self, highScoresCanvas: HighScoresCanvas) -> None:
-        from org.allbinary.game.score.displayable.HighScoresCanvas import HighScoresCanvas
-        from org.allbinary.util.BasicArrayListD import BasicArrayListD
-        super().__init__(BasicArrayListD(), BasicArrayListD(), -1)
-        self._init_fields()
-        self.highScoresCanvas = highScoresCanvas
-    
+proc initHighScoresCanvasInputProcessor*(this: HighScoresCanvasInputProcessor, highScoresCanvas: HighScoresCanvas) =
+        initPlayerGameInput(this, newBasicArrayListD(), newBasicArrayListD(), -1)
+        this.initFieldsHighScoresCanvasInputProcessor()
+        this.highScoresCanvas = highScoresCanvas
 
-    def open(self) -> None:
-        pass
-    
+proc newHighScoresCanvasInputProcessor*(highScoresCanvas: HighScoresCanvas): HighScoresCanvasInputProcessor =
+    result = HighScoresCanvasInputProcessor()
+    initHighScoresCanvasInputProcessor(result, highScoresCanvas)
 
-    def close(self) -> None:
-        pass
-    
+method open*(this: HighScoresCanvasInputProcessor) {.base.} =
+        discard
 
-    def onPressGameKeyEvent(self, gameKeyEvent: GameKeyEvent) -> None:
-        with self._lock:
-            return self._onPressGameKeyEvent_unlocked(gameKeyEvent)
+method close*(this: HighScoresCanvasInputProcessor) {.base.} =
+        discard
 
-    def _onPressGameKeyEvent_unlocked(self, gameKeyEvent: GameKeyEvent) -> None:
-        from org.allbinary.game.input.event.GameKeyEvent import GameKeyEvent
-        super().onPressGameKeyEvent(gameKeyEvent)
-        self.update()
-    
+method onPressGameKeyEvent*(this: HighScoresCanvasInputProcessor, gameKeyEvent: GameKeyEvent) =
+        procCall PlayerGameInput(this).onPressGameKeyEvent(gameKeyEvent)
+        this.update()
 
-    def onDownGameKeyEvent(self, gameKeyEvent: GameKeyEvent) -> None:
-        with self._lock:
-            return self._onDownGameKeyEvent_unlocked(gameKeyEvent)
+method onDownGameKeyEvent*(this: HighScoresCanvasInputProcessor, gameKeyEvent: GameKeyEvent) =
+        procCall PlayerGameInput(this).onDownGameKeyEvent(gameKeyEvent)
+        this.update()
 
-    def _onDownGameKeyEvent_unlocked(self, gameKeyEvent: GameKeyEvent) -> None:
-        from org.allbinary.game.input.event.GameKeyEvent import GameKeyEvent
-        super().onDownGameKeyEvent(gameKeyEvent)
-        self.update()
-    
+method onUpGameKeyEvent*(this: HighScoresCanvasInputProcessor, gameKeyEvent: GameKeyEvent) =
+        procCall PlayerGameInput(this).onUpGameKeyEvent(gameKeyEvent)
+        this.update()
 
-    def onUpGameKeyEvent(self, gameKeyEvent: GameKeyEvent) -> None:
-        with self._lock:
-            return self._onUpGameKeyEvent_unlocked(gameKeyEvent)
+method paint*(this: HighScoresCanvasInputProcessor, graphics: Graphics) {.base.} =
+        discard
 
-    def _onUpGameKeyEvent_unlocked(self, gameKeyEvent: GameKeyEvent) -> None:
-        from org.allbinary.game.input.event.GameKeyEvent import GameKeyEvent
-        super().onUpGameKeyEvent(gameKeyEvent)
-        self.update()
-    
+method getHighScoresCanvas*(this: HighScoresCanvasInputProcessor): HighScoresCanvas {.base, discardable.} =
+        return this.highScoresCanvas
 
-    def paint(self, graphics: Graphics) -> None:
-        from javax.microedition.lcdui.Graphics import Graphics
-        pass
-    
-
-    def getHighScoresCanvas(self) -> HighScoresCanvas:
-        from org.allbinary.game.score.displayable.HighScoresCanvas import HighScoresCanvas
-        return self.highScoresCanvas
-# from javax.microedition.lcdui.Graphics import Graphics
-# from org.allbinary.game.input.event.GameKeyEvent import GameKeyEvent
-# from org.allbinary.game.score.displayable.HighScoresCanvas import HighScoresCanvas
-# from org.allbinary.util.BasicArrayList import BasicArrayList
-# from org.allbinary.util.BasicArrayListD import BasicArrayListD
-
+when declared(newHighScoresCanvasInputProcessorHook1):
+    newHighScoresCanvasInputProcessorHook1 = proc (highScoresCanvas: HighScoresCanvas): PlayerGameInput = newHighScoresCanvasInputProcessor(highScoresCanvas)
 

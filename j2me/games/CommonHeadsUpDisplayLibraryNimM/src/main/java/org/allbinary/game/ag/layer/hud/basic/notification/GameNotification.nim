@@ -1,70 +1,85 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.ag.layer.hud.basic.notification
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import java/lang/Integer as IntegerModule
+export IntegerModule
+import org/allbinary/game/layer/hud/event/GameNotificationEvent as GameNotificationEventModule
+export GameNotificationEventModule
+import org/allbinary/graphics/color/BasicColor as BasicColorModule
+export BasicColorModule
+import org/allbinary/util/BasicArrayList as BasicArrayListModule
+export BasicArrayListModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    GameNotification* = ref object of JObject
+        stringList*: BasicArrayList
+        timeList*: BasicArrayList
+        colorList*: BasicArrayList
 
+proc newGameNotification*(): GameNotification
+method add*(this: GameNotification, string: string, seconds: int32, basicColor: BasicColor) {.base.}
+method clear*(this: GameNotification) {.base.}
+method getSize*(this: GameNotification): int32 {.base, discardable.}
+import org/allbinary/graphics/color/BasicColorFactory as BasicColorFactoryModule
+export BasicColorFactoryModule
+import org/allbinary/logic/NullUtil as NullUtilModule
+export NullUtilModule
+import org/allbinary/logic/java/bool/BooleanFactory as BooleanFactoryModule
+export BooleanFactoryModule
+import org/allbinary/logic/string/StringUtil as StringUtilModule
+export StringUtilModule
+import org/allbinary/util/BasicArrayListD as BasicArrayListDModule
+export BasicArrayListDModule
 
-class GameNotification:
-    NULL_GAME_NOTIFICATION_EVENT: GameNotificationEvent = None
+var GameNotification_NULL_GAME_NOTIFICATION_EVENTValue: GameNotificationEvent
+var GameNotification_NULL_GAME_NOTIFICATION_EVENTSet = false
+proc NULL_GAME_NOTIFICATION_EVENT*(t: typedesc[GameNotification]): GameNotificationEvent =
+    if not GameNotification_NULL_GAME_NOTIFICATION_EVENTSet:
+        GameNotification_NULL_GAME_NOTIFICATION_EVENTSet = true
+        GameNotification_NULL_GAME_NOTIFICATION_EVENTValue = newGameNotificationEvent(NullUtil.getInstance().NULL_OBJECT, StringUtil.getInstance().EMPTY_STRING, 0, BasicColorFactory.getInstance().RED, BooleanFactory.getInstance().FALSE)
+    GameNotification_NULL_GAME_NOTIFICATION_EVENTValue
 
-    def _init_fields(self) -> None:
-        from org.allbinary.util.BasicArrayList import BasicArrayList
-        from org.allbinary.util.BasicArrayListD import BasicArrayListD
-        self.stringList: BasicArrayList = BasicArrayListD()
-        self.timeList: BasicArrayList = BasicArrayListD()
-        self.colorList: BasicArrayList = BasicArrayListD()
+# Java field initializers run after the base initializer
+proc initFieldsGameNotification(this: GameNotification) =
+    this.stringList = newBasicArrayListD()
+    this.timeList = newBasicArrayListD()
+    this.colorList = newBasicArrayListD()
+    discard
 
-    def __init__(self) -> None:
-        self._init_fields()
-    
+proc initGameNotification*(this: GameNotification) =
+    this.initFieldsGameNotification()
 
-    def add(self, string: str, seconds: int, basicColor: BasicColor) -> None:
-        from org.allbinary.graphics.color.BasicColor import BasicColor
-        if not self.stringList.contains(string):
-            self.stringList.add(string)
-            self.timeList.add(seconds)
-            self.colorList.add(basicColor)
-    
+proc newGameNotification*(): GameNotification =
+    result = GameNotification()
+    initGameNotification(result)
 
-    def clear(self) -> None:
-        self.stringList.clear()
-        self.timeList.clear()
-        self.colorList.clear()
-    
+method add*(this: GameNotification, string: string, seconds: int32, basicColor: BasicColor) {.base.} =
+        if (not this.stringList.contains(string)):
+            this.stringList.add(string)
+            this.timeList.add(seconds)
+            this.colorList.add(basicColor)
 
-    def getSize(self) -> int:
-        return self.stringList.size()
-# from org.allbinary.game.layer.hud.event.GameNotificationEvent import GameNotificationEvent
-# from org.allbinary.graphics.color.BasicColor import BasicColor
-# from org.allbinary.graphics.color.BasicColorFactory import BasicColorFactory
-# from org.allbinary.logic.NullUtil import NullUtil
-# from org.allbinary.logic.java.bool.BooleanFactory import BooleanFactory
-# from org.allbinary.logic.string.StringUtil import StringUtil
-# from org.allbinary.util.BasicArrayList import BasicArrayList
-# from org.allbinary.util.BasicArrayListD import BasicArrayListD
+method clear*(this: GameNotification) {.base.} =
+        this.stringList.clear()
+        this.timeList.clear()
+        this.colorList.clear()
 
-
-def _GameNotification_NULL_GAME_NOTIFICATION_EVENT() -> object:
-    from org.allbinary.game.layer.hud.event.GameNotificationEvent import GameNotificationEvent
-    from org.allbinary.graphics.color.BasicColorFactory import BasicColorFactory
-    from org.allbinary.logic.NullUtil import NullUtil
-    from org.allbinary.logic.java.bool.BooleanFactory import BooleanFactory
-    from org.allbinary.logic.string.StringUtil import StringUtil
-    return GameNotificationEvent(NullUtil.getInstance().NULL_OBJECT, StringUtil.getInstance().EMPTY_STRING, int(0), BasicColorFactory.getInstance().RED, BooleanFactory.getInstance().FALSE)
-
-lazy_static(GameNotification, "NULL_GAME_NOTIFICATION_EVENT", _GameNotification_NULL_GAME_NOTIFICATION_EVENT)
+method getSize*(this: GameNotification): int32 {.base, discardable.} =
+        return this.stringList.size()
 

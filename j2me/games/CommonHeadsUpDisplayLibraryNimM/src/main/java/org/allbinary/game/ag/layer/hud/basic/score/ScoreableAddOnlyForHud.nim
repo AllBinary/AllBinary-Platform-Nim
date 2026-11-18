@@ -1,46 +1,63 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.ag.layer.hud.basic.score
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/game/score/Scoreable as ScoreableModule
+export ScoreableModule
+import org/allbinary/game/ag/layer/hud/basic/score/ScoreHudWidget as ScoreHudWidgetModule
+export ScoreHudWidgetModule
 
-from org.allbinary.game.score.Scoreable import Scoreable
+type
+    ScoreableAddOnlyForHud* = ref object of Scoreable
+        scoreHudWidget*: ScoreHudWidget
+
+proc newScoreableAddOnlyForHud*(scoreVectorGraphic: ScoreHudWidget): ScoreableAddOnlyForHud
+proc initScoreableAddOnlyForHud*(this: ScoreableAddOnlyForHud, scoreVectorGraphic: ScoreHudWidget)
+method removePoints*(this: ScoreableAddOnlyForHud, points: int32)
+method addPoints*(this: ScoreableAddOnlyForHud, points: int32)
+method getScoreHudWidget*(this: ScoreableAddOnlyForHud): ScoreHudWidget {.base, discardable.}
 
 
-class ScoreableAddOnlyForHud(Scoreable):
-
-    def _init_fields(self) -> None:
-        self.scoreHudWidget: ScoreHudWidget = None
+# Java field initializers run after the base initializer
+proc initFieldsScoreableAddOnlyForHud(this: ScoreableAddOnlyForHud) =
     
+    discard
 
-    def __init__(self, scoreVectorGraphic: ScoreHudWidget) -> None:
-        super().__init__(0)
-        self._init_fields()
-        self.scoreHudWidget = scoreVectorGraphic
-        self.getScoreHudWidget().set(0)
-    
+proc initScoreableAddOnlyForHud*(this: ScoreableAddOnlyForHud, scoreVectorGraphic: ScoreHudWidget) =
+        initScoreable(this, 0)
+        this.initFieldsScoreableAddOnlyForHud()
+        this.scoreHudWidget = scoreVectorGraphic
+        this.getScoreHudWidget().set(0)
 
-    def removePoints(self, points: int) -> None:
-        pass
-    
+proc newScoreableAddOnlyForHud*(scoreVectorGraphic: ScoreHudWidget): ScoreableAddOnlyForHud =
+    result = ScoreableAddOnlyForHud()
+    initScoreableAddOnlyForHud(result, scoreVectorGraphic)
 
-    def addPoints(self, points: int) -> None:
-        super().addPoints(points)
-        self.getScoreHudWidget().add(points)
-    
+method removePoints*(this: ScoreableAddOnlyForHud, points: int32) =
+        discard
 
-    def getScoreHudWidget(self) -> ScoreHudWidget:
-        return self.scoreHudWidget
+method addPoints*(this: ScoreableAddOnlyForHud, points: int32) =
+        procCall Scoreable(this).addPoints(points)
+        this.getScoreHudWidget().add(points)
 
+method getScoreHudWidget*(this: ScoreableAddOnlyForHud): ScoreHudWidget {.base, discardable.} =
+        return this.scoreHudWidget
+
+when declared(newScoreableAddOnlyForHudHook1):
+    newScoreableAddOnlyForHudHook1 = proc (scoreVectorGraphic: ScoreHudWidget): Scoreable = newScoreableAddOnlyForHud(scoreVectorGraphic)
 

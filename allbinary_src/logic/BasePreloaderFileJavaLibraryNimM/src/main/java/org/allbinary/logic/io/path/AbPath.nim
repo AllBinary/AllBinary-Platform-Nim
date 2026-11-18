@@ -1,154 +1,174 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.logic.io.path
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/string/CommonSeps as CommonSepsModule
+export CommonSepsModule
+import org/allbinary/logic/io/path/AbPathData as AbPathDataModule
+export AbPathDataModule
+import org/allbinary/logic/io/path/PathUtil as PathUtilModule
+export PathUtilModule
 
+type
+    AbPath* = ref object of JObject
+        commonSeps*: CommonSeps
+        abPathData*: AbPathData
+        abPathUtil*: PathUtil
+        EMPTY_STRING*: string
+        schema*: string
+        path*: string
+        nameP*: string
+        hasSchemaP*: bool
+        numberOfSeps*: int32
 
+proc newAbPath*(aPath: string, name: string): AbPath
+proc initAbPath*(this: AbPath, aPath: string, name: string)
+proc createAbPath*(t: typedesc[AbPath]): AbPath {.discardable.}
+method init*(this: AbPath) {.base.}
+method getSchema*(this: AbPath, aPath: string): string {.base, discardable.}
+method hasSchema*(this: AbPath): bool {.base, discardable.}
+method getPathFromPath*(this: AbPath, aPath: string): string {.base, discardable.}
+method setName*(this: AbPath, name: string) {.base.}
+method getName*(this: AbPath): string {.base, discardable.}
+method toString*(this: AbPath): string {.discardable.}
+method toFileSystemString*(this: AbPath): string {.base, discardable.}
+method getPath*(this: AbPath): string {.base, discardable.}
+method setPath*(this: AbPath, path: string) {.base.}
+import org/allbinary/logic/io/file/FilePathData as FilePathDataModule
+export FilePathDataModule
+import org/allbinary/logic/io/file/FilePathUtil as FilePathUtilModule
+export FilePathUtilModule
+import org/allbinary/logic/string/StringMaker as StringMakerModule
+export StringMakerModule
+import org/allbinary/logic/string/StringUtil as StringUtilModule
+export StringUtilModule
+import org/allbinary/logic/string/StringValidationUtil as StringValidationUtilModule
+export StringValidationUtilModule
 
-class AbPath:
-    NETWORK_SEP: str = ":/"
+var AbPath_NETWORK_SEPValue: string
+var AbPath_NETWORK_SEPSet = false
+proc NETWORK_SEP*(t: typedesc[AbPath]): string =
+    if not AbPath_NETWORK_SEPSet:
+        AbPath_NETWORK_SEPSet = true
+        AbPath_NETWORK_SEPValue = ":/"
+    AbPath_NETWORK_SEPValue
 
-    def _init_fields(self) -> None:
-        from org.allbinary.logic.string.StringUtil import StringUtil
-        from org.allbinary.string.CommonSeps import CommonSeps
-        self.commonSeps: CommonSeps = CommonSeps.getInstance()
-        self.abPathData: AbPathData = AbPathData.getInstance()
-        self.abPathUtil: PathUtil = PathUtil.getInstance()
-        self.EMPTY_STRING: str = StringUtil.getInstance().EMPTY_STRING
-        self.schema: str = self.EMPTY_STRING
-        self.path: str = self.EMPTY_STRING
-        self.nameP: str = self.EMPTY_STRING
-        self.hasSchemaP: bool = False
-        self.numberOfSeps: int = 0
-    
+# Java field initializers run after the base initializer
+proc initFieldsAbPath(this: AbPath) =
+    this.commonSeps = CommonSeps.getInstance()
+    this.abPathData = AbPathData.getInstance()
+    this.abPathUtil = PathUtil.getInstance()
+    this.EMPTY_STRING = StringUtil.getInstance().EMPTY_STRING
+    this.schema = this.EMPTY_STRING
+    this.path = this.EMPTY_STRING
+    this.nameP = this.EMPTY_STRING
+    this.hasSchemaP = false
+    this.numberOfSeps = 0
+    discard
 
-    @staticmethod
-    def createAbPath() -> AbPath:
-        from org.allbinary.logic.string.StringUtil import StringUtil
+proc createAbPath*(t: typedesc[AbPath]): AbPath {.discardable.} =
         try:
-            EMPTY_STRING: str = StringUtil.getInstance().EMPTY_STRING
-            return AbPath(EMPTY_STRING, EMPTY_STRING)
-        except Exception as ex:
-            raise RuntimeError()
-    
+            let EMPTY_STRING: string = StringUtil.getInstance().EMPTY_STRING
+            return newAbPath(EMPTY_STRING, EMPTY_STRING)
+        except CatchableError as jcaught:
+            let ex = jToException(jcaught)
+            raise newJException("RuntimeException", "")
 
-    def __init__(self, aPath: str, name: str) -> None:
-        from org.allbinary.logic.string.StringValidationUtil import StringValidationUtil
-        self._init_fields()
-        stringValidationUtil: StringValidationUtil = StringValidationUtil.getInstance()
-        if not stringValidationUtil.isEmpty(aPath):
-            self.schema = self.getSchema(aPath)
-            self.nameP = name
-            self.path = self.abPathUtil.adjustEnd(self.abPathUtil.adjust(self.getPathFromPath(aPath)))
+proc initAbPath*(this: AbPath, aPath: string, name: string) =
+        this.initFieldsAbPath()
+        let stringValidationUtil: StringValidationUtil = StringValidationUtil.getInstance()
+        if (not stringValidationUtil.isEmpty(aPath)):
+            this.schema = this.getSchema(aPath)
+            this.nameP = name
+            this.path = this.abPathUtil.adjustEnd(this.abPathUtil.adjust(this.getPathFromPath(aPath)))
         else:
-            self.init()
-            if not stringValidationUtil.isEmpty(name):
-                self.nameP = name
-    
+            this.init()
+            if (not stringValidationUtil.isEmpty(name)):
+                this.nameP = name
 
-    def init(self) -> None:
-        self.schema = self.EMPTY_STRING
-        self.setPath(self.abPathData.SEPARATOR)
-        self.nameP = self.EMPTY_STRING
-    
+proc newAbPath*(aPath: string, name: string): AbPath =
+    result = AbPath()
+    initAbPath(result, aPath, name)
 
-    def getSchema(self, aPath: str) -> str:
-        beginIndex: int = aPath.find(self.commonSeps.COLON)
+method init*(this: AbPath) {.base.} =
+        this.schema = this.EMPTY_STRING
+        this.setPath(this.abPathData.SEPARATOR)
+        this.nameP = this.EMPTY_STRING
+
+method getSchema*(this: AbPath, aPath: string): string {.base, discardable.} =
+        var beginIndex: int32 = jIndexOf(aPath, this.commonSeps.COLON)
         if beginIndex >= 0:
-            self.hasSchemaP = True
-            return aPath[0:beginIndex]
-        self.hasSchemaP = False
-        return self.EMPTY_STRING
-    
+            this.hasSchemaP = true
+            return jSubstring(aPath, 0, beginIndex)
+        this.hasSchemaP = false
+        return this.EMPTY_STRING
 
-    def hasSchema(self) -> bool:
-        return self.hasSchemaP
-    
+method hasSchema*(this: AbPath): bool {.base, discardable.} =
+        return this.hasSchemaP
 
-    # throws Exception
-    def getPathFromPath(self, aPath: str) -> str:
-        from org.allbinary.logic.io.file.FilePathData import FilePathData
-        filePathData: FilePathData = FilePathData.getInstance()
-        tempPath: str = aPath
-        if not self.hasSchema():
-            tempPath = self.abPathUtil.adjustStart(tempPath)
+method getPathFromPath*(this: AbPath, aPath: string): string {.base, discardable.} =
+        let filePathData: FilePathData = FilePathData.getInstance()
+        var tempPath: string = aPath
+        if (not this.hasSchema()):
+            tempPath = this.abPathUtil.adjustStart(tempPath)
         else:
-            beginIndex: int = tempPath.find(self.commonSeps.COLON)
+            var beginIndex: int32 = jIndexOf(tempPath, this.commonSeps.COLON)
             if beginIndex >= 0:
-                beginIndex += 1
-                while tempPath[beginIndex] == self.abPathData.SEPARATORCHAR or tempPath[beginIndex] == filePathData.SEPARATORCHAR:
-                    beginIndex += 1
-                    self.numberOfSeps += 1
-                    if self.numberOfSeps > 2:
-                        raise Exception("Should Not Have More Than Two Seps")
-                tempPath = tempPath[beginIndex:len(tempPath)]
+                beginIndex = beginIndex +% 1
+                while jCharAt(tempPath, beginIndex) == this.abPathData.SEPARATORCHAR or jCharAt(tempPath, beginIndex) == filePathData.SEPARATORCHAR:
+                    beginIndex = beginIndex +% 1
+                    this.numberOfSeps = this.numberOfSeps +% 1
+                    if this.numberOfSeps > 2:
+                        raise newJException("Exception", "Should Not Have More Than Two Seps")
+                tempPath = jSubstring(tempPath, beginIndex, jLength(tempPath))
         return tempPath
-    
 
-    def setName(self, name: str) -> None:
-        self.nameP = name
-    
+method setName*(this: AbPath, name: string) {.base.} =
+        this.nameP = name
 
-    def getName(self) -> str:
-        return self.nameP
-    
+method getName*(this: AbPath): string {.base, discardable.} =
+        return this.nameP
 
-    def toString(self) -> str:
-        from org.allbinary.logic.string.StringMaker import StringMaker
-        stringBuffer: StringMaker = StringMaker()
-        if self.hasSchema():
-            stringBuffer.append(self.schema)
+method toString*(this: AbPath): string {.discardable.} =
+        let stringBuffer: StringMaker = newStringMaker()
+        if this.hasSchema():
+            stringBuffer.append(this.schema)
             stringBuffer.append(AbPath.NETWORK_SEP)
-        stringBuffer.append(self.getPath())
-        stringBuffer.append(self.nameP)
-        return str(stringBuffer)
+        stringBuffer.append(this.getPath())
+        stringBuffer.append(this.nameP)
+        return stringBuffer.toString()
 
-    def __str__(self) -> str:
-        return self.toString()
-    
-
-    def toFileSystemString(self) -> str:
-        from org.allbinary.logic.io.file.FilePathData import FilePathData
-        from org.allbinary.logic.io.file.FilePathUtil import FilePathUtil
-        from org.allbinary.logic.string.StringMaker import StringMaker
-        if self.hasSchema():
-            filePathData: FilePathData = FilePathData.getInstance()
-            stringBuffer: StringMaker = StringMaker()
-            stringBuffer.append(self.schema)
-            stringBuffer.append(self.commonSeps.COLON)
+method toFileSystemString*(this: AbPath): string {.base, discardable.} =
+        if this.hasSchema():
+            let filePathData: FilePathData = FilePathData.getInstance()
+            let stringBuffer: StringMaker = newStringMaker()
+            stringBuffer.append(this.schema)
+            stringBuffer.append(this.commonSeps.COLON)
             stringBuffer.append(filePathData.PATH_START)
-            stringBuffer.append(FilePathUtil.adjust(self.getPath()))
-            stringBuffer.append(self.nameP)
-            return str(stringBuffer)
+            stringBuffer.append(FilePathUtil.adjust(this.getPath()))
+            stringBuffer.append(this.nameP)
+            return stringBuffer.toString()
         else:
-            return str(FilePathUtil.adjust(self.getPath())) + self.nameP
-    
+            return jstr(FilePathUtil.adjust(this.getPath())) & jstr(this.nameP)
 
-    def getPath(self) -> str:
-        return self.path
-    
+method getPath*(this: AbPath): string {.base, discardable.} =
+        return this.path
 
-    def setPath(self, path: str) -> None:
-        self.path = path
-# from org.allbinary.logic.io.file.FilePathData import FilePathData
-# from org.allbinary.logic.io.file.FilePathUtil import FilePathUtil
-# from org.allbinary.logic.string.StringMaker import StringMaker
-# from org.allbinary.logic.string.StringUtil import StringUtil
-# from org.allbinary.logic.string.StringValidationUtil import StringValidationUtil
-# from org.allbinary.string.CommonSeps import CommonSeps
-from org.allbinary.logic.io.path.AbPathData import AbPathData
-from org.allbinary.logic.io.path.PathUtil import PathUtil
-
+method setPath*(this: AbPath, path: string) {.base.} =
+        this.path = path
 

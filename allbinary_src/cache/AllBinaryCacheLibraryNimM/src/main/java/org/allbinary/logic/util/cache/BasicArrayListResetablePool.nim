@@ -1,40 +1,55 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.logic.util.cache
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/logic/util/cache/AbstractArrayListPool as AbstractArrayListPoolModule
+export AbstractArrayListPoolModule
+import org/allbinary/logic/util/cache/CacheableInterfaceFactoryInterface as CacheableInterfaceFactoryInterfaceModule
+export CacheableInterfaceFactoryInterfaceModule
+import org/allbinary/logic/util/cache/CacheableInterface as CacheableInterfaceModule
+export CacheableInterfaceModule
 
-from org.allbinary.logic.util.cache.AbstractArrayListPool import AbstractArrayListPool
+type
+    BasicArrayListResetablePool* = ref object of AbstractArrayListPool
+
+proc newBasicArrayListResetablePool*(cacheableInterfaceFactoryInterface: CacheableInterfaceFactoryInterface): BasicArrayListResetablePool
+proc initBasicArrayListResetablePool*(this: BasicArrayListResetablePool, cacheableInterfaceFactoryInterface: CacheableInterfaceFactoryInterface)
+method clear*(this: BasicArrayListResetablePool)
+method remove*(this: BasicArrayListResetablePool, key: JObject): CacheableInterface {.discardable.}
 
 
-class BasicArrayListResetablePool(AbstractArrayListPool):
-    
+proc initBasicArrayListResetablePool*(this: BasicArrayListResetablePool, cacheableInterfaceFactoryInterface: CacheableInterfaceFactoryInterface) =
+        initAbstractArrayListPool(this, cacheableInterfaceFactoryInterface)
 
-    def __init__(self, cacheableInterfaceFactoryInterface: CacheableInterfaceFactoryInterface) -> None:
-        super().__init__(cacheableInterfaceFactoryInterface)
-    
+proc newBasicArrayListResetablePool*(cacheableInterfaceFactoryInterface: CacheableInterfaceFactoryInterface): BasicArrayListResetablePool =
+    result = BasicArrayListResetablePool()
+    initBasicArrayListResetablePool(result, cacheableInterfaceFactoryInterface)
 
-    def clear(self) -> None:
-        pass
-    
+method clear*(this: BasicArrayListResetablePool) =
+        discard
 
-    # throws Exception
-    def remove(self, key: object) -> CacheableInterface:
-        size: int = self.buffers.size()
+method remove*(this: BasicArrayListResetablePool, key: JObject): CacheableInterface {.discardable.} =
+        var size: int32 = this.buffers.size()
         if size > 0:
-            return self.buffers.removeAt(size - 1)
+            return CacheableInterface(JObject(this.buffers.removeAt(size -% 1)))
         else:
-            return self.cacheableInterfaceFactoryInterface.getInstance(key)
+            return this.cacheableInterfaceFactoryInterface.getInstance(key)
 
+when declared(newBasicArrayListResetablePoolHook1):
+    newBasicArrayListResetablePoolHook1 = proc (cacheableInterfaceFactoryInterface: CacheableInterfaceFactoryInterface): AbstractArrayListPool = newBasicArrayListResetablePool(cacheableInterfaceFactoryInterface)
 

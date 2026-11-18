@@ -1,69 +1,78 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.tracking
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/layer/AllBinaryLayer as AllBinaryLayerModule
+export AllBinaryLayerModule
+import org/allbinary/logic/util/event/AllBinaryEventObject as AllBinaryEventObjectModule
+export AllBinaryEventObjectModule
 
-from org.allbinary.logic.util.event.AllBinaryEventObject import AllBinaryEventObject
+type
+    TrackingEvent* = ref object of AllBinaryEventObject
+        layerInterface*: AllBinaryLayer
+
+proc newTrackingEvent*(allBinaryLayerInterface: JObject): TrackingEvent
+proc initTrackingEvent*(this: TrackingEvent, allBinaryLayerInterface: JObject)
+method init*(this: TrackingEvent, anyType: JObject) {.base.}
+method getLayerInterface*(this: TrackingEvent): AllBinaryLayer {.base, discardable.}
+method setLayerInterface*(this: TrackingEvent, layerInterface: AllBinaryLayer) {.base.}
+method setLayerInterfaceForCircularStaticPool*(this: TrackingEvent, layerInterface: AllBinaryLayer) {.base.}
+method toString*(this: TrackingEvent): string {.discardable.}
+import org/allbinary/logic/string/StringMaker as StringMakerModule
+export StringMakerModule
+import org/allbinary/game/tracking/TrackingEventHandler as TrackingEventHandlerModule
+export TrackingEventHandlerModule
 
 
-class TrackingEvent(AllBinaryEventObject):
+# Java field initializers run after the base initializer
+proc initFieldsTrackingEvent(this: TrackingEvent) =
+    this.layerInterface = AllBinaryLayer.NULL_ALLBINARY_LAYER
+    discard
 
-    def _init_fields(self) -> None:
-        from org.allbinary.layer.AllBinaryLayer import AllBinaryLayer
-        self.layerInterface: AllBinaryLayer = AllBinaryLayer.NULL_ALLBINARY_LAYER
-    
-
-    def __init__(self, allBinaryLayerInterface: object) -> None:
-        from org.allbinary.game.tracking.TrackingEventHandler import TrackingEventHandler
-        from org.allbinary.layer.AllBinaryLayer import AllBinaryLayer
-        super().__init__(allBinaryLayerInterface)
-        self._init_fields()
+proc initTrackingEvent*(this: TrackingEvent, allBinaryLayerInterface: JObject) =
+        initAllBinaryEventObject(this, allBinaryLayerInterface)
+        this.initFieldsTrackingEvent()
         if allBinaryLayerInterface != TrackingEventHandler.getInstance():
-            self.setLayerInterface(allBinaryLayerInterface)
-    
+            this.setLayerInterface(AllBinaryLayer(JObject(allBinaryLayerInterface)))
 
-    def init(self, anyType: object) -> None:
-        self.setSource(anyType)
-    
+proc newTrackingEvent*(allBinaryLayerInterface: JObject): TrackingEvent =
+    result = TrackingEvent()
+    initTrackingEvent(result, allBinaryLayerInterface)
 
-    def getLayerInterface(self) -> AllBinaryLayer:
-        from org.allbinary.layer.AllBinaryLayer import AllBinaryLayer
-        return self.layerInterface
-    
+method init*(this: TrackingEvent, anyType: JObject) {.base.} =
+        this.setSource(anyType)
 
-    def setLayerInterface(self, layerInterface: AllBinaryLayer) -> None:
-        from org.allbinary.layer.AllBinaryLayer import AllBinaryLayer
-        self.layerInterface = layerInterface
-    
+method getLayerInterface*(this: TrackingEvent): AllBinaryLayer {.base, discardable.} =
+        return this.layerInterface
 
-    def setLayerInterfaceForCircularStaticPool(self, layerInterface: AllBinaryLayer) -> None:
-        from org.allbinary.layer.AllBinaryLayer import AllBinaryLayer
-        self.layerInterface = layerInterface
-    
+method setLayerInterface*(this: TrackingEvent, layerInterface: AllBinaryLayer) {.base.} =
+        this.layerInterface = layerInterface
 
-    def toString(self) -> str:
-        from org.allbinary.logic.string.StringMaker import StringMaker
-        stringBuffer: StringMaker = StringMaker()
+method setLayerInterfaceForCircularStaticPool*(this: TrackingEvent, layerInterface: AllBinaryLayer) {.base.} =
+        this.layerInterface = layerInterface
+
+method toString*(this: TrackingEvent): string {.discardable.} =
+        var stringBuffer: StringMaker = newStringMaker()
         stringBuffer.append("TrackingEvent: \n")
         stringBuffer.append("LayerInterface: ")
-        stringBuffer.append(str(self.layerInterface))
-        return str(stringBuffer)
+        stringBuffer.append(this.layerInterface.toString())
+        return stringBuffer.toString()
 
-    def __str__(self) -> str:
-        return self.toString()
-# from org.allbinary.layer.AllBinaryLayer import AllBinaryLayer
-# from org.allbinary.logic.string.StringMaker import StringMaker
-
+when declared(newTrackingEventHook1):
+    newTrackingEventHook1 = proc (allBinaryLayerInterface: JObject): AllBinaryEventObject = newTrackingEvent(allBinaryLayerInterface)
 

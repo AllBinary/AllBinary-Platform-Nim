@@ -1,37 +1,45 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.state
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+
+type
+    GameState* = ref object of JObject
+        name*: string
+
+proc newGameState*(name: string, state: int32): GameState
+proc initGameState*(this: GameState, name: string, state: int32)
+method toString*(this: GameState): string {.discardable.}
 
 
-
-class GameState:
-
-    def _init_fields(self) -> None:
-        self.name: str = None
+# Java field initializers run after the base initializer
+proc initFieldsGameState(this: GameState) =
     
+    discard
 
-    def __init__(self, name: str, state: int) -> None:
-        self._init_fields()
-        self.name = name
-    
+proc initGameState*(this: GameState, name: string, state: int32) =
+        this.initFieldsGameState()
+        this.name = name
 
-    def toString(self) -> str:
-        return self.name
+proc newGameState*(name: string, state: int32): GameState =
+    result = GameState()
+    initGameState(result, name, state)
 
-    def __str__(self) -> str:
-        return self.toString()
-
+method toString*(this: GameState): string {.discardable.} =
+        return this.name
 

@@ -1,182 +1,168 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.media.audio
 
-from __future__ import annotations
-
-import threading
-from javax.microedition.media.Player import Player
-from org.allbinary.media.audio.TimeBaseInterface import TimeBaseInterface
-from org.allbinary.media.audio.Controllable2 import Controllable2
-
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import javax/microedition/media/Control as ControlModule
+export ControlModule
+import javax/microedition/media/Player as PlayerModule
+export PlayerModule
+import javax/microedition/media/PlayerListener as PlayerListenerModule
+export PlayerListenerModule
+import javax/microedition/media/TimeBase as TimeBaseModule
+export TimeBaseModule
+import org/allbinary/util/BasicArrayList as BasicArrayListModule
+export BasicArrayListModule
+import org/allbinary/media/audio/TimeBaseInterface as TimeBaseInterfaceModule
+export TimeBaseInterfaceModule
+import org/allbinary/media/audio/Controllable2 as Controllable2Module
+export Controllable2Module
 
 #BasicPlayerMIDP2JavaLibrary
-class BasicPlayer(Player, TimeBaseInterface, Controllable2):
-    CONTROL_TYPE: str = "ToneControl"
-    _lock = threading.RLock()
+type
+    BasicPlayer* = ref object of Player
+        listenersList*: BasicArrayList
+        timeBase*: TimeBase
+        stateP*: int32
+        loopCountP*: int32
 
-    def _init_fields(self) -> None:
-        from javax.microedition.media.TimeBase import TimeBase
-        from org.allbinary.util.BasicArrayList import BasicArrayList
-        from org.allbinary.util.BasicArrayListD import BasicArrayListD
-        self.listenersList: BasicArrayList = BasicArrayListD()
-        self.timeBase: TimeBase = None
-        self.stateP: int = 0
-        self.loopCountP: int = 0
+converter jAsTimeBaseInterface*(value: BasicPlayer): TimeBaseInterface = cast[TimeBaseInterface](value)
+converter jAsControllable2*(value: BasicPlayer): Controllable2 = cast[Controllable2](value)
+proc newBasicPlayer*(): BasicPlayer
+proc initBasicPlayer*(this: BasicPlayer)
+method getContentType*(this: BasicPlayer): string {.discardable.}
+method getControl*(this: BasicPlayer, controlType: string): Control {.discardable.}
+method getControls*(this: BasicPlayer): JArray[Control] {.discardable.}
+method close*(this: BasicPlayer)
+method addPlayerListener*(this: BasicPlayer, playerListener: PlayerListener)
+method removePlayerListener*(this: BasicPlayer, playerListener: PlayerListener)
+method getState*(this: BasicPlayer): int32 {.discardable.}
+method setState*(this: BasicPlayer, state: int32) {.base.}
+method getDuration*(this: BasicPlayer): int64 {.discardable.}
+method getMediaTime*(this: BasicPlayer): int64 {.discardable.}
+method getTimeBase*(this: BasicPlayer): TimeBase {.base, discardable.}
+method setTimeBase*(this: BasicPlayer, timeBase: TimeBase) {.base.}
+method deallocate*(this: BasicPlayer)
+method prefetch*(this: BasicPlayer)
+method realize*(this: BasicPlayer)
+method setLoopCount*(this: BasicPlayer, count: int32)
+method getLoopCount*(this: BasicPlayer): int32 {.base, discardable.}
+method setMediaTime*(this: BasicPlayer, now: int64): int64 {.discardable.}
+method start*(this: BasicPlayer)
+method stop*(this: BasicPlayer)
+method setVolume*(this: BasicPlayer, leftVolume: int32, rightVolume: int32) {.base.}
+import javax/microedition/media/MediaException as MediaExceptionModule
+export MediaExceptionModule
+import org/allbinary/logic/string/StringUtil as StringUtilModule
+export StringUtilModule
+import org/allbinary/util/BasicArrayListD as BasicArrayListDModule
+export BasicArrayListDModule
+import org/allbinary/media/audio/NullControl as NullControlModule
+export NullControlModule
+
+var BasicPlayer_CONTROL_TYPEValue: string
+var BasicPlayer_CONTROL_TYPESet = false
+proc CONTROL_TYPE*(t: typedesc[BasicPlayer]): string =
+    if not BasicPlayer_CONTROL_TYPESet:
+        BasicPlayer_CONTROL_TYPESet = true
+        BasicPlayer_CONTROL_TYPEValue = "ToneControl"
+    BasicPlayer_CONTROL_TYPEValue
+proc `CONTROL_TYPE=`*(t: typedesc[BasicPlayer], value: string) =
+    BasicPlayer_CONTROL_TYPESet = true
+    BasicPlayer_CONTROL_TYPEValue = value
+
+# Java field initializers run after the base initializer
+proc initFieldsBasicPlayer(this: BasicPlayer) =
+    this.listenersList = newBasicArrayListD()
     
+    this.stateP = 0
+    this.loopCountP = 0
+    discard
 
-    def __init__(self) -> None:
-        self._init_fields()
-        self.setLoopCount(0)
-        self.setState(Player.UNREALIZED)
-    
+proc initBasicPlayer*(this: BasicPlayer) =
+        this.initFieldsBasicPlayer()
+        this.setLoopCount(0)
+        this.setState(Player.UNREALIZED)
 
-    def getContentType(self) -> str:
-        from org.allbinary.logic.string.StringUtil import StringUtil
+proc newBasicPlayer*(): BasicPlayer =
+    result = BasicPlayer()
+    initBasicPlayer(result)
+
+method getContentType*(this: BasicPlayer): string {.discardable.} =
         return StringUtil.getInstance().EMPTY_STRING
-    
 
-    def getControl(self, controlType: str) -> Control:
-        from org.allbinary.media.audio.NullControl import NullControl
-        from javax.microedition.media.Control import Control
-        return NullControl()
-    
+method getControl*(this: BasicPlayer, controlType: string): Control {.discardable.} =
+        return newNullControl()
 
-    def getControls(self) -> list[Control]:
-        from javax.microedition.media.Control import Control
-        return [None] * (0)
-    
+method getControls*(this: BasicPlayer): JArray[Control] {.discardable.} =
+        return newJArray[Control](0, default(Control))
 
-    def close(self) -> None:
-        pass
-    
+method close*(this: BasicPlayer) =
+        discard
 
-    def addPlayerListener(self, playerListener: PlayerListener) -> None:
-        with self._lock:
-            return self._addPlayerListener_unlocked(playerListener)
+method addPlayerListener*(this: BasicPlayer, playerListener: PlayerListener) =
+        if (not this.listenersList.contains(playerListener)):
+            this.listenersList.add(playerListener)
 
-    def _addPlayerListener_unlocked(self, playerListener: PlayerListener) -> None:
-        from javax.microedition.media.PlayerListener import PlayerListener
-        if not self.listenersList.contains(playerListener):
-            self.listenersList.add(playerListener)
-    
+method removePlayerListener*(this: BasicPlayer, playerListener: PlayerListener) =
+        this.listenersList.remove(playerListener)
 
-    def removePlayerListener(self, playerListener: PlayerListener) -> None:
-        from javax.microedition.media.PlayerListener import PlayerListener
-        self.listenersList.remove(playerListener)
-    
+method getState*(this: BasicPlayer): int32 {.discardable.} =
+        return this.stateP
 
-    def getState(self) -> int:
-        return self.stateP
-    
+method setState*(this: BasicPlayer, state: int32) {.base.} =
+        this.stateP = state
 
-    def setState(self, state: int) -> None:
-        with self._lock:
-            return self._setState_unlocked(state)
+method getDuration*(this: BasicPlayer): int64 {.discardable.} =
+        return 0'i64
 
-    def _setState_unlocked(self, state: int) -> None:
-        self.stateP = state
-    
+method getMediaTime*(this: BasicPlayer): int64 {.discardable.} =
+        return 0'i64
 
-    def getDuration(self) -> int:
-        return 0
-    
+method getTimeBase*(this: BasicPlayer): TimeBase {.base, discardable.} =
+        return this.timeBase
 
-    def getMediaTime(self) -> int:
-        return 0
-    
+method setTimeBase*(this: BasicPlayer, timeBase: TimeBase) {.base.} =
+        this.timeBase = timeBase
 
-    def getTimeBase(self) -> TimeBase:
-        from javax.microedition.media.TimeBase import TimeBase
-        return self.timeBase
-    
+method deallocate*(this: BasicPlayer) =
+        discard
 
-    def setTimeBase(self, timeBase: TimeBase) -> None:
-        with self._lock:
-            return self._setTimeBase_unlocked(timeBase)
+method prefetch*(this: BasicPlayer) =
+        discard
 
-    def _setTimeBase_unlocked(self, timeBase: TimeBase) -> None:
-        from javax.microedition.media.TimeBase import TimeBase
-        self.timeBase = timeBase
-    
+method realize*(this: BasicPlayer) =
+        discard
 
-    def deallocate(self) -> None:
-        pass
-    
+method setLoopCount*(this: BasicPlayer, count: int32) =
+        this.loopCountP = count
 
-    # throws MediaException
-    def prefetch(self) -> None:
-        from javax.microedition.media.MediaException import MediaException
-        pass
-    
+method getLoopCount*(this: BasicPlayer): int32 {.base, discardable.} =
+        return this.loopCountP
 
-    # throws MediaException
-    def realize(self) -> None:
-        from javax.microedition.media.MediaException import MediaException
-        pass
-    
+method setMediaTime*(this: BasicPlayer, now: int64): int64 {.discardable.} =
+        return 0'i64
 
-    def setLoopCount(self, count: int) -> None:
-        with self._lock:
-            return self._setLoopCount_unlocked(count)
+method start*(this: BasicPlayer) =
+        this.setState(Player.STARTED)
 
-    def _setLoopCount_unlocked(self, count: int) -> None:
-        self.loopCountP = count
-    
+method stop*(this: BasicPlayer) =
+        this.setState(Player.PREFETCHED)
 
-    def getLoopCount(self) -> int:
-        return self.loopCountP
-    
-
-    # throws MediaException
-    def setMediaTime(self, now: int) -> int:
-        with self._lock:
-            return self._setMediaTime_unlocked(now)
-
-    def _setMediaTime_unlocked(self, now: int) -> int:
-        from javax.microedition.media.MediaException import MediaException
-        return 0
-    
-
-    # throws MediaException
-    def start(self) -> None:
-        with self._lock:
-            return self._start_unlocked()
-
-    def _start_unlocked(self) -> None:
-        from javax.microedition.media.MediaException import MediaException
-        self.setState(Player.STARTED)
-    
-
-    # throws MediaException
-    def stop(self) -> None:
-        with self._lock:
-            return self._stop_unlocked()
-
-    def _stop_unlocked(self) -> None:
-        from javax.microedition.media.MediaException import MediaException
-        self.setState(Player.PREFETCHED)
-    
-
-    def setVolume(self, leftVolume: int, rightVolume: int) -> None:
-        pass
-# from javax.microedition.media.Control import Control
-# from javax.microedition.media.MediaException import MediaException
-# from javax.microedition.media.PlayerListener import PlayerListener
-# from javax.microedition.media.TimeBase import TimeBase
-# from org.allbinary.logic.string.StringUtil import StringUtil
-# from org.allbinary.util.BasicArrayList import BasicArrayList
-# from org.allbinary.util.BasicArrayListD import BasicArrayListD
-
+method setVolume*(this: BasicPlayer, leftVolume: int32, rightVolume: int32) {.base.} =
+        discard
 

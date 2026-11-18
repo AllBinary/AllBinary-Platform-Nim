@@ -1,31 +1,31 @@
-# 
-# AllBinary Open License Version 1 
-# Copyright (c) 2025 AllBinary 
-#  
-# By agreeing to this license you and any business entity you represent are 
-# legally bound to the AllBinary Open License Version 1 legal agreement. 
-#  
-# You may obtain the AllBinary Open License Version 1 legal agreement from 
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
-#  
-# Created By: Travis Berthelot 
-#   
+#[
+  
+  AllBinary Open License Version 1 
+  Copyright (c) 2025 AllBinary 
+   
+  By agreeing to this license you and any business entity you represent are 
+  legally bound to the AllBinary Open License Version 1 legal agreement. 
+   
+  You may obtain the AllBinary Open License Version 1 legal agreement from 
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
+   
+  Created By: Travis Berthelot 
+    
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.layer
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import javax/microedition/lcdui/Image as ImageModule
+export ImageModule
+import javax/microedition/lcdui/game/Sprite as SpriteModule
+export SpriteModule
+
+type
+    SpriteFactoryInterface* = ref object of JObject
 
 
-
-# Java interface
-class SpriteFactoryInterface:
-    
-
-    def createSprite(self, image: Image, frameWidth: int, frameHeight: int) -> Sprite:
-        from javax.microedition.lcdui.Image import Image
-        from javax.microedition.lcdui.game.Sprite import Sprite
-        raise NotImplementedError()
-# from javax.microedition.lcdui.Image import Image
-# from javax.microedition.lcdui.game.Sprite import Sprite
-
+method createSprite*(this: SpriteFactoryInterface, image: Image, frameWidth: int32, frameHeight: int32): Sprite {.base, discardable.} =
+        raise newJException("AbstractMethodError", "createSprite")
 

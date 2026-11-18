@@ -1,38 +1,54 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.graphics.form
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/canvas/Processor as ProcessorModule
+export ProcessorModule
+import org/allbinary/graphics/form/ScrollCurrentSelectionForm as ScrollCurrentSelectionFormModule
+export ScrollCurrentSelectionFormModule
 
-from org.allbinary.canvas.Processor import Processor
+type
+    VerticalFormProcessor* = ref object of Processor
+        scrollCurrentSelectionForm*: ScrollCurrentSelectionForm
+
+proc newVerticalFormProcessor*(scrollCurrentSelectionForm: ScrollCurrentSelectionForm): VerticalFormProcessor
+proc initVerticalFormProcessor*(this: VerticalFormProcessor, scrollCurrentSelectionForm: ScrollCurrentSelectionForm)
+method process*(this: VerticalFormProcessor)
 
 
-class VerticalFormProcessor(Processor):
-
-    def _init_fields(self) -> None:
-        self.scrollCurrentSelectionForm: ScrollCurrentSelectionForm = None
+# Java field initializers run after the base initializer
+proc initFieldsVerticalFormProcessor(this: VerticalFormProcessor) =
     
+    discard
 
-    def __init__(self, scrollCurrentSelectionForm: ScrollCurrentSelectionForm) -> None:
-        super().__init__()
-        self._init_fields()
-        self.scrollCurrentSelectionForm = scrollCurrentSelectionForm
-    
+proc initVerticalFormProcessor*(this: VerticalFormProcessor, scrollCurrentSelectionForm: ScrollCurrentSelectionForm) =
+        initProcessor(this)
+        this.initFieldsVerticalFormProcessor()
+        this.scrollCurrentSelectionForm = scrollCurrentSelectionForm
 
-    # throws Exception
-    def process(self) -> None:
-        self.scrollCurrentSelectionForm.processVerticalForm()
-        self.scrollCurrentSelectionForm.processor = Processor.getInstance()
+proc newVerticalFormProcessor*(scrollCurrentSelectionForm: ScrollCurrentSelectionForm): VerticalFormProcessor =
+    result = VerticalFormProcessor()
+    initVerticalFormProcessor(result, scrollCurrentSelectionForm)
 
+method process*(this: VerticalFormProcessor) =
+        this.scrollCurrentSelectionForm.processVerticalForm()
+        this.scrollCurrentSelectionForm.processor = Processor.getInstance()
+
+when declared(newVerticalFormProcessorHook1):
+    newVerticalFormProcessorHook1 = proc (scrollCurrentSelectionForm: ScrollCurrentSelectionForm): Processor = newVerticalFormProcessor(scrollCurrentSelectionForm)
 

@@ -1,48 +1,60 @@
-# 
-# AllBinary Open License Version 1 
-# Copyright (c) 2025 AllBinary 
-#  
-# By agreeing to this license you and any business entity you represent are 
-# legally bound to the AllBinary Open License Version 1 legal agreement. 
-#  
-# You may obtain the AllBinary Open License Version 1 legal agreement from 
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
-#  
-# Created By: Travis Berthelot 
-#   
+#[
+  
+  AllBinary Open License Version 1 
+  Copyright (c) 2025 AllBinary 
+   
+  By agreeing to this license you and any business entity you represent are 
+  legally bound to the AllBinary Open License Version 1 legal agreement. 
+   
+  You may obtain the AllBinary Open License Version 1 legal agreement from 
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
+   
+  Created By: Travis Berthelot 
+    
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.graphics.opengles.shader
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import javax/microedition/khronos/opengles/GL10 as GL10Module
+export GL10Module
+import org/allbinary/string/CommonStrings as CommonStringsModule
+export CommonStringsModule
+import org/allbinary/graphics/opengles/shader/Shader as ShaderModule
+export ShaderModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    ShaderInitializer* = ref object of JObject
+        commonStrings*: CommonStrings
 
+proc newShaderInitializer*(): ShaderInitializer
+proc getInstance*(t: typedesc[ShaderInitializer]): ShaderInitializer {.discardable.}
+method init*(this: ShaderInitializer, gl: GL10, shader: JArray[Shader], attributeArray: JArray[string]): int32 {.base, discardable.}
 
-class ShaderInitializer:
-    instance: ShaderInitializer = None
+var ShaderInitializer_instanceValue: ShaderInitializer
+var ShaderInitializer_instanceSet = false
+proc instance*(t: typedesc[ShaderInitializer]): ShaderInitializer =
+    if not ShaderInitializer_instanceSet:
+        ShaderInitializer_instanceSet = true
+        ShaderInitializer_instanceValue = newShaderInitializer()
+    ShaderInitializer_instanceValue
 
-    def _init_fields(self) -> None:
-        from org.allbinary.string.CommonStrings import CommonStrings
-        self.commonStrings: CommonStrings = CommonStrings.getInstance()
+# Java field initializers run after the base initializer
+proc initFieldsShaderInitializer(this: ShaderInitializer) =
+    this.commonStrings = CommonStrings.getInstance()
+    discard
 
-    def __init__(self) -> None:
-        self._init_fields()
-    
+proc initShaderInitializer*(this: ShaderInitializer) =
+    this.initFieldsShaderInitializer()
 
-    @staticmethod
-    def getInstance() -> ShaderInitializer:
+proc newShaderInitializer*(): ShaderInitializer =
+    result = ShaderInitializer()
+    initShaderInitializer(result)
+
+proc getInstance*(t: typedesc[ShaderInitializer]): ShaderInitializer {.discardable.} =
         return ShaderInitializer.instance
-    
 
-    def init(self, gl: GL10, shader: list[Shader], attributeArray: list[str]) -> int:
-        from javax.microedition.khronos.opengles.GL10 import GL10
+method init*(this: ShaderInitializer, gl: GL10, shader: JArray[Shader], attributeArray: JArray[string]): int32 {.base, discardable.} =
         return -1
-# from javax.microedition.khronos.opengles.GL10 import GL10
-# from org.allbinary.string.CommonStrings import CommonStrings
-
-
-def _ShaderInitializer_instance() -> object:
-    return ShaderInitializer()
-
-lazy_static(ShaderInitializer, "instance", _ShaderInitializer_instance)
 

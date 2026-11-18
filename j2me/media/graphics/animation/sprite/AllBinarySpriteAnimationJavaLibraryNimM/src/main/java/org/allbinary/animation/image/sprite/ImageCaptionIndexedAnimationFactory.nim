@@ -1,106 +1,126 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#   
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+    
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.animation.image.sprite
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import javax/microedition/lcdui/Image as ImageModule
+export ImageModule
+import org/allbinary/animation/Animation as AnimationModule
+export AnimationModule
+import org/allbinary/animation/AnimationBehaviorFactory as AnimationBehaviorFactoryModule
+export AnimationBehaviorFactoryModule
+import org/allbinary/animation/AnimationInterfaceFactoryInterface as AnimationInterfaceFactoryInterfaceModule
+export AnimationInterfaceFactoryInterfaceModule
+import org/allbinary/image/AnimationFactoryImageScaleUtil as AnimationFactoryImageScaleUtilModule
+export AnimationFactoryImageScaleUtilModule
+import org/allbinary/image/sprite/AnimationFactorySpriteScaleUtil as AnimationFactorySpriteScaleUtilModule
+export AnimationFactorySpriteScaleUtilModule
+import org/allbinary/media/ScaleProperties as ScalePropertiesModule
+export ScalePropertiesModule
+import org/allbinary/media/audio/Sound as SoundModule
+export SoundModule
 
-from org.allbinary.animation.AnimationInterfaceFactoryInterface import AnimationInterfaceFactoryInterface
+type
+    ImageCaptionIndexedAnimationFactory* = ref object of AnimationInterfaceFactoryInterface
+        animationFactoryImageScaleUtil*: AnimationFactoryImageScaleUtil
+        animationFactorySpriteScaleUtil*: AnimationFactorySpriteScaleUtil
+        captionImage*: Image
+        spriteMovieImage*: Image
+        frameWidth*: int32
+        frameHeight*: int32
+        captionDx*: int32
+        captionDy*: int32
+        dx*: int32
+        dy*: int32
+        time*: int32
+        soundInterface*: Sound
+        scaleProperties*: ScaleProperties
+        animationBehaviorFactory*: AnimationBehaviorFactory
+
+proc newImageCaptionIndexedAnimationFactory*(captionImage: Image, spriteMovieImage: Image, soundInterface: Sound, frameWidth: int32, frameHeight: int32, captionDx: int32, captionDy: int32, dx: int32, dy: int32, time: int32, animationBehaviorFactory: AnimationBehaviorFactory): ImageCaptionIndexedAnimationFactory
+proc initImageCaptionIndexedAnimationFactory*(this: ImageCaptionIndexedAnimationFactory, captionImage: Image, spriteMovieImage: Image, soundInterface: Sound, frameWidth: int32, frameHeight: int32, captionDx: int32, captionDy: int32, dx: int32, dy: int32, time: int32, animationBehaviorFactory: AnimationBehaviorFactory)
+method getInstance*(this: ImageCaptionIndexedAnimationFactory, instanceId: int32): Animation {.discardable.}
+method setInitialScale*(this: ImageCaptionIndexedAnimationFactory, scaleProperties: ScaleProperties)
+import javax/microedition/lcdui/game/Sprite as SpriteModule
+export SpriteModule
+import javax/microedition/media/Player as PlayerModule
+export PlayerModule
+import org/allbinary/animation/IndexedAnimation as IndexedAnimationModule
+export IndexedAnimationModule
+import org/allbinary/animation/caption/CaptionIndexedAnimation as CaptionIndexedAnimationModule
+export CaptionIndexedAnimationModule
+import org/allbinary/animation/image/ImageAnimation as ImageAnimationModule
+export ImageAnimationModule
+import org/allbinary/graphics/color/BasicColorUtil as BasicColorUtilModule
+export BasicColorUtilModule
+import org/allbinary/logic/communication/log/ForcedLogUtil as ForcedLogUtilModule
+export ForcedLogUtilModule
+import org/allbinary/animation/image/sprite/SpriteIndexedAnimation as SpriteIndexedAnimationModule
+export SpriteIndexedAnimationModule
 
 
-class ImageCaptionIndexedAnimationFactory(AnimationInterfaceFactoryInterface):
-
-    def _init_fields(self) -> None:
-        from javax.microedition.lcdui.Image import Image
-        from org.allbinary.animation.AnimationBehaviorFactory import AnimationBehaviorFactory
-        from org.allbinary.image.AnimationFactoryImageScaleUtil import AnimationFactoryImageScaleUtil
-        from org.allbinary.image.sprite.AnimationFactorySpriteScaleUtil import AnimationFactorySpriteScaleUtil
-        from org.allbinary.media.ScaleProperties import ScaleProperties
-        from org.allbinary.media.audio.Sound import Sound
-        self.animationFactoryImageScaleUtil: AnimationFactoryImageScaleUtil = AnimationFactoryImageScaleUtil.getInstance()
-        self.animationFactorySpriteScaleUtil: AnimationFactorySpriteScaleUtil = AnimationFactorySpriteScaleUtil.getInstance()
-        self.captionImage: Image = None
-        self.spriteMovieImage: Image = None
-        self.frameWidth: int = None
-        self.frameHeight: int = None
-        self.captionDx: int = None
-        self.captionDy: int = None
-        self.dx: int = None
-        self.dy: int = None
-        self.time: int = None
-        self.soundInterface: Sound = None
-        self.scaleProperties: ScaleProperties = ScaleProperties.instance
-        self.animationBehaviorFactory: AnimationBehaviorFactory = None
+# Java field initializers run after the base initializer
+proc initFieldsImageCaptionIndexedAnimationFactory(this: ImageCaptionIndexedAnimationFactory) =
+    this.animationFactoryImageScaleUtil = AnimationFactoryImageScaleUtil.getInstance()
+    this.animationFactorySpriteScaleUtil = AnimationFactorySpriteScaleUtil.getInstance()
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    this.scaleProperties = ScaleProperties.instance
+    
+    discard
 
-    def __init__(self, captionImage: Image, spriteMovieImage: Image, soundInterface: Sound, frameWidth: int, frameHeight: int, captionDx: int, captionDy: int, dx: int, dy: int, time: int, animationBehaviorFactory: AnimationBehaviorFactory) -> None:
-        from javax.microedition.lcdui.Image import Image
-        from org.allbinary.animation.AnimationBehaviorFactory import AnimationBehaviorFactory
-        from org.allbinary.logic.communication.log.ForcedLogUtil import ForcedLogUtil
-        from org.allbinary.media.audio.Sound import Sound
-        self._init_fields()
+proc initImageCaptionIndexedAnimationFactory*(this: ImageCaptionIndexedAnimationFactory, captionImage: Image, spriteMovieImage: Image, soundInterface: Sound, frameWidth: int32, frameHeight: int32, captionDx: int32, captionDy: int32, dx: int32, dy: int32, time: int32, animationBehaviorFactory: AnimationBehaviorFactory) =
+        this.initFieldsImageCaptionIndexedAnimationFactory()
         if animationBehaviorFactory == AnimationBehaviorFactory.getInstance():
-            ForcedLogUtil.log("Using default AnimationBehaviorFactory with IndexedAnimationFactory", self)
-        self.captionImage = captionImage
-        self.spriteMovieImage = spriteMovieImage
-        self.frameWidth = frameWidth
-        self.frameHeight = frameHeight
-        self.captionDx = captionDx
-        self.captionDy = captionDy
-        self.dx = dx
-        self.dy = dy
-        self.time = time
-        self.soundInterface = soundInterface
-        self.animationBehaviorFactory = animationBehaviorFactory
-    
+            ForcedLogUtil.log("Using default AnimationBehaviorFactory with IndexedAnimationFactory", this)
+        this.captionImage = captionImage
+        this.spriteMovieImage = spriteMovieImage
+        this.frameWidth = frameWidth
+        this.frameHeight = frameHeight
+        this.captionDx = captionDx
+        this.captionDy = captionDy
+        this.dx = dx
+        this.dy = dy
+        this.time = time
+        this.soundInterface = soundInterface
+        this.animationBehaviorFactory = animationBehaviorFactory
 
-    # throws Exception
-    def getInstance(self, instanceId: int) -> Animation:
-        from org.allbinary.animation.image.sprite.SpriteIndexedAnimation import SpriteIndexedAnimation
-        from javax.microedition.lcdui.Image import Image
-        from javax.microedition.lcdui.game.Sprite import Sprite
-        from javax.microedition.media.Player import Player
-        from org.allbinary.animation.Animation import Animation
-        from org.allbinary.animation.IndexedAnimation import IndexedAnimation
-        from org.allbinary.animation.caption.CaptionIndexedAnimation import CaptionIndexedAnimation
-        from org.allbinary.animation.image.ImageAnimation import ImageAnimation
-        from org.allbinary.graphics.color.BasicColorUtil import BasicColorUtil
-        scaledImage: Image = self.animationFactoryImageScaleUtil.createImage(self.captionImage, self.captionImage.getWidth(), self.captionImage.getHeight(), self.scaleProperties.scaleWidth, self.scaleProperties.scaleHeight)
-        animationInterface: Animation = ImageAnimation(scaledImage, self.animationBehaviorFactory.getOrCreateInstance())
-        sprite: Sprite = self.animationFactorySpriteScaleUtil.createImage(self.spriteMovieImage, self.frameWidth, self.frameHeight, self.scaleProperties.scaleWidth, self.scaleProperties.scaleHeight)
-        movieIndexedAnimationInterface: IndexedAnimation = SpriteIndexedAnimation(sprite, self.spriteMovieImage, BasicColorUtil.getInstance().ZERO_ARRAY, self.animationBehaviorFactory.getOrCreateInstance())
-        player: Player = self.soundInterface.getPlayerP()
-        if player is None:
-            raise Exception("Sound Was not Initialized")
-        return CaptionIndexedAnimation(animationInterface, movieIndexedAnimationInterface, player, self.captionDx, self.captionDy, self.dx, self.dy, self.time, self.animationBehaviorFactory.getOrCreateInstance())
-    
+proc newImageCaptionIndexedAnimationFactory*(captionImage: Image, spriteMovieImage: Image, soundInterface: Sound, frameWidth: int32, frameHeight: int32, captionDx: int32, captionDy: int32, dx: int32, dy: int32, time: int32, animationBehaviorFactory: AnimationBehaviorFactory): ImageCaptionIndexedAnimationFactory =
+    result = ImageCaptionIndexedAnimationFactory()
+    initImageCaptionIndexedAnimationFactory(result, captionImage, spriteMovieImage, soundInterface, frameWidth, frameHeight, captionDx, captionDy, dx, dy, time, animationBehaviorFactory)
 
-    def setInitialScale(self, scaleProperties: ScaleProperties) -> None:
-        from org.allbinary.media.ScaleProperties import ScaleProperties
-        self.scaleProperties = scaleProperties
-# from javax.microedition.lcdui.Image import Image
-# from javax.microedition.lcdui.game.Sprite import Sprite
-# from javax.microedition.media.Player import Player
-# from org.allbinary.animation.Animation import Animation
-# from org.allbinary.animation.AnimationBehaviorFactory import AnimationBehaviorFactory
-# from org.allbinary.animation.IndexedAnimation import IndexedAnimation
-# from org.allbinary.animation.caption.CaptionIndexedAnimation import CaptionIndexedAnimation
-# from org.allbinary.animation.image.ImageAnimation import ImageAnimation
-# from org.allbinary.graphics.color.BasicColorUtil import BasicColorUtil
-# from org.allbinary.image.AnimationFactoryImageScaleUtil import AnimationFactoryImageScaleUtil
-# from org.allbinary.image.sprite.AnimationFactorySpriteScaleUtil import AnimationFactorySpriteScaleUtil
-# from org.allbinary.logic.communication.log.ForcedLogUtil import ForcedLogUtil
-# from org.allbinary.media.ScaleProperties import ScaleProperties
-# from org.allbinary.media.audio.Sound import Sound
+method getInstance*(this: ImageCaptionIndexedAnimationFactory, instanceId: int32): Animation {.discardable.} =
+        let scaledImage: Image = this.animationFactoryImageScaleUtil.createImage(this.captionImage, this.captionImage.getWidth(), this.captionImage.getHeight(), this.scaleProperties.scaleWidth, this.scaleProperties.scaleHeight)
+        let animationInterface: Animation = newImageAnimation(scaledImage, this.animationBehaviorFactory.getOrCreateInstance())
+        let sprite: Sprite = this.animationFactorySpriteScaleUtil.createImage(this.spriteMovieImage, this.frameWidth, this.frameHeight, this.scaleProperties.scaleWidth, this.scaleProperties.scaleHeight)
+        let movieIndexedAnimationInterface: IndexedAnimation = newSpriteIndexedAnimation(sprite, this.spriteMovieImage, BasicColorUtil.getInstance().ZERO_ARRAY, this.animationBehaviorFactory.getOrCreateInstance())
+        var player: Player = this.soundInterface.getPlayerP()
+        if (jIsNil(player)):
+            raise newJException("Exception", "Sound Was not Initialized")
+        return newCaptionIndexedAnimation(animationInterface, movieIndexedAnimationInterface, player, this.captionDx, this.captionDy, this.dx, this.dy, this.time, this.animationBehaviorFactory.getOrCreateInstance())
 
+method setInitialScale*(this: ImageCaptionIndexedAnimationFactory, scaleProperties: ScaleProperties) =
+        this.scaleProperties = scaleProperties
 

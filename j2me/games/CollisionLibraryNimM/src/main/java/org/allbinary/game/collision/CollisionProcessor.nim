@@ -1,16 +1,25 @@
 # Generated Code Do Not Modify
 # package org.allbinary.game.collision
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/layer/AllBinaryLayer as AllBinaryLayerModule
+export AllBinaryLayerModule
+
+type
+    CollisionProcessor* = ref object of JObject
+
+proc newCollisionProcessor*(): CollisionProcessor
+method isCollision*(this: CollisionProcessor, myLayer: AllBinaryLayer, myLayer2: AllBinaryLayer): bool {.base, discardable.}
 
 
+proc initCollisionProcessor*(this: CollisionProcessor) =
+    discard
 
-class CollisionProcessor:
-    
+proc newCollisionProcessor*(): CollisionProcessor =
+    result = CollisionProcessor()
+    initCollisionProcessor(result)
 
-    def isCollision(self, myLayer: AllBinaryLayer, myLayer2: AllBinaryLayer) -> bool:
-        from org.allbinary.layer.AllBinaryLayer import AllBinaryLayer
-        return False
-# from org.allbinary.layer.AllBinaryLayer import AllBinaryLayer
-
+method isCollision*(this: CollisionProcessor, myLayer: AllBinaryLayer, myLayer2: AllBinaryLayer): bool {.base, discardable.} =
+        return false
 

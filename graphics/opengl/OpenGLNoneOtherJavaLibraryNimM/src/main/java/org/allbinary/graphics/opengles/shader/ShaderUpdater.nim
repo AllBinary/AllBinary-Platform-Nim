@@ -1,53 +1,64 @@
-# 
-# AllBinary Open License Version 1 
-# Copyright (c) 2025 AllBinary 
-#  
-# By agreeing to this license you and any business entity you represent are 
-# legally bound to the AllBinary Open License Version 1 legal agreement. 
-#  
-# You may obtain the AllBinary Open License Version 1 legal agreement from 
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
-#  
-# Created By: Travis Berthelot 
-#   
+#[
+  
+  AllBinary Open License Version 1 
+  Copyright (c) 2025 AllBinary 
+   
+  By agreeing to this license you and any business entity you represent are 
+  legally bound to the AllBinary Open License Version 1 legal agreement. 
+   
+  You may obtain the AllBinary Open License Version 1 legal agreement from 
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
+   
+  Created By: Travis Berthelot 
+    
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.graphics.opengles.shader
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import javax/microedition/khronos/egl/EGLConfig as EGLConfigModule
+export EGLConfigModule
+import javax/microedition/khronos/opengles/GL10 as GL10Module
+export GL10Module
+import org/allbinary/graphics/opengles/renderer/RendererStrings as RendererStringsModule
+export RendererStringsModule
+import org/allbinary/string/CommonStrings as CommonStringsModule
+export CommonStringsModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    ShaderUpdater* = ref object of JObject
+        commonStrings*: CommonStrings
+        rendererStrings*: RendererStrings
 
+proc newShaderUpdater*(): ShaderUpdater
+proc getInstance*(t: typedesc[ShaderUpdater]): ShaderUpdater {.discardable.}
+method onSurfaceCreated*(this: ShaderUpdater, gl: GL10, eglConfig: EGLConfig) {.base.}
 
-class ShaderUpdater:
-    instance: ShaderUpdater = None
+var ShaderUpdater_instanceValue: ShaderUpdater
+var ShaderUpdater_instanceSet = false
+proc instance*(t: typedesc[ShaderUpdater]): ShaderUpdater =
+    if not ShaderUpdater_instanceSet:
+        ShaderUpdater_instanceSet = true
+        ShaderUpdater_instanceValue = newShaderUpdater()
+    ShaderUpdater_instanceValue
 
-    def _init_fields(self) -> None:
-        from org.allbinary.graphics.opengles.renderer.RendererStrings import RendererStrings
-        from org.allbinary.string.CommonStrings import CommonStrings
-        self.commonStrings: CommonStrings = CommonStrings.getInstance()
-        self.rendererStrings: RendererStrings = RendererStrings.getInstance()
+# Java field initializers run after the base initializer
+proc initFieldsShaderUpdater(this: ShaderUpdater) =
+    this.commonStrings = CommonStrings.getInstance()
+    this.rendererStrings = RendererStrings.getInstance()
+    discard
 
-    def __init__(self) -> None:
-        self._init_fields()
-    
+proc initShaderUpdater*(this: ShaderUpdater) =
+    this.initFieldsShaderUpdater()
 
-    @staticmethod
-    def getInstance() -> ShaderUpdater:
+proc newShaderUpdater*(): ShaderUpdater =
+    result = ShaderUpdater()
+    initShaderUpdater(result)
+
+proc getInstance*(t: typedesc[ShaderUpdater]): ShaderUpdater {.discardable.} =
         return ShaderUpdater.instance
-    
 
-    def onSurfaceCreated(self, gl: GL10, eglConfig: EGLConfig) -> None:
-        from javax.microedition.khronos.egl.EGLConfig import EGLConfig
-        from javax.microedition.khronos.opengles.GL10 import GL10
-        pass
-# from javax.microedition.khronos.egl.EGLConfig import EGLConfig
-# from javax.microedition.khronos.opengles.GL10 import GL10
-# from org.allbinary.graphics.opengles.renderer.RendererStrings import RendererStrings
-# from org.allbinary.string.CommonStrings import CommonStrings
-
-
-def _ShaderUpdater_instance() -> object:
-    return ShaderUpdater()
-
-lazy_static(ShaderUpdater, "instance", _ShaderUpdater_instance)
+method onSurfaceCreated*(this: ShaderUpdater, gl: GL10, eglConfig: EGLConfig) {.base.} =
+        discard
 

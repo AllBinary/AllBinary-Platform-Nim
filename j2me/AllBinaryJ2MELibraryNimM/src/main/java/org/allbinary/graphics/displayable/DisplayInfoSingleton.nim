@@ -1,422 +1,465 @@
-# 
-# AllBinary Open License Version 1 
-# Copyright (c) 2011 AllBinary 
-#  
-# By agreeing to this license you and any business entity you represent are 
-# legally bound to the AllBinary Open License Version 1 legal agreement. 
-#  
-# You may obtain the AllBinary Open License Version 1 legal agreement from 
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
-#  
-# Created By: Travis Berthelot 
-#   
+#[
+  
+  AllBinary Open License Version 1 
+  Copyright (c) 2011 AllBinary 
+   
+  By agreeing to this license you and any business entity you represent are 
+  legally bound to the AllBinary Open License Version 1 legal agreement. 
+   
+  You may obtain the AllBinary Open License Version 1 legal agreement from 
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
+   
+  Created By: Travis Berthelot 
+    
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.graphics.displayable
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import javax/microedition/lcdui/Displayable as DisplayableModule
+export DisplayableModule
+import org/allbinary/graphics/displayable/event/DisplayChangeEvent as DisplayChangeEventModule
+export DisplayChangeEventModule
+import org/allbinary/logic/communication/log/LogUtil as LogUtilModule
+export LogUtilModule
+import org/allbinary/logic/string/StringMaker as StringMakerModule
+export StringMakerModule
+import org/allbinary/string/CommonLabels as CommonLabelsModule
+export CommonLabelsModule
+import org/allbinary/string/CommonSeps as CommonSepsModule
+export CommonSepsModule
+import org/allbinary/string/CommonStrings as CommonStringsModule
+export CommonStringsModule
+import org/allbinary/util/BasicArrayList as BasicArrayListModule
+export BasicArrayListModule
+import org/allbinary/graphics/displayable/BaseScalable as BaseScalableModule
+export BaseScalableModule
+import org/allbinary/graphics/displayable/ScalableListener as ScalableListenerModule
+export ScalableListenerModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    DisplayInfoSingleton* = ref object of JObject
+        logUtil*: LogUtil
+        commonLabels*: CommonLabels
+        commonSeps*: CommonSeps
+        commonStrings*: CommonStrings
+        ORIENTATION*: string
+        ADJUSTING_FOR_SCALING_IN_PORTRAIT*: string
+        ADJUSTING_FOR_SCALING_IN_LANDSCAPE*: string
+        last*: JArray[int32]
+        lastHalf*: JArray[int32]
+        full*: JArray[int32]
+        top*: int32
+        left*: int32
+        xOffset*: int32
+        yOffset*: int32
+        scaleLargestTo*: float32
+        WIDTH*: int32
+        HEIGHT*: int32
+        CUSTOM_WIDTH*: int32
+        CUSTOM_HEIGHT*: int32
+        scalableListener*: BaseScalable
+        displayRatio*: float32
+        ratio*: float32
+        SET_LAST_SIZE_METHOD_NAME*: string
+        FULL_WIDTH*: string
+        FULL_HEIGHT*: string
+        LAST_WIDTH*: string
+        LAST_HEIGHT*: string
+        PORTRAIT*: string
+        LANDSCAPE*: string
+        displayChangeEvent*: DisplayChangeEvent
+        FIRE_METHOD_NAME*: string
+        REASON*: string
+        UPDATE_FROM_ORIENTATION_CHANGE*: string
+        list*: BasicArrayList
+        DISPLAY_INFO*: string
+        FULL*: string
+        LAST*: string
+        LAST_HALF*: string
 
+proc newDisplayInfoSingleton*(): DisplayInfoSingleton
+proc initDisplayInfoSingleton*(this: DisplayInfoSingleton)
+proc getInstance*(t: typedesc[DisplayInfoSingleton]): DisplayInfoSingleton {.discardable.}
+method getLastHalf*(this: DisplayInfoSingleton): JArray[int32] {.base, discardable.}
+method getLast*(this: DisplayInfoSingleton): JArray[int32] {.base, discardable.}
+method getFull*(this: DisplayInfoSingleton): JArray[int32] {.base, discardable.}
+method getScaleLargestTo*(this: DisplayInfoSingleton): float32 {.base, discardable.}
+method setScaleLargestTo*(this: DisplayInfoSingleton, scaleLargestTo: int32) {.base.}
+method setLastSize*(this: DisplayInfoSingleton, aLastWidth: int32, aLastHeight: int32, reason: string) {.base.}
+method setLastSizeForce*(this: DisplayInfoSingleton, aLastWidth: int32, aLastHeight: int32, reason: string) {.base.}
+method isPortraitWH*(this: DisplayInfoSingleton, lastWidth: int32, lastHeight: int32): bool {.base, discardable.}
+method isPortrait*(this: DisplayInfoSingleton): bool {.base, discardable.}
+method add*(this: DisplayInfoSingleton, reason: string) {.base.}
+method process*(this: DisplayInfoSingleton) {.base.}
+method processForced*(this: DisplayInfoSingleton) {.base.}
+method update*(this: DisplayInfoSingleton, displayable: Displayable, reason: string) {.base.}
+method toString*(this: DisplayInfoSingleton): string {.discardable.}
+method toStringAppend*(this: DisplayInfoSingleton, stringBuffer: StringMaker): string {.base, discardable.}
+method getTop*(this: DisplayInfoSingleton): int32 {.base, discardable.}
+method getLeft*(this: DisplayInfoSingleton): int32 {.base, discardable.}
+method getLastWidth*(this: DisplayInfoSingleton): int32 {.base, discardable.}
+method getLastHeight*(this: DisplayInfoSingleton): int32 {.base, discardable.}
+method getLastHalfWidth*(this: DisplayInfoSingleton): int32 {.base, discardable.}
+method getLastHalfHeight*(this: DisplayInfoSingleton): int32 {.base, discardable.}
+method getCustomLastWidth*(this: DisplayInfoSingleton): int32 {.base, discardable.}
+method getCustomLastHeight*(this: DisplayInfoSingleton): int32 {.base, discardable.}
+method getRawLastWidth*(this: DisplayInfoSingleton): int32 {.base, discardable.}
+method getRawLastHeight*(this: DisplayInfoSingleton): int32 {.base, discardable.}
+method setCustom*(this: DisplayInfoSingleton, width: int32, height: int32) {.base.}
+method setScalableListener*(this: DisplayInfoSingleton, scalableListener: BaseScalable) {.base.}
+method getScalableListener*(this: DisplayInfoSingleton): ScalableListener {.base, discardable.}
+method getRatio*(this: DisplayInfoSingleton): float32 {.base, discardable.}
+method getDisplayRatio*(this: DisplayInfoSingleton): float32 {.base, discardable.}
+method setOffset*(this: DisplayInfoSingleton, left: int32, top: int32) {.base.}
+method getxOffset*(this: DisplayInfoSingleton): int32 {.base, discardable.}
+method getyOffset*(this: DisplayInfoSingleton): int32 {.base, discardable.}
+import org/allbinary/AndroidUtil as AndroidUtilModule
+export AndroidUtilModule
+import org/allbinary/game/configuration/feature/Features as FeaturesModule
+export FeaturesModule
+import org/allbinary/graphics/displayable/event/DisplayChangeEventHandler as DisplayChangeEventHandlerModule
+export DisplayChangeEventHandlerModule
+import org/allbinary/graphics/displayable/event/LastDisplayChangeEventHandler as LastDisplayChangeEventHandlerModule
+export LastDisplayChangeEventHandlerModule
+import org/allbinary/graphics/opengles/OpenGLFeatureFactory as OpenGLFeatureFactoryModule
+export OpenGLFeatureFactoryModule
+import org/allbinary/graphics/threed/SWTJOGLProcessor as SWTJOGLProcessorModule
+export SWTJOGLProcessorModule
+import org/allbinary/logic/communication/log/PreLogUtil as PreLogUtilModule
+export PreLogUtilModule
+import org/allbinary/logic/system/os/GenericOperatingSystem as GenericOperatingSystemModule
+export GenericOperatingSystemModule
+import org/allbinary/logic/system/os/OperatingSystemFactory as OperatingSystemFactoryModule
+export OperatingSystemFactoryModule
+import org/allbinary/util/BasicArrayListD as BasicArrayListDModule
+export BasicArrayListDModule
 
-class DisplayInfoSingleton:
-    SINGLETON: DisplayInfoSingleton = None
+var DisplayInfoSingleton_SINGLETONValue: DisplayInfoSingleton
+var DisplayInfoSingleton_SINGLETONSet = false
+proc SINGLETON*(t: typedesc[DisplayInfoSingleton]): DisplayInfoSingleton =
+    if not DisplayInfoSingleton_SINGLETONSet:
+        DisplayInfoSingleton_SINGLETONSet = true
+        DisplayInfoSingleton_SINGLETONValue = newDisplayInfoSingleton()
+    DisplayInfoSingleton_SINGLETONValue
 
-    def _init_fields(self) -> None:
-        from org.allbinary.graphics.displayable.event.DisplayChangeEvent import DisplayChangeEvent
-        from org.allbinary.logic.communication.log.LogUtil import LogUtil
-        from org.allbinary.string.CommonLabels import CommonLabels
-        from org.allbinary.string.CommonSeps import CommonSeps
-        from org.allbinary.string.CommonStrings import CommonStrings
-        from org.allbinary.util.BasicArrayList import BasicArrayList
-        from org.allbinary.util.BasicArrayListD import BasicArrayListD
-        self.logUtil: LogUtil = LogUtil.getInstance()
-        self.commonLabels: CommonLabels = CommonLabels.getInstance()
-        self.commonSeps: CommonSeps = CommonSeps.getInstance()
-        self.commonStrings: CommonStrings = CommonStrings.getInstance()
-        self.ORIENTATION: str = "ORIENTATION"
-        self.ADJUSTING_FOR_SCALING_IN_PORTRAIT: str = "Adjusting for Scaling in portrait display ratio: "
-        self.ADJUSTING_FOR_SCALING_IN_LANDSCAPE: str = "Adjusting for Scaling in landscape display ratio: "
-        self.last: list[int] = [0] * (4)
-        self.lastHalf: list[int] = [0] * (4)
-        self.full: list[int] = [0] * (4)
-        self.top: int = 0
-        self.left: int = 0
-        self.xOffset: int = 0
-        self.yOffset: int = 0
-        self.scaleLargestTo: float = 0.0
-        self.WIDTH: int = 0
-        self.HEIGHT: int = 1
-        self.CUSTOM_WIDTH: int = 2
-        self.CUSTOM_HEIGHT: int = 3
-        self.scalableListener: BaseScalable = BaseScalable()
-        self.displayRatio: float = 0.0
-        self.ratio: float = 1.0
-        self.SET_LAST_SIZE_METHOD_NAME: str = "setLastSize"
-        self.FULL_WIDTH: str = " FullWidth: "
-        self.FULL_HEIGHT: str = " FullHeight: "
-        self.LAST_WIDTH: str = "LastWidth: "
-        self.LAST_HEIGHT: str = " LastHeight: "
-        self.PORTRAIT: str = "Portrait"
-        self.LANDSCAPE: str = "Landscape"
-        self.displayChangeEvent: DisplayChangeEvent = DisplayChangeEvent(self)
-        self.FIRE_METHOD_NAME: str = "fire"
-        self.REASON: str = "reason: "
-        self.UPDATE_FROM_ORIENTATION_CHANGE: str = "Updating from Orientation Change "
-        self.list_: BasicArrayList = BasicArrayListD()
-        self.DISPLAY_INFO: str = "Display Info: "
-        self.FULL: str = "full"
-        self.LAST: str = "last"
-        self.LAST_HALF: str = "lastHalf"
-    
+# Java field initializers run after the base initializer
+proc initFieldsDisplayInfoSingleton(this: DisplayInfoSingleton) =
+    this.logUtil = LogUtil.getInstance()
+    this.commonLabels = CommonLabels.getInstance()
+    this.commonSeps = CommonSeps.getInstance()
+    this.commonStrings = CommonStrings.getInstance()
+    this.ORIENTATION = "ORIENTATION"
+    this.ADJUSTING_FOR_SCALING_IN_PORTRAIT = "Adjusting for Scaling in portrait display ratio: "
+    this.ADJUSTING_FOR_SCALING_IN_LANDSCAPE = "Adjusting for Scaling in landscape display ratio: "
+    this.last = newJArray[int32](4, default(int32))
+    this.lastHalf = newJArray[int32](4, default(int32))
+    this.full = newJArray[int32](4, default(int32))
+    this.top = 0
+    this.left = 0
+    this.xOffset = 0
+    this.yOffset = 0
+    this.scaleLargestTo = 0.0'f32
+    this.WIDTH = 0
+    this.HEIGHT = 1
+    this.CUSTOM_WIDTH = 2
+    this.CUSTOM_HEIGHT = 3
+    this.scalableListener = newBaseScalable()
+    this.displayRatio = 0.0'f32
+    this.ratio = 1.0'f32
+    this.SET_LAST_SIZE_METHOD_NAME = "setLastSize"
+    this.FULL_WIDTH = " FullWidth: "
+    this.FULL_HEIGHT = " FullHeight: "
+    this.LAST_WIDTH = "LastWidth: "
+    this.LAST_HEIGHT = " LastHeight: "
+    this.PORTRAIT = "Portrait"
+    this.LANDSCAPE = "Landscape"
+    this.displayChangeEvent = newDisplayChangeEvent(this)
+    this.FIRE_METHOD_NAME = "fire"
+    this.REASON = "reason: "
+    this.UPDATE_FROM_ORIENTATION_CHANGE = "Updating from Orientation Change "
+    this.list = newBasicArrayListD()
+    this.DISPLAY_INFO = "Display Info: "
+    this.FULL = "full"
+    this.LAST = "last"
+    this.LAST_HALF = "lastHalf"
+    discard
 
-    @staticmethod
-    def getInstance() -> DisplayInfoSingleton:
+proc getInstance*(t: typedesc[DisplayInfoSingleton]): DisplayInfoSingleton {.discardable.} =
         return DisplayInfoSingleton.SINGLETON
-    
 
-    def __init__(self) -> None:
-        from org.allbinary.AndroidUtil import AndroidUtil
-        self._init_fields()
-        size: int = len(self.last)
-        for index in range(0, size):
-            self.last[index] = 0
-            self.lastHalf[index] = 0
-            self.full[index] = 0
+proc initDisplayInfoSingleton*(this: DisplayInfoSingleton) =
+        this.initFieldsDisplayInfoSingleton()
+        let size: int32 = this.last.length
+        block:
+            var index: int32 = 0
+            while index < size:
+                defer: index = index +% 1
+                this.last[index] = 0
+                this.lastHalf[index] = 0
+                this.full[index] = 0
         if AndroidUtil.isAndroid():
-            self.scaleLargestTo = 640.0
+            this.scaleLargestTo = 640'f32
         else:
-            self.scaleLargestTo = 1080.0
-    
+            this.scaleLargestTo = 1080'f32
 
-    def getLastHalf(self) -> list[int]:
-        return self.lastHalf
-    
+proc newDisplayInfoSingleton*(): DisplayInfoSingleton =
+    result = DisplayInfoSingleton()
+    initDisplayInfoSingleton(result)
 
-    def getLast(self) -> list[int]:
-        return self.last
-    
+method getLastHalf*(this: DisplayInfoSingleton): JArray[int32] {.base, discardable.} =
+        return this.lastHalf
 
-    def getFull(self) -> list[int]:
-        return self.full
-    
+method getLast*(this: DisplayInfoSingleton): JArray[int32] {.base, discardable.} =
+        return this.last
 
-    def getScaleLargestTo(self) -> float:
-        return self.scaleLargestTo
-    
+method getFull*(this: DisplayInfoSingleton): JArray[int32] {.base, discardable.} =
+        return this.full
 
-    def setScaleLargestTo(self, scaleLargestTo: int) -> None:
-        self.scaleLargestTo = float(scaleLargestTo)
-    
+method getScaleLargestTo*(this: DisplayInfoSingleton): float32 {.base, discardable.} =
+        return this.scaleLargestTo
 
-    def setLastSize(self, aLastWidth: int, aLastHeight: int, reason: str) -> None:
-        if self.full[self.WIDTH] != aLastWidth or self.full[self.HEIGHT] != aLastHeight:
-            self.setLastSizeForce(aLastWidth, aLastHeight, reason)
-    
+method setScaleLargestTo*(this: DisplayInfoSingleton, scaleLargestTo: int32) {.base.} =
+        this.scaleLargestTo = float32(scaleLargestTo)
 
-    def setLastSizeForce(self, aLastWidth: int, aLastHeight: int, reason: str) -> None:
-        from org.allbinary.graphics.threed.SWTJOGLProcessor import SWTJOGLProcessor
-        from org.allbinary.logic.string.StringMaker import StringMaker
-        from org.allbinary.logic.system.os.GenericOperatingSystem import GenericOperatingSystem
-        from org.allbinary.logic.system.os.OperatingSystemFactory import OperatingSystemFactory
-        from org.allbinary.string.CommonLabels import CommonLabels
-        stringMaker: StringMaker = StringMaker()
-        self.logUtil.putF(str(stringMaker.append(CommonLabels.getInstance().START_LABEL).append(reason)), self, self.SET_LAST_SIZE_METHOD_NAME)
-        aFullWidth: int = aLastWidth
-        aFullHeight: int = aLastHeight
+method setLastSize*(this: DisplayInfoSingleton, aLastWidth: int32, aLastHeight: int32, reason: string) {.base.} =
+        if this.full[this.WIDTH] != aLastWidth or this.full[this.HEIGHT] != aLastHeight:
+            this.setLastSizeForce(aLastWidth, aLastHeight, reason)
+
+method setLastSizeForce*(this: DisplayInfoSingleton, aLastWidth: int32, aLastHeight: int32, reason: string) {.base.} =
+        var aLastWidth = aLastWidth
+        var aLastHeight = aLastHeight
+        let stringMaker: StringMaker = newStringMaker()
+        this.logUtil.putF(stringMaker.append(CommonLabels.getInstance().START_LABEL).append(reason).toString(), this, this.SET_LAST_SIZE_METHOD_NAME)
+        let aFullWidth: int32 = aLastWidth
+        let aFullHeight: int32 = aLastHeight
         stringMaker.delete(0, stringMaker.length())
-        self.logUtil.putF(str(stringMaker.append(self.FULL_WIDTH).appendint(aFullWidth).append(self.FULL_HEIGHT).appendint(aFullHeight).append(str(self))), self, self.SET_LAST_SIZE_METHOD_NAME)
-        operatingSystemInterface: GenericOperatingSystem = OperatingSystemFactory.getInstance().getOperatingSystemInstance()
+        this.logUtil.putF(stringMaker.append(this.FULL_WIDTH).appendint(aFullWidth).append(this.FULL_HEIGHT).appendint(aFullHeight).append(this.toString()).toString(), this, this.SET_LAST_SIZE_METHOD_NAME)
+        let operatingSystemInterface: GenericOperatingSystem = OperatingSystemFactory.getInstance().getOperatingSystemInstance()
         if operatingSystemInterface.isOverScan():
-            aLastWidth = aLastWidth * operatingSystemInterface.getOverScanXPercent() / 100
-            aLastHeight = aLastHeight * operatingSystemInterface.getOverScanYPercent() / 100
+            aLastWidth = aLastWidth *% operatingSystemInterface.getOverScanXPercent() div 100
+            aLastHeight = aLastHeight *% operatingSystemInterface.getOverScanYPercent() div 100
         if operatingSystemInterface.isScalable():
-            if self.isPortraitWH(aLastWidth, aLastHeight):
-                if float(aLastHeight) > self.scaleLargestTo:
-                    self.displayRatio = self.scaleLargestTo / float(aLastHeight)
-                    self.ratio = float(aLastHeight) / self.scaleLargestTo
+            if this.isPortraitWH(aLastWidth, aLastHeight):
+                if float32(aLastHeight) > this.scaleLargestTo:
+                    this.displayRatio = this.scaleLargestTo / float32(aLastHeight)
+                    this.ratio = float32(aLastHeight) / this.scaleLargestTo
                     stringMaker.delete(0, stringMaker.length())
-                    self.logUtil.putF(str(stringMaker.append(self.ADJUSTING_FOR_SCALING_IN_PORTRAIT).appendfloat(self.displayRatio)), self, self.SET_LAST_SIZE_METHOD_NAME)
-                    aLastWidth = int((float(aLastWidth) * self.displayRatio))
-                    aLastHeight = int((float(aLastHeight) * self.displayRatio))
-                    self.scalableListener.scale(self.ratio)
+                    this.logUtil.putF(stringMaker.append(this.ADJUSTING_FOR_SCALING_IN_PORTRAIT).appendfloat(this.displayRatio).toString(), this, this.SET_LAST_SIZE_METHOD_NAME)
+                    aLastWidth = jToInt32(float64((float32(aLastWidth) * this.displayRatio)))
+                    aLastHeight = jToInt32(float64((float32(aLastHeight) * this.displayRatio)))
+                    this.scalableListener.scale(this.ratio)
                 else:
-                    self.ratio = 1.0
-                    self.scalableListener.scale(self.ratio)
+                    this.ratio = 1.0'f32
+                    this.scalableListener.scale(this.ratio)
             else:
-                if float(aLastWidth) > self.scaleLargestTo:
-                    self.displayRatio = self.scaleLargestTo / float(aLastWidth)
-                    self.ratio = float(aLastWidth) / self.scaleLargestTo
+                if float32(aLastWidth) > this.scaleLargestTo:
+                    this.displayRatio = this.scaleLargestTo / float32(aLastWidth)
+                    this.ratio = float32(aLastWidth) / this.scaleLargestTo
                     stringMaker.delete(0, stringMaker.length())
-                    self.logUtil.putF(str(stringMaker.append(self.ADJUSTING_FOR_SCALING_IN_LANDSCAPE).appendfloat(self.displayRatio)), self, self.SET_LAST_SIZE_METHOD_NAME)
-                    aLastWidth = int((float(aLastWidth) * self.displayRatio))
-                    aLastHeight = int((float(aLastHeight) * self.displayRatio))
-                    self.scalableListener.scale(self.ratio)
+                    this.logUtil.putF(stringMaker.append(this.ADJUSTING_FOR_SCALING_IN_LANDSCAPE).appendfloat(this.displayRatio).toString(), this, this.SET_LAST_SIZE_METHOD_NAME)
+                    aLastWidth = jToInt32(float64((float32(aLastWidth) * this.displayRatio)))
+                    aLastHeight = jToInt32(float64((float32(aLastHeight) * this.displayRatio)))
+                    this.scalableListener.scale(this.ratio)
                 else:
-                    self.ratio = 1.0
-                    self.scalableListener.scale(self.ratio)
+                    this.ratio = 1.0'f32
+                    this.scalableListener.scale(this.ratio)
         stringMaker.delete(0, stringMaker.length())
-        self.logUtil.putF(str(stringMaker.append(self.LAST_WIDTH).appendint(aLastWidth).append(self.LAST_HEIGHT).appendint(aLastHeight)), self, self.SET_LAST_SIZE_METHOD_NAME)
-        self.xOffset = aFullWidth - aLastWidth
-        self.yOffset = aFullHeight - aLastHeight
-        self.left = self.scalableListener.getLeft(self.xOffset)
-        self.top = self.scalableListener.getTop(self.yOffset)
-        self.full[self.WIDTH] = aFullWidth
-        self.full[self.HEIGHT] = aFullHeight
-        self.last[self.WIDTH] = aLastWidth
-        self.lastHalf[self.WIDTH] = (self.last[self.WIDTH] >> 1)
-        self.last[self.HEIGHT] = aLastHeight
-        self.lastHalf[self.HEIGHT] = (self.last[self.HEIGHT] >> 1)
-        SWTJOGLProcessor.getInstance().setCustom(aLastWidth, aLastHeight, self.ratio)
-        self.add(self.SET_LAST_SIZE_METHOD_NAME)
-    
+        this.logUtil.putF(stringMaker.append(this.LAST_WIDTH).appendint(aLastWidth).append(this.LAST_HEIGHT).appendint(aLastHeight).toString(), this, this.SET_LAST_SIZE_METHOD_NAME)
+        this.xOffset = aFullWidth -% aLastWidth
+        this.yOffset = aFullHeight -% aLastHeight
+        this.left = this.scalableListener.getLeft(this.xOffset)
+        this.top = this.scalableListener.getTop(this.yOffset)
+        this.full[this.WIDTH] = aFullWidth
+        this.full[this.HEIGHT] = aFullHeight
+        this.last[this.WIDTH] = aLastWidth
+        this.lastHalf[this.WIDTH] = (ashr(this.last[this.WIDTH], 1))
+        this.last[this.HEIGHT] = aLastHeight
+        this.lastHalf[this.HEIGHT] = (ashr(this.last[this.HEIGHT], 1))
+        SWTJOGLProcessor.getInstance().setCustom(aLastWidth, aLastHeight, this.ratio)
+        this.add(this.SET_LAST_SIZE_METHOD_NAME)
 
-    def isPortraitWH(self, lastWidth: int, lastHeight: int) -> bool:
+method isPortraitWH*(this: DisplayInfoSingleton, lastWidth: int32, lastHeight: int32): bool {.base, discardable.} =
         if lastHeight > lastWidth:
-            return True
+            return true
         else:
-            return False
-    
+            return false
 
-    def isPortrait(self) -> bool:
-        return self.isPortraitWH(self.last[self.WIDTH], self.last[self.HEIGHT])
-    
+method isPortrait*(this: DisplayInfoSingleton): bool {.base, discardable.} =
+        return this.isPortraitWH(this.last[this.WIDTH], this.last[this.HEIGHT])
 
-    def add(self, reason: str) -> None:
-        from org.allbinary.logic.string.StringMaker import StringMaker
-        stringMaker: StringMaker = StringMaker()
-        self.logUtil.putF(str(stringMaker.append(self.REASON).append(reason)), self, self.FIRE_METHOD_NAME)
+method add*(this: DisplayInfoSingleton, reason: string) {.base.} =
+        let stringMaker: StringMaker = newStringMaker()
+        this.logUtil.putF(stringMaker.append(this.REASON).append(reason).toString(), this, this.FIRE_METHOD_NAME)
         stringMaker.delete(0, stringMaker.length())
-        self.logUtil.putF(self.toStringAppend(stringMaker), self, self.FIRE_METHOD_NAME)
-        self.list_.add(reason)
-    
+        this.logUtil.putF(this.toStringAppend(stringMaker), this, this.FIRE_METHOD_NAME)
+        this.list.add(reason)
 
-    def process(self) -> None:
-        from org.allbinary.logic.communication.log.PreLogUtil import PreLogUtil
+method process*(this: DisplayInfoSingleton) {.base.} =
         try:
-            if self.list_.size() > 0:
-                self.processForced()
-            self.list_.clear()
-        except Exception as e:
-            PreLogUtil.putOE(self.commonStrings.EXCEPTION, self, self.FIRE_METHOD_NAME, e)
-    
+            if this.list.size() > 0:
+                this.processForced()
+            this.list.clear()
+        except CatchableError as jcaught:
+            let e = jToException(jcaught)
+            PreLogUtil.putOE(this.commonStrings.EXCEPTION, this, this.FIRE_METHOD_NAME, e)
 
-    def processForced(self) -> None:
-        from org.allbinary.graphics.displayable.event.DisplayChangeEventHandler import DisplayChangeEventHandler
-        from org.allbinary.graphics.displayable.event.LastDisplayChangeEventHandler import LastDisplayChangeEventHandler
-        from org.allbinary.graphics.threed.SWTJOGLProcessor import SWTJOGLProcessor
-        from org.allbinary.logic.communication.log.PreLogUtil import PreLogUtil
+method processForced*(this: DisplayInfoSingleton) {.base.} =
         try:
-            swtJOGLProcessor: SWTJOGLProcessor = SWTJOGLProcessor.getInstance()
+            let swtJOGLProcessor: SWTJOGLProcessor = SWTJOGLProcessor.getInstance()
             swtJOGLProcessor.clear()
-            DisplayChangeEventHandler.getInstance().fireEvent(self.displayChangeEvent)
-            LastDisplayChangeEventHandler.getInstance().fireEvent(self.displayChangeEvent)
+            DisplayChangeEventHandler.getInstance().fireEvent(this.displayChangeEvent)
+            LastDisplayChangeEventHandler.getInstance().fireEvent(this.displayChangeEvent)
             swtJOGLProcessor.onSurfaceChanged()
-        except Exception as e:
-            PreLogUtil.putOE(self.commonStrings.EXCEPTION, self, self.FIRE_METHOD_NAME, e)
-    
+        except CatchableError as jcaught:
+            let e = jToException(jcaught)
+            PreLogUtil.putOE(this.commonStrings.EXCEPTION, this, this.FIRE_METHOD_NAME, e)
 
-    def update(self, displayable: Displayable, reason: str) -> None:
-        from javax.microedition.lcdui.Displayable import Displayable
-        from org.allbinary.game.configuration.feature.Features import Features
-        from org.allbinary.graphics.opengles.OpenGLFeatureFactory import OpenGLFeatureFactory
-        from org.allbinary.graphics.threed.SWTJOGLProcessor import SWTJOGLProcessor
-        from org.allbinary.logic.string.StringMaker import StringMaker
-        from org.allbinary.logic.system.os.GenericOperatingSystem import GenericOperatingSystem
-        from org.allbinary.logic.system.os.OperatingSystemFactory import OperatingSystemFactory
-        from org.allbinary.string.CommonLabels import CommonLabels
-        aLastWidth: int = displayable.getWidth()
-        aLastHeight: int = displayable.getHeight()
-        aFullWidth: int = aLastWidth
-        aFullHeight: int = aLastHeight
-        stringMaker: StringMaker = StringMaker()
-        self.logUtil.putF(str(stringMaker.append(CommonLabels.getInstance().START_LABEL).append(reason).append(self.LAST_WIDTH).appendint(aLastWidth).append(self.LAST_HEIGHT).appendint(aLastHeight).append(self.commonSeps.SPACE).append(str(self))), self, self.commonStrings.UPDATE)
+method update*(this: DisplayInfoSingleton, displayable: Displayable, reason: string) {.base.} =
+        var aLastWidth: int32 = displayable.getWidth()
+        var aLastHeight: int32 = displayable.getHeight()
+        let aFullWidth: int32 = aLastWidth
+        let aFullHeight: int32 = aLastHeight
+        let stringMaker: StringMaker = newStringMaker()
+        this.logUtil.putF(stringMaker.append(CommonLabels.getInstance().START_LABEL).append(reason).append(this.LAST_WIDTH).appendint(aLastWidth).append(this.LAST_HEIGHT).appendint(aLastHeight).append(this.commonSeps.SPACE).append(this.toString()).toString(), this, this.commonStrings.UPDATE)
         if aLastWidth > 0 and aLastHeight > 0:
-            features: Features = Features.getInstance()
-            openGLFeatureFactory: OpenGLFeatureFactory = OpenGLFeatureFactory.getInstance()
-            if not features.isDefault(openGLFeatureFactory.OPENGL) or self.last[self.WIDTH] != aLastWidth or self.last[self.HEIGHT] != aLastHeight:
+            let features: Features = Features.getInstance()
+            let openGLFeatureFactory: OpenGLFeatureFactory = OpenGLFeatureFactory.getInstance()
+            if (not features.isDefault(openGLFeatureFactory.OPENGL)) or this.last[this.WIDTH] != aLastWidth or this.last[this.HEIGHT] != aLastHeight:
                 stringMaker.delete(0, stringMaker.length())
-                self.logUtil.putF(str(stringMaker.append(self.UPDATE_FROM_ORIENTATION_CHANGE)), self, self.commonStrings.UPDATE)
-                operatingSystemInterface: GenericOperatingSystem = OperatingSystemFactory.getInstance().getOperatingSystemInstance()
+                this.logUtil.putF(stringMaker.append(this.UPDATE_FROM_ORIENTATION_CHANGE).toString(), this, this.commonStrings.UPDATE)
+                let operatingSystemInterface: GenericOperatingSystem = OperatingSystemFactory.getInstance().getOperatingSystemInstance()
                 if operatingSystemInterface.isOverScan():
-                    aLastWidth = aLastWidth * operatingSystemInterface.getOverScanXPercent() / 100
-                    aLastHeight = aLastHeight * operatingSystemInterface.getOverScanYPercent() / 100
+                    aLastWidth = aLastWidth *% operatingSystemInterface.getOverScanXPercent() div 100
+                    aLastHeight = aLastHeight *% operatingSystemInterface.getOverScanYPercent() div 100
                 if operatingSystemInterface.isScalable():
-                    if self.isPortraitWH(aLastWidth, aLastHeight):
-                        if float(aLastHeight) > self.scaleLargestTo:
-                            self.displayRatio = self.scaleLargestTo / float(aLastHeight)
-                            self.ratio = float(aLastHeight) / self.scaleLargestTo
+                    if this.isPortraitWH(aLastWidth, aLastHeight):
+                        if float32(aLastHeight) > this.scaleLargestTo:
+                            this.displayRatio = this.scaleLargestTo / float32(aLastHeight)
+                            this.ratio = float32(aLastHeight) / this.scaleLargestTo
                             stringMaker.delete(0, stringMaker.length())
-                            self.logUtil.putF(str(stringMaker.append(self.ADJUSTING_FOR_SCALING_IN_PORTRAIT).appendfloat(self.displayRatio)), self, self.commonStrings.UPDATE)
-                            aLastWidth = int((float(aLastWidth) * self.displayRatio))
-                            aLastHeight = int((float(aLastHeight) * self.displayRatio))
-                            self.scalableListener.scale(self.ratio)
+                            this.logUtil.putF(stringMaker.append(this.ADJUSTING_FOR_SCALING_IN_PORTRAIT).appendfloat(this.displayRatio).toString(), this, this.commonStrings.UPDATE)
+                            aLastWidth = jToInt32(float64((float32(aLastWidth) * this.displayRatio)))
+                            aLastHeight = jToInt32(float64((float32(aLastHeight) * this.displayRatio)))
+                            this.scalableListener.scale(this.ratio)
                         else:
-                            self.ratio = 1.0
-                            self.scalableListener.scale(self.ratio)
+                            this.ratio = 1.0'f32
+                            this.scalableListener.scale(this.ratio)
                     else:
-                        if float(aLastWidth) > self.scaleLargestTo:
-                            self.displayRatio = self.scaleLargestTo / float(aLastWidth)
-                            self.ratio = float(aLastWidth) / self.scaleLargestTo
+                        if float32(aLastWidth) > this.scaleLargestTo:
+                            this.displayRatio = this.scaleLargestTo / float32(aLastWidth)
+                            this.ratio = float32(aLastWidth) / this.scaleLargestTo
                             stringMaker.delete(0, stringMaker.length())
-                            self.logUtil.putF(str(stringMaker.append(self.ADJUSTING_FOR_SCALING_IN_LANDSCAPE).appendfloat(self.displayRatio)), self, self.commonStrings.UPDATE)
-                            aLastWidth = int((float(aLastWidth) * self.displayRatio))
-                            aLastHeight = int((float(aLastHeight) * self.displayRatio))
-                            self.scalableListener.scale(self.ratio)
+                            this.logUtil.putF(stringMaker.append(this.ADJUSTING_FOR_SCALING_IN_LANDSCAPE).appendfloat(this.displayRatio).toString(), this, this.commonStrings.UPDATE)
+                            aLastWidth = jToInt32(float64((float32(aLastWidth) * this.displayRatio)))
+                            aLastHeight = jToInt32(float64((float32(aLastHeight) * this.displayRatio)))
+                            this.scalableListener.scale(this.ratio)
                         else:
-                            self.ratio = 1.0
-                            self.scalableListener.scale(self.ratio)
+                            this.ratio = 1.0'f32
+                            this.scalableListener.scale(this.ratio)
                 stringMaker.delete(0, stringMaker.length())
-                self.logUtil.putF(str(stringMaker.append(self.UPDATE_FROM_ORIENTATION_CHANGE).append(self.LAST_WIDTH).appendint(aLastWidth).append(self.LAST_HEIGHT).appendint(aLastHeight)), self, self.commonStrings.UPDATE)
-                self.xOffset = aFullWidth - aLastWidth
-                self.yOffset = aFullHeight - aLastHeight
-                self.left = self.scalableListener.getLeft(self.xOffset)
-                self.top = self.scalableListener.getTop(self.yOffset)
-                self.full[self.WIDTH] = aFullWidth
-                self.full[self.HEIGHT] = aFullHeight
-                self.last[self.WIDTH] = aLastWidth
-                self.lastHalf[self.WIDTH] = (self.last[self.WIDTH] >> 1)
-                self.last[self.HEIGHT] = aLastHeight
-                self.lastHalf[self.HEIGHT] = (self.last[self.HEIGHT] >> 1)
-                SWTJOGLProcessor.getInstance().setCustom(aLastWidth, aLastHeight, self.ratio)
-                self.add(self.commonStrings.UPDATE)
-    
+                this.logUtil.putF(stringMaker.append(this.UPDATE_FROM_ORIENTATION_CHANGE).append(this.LAST_WIDTH).appendint(aLastWidth).append(this.LAST_HEIGHT).appendint(aLastHeight).toString(), this, this.commonStrings.UPDATE)
+                this.xOffset = aFullWidth -% aLastWidth
+                this.yOffset = aFullHeight -% aLastHeight
+                this.left = this.scalableListener.getLeft(this.xOffset)
+                this.top = this.scalableListener.getTop(this.yOffset)
+                this.full[this.WIDTH] = aFullWidth
+                this.full[this.HEIGHT] = aFullHeight
+                this.last[this.WIDTH] = aLastWidth
+                this.lastHalf[this.WIDTH] = (ashr(this.last[this.WIDTH], 1))
+                this.last[this.HEIGHT] = aLastHeight
+                this.lastHalf[this.HEIGHT] = (ashr(this.last[this.HEIGHT], 1))
+                SWTJOGLProcessor.getInstance().setCustom(aLastWidth, aLastHeight, this.ratio)
+                this.add(this.commonStrings.UPDATE)
 
-    def toString(self) -> str:
-        from org.allbinary.logic.string.StringMaker import StringMaker
-        stringBuffer: StringMaker = StringMaker()
-        return self.toStringAppend(stringBuffer)
+method toString*(this: DisplayInfoSingleton): string {.discardable.} =
+        let stringBuffer: StringMaker = newStringMaker()
+        return this.toStringAppend(stringBuffer)
 
-    def __str__(self) -> str:
-        return self.toString()
-    
+method toStringAppend*(this: DisplayInfoSingleton, stringBuffer: StringMaker): string {.base, discardable.} =
+        stringBuffer.append(this.DISPLAY_INFO)
+        stringBuffer.append(this.FULL)
+        stringBuffer.append(this.commonLabels.WIDTH_LABEL)
+        stringBuffer.appendint(this.full[this.WIDTH])
+        stringBuffer.append(this.commonSeps.SPACE)
+        stringBuffer.append(this.FULL)
+        stringBuffer.append(this.commonLabels.HEIGHT_LABEL)
+        stringBuffer.appendint(this.full[this.HEIGHT])
+        stringBuffer.append(this.commonSeps.SPACE)
+        stringBuffer.append(this.LAST)
+        stringBuffer.append(this.commonLabels.WIDTH_LABEL)
+        stringBuffer.appendint(this.last[this.WIDTH])
+        stringBuffer.append(this.commonSeps.SPACE)
+        stringBuffer.append(this.LAST)
+        stringBuffer.append(this.commonLabels.HEIGHT_LABEL)
+        stringBuffer.appendint(this.last[this.HEIGHT])
+        stringBuffer.append(this.commonSeps.SPACE)
+        stringBuffer.append(this.LAST_HALF)
+        stringBuffer.append(this.commonLabels.WIDTH_LABEL)
+        stringBuffer.appendint(this.lastHalf[this.WIDTH])
+        stringBuffer.append(this.commonSeps.SPACE)
+        stringBuffer.append(this.LAST_HALF)
+        stringBuffer.append(this.commonLabels.HEIGHT_LABEL)
+        stringBuffer.appendint(this.lastHalf[this.HEIGHT])
+        stringBuffer.append(this.commonSeps.SPACE)
+        stringBuffer.append((if this.isPortrait(): this.PORTRAIT else: this.LANDSCAPE))
+        return stringBuffer.toString()
 
-    def toStringAppend(self, stringBuffer: StringMaker) -> str:
-        from org.allbinary.logic.string.StringMaker import StringMaker
-        stringBuffer.append(self.DISPLAY_INFO)
-        stringBuffer.append(self.FULL)
-        stringBuffer.append(self.commonLabels.WIDTH_LABEL)
-        stringBuffer.appendint(self.full[self.WIDTH])
-        stringBuffer.append(self.commonSeps.SPACE)
-        stringBuffer.append(self.FULL)
-        stringBuffer.append(self.commonLabels.HEIGHT_LABEL)
-        stringBuffer.appendint(self.full[self.HEIGHT])
-        stringBuffer.append(self.commonSeps.SPACE)
-        stringBuffer.append(self.LAST)
-        stringBuffer.append(self.commonLabels.WIDTH_LABEL)
-        stringBuffer.appendint(self.last[self.WIDTH])
-        stringBuffer.append(self.commonSeps.SPACE)
-        stringBuffer.append(self.LAST)
-        stringBuffer.append(self.commonLabels.HEIGHT_LABEL)
-        stringBuffer.appendint(self.last[self.HEIGHT])
-        stringBuffer.append(self.commonSeps.SPACE)
-        stringBuffer.append(self.LAST_HALF)
-        stringBuffer.append(self.commonLabels.WIDTH_LABEL)
-        stringBuffer.appendint(self.lastHalf[self.WIDTH])
-        stringBuffer.append(self.commonSeps.SPACE)
-        stringBuffer.append(self.LAST_HALF)
-        stringBuffer.append(self.commonLabels.HEIGHT_LABEL)
-        stringBuffer.appendint(self.lastHalf[self.HEIGHT])
-        stringBuffer.append(self.commonSeps.SPACE)
-        stringBuffer.append((self.PORTRAIT if self.isPortrait() else self.LANDSCAPE))
-        return str(stringBuffer)
-    
+method getTop*(this: DisplayInfoSingleton): int32 {.base, discardable.} =
+        return this.top
 
-    def getTop(self) -> int:
-        return self.top
-    
+method getLeft*(this: DisplayInfoSingleton): int32 {.base, discardable.} =
+        return this.left
 
-    def getLeft(self) -> int:
-        return self.left
-    
+method getLastWidth*(this: DisplayInfoSingleton): int32 {.base, discardable.} =
+        return this.last[this.WIDTH]
 
-    def getLastWidth(self) -> int:
-        return self.last[self.WIDTH]
-    
+method getLastHeight*(this: DisplayInfoSingleton): int32 {.base, discardable.} =
+        return this.last[this.HEIGHT]
 
-    def getLastHeight(self) -> int:
-        return self.last[self.HEIGHT]
-    
+method getLastHalfWidth*(this: DisplayInfoSingleton): int32 {.base, discardable.} =
+        return this.lastHalf[this.WIDTH]
 
-    def getLastHalfWidth(self) -> int:
-        return self.lastHalf[self.WIDTH]
-    
+method getLastHalfHeight*(this: DisplayInfoSingleton): int32 {.base, discardable.} =
+        return this.lastHalf[this.HEIGHT]
 
-    def getLastHalfHeight(self) -> int:
-        return self.lastHalf[self.HEIGHT]
-    
+method getCustomLastWidth*(this: DisplayInfoSingleton): int32 {.base, discardable.} =
+        return this.last[this.CUSTOM_WIDTH]
 
-    def getCustomLastWidth(self) -> int:
-        return self.last[self.CUSTOM_WIDTH]
-    
+method getCustomLastHeight*(this: DisplayInfoSingleton): int32 {.base, discardable.} =
+        return this.last[this.CUSTOM_HEIGHT]
 
-    def getCustomLastHeight(self) -> int:
-        return self.last[self.CUSTOM_HEIGHT]
-    
+method getRawLastWidth*(this: DisplayInfoSingleton): int32 {.base, discardable.} =
+        return this.last[this.WIDTH]
 
-    def getRawLastWidth(self) -> int:
-        return self.last[self.WIDTH]
-    
+method getRawLastHeight*(this: DisplayInfoSingleton): int32 {.base, discardable.} =
+        return this.last[this.HEIGHT]
 
-    def getRawLastHeight(self) -> int:
-        return self.last[self.HEIGHT]
-    
+method setCustom*(this: DisplayInfoSingleton, width: int32, height: int32) {.base.} =
+        this.last[this.CUSTOM_WIDTH] = width
+        this.lastHalf[this.CUSTOM_WIDTH] = (ashr(this.last[this.CUSTOM_WIDTH], 1))
+        this.last[this.CUSTOM_HEIGHT] = height
+        this.lastHalf[this.CUSTOM_HEIGHT] = (ashr(this.last[this.CUSTOM_HEIGHT], 1))
 
-    def setCustom(self, width: int, height: int) -> None:
-        self.last[self.CUSTOM_WIDTH] = width
-        self.lastHalf[self.CUSTOM_WIDTH] = (self.last[self.CUSTOM_WIDTH] >> 1)
-        self.last[self.CUSTOM_HEIGHT] = height
-        self.lastHalf[self.CUSTOM_HEIGHT] = (self.last[self.CUSTOM_HEIGHT] >> 1)
-    
+method setScalableListener*(this: DisplayInfoSingleton, scalableListener: BaseScalable) {.base.} =
+        this.scalableListener = scalableListener
 
-    def setScalableListener(self, scalableListener: BaseScalable) -> None:
-        self.scalableListener = scalableListener
-    
+method getScalableListener*(this: DisplayInfoSingleton): ScalableListener {.base, discardable.} =
+        return this.scalableListener
 
-    def getScalableListener(self) -> ScalableListener:
-        return self.scalableListener
-    
+method getRatio*(this: DisplayInfoSingleton): float32 {.base, discardable.} =
+        return this.ratio
 
-    def getRatio(self) -> float:
-        return self.ratio
-    
+method getDisplayRatio*(this: DisplayInfoSingleton): float32 {.base, discardable.} =
+        return this.displayRatio
 
-    def getDisplayRatio(self) -> float:
-        return self.displayRatio
-    
+method setOffset*(this: DisplayInfoSingleton, left: int32, top: int32) {.base.} =
+        this.left = left
 
-    def setOffset(self, left: int, top: int) -> None:
-        self.left = left
-    
+method getxOffset*(this: DisplayInfoSingleton): int32 {.base, discardable.} =
+        return this.xOffset
 
-    def getxOffset(self) -> int:
-        return self.xOffset
-    
-
-    def getyOffset(self) -> int:
-        return self.yOffset
-# from javax.microedition.lcdui.Displayable import Displayable
-# from org.allbinary.AndroidUtil import AndroidUtil
-# from org.allbinary.game.configuration.feature.Features import Features
-# from org.allbinary.graphics.displayable.event.DisplayChangeEvent import DisplayChangeEvent
-# from org.allbinary.graphics.displayable.event.DisplayChangeEventHandler import DisplayChangeEventHandler
-# from org.allbinary.graphics.displayable.event.LastDisplayChangeEventHandler import LastDisplayChangeEventHandler
-# from org.allbinary.graphics.opengles.OpenGLFeatureFactory import OpenGLFeatureFactory
-# from org.allbinary.graphics.threed.SWTJOGLProcessor import SWTJOGLProcessor
-# from org.allbinary.logic.communication.log.LogUtil import LogUtil
-# from org.allbinary.logic.communication.log.PreLogUtil import PreLogUtil
-# from org.allbinary.logic.string.StringMaker import StringMaker
-# from org.allbinary.logic.system.os.GenericOperatingSystem import GenericOperatingSystem
-# from org.allbinary.logic.system.os.OperatingSystemFactory import OperatingSystemFactory
-# from org.allbinary.string.CommonLabels import CommonLabels
-# from org.allbinary.string.CommonSeps import CommonSeps
-# from org.allbinary.string.CommonStrings import CommonStrings
-# from org.allbinary.util.BasicArrayList import BasicArrayList
-# from org.allbinary.util.BasicArrayListD import BasicArrayListD
-from org.allbinary.graphics.displayable.BaseScalable import BaseScalable
-
-
-def _DisplayInfoSingleton_SINGLETON() -> object:
-    return DisplayInfoSingleton()
-
-lazy_static(DisplayInfoSingleton, "SINGLETON", _DisplayInfoSingleton_SINGLETON)
+method getyOffset*(this: DisplayInfoSingleton): int32 {.base, discardable.} =
+        return this.yOffset
 

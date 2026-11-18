@@ -1,43 +1,56 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.input.mapping.event
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/game/input/mapping/InputToGameKeyMapping as InputToGameKeyMappingModule
+export InputToGameKeyMappingModule
+import org/allbinary/logic/util/event/AllBinaryEventObject as AllBinaryEventObjectModule
+export AllBinaryEventObjectModule
 
-from org.allbinary.logic.util.event.AllBinaryEventObject import AllBinaryEventObject
+type
+    InputMappingEvent* = ref object of AllBinaryEventObject
+        inputToGameKeyMapping*: InputToGameKeyMapping
+
+proc newInputMappingEvent*(anyType: JObject): InputMappingEvent
+proc initInputMappingEvent*(this: InputMappingEvent, anyType: JObject)
+method setInputToGameKeyMapping*(this: InputMappingEvent, inputToGameKeyMapping: InputToGameKeyMapping) {.base.}
+method getInputToGameKeyMapping*(this: InputMappingEvent): InputToGameKeyMapping {.base, discardable.}
 
 
-class InputMappingEvent(AllBinaryEventObject):
+# Java field initializers run after the base initializer
+proc initFieldsInputMappingEvent(this: InputMappingEvent) =
+    this.inputToGameKeyMapping = InputToGameKeyMapping.getNullInstance()
+    discard
 
-    def _init_fields(self) -> None:
-        from org.allbinary.game.input.mapping.InputToGameKeyMapping import InputToGameKeyMapping
-        self.inputToGameKeyMapping: InputToGameKeyMapping = InputToGameKeyMapping.getNullInstance()
-    
+proc initInputMappingEvent*(this: InputMappingEvent, anyType: JObject) =
+        initAllBinaryEventObject(this, anyType)
+        this.initFieldsInputMappingEvent()
 
-    def __init__(self, anyType: object) -> None:
-        super().__init__(anyType)
-        self._init_fields()
-    
+proc newInputMappingEvent*(anyType: JObject): InputMappingEvent =
+    result = InputMappingEvent()
+    initInputMappingEvent(result, anyType)
 
-    def setInputToGameKeyMapping(self, inputToGameKeyMapping: InputToGameKeyMapping) -> None:
-        from org.allbinary.game.input.mapping.InputToGameKeyMapping import InputToGameKeyMapping
-        self.inputToGameKeyMapping = inputToGameKeyMapping
-    
+method setInputToGameKeyMapping*(this: InputMappingEvent, inputToGameKeyMapping: InputToGameKeyMapping) {.base.} =
+        this.inputToGameKeyMapping = inputToGameKeyMapping
 
-    def getInputToGameKeyMapping(self) -> InputToGameKeyMapping:
-        from org.allbinary.game.input.mapping.InputToGameKeyMapping import InputToGameKeyMapping
-        return self.inputToGameKeyMapping
-# from org.allbinary.game.input.mapping.InputToGameKeyMapping import InputToGameKeyMapping
+method getInputToGameKeyMapping*(this: InputMappingEvent): InputToGameKeyMapping {.base, discardable.} =
+        return this.inputToGameKeyMapping
 
+when declared(newInputMappingEventHook1):
+    newInputMappingEventHook1 = proc (anyType: JObject): AllBinaryEventObject = newInputMappingEvent(anyType)
 

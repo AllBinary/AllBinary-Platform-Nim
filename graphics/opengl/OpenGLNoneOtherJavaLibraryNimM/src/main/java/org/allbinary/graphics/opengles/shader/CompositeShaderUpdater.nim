@@ -1,62 +1,76 @@
-# 
-# AllBinary Open License Version 1 
-# Copyright (c) 2025 AllBinary 
-#  
-# By agreeing to this license you and any business entity you represent are 
-# legally bound to the AllBinary Open License Version 1 legal agreement. 
-#  
-# You may obtain the AllBinary Open License Version 1 legal agreement from 
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
-#  
-# Created By: Travis Berthelot 
-#   
+#[
+  
+  AllBinary Open License Version 1 
+  Copyright (c) 2025 AllBinary 
+   
+  By agreeing to this license you and any business entity you represent are 
+  legally bound to the AllBinary Open License Version 1 legal agreement. 
+   
+  You may obtain the AllBinary Open License Version 1 legal agreement from 
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
+   
+  Created By: Travis Berthelot 
+    
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.graphics.opengles.shader
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import javax/microedition/khronos/egl/EGLConfig as EGLConfigModule
+export EGLConfigModule
+import javax/microedition/khronos/opengles/GL10 as GL10Module
+export GL10Module
+import org/allbinary/string/CommonSeps as CommonSepsModule
+export CommonSepsModule
+import org/allbinary/graphics/opengles/shader/ShaderUpdater as ShaderUpdaterModule
+export ShaderUpdaterModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
-from org.allbinary.graphics.opengles.shader.ShaderUpdater import ShaderUpdater
+type
+    CompositeShaderUpdater* = ref object of ShaderUpdater
+        commonSeps*: CommonSeps
 
+proc newCompositeShaderUpdater*(uniformBlockArray: JArray[string], uniformArray: JArray[string], attributeArray: JArray[string], attributeHandleArray: JArray[int32]): CompositeShaderUpdater
+proc initCompositeShaderUpdater*(this: CompositeShaderUpdater, uniformBlockArray: JArray[string], uniformArray: JArray[string], attributeArray: JArray[string], attributeHandleArray: JArray[int32])
+proc getInstance*(t: typedesc[CompositeShaderUpdater]): CompositeShaderUpdater {.discardable.}
+method onSurfaceCreated*(this: CompositeShaderUpdater, gl: GL10, eglConfig: EGLConfig, programHandle: int32) {.base.}
+method onSurfaceDestroyed*(this: CompositeShaderUpdater, gl: GL10) {.base.}
+import org/allbinary/logic/NullUtil as NullUtilModule
+export NullUtilModule
+import org/allbinary/logic/string/StringUtil as StringUtilModule
+export StringUtilModule
 
-class CompositeShaderUpdater(ShaderUpdater):
-    instanceC: CompositeShaderUpdater = None
+var CompositeShaderUpdater_instanceCValue: CompositeShaderUpdater
+var CompositeShaderUpdater_instanceCSet = false
+proc instanceC*(t: typedesc[CompositeShaderUpdater]): CompositeShaderUpdater =
+    if not CompositeShaderUpdater_instanceCSet:
+        CompositeShaderUpdater_instanceCSet = true
+        CompositeShaderUpdater_instanceCValue = newCompositeShaderUpdater(StringUtil.getInstance().getArrayInstance(), StringUtil.getInstance().getArrayInstance(), StringUtil.getInstance().getArrayInstance(), NullUtil.getInstance().NULL_INT_ARRAY)
+    CompositeShaderUpdater_instanceCValue
 
-    def _init_fields(self) -> None:
-        from org.allbinary.string.CommonSeps import CommonSeps
-        self.commonSeps: CommonSeps = CommonSeps.getInstance()
-    
+# Java field initializers run after the base initializer
+proc initFieldsCompositeShaderUpdater(this: CompositeShaderUpdater) =
+    this.commonSeps = CommonSeps.getInstance()
+    discard
 
-    @staticmethod
-    def getInstance() -> CompositeShaderUpdater:
+proc getInstance*(t: typedesc[CompositeShaderUpdater]): CompositeShaderUpdater {.discardable.} =
         return CompositeShaderUpdater.instanceC
-    
 
-    def __init__(self, uniformBlockArray: list[str], uniformArray: list[str], attributeArray: list[str], attributeHandleArray: list[int]) -> None:
-        super().__init__()
-        self._init_fields()
-    
+proc initCompositeShaderUpdater*(this: CompositeShaderUpdater, uniformBlockArray: JArray[string], uniformArray: JArray[string], attributeArray: JArray[string], attributeHandleArray: JArray[int32]) =
+        initShaderUpdater(this)
+        this.initFieldsCompositeShaderUpdater()
+        discard
 
-    def onSurfaceCreated(self, gl: GL10, eglConfig: EGLConfig, programHandle: int) -> None:
-        from javax.microedition.khronos.egl.EGLConfig import EGLConfig
-        from javax.microedition.khronos.opengles.GL10 import GL10
-        pass
-    
+proc newCompositeShaderUpdater*(uniformBlockArray: JArray[string], uniformArray: JArray[string], attributeArray: JArray[string], attributeHandleArray: JArray[int32]): CompositeShaderUpdater =
+    result = CompositeShaderUpdater()
+    initCompositeShaderUpdater(result, uniformBlockArray, uniformArray, attributeArray, attributeHandleArray)
 
-    def onSurfaceDestroyed(self, gl: GL10) -> None:
-        from javax.microedition.khronos.opengles.GL10 import GL10
-        pass
-# from javax.microedition.khronos.egl.EGLConfig import EGLConfig
-# from javax.microedition.khronos.opengles.GL10 import GL10
-# from org.allbinary.logic.NullUtil import NullUtil
-# from org.allbinary.logic.string.StringUtil import StringUtil
-# from org.allbinary.string.CommonSeps import CommonSeps
+method onSurfaceCreated*(this: CompositeShaderUpdater, gl: GL10, eglConfig: EGLConfig, programHandle: int32) {.base.} =
+        discard
 
+method onSurfaceDestroyed*(this: CompositeShaderUpdater, gl: GL10) {.base.} =
+        discard
 
-def _CompositeShaderUpdater_instanceC() -> object:
-    from org.allbinary.logic.NullUtil import NullUtil
-    from org.allbinary.logic.string.StringUtil import StringUtil
-    return CompositeShaderUpdater(StringUtil.getInstance().getArrayInstance(), StringUtil.getInstance().getArrayInstance(), StringUtil.getInstance().getArrayInstance(), NullUtil.getInstance().NULL_INT_ARRAY)
-
-lazy_static(CompositeShaderUpdater, "instanceC", _CompositeShaderUpdater_instanceC)
+when declared(newCompositeShaderUpdaterHook4):
+    newCompositeShaderUpdaterHook4 = proc (uniformBlockArray: JArray[string], uniformArray: JArray[string], attributeArray: JArray[string], attributeHandleArray: JArray[int32]): ShaderUpdater = newCompositeShaderUpdater(uniformBlockArray, uniformArray, attributeArray, attributeHandleArray)
 

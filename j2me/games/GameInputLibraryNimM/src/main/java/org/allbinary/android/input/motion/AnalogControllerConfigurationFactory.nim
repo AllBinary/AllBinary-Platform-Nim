@@ -1,60 +1,73 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.android.input.motion
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/android/input/motion/event/AnalogControllerConfigurationEvent as AnalogControllerConfigurationEventModule
+export AnalogControllerConfigurationEventModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    AnalogControllerConfigurationFactory* = ref object of JObject
+        SCALE_FACTOR*: int32
+        SCALE_VALUE*: int32
+        available*: bool
+        analogControllerConfigurationEvent*: AnalogControllerConfigurationEvent
 
+proc newAnalogControllerConfigurationFactory*(): AnalogControllerConfigurationFactory
+proc initAnalogControllerConfigurationFactory*(this: AnalogControllerConfigurationFactory)
+proc getInstance*(t: typedesc[AnalogControllerConfigurationFactory]): AnalogControllerConfigurationFactory {.discardable.}
+method isAvailable*(this: AnalogControllerConfigurationFactory): bool {.base, discardable.}
+method setAvailable*(this: AnalogControllerConfigurationFactory, available: bool) {.base.}
+import org/allbinary/android/input/motion/event/AnalogControllerConfigurationEventHandler as AnalogControllerConfigurationEventHandlerModule
+export AnalogControllerConfigurationEventHandlerModule
+import org/allbinary/logic/math/ScaleFactorFactory as ScaleFactorFactoryModule
+export ScaleFactorFactoryModule
 
-class AnalogControllerConfigurationFactory:
-    instance: AnalogControllerConfigurationFactory = None
+var AnalogControllerConfigurationFactory_instanceValue: AnalogControllerConfigurationFactory
+var AnalogControllerConfigurationFactory_instanceSet = false
+proc instance*(t: typedesc[AnalogControllerConfigurationFactory]): AnalogControllerConfigurationFactory =
+    if not AnalogControllerConfigurationFactory_instanceSet:
+        AnalogControllerConfigurationFactory_instanceSet = true
+        AnalogControllerConfigurationFactory_instanceValue = newAnalogControllerConfigurationFactory()
+    AnalogControllerConfigurationFactory_instanceValue
 
-    def _init_fields(self) -> None:
-        from org.allbinary.android.input.motion.event.AnalogControllerConfigurationEvent import AnalogControllerConfigurationEvent
-        from org.allbinary.logic.math.ScaleFactorFactory import ScaleFactorFactory
-        self.SCALE_FACTOR: int = ScaleFactorFactory.getInstance().DEFAULT_SCALE_FACTOR
-        self.SCALE_VALUE: int = ScaleFactorFactory.getInstance().DEFAULT_SCALE_VALUE
-        self.available: bool = False
-        self.analogControllerConfigurationEvent: AnalogControllerConfigurationEvent = AnalogControllerConfigurationEvent(self)
-    
+# Java field initializers run after the base initializer
+proc initFieldsAnalogControllerConfigurationFactory(this: AnalogControllerConfigurationFactory) =
+    this.SCALE_FACTOR = ScaleFactorFactory.getInstance().DEFAULT_SCALE_FACTOR
+    this.SCALE_VALUE = ScaleFactorFactory.getInstance().DEFAULT_SCALE_VALUE
+    this.available = false
+    this.analogControllerConfigurationEvent = newAnalogControllerConfigurationEvent(this)
+    discard
 
-    @staticmethod
-    def getInstance() -> AnalogControllerConfigurationFactory:
+proc getInstance*(t: typedesc[AnalogControllerConfigurationFactory]): AnalogControllerConfigurationFactory {.discardable.} =
         return AnalogControllerConfigurationFactory.instance
-    
 
-    def __init__(self) -> None:
-        self._init_fields()
-    
+proc initAnalogControllerConfigurationFactory*(this: AnalogControllerConfigurationFactory) =
+        this.initFieldsAnalogControllerConfigurationFactory()
+        discard
 
-    def isAvailable(self) -> bool:
-        return self.available
-    
+proc newAnalogControllerConfigurationFactory*(): AnalogControllerConfigurationFactory =
+    result = AnalogControllerConfigurationFactory()
+    initAnalogControllerConfigurationFactory(result)
 
-    # throws Exception
-    def setAvailable(self, available: bool) -> None:
-        from org.allbinary.android.input.motion.event.AnalogControllerConfigurationEventHandler import AnalogControllerConfigurationEventHandler
-        self.available = available
-        AnalogControllerConfigurationEventHandler.getInstance().fireEvent(self.analogControllerConfigurationEvent)
-# from org.allbinary.android.input.motion.event.AnalogControllerConfigurationEvent import AnalogControllerConfigurationEvent
-# from org.allbinary.android.input.motion.event.AnalogControllerConfigurationEventHandler import AnalogControllerConfigurationEventHandler
-# from org.allbinary.logic.math.ScaleFactorFactory import ScaleFactorFactory
+method isAvailable*(this: AnalogControllerConfigurationFactory): bool {.base, discardable.} =
+        return this.available
 
-
-def _AnalogControllerConfigurationFactory_instance() -> object:
-    return AnalogControllerConfigurationFactory()
-
-lazy_static(AnalogControllerConfigurationFactory, "instance", _AnalogControllerConfigurationFactory_instance)
+method setAvailable*(this: AnalogControllerConfigurationFactory, available: bool) {.base.} =
+        this.available = available
+        AnalogControllerConfigurationEventHandler.getInstance().fireEvent(this.analogControllerConfigurationEvent)
 

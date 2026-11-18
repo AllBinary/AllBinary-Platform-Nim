@@ -1,61 +1,67 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.part.weapon
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/game/combat/weapon/WeaponProperties as WeaponPropertiesModule
+export WeaponPropertiesModule
+import org/allbinary/game/score/ScoreableInterface as ScoreableInterfaceModule
+export ScoreableInterfaceModule
+import org/allbinary/graphics/RelativeRelationship as RelativeRelationshipModule
+export RelativeRelationshipModule
+import org/allbinary/layer/AllBinaryLayer as AllBinaryLayerModule
+export AllBinaryLayerModule
+import org/allbinary/game/part/weapon/BasicWeaponPart as BasicWeaponPartModule
+export BasicWeaponPartModule
+import org/allbinary/game/part/weapon/BasicWeaponPartFactoryInterface as BasicWeaponPartFactoryInterfaceModule
+export BasicWeaponPartFactoryInterfaceModule
 
-import threading
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    BasicWeaponPartCircularPool* = ref object of JObject
+        basicWeaponPart*: BasicWeaponPart
 
+proc newBasicWeaponPartCircularPool*(): BasicWeaponPartCircularPool
+method init*(this: BasicWeaponPartCircularPool, basicWeaponPartFactoryInterface: BasicWeaponPartFactoryInterface) {.base.}
+method getInstance*(this: BasicWeaponPartCircularPool, sourceLayerInterface: AllBinaryLayer, weaponProperties: WeaponProperties, scoreableInterface: ScoreableInterface, relativeRelationship: RelativeRelationship): BasicWeaponPart {.base, discardable.}
 
-class BasicWeaponPartCircularPool:
-    NULL_BASIC_WEAPON_PART_CIRCULAR_POOL: BasicWeaponPartCircularPool = None
-    _lock = threading.RLock()
+var BasicWeaponPartCircularPool_NULL_BASIC_WEAPON_PART_CIRCULAR_POOLValue: BasicWeaponPartCircularPool
+var BasicWeaponPartCircularPool_NULL_BASIC_WEAPON_PART_CIRCULAR_POOLSet = false
+proc NULL_BASIC_WEAPON_PART_CIRCULAR_POOL*(t: typedesc[BasicWeaponPartCircularPool]): BasicWeaponPartCircularPool =
+    if not BasicWeaponPartCircularPool_NULL_BASIC_WEAPON_PART_CIRCULAR_POOLSet:
+        BasicWeaponPartCircularPool_NULL_BASIC_WEAPON_PART_CIRCULAR_POOLSet = true
+        BasicWeaponPartCircularPool_NULL_BASIC_WEAPON_PART_CIRCULAR_POOLValue = newBasicWeaponPartCircularPool()
+    BasicWeaponPartCircularPool_NULL_BASIC_WEAPON_PART_CIRCULAR_POOLValue
 
-    def _init_fields(self) -> None:
-        self.basicWeaponPart: BasicWeaponPart = BasicWeaponPart.NULL_BASIC_WEAPON_PART
+# Java field initializers run after the base initializer
+proc initFieldsBasicWeaponPartCircularPool(this: BasicWeaponPartCircularPool) =
+    this.basicWeaponPart = BasicWeaponPart.NULL_BASIC_WEAPON_PART
+    discard
 
-    def __init__(self) -> None:
-        self._init_fields()
-    
+proc initBasicWeaponPartCircularPool*(this: BasicWeaponPartCircularPool) =
+    this.initFieldsBasicWeaponPartCircularPool()
 
-    # throws Exception
-    def init(self, basicWeaponPartFactoryInterface: BasicWeaponPartFactoryInterface) -> None:
-        self.basicWeaponPart = basicWeaponPartFactoryInterface.getInstance()
-    
+proc newBasicWeaponPartCircularPool*(): BasicWeaponPartCircularPool =
+    result = BasicWeaponPartCircularPool()
+    initBasicWeaponPartCircularPool(result)
 
-    # throws Exception
-    def getInstance(self, sourceLayerInterface: AllBinaryLayer, weaponProperties: WeaponProperties, scoreableInterface: ScoreableInterface, relativeRelationship: RelativeRelationship) -> BasicWeaponPart:
-        with self._lock:
-            return self._getInstance_unlocked(sourceLayerInterface, weaponProperties, scoreableInterface, relativeRelationship)
+method init*(this: BasicWeaponPartCircularPool, basicWeaponPartFactoryInterface: BasicWeaponPartFactoryInterface) {.base.} =
+        this.basicWeaponPart = basicWeaponPartFactoryInterface.getInstance()
 
-    def _getInstance_unlocked(self, sourceLayerInterface: AllBinaryLayer, weaponProperties: WeaponProperties, scoreableInterface: ScoreableInterface, relativeRelationship: RelativeRelationship) -> BasicWeaponPart:
-        from org.allbinary.game.combat.weapon.WeaponProperties import WeaponProperties
-        from org.allbinary.game.score.ScoreableInterface import ScoreableInterface
-        from org.allbinary.graphics.RelativeRelationship import RelativeRelationship
-        from org.allbinary.layer.AllBinaryLayer import AllBinaryLayer
-        self.basicWeaponPart.init(sourceLayerInterface, weaponProperties, scoreableInterface, relativeRelationship)
-        return self.basicWeaponPart
-# from org.allbinary.game.combat.weapon.WeaponProperties import WeaponProperties
-# from org.allbinary.game.score.ScoreableInterface import ScoreableInterface
-# from org.allbinary.graphics.RelativeRelationship import RelativeRelationship
-# from org.allbinary.layer.AllBinaryLayer import AllBinaryLayer
-from org.allbinary.game.part.weapon.BasicWeaponPart import BasicWeaponPart
-
-
-def _BasicWeaponPartCircularPool_NULL_BASIC_WEAPON_PART_CIRCULAR_POOL() -> object:
-    return BasicWeaponPartCircularPool()
-
-lazy_static(BasicWeaponPartCircularPool, "NULL_BASIC_WEAPON_PART_CIRCULAR_POOL", _BasicWeaponPartCircularPool_NULL_BASIC_WEAPON_PART_CIRCULAR_POOL)
+method getInstance*(this: BasicWeaponPartCircularPool, sourceLayerInterface: AllBinaryLayer, weaponProperties: WeaponProperties, scoreableInterface: ScoreableInterface, relativeRelationship: RelativeRelationship): BasicWeaponPart {.base, discardable.} =
+        this.basicWeaponPart.init(sourceLayerInterface, weaponProperties, scoreableInterface, relativeRelationship)
+        return this.basicWeaponPart
 

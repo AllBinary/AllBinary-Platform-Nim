@@ -1,96 +1,121 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.combat.damage
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import javax/microedition/lcdui/Graphics as GraphicsModule
+export GraphicsModule
+import org/allbinary/game/rand/MyRandomFactory as MyRandomFactoryModule
+export MyRandomFactoryModule
+import org/allbinary/graphics/color/BasicColorArrayIndexer as BasicColorArrayIndexerModule
+export BasicColorArrayIndexerModule
+import org/allbinary/graphics/color/BasicColorSetUtil as BasicColorSetUtilModule
+export BasicColorSetUtilModule
+import org/allbinary/layer/AllBinaryLayer as AllBinaryLayerModule
+export AllBinaryLayerModule
+import org/allbinary/logic/math/PrimitiveLongUtil as PrimitiveLongUtilModule
+export PrimitiveLongUtilModule
+import org/allbinary/util/CircularIndexUtil as CircularIndexUtilModule
+export CircularIndexUtilModule
+import org/allbinary/game/combat/damage/DamageFloaters as DamageFloatersModule
+export DamageFloatersModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
-from org.allbinary.game.combat.damage.DamageFloaters import DamageFloaters
+type
+    PtsDamageFloaters* = ref object of DamageFloaters
+        basicSetColorUtil*: BasicColorSetUtil
+        layerInterface*: AllBinaryLayer
+        lastDamage*: JArray[int32]
+        lastDamageString*: JArray[JArray[uint16]]
+        lastDamageStringSizeArray*: JArray[int32]
+        circularIndexUtil*: CircularIndexUtil
+        primitiveLongUtil*: PrimitiveLongUtil
+        myRandomFactory*: MyRandomFactory
 
+proc newPtsDamageFloaters*(layerInterface: AllBinaryLayer): PtsDamageFloaters
+proc initPtsDamageFloaters*(this: PtsDamageFloaters, layerInterface: AllBinaryLayer)
+method add*(this: PtsDamageFloaters, damage: int32)
+method paint*(this: PtsDamageFloaters, graphics: Graphics)
+import org/allbinary/graphics/color/BasicColor as BasicColorModule
+export BasicColorModule
+import org/allbinary/graphics/color/BasicColorFactory as BasicColorFactoryModule
+export BasicColorFactoryModule
+import org/allbinary/logic/java/character/CharArrayFactory as CharArrayFactoryModule
+export CharArrayFactoryModule
+import org/allbinary/view/ViewPositionBase as ViewPositionBaseModule
+export ViewPositionBaseModule
 
-class PtsDamageFloaters(DamageFloaters):
-    basicColorArrayIndexer: BasicColorArrayIndexer = None
+var PtsDamageFloaters_basicColorArrayIndexerValue: BasicColorArrayIndexer
+var PtsDamageFloaters_basicColorArrayIndexerSet = false
+proc basicColorArrayIndexer*(t: typedesc[PtsDamageFloaters]): BasicColorArrayIndexer =
+    if not PtsDamageFloaters_basicColorArrayIndexerSet:
+        PtsDamageFloaters_basicColorArrayIndexerSet = true
+        PtsDamageFloaters_basicColorArrayIndexerValue = newBasicColorArrayIndexer(newJArrayFromRefs[BasicColor](BasicColorFactory.getInstance().WHITE, BasicColorFactory.getInstance().RED, BasicColorFactory.getInstance().YELLOW, BasicColorFactory.getInstance().BLUE))
+    PtsDamageFloaters_basicColorArrayIndexerValue
 
-    def _init_fields(self) -> None:
-        from org.allbinary.game.rand.MyRandomFactory import MyRandomFactory
-        from org.allbinary.graphics.color.BasicColorSetUtil import BasicColorSetUtil
-        from org.allbinary.layer.AllBinaryLayer import AllBinaryLayer
-        from org.allbinary.logic.math.PrimitiveLongUtil import PrimitiveLongUtil
-        from org.allbinary.util.CircularIndexUtil import CircularIndexUtil
-        self.basicSetColorUtil: BasicColorSetUtil = BasicColorSetUtil.getInstance()
-        self.layerInterface: AllBinaryLayer = None
-        self.lastDamage: list[int] = [0] * (5)
-        self.lastDamageString: list[list[str]] = [['\0'] * (0) for _ in range(5)]
-        self.lastDamageStringSizeArray: list[int] = [0] * (5)
-        self.circularIndexUtil: CircularIndexUtil = CircularIndexUtil.createInstance(5)
-        self.primitiveLongUtil: PrimitiveLongUtil = None
-        self.myRandomFactory: MyRandomFactory = MyRandomFactory.getInstance()
+# Java field initializers run after the base initializer
+proc initFieldsPtsDamageFloaters(this: PtsDamageFloaters) =
+    this.basicSetColorUtil = BasicColorSetUtil.getInstance()
     
-
-    def __init__(self, layerInterface: AllBinaryLayer) -> None:
-        from org.allbinary.layer.AllBinaryLayer import AllBinaryLayer
-        from org.allbinary.logic.java.character.CharArrayFactory import CharArrayFactory
-        from org.allbinary.logic.math.PrimitiveLongUtil import PrimitiveLongUtil
-        super().__init__()
-        self._init_fields()
-        self.primitiveLongUtil = PrimitiveLongUtil.createPowerOfTen(100000)
-        self.layerInterface = layerInterface
-        CHAR_ARRAY: list[str] = CharArrayFactory.getInstance().getZeroCharArray()
-        for index in range(len(self.lastDamageString) - 1, 0 - 1, -1):
-            self.lastDamageString[index] = CHAR_ARRAY
+    this.lastDamage = newJArray[int32](5, default(int32))
+    this.lastDamageString = newJArrayOf[JArray[uint16]](5, proc (): JArray[uint16] = newJArray[uint16](0, default(uint16)))
+    this.lastDamageStringSizeArray = newJArray[int32](5, default(int32))
+    this.circularIndexUtil = CircularIndexUtil.createInstance(5)
     
+    this.myRandomFactory = MyRandomFactory.getInstance()
+    discard
 
-    def add(self, damage: int) -> None:
-        index: int = self.circularIndexUtil.getIndex()
-        self.lastDamage[index] = damage
-        self.lastDamageString[index] = self.primitiveLongUtil.getCharArray(self.lastDamage[index])
-        self.lastDamageStringSizeArray[index] = self.primitiveLongUtil.getCurrentTotalDigits()
-        self.circularIndexUtil.next()
-    
+proc initPtsDamageFloaters*(this: PtsDamageFloaters, layerInterface: AllBinaryLayer) =
+        initDamageFloaters(this)
+        this.initFieldsPtsDamageFloaters()
+        this.primitiveLongUtil = PrimitiveLongUtil.createPowerOfTen(100000)
+        this.layerInterface = layerInterface
+        var CHAR_ARRAY: JArray[uint16] = CharArrayFactory.getInstance().getZeroCharArray()
+        block:
+            var index: int32 = this.lastDamageString.length -% 1
+            while index >= 0:
+                defer: index = index -% 1
+                this.lastDamageString[index] = CHAR_ARRAY
 
-    def paint(self, graphics: Graphics) -> None:
-        from javax.microedition.lcdui.Graphics import Graphics
-        from org.allbinary.view.ViewPositionBase import ViewPositionBase
-        viewPosition: ViewPositionBase = self.layerInterface.getViewPosition()
-        x: int = viewPosition.getX()
-        y: int = viewPosition.getY()
-        for index in range(len(self.lastDamage) - 1, 0 - 1, -1):
-            if self.lastDamage[index] != 0:
-                delta: int = 10 * (index + 2)
-                self.basicSetColorUtil.setBasicColorP(graphics, PtsDamageFloaters.basicColorArrayIndexer.get())
-                graphics.drawChars(self.lastDamageString[index], 0, self.lastDamageStringSizeArray[index], x - self.myRandomFactory.getNextInt(delta), y - delta, 0)
-                PtsDamageFloaters.basicColorArrayIndexer.next()
-            self.lastDamage[index] = 0
-# from javax.microedition.lcdui.Graphics import Graphics
-# from org.allbinary.game.rand.MyRandomFactory import MyRandomFactory
-# from org.allbinary.graphics.color.BasicColor import BasicColor
-# from org.allbinary.graphics.color.BasicColorArrayIndexer import BasicColorArrayIndexer
-# from org.allbinary.graphics.color.BasicColorFactory import BasicColorFactory
-# from org.allbinary.graphics.color.BasicColorSetUtil import BasicColorSetUtil
-# from org.allbinary.layer.AllBinaryLayer import AllBinaryLayer
-# from org.allbinary.logic.java.character.CharArrayFactory import CharArrayFactory
-# from org.allbinary.logic.math.PrimitiveLongUtil import PrimitiveLongUtil
-# from org.allbinary.util.CircularIndexUtil import CircularIndexUtil
-# from org.allbinary.view.ViewPosition import ViewPosition
-# from org.allbinary.view.ViewPositionBase import ViewPositionBase
+proc newPtsDamageFloaters*(layerInterface: AllBinaryLayer): PtsDamageFloaters =
+    result = PtsDamageFloaters()
+    initPtsDamageFloaters(result, layerInterface)
 
+method add*(this: PtsDamageFloaters, damage: int32) =
+        var index: int32 = this.circularIndexUtil.getIndex()
+        this.lastDamage[index] = damage
+        this.lastDamageString[index] = this.primitiveLongUtil.getCharArray(this.lastDamage[index])
+        this.lastDamageStringSizeArray[index] = this.primitiveLongUtil.getCurrentTotalDigits()
+        this.circularIndexUtil.next()
 
-def _PtsDamageFloaters_basicColorArrayIndexer() -> object:
-    from org.allbinary.graphics.color.BasicColor import BasicColor
-    from org.allbinary.graphics.color.BasicColorArrayIndexer import BasicColorArrayIndexer
-    from org.allbinary.graphics.color.BasicColorFactory import BasicColorFactory
-    return BasicColorArrayIndexer([BasicColorFactory.getInstance().WHITE, BasicColorFactory.getInstance().RED, BasicColorFactory.getInstance().YELLOW, BasicColorFactory.getInstance().BLUE])
+method paint*(this: PtsDamageFloaters, graphics: Graphics) =
+        let viewPosition: ViewPositionBase = this.layerInterface.getViewPosition()
+        let x: int32 = viewPosition.getX()
+        let y: int32 = viewPosition.getY()
+        block:
+            var index: int32 = this.lastDamage.length -% 1
+            while index >= 0:
+                defer: index = index -% 1
+                if this.lastDamage[index] != 0:
+                    var delta: int32 = 10 *% (index +% 2)
+                    this.basicSetColorUtil.setBasicColorP(graphics, PtsDamageFloaters.basicColorArrayIndexer.get())
+                    graphics.drawChars(this.lastDamageString[index], 0, this.lastDamageStringSizeArray[index], x -% this.myRandomFactory.getNextInt(delta), y -% delta, 0)
+                    PtsDamageFloaters.basicColorArrayIndexer.next()
+                this.lastDamage[index] = 0
 
-lazy_static(PtsDamageFloaters, "basicColorArrayIndexer", _PtsDamageFloaters_basicColorArrayIndexer)
+when declared(newPtsDamageFloatersHook1):
+    newPtsDamageFloatersHook1 = proc (layerInterface: AllBinaryLayer): DamageFloaters = newPtsDamageFloaters(layerInterface)
 

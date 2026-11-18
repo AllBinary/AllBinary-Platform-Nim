@@ -1,31 +1,32 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.layer
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/game/layer/LayerPlacementInterfaceBasicArrayListFactoryInterface as LayerPlacementInterfaceBasicArrayListFactoryInterfaceModule
+export LayerPlacementInterfaceBasicArrayListFactoryInterfaceModule
+
+type
+    GameLayerPlacementInterfaceBasicArrayListFactoryInterfaceFactory* = ref object of JObject
 
 
+method getInstance*(this: GameLayerPlacementInterfaceBasicArrayListFactoryInterfaceFactory, level: int32): LayerPlacementInterfaceBasicArrayListFactoryInterface {.base, discardable.} =
+        raise newJException("AbstractMethodError", "getInstance")
 
-# Java interface
-class GameLayerPlacementInterfaceBasicArrayListFactoryInterfaceFactory:
-    
-
-    def getInstance(self, level: int) -> LayerPlacementInterfaceBasicArrayListFactoryInterface:
-        raise NotImplementedError()
-    
-
-    def size(self) -> int:
-        raise NotImplementedError()
-
+method size*(this: GameLayerPlacementInterfaceBasicArrayListFactoryInterfaceFactory): int32 {.base, discardable.} =
+        raise newJException("AbstractMethodError", "size")
 

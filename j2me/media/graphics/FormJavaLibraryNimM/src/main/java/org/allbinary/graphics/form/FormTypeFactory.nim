@@ -1,59 +1,74 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.graphics.form
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/graphics/form/FormType as FormTypeModule
+export FormTypeModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    FormTypeFactory* = ref object of JObject
+        UNK*: string
+        NULL_FORM_TYPE*: FormType
+        TEMP_HORIZONTAL_FORM*: FormType
+        HORIZONTAL_FORM*: FormType
+        VERTICAL_CENTER_FORM*: FormType
 
+proc newFormTypeFactory*(): FormTypeFactory
+proc getInstance*(t: typedesc[FormTypeFactory]): FormTypeFactory {.discardable.}
+method getFormType*(this: FormTypeFactory): FormType {.base, discardable.}
+import org/allbinary/graphics/displayable/DisplayInfoSingleton as DisplayInfoSingletonModule
+export DisplayInfoSingletonModule
+import org/allbinary/logic/string/StringUtil as StringUtilModule
+export StringUtilModule
 
-class FormTypeFactory:
-    instance: FormTypeFactory = None
+var FormTypeFactory_instanceValue: FormTypeFactory
+var FormTypeFactory_instanceSet = false
+proc instance*(t: typedesc[FormTypeFactory]): FormTypeFactory =
+    if not FormTypeFactory_instanceSet:
+        FormTypeFactory_instanceSet = true
+        FormTypeFactory_instanceValue = newFormTypeFactory()
+    FormTypeFactory_instanceValue
 
-    def _init_fields(self) -> None:
-        from org.allbinary.logic.string.StringUtil import StringUtil
-        self.UNK: str = "Unknown FormType"
-        self.NULL_FORM_TYPE: FormType = FormType(StringUtil.getInstance().NULL_STRING)
-        self.TEMP_HORIZONTAL_FORM: FormType = FormType("TempHorizontal")
-        self.HORIZONTAL_FORM: FormType = FormType("Horizontal")
-        self.VERTICAL_CENTER_FORM: FormType = FormType("Vertical")
+# Java field initializers run after the base initializer
+proc initFieldsFormTypeFactory(this: FormTypeFactory) =
+    this.UNK = "Unknown FormType"
+    this.NULL_FORM_TYPE = newFormType(StringUtil.getInstance().NULL_STRING)
+    this.TEMP_HORIZONTAL_FORM = newFormType("TempHorizontal")
+    this.HORIZONTAL_FORM = newFormType("Horizontal")
+    this.VERTICAL_CENTER_FORM = newFormType("Vertical")
+    discard
 
-    def __init__(self) -> None:
-        self._init_fields()
-    
+proc initFormTypeFactory*(this: FormTypeFactory) =
+    this.initFieldsFormTypeFactory()
 
-    @staticmethod
-    def getInstance() -> FormTypeFactory:
+proc newFormTypeFactory*(): FormTypeFactory =
+    result = FormTypeFactory()
+    initFormTypeFactory(result)
+
+proc getInstance*(t: typedesc[FormTypeFactory]): FormTypeFactory {.discardable.} =
         return FormTypeFactory.instance
-    
 
-    def getFormType(self) -> FormType:
-        from org.allbinary.graphics.displayable.DisplayInfoSingleton import DisplayInfoSingleton
-        displayInfo: DisplayInfoSingleton = DisplayInfoSingleton.getInstance()
-        formType: FormType = None
+method getFormType*(this: FormTypeFactory): FormType {.base, discardable.} =
+        var displayInfo: DisplayInfoSingleton = DisplayInfoSingleton.getInstance()
+        var formType: FormType = nil
         if displayInfo.isPortrait():
-            formType = self.VERTICAL_CENTER_FORM
+            formType = this.VERTICAL_CENTER_FORM
         else:
-            formType = self.HORIZONTAL_FORM
+            formType = this.HORIZONTAL_FORM
         return formType
-# from org.allbinary.graphics.displayable.DisplayInfoSingleton import DisplayInfoSingleton
-# from org.allbinary.logic.string.StringUtil import StringUtil
-from org.allbinary.graphics.form.FormType import FormType
-
-
-def _FormTypeFactory_instance() -> object:
-    return FormTypeFactory()
-
-lazy_static(FormTypeFactory, "instance", _FormTypeFactory_instance)
 

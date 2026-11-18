@@ -1,65 +1,58 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.input.motion.gesture.observer
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/input/motion/gesture/observer/BaseMotionGestureEventListener as BaseMotionGestureEventListenerModule
+export BaseMotionGestureEventListenerModule
+import org/allbinary/input/motion/gesture/observer/MotionGestureEvent as MotionGestureEventModule
+export MotionGestureEventModule
 
-from org.allbinary.input.motion.gesture.observer.BaseMotionGestureEventListener import BaseMotionGestureEventListener
+type
+    MotionGestureEventListener* = ref object of BaseMotionGestureEventListener
 
 
-# Java interface
-class MotionGestureEventListener(BaseMotionGestureEventListener):
-    
+method onPressedMotionGestureEvent*(this: MotionGestureEventListener, ev: MotionGestureEvent) {.base.} =
+        raise newJException("AbstractMethodError", "onPressedMotionGestureEvent")
 
-    def onPressedMotionGestureEvent(self, ev: MotionGestureEvent) -> None:
-        raise NotImplementedError()
-    
+method onUpMotionGestureEvent*(this: MotionGestureEventListener, ev: MotionGestureEvent) {.base.} =
+        raise newJException("AbstractMethodError", "onUpMotionGestureEvent")
 
-    def onUpMotionGestureEvent(self, ev: MotionGestureEvent) -> None:
-        raise NotImplementedError()
-    
+method onDownMotionGestureEvent*(this: MotionGestureEventListener, ev: MotionGestureEvent) {.base.} =
+        raise newJException("AbstractMethodError", "onDownMotionGestureEvent")
 
-    def onDownMotionGestureEvent(self, ev: MotionGestureEvent) -> None:
-        raise NotImplementedError()
-    
+method onLeftMotionGestureEvent*(this: MotionGestureEventListener, ev: MotionGestureEvent) {.base.} =
+        raise newJException("AbstractMethodError", "onLeftMotionGestureEvent")
 
-    def onLeftMotionGestureEvent(self, ev: MotionGestureEvent) -> None:
-        raise NotImplementedError()
-    
+method onRightMotionGestureEvent*(this: MotionGestureEventListener, ev: MotionGestureEvent) {.base.} =
+        raise newJException("AbstractMethodError", "onRightMotionGestureEvent")
 
-    def onRightMotionGestureEvent(self, ev: MotionGestureEvent) -> None:
-        raise NotImplementedError()
-    
+method onDiagonalDownRightMotionGestureEvent*(this: MotionGestureEventListener, ev: MotionGestureEvent) {.base.} =
+        raise newJException("AbstractMethodError", "onDiagonalDownRightMotionGestureEvent")
 
-    def onDiagonalDownRightMotionGestureEvent(self, ev: MotionGestureEvent) -> None:
-        raise NotImplementedError()
-    
+method onDiagonalDownLeftMotionGestureEvent*(this: MotionGestureEventListener, ev: MotionGestureEvent) {.base.} =
+        raise newJException("AbstractMethodError", "onDiagonalDownLeftMotionGestureEvent")
 
-    def onDiagonalDownLeftMotionGestureEvent(self, ev: MotionGestureEvent) -> None:
-        raise NotImplementedError()
-    
+method onDiagonalUpRightMotionGestureEvent*(this: MotionGestureEventListener, ev: MotionGestureEvent) {.base.} =
+        raise newJException("AbstractMethodError", "onDiagonalUpRightMotionGestureEvent")
 
-    def onDiagonalUpRightMotionGestureEvent(self, ev: MotionGestureEvent) -> None:
-        raise NotImplementedError()
-    
+method onDiagonalUpLeftMotionGestureEvent*(this: MotionGestureEventListener, ev: MotionGestureEvent) {.base.} =
+        raise newJException("AbstractMethodError", "onDiagonalUpLeftMotionGestureEvent")
 
-    def onDiagonalUpLeftMotionGestureEvent(self, ev: MotionGestureEvent) -> None:
-        raise NotImplementedError()
-    
-
-    # throws Exception
-    def released(self, ev: MotionGestureEvent) -> None:
-        raise NotImplementedError()
-
+method released*(this: MotionGestureEventListener, ev: MotionGestureEvent) {.base.} =
+        raise newJException("AbstractMethodError", "released")
 

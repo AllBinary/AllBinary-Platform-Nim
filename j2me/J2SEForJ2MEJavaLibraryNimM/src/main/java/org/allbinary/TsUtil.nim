@@ -1,119 +1,132 @@
-# 
-# AllBinary Open License Version 1 
-# Copyright (c) 2025 AllBinary 
-#  
-# By agreeing to this license you and any business entity you represent are 
-# legally bound to the AllBinary Open License Version 1 legal agreement. 
-#  
-# You may obtain the AllBinary Open License Version 1 legal agreement from 
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
-#  
-# Created By: Travis Berthelot 
-#   
+#[
+  
+  AllBinary Open License Version 1 
+  Copyright (c) 2025 AllBinary 
+   
+  By agreeing to this license you and any business entity you represent are 
+  legally bound to the AllBinary Open License Version 1 legal agreement. 
+   
+  You may obtain the AllBinary Open License Version 1 legal agreement from 
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
+   
+  Created By: Travis Berthelot 
+    
+]#
 # Generated Code Do Not Modify
 # package org.allbinary
 
-from __future__ import annotations
-
-import gc
-import threading
-from java.lang.JavaRuntimeStatic import lazy_static
-
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import java/lang/System as SystemModule
+export SystemModule
+import java/lang/Float as FloatModule
+export FloatModule
+import java/lang/Double as DoubleModule
+export DoubleModule
+import java/lang/ClassLoader as ClassLoaderModule
+export ClassLoaderModule
+import javax/microedition/lcdui/Displayable as DisplayableModule
+export DisplayableModule
 
 #J2SE
-class TsUtil:
-    instance: TsUtil = None
-    _lock = threading.RLock()
-    
+type
+    TsUtil* = ref object of JObject
 
-    @staticmethod
-    def getInstance() -> TsUtil:
+proc newTsUtil*(): TsUtil
+proc getInstance*(t: typedesc[TsUtil]): TsUtil {.discardable.}
+method longBitsToDouble*(this: TsUtil, bits: int64): float64 {.base, discardable.}
+method intBitsToFloat*(this: TsUtil, bits: int32): float32 {.base, discardable.}
+method hashCode*(this: TsUtil, anyType: JObject): int32 {.base, discardable.}
+method waitFor*(this: TsUtil, any: JObject, timeoutMillis: int64) {.base.}
+method getRecord*(this: TsUtil, anyType: JObject, recordId: int32): JArray[int8] {.base, discardable.}
+method compareTo*(this: TsUtil, a: string, b: string): int32 {.base, discardable.}
+method equalIgnoreCase*(this: TsUtil, a: string, b: string): bool {.base, discardable.}
+method equalsNotstring*(this: TsUtil, anyType: JObject, object2: JObject): bool {.base, discardable.}
+method getClassClassLoader*(this: TsUtil, anyType: JObject): ClassLoader {.base, discardable.}
+method toNumberFromChar*(this: TsUtil, value: uint16): int32 {.base, discardable.}
+method toNumber*(this: TsUtil, value: int32): int32 {.base, discardable.}
+method getByteArray*(this: TsUtil, string: string): JArray[int8] {.base, discardable.}
+method isItemListener*(this: TsUtil, owner: Displayable): bool {.base, discardable.}
+method gc*(this: TsUtil) {.base.}
+import javax/microedition/lcdui/Form as FormModule
+export FormModule
+import javax/microedition/rms/InvalidRecordIDException as InvalidRecordIDExceptionModule
+export InvalidRecordIDExceptionModule
+import javax/microedition/rms/RecordStore as RecordStoreModule
+export RecordStoreModule
+import javax/microedition/rms/RecordStoreException as RecordStoreExceptionModule
+export RecordStoreExceptionModule
+import javax/microedition/rms/RecordStoreNotOpenException as RecordStoreNotOpenExceptionModule
+export RecordStoreNotOpenExceptionModule
+import org/allbinary/logic/NullUtil as NullUtilModule
+export NullUtilModule
+
+var TsUtil_instanceValue: TsUtil
+var TsUtil_instanceSet = false
+proc instance*(t: typedesc[TsUtil]): TsUtil =
+    if not TsUtil_instanceSet:
+        TsUtil_instanceSet = true
+        TsUtil_instanceValue = newTsUtil()
+    TsUtil_instanceValue
+
+proc initTsUtil*(this: TsUtil) =
+    discard
+
+proc newTsUtil*(): TsUtil =
+    result = TsUtil()
+    initTsUtil(result)
+
+proc getInstance*(t: typedesc[TsUtil]): TsUtil {.discardable.} =
         return TsUtil.instance
-    
 
-    def longBitsToDouble(self, bits: int) -> float:
-        return java.lang.Double.longBitsToDouble(bits)
-    
+method longBitsToDouble*(this: TsUtil, bits: int64): float64 {.base, discardable.} =
+        return Double.longBitsToDouble(bits)
 
-    def intBitsToFloat(self, bits: int) -> float:
-        return java.lang.Float.intBitsToFloat(bits)
-    
+method intBitsToFloat*(this: TsUtil, bits: int32): float32 {.base, discardable.} =
+        return Float.intBitsToFloat(bits)
 
-    def hashCode(self, anyType: object) -> int:
-        return hash(anyType)
-    
+method hashCode*(this: TsUtil, anyType: JObject): int32 {.base, discardable.} =
+        return anyType.hashCode()
 
-    # throws InterruptedException
-    def waitFor(self, any: object, timeoutMillis: int) -> None:
-        anyType: object = any
+method waitFor*(this: TsUtil, any: JObject, timeoutMillis: int64) {.base.} =
+        let anyType: JObject = JObject(JObject(any))
         anyType.wait(timeoutMillis)
-    
 
-    # throws RecordStoreNotOpenException, InvalidRecordIDException, RecordStoreException
-    def getRecord(self, anyType: object, recordId: int) -> list[int]:
-        from javax.microedition.rms.InvalidRecordIDException import InvalidRecordIDException
-        from javax.microedition.rms.RecordStore import RecordStore
-        from javax.microedition.rms.RecordStoreException import RecordStoreException
-        from javax.microedition.rms.RecordStoreNotOpenException import RecordStoreNotOpenException
-        from org.allbinary.logic.NullUtil import NullUtil
-        recordStore: RecordStore = anyType
-        data: list[int] = None
-        with self._lock:  # synchronized (self)
-            data = [0] * (recordStore.getRecordSize(recordId))
+method getRecord*(this: TsUtil, anyType: JObject, recordId: int32): JArray[int8] {.base, discardable.} =
+        let recordStore: RecordStore = RecordStore(JObject(anyType))
+        var data: JArray[int8] = nil
+        block:
+            data = newJArray[int8](recordStore.getRecordSize(recordId), default(int8))
             recordStore.getRecord(recordId, data, 0)
-        return (NullUtil.getInstance().NULL_BYTE_ARRAY if len(data) < 1 else data)
-    
+        return (if data.length < 1: NullUtil.getInstance().NULL_BYTE_ARRAY else: data)
 
-    def compareTo(self, a: str, b: str) -> int:
-        return ((a > b) - (a < b))
-    
+method compareTo*(this: TsUtil, a: string, b: string): int32 {.base, discardable.} =
+        return jCompareTo(a, b)
 
-    def equalIgnoreCase(self, a: str, b: str) -> bool:
-        return (a.lower() == str(b).lower())
-    
+method equalIgnoreCase*(this: TsUtil, a: string, b: string): bool {.base, discardable.} =
+        return jEqualsIgnoreCase(a, b)
 
-    def equalsNotstring(self, anyType: object, object2: object) -> bool:
+method equalsNotstring*(this: TsUtil, anyType: JObject, object2: JObject): bool {.base, discardable.} =
         return anyType.equals(object2)
-    
 
-    def getClassClassLoader(self, anyType: object) -> ClassLoader:
-        return type(anyType).getClassLoader()
-    
+method getClassClassLoader*(this: TsUtil, anyType: JObject): ClassLoader {.base, discardable.} =
+        return jClassName(anyType).getClassLoader()
 
-    def toNumberFromChar(self, value: str) -> int:
-        return ord(value)
-    
+method toNumberFromChar*(this: TsUtil, value: uint16): int32 {.base, discardable.} =
+        return int32(value)
 
-    def toNumber(self, value: int) -> int:
+method toNumber*(this: TsUtil, value: int32): int32 {.base, discardable.} =
         return value
-    
 
-    def getByteArray(self, string: str) -> list[int]:
-        return list(string.encode())
-    
+method getByteArray*(this: TsUtil, string: string): JArray[int8] {.base, discardable.} =
+        return jGetBytes(string)
 
-    def isItemListener(self, owner: Displayable) -> bool:
-        from javax.microedition.lcdui.Displayable import Displayable
-        from javax.microedition.lcdui.Form import Form
-        if isinstance(owner, Form):
-            return True
+method isItemListener*(this: TsUtil, owner: Displayable): bool {.base, discardable.} =
+        if (owner of Form):
+            return true
         else:
-            return False
-    
+            return false
 
-    def gc(self) -> None:
-        gc.collect()
-# from javax.microedition.lcdui.Displayable import Displayable
-# from javax.microedition.lcdui.Form import Form
-# from javax.microedition.rms.InvalidRecordIDException import InvalidRecordIDException
-# from javax.microedition.rms.RecordStore import RecordStore
-# from javax.microedition.rms.RecordStoreException import RecordStoreException
-# from javax.microedition.rms.RecordStoreNotOpenException import RecordStoreNotOpenException
-# from org.allbinary.logic.NullUtil import NullUtil
-
-
-def _TsUtil_instance() -> object:
-    return TsUtil()
-
-lazy_static(TsUtil, "instance", _TsUtil_instance)
+method gc*(this: TsUtil) {.base.} =
+        System.gc()
 

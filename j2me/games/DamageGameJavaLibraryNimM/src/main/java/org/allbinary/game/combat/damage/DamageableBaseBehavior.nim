@@ -1,49 +1,58 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.combat.damage
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/game/combat/damage/DamageableInterface as DamageableInterfaceModule
+export DamageableInterfaceModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
-from org.allbinary.game.combat.damage.DamageableInterface import DamageableInterface
+type
+    DamageableBaseBehavior* = ref object of DamageableInterface
 
+proc newDamageableBaseBehavior*(): DamageableBaseBehavior
+proc getInstance*(t: typedesc[DamageableBaseBehavior]): DamageableBaseBehavior {.discardable.}
+method getName*(this: DamageableBaseBehavior): string {.discardable.}
+method damage*(this: DamageableBaseBehavior, damage: int32, damageType: int32)
+method getDamage*(this: DamageableBaseBehavior, damageType: int32): int32 {.discardable.}
 
-class DamageableBaseBehavior(DamageableInterface):
-    instance: DamageableBaseBehavior = None
-    
+var DamageableBaseBehavior_instanceValue: DamageableBaseBehavior
+var DamageableBaseBehavior_instanceSet = false
+proc instance*(t: typedesc[DamageableBaseBehavior]): DamageableBaseBehavior =
+    if not DamageableBaseBehavior_instanceSet:
+        DamageableBaseBehavior_instanceSet = true
+        DamageableBaseBehavior_instanceValue = newDamageableBaseBehavior()
+    DamageableBaseBehavior_instanceValue
 
-    @staticmethod
-    def getInstance() -> DamageableBaseBehavior:
+proc initDamageableBaseBehavior*(this: DamageableBaseBehavior) =
+    discard
+
+proc newDamageableBaseBehavior*(): DamageableBaseBehavior =
+    result = DamageableBaseBehavior()
+    initDamageableBaseBehavior(result)
+
+proc getInstance*(t: typedesc[DamageableBaseBehavior]): DamageableBaseBehavior {.discardable.} =
         return DamageableBaseBehavior.instance
-    
 
-    def getName(self) -> str:
-        return type(self).__module__ + "." + type(self).__qualname__
-    
+method getName*(this: DamageableBaseBehavior): string {.discardable.} =
+        return jClassName(this)
 
-    # throws Exception
-    def damage(self, damage: int, damageType: int) -> None:
-        pass
-    
+method damage*(this: DamageableBaseBehavior, damage: int32, damageType: int32) =
+        discard
 
-    # throws Exception
-    def getDamage(self, damageType: int) -> int:
+method getDamage*(this: DamageableBaseBehavior, damageType: int32): int32 {.discardable.} =
         return 6000
-
-
-def _DamageableBaseBehavior_instance() -> object:
-    return DamageableBaseBehavior()
-
-lazy_static(DamageableBaseBehavior, "instance", _DamageableBaseBehavior_instance)
 

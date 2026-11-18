@@ -1,108 +1,97 @@
-# 
-# AllBinary Open License Version 1 
-# Copyright (c) 2025 AllBinary 
-#  
-# By agreeing to this license you and any business entity you represent are 
-# legally bound to the AllBinary Open License Version 1 legal agreement. 
-#  
-# You may obtain the AllBinary Open License Version 1 legal agreement from 
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
-#  
-# Created By: Travis Berthelot 
-#   
+#[
+  
+  AllBinary Open License Version 1 
+  Copyright (c) 2025 AllBinary 
+   
+  By agreeing to this license you and any business entity you represent are 
+  legally bound to the AllBinary Open License Version 1 legal agreement. 
+   
+  You may obtain the AllBinary Open License Version 1 legal agreement from 
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
+   
+  Created By: Travis Berthelot 
+    
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.layer.special
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import javax/microedition/lcdui/Graphics as GraphicsModule
+export GraphicsModule
+import org/allbinary/game/input/event/GameKeyEvent as GameKeyEventModule
+export GameKeyEventModule
+import org/allbinary/layer/AllBinaryLayerManager as AllBinaryLayerManagerModule
+export AllBinaryLayerManagerModule
+import org/allbinary/game/layer/special/SpecialGameInputInterface as SpecialGameInputInterfaceModule
+export SpecialGameInputInterfaceModule
 
-from org.allbinary.game.layer.special.SpecialGameInputInterface import SpecialGameInputInterface
+type
+    SpecialGameInput* = ref object of SpecialGameInputInterface
+
+proc newSpecialGameInput*(): SpecialGameInput
+method up*(this: SpecialGameInput)
+method down*(this: SpecialGameInput)
+method right*(this: SpecialGameInput)
+method left*(this: SpecialGameInput)
+method strafeLeft*(this: SpecialGameInput)
+method strafeRight*(this: SpecialGameInput)
+method fire*(this: SpecialGameInput, layerManager: AllBinaryLayerManager, gameKeyEvent: GameKeyEvent)
+method special1*(this: SpecialGameInput, layerManager: AllBinaryLayerManager, gameKeyEvent: GameKeyEvent)
+method special2*(this: SpecialGameInput, layerManager: AllBinaryLayerManager, gameKeyEvent: GameKeyEvent)
+method special3*(this: SpecialGameInput, layerManager: AllBinaryLayerManager, gameKeyEvent: GameKeyEvent)
+method special4*(this: SpecialGameInput, layerManager: AllBinaryLayerManager, gameKeyEvent: GameKeyEvent)
+method special5*(this: SpecialGameInput, layerManager: AllBinaryLayerManager, gameKeyEvent: GameKeyEvent)
+method paint*(this: SpecialGameInput, graphics: Graphics)
+method paintThreed*(this: SpecialGameInput, graphics: Graphics)
 
 
-class SpecialGameInput(SpecialGameInputInterface):
-    
+proc initSpecialGameInput*(this: SpecialGameInput) =
+    discard
 
-    # throws Exception
-    def up(self) -> None:
-        pass
-    
+proc newSpecialGameInput*(): SpecialGameInput =
+    result = SpecialGameInput()
+    initSpecialGameInput(result)
 
-    # throws Exception
-    def down(self) -> None:
-        pass
-    
+method up*(this: SpecialGameInput) =
+        discard
 
-    # throws Exception
-    def right(self) -> None:
-        pass
-    
+method down*(this: SpecialGameInput) =
+        discard
 
-    # throws Exception
-    def left(self) -> None:
-        pass
-    
+method right*(this: SpecialGameInput) =
+        discard
 
-    # throws Exception
-    def strafeLeft(self) -> None:
-        pass
-    
+method left*(this: SpecialGameInput) =
+        discard
 
-    # throws Exception
-    def strafeRight(self) -> None:
-        pass
-    
+method strafeLeft*(this: SpecialGameInput) =
+        discard
 
-    # throws Exception
-    def fire(self, layerManager: AllBinaryLayerManager, gameKeyEvent: GameKeyEvent) -> None:
-        from org.allbinary.game.input.event.GameKeyEvent import GameKeyEvent
-        from org.allbinary.layer.AllBinaryLayerManager import AllBinaryLayerManager
-        pass
-    
+method strafeRight*(this: SpecialGameInput) =
+        discard
 
-    # throws Exception
-    def special1(self, layerManager: AllBinaryLayerManager, gameKeyEvent: GameKeyEvent) -> None:
-        from org.allbinary.game.input.event.GameKeyEvent import GameKeyEvent
-        from org.allbinary.layer.AllBinaryLayerManager import AllBinaryLayerManager
-        pass
-    
+method fire*(this: SpecialGameInput, layerManager: AllBinaryLayerManager, gameKeyEvent: GameKeyEvent) =
+        discard
 
-    # throws Exception
-    def special2(self, layerManager: AllBinaryLayerManager, gameKeyEvent: GameKeyEvent) -> None:
-        from org.allbinary.game.input.event.GameKeyEvent import GameKeyEvent
-        from org.allbinary.layer.AllBinaryLayerManager import AllBinaryLayerManager
-        pass
-    
+method special1*(this: SpecialGameInput, layerManager: AllBinaryLayerManager, gameKeyEvent: GameKeyEvent) =
+        discard
 
-    # throws Exception
-    def special3(self, layerManager: AllBinaryLayerManager, gameKeyEvent: GameKeyEvent) -> None:
-        from org.allbinary.game.input.event.GameKeyEvent import GameKeyEvent
-        from org.allbinary.layer.AllBinaryLayerManager import AllBinaryLayerManager
-        pass
-    
+method special2*(this: SpecialGameInput, layerManager: AllBinaryLayerManager, gameKeyEvent: GameKeyEvent) =
+        discard
 
-    # throws Exception
-    def special4(self, layerManager: AllBinaryLayerManager, gameKeyEvent: GameKeyEvent) -> None:
-        from org.allbinary.game.input.event.GameKeyEvent import GameKeyEvent
-        from org.allbinary.layer.AllBinaryLayerManager import AllBinaryLayerManager
-        pass
-    
+method special3*(this: SpecialGameInput, layerManager: AllBinaryLayerManager, gameKeyEvent: GameKeyEvent) =
+        discard
 
-    # throws Exception
-    def special5(self, layerManager: AllBinaryLayerManager, gameKeyEvent: GameKeyEvent) -> None:
-        from org.allbinary.game.input.event.GameKeyEvent import GameKeyEvent
-        from org.allbinary.layer.AllBinaryLayerManager import AllBinaryLayerManager
-        pass
-    
+method special4*(this: SpecialGameInput, layerManager: AllBinaryLayerManager, gameKeyEvent: GameKeyEvent) =
+        discard
 
-    def paint(self, graphics: Graphics) -> None:
-        from javax.microedition.lcdui.Graphics import Graphics
-        pass
-    
+method special5*(this: SpecialGameInput, layerManager: AllBinaryLayerManager, gameKeyEvent: GameKeyEvent) =
+        discard
 
-    def paintThreed(self, graphics: Graphics) -> None:
-        from javax.microedition.lcdui.Graphics import Graphics
-        pass
-# from javax.microedition.lcdui.Graphics import Graphics
-# from org.allbinary.game.input.event.GameKeyEvent import GameKeyEvent
-# from org.allbinary.layer.AllBinaryLayerManager import AllBinaryLayerManager
+method paint*(this: SpecialGameInput, graphics: Graphics) =
+        discard
 
+method paintThreed*(this: SpecialGameInput, graphics: Graphics) =
+        discard
 

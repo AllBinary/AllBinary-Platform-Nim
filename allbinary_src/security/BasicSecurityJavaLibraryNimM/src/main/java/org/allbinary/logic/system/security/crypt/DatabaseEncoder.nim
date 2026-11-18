@@ -1,81 +1,95 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.logic.system.security.crypt
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import java/lang/Byte as ByteModule
+export ByteModule
+
+type
+    DatabaseEncoder* = ref object of JObject
+
+proc newDatabaseEncoder*(): DatabaseEncoder
+proc initDatabaseEncoder*(this: DatabaseEncoder)
+proc encode*(t: typedesc[DatabaseEncoder], value: JArray[int8]): string {.discardable.}
+proc decode*(t: typedesc[DatabaseEncoder], value: string): JArray[int8] {.discardable.}
+import org/allbinary/logic/NullUtil as NullUtilModule
+export NullUtilModule
+import org/allbinary/logic/communication/log/PreLogUtil as PreLogUtilModule
+export PreLogUtilModule
+import org/allbinary/logic/string/StringMaker as StringMakerModule
+export StringMakerModule
+import org/allbinary/logic/string/StringUtil as StringUtilModule
+export StringUtilModule
+import org/allbinary/logic/string/tokens/Tokenizer as TokenizerModule
+export TokenizerModule
+import org/allbinary/string/CommonSeps as CommonSepsModule
+export CommonSepsModule
+import org/allbinary/string/CommonStrings as CommonStringsModule
+export CommonStringsModule
+import org/allbinary/util/BasicArrayList as BasicArrayListModule
+export BasicArrayListModule
+import org/allbinary/util/BasicArrayListD as BasicArrayListDModule
+export BasicArrayListDModule
 
 
+proc initDatabaseEncoder*(this: DatabaseEncoder) =
+        discard
+        discard
 
-class DatabaseEncoder:
-    
+proc newDatabaseEncoder*(): DatabaseEncoder =
+    result = DatabaseEncoder()
+    initDatabaseEncoder(result)
 
-    def __init__(self) -> None:
-        pass
-    
-
-    @staticmethod
-    def encode(value: list[int]) -> str:
-        from org.allbinary.logic.communication.log.PreLogUtil import PreLogUtil
-        from org.allbinary.logic.string.StringMaker import StringMaker
-        from org.allbinary.logic.string.StringUtil import StringUtil
-        from org.allbinary.string.CommonSeps import CommonSeps
-        from org.allbinary.string.CommonStrings import CommonStrings
+proc encode*(t: typedesc[DatabaseEncoder], value: JArray[int8]): string {.discardable.} =
         try:
-            array: list[int] = value
-            stringBuffer: StringMaker = StringMaker()
-            for index in range(0, len(array)):
-                stringBuffer.append(str(int(array[index])))
-                if index < len(array) - 1:
-                    stringBuffer.append(CommonSeps.getInstance().SPACE)
-            return str(stringBuffer)
-        except Exception as e:
-            commonStrings: CommonStrings = CommonStrings.getInstance()
+            var array: JArray[int8] = value
+            let stringBuffer: StringMaker = newStringMaker()
+            block:
+                var index: int32 = 0
+                while index < array.length:
+                    defer: index = index +% 1
+                    stringBuffer.append(array[index].toString())
+                    if index < array.length -% 1:
+                        stringBuffer.append(CommonSeps.getInstance().SPACE)
+            return stringBuffer.toString()
+        except CatchableError as jcaught:
+            let e = jToException(jcaught)
+            let commonStrings: CommonStrings = CommonStrings.getInstance()
             PreLogUtil.putOE(commonStrings.EXCEPTION, "DatabaseEncoder", "decode", e)
             return StringUtil.getInstance().EMPTY_STRING
-    
 
-    @staticmethod
-    def decode(value: str) -> list[int]:
-        from org.allbinary.logic.NullUtil import NullUtil
-        from org.allbinary.logic.communication.log.PreLogUtil import PreLogUtil
-        from org.allbinary.logic.string.tokens.Tokenizer import Tokenizer
-        from org.allbinary.string.CommonSeps import CommonSeps
-        from org.allbinary.string.CommonStrings import CommonStrings
-        from org.allbinary.util.BasicArrayList import BasicArrayList
-        from org.allbinary.util.BasicArrayListD import BasicArrayListD
+proc decode*(t: typedesc[DatabaseEncoder], value: string): JArray[int8] {.discardable.} =
         try:
-            tokenizer: Tokenizer = Tokenizer(CommonSeps.getInstance().SPACE)
-            vector: BasicArrayList = tokenizer.getTokensFromString(value, BasicArrayListD())
-            size: int = vector.size()
-            decode: list[int] = [0] * (size)
-            byteOfData: str = None
-            for index in range(0, size):
-                byteOfData = vector.objectArray[index]
-                decode[index] = Byte.parseByte(byteOfData)
+            let tokenizer: Tokenizer = newTokenizer(CommonSeps.getInstance().SPACE)
+            let vector: BasicArrayList = tokenizer.getTokensFromString(value, newBasicArrayListD())
+            let size: int32 = vector.size()
+            let decode: JArray[int8] = newJArray[int8](size, default(int8))
+            var byteOfData: string = ""
+            block:
+                var index: int32 = 0
+                while index < size:
+                    defer: index = index +% 1
+                    byteOfData = jstr(vector.objectArray[index])
+                    decode[index] = Byte.parseByte(byteOfData)
             return decode
-        except Exception as e:
-            commonStrings: CommonStrings = CommonStrings.getInstance()
+        except CatchableError as jcaught:
+            let e = jToException(jcaught)
+            let commonStrings: CommonStrings = CommonStrings.getInstance()
             PreLogUtil.putSE(commonStrings.EXCEPTION, "DatabaseEncoder", "decode", e)
             return NullUtil.getInstance().NULL_BYTE_ARRAY
-# from org.allbinary.logic.NullUtil import NullUtil
-# from org.allbinary.logic.communication.log.PreLogUtil import PreLogUtil
-# from org.allbinary.logic.string.StringMaker import StringMaker
-# from org.allbinary.logic.string.StringUtil import StringUtil
-# from org.allbinary.logic.string.tokens.Tokenizer import Tokenizer
-# from org.allbinary.string.CommonSeps import CommonSeps
-# from org.allbinary.string.CommonStrings import CommonStrings
-# from org.allbinary.util.BasicArrayList import BasicArrayList
-# from org.allbinary.util.BasicArrayListD import BasicArrayListD
-
 

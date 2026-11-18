@@ -1,58 +1,74 @@
-# 
-# AllBinary Open License Version 1 
-# Copyright (c) 2022 AllBinary 
-#  
-# By agreeing to this license you and any business entity you represent are 
-# legally bound to the AllBinary Open License Version 1 legal agreement. 
-#  
-# You may obtain the AllBinary Open License Version 1 legal agreement from 
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
-#  
-# Created By: Travis Berthelot 
-#   
+#[
+  
+  AllBinary Open License Version 1 
+  Copyright (c) 2022 AllBinary 
+   
+  By agreeing to this license you and any business entity you represent are 
+  legally bound to the AllBinary Open License Version 1 legal agreement. 
+   
+  You may obtain the AllBinary Open License Version 1 legal agreement from 
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
+   
+  Created By: Travis Berthelot 
+    
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.animation.text
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import javax/microedition/lcdui/Graphics as GraphicsModule
+export GraphicsModule
+import org/allbinary/animation/AnimationBehavior as AnimationBehaviorModule
+export AnimationBehaviorModule
+import org/allbinary/animation/text/CustomTextAnimation as CustomTextAnimationModule
+export CustomTextAnimationModule
 
-from org.allbinary.animation.text.CustomTextAnimation import CustomTextAnimation
+type
+    AdjustCustomTextAnimation* = ref object of CustomTextAnimation
+        dx*: int32
+        dy*: int32
+
+proc newAdjustCustomTextAnimation*(text: string, fontSize: int32, dx: int32, dy: int32, animationBehavior: AnimationBehavior): AdjustCustomTextAnimation
+proc initAdjustCustomTextAnimation*(this: AdjustCustomTextAnimation, text: string, fontSize: int32, dx: int32, dy: int32, animationBehavior: AnimationBehavior)
+method getDx*(this: AdjustCustomTextAnimation): int32 {.discardable.}
+method setDx*(this: AdjustCustomTextAnimation, dx: int32)
+method getDy*(this: AdjustCustomTextAnimation): int32 {.discardable.}
+method setDy*(this: AdjustCustomTextAnimation, dy: int32)
+method paintXY*(this: AdjustCustomTextAnimation, graphics: Graphics, x: int32, y: int32)
 
 
-class AdjustCustomTextAnimation(CustomTextAnimation):
-
-    def _init_fields(self) -> None:
-        self.dx: int = None
-        self.dy: int = None
+# Java field initializers run after the base initializer
+proc initFieldsAdjustCustomTextAnimation(this: AdjustCustomTextAnimation) =
     
-
-    def __init__(self, text: str, fontSize: int, dx: int, dy: int, animationBehavior: AnimationBehavior) -> None:
-        from org.allbinary.animation.AnimationBehavior import AnimationBehavior
-        super().__init__(text, fontSize, animationBehavior)
-        self._init_fields()
-        self.dx = dx
-        self.dy = dy
     
+    discard
 
-    def getDx(self) -> int:
-        return self.dx
-    
+proc initAdjustCustomTextAnimation*(this: AdjustCustomTextAnimation, text: string, fontSize: int32, dx: int32, dy: int32, animationBehavior: AnimationBehavior) =
+        initCustomTextAnimation(this, text, fontSize, animationBehavior)
+        this.initFieldsAdjustCustomTextAnimation()
+        this.dx = dx
+        this.dy = dy
 
-    def setDx(self, dx: int) -> None:
-        self.dx = dx
-    
+proc newAdjustCustomTextAnimation*(text: string, fontSize: int32, dx: int32, dy: int32, animationBehavior: AnimationBehavior): AdjustCustomTextAnimation =
+    result = AdjustCustomTextAnimation()
+    initAdjustCustomTextAnimation(result, text, fontSize, dx, dy, animationBehavior)
 
-    def getDy(self) -> int:
-        return self.dy
-    
+method getDx*(this: AdjustCustomTextAnimation): int32 {.discardable.} =
+        return this.dx
 
-    def setDy(self, dy: int) -> None:
-        self.dy = dy
-    
+method setDx*(this: AdjustCustomTextAnimation, dx: int32) =
+        this.dx = dx
 
-    def paintXY(self, graphics: Graphics, x: int, y: int) -> None:
-        from javax.microedition.lcdui.Graphics import Graphics
-        super().paintXY(graphics, x + self.dx, y + self.dy)
-# from javax.microedition.lcdui.Graphics import Graphics
-# from org.allbinary.animation.AnimationBehavior import AnimationBehavior
+method getDy*(this: AdjustCustomTextAnimation): int32 {.discardable.} =
+        return this.dy
 
+method setDy*(this: AdjustCustomTextAnimation, dy: int32) =
+        this.dy = dy
+
+method paintXY*(this: AdjustCustomTextAnimation, graphics: Graphics, x: int32, y: int32) =
+        procCall CustomTextAnimation(this).paintXY(graphics, x +% this.dx, y +% this.dy)
+
+when declared(newAdjustCustomTextAnimationHook5):
+    newAdjustCustomTextAnimationHook5 = proc (text: string, fontSize: int32, dx: int32, dy: int32, animationBehavior: AnimationBehavior): CustomTextAnimation = newAdjustCustomTextAnimation(text, fontSize, dx, dy, animationBehavior)
 

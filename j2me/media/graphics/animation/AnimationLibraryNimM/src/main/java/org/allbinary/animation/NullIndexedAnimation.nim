@@ -1,20 +1,31 @@
 # Generated Code Do Not Modify
 # package org.allbinary.animation
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/animation/IndexedAnimation as IndexedAnimationModule
+export IndexedAnimationModule
+import org/allbinary/animation/AnimationBehavior as AnimationBehaviorModule
+export AnimationBehaviorModule
 
-from org.allbinary.animation.IndexedAnimation import IndexedAnimation
+type
+    NullIndexedAnimation* = ref object of IndexedAnimation
+
+proc newNullIndexedAnimation*(animationBehavior: AnimationBehavior): NullIndexedAnimation
+proc initNullIndexedAnimation*(this: NullIndexedAnimation, animationBehavior: AnimationBehavior)
+method getAnimationSize*(this: NullIndexedAnimation): int32 {.discardable.}
 
 
-class NullIndexedAnimation(IndexedAnimation):
-    
+proc initNullIndexedAnimation*(this: NullIndexedAnimation, animationBehavior: AnimationBehavior) =
+        initIndexedAnimation(this, animationBehavior)
 
-    def __init__(self, animationBehavior: AnimationBehavior) -> None:
-        super().__init__(animationBehavior)
-    
+proc newNullIndexedAnimation*(animationBehavior: AnimationBehavior): NullIndexedAnimation =
+    result = NullIndexedAnimation()
+    initNullIndexedAnimation(result, animationBehavior)
 
-    # throws Exception
-    def getAnimationSize(self) -> int:
+method getAnimationSize*(this: NullIndexedAnimation): int32 {.discardable.} =
         return 0
 
+when declared(newNullIndexedAnimationHook1):
+    newNullIndexedAnimationHook1 = proc (animationBehavior: AnimationBehavior): IndexedAnimation = newNullIndexedAnimation(animationBehavior)
 

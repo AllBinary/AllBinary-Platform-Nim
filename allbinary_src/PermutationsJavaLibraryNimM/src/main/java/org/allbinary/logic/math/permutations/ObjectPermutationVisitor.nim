@@ -1,52 +1,68 @@
 # Generated Code Do Not Modify
 # package org.allbinary.logic.math.permutations
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import java/lang/System as SystemModule
+export SystemModule
+import org/allbinary/logic/string/StringMaker as StringMakerModule
+export StringMakerModule
+import org/allbinary/logic/util/visitor/Visitor as VisitorModule
+export VisitorModule
 
-from org.allbinary.logic.util.visitor.Visitor import Visitor
+type
+    ObjectPermutationVisitor* = ref object of Visitor
+        data*: JArray[JObject]
+        stringBuilder*: StringMaker
+
+proc newObjectPermutationVisitor*(data: JArray[JObject]): ObjectPermutationVisitor
+proc initObjectPermutationVisitor*(this: ObjectPermutationVisitor, data: JArray[JObject])
+method visit*(this: ObjectPermutationVisitor, anyType: JObject): JObject {.discardable.}
+method print*(this: ObjectPermutationVisitor, data: JArray[JObject]) {.base.}
+method print*(this: ObjectPermutationVisitor, data: JArray[JObject], stringBuilder: StringMaker) {.base.}
+import org/allbinary/TsUtil as TsUtilModule
+export TsUtilModule
+import org/allbinary/logic/NullUtil as NullUtilModule
+export NullUtilModule
+import org/allbinary/string/CommonSeps as CommonSepsModule
+export CommonSepsModule
 
 
-class ObjectPermutationVisitor(Visitor):
-
-    def _init_fields(self) -> None:
-        from org.allbinary.logic.string.StringMaker import StringMaker
-        self.data: list[object] = None
-        self.stringBuilder: StringMaker = StringMaker()
+# Java field initializers run after the base initializer
+proc initFieldsObjectPermutationVisitor(this: ObjectPermutationVisitor) =
     
+    this.stringBuilder = newStringMaker()
+    discard
 
-    def __init__(self, data: list[object]) -> None:
-        super().__init__()
-        self._init_fields()
-        self.data = data
-    
+proc initObjectPermutationVisitor*(this: ObjectPermutationVisitor, data: JArray[JObject]) =
+        initVisitor(this)
+        this.initFieldsObjectPermutationVisitor()
+        this.data = data
 
-    def visit(self, anyType: object) -> object:
-        from org.allbinary.logic.NullUtil import NullUtil
-        self.stringBuilder.delete(0, self.stringBuilder.length())
-        self.print_(self.data, self.stringBuilder)
+proc newObjectPermutationVisitor*(data: JArray[JObject]): ObjectPermutationVisitor =
+    result = ObjectPermutationVisitor()
+    initObjectPermutationVisitor(result, data)
+
+method visit*(this: ObjectPermutationVisitor, anyType: JObject): JObject {.discardable.} =
+        this.stringBuilder.delete(0, this.stringBuilder.length())
+        this.print(this.data, this.stringBuilder)
         return NullUtil.getInstance().NULL_OBJECT
-    
 
-    def print_(self, data: list[object]) -> None:
-        from org.allbinary.logic.string.StringMaker import StringMaker
-        stringBuilder: StringMaker = StringMaker()
-        self.print_(data, stringBuilder)
-    
+method print*(this: ObjectPermutationVisitor, data: JArray[JObject]) {.base.} =
+        let stringBuilder: StringMaker = newStringMaker()
+        this.print(data, stringBuilder)
 
-    # Java overloaded method: Python keeps the last definition
-    def print_(self, data: list[object], stringBuilder: StringMaker) -> None:
-        from org.allbinary.TsUtil import TsUtil
-        from org.allbinary.logic.string.StringMaker import StringMaker
-        from org.allbinary.string.CommonSeps import CommonSeps
-        tsUtil: TsUtil = TsUtil.getInstance()
-        size: int = len(data)
-        for i in range(0, size):
-            stringBuilder.appendint(int(tsUtil.hashCode(data[i])))
-            stringBuilder.append(CommonSeps.getInstance().SPACE)
-        print(str(stringBuilder))
-# from org.allbinary.TsUtil import TsUtil
-# from org.allbinary.logic.NullUtil import NullUtil
-# from org.allbinary.logic.string.StringMaker import StringMaker
-# from org.allbinary.string.CommonSeps import CommonSeps
+method print*(this: ObjectPermutationVisitor, data: JArray[JObject], stringBuilder: StringMaker) {.base.} =
+        let tsUtil: TsUtil = TsUtil.getInstance()
+        let size: int32 = data.length
+        block:
+            var i: int32 = 0
+            while i < size:
+                defer: i = i +% 1
+                stringBuilder.appendint(tsUtil.hashCode(data[i]))
+                stringBuilder.append(CommonSeps.getInstance().SPACE)
+        echo jstr(stringBuilder.toString())
 
+when declared(newObjectPermutationVisitorHook1):
+    newObjectPermutationVisitorHook1 = proc (data: JArray[JObject]): Visitor = newObjectPermutationVisitor(data)
 

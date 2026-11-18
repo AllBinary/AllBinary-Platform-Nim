@@ -1,54 +1,67 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.logic.util.cache
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+
+type
+    CachePolicy* = ref object of JObject
+        name*: string
+        maxTime*: int64
+        maxSize*: int64
+
+proc newCachePolicy*(name: string, maxTime: int64, maxSize: int64): CachePolicy
+proc initCachePolicy*(this: CachePolicy, name: string, maxTime: int64, maxSize: int64)
+method getMaxTime*(this: CachePolicy): int64 {.base, discardable.}
+method setMaxTime*(this: CachePolicy, maxTime: int64) {.base.}
+method getMaxSize*(this: CachePolicy): int64 {.base, discardable.}
+method setMaxSize*(this: CachePolicy, maxSize: int64) {.base.}
+method getName*(this: CachePolicy): string {.base, discardable.}
 
 
-
-class CachePolicy:
-
-    def _init_fields(self) -> None:
-        self.name: str = None
-        self.maxTime: int = 0
-        self.maxSize: int = 0
+# Java field initializers run after the base initializer
+proc initFieldsCachePolicy(this: CachePolicy) =
     
+    this.maxTime = 0
+    this.maxSize = 0
+    discard
 
-    def __init__(self, name: str, maxTime: int, maxSize: int) -> None:
-        self._init_fields()
-        self.name = name
-        self.setMaxTime(maxTime)
-        self.setMaxSize(maxSize)
-    
+proc initCachePolicy*(this: CachePolicy, name: string, maxTime: int64, maxSize: int64) =
+        this.initFieldsCachePolicy()
+        this.name = name
+        this.setMaxTime(maxTime)
+        this.setMaxSize(maxSize)
 
-    def getMaxTime(self) -> int:
-        return self.maxTime
-    
+proc newCachePolicy*(name: string, maxTime: int64, maxSize: int64): CachePolicy =
+    result = CachePolicy()
+    initCachePolicy(result, name, maxTime, maxSize)
 
-    def setMaxTime(self, maxTime: int) -> None:
-        self.maxTime = maxTime
-    
+method getMaxTime*(this: CachePolicy): int64 {.base, discardable.} =
+        return this.maxTime
 
-    def getMaxSize(self) -> int:
-        return self.maxSize
-    
+method setMaxTime*(this: CachePolicy, maxTime: int64) {.base.} =
+        this.maxTime = maxTime
 
-    def setMaxSize(self, maxSize: int) -> None:
-        self.maxSize = maxSize
-    
+method getMaxSize*(this: CachePolicy): int64 {.base, discardable.} =
+        return this.maxSize
 
-    def getName(self) -> str:
-        return self.name
+method setMaxSize*(this: CachePolicy, maxSize: int64) {.base.} =
+        this.maxSize = maxSize
 
+method getName*(this: CachePolicy): string {.base, discardable.} =
+        return this.name
 

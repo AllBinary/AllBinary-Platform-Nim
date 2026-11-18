@@ -1,105 +1,118 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.media.image
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import javax/microedition/lcdui/Image as ImageModule
+export ImageModule
+import org/allbinary/game/configuration/feature/Features as FeaturesModule
+export FeaturesModule
+import org/allbinary/game/configuration/feature/GameFeatureFactory as GameFeatureFactoryModule
+export GameFeatureFactoryModule
+import org/allbinary/logic/communication/log/LogUtil as LogUtilModule
+export LogUtilModule
+import org/allbinary/string/CommonStrings as CommonStringsModule
+export CommonStringsModule
+import org/allbinary/media/image/ImageCreationUtil as ImageCreationUtilModule
+export ImageCreationUtilModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    ImageCopyUtil* = ref object of JObject
+        logUtil*: LogUtil
+        commonStrings*: CommonStrings
+        imageCreationUtil*: ImageCreationUtil
+        anchor*: int32
+        gameFeatureFactory*: GameFeatureFactory
+        features*: Features
+        NO_COPY*: string
 
+proc newImageCopyUtil*(): ImageCopyUtil
+proc initImageCopyUtil*(this: ImageCopyUtil)
+proc getInstance*(t: typedesc[ImageCopyUtil]): ImageCopyUtil {.discardable.}
+method createImageForRotation*(this: ImageCopyUtil, originalImage: Image): Image {.base, discardable.}
+method createImage*(this: ImageCopyUtil, originalImage: Image): Image {.base, discardable.}
+method createImageScale*(this: ImageCopyUtil, originalImage: Image, canvasScale: float32, resize: bool): Image {.base, discardable.}
+import javax/microedition/lcdui/Graphics as GraphicsModule
+export GraphicsModule
+import org/allbinary/graphics/Anchor as AnchorModule
+export AnchorModule
 
-class ImageCopyUtil:
-    instance: ImageCopyUtil = None
+var ImageCopyUtil_instanceValue: ImageCopyUtil
+var ImageCopyUtil_instanceSet = false
+proc instance*(t: typedesc[ImageCopyUtil]): ImageCopyUtil =
+    if not ImageCopyUtil_instanceSet:
+        ImageCopyUtil_instanceSet = true
+        ImageCopyUtil_instanceValue = newImageCopyUtil()
+    ImageCopyUtil_instanceValue
 
-    def _init_fields(self) -> None:
-        from org.allbinary.game.configuration.feature.Features import Features
-        from org.allbinary.game.configuration.feature.GameFeatureFactory import GameFeatureFactory
-        from org.allbinary.graphics.Anchor import Anchor
-        from org.allbinary.logic.communication.log.LogUtil import LogUtil
-        from org.allbinary.string.CommonStrings import CommonStrings
-        self.logUtil: LogUtil = LogUtil.getInstance()
-        self.commonStrings: CommonStrings = CommonStrings.getInstance()
-        self.imageCreationUtil: ImageCreationUtil = ImageCreationUtil.getInstance()
-        self.anchor: int = Anchor.TOP_LEFT
-        self.gameFeatureFactory: GameFeatureFactory = GameFeatureFactory.getInstance()
-        self.features: Features = Features.getInstance()
-        self.NO_COPY: str = "J2ME does not need to copy images after initial loading"
-    
+# Java field initializers run after the base initializer
+proc initFieldsImageCopyUtil(this: ImageCopyUtil) =
+    this.logUtil = LogUtil.getInstance()
+    this.commonStrings = CommonStrings.getInstance()
+    this.imageCreationUtil = ImageCreationUtil.getInstance()
+    this.anchor = Anchor.TOP_LEFT
+    this.gameFeatureFactory = GameFeatureFactory.getInstance()
+    this.features = Features.getInstance()
+    this.NO_COPY = "J2ME does not need to copy images after initial loading"
+    discard
 
-    @staticmethod
-    def getInstance() -> ImageCopyUtil:
+proc getInstance*(t: typedesc[ImageCopyUtil]): ImageCopyUtil {.discardable.} =
         return ImageCopyUtil.instance
-    
 
-    def __init__(self) -> None:
-        self._init_fields()
-    
+proc initImageCopyUtil*(this: ImageCopyUtil) =
+        this.initFieldsImageCopyUtil()
+        discard
 
-    # throws Exception
-    def createImageForRotation(self, originalImage: Image) -> Image:
-        from javax.microedition.lcdui.Image import Image
-        return self.createImage(originalImage)
-    
+proc newImageCopyUtil*(): ImageCopyUtil =
+    result = ImageCopyUtil()
+    initImageCopyUtil(result)
 
-    # throws Exception
-    def createImage(self, originalImage: Image) -> Image:
-        from javax.microedition.lcdui.Image import Image
-        if not self.features.isFeature(self.gameFeatureFactory.POST_IMAGE_LOADING_MODIFICATION):
-            self.logUtil.put(self.NO_COPY, self, self.commonStrings.CONSTRUCTOR, Exception())
+method createImageForRotation*(this: ImageCopyUtil, originalImage: Image): Image {.base, discardable.} =
+        return this.createImage(originalImage)
+
+method createImage*(this: ImageCopyUtil, originalImage: Image): Image {.base, discardable.} =
+        if (not this.features.isFeature(this.gameFeatureFactory.POST_IMAGE_LOADING_MODIFICATION)):
+            this.logUtil.put(this.NO_COPY, this, this.commonStrings.CONSTRUCTOR, newJException("Exception", ""))
             return originalImage
-        image: Image = self.imageCreationUtil.createImageWH(originalImage.getWidth(), originalImage.getHeight())
+        let image: Image = this.imageCreationUtil.createImageWH(originalImage.getWidth(), originalImage.getHeight())
         if image.isMutable():
-            image.getGraphics().drawImage(originalImage, 0, 0, self.anchor)
+            image.getGraphics().drawImage(originalImage, 0, 0, this.anchor)
             return image
         else:
-            raise Exception("Not Mutable")
-    
+            raise newJException("Exception", "Not Mutable")
 
-    # throws Exception
-    def createImageScale(self, originalImage: Image, canvasScale: float, resize: bool) -> Image:
-        from javax.microedition.lcdui.Graphics import Graphics
-        from javax.microedition.lcdui.Image import Image
-        if not self.features.isFeature(self.gameFeatureFactory.POST_IMAGE_LOADING_MODIFICATION):
-            self.logUtil.put(self.NO_COPY, self, self.commonStrings.CONSTRUCTOR, Exception())
+method createImageScale*(this: ImageCopyUtil, originalImage: Image, canvasScale: float32, resize: bool): Image {.base, discardable.} =
+        if (not this.features.isFeature(this.gameFeatureFactory.POST_IMAGE_LOADING_MODIFICATION)):
+            this.logUtil.put(this.NO_COPY, this, this.commonStrings.CONSTRUCTOR, newJException("Exception", ""))
             return originalImage
-        newWidth: int = int((originalImage.getWidth() * canvasScale))
-        newHeight: int = int((originalImage.getHeight() * canvasScale))
+        var newWidth: int32 = jToInt32(float64((float32(originalImage.getWidth()) * canvasScale)))
+        var newHeight: int32 = jToInt32(float64((float32(originalImage.getHeight()) * canvasScale)))
         if resize:
             if newWidth < newHeight:
                 newWidth = newHeight
             if newHeight < newWidth:
                 newHeight = newWidth
-        image: Image = self.imageCreationUtil.createImageWH(newWidth, newHeight)
+        let image: Image = this.imageCreationUtil.createImageWH(newWidth, newHeight)
         if image.isMutable():
-            halfWidthDelta: int = (newWidth - originalImage.getWidth()) / 2
-            halfHeightDelta: int = (newHeight - originalImage.getHeight()) / 2
-            graphics: Graphics = image.getGraphics()
-            graphics.drawImage(originalImage, halfWidthDelta, halfHeightDelta, self.anchor)
+            let halfWidthDelta: int32 = (newWidth -% originalImage.getWidth()) div 2
+            let halfHeightDelta: int32 = (newHeight -% originalImage.getHeight()) div 2
+            let graphics: Graphics = image.getGraphics()
+            graphics.drawImage(originalImage, halfWidthDelta, halfHeightDelta, this.anchor)
             return image
         else:
-            raise Exception("Not Mutable")
-# from javax.microedition.lcdui.Graphics import Graphics
-# from javax.microedition.lcdui.Image import Image
-# from org.allbinary.game.configuration.feature.Features import Features
-# from org.allbinary.game.configuration.feature.GameFeatureFactory import GameFeatureFactory
-# from org.allbinary.graphics.Anchor import Anchor
-# from org.allbinary.logic.communication.log.LogUtil import LogUtil
-# from org.allbinary.string.CommonStrings import CommonStrings
-from org.allbinary.media.image.ImageCreationUtil import ImageCreationUtil
-
-
-def _ImageCopyUtil_instance() -> object:
-    return ImageCopyUtil()
-
-lazy_static(ImageCopyUtil, "instance", _ImageCopyUtil_instance)
+            raise newJException("Exception", "Not Mutable")
 

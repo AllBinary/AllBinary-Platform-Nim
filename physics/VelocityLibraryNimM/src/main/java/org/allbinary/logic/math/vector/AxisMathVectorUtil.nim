@@ -1,54 +1,64 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.logic.math.vector
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/math/NoDecimalTrigTable as NoDecimalTrigTableModule
+export NoDecimalTrigTableModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    AxisMathVectorUtil* = ref object of JObject
+        noDecimalTrigTable*: NoDecimalTrigTable
 
+proc newAxisMathVectorUtil*(): AxisMathVectorUtil
+proc getInstance*(t: typedesc[AxisMathVectorUtil]): AxisMathVectorUtil {.discardable.}
+method calculateX*(this: AxisMathVectorUtil, magnitude: int64, angle: int32): int64 {.base, discardable.}
+method calculateY*(this: AxisMathVectorUtil, magnitude: int64, angle: int32): int64 {.base, discardable.}
+method calculateZ*(this: AxisMathVectorUtil, magnitude: int64, otherAngle: int32): int64 {.base, discardable.}
 
-class AxisMathVectorUtil:
-    instance: AxisMathVectorUtil = None
+var AxisMathVectorUtil_instanceValue: AxisMathVectorUtil
+var AxisMathVectorUtil_instanceSet = false
+proc instance*(t: typedesc[AxisMathVectorUtil]): AxisMathVectorUtil =
+    if not AxisMathVectorUtil_instanceSet:
+        AxisMathVectorUtil_instanceSet = true
+        AxisMathVectorUtil_instanceValue = newAxisMathVectorUtil()
+    AxisMathVectorUtil_instanceValue
 
-    def _init_fields(self) -> None:
-        from org.allbinary.math.NoDecimalTrigTable import NoDecimalTrigTable
-        self.noDecimalTrigTable: NoDecimalTrigTable = NoDecimalTrigTable.getInstance()
+# Java field initializers run after the base initializer
+proc initFieldsAxisMathVectorUtil(this: AxisMathVectorUtil) =
+    this.noDecimalTrigTable = NoDecimalTrigTable.getInstance()
+    discard
 
-    def __init__(self) -> None:
-        self._init_fields()
-    
+proc initAxisMathVectorUtil*(this: AxisMathVectorUtil) =
+    this.initFieldsAxisMathVectorUtil()
 
-    @staticmethod
-    def getInstance() -> AxisMathVectorUtil:
+proc newAxisMathVectorUtil*(): AxisMathVectorUtil =
+    result = AxisMathVectorUtil()
+    initAxisMathVectorUtil(result)
+
+proc getInstance*(t: typedesc[AxisMathVectorUtil]): AxisMathVectorUtil {.discardable.} =
         return AxisMathVectorUtil.instance
-    
 
-    def calculateX(self, magnitude: int, angle: int) -> int:
-        return magnitude * self.noDecimalTrigTable.cos(angle) / 10
-    
+method calculateX*(this: AxisMathVectorUtil, magnitude: int64, angle: int32): int64 {.base, discardable.} =
+        return magnitude *% this.noDecimalTrigTable.cos(angle) div 10'i64
 
-    def calculateY(self, magnitude: int, angle: int) -> int:
-        return magnitude * self.noDecimalTrigTable.sin(angle) / 10
-    
+method calculateY*(this: AxisMathVectorUtil, magnitude: int64, angle: int32): int64 {.base, discardable.} =
+        return magnitude *% this.noDecimalTrigTable.sin(angle) div 10'i64
 
-    def calculateZ(self, magnitude: int, otherAngle: int) -> int:
-        return magnitude * self.noDecimalTrigTable.sin(otherAngle) / 10
-# from org.allbinary.math.NoDecimalTrigTable import NoDecimalTrigTable
-
-
-def _AxisMathVectorUtil_instance() -> object:
-    return AxisMathVectorUtil()
-
-lazy_static(AxisMathVectorUtil, "instance", _AxisMathVectorUtil_instance)
+method calculateZ*(this: AxisMathVectorUtil, magnitude: int64, otherAngle: int32): int64 {.base, discardable.} =
+        return magnitude *% this.noDecimalTrigTable.sin(otherAngle) div 10'i64
 

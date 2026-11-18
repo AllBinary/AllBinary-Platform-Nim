@@ -1,70 +1,84 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.media.audio
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import java/lang/Runnable as RunnableModule
+export RunnableModule
+import javax/microedition/media/Player as PlayerModule
+export PlayerModule
+import org/allbinary/media/audio/SoundInterface as SoundInterfaceModule
+export SoundInterfaceModule
 
-from org.allbinary.media.audio.SoundInterface import SoundInterface
+type
+    Sound* = ref object of SoundInterface
+        resource*: string
+        player*: Player
+
+proc newSound*(resource: string): Sound
+proc initSound*(this: Sound, resource: string)
+method getResource*(this: Sound): string {.discardable.}
+method getPlayerP*(this: Sound): Player {.discardable.}
+method setPlayerP*(this: Sound, player: Player) {.base.}
+method init*(this: Sound)
+method getDuration*(this: Sound): int32 {.base, discardable.}
+method run*(this: Sound)
+import org/allbinary/logic/communication/log/PreLogUtil as PreLogUtilModule
+export PreLogUtilModule
+import org/allbinary/string/CommonStrings as CommonStringsModule
+export CommonStringsModule
+import org/allbinary/media/audio/NoPlayer as NoPlayerModule
+export NoPlayerModule
 
 
-class Sound(SoundInterface, object):
-
-    def _init_fields(self) -> None:
-        from javax.microedition.media.Player import Player
-        self.resource: str = None
-        self.player: Player = NoPlayer.NO_PLAYER
+# Java field initializers run after the base initializer
+proc initFieldsSound(this: Sound) =
     
+    this.player = NoPlayer.NO_PLAYERStatic
+    discard
 
-    def __init__(self, resource: str) -> None:
-        self._init_fields()
-        self.resource = resource
-    
+proc initSound*(this: Sound, resource: string) =
+        this.initFieldsSound()
+        this.resource = resource
 
-    def getResource(self) -> str:
-        return self.resource
-    
+proc newSound*(resource: string): Sound =
+    result = Sound()
+    initSound(result, resource)
 
-    def getPlayerP(self) -> Player:
-        from javax.microedition.media.Player import Player
-        return self.player
-    
+method getResource*(this: Sound): string {.discardable.} =
+        return this.resource
 
-    def setPlayerP(self, player: Player) -> None:
-        from javax.microedition.media.Player import Player
-        self.player = player
-    
+method getPlayerP*(this: Sound): Player {.discardable.} =
+        return this.player
 
-    # throws Exception
-    def init(self) -> None:
-        pass
-    
+method setPlayerP*(this: Sound, player: Player) {.base.} =
+        this.player = player
 
-    def getDuration(self) -> int:
+method init*(this: Sound) =
+        discard
+
+method getDuration*(this: Sound): int32 {.base, discardable.} =
         return -1
-    
 
-    def run(self) -> None:
-        from org.allbinary.logic.communication.log.PreLogUtil import PreLogUtil
-        from org.allbinary.string.CommonStrings import CommonStrings
+method run*(this: Sound) =
         try:
-            self.player.start()
-        except Exception as e:
-            commonStrings: CommonStrings = CommonStrings.getInstance()
-            PreLogUtil.put(commonStrings.EXCEPTION, self, commonStrings.RUN)
-# from javax.microedition.media.Player import Player
-# from org.allbinary.logic.communication.log.PreLogUtil import PreLogUtil
-# from org.allbinary.string.CommonStrings import CommonStrings
-from org.allbinary.media.audio.NoPlayer import NoPlayer
-
+            this.player.start()
+        except CatchableError as jcaught:
+            let e = jToException(jcaught)
+            let commonStrings: CommonStrings = CommonStrings.getInstance()
+            PreLogUtil.put(commonStrings.EXCEPTION, this, commonStrings.RUN)
 

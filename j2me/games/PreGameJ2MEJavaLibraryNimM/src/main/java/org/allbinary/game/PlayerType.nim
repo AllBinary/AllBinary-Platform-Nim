@@ -1,49 +1,58 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+
+type
+    PlayerType* = ref object of JObject
+        id*: int32
+        name*: string
+
+proc newPlayerType*(name: string, value: int32): PlayerType
+proc initPlayerType*(this: PlayerType, name: string, value: int32)
+method getId*(this: PlayerType): int32 {.base, discardable.}
+method getName*(this: PlayerType): string {.base, discardable.}
+method toString*(this: PlayerType): string {.discardable.}
+import org/allbinary/logic/string/StringUtil as StringUtilModule
+export StringUtilModule
 
 
-
-class PlayerType:
-
-    def _init_fields(self) -> None:
-        from org.allbinary.logic.string.StringUtil import StringUtil
-        self.id: int = None
-        self.name: str = StringUtil.getInstance().EMPTY_STRING
+# Java field initializers run after the base initializer
+proc initFieldsPlayerType(this: PlayerType) =
     
+    this.name = StringUtil.getInstance().EMPTY_STRING
+    discard
 
-    def __init__(self, name: str, value: int) -> None:
-        self._init_fields()
-        self.name = name
-        self.id = value
-    
+proc initPlayerType*(this: PlayerType, name: string, value: int32) =
+        this.initFieldsPlayerType()
+        this.name = name
+        this.id = value
 
-    def getId(self) -> int:
-        return self.id
-    
+proc newPlayerType*(name: string, value: int32): PlayerType =
+    result = PlayerType()
+    initPlayerType(result, name, value)
 
-    def getName(self) -> str:
-        return self.name
-    
+method getId*(this: PlayerType): int32 {.base, discardable.} =
+        return this.id
 
-    def toString(self) -> str:
-        return self.getName()
+method getName*(this: PlayerType): string {.base, discardable.} =
+        return this.name
 
-    def __str__(self) -> str:
-        return self.toString()
-# from org.allbinary.logic.string.StringUtil import StringUtil
-
+method toString*(this: PlayerType): string {.discardable.} =
+        return this.getName()
 

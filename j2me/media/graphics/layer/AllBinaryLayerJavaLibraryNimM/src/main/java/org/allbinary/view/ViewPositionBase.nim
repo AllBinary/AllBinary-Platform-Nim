@@ -1,50 +1,62 @@
-# 
-# AllBinary Open License Version 1 
-# Copyright (c) 2011 AllBinary 
-#  
-# By agreeing to this license you and any business entity you represent are 
-# legally bound to the AllBinary Open License Version 1 legal agreement. 
-#  
-# You may obtain the AllBinary Open License Version 1 legal agreement from 
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
-#  
-# Created By: Travis Berthelot 
-#   
+#[
+  
+  AllBinary Open License Version 1 
+  Copyright (c) 2011 AllBinary 
+   
+  By agreeing to this license you and any business entity you represent are 
+  legally bound to the AllBinary Open License Version 1 legal agreement. 
+   
+  You may obtain the AllBinary Open License Version 1 legal agreement from 
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
+   
+  Created By: Travis Berthelot 
+    
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.view
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/graphics/GPoint as GPointModule
+export GPointModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
-from org.allbinary.graphics.GPoint import GPoint
+type
+    ViewPositionBase* = ref object of GPoint
 
+proc newViewPositionBase*(x: int32, y: int32, z: int32): ViewPositionBase
+proc initViewPositionBase*(this: ViewPositionBase, x: int32, y: int32, z: int32)
+method getX2*(this: ViewPositionBase): int32 {.base, discardable.}
+method getY2*(this: ViewPositionBase): int32 {.base, discardable.}
+method getZ2*(this: ViewPositionBase): int32 {.base, discardable.}
+method setAllbinaryLayer*(this: ViewPositionBase, allbinaryLayer: JObject) {.base.}
 
-class ViewPositionBase(GPoint):
-    NULL_VIEW_POSITION: ViewPositionBase = None
-    
+var ViewPositionBase_NULL_VIEW_POSITIONValue: ViewPositionBase
+var ViewPositionBase_NULL_VIEW_POSITIONSet = false
+proc NULL_VIEW_POSITION*(t: typedesc[ViewPositionBase]): ViewPositionBase =
+    if not ViewPositionBase_NULL_VIEW_POSITIONSet:
+        ViewPositionBase_NULL_VIEW_POSITIONSet = true
+        ViewPositionBase_NULL_VIEW_POSITIONValue = newViewPositionBase(0, 0, 0)
+    ViewPositionBase_NULL_VIEW_POSITIONValue
 
-    def __init__(self, x: int, y: int, z: int) -> None:
-        super().__init__(x, y, z)
-    
+proc initViewPositionBase*(this: ViewPositionBase, x: int32, y: int32, z: int32) =
+        initGPoint(this, x, y, z)
 
-    def getX2(self) -> int:
-        return self.getX()
-    
+proc newViewPositionBase*(x: int32, y: int32, z: int32): ViewPositionBase =
+    result = ViewPositionBase()
+    initViewPositionBase(result, x, y, z)
 
-    def getY2(self) -> int:
-        return self.getY()
-    
+method getX2*(this: ViewPositionBase): int32 {.base, discardable.} =
+        return this.getX()
 
-    def getZ2(self) -> int:
-        return self.getZ()
-    
+method getY2*(this: ViewPositionBase): int32 {.base, discardable.} =
+        return this.getY()
 
-    def setAllbinaryLayer(self, allbinaryLayer: object) -> None:
-        pass
+method getZ2*(this: ViewPositionBase): int32 {.base, discardable.} =
+        return this.getZ()
 
+method setAllbinaryLayer*(this: ViewPositionBase, allbinaryLayer: JObject) {.base.} =
+        discard
 
-def _ViewPositionBase_NULL_VIEW_POSITION() -> object:
-    return ViewPositionBase(0, 0, 0)
-
-lazy_static(ViewPositionBase, "NULL_VIEW_POSITION", _ViewPositionBase_NULL_VIEW_POSITION)
+when declared(newViewPositionBaseHook3):
+    newViewPositionBaseHook3 = proc (x: int32, y: int32, z: int32): GPoint = newViewPositionBase(x, y, z)
 

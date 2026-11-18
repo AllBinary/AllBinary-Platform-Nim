@@ -1,80 +1,90 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.business.init
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/util/BasicArrayList as BasicArrayListModule
+export BasicArrayListModule
+
+type
+    LicenseInitInfo* = ref object of JObject
+        id*: string
+        serverVector*: BasicArrayList
+
+proc newLicenseInitInfo*(): LicenseInitInfo
+proc initLicenseInitInfo*(this: LicenseInitInfo)
+method getLicenseId*(this: LicenseInitInfo): string {.base, discardable.}
+method getServer*(this: LicenseInitInfo, index: int32): string {.base, discardable.}
+method getNumberOfServers*(this: LicenseInitInfo): int32 {.base, discardable.}
+method setLicenseId*(this: LicenseInitInfo, value: string) {.base.}
+method clearServers*(this: LicenseInitInfo) {.base.}
+method setServer*(this: LicenseInitInfo, value: string, index: int32) {.base.}
+method addServer*(this: LicenseInitInfo, value: string) {.base.}
+method getServerList*(this: LicenseInitInfo): BasicArrayList {.base, discardable.}
+method setServerList*(this: LicenseInitInfo, servers: BasicArrayList) {.base.}
+import org/allbinary/debug/DebugFactory as DebugFactoryModule
+export DebugFactoryModule
+import org/allbinary/debug/NoDebug as NoDebugModule
+export NoDebugModule
+import org/allbinary/logic/string/StringUtil as StringUtilModule
+export StringUtilModule
+import org/allbinary/util/BasicArrayListD as BasicArrayListDModule
+export BasicArrayListDModule
 
 
+# Java field initializers run after the base initializer
+proc initFieldsLicenseInitInfo(this: LicenseInitInfo) =
+    this.id = StringUtil.getInstance().EMPTY_STRING
+    this.serverVector = newBasicArrayListD()
+    discard
 
-class LicenseInitInfo:
+proc initLicenseInitInfo*(this: LicenseInitInfo) =
+        this.initFieldsLicenseInitInfo()
+        discard
 
-    def _init_fields(self) -> None:
-        from org.allbinary.logic.string.StringUtil import StringUtil
-        from org.allbinary.util.BasicArrayList import BasicArrayList
-        from org.allbinary.util.BasicArrayListD import BasicArrayListD
-        self.id: str = StringUtil.getInstance().EMPTY_STRING
-        self.serverVector: BasicArrayList = BasicArrayListD()
-    
+proc newLicenseInitInfo*(): LicenseInitInfo =
+    result = LicenseInitInfo()
+    initLicenseInitInfo(result)
 
-    def __init__(self) -> None:
-        self._init_fields()
-    
+method getLicenseId*(this: LicenseInitInfo): string {.base, discardable.} =
+        return this.id
 
-    def getLicenseId(self) -> str:
-        return self.id
-    
+method getServer*(this: LicenseInitInfo, index: int32): string {.base, discardable.} =
+        return jstr(this.serverVector.objectArray[index])
 
-    def getServer(self, index: int) -> str:
-        return self.serverVector.objectArray[index]
-    
+method getNumberOfServers*(this: LicenseInitInfo): int32 {.base, discardable.} =
+        return this.serverVector.size()
 
-    def getNumberOfServers(self) -> int:
-        return self.serverVector.size()
-    
+method setLicenseId*(this: LicenseInitInfo, value: string) {.base.} =
+        this.id = value
 
-    def setLicenseId(self, value: str) -> None:
-        self.id = value
-    
+method clearServers*(this: LicenseInitInfo) {.base.} =
+        this.serverVector = newBasicArrayListD()
 
-    def clearServers(self) -> None:
-        from org.allbinary.util.BasicArrayListD import BasicArrayListD
-        self.serverVector = BasicArrayListD()
-    
+method setServer*(this: LicenseInitInfo, value: string, index: int32) {.base.} =
+        this.serverVector.addAt(index, value)
 
-    def setServer(self, value: str, index: int) -> None:
-        self.serverVector.addAt(index, value)
-    
+method addServer*(this: LicenseInitInfo, value: string) {.base.} =
+        this.serverVector.add(value)
 
-    def addServer(self, value: str) -> None:
-        self.serverVector.add(value)
-    
+method getServerList*(this: LicenseInitInfo): BasicArrayList {.base, discardable.} =
+        return this.serverVector
 
-    def getServerList(self) -> BasicArrayList:
-        from org.allbinary.util.BasicArrayList import BasicArrayList
-        return self.serverVector
-    
-
-    def setServerList(self, servers: BasicArrayList) -> None:
-        from org.allbinary.debug.DebugFactory import DebugFactory
-        from org.allbinary.debug.NoDebug import NoDebug
-        from org.allbinary.util.BasicArrayList import BasicArrayList
+method setServerList*(this: LicenseInitInfo, servers: BasicArrayList) {.base.} =
         if DebugFactory.getInstance() == NoDebug.getInstance():
-            self.serverVector = servers
-# from org.allbinary.debug.DebugFactory import DebugFactory
-# from org.allbinary.debug.NoDebug import NoDebug
-# from org.allbinary.logic.string.StringUtil import StringUtil
-# from org.allbinary.util.BasicArrayList import BasicArrayList
-# from org.allbinary.util.BasicArrayListD import BasicArrayListD
-
+            this.serverVector = servers
 

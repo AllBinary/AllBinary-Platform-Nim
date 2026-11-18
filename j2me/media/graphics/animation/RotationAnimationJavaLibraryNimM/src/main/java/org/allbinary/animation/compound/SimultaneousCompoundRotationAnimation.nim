@@ -1,158 +1,178 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.animation.compound
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import javax/microedition/khronos/opengles/GL as GLModule
+export GLModule
+import javax/microedition/lcdui/Graphics as GraphicsModule
+export GraphicsModule
+import org/allbinary/animation/AnimationBehavior as AnimationBehaviorModule
+export AnimationBehaviorModule
+import org/allbinary/animation/RotationAnimation as RotationAnimationModule
+export RotationAnimationModule
+import org/allbinary/direction/Direction as DirectionModule
+export DirectionModule
+import org/allbinary/math/Angle as AngleModule
+export AngleModule
+import org/allbinary/math/AngleInfo as AngleInfoModule
+export AngleInfoModule
 
-from org.allbinary.animation.RotationAnimation import RotationAnimation
+type
+    SimultaneousCompoundRotationAnimation* = ref object of RotationAnimation
+        animationInterfaceArray*: JArray[RotationAnimation]
+
+proc newSimultaneousCompoundRotationAnimation*(animationInterfaceArray: JArray[RotationAnimation], animationBehavior: AnimationBehavior): SimultaneousCompoundRotationAnimation
+proc initSimultaneousCompoundRotationAnimation*(this: SimultaneousCompoundRotationAnimation, animationInterfaceArray: JArray[RotationAnimation], animationBehavior: AnimationBehavior)
+method setFrame*(this: SimultaneousCompoundRotationAnimation, frameIndex: int32)
+method getFrame*(this: SimultaneousCompoundRotationAnimation): int32 {.discardable.}
+method getAnimationSize*(this: SimultaneousCompoundRotationAnimation): int32 {.discardable.}
+method getSize*(this: SimultaneousCompoundRotationAnimation): int32 {.discardable.}
+method previousFrame*(this: SimultaneousCompoundRotationAnimation)
+method nextFrame*(this: SimultaneousCompoundRotationAnimation)
+method previousRotation*(this: SimultaneousCompoundRotationAnimation)
+method nextRotation*(this: SimultaneousCompoundRotationAnimation)
+method setSequence*(this: SimultaneousCompoundRotationAnimation, sequence: JArray[int32])
+method getSequence*(this: SimultaneousCompoundRotationAnimation): JArray[int32] {.discardable.}
+method paintXY*(this: SimultaneousCompoundRotationAnimation, graphics: Graphics, x: int32, y: int32)
+method paintThreedXYZ*(this: SimultaneousCompoundRotationAnimation, graphics: Graphics, x: int32, y: int32, z: int32)
+method setFrameByDirection*(this: SimultaneousCompoundRotationAnimation, direction: Direction)
+method setFrameToAngle*(this: SimultaneousCompoundRotationAnimation, angle: Angle)
+method adjustFrameToAngle*(this: SimultaneousCompoundRotationAnimation, newAngle: Angle)
+method adjustFrame*(this: SimultaneousCompoundRotationAnimation, angle: int16)
+method getAngleInfoP*(this: SimultaneousCompoundRotationAnimation): AngleInfo {.discardable.}
+method getAnimationInterfaceArray*(this: SimultaneousCompoundRotationAnimation): JArray[RotationAnimation] {.base, discardable.}
+method setAnimationInterfaceArray*(this: SimultaneousCompoundRotationAnimation, animationInterfaceArray: JArray[RotationAnimation]) {.base.}
+method set*(this: SimultaneousCompoundRotationAnimation, gl: GL)
+import org/allbinary/logic/math/PrimitiveIntUtil as PrimitiveIntUtilModule
+export PrimitiveIntUtilModule
+import org/allbinary/math/AngleFactory as AngleFactoryModule
+export AngleFactoryModule
+import org/allbinary/util/CircularIndexUtil as CircularIndexUtilModule
+export CircularIndexUtilModule
 
 
-class SimultaneousCompoundRotationAnimation(RotationAnimation):
-
-    def _init_fields(self) -> None:
-        self.animationInterfaceArray: list[RotationAnimation] = None
+# Java field initializers run after the base initializer
+proc initFieldsSimultaneousCompoundRotationAnimation(this: SimultaneousCompoundRotationAnimation) =
     
+    discard
 
-    def __init__(self, animationInterfaceArray: list[RotationAnimation], animationBehavior: AnimationBehavior) -> None:
-        from org.allbinary.animation.AnimationBehavior import AnimationBehavior
-        from org.allbinary.math.AngleFactory import AngleFactory
-        from org.allbinary.math.AngleInfo import AngleInfo
-        from org.allbinary.util.CircularIndexUtil import CircularIndexUtil
-        super().__init__(AngleInfo.getInstance(AngleFactory.getInstance().QUARTER_TOTAL_ANGLE), CircularIndexUtil.createInstance(4), animationBehavior)
-        self._init_fields()
-        self.animationInterfaceArray = animationInterfaceArray
-    
+proc initSimultaneousCompoundRotationAnimation*(this: SimultaneousCompoundRotationAnimation, animationInterfaceArray: JArray[RotationAnimation], animationBehavior: AnimationBehavior) =
+        initRotationAnimation(this, AngleInfo.getInstance(AngleFactory.getInstance().QUARTER_TOTAL_ANGLE), CircularIndexUtil.createInstance(4), animationBehavior)
+        this.initFieldsSimultaneousCompoundRotationAnimation()
+        this.animationInterfaceArray = animationInterfaceArray
 
-    def setFrame(self, frameIndex: int) -> None:
-        index = len(self.animationInterfaceArray)
-        while (index := index - 1) >= 0:
-            self.animationInterfaceArray[index].setFrame(frameIndex)
-    
+proc newSimultaneousCompoundRotationAnimation*(animationInterfaceArray: JArray[RotationAnimation], animationBehavior: AnimationBehavior): SimultaneousCompoundRotationAnimation =
+    result = SimultaneousCompoundRotationAnimation()
+    initSimultaneousCompoundRotationAnimation(result, animationInterfaceArray, animationBehavior)
 
-    def getFrame(self) -> int:
-        return self.animationInterfaceArray[0].getFrame()
-    
+method setFrame*(this: SimultaneousCompoundRotationAnimation, frameIndex: int32) =
+        block:
+            var index: int32 = this.animationInterfaceArray.length
+            while jPreDecrement(index) >= 0:
+                this.animationInterfaceArray[index].setFrame(frameIndex)
 
-    # throws Exception
-    def getAnimationSize(self) -> int:
-        return self.animationInterfaceArray[0].getAnimationSize()
-    
+method getFrame*(this: SimultaneousCompoundRotationAnimation): int32 {.discardable.} =
+        return this.animationInterfaceArray[0].getFrame()
 
-    def getSize(self) -> int:
-        return self.animationInterfaceArray[0].getSize()
-    
+method getAnimationSize*(this: SimultaneousCompoundRotationAnimation): int32 {.discardable.} =
+        return this.animationInterfaceArray[0].getAnimationSize()
 
-    def previousFrame(self) -> None:
-        index = len(self.animationInterfaceArray)
-        while (index := index - 1) >= 0:
-            self.animationInterfaceArray[index].previousFrame()
-    
+method getSize*(this: SimultaneousCompoundRotationAnimation): int32 {.discardable.} =
+        return this.animationInterfaceArray[0].getSize()
 
-    # throws Exception
-    def nextFrame(self) -> None:
-        index = len(self.animationInterfaceArray)
-        while (index := index - 1) >= 0:
-            self.animationInterfaceArray[index].nextFrame()
-    
+method previousFrame*(this: SimultaneousCompoundRotationAnimation) =
+        block:
+            var index: int32 = this.animationInterfaceArray.length
+            while jPreDecrement(index) >= 0:
+                this.animationInterfaceArray[index].previousFrame()
 
-    def previousRotation(self) -> None:
-        index = len(self.animationInterfaceArray)
-        while (index := index - 1) >= 0:
-            self.animationInterfaceArray[index].previousRotation()
-    
+method nextFrame*(this: SimultaneousCompoundRotationAnimation) =
+        block:
+            var index: int32 = this.animationInterfaceArray.length
+            while jPreDecrement(index) >= 0:
+                this.animationInterfaceArray[index].nextFrame()
 
-    def nextRotation(self) -> None:
-        index = len(self.animationInterfaceArray)
-        while (index := index - 1) >= 0:
-            self.animationInterfaceArray[index].nextRotation()
-    
+method previousRotation*(this: SimultaneousCompoundRotationAnimation) =
+        block:
+            var index: int32 = this.animationInterfaceArray.length
+            while jPreDecrement(index) >= 0:
+                this.animationInterfaceArray[index].previousRotation()
 
-    def setSequence(self, sequence: list[int]) -> None:
-        pass
-    
+method nextRotation*(this: SimultaneousCompoundRotationAnimation) =
+        block:
+            var index: int32 = this.animationInterfaceArray.length
+            while jPreDecrement(index) >= 0:
+                this.animationInterfaceArray[index].nextRotation()
 
-    def getSequence(self) -> list[int]:
-        from org.allbinary.logic.math.PrimitiveIntUtil import PrimitiveIntUtil
+method setSequence*(this: SimultaneousCompoundRotationAnimation, sequence: JArray[int32]) =
+        discard
+
+method getSequence*(this: SimultaneousCompoundRotationAnimation): JArray[int32] {.discardable.} =
         return PrimitiveIntUtil.getArrayInstance()
-    
 
-    def paintXY(self, graphics: Graphics, x: int, y: int) -> None:
-        from javax.microedition.lcdui.Graphics import Graphics
-        index = len(self.animationInterfaceArray)
-        while (index := index - 1) >= 0:
-            self.animationInterfaceArray[index].paintXY(graphics, x, y)
-    
+method paintXY*(this: SimultaneousCompoundRotationAnimation, graphics: Graphics, x: int32, y: int32) =
+        block:
+            var index: int32 = this.animationInterfaceArray.length
+            while jPreDecrement(index) >= 0:
+                this.animationInterfaceArray[index].paintXY(graphics, x, y)
 
-    def paintThreedXYZ(self, graphics: Graphics, x: int, y: int, z: int) -> None:
-        from javax.microedition.lcdui.Graphics import Graphics
-        index = len(self.animationInterfaceArray)
-        while (index := index - 1) >= 0:
-            self.animationInterfaceArray[index].paintThreedXYZ(graphics, x, y, z)
-    
+method paintThreedXYZ*(this: SimultaneousCompoundRotationAnimation, graphics: Graphics, x: int32, y: int32, z: int32) =
+        block:
+            var index: int32 = this.animationInterfaceArray.length
+            while jPreDecrement(index) >= 0:
+                this.animationInterfaceArray[index].paintThreedXYZ(graphics, x, y, z)
 
-    def setFrameByDirection(self, direction: Direction) -> None:
-        from org.allbinary.direction.Direction import Direction
-        index = len(self.animationInterfaceArray)
-        while (index := index - 1) >= 0:
-            self.animationInterfaceArray[index].setFrameByDirection(direction)
-    
+method setFrameByDirection*(this: SimultaneousCompoundRotationAnimation, direction: Direction) =
+        block:
+            var index: int32 = this.animationInterfaceArray.length
+            while jPreDecrement(index) >= 0:
+                this.animationInterfaceArray[index].setFrameByDirection(direction)
 
-    def setFrameToAngle(self, angle: Angle) -> None:
-        from org.allbinary.math.Angle import Angle
-        index = len(self.animationInterfaceArray)
-        while (index := index - 1) >= 0:
-            self.animationInterfaceArray[index].setFrameToAngle(angle)
-    
+method setFrameToAngle*(this: SimultaneousCompoundRotationAnimation, angle: Angle) =
+        block:
+            var index: int32 = this.animationInterfaceArray.length
+            while jPreDecrement(index) >= 0:
+                this.animationInterfaceArray[index].setFrameToAngle(angle)
 
-    def adjustFrameToAngle(self, newAngle: Angle) -> None:
-        from org.allbinary.math.Angle import Angle
-        self.adjustFrame(newAngle.getValue())
-    
+method adjustFrameToAngle*(this: SimultaneousCompoundRotationAnimation, newAngle: Angle) =
+        this.adjustFrame(newAngle.getValue())
 
-    def adjustFrame(self, angle: int) -> None:
-        index = len(self.animationInterfaceArray)
-        while (index := index - 1) >= 0:
-            self.animationInterfaceArray[index].adjustFrame(angle)
-    
+method adjustFrame*(this: SimultaneousCompoundRotationAnimation, angle: int16) =
+        block:
+            var index: int32 = this.animationInterfaceArray.length
+            while jPreDecrement(index) >= 0:
+                this.animationInterfaceArray[index].adjustFrame(angle)
 
-    def getAngleInfoP(self) -> AngleInfo:
-        from org.allbinary.math.AngleInfo import AngleInfo
-        return self.animationInterfaceArray[0].getAngleInfoP()
-    
+method getAngleInfoP*(this: SimultaneousCompoundRotationAnimation): AngleInfo {.discardable.} =
+        return this.animationInterfaceArray[0].getAngleInfoP()
 
-    def getAnimationInterfaceArray(self) -> list[RotationAnimation]:
-        return self.animationInterfaceArray
-    
+method getAnimationInterfaceArray*(this: SimultaneousCompoundRotationAnimation): JArray[RotationAnimation] {.base, discardable.} =
+        return this.animationInterfaceArray
 
-    def setAnimationInterfaceArray(self, animationInterfaceArray: list[RotationAnimation]) -> None:
-        self.animationInterfaceArray = animationInterfaceArray
-    
+method setAnimationInterfaceArray*(this: SimultaneousCompoundRotationAnimation, animationInterfaceArray: JArray[RotationAnimation]) {.base.} =
+        this.animationInterfaceArray = animationInterfaceArray
 
-    # throws Exception
-    def set(self, gl: GL) -> None:
-        from javax.microedition.khronos.opengles.GL import GL
-        index = len(self.animationInterfaceArray)
-        while (index := index - 1) >= 0:
-            self.animationInterfaceArray[index].set(gl)
-# from javax.microedition.khronos.opengles.GL import GL
-# from javax.microedition.lcdui.Graphics import Graphics
-# from org.allbinary.animation.AnimationBehavior import AnimationBehavior
-# from org.allbinary.direction.Direction import Direction
-# from org.allbinary.logic.math.PrimitiveIntUtil import PrimitiveIntUtil
-# from org.allbinary.math.Angle import Angle
-# from org.allbinary.math.AngleFactory import AngleFactory
-# from org.allbinary.math.AngleInfo import AngleInfo
-# from org.allbinary.util.CircularIndexUtil import CircularIndexUtil
+method set*(this: SimultaneousCompoundRotationAnimation, gl: GL) =
+        block:
+            var index: int32 = this.animationInterfaceArray.length
+            while jPreDecrement(index) >= 0:
+                this.animationInterfaceArray[index].set(gl)
 
+when declared(newSimultaneousCompoundRotationAnimationHook2):
+    newSimultaneousCompoundRotationAnimationHook2 = proc (animationInterfaceArray: JArray[RotationAnimation], animationBehavior: AnimationBehavior): RotationAnimation = newSimultaneousCompoundRotationAnimation(animationInterfaceArray, animationBehavior)
 

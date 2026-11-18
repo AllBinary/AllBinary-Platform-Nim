@@ -1,42 +1,57 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.paint
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import javax/microedition/lcdui/Graphics as GraphicsModule
+export GraphicsModule
+import org/allbinary/graphics/color/BasicColor as BasicColorModule
+export BasicColorModule
+import org/allbinary/graphics/displayable/DisplayInfoSingleton as DisplayInfoSingletonModule
+export DisplayInfoSingletonModule
+import org/allbinary/game/paint/ColorFillBasePaintable as ColorFillBasePaintableModule
+export ColorFillBasePaintableModule
 
-from org.allbinary.game.paint.ColorFillBasePaintable import ColorFillBasePaintable
+type
+    ColorFillPaintable* = ref object of ColorFillBasePaintable
+        displayInfoSingleton*: DisplayInfoSingleton
+
+proc newColorFillPaintable*(basicColor: BasicColor): ColorFillPaintable
+proc initColorFillPaintable*(this: ColorFillPaintable, basicColor: BasicColor)
+method paint*(this: ColorFillPaintable, graphics: Graphics)
 
 
-class ColorFillPaintable(ColorFillBasePaintable):
+# Java field initializers run after the base initializer
+proc initFieldsColorFillPaintable(this: ColorFillPaintable) =
+    this.displayInfoSingleton = DisplayInfoSingleton.getInstance()
+    discard
 
-    def _init_fields(self) -> None:
-        from org.allbinary.graphics.displayable.DisplayInfoSingleton import DisplayInfoSingleton
-        self.displayInfoSingleton: DisplayInfoSingleton = DisplayInfoSingleton.getInstance()
-    
+proc initColorFillPaintable*(this: ColorFillPaintable, basicColor: BasicColor) =
+        initColorFillBasePaintable(this, basicColor)
+        this.initFieldsColorFillPaintable()
 
-    def __init__(self, basicColor: BasicColor) -> None:
-        from org.allbinary.graphics.color.BasicColor import BasicColor
-        super().__init__(basicColor)
-        self._init_fields()
-    
+proc newColorFillPaintable*(basicColor: BasicColor): ColorFillPaintable =
+    result = ColorFillPaintable()
+    initColorFillPaintable(result, basicColor)
 
-    def paint(self, graphics: Graphics) -> None:
-        from javax.microedition.lcdui.Graphics import Graphics
-        graphics.setColor(self.colorP)
-        graphics.fillRect(0, 0, self.displayInfoSingleton.getLastWidth(), self.displayInfoSingleton.getLastHeight())
-# from javax.microedition.lcdui.Graphics import Graphics
-# from org.allbinary.graphics.color.BasicColor import BasicColor
-# from org.allbinary.graphics.displayable.DisplayInfoSingleton import DisplayInfoSingleton
+method paint*(this: ColorFillPaintable, graphics: Graphics) =
+        graphics.setColor(this.colorP)
+        graphics.fillRect(0, 0, this.displayInfoSingleton.getLastWidth(), this.displayInfoSingleton.getLastHeight())
 
+when declared(newColorFillPaintableHook1):
+    newColorFillPaintableHook1 = proc (basicColor: BasicColor): ColorFillBasePaintable = newColorFillPaintable(basicColor)
 

@@ -1,45 +1,63 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.midlet
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/game/midlet/DemoGameMidletState as DemoGameMidletStateModule
+export DemoGameMidletStateModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    DemoGameMidletStateFactory* = ref object of JObject
+        NONE*: DemoGameMidletState
+        START_DEMO*: DemoGameMidletState
+        START_GAME*: DemoGameMidletState
+        START_INPUT_MAPPING*: DemoGameMidletState
 
+proc newDemoGameMidletStateFactory*(): DemoGameMidletStateFactory
+proc initDemoGameMidletStateFactory*(this: DemoGameMidletStateFactory)
+proc getInstance*(t: typedesc[DemoGameMidletStateFactory]): DemoGameMidletStateFactory {.discardable.}
 
-class DemoGameMidletStateFactory:
-    STATE: DemoGameMidletStateFactory = None
+var DemoGameMidletStateFactory_STATEValue: DemoGameMidletStateFactory
+var DemoGameMidletStateFactory_STATESet = false
+proc STATE*(t: typedesc[DemoGameMidletStateFactory]): DemoGameMidletStateFactory =
+    if not DemoGameMidletStateFactory_STATESet:
+        DemoGameMidletStateFactory_STATESet = true
+        DemoGameMidletStateFactory_STATEValue = newDemoGameMidletStateFactory()
+    DemoGameMidletStateFactory_STATEValue
+proc `STATE=`*(t: typedesc[DemoGameMidletStateFactory], value: DemoGameMidletStateFactory) =
+    DemoGameMidletStateFactory_STATESet = true
+    DemoGameMidletStateFactory_STATEValue = value
 
-    def _init_fields(self) -> None:
-        self.NONE: DemoGameMidletState = DemoGameMidletState()
-        self.START_DEMO: DemoGameMidletState = DemoGameMidletState()
-        self.START_GAME: DemoGameMidletState = DemoGameMidletState()
-        self.START_INPUT_MAPPING: DemoGameMidletState = DemoGameMidletState()
-    
+# Java field initializers run after the base initializer
+proc initFieldsDemoGameMidletStateFactory(this: DemoGameMidletStateFactory) =
+    this.NONE = newDemoGameMidletState()
+    this.START_DEMO = newDemoGameMidletState()
+    this.START_GAME = newDemoGameMidletState()
+    this.START_INPUT_MAPPING = newDemoGameMidletState()
+    discard
 
-    def __init__(self) -> None:
-        self._init_fields()
-    
+proc initDemoGameMidletStateFactory*(this: DemoGameMidletStateFactory) =
+        this.initFieldsDemoGameMidletStateFactory()
+        discard
 
-    @staticmethod
-    def getInstance() -> DemoGameMidletStateFactory:
+proc newDemoGameMidletStateFactory*(): DemoGameMidletStateFactory =
+    result = DemoGameMidletStateFactory()
+    initDemoGameMidletStateFactory(result)
+
+proc getInstance*(t: typedesc[DemoGameMidletStateFactory]): DemoGameMidletStateFactory {.discardable.} =
         return DemoGameMidletStateFactory.STATE
-from org.allbinary.game.midlet.DemoGameMidletState import DemoGameMidletState
-
-
-def _DemoGameMidletStateFactory_STATE() -> object:
-    return DemoGameMidletStateFactory()
-
-lazy_static(DemoGameMidletStateFactory, "STATE", _DemoGameMidletStateFactory_STATE)
 

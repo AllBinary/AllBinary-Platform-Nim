@@ -1,49 +1,58 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.logic.system.security.licensing
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/util/BasicArrayList as BasicArrayListModule
+export BasicArrayListModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    LockableFeatureFactory* = ref object of JObject
+        list*: BasicArrayList
 
+proc newLockableFeatureFactory*(): LockableFeatureFactory
+proc getInstance*(t: typedesc[LockableFeatureFactory]): LockableFeatureFactory {.discardable.}
+method getList*(this: LockableFeatureFactory): BasicArrayList {.base, discardable.}
+import org/allbinary/util/BasicArrayListD as BasicArrayListDModule
+export BasicArrayListDModule
 
-class LockableFeatureFactory:
-    instance: LockableFeatureFactory = None
+var LockableFeatureFactory_instanceValue: LockableFeatureFactory
+var LockableFeatureFactory_instanceSet = false
+proc instance*(t: typedesc[LockableFeatureFactory]): LockableFeatureFactory =
+    if not LockableFeatureFactory_instanceSet:
+        LockableFeatureFactory_instanceSet = true
+        LockableFeatureFactory_instanceValue = newLockableFeatureFactory()
+    LockableFeatureFactory_instanceValue
 
-    def _init_fields(self) -> None:
-        from org.allbinary.util.BasicArrayList import BasicArrayList
-        from org.allbinary.util.BasicArrayListD import BasicArrayListD
-        self.list_: BasicArrayList = BasicArrayListD()
+# Java field initializers run after the base initializer
+proc initFieldsLockableFeatureFactory(this: LockableFeatureFactory) =
+    this.list = newBasicArrayListD()
+    discard
 
-    def __init__(self) -> None:
-        self._init_fields()
-    
+proc initLockableFeatureFactory*(this: LockableFeatureFactory) =
+    this.initFieldsLockableFeatureFactory()
 
-    @staticmethod
-    def getInstance() -> LockableFeatureFactory:
+proc newLockableFeatureFactory*(): LockableFeatureFactory =
+    result = LockableFeatureFactory()
+    initLockableFeatureFactory(result)
+
+proc getInstance*(t: typedesc[LockableFeatureFactory]): LockableFeatureFactory {.discardable.} =
         return LockableFeatureFactory.instance
-    
 
-    def getList(self) -> BasicArrayList:
-        from org.allbinary.util.BasicArrayList import BasicArrayList
-        return self.list_
-# from org.allbinary.util.BasicArrayList import BasicArrayList
-# from org.allbinary.util.BasicArrayListD import BasicArrayListD
-
-
-def _LockableFeatureFactory_instance() -> object:
-    return LockableFeatureFactory()
-
-lazy_static(LockableFeatureFactory, "instance", _LockableFeatureFactory_instance)
+method getList*(this: LockableFeatureFactory): BasicArrayList {.base, discardable.} =
+        return this.list
 

@@ -1,46 +1,59 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.input
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/layer/AllBinaryLayer as AllBinaryLayerModule
+export AllBinaryLayerModule
+import org/allbinary/layer/AllBinaryLayerManager as AllBinaryLayerManagerModule
+export AllBinaryLayerManagerModule
+import org/allbinary/layer/LayerProcessor as LayerProcessorModule
+export LayerProcessorModule
 
-from org.allbinary.layer.LayerProcessor import LayerProcessor
+type
+    GameInputLayerProcessor* = ref object of LayerProcessor
+
+proc newGameInputLayerProcessor*(): GameInputLayerProcessor
+proc initGameInputLayerProcessor*(this: GameInputLayerProcessor)
+method processAt*(this: GameInputLayerProcessor, allBinaryLayerManager: AllBinaryLayerManager, layerInterface: AllBinaryLayer, index: int32)
+method isProcessorLayer*(this: GameInputLayerProcessor, layerInterface: AllBinaryLayer): bool {.discardable.}
+import org/allbinary/game/input/GameInputLayerManager as GameInputLayerManagerModule
+export GameInputLayerManagerModule
+import org/allbinary/game/input/GameInputInterface as GameInputInterfaceModule
+export GameInputInterfaceModule
 
 
-class GameInputLayerProcessor(LayerProcessor):
-    
+proc initGameInputLayerProcessor*(this: GameInputLayerProcessor) =
+        initLayerProcessor(this, newGameInputLayerManager())
 
-    def __init__(self) -> None:
-        from org.allbinary.game.input.GameInputLayerManager import GameInputLayerManager
-        super().__init__(GameInputLayerManager())
-    
+proc newGameInputLayerProcessor*(): GameInputLayerProcessor =
+    result = GameInputLayerProcessor()
+    initGameInputLayerProcessor(result)
 
-    # throws Exception
-    def processAt(self, allBinaryLayerManager: AllBinaryLayerManager, layerInterface: AllBinaryLayer, index: int) -> None:
-        from org.allbinary.layer.AllBinaryLayer import AllBinaryLayer
-        from org.allbinary.layer.AllBinaryLayerManager import AllBinaryLayerManager
-        gameInputInterface: GameInputInterface = layerInterface
+method processAt*(this: GameInputLayerProcessor, allBinaryLayerManager: AllBinaryLayerManager, layerInterface: AllBinaryLayer, index: int32) =
+        let gameInputInterface: GameInputInterface = GameInputInterface(JObject(layerInterface))
         gameInputInterface.processInput(allBinaryLayerManager)
-    
 
-    def isProcessorLayer(self, layerInterface: AllBinaryLayer) -> bool:
-        from org.allbinary.layer.AllBinaryLayer import AllBinaryLayer
+method isProcessorLayer*(this: GameInputLayerProcessor, layerInterface: AllBinaryLayer): bool {.discardable.} =
         if layerInterface.implmentsGameInputInterface():
-            return True
+            return true
         else:
-            return False
-# from org.allbinary.layer.AllBinaryLayer import AllBinaryLayer
-# from org.allbinary.layer.AllBinaryLayerManager import AllBinaryLayerManager
+            return false
 
+when declared(newGameInputLayerProcessorHook0):
+    newGameInputLayerProcessorHook0 = proc (): LayerProcessor = newGameInputLayerProcessor()
 

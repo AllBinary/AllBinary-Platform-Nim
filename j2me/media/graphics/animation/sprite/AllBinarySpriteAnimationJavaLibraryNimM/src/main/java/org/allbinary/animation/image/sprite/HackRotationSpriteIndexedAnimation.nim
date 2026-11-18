@@ -1,99 +1,110 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.animation.image.sprite
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import javax/microedition/lcdui/Graphics as GraphicsModule
+export GraphicsModule
+import javax/microedition/lcdui/Image as ImageModule
+export ImageModule
+import javax/microedition/lcdui/game/Sprite as SpriteModule
+export SpriteModule
+import org/allbinary/animation/AnimationBehavior as AnimationBehaviorModule
+export AnimationBehaviorModule
+import org/allbinary/animation/RotationAnimation as RotationAnimationModule
+export RotationAnimationModule
+import org/allbinary/math/AngleInfo as AngleInfoModule
+export AngleInfoModule
 
-from org.allbinary.animation.RotationAnimation import RotationAnimation
+type
+    HackRotationSpriteIndexedAnimation* = ref object of RotationAnimation
+        sprite*: Sprite
+        image*: Image
+
+proc newHackRotationSpriteIndexedAnimation*(sprite: Sprite, image: Image, angleInfo: AngleInfo, animationBehavior: AnimationBehavior): HackRotationSpriteIndexedAnimation
+proc initHackRotationSpriteIndexedAnimation*(this: HackRotationSpriteIndexedAnimation, sprite: Sprite, image: Image, angleInfo: AngleInfo, animationBehavior: AnimationBehavior)
+method getAnimationSize*(this: HackRotationSpriteIndexedAnimation): int32 {.discardable.}
+method paintFrame*(this: HackRotationSpriteIndexedAnimation, g: Graphics, frame: int32, x: int32, y: int32) {.base.}
+method paintXY*(this: HackRotationSpriteIndexedAnimation, g: Graphics, x: int32, y: int32)
+method paint*(this: HackRotationSpriteIndexedAnimation, g: Graphics) {.base.}
+method nextRotation*(this: HackRotationSpriteIndexedAnimation)
+method previousRotation*(this: HackRotationSpriteIndexedAnimation)
+method getSize*(this: HackRotationSpriteIndexedAnimation): int32 {.discardable.}
+method setFrame*(this: HackRotationSpriteIndexedAnimation, frame: int32)
+method getFrame*(this: HackRotationSpriteIndexedAnimation): int32 {.discardable.}
+method setSequence*(this: HackRotationSpriteIndexedAnimation, sequence: JArray[int32])
+method getSequence*(this: HackRotationSpriteIndexedAnimation): JArray[int32] {.discardable.}
+import org/allbinary/logic/math/PrimitiveIntUtil as PrimitiveIntUtilModule
+export PrimitiveIntUtilModule
+import org/allbinary/util/CircularIndexUtil as CircularIndexUtilModule
+export CircularIndexUtilModule
 
 
-class HackRotationSpriteIndexedAnimation(RotationAnimation):
-
-    def _init_fields(self) -> None:
-        from javax.microedition.lcdui.Image import Image
-        from javax.microedition.lcdui.game.Sprite import Sprite
-        self.sprite: Sprite = None
-        self.image: Image = None
+# Java field initializers run after the base initializer
+proc initFieldsHackRotationSpriteIndexedAnimation(this: HackRotationSpriteIndexedAnimation) =
     
-
-    def __init__(self, sprite: Sprite, image: Image, angleInfo: AngleInfo, animationBehavior: AnimationBehavior) -> None:
-        from javax.microedition.lcdui.Image import Image
-        from javax.microedition.lcdui.game.Sprite import Sprite
-        from org.allbinary.animation.AnimationBehavior import AnimationBehavior
-        from org.allbinary.math.AngleInfo import AngleInfo
-        from org.allbinary.util.CircularIndexUtil import CircularIndexUtil
-        super().__init__(angleInfo, CircularIndexUtil.createInstance(360 / angleInfo.getAngleIncrementInfo().getAngleIncrement()), animationBehavior)
-        self._init_fields()
-        self.sprite = sprite
-        self.image = image
     
+    discard
 
-    # throws Exception
-    def getAnimationSize(self) -> int:
-        return self.getSize()
-    
+proc initHackRotationSpriteIndexedAnimation*(this: HackRotationSpriteIndexedAnimation, sprite: Sprite, image: Image, angleInfo: AngleInfo, animationBehavior: AnimationBehavior) =
+        initRotationAnimation(this, angleInfo, CircularIndexUtil.createInstance(360 div int32(angleInfo.getAngleIncrementInfo().getAngleIncrement())), animationBehavior)
+        this.initFieldsHackRotationSpriteIndexedAnimation()
+        this.sprite = sprite
+        this.image = image
 
-    def paintFrame(self, g: Graphics, frame: int, x: int, y: int) -> None:
-        from javax.microedition.lcdui.Graphics import Graphics
-        self.setFrame(frame)
-        self.paintXY(g, x, y)
-    
+proc newHackRotationSpriteIndexedAnimation*(sprite: Sprite, image: Image, angleInfo: AngleInfo, animationBehavior: AnimationBehavior): HackRotationSpriteIndexedAnimation =
+    result = HackRotationSpriteIndexedAnimation()
+    initHackRotationSpriteIndexedAnimation(result, sprite, image, angleInfo, animationBehavior)
 
-    def paintXY(self, g: Graphics, x: int, y: int) -> None:
-        from javax.microedition.lcdui.Graphics import Graphics
-        self.sprite.setPosition(x, y)
-        self.paint(g)
-    
+method getAnimationSize*(this: HackRotationSpriteIndexedAnimation): int32 {.discardable.} =
+        return this.getSize()
 
-    def paint(self, g: Graphics) -> None:
-        from javax.microedition.lcdui.Graphics import Graphics
-        self.sprite.paint(g)
-    
+method paintFrame*(this: HackRotationSpriteIndexedAnimation, g: Graphics, frame: int32, x: int32, y: int32) {.base.} =
+        this.setFrame(frame)
+        this.paintXY(g, x, y)
 
-    def nextRotation(self) -> None:
-        self.sprite.nextFrame()
-    
+method paintXY*(this: HackRotationSpriteIndexedAnimation, g: Graphics, x: int32, y: int32) =
+        this.sprite.setPosition(x, y)
+        this.paint(g)
 
-    def previousRotation(self) -> None:
-        self.sprite.prevFrame()
-    
+method paint*(this: HackRotationSpriteIndexedAnimation, g: Graphics) {.base.} =
+        this.sprite.paint(g)
 
-    def getSize(self) -> int:
-        return self.sprite.getRawFrameCount()
-    
+method nextRotation*(this: HackRotationSpriteIndexedAnimation) =
+        this.sprite.nextFrame()
 
-    def setFrame(self, frame: int) -> None:
-        self.sprite.setFrame(frame)
-    
+method previousRotation*(this: HackRotationSpriteIndexedAnimation) =
+        this.sprite.prevFrame()
 
-    def getFrame(self) -> int:
-        return self.sprite.getFrame()
-    
+method getSize*(this: HackRotationSpriteIndexedAnimation): int32 {.discardable.} =
+        return this.sprite.getRawFrameCount()
 
-    def setSequence(self, sequence: list[int]) -> None:
-        pass
-    
+method setFrame*(this: HackRotationSpriteIndexedAnimation, frame: int32) =
+        this.sprite.setFrame(frame)
 
-    def getSequence(self) -> list[int]:
-        from org.allbinary.logic.math.PrimitiveIntUtil import PrimitiveIntUtil
+method getFrame*(this: HackRotationSpriteIndexedAnimation): int32 {.discardable.} =
+        return this.sprite.getFrame()
+
+method setSequence*(this: HackRotationSpriteIndexedAnimation, sequence: JArray[int32]) =
+        discard
+
+method getSequence*(this: HackRotationSpriteIndexedAnimation): JArray[int32] {.discardable.} =
         return PrimitiveIntUtil.getArrayInstance()
-# from javax.microedition.lcdui.Graphics import Graphics
-# from javax.microedition.lcdui.Image import Image
-# from javax.microedition.lcdui.game.Sprite import Sprite
-# from org.allbinary.animation.AnimationBehavior import AnimationBehavior
-# from org.allbinary.logic.math.PrimitiveIntUtil import PrimitiveIntUtil
-# from org.allbinary.math.AngleInfo import AngleInfo
-# from org.allbinary.util.CircularIndexUtil import CircularIndexUtil
 
+when declared(newHackRotationSpriteIndexedAnimationHook4):
+    newHackRotationSpriteIndexedAnimationHook4 = proc (sprite: Sprite, image: Image, angleInfo: AngleInfo, animationBehavior: AnimationBehavior): RotationAnimation = newHackRotationSpriteIndexedAnimation(sprite, image, angleInfo, animationBehavior)
 

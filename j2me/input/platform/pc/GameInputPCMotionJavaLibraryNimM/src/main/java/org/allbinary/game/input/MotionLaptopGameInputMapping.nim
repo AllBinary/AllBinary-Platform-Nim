@@ -1,33 +1,46 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.input
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/game/input/mapping/InputToGameKeyMapping as InputToGameKeyMappingModule
+export InputToGameKeyMappingModule
+import org/allbinary/game/input/PCGameInputMapping as PCGameInputMappingModule
+export PCGameInputMappingModule
 
-from org.allbinary.game.input.PCGameInputMapping import PCGameInputMapping
+type
+    MotionLaptopGameInputMapping* = ref object of PCGameInputMapping
+
+proc newMotionLaptopGameInputMapping*(): MotionLaptopGameInputMapping
+method getDefault*(this: MotionLaptopGameInputMapping): InputToGameKeyMapping {.discardable.}
+import org/allbinary/game/input/MotionLaptopDefaultGameInputMapping as MotionLaptopDefaultGameInputMappingModule
+export MotionLaptopDefaultGameInputMappingModule
 
 
-class MotionLaptopGameInputMapping(PCGameInputMapping):
+proc initMotionLaptopGameInputMapping*(this: MotionLaptopGameInputMapping) =
+    initPCGameInputMapping(this)
 
-    def __init__(self) -> None:
-        super().__init__()
-    
+proc newMotionLaptopGameInputMapping*(): MotionLaptopGameInputMapping =
+    result = MotionLaptopGameInputMapping()
+    initMotionLaptopGameInputMapping(result)
 
-    def getDefault(self) -> InputToGameKeyMapping:
-        from org.allbinary.game.input.MotionLaptopDefaultGameInputMapping import MotionLaptopDefaultGameInputMapping
-        from org.allbinary.game.input.mapping.InputToGameKeyMapping import InputToGameKeyMapping
-        return MotionLaptopDefaultGameInputMapping().getInputMapping()
-# from org.allbinary.game.input.mapping.InputToGameKeyMapping import InputToGameKeyMapping
+method getDefault*(this: MotionLaptopGameInputMapping): InputToGameKeyMapping {.discardable.} =
+        return newMotionLaptopDefaultGameInputMapping().getInputMapping()
 
+when declared(newMotionLaptopGameInputMappingHook0):
+    newMotionLaptopGameInputMappingHook0 = proc (): PCGameInputMapping = newMotionLaptopGameInputMapping()
 

@@ -1,94 +1,113 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.score.remote
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import java/io/IOException as IOExceptionModule
+export IOExceptionModule
+import org/allbinary/init/crypt/jcehelper/CryptInterface as CryptInterfaceModule
+export CryptInterfaceModule
+import org/allbinary/logic/communication/log/LogUtil as LogUtilModule
+export LogUtilModule
+import org/allbinary/logic/communication/xmlrpc/XmlRpcAbeClient as XmlRpcAbeClientModule
+export XmlRpcAbeClientModule
+import org/allbinary/logic/system/security/licensing/AbeClientInformationInterface as AbeClientInformationInterfaceModule
+export AbeClientInformationInterfaceModule
 
-from org.allbinary.logic.communication.xmlrpc.XmlRpcAbeClient import XmlRpcAbeClient
+type
+    XmlRpcRemoteHighScoresClient* = ref object of XmlRpcAbeClient
+        logUtilOfXmlRpcRemoteHighScoresClient*: LogUtil
+        page*: string
+
+proc newXmlRpcRemoteHighScoresClient*(clientInfo: AbeClientInformationInterface, page: string, remoteMethod: string): XmlRpcRemoteHighScoresClient
+proc initXmlRpcRemoteHighScoresClient*(this: XmlRpcRemoteHighScoresClient, clientInfo: AbeClientInformationInterface, page: string, remoteMethod: string)
+method get*(this: XmlRpcRemoteHighScoresClient, anyType: JObject, cryptInterface: CryptInterface): JObject {.base, discardable.}
+import org/allbinary/logic/string/StringUtil as StringUtilModule
+export StringUtilModule
+import org/allbinary/util/BasicArrayList as BasicArrayListModule
+export BasicArrayListModule
+import org/allbinary/util/BasicArrayListD as BasicArrayListDModule
+export BasicArrayListDModule
+import org/allbinary/logic/java/exception/ExceptionUtil as ExceptionUtilModule
+export ExceptionUtilModule
+import org/allbinary/logic/string/StringMaker as StringMakerModule
+export StringMakerModule
+import org/allbinary/util/ABHashtable as ABHashtableModule
+export ABHashtableModule
+import org/apache/xmlrpc/XmlRpcClient as XmlRpcClientModule
+export XmlRpcClientModule
+import org/apache/xmlrpc/XmlRpcException as XmlRpcExceptionModule
+export XmlRpcExceptionModule
 
 
-class XmlRpcRemoteHighScoresClient(XmlRpcAbeClient):
-
-    def _init_fields(self) -> None:
-        from org.allbinary.logic.communication.log.LogUtil import LogUtil
-        self.logUtil: LogUtil = LogUtil.getInstance()
-        self.page: str = None
+# Java field initializers run after the base initializer
+proc initFieldsXmlRpcRemoteHighScoresClient(this: XmlRpcRemoteHighScoresClient) =
+    this.logUtilOfXmlRpcRemoteHighScoresClient = LogUtil.getInstance()
     
+    discard
 
-    def __init__(self, clientInfo: AbeClientInformationInterface, page: str, remoteMethod: str) -> None:
-        from org.allbinary.logic.system.security.licensing.AbeClientInformationInterface import AbeClientInformationInterface
-        super().__init__(clientInfo, remoteMethod)
-        self._init_fields()
-        self.page = page
-        self.setServer(0)
-    
+proc initXmlRpcRemoteHighScoresClient*(this: XmlRpcRemoteHighScoresClient, clientInfo: AbeClientInformationInterface, page: string, remoteMethod: string) =
+        initXmlRpcAbeClient(this, clientInfo, remoteMethod)
+        this.initFieldsXmlRpcRemoteHighScoresClient()
+        this.page = page
+        this.setServer(0)
 
-    # throws Exception
-    def get(self, anyType: object, cryptInterface: CryptInterface) -> object:
-        from org.allbinary.logic.string.StringUtil import StringUtil
-        from org.allbinary.util.BasicArrayList import BasicArrayList
-        from org.allbinary.util.BasicArrayListD import BasicArrayListD
-        from org.allbinary.init.crypt.jcehelper.CryptInterface import CryptInterface
-        from org.allbinary.logic.java.exception.ExceptionUtil import ExceptionUtil
-        from org.allbinary.logic.string.StringMaker import StringMaker
-        from org.allbinary.util.ABHashtable import ABHashtable
-        from org.apache.xmlrpc.XmlRpcClient import XmlRpcClient
-        from org.apache.xmlrpc.XmlRpcException import XmlRpcException
+proc newXmlRpcRemoteHighScoresClient*(clientInfo: AbeClientInformationInterface, page: string, remoteMethod: string): XmlRpcRemoteHighScoresClient =
+    result = XmlRpcRemoteHighScoresClient()
+    initXmlRpcRemoteHighScoresClient(result, clientInfo, page, remoteMethod)
+
+method get*(this: XmlRpcRemoteHighScoresClient, anyType: JObject, cryptInterface: CryptInterface): JObject {.base, discardable.} =
         try:
-            param: BasicArrayList = BasicArrayListD()
-            serverUrl: str = self.getClientInfo().getLicenseServer(self.getServer())
-            index: int = serverUrl.rfind('/')
-            serverUrl = serverUrl[0:index + 1] + self.page
-            stringBuffer: StringMaker = StringMaker()
-            stringBuffer.append(self.TRYING)
-            stringBuffer.appendint(int(self.getServer()))
+            var param: BasicArrayList = newBasicArrayListD()
+            var serverUrl: string = this.getClientInfo().getLicenseServer(this.getServer())
+            var index: int32 = jLastIndexOf(serverUrl, uint16(ord('/')))
+            serverUrl = jstr(jSubstring(serverUrl, 0, index +% 1)) & jstr(this.page)
+            var stringBuffer: StringMaker = newStringMaker()
+            stringBuffer.append(XmlRpcAbeClient.TRYING)
+            stringBuffer.appendint(this.getServer())
             stringBuffer.append(SEP)
             stringBuffer.append(serverUrl)
-            self.logUtil.putF(str(stringBuffer), self, self.commonStrings.GET)
-            xmlRpcClient: XmlRpcClient = XmlRpcClient(serverUrl)
-            self.setClient(xmlRpcClient)
+            this.logUtilOfXmlRpcRemoteHighScoresClient.putF(stringBuffer.toString(), this, this.commonStrings.GET)
+            let xmlRpcClient: XmlRpcClient = newXmlRpcClient(serverUrl)
+            this.setClient(xmlRpcClient)
             xmlRpcClient.setBasicAuthentication(StringUtil.getInstance().EMPTY_STRING, StringUtil.getInstance().EMPTY_STRING)
-            hashtable: ABHashtable[object, object] = anyType
-            self.logUtil.putF(str(self.CLIENT_INFO) + str(hashtable), self, self.commonStrings.GET)
+            var hashtable: ABHashtable = ABHashtable(JObject(anyType))
+            this.logUtilOfXmlRpcRemoteHighScoresClient.putF(jstr(XmlRpcAbeClient.CLIENT_INFO) & jstr(hashtable.toString()), this, this.commonStrings.GET)
             param.add(hashtable)
-            result: object = xmlRpcClient.executeWithCrypt(self.getRemoteMethod(), param, cryptInterface)
-            self.logUtil.putF(str(self.RESULT) + str(result), self, self.commonStrings.GET)
-            self.isOnline = True
-            return result
-        except OSError as e:
-            self.logUtil.put(self.TRYING_OTHER_SERVERS + ExceptionUtil.getInstance().getStackTrace(e), self, self.commonStrings.GET, e)
-            if not str(e).startsWith(self.HOST_NOT_RESOLVED):
-                return self.tryAnother(anyType)
+            var `result`: JObject = xmlRpcClient.executeWithCrypt(this.getRemoteMethod(), param, cryptInterface)
+            this.logUtilOfXmlRpcRemoteHighScoresClient.putF(jstr(XmlRpcAbeClient.RESULT) & jstr(`result`.toString()), this, this.commonStrings.GET)
+            this.isOnline = true
+            return `result`
+        except CatchableError as jcaught:
+            let e = jToException(jcaught)
+            this.logUtilOfXmlRpcRemoteHighScoresClient.put(jstr(XmlRpcAbeClient.TRYING_OTHER_SERVERS) & jstr(ExceptionUtil.getInstance().getStackTrace(e)), this, this.commonStrings.GET, e)
+            if (not e.getMessage().startsWith(XmlRpcAbeClient.HOST_NOT_RESOLVED)):
+                return this.tryAnother(anyType)
             else:
-                raise Exception(self.HOST_NOT_RESOLVED_MSG)
-        except XmlRpcException as e:
-            self.logUtil.put(self.SERVER_REPORTED_ERROR, self, self.commonStrings.GET, e)
-            return self.tryAnother(anyType)
-        except Exception as e:
-            self.logUtil.put(self.UNKNOWN_ERROR, self, self.commonStrings.GET, e)
-            return self.tryAnother(anyType)
-# from org.allbinary.logic.string.StringUtil import StringUtil
-# from java.io.IOException import IOException
-# from org.allbinary.util.BasicArrayList import BasicArrayList
-# from org.allbinary.util.BasicArrayListD import BasicArrayListD
-# from org.allbinary.init.crypt.jcehelper.CryptInterface import CryptInterface
-# from org.allbinary.logic.communication.log.LogUtil import LogUtil
-# from org.allbinary.logic.java.exception.ExceptionUtil import ExceptionUtil
-# from org.allbinary.logic.string.StringMaker import StringMaker
-# from org.allbinary.logic.system.security.licensing.AbeClientInformationInterface import AbeClientInformationInterface
-# from org.allbinary.util.ABHashtable import ABHashtable
-# from org.apache.xmlrpc.XmlRpcClient import XmlRpcClient
-# from org.apache.xmlrpc.XmlRpcException import XmlRpcException
+                raise newJException("Exception", XmlRpcAbeClient.HOST_NOT_RESOLVED_MSG)
+        except CatchableError as jcaught:
+            let e = jToException(jcaught)
+            this.logUtilOfXmlRpcRemoteHighScoresClient.put(XmlRpcAbeClient.SERVER_REPORTED_ERROR, this, this.commonStrings.GET, e)
+            return this.tryAnother(anyType)
+        except CatchableError as jcaught:
+            let e = jToException(jcaught)
+            this.logUtilOfXmlRpcRemoteHighScoresClient.put(XmlRpcAbeClient.UNKNOWN_ERROR, this, this.commonStrings.GET, e)
+            return this.tryAnother(anyType)
 
+when declared(newXmlRpcRemoteHighScoresClientHook3):
+    newXmlRpcRemoteHighScoresClientHook3 = proc (clientInfo: AbeClientInformationInterface, page: string, remoteMethod: string): XmlRpcAbeClient = newXmlRpcRemoteHighScoresClient(clientInfo, page, remoteMethod)
 

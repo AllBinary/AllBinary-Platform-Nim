@@ -1,38 +1,49 @@
-# 
-# AllBinary Open License Version 1 
-# Copyright (c) 2022 AllBinary 
-#  
-# By agreeing to this license you and any business entity you represent are 
-# legally bound to the AllBinary Open License Version 1 legal agreement. 
-#  
-# You may obtain the AllBinary Open License Version 1 legal agreement from 
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
-#  
-# Created By: Travis Berthelot 
-#   
+#[
+  
+  AllBinary Open License Version 1 
+  Copyright (c) 2022 AllBinary 
+   
+  By agreeing to this license you and any business entity you represent are 
+  legally bound to the AllBinary Open License Version 1 legal agreement. 
+   
+  You may obtain the AllBinary Open License Version 1 legal agreement from 
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
+   
+  Created By: Travis Berthelot 
+    
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.displayable.canvas
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/game/displayable/canvas/GameRunnable as GameRunnableModule
+export GameRunnableModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
-from org.allbinary.game.displayable.canvas.GameRunnable import GameRunnable
+type
+    NullWaitGameRunnable* = ref object of GameRunnable
 
+proc newNullWaitGameRunnable*(): NullWaitGameRunnable
+proc getInstance*(t: typedesc[NullWaitGameRunnable]): GameRunnable {.discardable.}
 
-class NullWaitGameRunnable(GameRunnable):
-    instance: GameRunnable = None
+var NullWaitGameRunnable_instanceValue: GameRunnable
+var NullWaitGameRunnable_instanceSet = false
+proc instance*(t: typedesc[NullWaitGameRunnable]): GameRunnable =
+    if not NullWaitGameRunnable_instanceSet:
+        NullWaitGameRunnable_instanceSet = true
+        NullWaitGameRunnable_instanceValue = newNullWaitGameRunnable()
+    NullWaitGameRunnable_instanceValue
 
-    def __init__(self) -> None:
-        super().__init__()
-    
+proc initNullWaitGameRunnable*(this: NullWaitGameRunnable) =
+    initGameRunnable(this)
 
-    @staticmethod
-    def getInstance() -> GameRunnable:
+proc newNullWaitGameRunnable*(): NullWaitGameRunnable =
+    result = NullWaitGameRunnable()
+    initNullWaitGameRunnable(result)
+
+proc getInstance*(t: typedesc[NullWaitGameRunnable]): GameRunnable {.discardable.} =
         return NullWaitGameRunnable.instance
 
-
-def _NullWaitGameRunnable_instance() -> object:
-    return NullWaitGameRunnable()
-
-lazy_static(NullWaitGameRunnable, "instance", _NullWaitGameRunnable_instance)
+when declared(newNullWaitGameRunnableHook0):
+    newNullWaitGameRunnableHook0 = proc (): GameRunnable = newNullWaitGameRunnable()
 

@@ -1,29 +1,31 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.animation
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/graphics/color/ColorCompositeInterface as ColorCompositeInterfaceModule
+export ColorCompositeInterfaceModule
+import org/allbinary/animation/IndexedAnimationInterface as IndexedAnimationInterfaceModule
+export IndexedAnimationInterfaceModule
 
-from org.allbinary.graphics.color.ColorCompositeInterface import ColorCompositeInterface
-from org.allbinary.animation.IndexedAnimationInterface import IndexedAnimationInterface
+type
+    VectorAnimationInterface* = ref object of IndexedAnimationInterface
 
 
-# Java interface
-class VectorAnimationInterface(IndexedAnimationInterface, ColorCompositeInterface):
-    
-
-    def getPoints(self, frame: int) -> list[list[int]]:
-        raise NotImplementedError()
-
+method getPoints*(this: VectorAnimationInterface, frame: int32): JArray[JArray[int32]] {.base, discardable.} =
+        raise newJException("AbstractMethodError", "getPoints")
 

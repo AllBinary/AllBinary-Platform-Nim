@@ -105,7 +105,7 @@ method log*(this: BasicArrayListUtil, list: BasicArrayList): string {.base, disc
             var index: int32 = size -% 1
             while index >= 0:
                 defer: index = index -% 1
-                var usedList: BasicArrayList = BasicArrayList(list.objectArray[index])
+                var usedList: BasicArrayList = BasicArrayList(JObject(list.objectArray[index]))
                 stringBuffer.append(S_LABEL)
                 stringBuffer.appendint(usedList.size())
         return stringBuffer.toString()

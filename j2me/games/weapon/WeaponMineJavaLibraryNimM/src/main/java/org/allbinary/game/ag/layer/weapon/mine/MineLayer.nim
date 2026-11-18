@@ -1,74 +1,96 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.ag.layer.weapon.mine
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/game/layer/weapon/SimpleWeaponLayer as SimpleWeaponLayerModule
+export SimpleWeaponLayerModule
+import org/allbinary/view/ViewPositionBase as ViewPositionBaseModule
+export ViewPositionBaseModule
+import org/allbinary/view/event/ViewPositionEventHandler as ViewPositionEventHandlerModule
+export ViewPositionEventHandlerModule
 
-from org.allbinary.game.layer.weapon.SimpleWeaponLayer import SimpleWeaponLayer
+type
+    MineLayer* = ref object of SimpleWeaponLayer
+        viewPositionEventHandler*: ViewPositionEventHandler
 
+proc newMineLayer*(viewPosition: ViewPositionBase): MineLayer
+proc initMineLayer*(this: MineLayer, viewPosition: ViewPositionBase)
+method initXYZ*(this: MineLayer, x: int32, y: int32, z: int32)
+method damage*(this: MineLayer, damage: int32, damageType: int32)
+method getDamage*(this: MineLayer, damageType: int32): int32 {.discardable.}
+method setDestroyed*(this: MineLayer, destroyed: bool)
+import org/allbinary/ag/weapon/media/audio/DropWeaponSound as DropWeaponSoundModule
+export DropWeaponSoundModule
+import org/allbinary/animation/FeaturedAnimationInterfaceFactoryInterfaceFactory as FeaturedAnimationInterfaceFactoryInterfaceFactoryModule
+export FeaturedAnimationInterfaceFactoryInterfaceFactoryModule
+import org/allbinary/game/multiplayer/layer/RemoteInfo as RemoteInfoModule
+export RemoteInfoModule
+import org/allbinary/graphics/PointFactory as PointFactoryModule
+export PointFactoryModule
+import org/allbinary/graphics/Rectangle as RectangleModule
+export RectangleModule
+import org/allbinary/layer/AllBinaryLayer as AllBinaryLayerModule
+export AllBinaryLayerModule
+import org/allbinary/media/audio/SecondaryPlayerQueueFactory as SecondaryPlayerQueueFactoryModule
+export SecondaryPlayerQueueFactoryModule
+import org/allbinary/physics/movement/NoMovementFactory as NoMovementFactoryModule
+export NoMovementFactoryModule
+import org/allbinary/game/ag/layer/weapon/mine/MineWeaponResources as MineWeaponResourcesModule
+export MineWeaponResourcesModule
 
-class MineLayer(SimpleWeaponLayer):
-    NAME: str = "MineLayer"
+var MineLayer_NAMEValue: string
+var MineLayer_NAMESet = false
+proc NAME*(t: typedesc[MineLayer]): string =
+    if not MineLayer_NAMESet:
+        MineLayer_NAMESet = true
+        MineLayer_NAMEValue = "MineLayer"
+    MineLayer_NAMEValue
 
-    def _init_fields(self) -> None:
-        from org.allbinary.view.event.ViewPositionEventHandler import ViewPositionEventHandler
-        self.viewPositionEventHandler: ViewPositionEventHandler = ViewPositionEventHandler.getInstance()
-    
+# Java field initializers run after the base initializer
+proc initFieldsMineLayer(this: MineLayer) =
+    this.viewPositionEventHandler = ViewPositionEventHandler.getInstance()
+    discard
 
-    def __init__(self, viewPosition: ViewPositionBase) -> None:
-        from org.allbinary.game.ag.layer.weapon.mine.MineWeaponResources import MineWeaponResources
-        from org.allbinary.animation.FeaturedAnimationInterfaceFactoryInterfaceFactory import FeaturedAnimationInterfaceFactoryInterfaceFactory
-        from org.allbinary.game.multiplayer.layer.RemoteInfo import RemoteInfo
-        from org.allbinary.graphics.PointFactory import PointFactory
-        from org.allbinary.graphics.Rectangle import Rectangle
-        from org.allbinary.physics.movement.NoMovementFactory import NoMovementFactory
-        from org.allbinary.view.ViewPositionBase import ViewPositionBase
-        super().__init__(MineLayer.NAME, RemoteInfo.REMOTE_INFO, -1, NoMovementFactory.getInstance().getMovmentInstance(), FeaturedAnimationInterfaceFactoryInterfaceFactory.getInstance().get(MineWeaponResources.getInstance().RESOURCE).getInstance(0), SimpleWeaponLayer.createDestroyed(), Rectangle(PointFactory.getInstance().ZERO_ZERO, 10, 10), viewPosition)
-        self._init_fields()
-    
+proc initMineLayer*(this: MineLayer, viewPosition: ViewPositionBase) =
+        initSimpleWeaponLayer(this, MineLayer.NAME, RemoteInfo.REMOTE_INFOStatic, -1, NoMovementFactory.getInstance().getMovmentInstance(), FeaturedAnimationInterfaceFactoryInterfaceFactory.getInstance().get(MineWeaponResources.getInstance().RESOURCE).getInstance(0), SimpleWeaponLayer.createDestroyed(), newRectangle(PointFactory.getInstance().ZERO_ZERO, 10, 10), viewPosition)
+        this.initFieldsMineLayer()
 
-    def initXYZ(self, x: int, y: int, z: int) -> None:
-        from org.allbinary.ag.weapon.media.audio.DropWeaponSound import DropWeaponSound
-        from org.allbinary.layer.AllBinaryLayer import AllBinaryLayer
-        from org.allbinary.media.audio.SecondaryPlayerQueueFactory import SecondaryPlayerQueueFactory
-        self.setPosition(x + 5, y + 5, z)
-        self.viewPositionEventHandler.addListener(self)
+proc newMineLayer*(viewPosition: ViewPositionBase): MineLayer =
+    result = MineLayer()
+    initMineLayer(result, viewPosition)
+
+method initXYZ*(this: MineLayer, x: int32, y: int32, z: int32) =
+        this.setPosition(x +% 5, y +% 5, z)
+        this.viewPositionEventHandler.addListener(AllBinaryLayer(JObject(this)))
         SecondaryPlayerQueueFactory.getInstance().add(DropWeaponSound.getInstance())
-    
 
-    def damage(self, damage: int, damageType: int) -> None:
-        self.totalDamage = self.getInitDamage() + 1
-    
+method damage*(this: MineLayer, damage: int32, damageType: int32) =
+        this.totalDamage = this.getInitDamage() +% 1
 
-    def getDamage(self, damageType: int) -> int:
-        super().getDamage(damageType)
-        return self.getInitDamage()
-    
+method getDamage*(this: MineLayer, damageType: int32): int32 {.discardable.} =
+        procCall SimpleWeaponLayer(this).getDamage(damageType)
+        return this.getInitDamage()
 
-    def setDestroyed(self, destroyed: bool) -> None:
-        super().setDestroyed(destroyed)
-        if self.isDestroyed():
-            self.viewPositionEventHandler.removeListener(self)
-# from org.allbinary.ag.weapon.media.audio.DropWeaponSound import DropWeaponSound
-# from org.allbinary.animation.FeaturedAnimationInterfaceFactoryInterfaceFactory import FeaturedAnimationInterfaceFactoryInterfaceFactory
-# from org.allbinary.game.multiplayer.layer.RemoteInfo import RemoteInfo
-# from org.allbinary.graphics.PointFactory import PointFactory
-# from org.allbinary.graphics.Rectangle import Rectangle
-# from org.allbinary.layer.AllBinaryLayer import AllBinaryLayer
-# from org.allbinary.media.audio.SecondaryPlayerQueueFactory import SecondaryPlayerQueueFactory
-# from org.allbinary.physics.movement.NoMovementFactory import NoMovementFactory
-# from org.allbinary.view.ViewPositionBase import ViewPositionBase
-# from org.allbinary.view.event.ViewPositionEventHandler import ViewPositionEventHandler
+method setDestroyed*(this: MineLayer, destroyed: bool) =
+        procCall SimpleWeaponLayer(this).setDestroyed(destroyed)
+        if this.isDestroyed():
+            this.viewPositionEventHandler.removeListener(this)
 
+when declared(newMineLayerHook1):
+    newMineLayerHook1 = proc (viewPosition: ViewPositionBase): SimpleWeaponLayer = newMineLayer(viewPosition)
 

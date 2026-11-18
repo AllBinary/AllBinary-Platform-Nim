@@ -1,42 +1,53 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.ag.layer.weapon.mine
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/layer/AllBinaryLayer as AllBinaryLayerModule
+export AllBinaryLayerModule
+import org/allbinary/layer/AllBinaryLayerFactoryInterface as AllBinaryLayerFactoryInterfaceModule
+export AllBinaryLayerFactoryInterfaceModule
+import org/allbinary/view/ViewPositionFactoryInterface as ViewPositionFactoryInterfaceModule
+export ViewPositionFactoryInterfaceModule
 
-from org.allbinary.layer.AllBinaryLayerFactoryInterface import AllBinaryLayerFactoryInterface
+type
+    MineLayerFactory* = ref object of AllBinaryLayerFactoryInterface
+        viewPositionFactoryInterface*: ViewPositionFactoryInterface
+
+proc newMineLayerFactory*(viewPositionFactoryInterface: ViewPositionFactoryInterface): MineLayerFactory
+proc initMineLayerFactory*(this: MineLayerFactory, viewPositionFactoryInterface: ViewPositionFactoryInterface)
+method getInstance*(this: MineLayerFactory): AllBinaryLayer {.discardable.}
+import org/allbinary/game/ag/layer/weapon/mine/MineLayer as MineLayerModule
+export MineLayerModule
 
 
-class MineLayerFactory(AllBinaryLayerFactoryInterface):
-
-    def _init_fields(self) -> None:
-        from org.allbinary.view.ViewPositionFactoryInterface import ViewPositionFactoryInterface
-        self.viewPositionFactoryInterface: ViewPositionFactoryInterface = None
+# Java field initializers run after the base initializer
+proc initFieldsMineLayerFactory(this: MineLayerFactory) =
     
+    discard
 
-    def __init__(self, viewPositionFactoryInterface: ViewPositionFactoryInterface) -> None:
-        from org.allbinary.view.ViewPositionFactoryInterface import ViewPositionFactoryInterface
-        self._init_fields()
-        self.viewPositionFactoryInterface = viewPositionFactoryInterface
-    
+proc initMineLayerFactory*(this: MineLayerFactory, viewPositionFactoryInterface: ViewPositionFactoryInterface) =
+        this.initFieldsMineLayerFactory()
+        this.viewPositionFactoryInterface = viewPositionFactoryInterface
 
-    # throws Exception
-    def getInstance(self) -> AllBinaryLayer:
-        from org.allbinary.game.ag.layer.weapon.mine.MineLayer import MineLayer
-        from org.allbinary.layer.AllBinaryLayer import AllBinaryLayer
-        return MineLayer(self.viewPositionFactoryInterface.getInstance())
-# from org.allbinary.layer.AllBinaryLayer import AllBinaryLayer
-# from org.allbinary.view.ViewPositionFactoryInterface import ViewPositionFactoryInterface
+proc newMineLayerFactory*(viewPositionFactoryInterface: ViewPositionFactoryInterface): MineLayerFactory =
+    result = MineLayerFactory()
+    initMineLayerFactory(result, viewPositionFactoryInterface)
 
+method getInstance*(this: MineLayerFactory): AllBinaryLayer {.discardable.} =
+        return newMineLayer(this.viewPositionFactoryInterface.getInstance())
 

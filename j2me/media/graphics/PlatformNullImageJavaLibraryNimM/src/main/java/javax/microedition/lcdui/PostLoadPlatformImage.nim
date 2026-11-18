@@ -1,39 +1,50 @@
-# 
-# AllBinary Open License Version 1 
-# Copyright (c) 2022 AllBinary 
-#  
-# By agreeing to this license you and any business entity you represent are 
-# legally bound to the AllBinary Open License Version 1 legal agreement. 
-#  
-# You may obtain the AllBinary Open License Version 1 legal agreement from 
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
-#  
-# Created By: Travis Berthelot 
-#   
+#[
+  
+  AllBinary Open License Version 1 
+  Copyright (c) 2022 AllBinary 
+   
+  By agreeing to this license you and any business entity you represent are 
+  legally bound to the AllBinary Open License Version 1 legal agreement. 
+   
+  You may obtain the AllBinary Open License Version 1 legal agreement from 
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
+   
+  Created By: Travis Berthelot 
+    
+]#
 # Generated Code Do Not Modify
 # package javax.microedition.lcdui
 
-from __future__ import annotations
-
-from java.lang.JavaRuntimeStatic import lazy_static
-from javax.microedition.lcdui.PlatformImage import PlatformImage
-
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import javax/microedition/lcdui/PlatformImage as PlatformImageModule
+export PlatformImageModule
 
 #PlatformNullImageJavaLibrary
-class PostLoadPlatformImage(PlatformImage):
-    instance: PostLoadPlatformImage = None
+type
+    PostLoadPlatformImage* = ref object of PlatformImage
 
-    def __init__(self) -> None:
-        super().__init__()
-    
+proc newPostLoadPlatformImage*(): PostLoadPlatformImage
+proc getInstance*(t: typedesc[PostLoadPlatformImage]): PostLoadPlatformImage {.discardable.}
 
-    @staticmethod
-    def getInstance() -> PostLoadPlatformImage:
+var PostLoadPlatformImage_instanceValue: PostLoadPlatformImage
+var PostLoadPlatformImage_instanceSet = false
+proc instance*(t: typedesc[PostLoadPlatformImage]): PostLoadPlatformImage =
+    if not PostLoadPlatformImage_instanceSet:
+        PostLoadPlatformImage_instanceSet = true
+        PostLoadPlatformImage_instanceValue = newPostLoadPlatformImage()
+    PostLoadPlatformImage_instanceValue
+
+proc initPostLoadPlatformImage*(this: PostLoadPlatformImage) =
+    initPlatformImage(this)
+
+proc newPostLoadPlatformImage*(): PostLoadPlatformImage =
+    result = PostLoadPlatformImage()
+    initPostLoadPlatformImage(result)
+
+proc getInstance*(t: typedesc[PostLoadPlatformImage]): PostLoadPlatformImage {.discardable.} =
         return PostLoadPlatformImage.instance
 
-
-def _PostLoadPlatformImage_instance() -> object:
-    return PostLoadPlatformImage()
-
-lazy_static(PostLoadPlatformImage, "instance", _PostLoadPlatformImage_instance)
+when declared(newPostLoadPlatformImageHook0):
+    newPostLoadPlatformImageHook0 = proc (): PlatformImage = newPostLoadPlatformImage()
 

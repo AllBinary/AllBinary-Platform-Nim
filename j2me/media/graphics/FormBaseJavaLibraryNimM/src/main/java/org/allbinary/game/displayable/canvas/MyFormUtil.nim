@@ -1,86 +1,96 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.displayable.canvas
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import javax/microedition/lcdui/Graphics as GraphicsModule
+export GraphicsModule
+import org/allbinary/graphics/Rectangle as RectangleModule
+export RectangleModule
+import org/allbinary/logic/communication/log/LogUtil as LogUtilModule
+export LogUtilModule
+import org/allbinary/string/CommonStrings as CommonStringsModule
+export CommonStringsModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    MyFormUtil* = ref object of JObject
+        logUtil*: LogUtil
+        commonStrings*: CommonStrings
+        popupMenuRectangle*: Rectangle
 
+proc newMyFormUtil*(): MyFormUtil
+proc getInstance*(t: typedesc[MyFormUtil]): MyFormUtil {.discardable.}
+method updateMeasurement*(this: MyFormUtil, graphics: Graphics) {.base.}
+method getPopupMenuRectangle*(this: MyFormUtil): Rectangle {.base, discardable.}
+import javax/microedition/lcdui/Font as FontModule
+export FontModule
+import org/allbinary/game/configuration/feature/Features as FeaturesModule
+export FeaturesModule
+import org/allbinary/graphics/PointFactory as PointFactoryModule
+export PointFactoryModule
+import org/allbinary/graphics/RectangleFactory as RectangleFactoryModule
+export RectangleFactoryModule
+import org/allbinary/graphics/displayable/DisplayInfoSingleton as DisplayInfoSingletonModule
+export DisplayInfoSingletonModule
+import org/allbinary/graphics/font/MyFontProcessor as MyFontProcessorModule
+export MyFontProcessorModule
+import org/allbinary/graphics/opengles/OpenGLFeatureFactory as OpenGLFeatureFactoryModule
+export OpenGLFeatureFactoryModule
+import org/allbinary/graphics/threed/SWTJOGLProcessor as SWTJOGLProcessorModule
+export SWTJOGLProcessorModule
 
-class MyFormUtil:
-    instance: MyFormUtil = None
+var MyFormUtil_instanceValue: MyFormUtil
+var MyFormUtil_instanceSet = false
+proc instance*(t: typedesc[MyFormUtil]): MyFormUtil =
+    if not MyFormUtil_instanceSet:
+        MyFormUtil_instanceSet = true
+        MyFormUtil_instanceValue = newMyFormUtil()
+    MyFormUtil_instanceValue
 
-    def _init_fields(self) -> None:
-        from org.allbinary.graphics.Rectangle import Rectangle
-        from org.allbinary.graphics.RectangleFactory import RectangleFactory
-        from org.allbinary.logic.communication.log.LogUtil import LogUtil
-        from org.allbinary.string.CommonStrings import CommonStrings
-        self.logUtil: LogUtil = LogUtil.getInstance()
-        self.commonStrings: CommonStrings = CommonStrings.getInstance()
-        self.popupMenuRectangle: Rectangle = RectangleFactory.SINGLETON
+# Java field initializers run after the base initializer
+proc initFieldsMyFormUtil(this: MyFormUtil) =
+    this.logUtil = LogUtil.getInstance()
+    this.commonStrings = CommonStrings.getInstance()
+    this.popupMenuRectangle = RectangleFactory.SINGLETON
+    discard
 
-    def __init__(self) -> None:
-        self._init_fields()
-    
+proc initMyFormUtil*(this: MyFormUtil) =
+    this.initFieldsMyFormUtil()
 
-    @staticmethod
-    def getInstance() -> MyFormUtil:
+proc newMyFormUtil*(): MyFormUtil =
+    result = MyFormUtil()
+    initMyFormUtil(result)
+
+proc getInstance*(t: typedesc[MyFormUtil]): MyFormUtil {.discardable.} =
         return MyFormUtil.instance
-    
 
-    def updateMeasurement(self, graphics: Graphics) -> None:
-        from javax.microedition.lcdui.Font import Font
-        from javax.microedition.lcdui.Graphics import Graphics
-        from org.allbinary.game.configuration.feature.Features import Features
-        from org.allbinary.graphics.PointFactory import PointFactory
-        from org.allbinary.graphics.Rectangle import Rectangle
-        from org.allbinary.graphics.displayable.DisplayInfoSingleton import DisplayInfoSingleton
-        from org.allbinary.graphics.font.MyFontProcessor import MyFontProcessor
-        from org.allbinary.graphics.opengles.OpenGLFeatureFactory import OpenGLFeatureFactory
-        from org.allbinary.graphics.threed.SWTJOGLProcessor import SWTJOGLProcessor
-        font: Font = graphics.getFont()
-        displayInfo: DisplayInfoSingleton = DisplayInfoSingleton.getInstance()
-        features: Features = Features.getInstance()
-        isOpenGL: bool = features.isDefault(OpenGLFeatureFactory.getInstance().OPENGL)
-        TOTAL_CHAR_WIDTH: int = (2 if SWTJOGLProcessor.getInstance().isJOGL() and isOpenGL else 3)
-        width: int = MyFontProcessor.defaultStringWidth(font, TOTAL_CHAR_WIDTH)
-        pointFactory: PointFactory = PointFactory.getInstance()
+method updateMeasurement*(this: MyFormUtil, graphics: Graphics) {.base.} =
+        let font: Font = graphics.getFont()
+        let displayInfo: DisplayInfoSingleton = DisplayInfoSingleton.getInstance()
+        let features: Features = Features.getInstance()
+        let isOpenGL: bool = features.isDefault(OpenGLFeatureFactory.getInstance().OPENGL)
+        let TOTAL_CHAR_WIDTH: int32 = (if SWTJOGLProcessor.getInstance().isJOGL() and isOpenGL: 2 else: 3)
+        let width: int32 = MyFontProcessor.defaultStringWidth(font, TOTAL_CHAR_WIDTH)
+        let pointFactory: PointFactory = PointFactory.getInstance()
         if displayInfo.getLastHeight() < 320:
-            self.popupMenuRectangle = Rectangle(pointFactory.createXY(0, 25), width, (font.getHeight() * 4) + 2)
+            this.popupMenuRectangle = newRectangle(pointFactory.createXY(0, 25), width, (font.getHeight() *% 4) +% 2)
         else:
-            self.popupMenuRectangle = Rectangle(pointFactory.createXY(0, displayInfo.getLastHalfHeight() - 70), width, (font.getHeight() * 5))
-    
+            this.popupMenuRectangle = newRectangle(pointFactory.createXY(0, displayInfo.getLastHalfHeight() -% 70), width, (font.getHeight() *% 5))
 
-    def getPopupMenuRectangle(self) -> Rectangle:
-        from org.allbinary.graphics.Rectangle import Rectangle
-        return self.popupMenuRectangle
-# from javax.microedition.lcdui.Font import Font
-# from javax.microedition.lcdui.Graphics import Graphics
-# from org.allbinary.game.configuration.feature.Features import Features
-# from org.allbinary.graphics.PointFactory import PointFactory
-# from org.allbinary.graphics.Rectangle import Rectangle
-# from org.allbinary.graphics.RectangleFactory import RectangleFactory
-# from org.allbinary.graphics.displayable.DisplayInfoSingleton import DisplayInfoSingleton
-# from org.allbinary.graphics.font.MyFontProcessor import MyFontProcessor
-# from org.allbinary.graphics.opengles.OpenGLFeatureFactory import OpenGLFeatureFactory
-# from org.allbinary.graphics.threed.SWTJOGLProcessor import SWTJOGLProcessor
-# from org.allbinary.logic.communication.log.LogUtil import LogUtil
-# from org.allbinary.string.CommonStrings import CommonStrings
-
-
-def _MyFormUtil_instance() -> object:
-    return MyFormUtil()
-
-lazy_static(MyFormUtil, "instance", _MyFormUtil_instance)
+method getPopupMenuRectangle*(this: MyFormUtil): Rectangle {.base, discardable.} =
+        return this.popupMenuRectangle
 

@@ -1,144 +1,160 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.ag.ai.scroller
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/direction/Direction as DirectionModule
+export DirectionModule
+import org/allbinary/game/input/GameInput as GameInputModule
+export GameInputModule
+import org/allbinary/game/tracking/TrackingEvent as TrackingEventModule
+export TrackingEventModule
+import org/allbinary/game/tracking/TrackingEventListenerInterface as TrackingEventListenerInterfaceModule
+export TrackingEventListenerInterfaceModule
+import org/allbinary/layer/AllBinaryLayer as AllBinaryLayerModule
+export AllBinaryLayerModule
+import org/allbinary/layer/AllBinaryLayerManager as AllBinaryLayerManagerModule
+export AllBinaryLayerManagerModule
+import org/allbinary/logic/util/event/AllBinaryEventObject as AllBinaryEventObjectModule
+export AllBinaryEventObjectModule
+import org/allbinary/util/ABHashtable as ABHashtableModule
+export ABHashtableModule
+import org/allbinary/util/BasicArrayList as BasicArrayListModule
+export BasicArrayListModule
+import org/allbinary/game/ag/ai/scroller/BasePatrolAI as BasePatrolAIModule
+export BasePatrolAIModule
 
-import math
-from org.allbinary.game.tracking.TrackingEventListenerInterface import TrackingEventListenerInterface
-from org.allbinary.game.ag.ai.scroller.BasePatrolAI import BasePatrolAI
+type
+    PacePatrolAI* = ref object of BasePatrolAI
+        trackingList*: BasicArrayList
+        firingDistance*: int32
+        isFollowLimitedByTerrain*: bool
+
+converter jAsTrackingEventListenerInterface*(value: PacePatrolAI): TrackingEventListenerInterface = cast[TrackingEventListenerInterface](value)
+proc newPacePatrolAI*(hashtable: ABHashtable, ownerLayerInterface: AllBinaryLayer, gameInput: GameInput): PacePatrolAI
+proc initPacePatrolAI*(this: PacePatrolAI, hashtable: ABHashtable, ownerLayerInterface: AllBinaryLayer, gameInput: GameInput)
+method processAI*(this: PacePatrolAI, allBinaryLayerManager: AllBinaryLayerManager)
+method setFiringDirectionForTargetIfInRange*(this: PacePatrolAI): Direction {.base, discardable.}
+method disable*(this: PacePatrolAI)
+method onEvent*(this: PacePatrolAI, eventObject: AllBinaryEventObject)
+method onMovement*(this: PacePatrolAI, trackingEvent: TrackingEvent)
+method getFiringDistance*(this: PacePatrolAI): int32 {.base, discardable.}
+method setFiringDistance*(this: PacePatrolAI, firingDistance: int32) {.base.}
+import javax/microedition/lcdui/Canvas as CanvasModule
+export CanvasModule
+import org/allbinary/direction/DirectionCompositeInterface as DirectionCompositeInterfaceModule
+export DirectionCompositeInterfaceModule
+import org/allbinary/direction/DirectionFactory as DirectionFactoryModule
+export DirectionFactoryModule
+import org/allbinary/game/tracking/TrackingEventHandler as TrackingEventHandlerModule
+export TrackingEventHandlerModule
+import org/allbinary/layer/LayerInterface as LayerInterfaceModule
+export LayerInterfaceModule
+import org/allbinary/logic/communication/log/ForcedLogUtil as ForcedLogUtilModule
+export ForcedLogUtilModule
+import org/allbinary/logic/util/event/EventStrings as EventStringsModule
+export EventStringsModule
+import org/allbinary/util/BasicArrayListD as BasicArrayListDModule
+export BasicArrayListDModule
 
 
-class PacePatrolAI(BasePatrolAI, TrackingEventListenerInterface):
-
-    def _init_fields(self) -> None:
-        from org.allbinary.util.BasicArrayList import BasicArrayList
-        self.trackingList: BasicArrayList = None
-        self.firingDistance: int = 0
-        self.isFollowLimitedByTerrain: bool = False
+# Java field initializers run after the base initializer
+proc initFieldsPacePatrolAI(this: PacePatrolAI) =
     
+    this.firingDistance = 0
+    this.isFollowLimitedByTerrain = false
+    discard
 
-    def __init__(self, hashtable: ABHashtable[object, object], ownerLayerInterface: AllBinaryLayer, gameInput: GameInput) -> None:
-        from org.allbinary.game.input.GameInput import GameInput
-        from org.allbinary.game.tracking.TrackingEventHandler import TrackingEventHandler
-        from org.allbinary.layer.AllBinaryLayer import AllBinaryLayer
-        from org.allbinary.util.ABHashtable import ABHashtable
-        from org.allbinary.util.BasicArrayListD import BasicArrayListD
-        super().__init__(hashtable, ownerLayerInterface, gameInput)
-        self._init_fields()
-        TrackingEventHandler.getInstance().addListenerInterface(self)
-        self.trackingList = BasicArrayListD()
-    
+proc initPacePatrolAI*(this: PacePatrolAI, hashtable: ABHashtable, ownerLayerInterface: AllBinaryLayer, gameInput: GameInput) =
+        initBasePatrolAI(this, hashtable, ownerLayerInterface, gameInput)
+        this.initFieldsPacePatrolAI()
+        TrackingEventHandler.getInstance().addListenerInterface(this)
+        this.trackingList = newBasicArrayListD()
 
-    # throws Exception
-    def processAI(self, allBinaryLayerManager: AllBinaryLayerManager) -> None:
-        from javax.microedition.lcdui.Canvas import Canvas
-        from org.allbinary.direction.Direction import Direction
-        from org.allbinary.direction.DirectionFactory import DirectionFactory
-        from org.allbinary.layer.AllBinaryLayerManager import AllBinaryLayerManager
-        self.update()
-        direction: Direction = self.setFiringDirectionForTargetIfInRange()
-        directionFactory: DirectionFactory = DirectionFactory.getInstance()
+proc newPacePatrolAI*(hashtable: ABHashtable, ownerLayerInterface: AllBinaryLayer, gameInput: GameInput): PacePatrolAI =
+    result = PacePatrolAI()
+    initPacePatrolAI(result, hashtable, ownerLayerInterface, gameInput)
+
+method processAI*(this: PacePatrolAI, allBinaryLayerManager: AllBinaryLayerManager) =
+        this.update()
+        let direction: Direction = this.setFiringDirectionForTargetIfInRange()
+        let directionFactory: DirectionFactory = DirectionFactory.getInstance()
         if direction == directionFactory.LEFT:
-            if self.lastKeyDirection != self.keyDirection or not self.isFollowLimitedByTerrain:
-                super().processKeyAI(Canvas.LEFT)
-            self.keyDirection = Canvas.LEFT
-            self.lastKeyDirection = self.keyDirection
-            self.xTotalDistance = 0
-            super().processKeyAI(Canvas.KEY_NUM1)
+            if this.lastKeyDirection != this.keyDirection or (not this.isFollowLimitedByTerrain):
+                procCall BasePatrolAI(this).processKeyAI(Canvas.LEFT)
+            this.keyDirection = Canvas.LEFT
+            this.lastKeyDirection = this.keyDirection
+            this.xTotalDistance = 0
+            procCall BasePatrolAI(this).processKeyAI(Canvas.KEY_NUM1)
         elif direction == directionFactory.RIGHT:
-            if self.lastKeyDirection != self.keyDirection or not self.isFollowLimitedByTerrain:
-                super().processKeyAI(Canvas.RIGHT)
-            self.keyDirection = Canvas.RIGHT
-            self.lastKeyDirection = self.keyDirection
-            self.xTotalDistance = 0
-            super().processKeyAI(Canvas.KEY_NUM1)
+            if this.lastKeyDirection != this.keyDirection or (not this.isFollowLimitedByTerrain):
+                procCall BasePatrolAI(this).processKeyAI(Canvas.RIGHT)
+            this.keyDirection = Canvas.RIGHT
+            this.lastKeyDirection = this.keyDirection
+            this.xTotalDistance = 0
+            procCall BasePatrolAI(this).processKeyAI(Canvas.KEY_NUM1)
         else:
-            super().processKeyAI(self.keyDirection)
-    
+            procCall BasePatrolAI(this).processKeyAI(this.keyDirection)
 
-    def setFiringDirectionForTargetIfInRange(self) -> Direction:
-        from org.allbinary.direction.Direction import Direction
-        from org.allbinary.direction.DirectionCompositeInterface import DirectionCompositeInterface
-        from org.allbinary.direction.DirectionFactory import DirectionFactory
-        from org.allbinary.game.tracking.TrackingEvent import TrackingEvent
-        from org.allbinary.layer.AllBinaryLayer import AllBinaryLayer
-        from org.allbinary.layer.LayerInterface import LayerInterface
-        directionFactory: DirectionFactory = DirectionFactory.getInstance()
-        ownerLayerInterface: AllBinaryLayer = self.getOwnerLayerInterface()
-        direction: Direction = directionFactory.NOT_BORDERED_WITH
-        lastTrackingEvent: TrackingEvent = None
-        lastTrackingLayerInterface: LayerInterface = None
-        directionCompositeInterface: DirectionCompositeInterface = None
-        size: int = self.trackingList.size()
-        for index in range(0, size):
-            lastTrackingEvent = self.trackingList.get(0)
-            lastTrackingLayerInterface = lastTrackingEvent.getLayerInterface()
-            x: int = lastTrackingLayerInterface.getXP()
-            y: int = lastTrackingLayerInterface.getYP()
-            yDistance: int = ownerLayerInterface.getYP() - y - ownerLayerInterface.getHeight()
-            xDistance: int = ownerLayerInterface.getXP() - x - ownerLayerInterface.getWidth()
-            absXDistance: int = abs(xDistance)
-            absYDistance: int = abs(yDistance)
-            if absYDistance <= 100:
-                if absXDistance < int(self.getFiringDistance() / 2):
-                    directionCompositeInterface = self.getOwnerLayerInterface()
-                    if xDistance < 0 and directionCompositeInterface.getDirection() == directionFactory.RIGHT:
-                        direction = directionFactory.RIGHT
-                    elif xDistance > 0 and directionCompositeInterface.getDirection() == directionFactory.LEFT:
-                        direction = directionFactory.LEFT
+method setFiringDirectionForTargetIfInRange*(this: PacePatrolAI): Direction {.base, discardable.} =
+        let directionFactory: DirectionFactory = DirectionFactory.getInstance()
+        let ownerLayerInterface: AllBinaryLayer = this.getOwnerLayerInterface()
+        var direction: Direction = directionFactory.NOT_BORDERED_WITH
+        var lastTrackingEvent: TrackingEvent = nil
+        var lastTrackingLayerInterface: LayerInterface = nil
+        var directionCompositeInterface: DirectionCompositeInterface = nil
+        let size: int32 = this.trackingList.size()
+        block:
+            var index: int32 = 0
+            while index < size:
+                defer: index = index +% 1
+                lastTrackingEvent = TrackingEvent(JObject(this.trackingList.get(0)))
+                lastTrackingLayerInterface = lastTrackingEvent.getLayerInterface()
+                var x: int32 = lastTrackingLayerInterface.getXP()
+                var y: int32 = lastTrackingLayerInterface.getYP()
+                var yDistance: int32 = ownerLayerInterface.getYP() -% y -% ownerLayerInterface.getHeight()
+                var xDistance: int32 = ownerLayerInterface.getXP() -% x -% ownerLayerInterface.getWidth()
+                var absXDistance: int32 = abs(xDistance)
+                var absYDistance: int32 = abs(yDistance)
+                if absYDistance <= 100:
+                    if absXDistance < this.getFiringDistance() div 2:
+                        directionCompositeInterface = DirectionCompositeInterface(JObject(this.getOwnerLayerInterface()))
+                        if xDistance < 0 and directionCompositeInterface.getDirection() == directionFactory.RIGHT:
+                            direction = directionFactory.RIGHT
+                        elif xDistance > 0 and directionCompositeInterface.getDirection() == directionFactory.LEFT:
+                            direction = directionFactory.LEFT
         return direction
-    
 
-    def disable(self) -> None:
-        pass
-    
+method disable*(this: PacePatrolAI) =
+        discard
 
-    def onEvent(self, eventObject: AllBinaryEventObject) -> None:
-        from org.allbinary.logic.communication.log.ForcedLogUtil import ForcedLogUtil
-        from org.allbinary.logic.util.event.AllBinaryEventObject import AllBinaryEventObject
-        from org.allbinary.logic.util.event.EventStrings import EventStrings
-        ForcedLogUtil.log(EventStrings.getInstance().PERFORMANCE_MESSAGE, self)
-    
+method onEvent*(this: PacePatrolAI, eventObject: AllBinaryEventObject) =
+        ForcedLogUtil.log(EventStrings.getInstance().PERFORMANCE_MESSAGE, this)
 
-    def onMovement(self, trackingEvent: TrackingEvent) -> None:
-        from org.allbinary.game.tracking.TrackingEvent import TrackingEvent
-        self.trackingList.clear()
-        self.trackingList.add(trackingEvent)
-    
+method onMovement*(this: PacePatrolAI, trackingEvent: TrackingEvent) =
+        this.trackingList.clear()
+        this.trackingList.add(trackingEvent)
 
-    def getFiringDistance(self) -> int:
-        return self.firingDistance
-    
+method getFiringDistance*(this: PacePatrolAI): int32 {.base, discardable.} =
+        return this.firingDistance
 
-    def setFiringDistance(self, firingDistance: int) -> None:
-        self.firingDistance = firingDistance
-# from javax.microedition.lcdui.Canvas import Canvas
-# from org.allbinary.direction.Direction import Direction
-# from org.allbinary.direction.DirectionCompositeInterface import DirectionCompositeInterface
-# from org.allbinary.direction.DirectionFactory import DirectionFactory
-# from org.allbinary.game.input.GameInput import GameInput
-# from org.allbinary.game.tracking.TrackingEvent import TrackingEvent
-# from org.allbinary.game.tracking.TrackingEventHandler import TrackingEventHandler
-# from org.allbinary.layer.AllBinaryLayer import AllBinaryLayer
-# from org.allbinary.layer.AllBinaryLayerManager import AllBinaryLayerManager
-# from org.allbinary.layer.LayerInterface import LayerInterface
-# from org.allbinary.logic.communication.log.ForcedLogUtil import ForcedLogUtil
-# from org.allbinary.logic.util.event.AllBinaryEventObject import AllBinaryEventObject
-# from org.allbinary.logic.util.event.EventStrings import EventStrings
-# from org.allbinary.util.ABHashtable import ABHashtable
-# from org.allbinary.util.BasicArrayList import BasicArrayList
-# from org.allbinary.util.BasicArrayListD import BasicArrayListD
+method setFiringDistance*(this: PacePatrolAI, firingDistance: int32) {.base.} =
+        this.firingDistance = firingDistance
 
+when declared(newPacePatrolAIHook3):
+    newPacePatrolAIHook3 = proc (hashtable: ABHashtable, ownerLayerInterface: AllBinaryLayer, gameInput: GameInput): BasePatrolAI = newPacePatrolAI(hashtable, ownerLayerInterface, gameInput)
 

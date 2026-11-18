@@ -1,75 +1,94 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.input.motion
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/graphics/GPointCircularPool as GPointCircularPoolModule
+export GPointCircularPoolModule
+import org/allbinary/input/motion/gesture/MotionGestureRecognizer as MotionGestureRecognizerModule
+export MotionGestureRecognizerModule
+import org/allbinary/input/motion/MotionRecognizer as MotionRecognizerModule
+export MotionRecognizerModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
-from org.allbinary.input.motion.MotionRecognizer import MotionRecognizer
+type
+    GestureOnlyMotionRecognizer* = ref object of MotionRecognizer
+        motionGestureRecognizer*: MotionGestureRecognizer
+        id*: int32
 
+proc newGestureOnlyMotionRecognizer*(): GestureOnlyMotionRecognizer
+proc initGestureOnlyMotionRecognizer*(this: GestureOnlyMotionRecognizer)
+method processStartMotionEvent*(this: GestureOnlyMotionRecognizer, x: int32, y: int32, deviceId: int32, modifiers: int32)
+method processEndMotionEvent*(this: GestureOnlyMotionRecognizer, x: int32, y: int32, deviceId: int32, modifiers: int32)
+method processDraggedMotionEvent*(this: GestureOnlyMotionRecognizer, x: int32, y: int32, deviceId: int32, modifiers: int32)
+import org/allbinary/graphics/CustomGPoint as CustomGPointModule
+export CustomGPointModule
 
-class GestureOnlyMotionRecognizer(MotionRecognizer):
-    index: int = 0
-    pointCircularPool: GPointCircularPool = None
+var GestureOnlyMotionRecognizer_indexValue: int32
+var GestureOnlyMotionRecognizer_indexSet = false
+proc index*(t: typedesc[GestureOnlyMotionRecognizer]): int32 =
+    if not GestureOnlyMotionRecognizer_indexSet:
+        GestureOnlyMotionRecognizer_indexSet = true
+        GestureOnlyMotionRecognizer_indexValue = 0
+    GestureOnlyMotionRecognizer_indexValue
+proc `index=`*(t: typedesc[GestureOnlyMotionRecognizer], value: int32) =
+    GestureOnlyMotionRecognizer_indexSet = true
+    GestureOnlyMotionRecognizer_indexValue = value
+var GestureOnlyMotionRecognizer_pointCircularPoolValue: GPointCircularPool
+var GestureOnlyMotionRecognizer_pointCircularPoolSet = false
+proc pointCircularPool*(t: typedesc[GestureOnlyMotionRecognizer]): GPointCircularPool =
+    if not GestureOnlyMotionRecognizer_pointCircularPoolSet:
+        GestureOnlyMotionRecognizer_pointCircularPoolSet = true
+        GestureOnlyMotionRecognizer_pointCircularPoolValue = newGPointCircularPool(40)
+    GestureOnlyMotionRecognizer_pointCircularPoolValue
 
-    def _init_fields(self) -> None:
-        from org.allbinary.input.motion.gesture.MotionGestureRecognizer import MotionGestureRecognizer
-        self.motionGestureRecognizer: MotionGestureRecognizer = None
-        self.id: int = None
+# Java field initializers run after the base initializer
+proc initFieldsGestureOnlyMotionRecognizer(this: GestureOnlyMotionRecognizer) =
     
-
-    def __init__(self) -> None:
-        from org.allbinary.input.motion.gesture.MotionGestureRecognizer import MotionGestureRecognizer
-        super().__init__()
-        self._init_fields()
-        self.id = ((setattr(GestureOnlyMotionRecognizer, "index", GestureOnlyMotionRecognizer.index + 1) or GestureOnlyMotionRecognizer.index) - 1)
-        self.motionGestureRecognizer = MotionGestureRecognizer(self.id)
     
+    discard
 
-    # throws Exception
-    def processStartMotionEvent(self, x: int, y: int, deviceId: int, modifiers: int) -> None:
-        from org.allbinary.graphics.CustomGPoint import CustomGPoint
-        point: CustomGPoint = GestureOnlyMotionRecognizer.pointCircularPool.getNextInstance()
+proc initGestureOnlyMotionRecognizer*(this: GestureOnlyMotionRecognizer) =
+        initMotionRecognizer(this)
+        this.initFieldsGestureOnlyMotionRecognizer()
+        this.id = jPostIncrement(GestureOnlyMotionRecognizer.index)
+        this.motionGestureRecognizer = newMotionGestureRecognizer(this.id)
+
+proc newGestureOnlyMotionRecognizer*(): GestureOnlyMotionRecognizer =
+    result = GestureOnlyMotionRecognizer()
+    initGestureOnlyMotionRecognizer(result)
+
+method processStartMotionEvent*(this: GestureOnlyMotionRecognizer, x: int32, y: int32, deviceId: int32, modifiers: int32) =
+        var point: CustomGPoint = CustomGPoint(JObject(GestureOnlyMotionRecognizer.pointCircularPool.getNextInstance()))
         point.setX(x)
         point.setY(y)
-        self.motionGestureRecognizer.processPressedMotionEvent(point, deviceId, modifiers)
-    
+        this.motionGestureRecognizer.processPressedMotionEvent(point, deviceId, modifiers)
 
-    # throws Exception
-    def processEndMotionEvent(self, x: int, y: int, deviceId: int, modifiers: int) -> None:
-        from org.allbinary.graphics.CustomGPoint import CustomGPoint
-        point: CustomGPoint = GestureOnlyMotionRecognizer.pointCircularPool.getNextInstance()
+method processEndMotionEvent*(this: GestureOnlyMotionRecognizer, x: int32, y: int32, deviceId: int32, modifiers: int32) =
+        var point: CustomGPoint = CustomGPoint(JObject(GestureOnlyMotionRecognizer.pointCircularPool.getNextInstance()))
         point.setX(x)
         point.setY(y)
-        self.motionGestureRecognizer.processReleasedMotionEvent(point, deviceId, modifiers)
-    
+        this.motionGestureRecognizer.processReleasedMotionEvent(point, deviceId, modifiers)
 
-    # throws Exception
-    def processDraggedMotionEvent(self, x: int, y: int, deviceId: int, modifiers: int) -> None:
-        from org.allbinary.graphics.CustomGPoint import CustomGPoint
-        point: CustomGPoint = GestureOnlyMotionRecognizer.pointCircularPool.getNextInstance()
+method processDraggedMotionEvent*(this: GestureOnlyMotionRecognizer, x: int32, y: int32, deviceId: int32, modifiers: int32) =
+        var point: CustomGPoint = CustomGPoint(JObject(GestureOnlyMotionRecognizer.pointCircularPool.getNextInstance()))
         point.setX(x)
         point.setY(y)
-        self.motionGestureRecognizer.processDraggedMotionEvent(point, deviceId, modifiers)
-# from org.allbinary.graphics.CustomGPoint import CustomGPoint
-# from org.allbinary.graphics.GPointCircularPool import GPointCircularPool
-# from org.allbinary.input.motion.gesture.MotionGestureRecognizer import MotionGestureRecognizer
+        this.motionGestureRecognizer.processDraggedMotionEvent(point, deviceId, modifiers)
 
-
-def _GestureOnlyMotionRecognizer_pointCircularPool() -> object:
-    from org.allbinary.graphics.GPointCircularPool import GPointCircularPool
-    return GPointCircularPool(40)
-
-lazy_static(GestureOnlyMotionRecognizer, "pointCircularPool", _GestureOnlyMotionRecognizer_pointCircularPool)
+when declared(newGestureOnlyMotionRecognizerHook0):
+    newGestureOnlyMotionRecognizerHook0 = proc (): MotionRecognizer = newGestureOnlyMotionRecognizer()
 

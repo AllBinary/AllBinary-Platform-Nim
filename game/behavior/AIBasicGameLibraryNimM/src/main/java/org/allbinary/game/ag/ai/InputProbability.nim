@@ -1,75 +1,92 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.ag.ai
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import java/lang/Integer as IntegerModule
+export IntegerModule
+import org/allbinary/time/TimeDelayHelper as TimeDelayHelperModule
+export TimeDelayHelperModule
+import org/allbinary/util/ABHashtable as ABHashtableModule
+export ABHashtableModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    InputProbability* = ref object of JObject
+        likelyhoodIntegerArray*: JArray[JArray[int32]]
+        repeatLikelyhoodIntegerArray*: JArray[int32]
+        max*: int32
+        timeDelayHelper*: TimeDelayHelper
 
+proc newInputProbability*(likelyhoodIntegerArray: JArray[JArray[int32]], repeatLikelyhoodIntegerArray: JArray[int32], max: int32, timeDelayHelper: TimeDelayHelper): InputProbability
+proc initInputProbability*(this: InputProbability, likelyhoodIntegerArray: JArray[JArray[int32]], repeatLikelyhoodIntegerArray: JArray[int32], max: int32, timeDelayHelper: TimeDelayHelper)
+method getLikelyhoodIntegerArray*(this: InputProbability): JArray[JArray[int32]] {.base, discardable.}
+method getRepeatLikelyhoodIntegerArray*(this: InputProbability): JArray[int32] {.base, discardable.}
+method getMax*(this: InputProbability): int32 {.base, discardable.}
+method getTimeDelayHelper*(this: InputProbability): TimeDelayHelper {.base, discardable.}
+method toHashtable*(this: InputProbability): ABHashtable {.base, discardable.}
+import org/allbinary/logic/StdUtil as StdUtilModule
+export StdUtilModule
+import org/allbinary/logic/math/SmallIntegerSingletonFactory as SmallIntegerSingletonFactoryModule
+export SmallIntegerSingletonFactoryModule
 
-class InputProbability:
-    INPUT_PROBABILITY: int = None
+var InputProbability_INPUT_PROBABILITYValue: int32
+var InputProbability_INPUT_PROBABILITYSet = false
+proc INPUT_PROBABILITYStatic*(t: typedesc[InputProbability]): int32 =
+    if not InputProbability_INPUT_PROBABILITYSet:
+        InputProbability_INPUT_PROBABILITYSet = true
+        InputProbability_INPUT_PROBABILITYValue = SmallIntegerSingletonFactory.getInstance().getAt(0)
+    InputProbability_INPUT_PROBABILITYValue
+proc `INPUT_PROBABILITYStatic=`*(t: typedesc[InputProbability], value: int32) =
+    InputProbability_INPUT_PROBABILITYSet = true
+    InputProbability_INPUT_PROBABILITYValue = value
 
-    def _init_fields(self) -> None:
-        from org.allbinary.time.TimeDelayHelper import TimeDelayHelper
-        self.likelyhoodIntegerArray: list[list[int]] = None
-        self.repeatLikelyhoodIntegerArray: list[int] = None
-        self.max: int = None
-        self.timeDelayHelper: TimeDelayHelper = None
+# Java field initializers run after the base initializer
+proc initFieldsInputProbability(this: InputProbability) =
     
-
-    def __init__(self, likelyhoodIntegerArray: list[list[int]], repeatLikelyhoodIntegerArray: list[int], max: int, timeDelayHelper: TimeDelayHelper) -> None:
-        from org.allbinary.time.TimeDelayHelper import TimeDelayHelper
-        self._init_fields()
-        self.likelyhoodIntegerArray = likelyhoodIntegerArray
-        self.repeatLikelyhoodIntegerArray = repeatLikelyhoodIntegerArray
-        self.max = max
-        self.timeDelayHelper = timeDelayHelper
     
-
-    def getLikelyhoodIntegerArray(self) -> list[list[int]]:
-        return self.likelyhoodIntegerArray
     
-
-    def getRepeatLikelyhoodIntegerArray(self) -> list[int]:
-        return self.repeatLikelyhoodIntegerArray
     
+    discard
 
-    def getMax(self) -> int:
-        return self.max
-    
+proc initInputProbability*(this: InputProbability, likelyhoodIntegerArray: JArray[JArray[int32]], repeatLikelyhoodIntegerArray: JArray[int32], max: int32, timeDelayHelper: TimeDelayHelper) =
+        this.initFieldsInputProbability()
+        this.likelyhoodIntegerArray = likelyhoodIntegerArray
+        this.repeatLikelyhoodIntegerArray = repeatLikelyhoodIntegerArray
+        this.max = max
+        this.timeDelayHelper = timeDelayHelper
 
-    def getTimeDelayHelper(self) -> TimeDelayHelper:
-        from org.allbinary.time.TimeDelayHelper import TimeDelayHelper
-        return self.timeDelayHelper
-    
+proc newInputProbability*(likelyhoodIntegerArray: JArray[JArray[int32]], repeatLikelyhoodIntegerArray: JArray[int32], max: int32, timeDelayHelper: TimeDelayHelper): InputProbability =
+    result = InputProbability()
+    initInputProbability(result, likelyhoodIntegerArray, repeatLikelyhoodIntegerArray, max, timeDelayHelper)
 
-    def toHashtable(self) -> ABHashtable[object, object]:
-        from org.allbinary.logic.StdUtil import StdUtil
-        from org.allbinary.util.ABHashtable import ABHashtable
-        hashtable: ABHashtable[object, object] = StdUtil.getInstance().createHashtable()
-        hashtable.put(InputProbability.INPUT_PROBABILITY, self)
+method getLikelyhoodIntegerArray*(this: InputProbability): JArray[JArray[int32]] {.base, discardable.} =
+        return this.likelyhoodIntegerArray
+
+method getRepeatLikelyhoodIntegerArray*(this: InputProbability): JArray[int32] {.base, discardable.} =
+        return this.repeatLikelyhoodIntegerArray
+
+method getMax*(this: InputProbability): int32 {.base, discardable.} =
+        return this.max
+
+method getTimeDelayHelper*(this: InputProbability): TimeDelayHelper {.base, discardable.} =
+        return this.timeDelayHelper
+
+method toHashtable*(this: InputProbability): ABHashtable {.base, discardable.} =
+        var hashtable: ABHashtable = StdUtil.getInstance().createHashtable()
+        hashtable.put(InputProbability.INPUT_PROBABILITYStatic, this)
         return hashtable
-# from org.allbinary.logic.StdUtil import StdUtil
-# from org.allbinary.logic.math.SmallIntegerSingletonFactory import SmallIntegerSingletonFactory
-# from org.allbinary.time.TimeDelayHelper import TimeDelayHelper
-# from org.allbinary.util.ABHashtable import ABHashtable
-
-
-def _InputProbability_INPUT_PROBABILITY() -> object:
-    from org.allbinary.logic.math.SmallIntegerSingletonFactory import SmallIntegerSingletonFactory
-    return SmallIntegerSingletonFactory.getInstance().getAt(0)
-
-lazy_static(InputProbability, "INPUT_PROBABILITY", _InputProbability_INPUT_PROBABILITY)
 

@@ -1,132 +1,144 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.animation
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import javax/microedition/khronos/opengles/GL as GLModule
+export GLModule
+import javax/microedition/lcdui/Graphics as GraphicsModule
+export GraphicsModule
+import org/allbinary/graphics/color/BasicColor as BasicColorModule
+export BasicColorModule
+import org/allbinary/graphics/color/BasicColorSetUtil as BasicColorSetUtilModule
+export BasicColorSetUtilModule
+import org/allbinary/image/opengles/OpenGLSurfaceChangedInterface as OpenGLSurfaceChangedInterfaceModule
+export OpenGLSurfaceChangedInterfaceModule
+import org/allbinary/animation/AnimationInterface as AnimationInterfaceModule
+export AnimationInterfaceModule
 
-from org.allbinary.image.opengles.OpenGLSurfaceChangedInterface import OpenGLSurfaceChangedInterface
-from org.allbinary.animation.AnimationInterface import AnimationInterface
+type
+    Animation* = ref object of AnimationInterface
+        basicSetColorUtil*: BasicColorSetUtil
+        basicColor*: BasicColor
+        colorP*: int32
+        changeBasicColorP*: BasicColor
+        changeColorP*: int32
+        alphaP*: int32
+
+converter jAsOpenGLSurfaceChangedInterface*(value: Animation): OpenGLSurfaceChangedInterface = cast[OpenGLSurfaceChangedInterface](value)
+proc newAnimation*(): Animation
+proc initAnimation*(this: Animation)
+method setAlpha*(this: Animation, alpha: int32) {.base.}
+method nextFrame*(this: Animation)
+method paintXY*(this: Animation, graphics: Graphics, x: int32, y: int32)
+method paintThreedXYZ*(this: Animation, graphics: Graphics, x: int32, y: int32, z: int32)
+method isThreed*(this: Animation): bool {.base, discardable.}
+method getBasicColorP*(this: Animation): BasicColor {.base, discardable.}
+method setBasicColorP*(this: Animation, basicColor: BasicColor) {.base.}
+method setBackgroundBasicColorP*(this: Animation, basicColor: BasicColor) {.base.}
+method getChangeBasicColor*(this: Animation): BasicColor {.base, discardable.}
+method changeBasicColor*(this: Animation, basicColor: BasicColor) {.base.}
+method getChangeColor*(this: Animation): int32 {.base, discardable.}
+method getColor*(this: Animation): int32 {.base, discardable.}
+method setScale*(this: Animation, scaleX: float32, scaleY: float32) {.base.}
+method setMaxScale*(this: Animation, maxScaleX: float32, maxScaleY: float32) {.base.}
+method set*(this: Animation, gl: GL)
+method setDx*(this: Animation, dx: int32) {.base.}
+method getDx*(this: Animation): int32 {.base, discardable.}
+method setDy*(this: Animation, dy: int32) {.base.}
+method getDy*(this: Animation): int32 {.base, discardable.}
+import org/allbinary/graphics/color/BasicColorFactory as BasicColorFactoryModule
+export BasicColorFactoryModule
 
 
-class Animation(AnimationInterface, OpenGLSurfaceChangedInterface):
+# Java field initializers run after the base initializer
+proc initFieldsAnimation(this: Animation) =
+    this.basicSetColorUtil = BasicColorSetUtil.getInstance()
+    this.basicColor = BasicColorFactory.getInstance().WHITE
+    this.colorP = 0
+    this.changeBasicColorP = BasicColorFactory.getInstance().NULL_COLOR
+    this.changeColorP = 0
+    this.alphaP = 0
+    discard
 
-    def _init_fields(self) -> None:
-        from org.allbinary.graphics.color.BasicColor import BasicColor
-        from org.allbinary.graphics.color.BasicColorFactory import BasicColorFactory
-        from org.allbinary.graphics.color.BasicColorSetUtil import BasicColorSetUtil
-        self.basicSetColorUtil: BasicColorSetUtil = BasicColorSetUtil.getInstance()
-        self.basicColor: BasicColor = BasicColorFactory.getInstance().WHITE
-        self.colorP: int = 0
-        self.changeBasicColorP: BasicColor = BasicColorFactory.getInstance().NULL_COLOR
-        self.changeColorP: int = 0
-        self.alphaP: int = 0
-    
+proc initAnimation*(this: Animation) =
+        this.initFieldsAnimation()
+        discard
 
-    def __init__(self) -> None:
-        self._init_fields()
-    
+proc newAnimation*(): Animation =
+    result = Animation()
+    initAnimation(result)
 
-    def setAlpha(self, alpha: int) -> None:
-        self.alphaP = alpha
-    
+method setAlpha*(this: Animation, alpha: int32) {.base.} =
+        this.alphaP = alpha
 
-    # throws Exception
-    def nextFrame(self) -> None:
-        pass
-    
+method nextFrame*(this: Animation) =
+        discard
 
-    def paintXY(self, graphics: Graphics, x: int, y: int) -> None:
-        from javax.microedition.lcdui.Graphics import Graphics
-        self.basicSetColorUtil.setBasicColorP3(graphics, self.getBasicColorP(), self.getColor())
-    
+method paintXY*(this: Animation, graphics: Graphics, x: int32, y: int32) =
+        this.basicSetColorUtil.setBasicColorP3(graphics, this.getBasicColorP(), this.getColor())
 
-    def paintThreedXYZ(self, graphics: Graphics, x: int, y: int, z: int) -> None:
-        from javax.microedition.lcdui.Graphics import Graphics
-        pass
-    
+method paintThreedXYZ*(this: Animation, graphics: Graphics, x: int32, y: int32, z: int32) =
+        discard
 
-    def isThreed(self) -> bool:
-        return False
-    
+method isThreed*(this: Animation): bool {.base, discardable.} =
+        return false
 
-    def getBasicColorP(self) -> BasicColor:
-        from org.allbinary.graphics.color.BasicColor import BasicColor
-        return self.basicColor
-    
+method getBasicColorP*(this: Animation): BasicColor {.base, discardable.} =
+        return this.basicColor
 
-    def setBasicColorP(self, basicColor: BasicColor) -> None:
-        from org.allbinary.graphics.color.BasicColor import BasicColor
-        self.basicColor = basicColor
-        self.colorP = int(self.basicColor)
-    
+method setBasicColorP*(this: Animation, basicColor: BasicColor) {.base.} =
+        this.basicColor = basicColor
+        this.colorP = this.basicColor.intValue()
 
-    def setBackgroundBasicColorP(self, basicColor: BasicColor) -> None:
-        from org.allbinary.graphics.color.BasicColor import BasicColor
-        pass
-    
+method setBackgroundBasicColorP*(this: Animation, basicColor: BasicColor) {.base.} =
+        discard
 
-    def getChangeBasicColor(self) -> BasicColor:
-        from org.allbinary.graphics.color.BasicColor import BasicColor
-        return self.changeBasicColorP
-    
+method getChangeBasicColor*(this: Animation): BasicColor {.base, discardable.} =
+        return this.changeBasicColorP
 
-    def changeBasicColor(self, basicColor: BasicColor) -> None:
-        from org.allbinary.graphics.color.BasicColor import BasicColor
-        self.changeBasicColorP = basicColor
-        self.changeColorP = int(self.changeBasicColorP)
-    
+method changeBasicColor*(this: Animation, basicColor: BasicColor) {.base.} =
+        this.changeBasicColorP = basicColor
+        this.changeColorP = this.changeBasicColorP.intValue()
 
-    def getChangeColor(self) -> int:
-        return self.changeColorP
-    
+method getChangeColor*(this: Animation): int32 {.base, discardable.} =
+        return this.changeColorP
 
-    def getColor(self) -> int:
-        return self.colorP
-    
+method getColor*(this: Animation): int32 {.base, discardable.} =
+        return this.colorP
 
-    def setScale(self, scaleX: float, scaleY: float) -> None:
-        pass
-    
+method setScale*(this: Animation, scaleX: float32, scaleY: float32) {.base.} =
+        discard
 
-    def setMaxScale(self, maxScaleX: float, maxScaleY: float) -> None:
-        pass
-    
+method setMaxScale*(this: Animation, maxScaleX: float32, maxScaleY: float32) {.base.} =
+        discard
 
-    # throws Exception
-    def set(self, gl: GL) -> None:
-        from javax.microedition.khronos.opengles.GL import GL
-        pass
-    
+method set*(this: Animation, gl: GL) =
+        discard
 
-    def setDx(self, dx: int) -> None:
-        pass
-    
+method setDx*(this: Animation, dx: int32) {.base.} =
+        discard
 
-    def getDx(self) -> int:
+method getDx*(this: Animation): int32 {.base, discardable.} =
         return 0
-    
 
-    def setDy(self, dy: int) -> None:
-        pass
-    
+method setDy*(this: Animation, dy: int32) {.base.} =
+        discard
 
-    def getDy(self) -> int:
+method getDy*(this: Animation): int32 {.base, discardable.} =
         return 0
-# from javax.microedition.khronos.opengles.GL import GL
-# from javax.microedition.lcdui.Graphics import Graphics
-# from org.allbinary.graphics.color.BasicColor import BasicColor
-# from org.allbinary.graphics.color.BasicColorFactory import BasicColorFactory
-# from org.allbinary.graphics.color.BasicColorSetUtil import BasicColorSetUtil
-
 

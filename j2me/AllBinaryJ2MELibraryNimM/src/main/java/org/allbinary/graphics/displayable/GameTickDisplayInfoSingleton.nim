@@ -1,68 +1,83 @@
-# 
-# AllBinary Open License Version 1 
-# Copyright (c) 2022 AllBinary 
-#  
-# By agreeing to this license you and any business entity you represent are 
-# legally bound to the AllBinary Open License Version 1 legal agreement. 
-#  
-# You may obtain the AllBinary Open License Version 1 legal agreement from 
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
-#  
-# Created By: Travis Berthelot 
-#   
+#[
+  
+  AllBinary Open License Version 1 
+  Copyright (c) 2022 AllBinary 
+   
+  By agreeing to this license you and any business entity you represent are 
+  legally bound to the AllBinary Open License Version 1 legal agreement. 
+   
+  You may obtain the AllBinary Open License Version 1 legal agreement from 
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
+   
+  Created By: Travis Berthelot 
+    
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.graphics.displayable
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/graphics/displayable/DisplayInfoSingleton as DisplayInfoSingletonModule
+export DisplayInfoSingletonModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    GameTickDisplayInfoSingleton* = ref object of JObject
+        displayInfoSingleton*: DisplayInfoSingleton
+        lastWidth*: int32
+        lastHeight*: int32
+        lastHalfWidth*: int32
+        lastHalfHeight*: int32
 
+proc newGameTickDisplayInfoSingleton*(): GameTickDisplayInfoSingleton
+proc getInstance*(t: typedesc[GameTickDisplayInfoSingleton]): GameTickDisplayInfoSingleton {.discardable.}
+method update*(this: GameTickDisplayInfoSingleton) {.base.}
+method getLastWidth*(this: GameTickDisplayInfoSingleton): int32 {.base, discardable.}
+method getLastHeight*(this: GameTickDisplayInfoSingleton): int32 {.base, discardable.}
+method getLastHalfWidth*(this: GameTickDisplayInfoSingleton): int32 {.base, discardable.}
+method getLastHalfHeight*(this: GameTickDisplayInfoSingleton): int32 {.base, discardable.}
 
-class GameTickDisplayInfoSingleton:
-    instance: GameTickDisplayInfoSingleton = None
+var GameTickDisplayInfoSingleton_instanceValue: GameTickDisplayInfoSingleton
+var GameTickDisplayInfoSingleton_instanceSet = false
+proc instance*(t: typedesc[GameTickDisplayInfoSingleton]): GameTickDisplayInfoSingleton =
+    if not GameTickDisplayInfoSingleton_instanceSet:
+        GameTickDisplayInfoSingleton_instanceSet = true
+        GameTickDisplayInfoSingleton_instanceValue = newGameTickDisplayInfoSingleton()
+    GameTickDisplayInfoSingleton_instanceValue
 
-    def _init_fields(self) -> None:
-        self.displayInfoSingleton: DisplayInfoSingleton = DisplayInfoSingleton.getInstance()
-        self.lastWidth: int = self.displayInfoSingleton.getLastWidth()
-        self.lastHeight: int = self.displayInfoSingleton.getLastHeight()
-        self.lastHalfWidth: int = self.displayInfoSingleton.getLastHalfWidth()
-        self.lastHalfHeight: int = self.displayInfoSingleton.getLastHalfHeight()
+# Java field initializers run after the base initializer
+proc initFieldsGameTickDisplayInfoSingleton(this: GameTickDisplayInfoSingleton) =
+    this.displayInfoSingleton = DisplayInfoSingleton.getInstance()
+    this.lastWidth = this.displayInfoSingleton.getLastWidth()
+    this.lastHeight = this.displayInfoSingleton.getLastHeight()
+    this.lastHalfWidth = this.displayInfoSingleton.getLastHalfWidth()
+    this.lastHalfHeight = this.displayInfoSingleton.getLastHalfHeight()
+    discard
 
-    def __init__(self) -> None:
-        self._init_fields()
-    
+proc initGameTickDisplayInfoSingleton*(this: GameTickDisplayInfoSingleton) =
+    this.initFieldsGameTickDisplayInfoSingleton()
 
-    @staticmethod
-    def getInstance() -> GameTickDisplayInfoSingleton:
+proc newGameTickDisplayInfoSingleton*(): GameTickDisplayInfoSingleton =
+    result = GameTickDisplayInfoSingleton()
+    initGameTickDisplayInfoSingleton(result)
+
+proc getInstance*(t: typedesc[GameTickDisplayInfoSingleton]): GameTickDisplayInfoSingleton {.discardable.} =
         return GameTickDisplayInfoSingleton.instance
-    
 
-    def update(self) -> None:
-        self.lastWidth = self.displayInfoSingleton.getLastWidth()
-        self.lastHeight = self.displayInfoSingleton.getLastHeight()
-        self.lastHalfWidth = self.displayInfoSingleton.getLastHalfWidth()
-        self.lastHalfHeight = self.displayInfoSingleton.getLastHalfHeight()
-    
+method update*(this: GameTickDisplayInfoSingleton) {.base.} =
+        this.lastWidth = this.displayInfoSingleton.getLastWidth()
+        this.lastHeight = this.displayInfoSingleton.getLastHeight()
+        this.lastHalfWidth = this.displayInfoSingleton.getLastHalfWidth()
+        this.lastHalfHeight = this.displayInfoSingleton.getLastHalfHeight()
 
-    def getLastWidth(self) -> int:
-        return self.lastWidth
-    
+method getLastWidth*(this: GameTickDisplayInfoSingleton): int32 {.base, discardable.} =
+        return this.lastWidth
 
-    def getLastHeight(self) -> int:
-        return self.lastHeight
-    
+method getLastHeight*(this: GameTickDisplayInfoSingleton): int32 {.base, discardable.} =
+        return this.lastHeight
 
-    def getLastHalfWidth(self) -> int:
-        return self.lastHalfWidth
-    
+method getLastHalfWidth*(this: GameTickDisplayInfoSingleton): int32 {.base, discardable.} =
+        return this.lastHalfWidth
 
-    def getLastHalfHeight(self) -> int:
-        return self.lastHalfHeight
-from org.allbinary.graphics.displayable.DisplayInfoSingleton import DisplayInfoSingleton
-
-
-def _GameTickDisplayInfoSingleton_instance() -> object:
-    return GameTickDisplayInfoSingleton()
-
-lazy_static(GameTickDisplayInfoSingleton, "instance", _GameTickDisplayInfoSingleton_instance)
+method getLastHalfHeight*(this: GameTickDisplayInfoSingleton): int32 {.base, discardable.} =
+        return this.lastHalfHeight
 

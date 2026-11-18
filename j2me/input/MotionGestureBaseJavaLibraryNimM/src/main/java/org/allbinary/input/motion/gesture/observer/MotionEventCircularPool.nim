@@ -1,56 +1,63 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.input.motion.gesture.observer
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/input/motion/gesture/MotionGestureInput as MotionGestureInputModule
+export MotionGestureInputModule
+import org/allbinary/logic/util/event/AllBinaryEventCircularPool as AllBinaryEventCircularPoolModule
+export AllBinaryEventCircularPoolModule
+import org/allbinary/input/motion/gesture/observer/MotionGestureEvent as MotionGestureEventModule
+export MotionGestureEventModule
 
-import threading
+type
+    MotionEventCircularPool* = ref object of JObject
+        MIN*: int32
+        eventPool*: AllBinaryEventCircularPool
+
+proc newMotionEventCircularPool*(id: int32): MotionEventCircularPool
+proc initMotionEventCircularPool*(this: MotionEventCircularPool, id: int32)
+proc createPool*(t: typedesc[MotionEventCircularPool], id: int32): MotionEventCircularPool {.discardable.}
+method getInstance*(this: MotionEventCircularPool, motionGestureInput: MotionGestureInput): MotionGestureEvent {.base, discardable.}
+import org/allbinary/game/input/InputFactory as InputFactoryModule
+export InputFactoryModule
+import org/allbinary/input/motion/gesture/TouchMotionGestureFactory as TouchMotionGestureFactoryModule
+export TouchMotionGestureFactoryModule
+import org/allbinary/input/motion/gesture/observer/MotionEventFactory as MotionEventFactoryModule
+export MotionEventFactoryModule
 
 
-class MotionEventCircularPool:
-    _lock = threading.RLock()
+# Java field initializers run after the base initializer
+proc initFieldsMotionEventCircularPool(this: MotionEventCircularPool) =
+    this.MIN = TouchMotionGestureFactory.getInstance().LAST_MOTION.getId()
+    this.eventPool = newAllBinaryEventCircularPool((InputFactory.getInstance().MAX -% 1) -% this.MIN)
+    discard
 
-    def _init_fields(self) -> None:
-        from org.allbinary.game.input.InputFactory import InputFactory
-        from org.allbinary.input.motion.gesture.TouchMotionGestureFactory import TouchMotionGestureFactory
-        from org.allbinary.logic.util.event.AllBinaryEventCircularPool import AllBinaryEventCircularPool
-        self.MIN: int = TouchMotionGestureFactory.getInstance().LAST_MOTION.getId()
-        self.eventPool: AllBinaryEventCircularPool = AllBinaryEventCircularPool((InputFactory.getInstance().MAX - 1) - self.MIN)
-    
+proc createPool*(t: typedesc[MotionEventCircularPool], id: int32): MotionEventCircularPool {.discardable.} =
+        return newMotionEventCircularPool(id)
 
-    @staticmethod
-    def createPool(id: int) -> MotionEventCircularPool:
-        return MotionEventCircularPool(id)
-    
+proc initMotionEventCircularPool*(this: MotionEventCircularPool, id: int32) =
+        this.initFieldsMotionEventCircularPool()
+        this.eventPool.initAllBinaryEventCircularPool(newMotionEventFactory(this.eventPool, id))
 
-    def __init__(self, id: int) -> None:
-        from org.allbinary.input.motion.gesture.observer.MotionEventFactory import MotionEventFactory
-        self._init_fields()
-        self.eventPool.initAllBinaryEventCircularPool(MotionEventFactory(self.eventPool, id))
-    
+proc newMotionEventCircularPool*(id: int32): MotionEventCircularPool =
+    result = MotionEventCircularPool()
+    initMotionEventCircularPool(result, id)
 
-    # throws Exception
-    def getInstance(self, motionGestureInput: MotionGestureInput) -> MotionGestureEvent:
-        with self._lock:
-            return self._getInstance_unlocked(motionGestureInput)
-
-    def _getInstance_unlocked(self, motionGestureInput: MotionGestureInput) -> MotionGestureEvent:
-        from org.allbinary.input.motion.gesture.MotionGestureInput import MotionGestureInput
-        return self.eventPool.getInstance(motionGestureInput.getId() - self.MIN)
-# from org.allbinary.game.input.InputFactory import InputFactory
-# from org.allbinary.input.motion.gesture.MotionGestureInput import MotionGestureInput
-# from org.allbinary.input.motion.gesture.TouchMotionGestureFactory import TouchMotionGestureFactory
-# from org.allbinary.logic.util.event.AllBinaryEventCircularPool import AllBinaryEventCircularPool
-
+method getInstance*(this: MotionEventCircularPool, motionGestureInput: MotionGestureInput): MotionGestureEvent {.base, discardable.} =
+        return MotionGestureEvent(JObject(this.eventPool.getInstance(motionGestureInput.getId() -% this.MIN)))
 

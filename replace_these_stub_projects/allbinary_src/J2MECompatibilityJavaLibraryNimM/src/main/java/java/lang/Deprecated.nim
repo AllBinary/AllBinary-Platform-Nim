@@ -1,12 +1,20 @@
 # Generated Code Do Not Modify
 # package java.lang
 
-from __future__ import annotations
-
-
+{.warning[UnusedImport]: off.}
+import allbinary_java
 
 #J2SE to J2ME compatibility
-class Deprecated:
-    pass
+type
+    Deprecated* = ref object of JObject
 
+proc newDeprecated*(): Deprecated
+
+
+proc initDeprecated*(this: Deprecated) =
+    discard
+
+proc newDeprecated*(): Deprecated =
+    result = Deprecated()
+    initDeprecated(result)
 

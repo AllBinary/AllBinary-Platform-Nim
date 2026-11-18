@@ -1,63 +1,78 @@
-# 
-# AllBinary Open License Version 1 
-# Copyright (c) 2022 AllBinary 
-#  
-# By agreeing to this license you and any business entity you represent are 
-# legally bound to the AllBinary Open License Version 1 legal agreement. 
-#  
-# You may obtain the AllBinary Open License Version 1 legal agreement from 
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
-#  
-# Created By: Travis Berthelot 
-#   
+#[
+  
+  AllBinary Open License Version 1 
+  Copyright (c) 2022 AllBinary 
+   
+  By agreeing to this license you and any business entity you represent are 
+  legally bound to the AllBinary Open License Version 1 legal agreement. 
+   
+  You may obtain the AllBinary Open License Version 1 legal agreement from 
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
+   
+  Created By: Travis Berthelot 
+    
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.media.audio
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/string/CommonStrings as CommonStringsModule
+export CommonStringsModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    PlayerStateUtil* = ref object of JObject
+        commonStrings*: CommonStrings
+        UNREALIZED*: string
+        REALIZED*: string
+        PREFETCHED*: string
+        STARTED*: string
+        CLOSED*: string
 
+proc newPlayerStateUtil*(): PlayerStateUtil
+proc getInstance*(t: typedesc[PlayerStateUtil]): PlayerStateUtil {.discardable.}
+method convert*(this: PlayerStateUtil, state: int32): string {.base, discardable.}
+import javax/microedition/media/Player as PlayerModule
+export PlayerModule
 
-class PlayerStateUtil:
-    instance: PlayerStateUtil = None
+var PlayerStateUtil_instanceValue: PlayerStateUtil
+var PlayerStateUtil_instanceSet = false
+proc instance*(t: typedesc[PlayerStateUtil]): PlayerStateUtil =
+    if not PlayerStateUtil_instanceSet:
+        PlayerStateUtil_instanceSet = true
+        PlayerStateUtil_instanceValue = newPlayerStateUtil()
+    PlayerStateUtil_instanceValue
 
-    def _init_fields(self) -> None:
-        from org.allbinary.string.CommonStrings import CommonStrings
-        self.commonStrings: CommonStrings = CommonStrings.getInstance()
-        self.UNREALIZED: str = "UNREALIZED"
-        self.REALIZED: str = "REALIZED"
-        self.PREFETCHED: str = "PREFETCHED"
-        self.STARTED: str = "STARTED"
-        self.CLOSED: str = "CLOSED"
+# Java field initializers run after the base initializer
+proc initFieldsPlayerStateUtil(this: PlayerStateUtil) =
+    this.commonStrings = CommonStrings.getInstance()
+    this.UNREALIZED = "UNREALIZED"
+    this.REALIZED = "REALIZED"
+    this.PREFETCHED = "PREFETCHED"
+    this.STARTED = "STARTED"
+    this.CLOSED = "CLOSED"
+    discard
 
-    def __init__(self) -> None:
-        self._init_fields()
-    
+proc initPlayerStateUtil*(this: PlayerStateUtil) =
+    this.initFieldsPlayerStateUtil()
 
-    @staticmethod
-    def getInstance() -> PlayerStateUtil:
+proc newPlayerStateUtil*(): PlayerStateUtil =
+    result = PlayerStateUtil()
+    initPlayerStateUtil(result)
+
+proc getInstance*(t: typedesc[PlayerStateUtil]): PlayerStateUtil {.discardable.} =
         return PlayerStateUtil.instance
-    
 
-    def convert(self, state: int) -> str:
-        from javax.microedition.media.Player import Player
+method convert*(this: PlayerStateUtil, state: int32): string {.base, discardable.} =
         if state == Player.UNREALIZED:
-            return self.UNREALIZED
+            return this.UNREALIZED
         elif state == Player.REALIZED:
-            return self.REALIZED
+            return this.REALIZED
         elif state == Player.PREFETCHED:
-            return self.PREFETCHED
+            return this.PREFETCHED
         elif state == Player.STARTED:
-            return self.STARTED
+            return this.STARTED
         elif state == Player.CLOSED:
-            return self.CLOSED
-        return self.commonStrings.UNKNOWN
-# from javax.microedition.media.Player import Player
-# from org.allbinary.string.CommonStrings import CommonStrings
-
-
-def _PlayerStateUtil_instance() -> object:
-    return PlayerStateUtil()
-
-lazy_static(PlayerStateUtil, "instance", _PlayerStateUtil_instance)
+            return this.CLOSED
+        return this.commonStrings.UNKNOWN
 

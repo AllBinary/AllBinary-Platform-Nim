@@ -1,74 +1,94 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.direction
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/direction/Direction as DirectionModule
+export DirectionModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    DirectionFactory* = ref object of JObject
+        NAME*: string
+        LEFT*: Direction
+        RIGHT*: Direction
+        DOWN*: Direction
+        UP*: Direction
+        UP_LEFT*: Direction
+        UP_RIGHT*: Direction
+        DOWN_LEFT*: Direction
+        DOWN_RIGHT*: Direction
+        NOT_BORDERED_WITH*: Direction
+        NO_DIRECTION*: Direction
+        TOP*: Direction
+        BOTTOM*: Direction
+        ALL_DIRECTION*: Direction
 
+proc newDirectionFactory*(): DirectionFactory
+proc initDirectionFactory*(this: DirectionFactory)
+proc getInstance*(t: typedesc[DirectionFactory]): DirectionFactory {.discardable.}
+import org/allbinary/logic/string/StringMaker as StringMakerModule
+export StringMakerModule
+import org/allbinary/string/CommonPhoneStrings as CommonPhoneStringsModule
+export CommonPhoneStringsModule
+import org/allbinary/string/CommonSeps as CommonSepsModule
+export CommonSepsModule
 
-class DirectionFactory:
-    instance: DirectionFactory = None
+var DirectionFactory_instanceValue: DirectionFactory
+var DirectionFactory_instanceSet = false
+proc instance*(t: typedesc[DirectionFactory]): DirectionFactory =
+    if not DirectionFactory_instanceSet:
+        DirectionFactory_instanceSet = true
+        DirectionFactory_instanceValue = newDirectionFactory()
+    DirectionFactory_instanceValue
 
-    def _init_fields(self) -> None:
-        from org.allbinary.string.CommonPhoneStrings import CommonPhoneStrings
-        self.NAME: str = "DIRECTION"
-        self.LEFT: Direction = Direction(CommonPhoneStrings.getInstance().LEFT, "WEST", 0, 1)
-        self.RIGHT: Direction = Direction(CommonPhoneStrings.getInstance().RIGHT, "EAST", 1, 0)
-        self.DOWN: Direction = Direction(CommonPhoneStrings.getInstance().DOWN, "SOUTH", 2, 0)
-        self.UP: Direction = Direction(CommonPhoneStrings.getInstance().UP, "NORTH", 3, 0)
-        self.UP_LEFT: Direction = None
-        self.UP_RIGHT: Direction = None
-        self.DOWN_LEFT: Direction = None
-        self.DOWN_RIGHT: Direction = None
-        self.NOT_BORDERED_WITH: Direction = Direction("NOT_BORDERED_WITH", "NOT_BORDERED_WITH", 8, 0)
-        self.NO_DIRECTION: Direction = Direction("NO_DIRECTION", "NO_DIRECTION", 9, 0)
-        self.TOP: Direction = Direction("TOP", "TOP", 10, 0)
-        self.BOTTOM: Direction = Direction("BOTTOM", "BOTTOM", 11, 0)
-        self.ALL_DIRECTION: Direction = Direction("ALL_DIRECTION", "ALL_DIRECTION", 12, 0)
+# Java field initializers run after the base initializer
+proc initFieldsDirectionFactory(this: DirectionFactory) =
+    this.NAME = "DIRECTION"
+    this.LEFT = newDirection(CommonPhoneStrings.getInstance().LEFT, "WEST", 0, 1)
+    this.RIGHT = newDirection(CommonPhoneStrings.getInstance().RIGHT, "EAST", 1, 0)
+    this.DOWN = newDirection(CommonPhoneStrings.getInstance().DOWN, "SOUTH", 2, 0)
+    this.UP = newDirection(CommonPhoneStrings.getInstance().UP, "NORTH", 3, 0)
     
+    
+    
+    
+    this.NOT_BORDERED_WITH = newDirection("NOT_BORDERED_WITH", "NOT_BORDERED_WITH", 8, 0)
+    this.NO_DIRECTION = newDirection("NO_DIRECTION", "NO_DIRECTION", 9, 0)
+    this.TOP = newDirection("TOP", "TOP", 10, 0)
+    this.BOTTOM = newDirection("BOTTOM", "BOTTOM", 11, 0)
+    this.ALL_DIRECTION = newDirection("ALL_DIRECTION", "ALL_DIRECTION", 12, 0)
+    discard
 
-    @staticmethod
-    def getInstance() -> DirectionFactory:
+proc getInstance*(t: typedesc[DirectionFactory]): DirectionFactory {.discardable.} =
         return DirectionFactory.instance
-    
 
-    def __init__(self) -> None:
-        from org.allbinary.direction.Direction import Direction
-        from org.allbinary.direction.Direction import Direction
-        from org.allbinary.direction.Direction import Direction
-        from org.allbinary.direction.Direction import Direction
-        from org.allbinary.logic.string.StringMaker import StringMaker
-        from org.allbinary.string.CommonSeps import CommonSeps
-        self._init_fields()
-        stringBuffer: StringMaker = StringMaker()
-        commonSeps: CommonSeps = CommonSeps.getInstance()
-        self.UP_LEFT = Direction("UP LEFT", str(stringBuffer.append(self.UP.getOtherName()).append(commonSeps.SPACE).append(self.LEFT.getOtherName())), 4, 0)
+proc initDirectionFactory*(this: DirectionFactory) =
+        this.initFieldsDirectionFactory()
+        var stringBuffer: StringMaker = newStringMaker()
+        var commonSeps: CommonSeps = CommonSeps.getInstance()
+        this.UP_LEFT = newDirection("UP LEFT", stringBuffer.append(this.UP.getOtherName()).append(commonSeps.SPACE).append(this.LEFT.getOtherName()).toString(), 4, 0)
         stringBuffer.delete(0, stringBuffer.length())
-        self.UP_RIGHT = Direction("UP RIGHT", str(stringBuffer.append(self.UP.getOtherName()).append(commonSeps.SPACE).append(self.RIGHT.getOtherName())), 5, 0)
+        this.UP_RIGHT = newDirection("UP RIGHT", stringBuffer.append(this.UP.getOtherName()).append(commonSeps.SPACE).append(this.RIGHT.getOtherName()).toString(), 5, 0)
         stringBuffer.delete(0, stringBuffer.length())
-        self.DOWN_LEFT = Direction("DOWN LEFT", str(stringBuffer.append(self.DOWN.getOtherName()).append(commonSeps.SPACE).append(self.LEFT.getOtherName())), 6, 0)
+        this.DOWN_LEFT = newDirection("DOWN LEFT", stringBuffer.append(this.DOWN.getOtherName()).append(commonSeps.SPACE).append(this.LEFT.getOtherName()).toString(), 6, 0)
         stringBuffer.delete(0, stringBuffer.length())
-        self.DOWN_RIGHT = Direction("DOWN RIGHT", str(stringBuffer.append(self.DOWN.getOtherName()).append(commonSeps.SPACE).append(self.RIGHT.getOtherName())), 7, 0)
-# from org.allbinary.logic.string.StringMaker import StringMaker
-# from org.allbinary.string.CommonPhoneStrings import CommonPhoneStrings
-# from org.allbinary.string.CommonSeps import CommonSeps
-from org.allbinary.direction.Direction import Direction
+        this.DOWN_RIGHT = newDirection("DOWN RIGHT", stringBuffer.append(this.DOWN.getOtherName()).append(commonSeps.SPACE).append(this.RIGHT.getOtherName()).toString(), 7, 0)
 
-
-def _DirectionFactory_instance() -> object:
-    return DirectionFactory()
-
-lazy_static(DirectionFactory, "instance", _DirectionFactory_instance)
+proc newDirectionFactory*(): DirectionFactory =
+    result = DirectionFactory()
+    initDirectionFactory(result)
 

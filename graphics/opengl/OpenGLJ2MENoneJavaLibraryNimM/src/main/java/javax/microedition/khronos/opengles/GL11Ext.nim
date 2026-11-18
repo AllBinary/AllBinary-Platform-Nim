@@ -1,13 +1,12 @@
 # Generated Code Do Not Modify
 # package javax.microedition.khronos.opengles
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import javax/microedition/khronos/opengles/GL as GLModule
+export GLModule
 
-from javax.microedition.khronos.opengles.GL import GL
-
-
-# Java interface
-class GL11Ext(GL):
-    pass
+type
+    GL11Ext* = ref object of GL
 
 

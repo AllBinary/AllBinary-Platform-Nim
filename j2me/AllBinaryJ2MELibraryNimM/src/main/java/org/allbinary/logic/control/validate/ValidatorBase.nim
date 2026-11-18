@@ -1,67 +1,78 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.logic.control.validate
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import java/lang/Boolean as BooleanModule
+export BooleanModule
+import org/allbinary/util/BasicArrayList as BasicArrayListModule
+export BasicArrayListModule
+import org/allbinary/util/ABHashtable as ABHashtableModule
+export ABHashtableModule
+import org/allbinary/logic/control/validate/ValidatorBaseInterface as ValidatorBaseInterfaceModule
+export ValidatorBaseInterfaceModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
-from org.allbinary.logic.control.validate.ValidatorBaseInterface import ValidatorBaseInterface
+type
+    ValidatorBase* = ref object of ValidatorBaseInterface
 
+proc newValidatorBase*(): ValidatorBase
+proc initValidatorBase*(this: ValidatorBase)
+proc getInstance*(t: typedesc[ValidatorBase]): ValidatorBase {.discardable.}
+method isValid*(this: ValidatorBase): bool {.discardable.}
+method validationInfo*(this: ValidatorBase): string {.discardable.}
+method toHashtable*(this: ValidatorBase): ABHashtable {.discardable.}
+method toList*(this: ValidatorBase): BasicArrayList {.discardable.}
+import org/allbinary/logic/StdUtil as StdUtilModule
+export StdUtilModule
+import org/allbinary/logic/java/bool/BooleanFactory as BooleanFactoryModule
+export BooleanFactoryModule
+import org/allbinary/logic/string/StringUtil as StringUtilModule
+export StringUtilModule
+import org/allbinary/util/BasicArrayListUtil as BasicArrayListUtilModule
+export BasicArrayListUtilModule
 
-class ValidatorBase(ValidatorBaseInterface):
-    instance: ValidatorBase = None
-    
+var ValidatorBase_instanceValue: ValidatorBase
+var ValidatorBase_instanceSet = false
+proc instance*(t: typedesc[ValidatorBase]): ValidatorBase =
+    if not ValidatorBase_instanceSet:
+        ValidatorBase_instanceSet = true
+        ValidatorBase_instanceValue = newValidatorBase()
+    ValidatorBase_instanceValue
 
-    @staticmethod
-    def getInstance() -> ValidatorBase:
+proc getInstance*(t: typedesc[ValidatorBase]): ValidatorBase {.discardable.} =
         return ValidatorBase.instance
-    
 
-    def __init__(self) -> None:
-        pass
-    
+proc initValidatorBase*(this: ValidatorBase) =
+        discard
+        discard
 
-    def isValid(self) -> bool:
-        from org.allbinary.logic.java.bool.BooleanFactory import BooleanFactory
+proc newValidatorBase*(): ValidatorBase =
+    result = ValidatorBase()
+    initValidatorBase(result)
+
+method isValid*(this: ValidatorBase): bool {.discardable.} =
         return BooleanFactory.getInstance().TRUE
-    
 
-    def validationInfo(self) -> str:
-        from org.allbinary.logic.string.StringUtil import StringUtil
+method validationInfo*(this: ValidatorBase): string {.discardable.} =
         return StringUtil.getInstance().EMPTY_STRING
-    
 
-    def toHashtable(self) -> ABHashtable[object, object]:
-        from org.allbinary.logic.StdUtil import StdUtil
-        from org.allbinary.util.ABHashtable import ABHashtable
+method toHashtable*(this: ValidatorBase): ABHashtable {.discardable.} =
         return StdUtil.getInstance().NULL_TABLE
-    
 
-    def toList(self) -> BasicArrayList:
-        from org.allbinary.util.BasicArrayList import BasicArrayList
-        from org.allbinary.util.BasicArrayListUtil import BasicArrayListUtil
+method toList*(this: ValidatorBase): BasicArrayList {.discardable.} =
         return BasicArrayListUtil.getInstance().getImmutableInstance()
-# from org.allbinary.logic.StdUtil import StdUtil
-# from org.allbinary.logic.java.bool.BooleanFactory import BooleanFactory
-# from org.allbinary.logic.string.StringUtil import StringUtil
-# from org.allbinary.util.BasicArrayList import BasicArrayList
-# from org.allbinary.util.BasicArrayListUtil import BasicArrayListUtil
-# from org.allbinary.util.ABHashtable import ABHashtable
-
-
-def _ValidatorBase_instance() -> object:
-    return ValidatorBase()
-
-lazy_static(ValidatorBase, "instance", _ValidatorBase_instance)
 

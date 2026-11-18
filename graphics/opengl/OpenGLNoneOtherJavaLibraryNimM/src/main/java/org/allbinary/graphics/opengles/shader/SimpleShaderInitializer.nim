@@ -1,38 +1,49 @@
-# 
-# AllBinary Open License Version 1 
-# Copyright (c) 2025 AllBinary 
-#  
-# By agreeing to this license you and any business entity you represent are 
-# legally bound to the AllBinary Open License Version 1 legal agreement. 
-#  
-# You may obtain the AllBinary Open License Version 1 legal agreement from 
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
-#  
-# Created By: Travis Berthelot 
-#   
+#[
+  
+  AllBinary Open License Version 1 
+  Copyright (c) 2025 AllBinary 
+   
+  By agreeing to this license you and any business entity you represent are 
+  legally bound to the AllBinary Open License Version 1 legal agreement. 
+   
+  You may obtain the AllBinary Open License Version 1 legal agreement from 
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
+   
+  Created By: Travis Berthelot 
+    
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.graphics.opengles.shader
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/graphics/opengles/shader/ShaderInitializer as ShaderInitializerModule
+export ShaderInitializerModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
-from org.allbinary.graphics.opengles.shader.ShaderInitializer import ShaderInitializer
+type
+    SimpleShaderInitializer* = ref object of ShaderInitializer
 
+proc newSimpleShaderInitializer*(): SimpleShaderInitializer
+proc getInstance*(t: typedesc[SimpleShaderInitializer]): SimpleShaderInitializer {.discardable.}
 
-class SimpleShaderInitializer(ShaderInitializer):
-    instanceC: SimpleShaderInitializer = None
+var SimpleShaderInitializer_instanceCValue: SimpleShaderInitializer
+var SimpleShaderInitializer_instanceCSet = false
+proc instanceC*(t: typedesc[SimpleShaderInitializer]): SimpleShaderInitializer =
+    if not SimpleShaderInitializer_instanceCSet:
+        SimpleShaderInitializer_instanceCSet = true
+        SimpleShaderInitializer_instanceCValue = newSimpleShaderInitializer()
+    SimpleShaderInitializer_instanceCValue
 
-    def __init__(self) -> None:
-        super().__init__()
-    
+proc initSimpleShaderInitializer*(this: SimpleShaderInitializer) =
+    initShaderInitializer(this)
 
-    @staticmethod
-    def getInstance() -> SimpleShaderInitializer:
+proc newSimpleShaderInitializer*(): SimpleShaderInitializer =
+    result = SimpleShaderInitializer()
+    initSimpleShaderInitializer(result)
+
+proc getInstance*(t: typedesc[SimpleShaderInitializer]): SimpleShaderInitializer {.discardable.} =
         return SimpleShaderInitializer.instanceC
 
-
-def _SimpleShaderInitializer_instanceC() -> object:
-    return SimpleShaderInitializer()
-
-lazy_static(SimpleShaderInitializer, "instanceC", _SimpleShaderInitializer_instanceC)
+when declared(newSimpleShaderInitializerHook0):
+    newSimpleShaderInitializerHook0 = proc (): ShaderInitializer = newSimpleShaderInitializer()
 

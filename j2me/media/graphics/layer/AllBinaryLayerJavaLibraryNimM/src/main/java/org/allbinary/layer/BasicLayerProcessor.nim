@@ -1,60 +1,75 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.layer
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/logic/communication/log/LogUtil as LogUtilModule
+export LogUtilModule
+import org/allbinary/util/BasicArrayList as BasicArrayListModule
+export BasicArrayListModule
+import org/allbinary/layer/AllBinaryLayer as AllBinaryLayerModule
+export AllBinaryLayerModule
+import org/allbinary/layer/AllBinaryLayerManager as AllBinaryLayerManagerModule
+export AllBinaryLayerManagerModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    BasicLayerProcessor* = ref object of JObject
+        logUtil*: LogUtil
+        list*: BasicArrayList
 
+proc newBasicLayerProcessor*(): BasicLayerProcessor
+proc initBasicLayerProcessor*(this: BasicLayerProcessor)
+method add*(this: BasicLayerProcessor, layerInterface: AllBinaryLayer) {.base.}
+method process*(this: BasicLayerProcessor, allBinaryLayerManager: AllBinaryLayerManager) {.base.}
+method getList*(this: BasicLayerProcessor): BasicArrayList {.base, discardable.}
+import org/allbinary/string/CommonStrings as CommonStringsModule
+export CommonStringsModule
+import org/allbinary/util/BasicArrayListD as BasicArrayListDModule
+export BasicArrayListDModule
 
-class BasicLayerProcessor:
-    NULL_LAYER_PROCESSOR: BasicLayerProcessor = None
+var BasicLayerProcessor_NULL_LAYER_PROCESSORValue: BasicLayerProcessor
+var BasicLayerProcessor_NULL_LAYER_PROCESSORSet = false
+proc NULL_LAYER_PROCESSOR*(t: typedesc[BasicLayerProcessor]): BasicLayerProcessor =
+    if not BasicLayerProcessor_NULL_LAYER_PROCESSORSet:
+        BasicLayerProcessor_NULL_LAYER_PROCESSORSet = true
+        BasicLayerProcessor_NULL_LAYER_PROCESSORValue = newBasicLayerProcessor()
+    BasicLayerProcessor_NULL_LAYER_PROCESSORValue
 
-    def _init_fields(self) -> None:
-        from org.allbinary.logic.communication.log.LogUtil import LogUtil
-        from org.allbinary.util.BasicArrayList import BasicArrayList
-        from org.allbinary.util.BasicArrayListD import BasicArrayListD
-        self.logUtil: LogUtil = LogUtil.getInstance()
-        self.list_: BasicArrayList = BasicArrayListD()
-    
+# Java field initializers run after the base initializer
+proc initFieldsBasicLayerProcessor(this: BasicLayerProcessor) =
+    this.logUtil = LogUtil.getInstance()
+    this.list = newBasicArrayListD()
+    discard
 
-    def __init__(self) -> None:
-        self._init_fields()
-    
+proc initBasicLayerProcessor*(this: BasicLayerProcessor) =
+        this.initFieldsBasicLayerProcessor()
+        discard
 
-    def add(self, layerInterface: AllBinaryLayer) -> None:
-        if not self.list_.contains(layerInterface):
-            self.list_.add(layerInterface)
-    
+proc newBasicLayerProcessor*(): BasicLayerProcessor =
+    result = BasicLayerProcessor()
+    initBasicLayerProcessor(result)
 
-    # throws Exception
-    def process(self, allBinaryLayerManager: AllBinaryLayerManager) -> None:
-        from org.allbinary.string.CommonStrings import CommonStrings
-        raise Exception(CommonStrings.getInstance().NOT_IMPLEMENTED)
-    
+method add*(this: BasicLayerProcessor, layerInterface: AllBinaryLayer) {.base.} =
+        if (not this.list.contains(layerInterface)):
+            this.list.add(layerInterface)
 
-    def getList(self) -> BasicArrayList:
-        from org.allbinary.util.BasicArrayList import BasicArrayList
-        return self.list_
-# from org.allbinary.logic.communication.log.LogUtil import LogUtil
-# from org.allbinary.string.CommonStrings import CommonStrings
-# from org.allbinary.util.BasicArrayList import BasicArrayList
-# from org.allbinary.util.BasicArrayListD import BasicArrayListD
+method process*(this: BasicLayerProcessor, allBinaryLayerManager: AllBinaryLayerManager) {.base.} =
+        raise newJException("Exception", CommonStrings.getInstance().NOT_IMPLEMENTED)
 
-
-def _BasicLayerProcessor_NULL_LAYER_PROCESSOR() -> object:
-    return BasicLayerProcessor()
-
-lazy_static(BasicLayerProcessor, "NULL_LAYER_PROCESSOR", _BasicLayerProcessor_NULL_LAYER_PROCESSOR)
+method getList*(this: BasicLayerProcessor): BasicArrayList {.base, discardable.} =
+        return this.list
 

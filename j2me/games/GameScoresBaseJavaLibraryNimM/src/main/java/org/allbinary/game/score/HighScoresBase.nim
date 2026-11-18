@@ -1,47 +1,63 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.score
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/game/GameInfo as GameInfoModule
+export GameInfoModule
+import org/allbinary/string/CommonStrings as CommonStringsModule
+export CommonStringsModule
+import org/allbinary/game/score/HighScoresFactoryInterface as HighScoresFactoryInterfaceModule
+export HighScoresFactoryInterfaceModule
+import org/allbinary/game/score/HighScoresResultsListener as HighScoresResultsListenerModule
+export HighScoresResultsListenerModule
+import org/allbinary/game/score/HighScoresHelperBaseInterface as HighScoresHelperBaseInterfaceModule
+export HighScoresHelperBaseInterfaceModule
 
-from org.allbinary.game.score.HighScoresFactoryInterface import HighScoresFactoryInterface
+type
+    HighScoresBase* = ref object of HighScoresFactoryInterface
+        commonStrings*: CommonStrings
+
+proc newHighScoresBase*(): HighScoresBase
+proc initHighScoresBase*(this: HighScoresBase)
+method fetchHighScores*(this: HighScoresBase, gameInfo: GameInfo, highScoresResultsListener: HighScoresResultsListener)
+method fetchHighScoresPreload*(this: HighScoresBase, gameInfo: GameInfo, highScoresResultsListener: HighScoresResultsListener, preload: bool)
+method createHighScoresHelper*(this: HighScoresBase): HighScoresHelperBaseInterface {.discardable.}
 
 
-class HighScoresBase(HighScoresFactoryInterface):
+# Java field initializers run after the base initializer
+proc initFieldsHighScoresBase(this: HighScoresBase) =
+    this.commonStrings = CommonStrings.getInstance()
+    discard
 
-    def _init_fields(self) -> None:
-        from org.allbinary.string.CommonStrings import CommonStrings
-        self.commonStrings: CommonStrings = CommonStrings.getInstance()
-    
+proc initHighScoresBase*(this: HighScoresBase) =
+        this.initFieldsHighScoresBase()
+        discard
 
-    def __init__(self) -> None:
-        self._init_fields()
-    
+proc newHighScoresBase*(): HighScoresBase =
+    result = HighScoresBase()
+    initHighScoresBase(result)
 
-    def fetchHighScores(self, gameInfo: GameInfo, highScoresResultsListener: HighScoresResultsListener) -> None:
-        from org.allbinary.game.GameInfo import GameInfo
-        raise RuntimeError()
-    
+method fetchHighScores*(this: HighScoresBase, gameInfo: GameInfo, highScoresResultsListener: HighScoresResultsListener) =
+        raise newJException("RuntimeException", "")
 
-    def fetchHighScoresPreload(self, gameInfo: GameInfo, highScoresResultsListener: HighScoresResultsListener, preload: bool) -> None:
-        from org.allbinary.game.GameInfo import GameInfo
-        raise RuntimeError()
-    
+method fetchHighScoresPreload*(this: HighScoresBase, gameInfo: GameInfo, highScoresResultsListener: HighScoresResultsListener, preload: bool) =
+        raise newJException("RuntimeException", "")
 
-    def createHighScoresHelper(self) -> HighScoresHelperBaseInterface:
-        raise RuntimeError()
-# from org.allbinary.game.GameInfo import GameInfo
-# from org.allbinary.string.CommonStrings import CommonStrings
-
+method createHighScoresHelper*(this: HighScoresBase): HighScoresHelperBaseInterface {.discardable.} =
+        raise newJException("RuntimeException", "")
 

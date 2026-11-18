@@ -1,109 +1,129 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.graphics.form.item.validation
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import java/lang/Integer as IntegerModule
+export IntegerModule
+import java/lang/Boolean as BooleanModule
+export BooleanModule
+import org/allbinary/graphics/form/item/ABTextFieldItem as ABTextFieldItemModule
+export ABTextFieldItemModule
+import org/allbinary/logic/control/validate/ValidatorBase as ValidatorBaseModule
+export ValidatorBaseModule
+import org/allbinary/util/BasicArrayList as BasicArrayListModule
+export BasicArrayListModule
 
-from org.allbinary.logic.control.validate.ValidatorBase import ValidatorBase
+type
+    NumberTextFieldItemValidator* = ref object of ValidatorBase
+        textFieldItem*: ABTextFieldItem
+        min*: int32
+        max*: int32
+        maxChars*: int32
+
+proc newNumberTextFieldItemValidator*(textFieldItem: ABTextFieldItem, maxChars: int32, min: int32, max: int32): NumberTextFieldItemValidator
+proc initNumberTextFieldItemValidator*(this: NumberTextFieldItemValidator, textFieldItem: ABTextFieldItem, maxChars: int32, min: int32, max: int32)
+method isNumberValid*(this: NumberTextFieldItemValidator, value: int32): bool {.base, discardable.}
+method toNumberVector*(this: NumberTextFieldItemValidator, value: int32): BasicArrayList {.base, discardable.}
+method isValid*(this: NumberTextFieldItemValidator): bool {.discardable.}
+method toList*(this: NumberTextFieldItemValidator): BasicArrayList {.discardable.}
+import org/allbinary/logic/java/bool/BooleanFactory as BooleanFactoryModule
+export BooleanFactoryModule
+import org/allbinary/logic/math/SmallIntegerSingletonFactory as SmallIntegerSingletonFactoryModule
+export SmallIntegerSingletonFactoryModule
+import org/allbinary/logic/string/StringMaker as StringMakerModule
+export StringMakerModule
+import org/allbinary/util/BasicArrayListD as BasicArrayListDModule
+export BasicArrayListDModule
 
 
-class NumberTextFieldItemValidator(ValidatorBase):
-
-    def _init_fields(self) -> None:
-        from org.allbinary.graphics.form.item.ABTextFieldItem import ABTextFieldItem
-        self.textFieldItem: ABTextFieldItem = None
-        self.min: int = None
-        self.max: int = None
-        self.maxChars: int = None
+# Java field initializers run after the base initializer
+proc initFieldsNumberTextFieldItemValidator(this: NumberTextFieldItemValidator) =
     
-
-    def __init__(self, textFieldItem: ABTextFieldItem, maxChars: int, min: int, max: int) -> None:
-        from org.allbinary.graphics.form.item.ABTextFieldItem import ABTextFieldItem
-        super().__init__()
-        self._init_fields()
-        self.textFieldItem = textFieldItem
-        self.min = min
-        self.max = max
-        self.maxChars = maxChars
     
+    
+    
+    discard
 
-    def isNumberValid(self, value: int) -> bool:
-        from org.allbinary.logic.java.bool.BooleanFactory import BooleanFactory
+proc initNumberTextFieldItemValidator*(this: NumberTextFieldItemValidator, textFieldItem: ABTextFieldItem, maxChars: int32, min: int32, max: int32) =
+        initValidatorBase(this)
+        this.initFieldsNumberTextFieldItemValidator()
+        this.textFieldItem = textFieldItem
+        this.min = min
+        this.max = max
+        this.maxChars = maxChars
+
+proc newNumberTextFieldItemValidator*(textFieldItem: ABTextFieldItem, maxChars: int32, min: int32, max: int32): NumberTextFieldItemValidator =
+    result = NumberTextFieldItemValidator()
+    initNumberTextFieldItemValidator(result, textFieldItem, maxChars, min, max)
+
+method isNumberValid*(this: NumberTextFieldItemValidator, value: int32): bool {.base, discardable.} =
         return BooleanFactory.getInstance().TRUE
-    
 
-    def toNumberVector(self, value: int) -> BasicArrayList:
-        from org.allbinary.util.BasicArrayList import BasicArrayList
-        from org.allbinary.util.BasicArrayListD import BasicArrayListD
-        return BasicArrayListD()
-    
+method toNumberVector*(this: NumberTextFieldItemValidator, value: int32): BasicArrayList {.base, discardable.} =
+        return newBasicArrayListD()
 
-    def isValid(self) -> bool:
-        from org.allbinary.logic.java.bool.BooleanFactory import BooleanFactory
-        result: bool = BooleanFactory.getInstance().TRUE
-        string: str = self.textFieldItem.getString()
-        textLength: int = len(string)
-        if textLength > 0 and textLength < self.maxChars:
+method isValid*(this: NumberTextFieldItemValidator): bool {.discardable.} =
+        var `result`: bool = BooleanFactory.getInstance().TRUE
+        let string: string = this.textFieldItem.getString()
+        var textLength: int32 = jLength(string)
+        if textLength > 0 and textLength < this.maxChars:
             try:
-                int(self.textFieldItem.getString())
-            except ValueError as e:
-                result = BooleanFactory.getInstance().FALSE
+                jParseInt(this.textFieldItem.getString())
+            except CatchableError as jcaught:
+                let e = jToException(jcaught)
+                `result` = BooleanFactory.getInstance().FALSE
         else:
             if textLength < 1:
-                result = BooleanFactory.getInstance().FALSE
-            elif textLength > self.maxChars:
-                result = BooleanFactory.getInstance().FALSE
-        return result
-    
+                `result` = BooleanFactory.getInstance().FALSE
+            elif textLength > this.maxChars:
+                `result` = BooleanFactory.getInstance().FALSE
+        return `result`
 
-    def toList(self) -> BasicArrayList:
-        from org.allbinary.logic.math.SmallIntegerSingletonFactory import SmallIntegerSingletonFactory
-        from org.allbinary.logic.string.StringMaker import StringMaker
-        from org.allbinary.util.BasicArrayList import BasicArrayList
-        from org.allbinary.util.BasicArrayListD import BasicArrayListD
-        list_: BasicArrayList = BasicArrayListD()
-        string: str = self.textFieldItem.getString()
-        textLength: int = len(string)
-        label: str = self.textFieldItem.getLabel()
-        name: str = label[0:len(label) - 2]
-        smallIntegerSingletonFactory: SmallIntegerSingletonFactory = SmallIntegerSingletonFactory.getInstance()
-        stringMaker: StringMaker = StringMaker()
-        if textLength > 0 and textLength < self.maxChars:
+method toList*(this: NumberTextFieldItemValidator): BasicArrayList {.discardable.} =
+        let list: BasicArrayList = newBasicArrayListD()
+        let string: string = this.textFieldItem.getString()
+        var textLength: int32 = jLength(string)
+        let label: string = this.textFieldItem.getLabel()
+        let name: string = jSubstring(label, 0, jLength(label) -% 2)
+        let smallIntegerSingletonFactory: SmallIntegerSingletonFactory = SmallIntegerSingletonFactory.getInstance()
+        let stringMaker: StringMaker = newStringMaker()
+        if textLength > 0 and textLength < this.maxChars:
             try:
-                number: int = smallIntegerSingletonFactory.createInstance(int(self.textFieldItem.getString()))
-                if int(number) > self.min:
+                var number: int32 = smallIntegerSingletonFactory.createInstance(jParseInt(this.textFieldItem.getString()))
+                if number.intValue() > this.min:
                     stringMaker.delete(0, stringMaker.length())
-                    list_.add(str(stringMaker.append(name).append(" is to small")))
-                elif int(number) > self.max:
+                    list.add(stringMaker.append(name).append(" is to small").toString())
+                elif number.intValue() > this.max:
                     stringMaker.delete(0, stringMaker.length())
-                    list_.add(str(stringMaker.append(name).append(" is to large")))
-            except ValueError as e:
+                    list.add(stringMaker.append(name).append(" is to large").toString())
+            except CatchableError as jcaught:
+                let e = jToException(jcaught)
                 stringMaker.delete(0, stringMaker.length())
-                list_.add(str(stringMaker.append(name).append(" is not a number")))
+                list.add(stringMaker.append(name).append(" is not a number").toString())
         else:
             if textLength < 1:
                 stringMaker.delete(0, stringMaker.length())
-                list_.add(str(stringMaker.append(name).append(" is to short")))
-            elif textLength > self.maxChars:
+                list.add(stringMaker.append(name).append(" is to short").toString())
+            elif textLength > this.maxChars:
                 stringMaker.delete(0, stringMaker.length())
-                list_.add(str(stringMaker.append(name).append(" is to long")))
-        return list_
-# from org.allbinary.graphics.form.item.ABTextFieldItem import ABTextFieldItem
-# from org.allbinary.logic.java.bool.BooleanFactory import BooleanFactory
-# from org.allbinary.logic.math.SmallIntegerSingletonFactory import SmallIntegerSingletonFactory
-# from org.allbinary.logic.string.StringMaker import StringMaker
-# from org.allbinary.util.BasicArrayList import BasicArrayList
-# from org.allbinary.util.BasicArrayListD import BasicArrayListD
+                list.add(stringMaker.append(name).append(" is to long").toString())
+        return list
 
+when declared(newNumberTextFieldItemValidatorHook4):
+    newNumberTextFieldItemValidatorHook4 = proc (textFieldItem: ABTextFieldItem, maxChars: int32, min: int32, max: int32): ValidatorBase = newNumberTextFieldItemValidator(textFieldItem, maxChars, min, max)
 

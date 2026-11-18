@@ -1,54 +1,63 @@
-# 
-# AllBinary Open License Version 1 
-# Copyright (c) 2007 AllBinary 
-#  
-# By agreeing to this license you and any business entity you represent are 
-# legally bound to the AllBinary Open License Version 1 legal agreement. 
-#  
-# You may obtain the AllBinary Open License Version 1 legal agreement from 
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
-#  
-# Created By: Travis Berthelot 
-#   
+#[
+  
+  AllBinary Open License Version 1 
+  Copyright (c) 2007 AllBinary 
+   
+  By agreeing to this license you and any business entity you represent are 
+  legally bound to the AllBinary Open License Version 1 legal agreement. 
+   
+  You may obtain the AllBinary Open License Version 1 legal agreement from 
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
+   
+  Created By: Travis Berthelot 
+    
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.logic.util.cache
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+
+type
+    CacheType* = ref object of JObject
+        vendor*: string
+        `type`*: string
+
+proc newCacheType*(vendor: string, `type`: string): CacheType
+proc initCacheType*(this: CacheType, vendor: string, `type`: string)
+method getVendor*(this: CacheType): string {.base, discardable.}
+method getType*(this: CacheType): string {.base, discardable.}
+method toString*(this: CacheType): string {.discardable.}
+import org/allbinary/logic/string/StringMaker as StringMakerModule
+export StringMakerModule
 
 
-
-class CacheType:
-
-    def _init_fields(self) -> None:
-        self.vendor: str = None
-        self.type_: str = None
+# Java field initializers run after the base initializer
+proc initFieldsCacheType(this: CacheType) =
     
-
-    def __init__(self, vendor: str, type_: str) -> None:
-        self._init_fields()
-        self.vendor = vendor
-        self.type_ = type_
     
+    discard
 
-    def getVendor(self) -> str:
-        return self.vendor
-    
+proc initCacheType*(this: CacheType, vendor: string, `type`: string) =
+        this.initFieldsCacheType()
+        this.vendor = vendor
+        this.`type` = `type`
 
-    def getType(self) -> str:
-        return self.type_
-    
+proc newCacheType*(vendor: string, `type`: string): CacheType =
+    result = CacheType()
+    initCacheType(result, vendor, `type`)
 
-    def toString(self) -> str:
-        from org.allbinary.logic.string.StringMaker import StringMaker
-        stringBuffer: StringMaker = StringMaker()
+method getVendor*(this: CacheType): string {.base, discardable.} =
+        return this.vendor
+
+method getType*(this: CacheType): string {.base, discardable.} =
+        return this.`type`
+
+method toString*(this: CacheType): string {.discardable.} =
+        let stringBuffer: StringMaker = newStringMaker()
         stringBuffer.append("CacheType: Vendor: ")
-        stringBuffer.append(self.getVendor())
+        stringBuffer.append(this.getVendor())
         stringBuffer.append(" Type: ")
-        stringBuffer.append(self.getType())
-        return str(stringBuffer)
-
-    def __str__(self) -> str:
-        return self.toString()
-# from org.allbinary.logic.string.StringMaker import StringMaker
-
+        stringBuffer.append(this.getType())
+        return stringBuffer.toString()
 

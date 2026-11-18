@@ -1,34 +1,47 @@
-# 
-# AllBinary Open License Version 1 
-# Copyright (c) 2022 AllBinary 
-#  
-# By agreeing to this license you and any business entity you represent are 
-# legally bound to the AllBinary Open License Version 1 legal agreement. 
-#  
-# You may obtain the AllBinary Open License Version 1 legal agreement from 
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
-#  
-# Created By: Travis Berthelot 
-#   
+#[
+  
+  AllBinary Open License Version 1 
+  Copyright (c) 2022 AllBinary 
+   
+  By agreeing to this license you and any business entity you represent are 
+  legally bound to the AllBinary Open License Version 1 legal agreement. 
+   
+  You may obtain the AllBinary Open License Version 1 legal agreement from 
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
+   
+  Created By: Travis Berthelot 
+    
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.physics.velocity
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/game/physics/velocity/BasicVelocityProperties as BasicVelocityPropertiesModule
+export BasicVelocityPropertiesModule
+
+type
+    VelocityBehaviorBase* = ref object of JObject
+
+proc newVelocityBehaviorBase*(): VelocityBehaviorBase
+method reduce*(this: VelocityBehaviorBase, velocityProperties: BasicVelocityProperties, nominator: int32, denominator: int32) {.base.}
+method reduceX*(this: VelocityBehaviorBase, velocityProperties: BasicVelocityProperties, nominator: int32, denominator: int32) {.base.}
+method reduceY*(this: VelocityBehaviorBase, velocityProperties: BasicVelocityProperties, nominator: int32, denominator: int32) {.base.}
 
 
+proc initVelocityBehaviorBase*(this: VelocityBehaviorBase) =
+    discard
 
-class VelocityBehaviorBase:
-    
+proc newVelocityBehaviorBase*(): VelocityBehaviorBase =
+    result = VelocityBehaviorBase()
+    initVelocityBehaviorBase(result)
 
-    def reduce(self, velocityProperties: BasicVelocityProperties, nominator: int, denominator: int) -> None:
-        pass
-    
+method reduce*(this: VelocityBehaviorBase, velocityProperties: BasicVelocityProperties, nominator: int32, denominator: int32) {.base.} =
+        discard
 
-    def reduceX(self, velocityProperties: BasicVelocityProperties, nominator: int, denominator: int) -> None:
-        pass
-    
+method reduceX*(this: VelocityBehaviorBase, velocityProperties: BasicVelocityProperties, nominator: int32, denominator: int32) {.base.} =
+        discard
 
-    def reduceY(self, velocityProperties: BasicVelocityProperties, nominator: int, denominator: int) -> None:
-        pass
-
+method reduceY*(this: VelocityBehaviorBase, velocityProperties: BasicVelocityProperties, nominator: int32, denominator: int32) {.base.} =
+        discard
 

@@ -1,80 +1,100 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.ag.ai
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import java/lang/Integer as IntegerModule
+export IntegerModule
+import org/allbinary/game/input/GameInput as GameInputModule
+export GameInputModule
+import org/allbinary/layer/AllBinaryLayer as AllBinaryLayerModule
+export AllBinaryLayerModule
+import org/allbinary/layer/AllBinaryLayerManager as AllBinaryLayerManagerModule
+export AllBinaryLayerManagerModule
+import org/allbinary/game/ai/BasicAI as BasicAIModule
+export BasicAIModule
+import org/allbinary/util/ABHashtable as ABHashtableModule
+export ABHashtableModule
 
-from org.allbinary.game.ai.BasicAI import BasicAI
+type
+    KeyPressesAI* = ref object of BasicAI
+        on*: bool
+        keys*: JArray[int32]
+
+proc newKeyPressesAI*(hashtable: ABHashtable, ownerLayerInterface: AllBinaryLayer, gameInput: GameInput): KeyPressesAI
+proc initKeyPressesAI*(this: KeyPressesAI, hashtable: ABHashtable, ownerLayerInterface: AllBinaryLayer, gameInput: GameInput)
+method processAI*(this: KeyPressesAI, allBinaryLayerManager: AllBinaryLayerManager)
+method toggle*(this: KeyPressesAI) {.base.}
+method disable*(this: KeyPressesAI) {.base.}
+method enable*(this: KeyPressesAI) {.base.}
+method setOn*(this: KeyPressesAI, on: bool) {.base.}
+method isOn*(this: KeyPressesAI): bool {.base, discardable.}
+import org/allbinary/util/HashtableUtil as HashtableUtilModule
+export HashtableUtilModule
 
 
-class KeyPressesAI(BasicAI):
-
-    def _init_fields(self) -> None:
-        self.on: bool = True
-        self.keys: list[int] = None
+# Java field initializers run after the base initializer
+proc initFieldsKeyPressesAI(this: KeyPressesAI) =
+    this.on = true
     
+    discard
 
-    def __init__(self, hashtable: ABHashtable[object, object], ownerLayerInterface: AllBinaryLayer, gameInput: GameInput) -> None:
-        from org.allbinary.game.input.GameInput import GameInput
-        from org.allbinary.layer.AllBinaryLayer import AllBinaryLayer
-        from org.allbinary.util.HashtableUtil import HashtableUtil
-        from org.allbinary.util.ABHashtable import ABHashtable
-        super().__init__(ownerLayerInterface, gameInput)
-        self._init_fields()
-        self.keys = [None] * (hashtable.size())
-        objectArray: list[object] = HashtableUtil.getInstance().getKeysAsArray(hashtable)
-        size: int = len(objectArray)
-        for index in range(0, size):
-            self.keys[index] = hashtable.get(objectArray[index])
-    
+proc initKeyPressesAI*(this: KeyPressesAI, hashtable: ABHashtable, ownerLayerInterface: AllBinaryLayer, gameInput: GameInput) =
+        initBasicAI(this, ownerLayerInterface, gameInput)
+        this.initFieldsKeyPressesAI()
+        this.keys = newJArray[int32](hashtable.size(), default(int32))
+        var objectArray: JArray[JObject] = HashtableUtil.getInstance().getKeysAsArray(hashtable)
+        var size: int32 = objectArray.length
+        block:
+            var index: int32 = 0
+            while index < size:
+                defer: index = index +% 1
+                this.keys[index] = jUnboxInteger(hashtable.get(JObject(JObject(objectArray[index]))))
 
-    # throws Exception
-    def processAI(self, allBinaryLayerManager: AllBinaryLayerManager) -> None:
-        from org.allbinary.layer.AllBinaryLayerManager import AllBinaryLayerManager
-        if self.on:
-            for index in range(0, len(self.keys)):
-                super().processKeyAI(int(self.keys[index]))
-    
+proc newKeyPressesAI*(hashtable: ABHashtable, ownerLayerInterface: AllBinaryLayer, gameInput: GameInput): KeyPressesAI =
+    result = KeyPressesAI()
+    initKeyPressesAI(result, hashtable, ownerLayerInterface, gameInput)
 
-    # throws Exception
-    def toggle(self) -> None:
-        if self.isOn():
-            self.setOn(False)
+method processAI*(this: KeyPressesAI, allBinaryLayerManager: AllBinaryLayerManager) =
+        if this.on:
+            block:
+                var index: int32 = 0
+                while index < this.keys.length:
+                    defer: index = index +% 1
+                    procCall BasicAI(this).processKeyAI(this.keys[index].intValue())
+
+method toggle*(this: KeyPressesAI) {.base.} =
+        if this.isOn():
+            this.setOn(false)
         else:
-            self.setOn(True)
-    
+            this.setOn(true)
 
-    # throws Exception
-    def disable(self) -> None:
-        self.setOn(False)
-    
+method disable*(this: KeyPressesAI) {.base.} =
+        this.setOn(false)
 
-    # throws Exception
-    def enable(self) -> None:
-        self.setOn(True)
-    
+method enable*(this: KeyPressesAI) {.base.} =
+        this.setOn(true)
 
-    def setOn(self, on: bool) -> None:
-        self.on = on
-    
+method setOn*(this: KeyPressesAI, on: bool) {.base.} =
+        this.on = on
 
-    def isOn(self) -> bool:
-        return self.on
-# from org.allbinary.game.input.GameInput import GameInput
-# from org.allbinary.layer.AllBinaryLayer import AllBinaryLayer
-# from org.allbinary.layer.AllBinaryLayerManager import AllBinaryLayerManager
-# from org.allbinary.util.HashtableUtil import HashtableUtil
-# from org.allbinary.util.ABHashtable import ABHashtable
+method isOn*(this: KeyPressesAI): bool {.base, discardable.} =
+        return this.on
 
+when declared(newKeyPressesAIHook3):
+    newKeyPressesAIHook3 = proc (hashtable: ABHashtable, ownerLayerInterface: AllBinaryLayer, gameInput: GameInput): BasicAI = newKeyPressesAI(hashtable, ownerLayerInterface, gameInput)
 

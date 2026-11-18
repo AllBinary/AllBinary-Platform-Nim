@@ -1,96 +1,101 @@
 # Generated Code Do Not Modify
 # package org.allbinary.graphics.form.item
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import javax/microedition/lcdui/Graphics as GraphicsModule
+export GraphicsModule
+import javax/microedition/lcdui/Screen as ScreenModule
+export ScreenModule
+import org/allbinary/graphics/color/BasicColor as BasicColorModule
+export BasicColorModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    ABCustomItem* = ref object of JObject
 
+proc newABCustomItem*(label: string, backgroundBasicColor: BasicColor, foregroundBasicColor: BasicColor): ABCustomItem
+proc initABCustomItem*(this: ABCustomItem, label: string, backgroundBasicColor: BasicColor, foregroundBasicColor: BasicColor)
+proc getNullInstance*(t: typedesc[ABCustomItem]): ABCustomItem {.discardable.}
+method setOwner*(this: ABCustomItem, owner: Screen) {.base.}
+method paintXY*(this: ABCustomItem, graphics: Graphics, x: int32, y: int32) {.base.}
+method paintUnselected*(this: ABCustomItem, graphics: Graphics, x: int32, y: int32) {.base.}
+method isFocusable*(this: ABCustomItem): bool {.base, discardable.}
+method getLabel*(this: ABCustomItem): string {.base, discardable.}
+method setLabel*(this: ABCustomItem, label: string) {.base.}
+method getHeight*(this: ABCustomItem): int32 {.base, discardable.}
+method setHeight*(this: ABCustomItem, height: int32) {.base.}
+method getValue*(this: ABCustomItem): float32 {.base, discardable.}
+method setValue*(this: ABCustomItem, value: float32) {.base.}
+method getMinimumWidth*(this: ABCustomItem): int32 {.base, discardable.}
+method getMinimumHeight*(this: ABCustomItem): int32 {.base, discardable.}
+method preMeasurement*(this: ABCustomItem, graphics: Graphics) {.base.}
+import org/allbinary/graphics/color/BasicColorFactory as BasicColorFactoryModule
+export BasicColorFactoryModule
+import org/allbinary/logic/NullUtil as NullUtilModule
+export NullUtilModule
+import org/allbinary/logic/string/StringUtil as StringUtilModule
+export StringUtilModule
 
-class ABCustomItem:
-    NULL_CUSTOM_ITEM: object = None
-    
+var ABCustomItem_NULL_CUSTOM_ITEMValue: JObject
+var ABCustomItem_NULL_CUSTOM_ITEMSet = false
+proc NULL_CUSTOM_ITEM*(t: typedesc[ABCustomItem]): JObject =
+    if not ABCustomItem_NULL_CUSTOM_ITEMSet:
+        ABCustomItem_NULL_CUSTOM_ITEMSet = true
+        ABCustomItem_NULL_CUSTOM_ITEMValue = NullUtil.getInstance().NULL_OBJECT
+    ABCustomItem_NULL_CUSTOM_ITEMValue
+proc `NULL_CUSTOM_ITEM=`*(t: typedesc[ABCustomItem], value: JObject) =
+    ABCustomItem_NULL_CUSTOM_ITEMSet = true
+    ABCustomItem_NULL_CUSTOM_ITEMValue = value
 
-    @staticmethod
-    def getNullInstance() -> ABCustomItem:
-        from org.allbinary.graphics.color.BasicColorFactory import BasicColorFactory
-        from org.allbinary.logic.NullUtil import NullUtil
-        from org.allbinary.logic.string.StringUtil import StringUtil
+proc getNullInstance*(t: typedesc[ABCustomItem]): ABCustomItem {.discardable.} =
         if ABCustomItem.NULL_CUSTOM_ITEM == NullUtil.getInstance().NULL_OBJECT:
-            ABCustomItem.NULL_CUSTOM_ITEM = ABCustomItem(StringUtil.getInstance().EMPTY_STRING, BasicColorFactory.getInstance().BLACK, BasicColorFactory.getInstance().WHITE)
-        return ABCustomItem.NULL_CUSTOM_ITEM
-    
+            ABCustomItem.NULL_CUSTOM_ITEM = newABCustomItem(StringUtil.getInstance().EMPTY_STRING, BasicColorFactory.getInstance().BLACK, BasicColorFactory.getInstance().WHITE)
+        return ABCustomItem(JObject(ABCustomItem.NULL_CUSTOM_ITEM))
 
-    def __init__(self, label: str, backgroundBasicColor: BasicColor, foregroundBasicColor: BasicColor) -> None:
-        from org.allbinary.graphics.color.BasicColor import BasicColor
-        pass
-    
+proc initABCustomItem*(this: ABCustomItem, label: string, backgroundBasicColor: BasicColor, foregroundBasicColor: BasicColor) =
+        discard
+        discard
 
-    def setOwner(self, owner: Screen) -> None:
-        from javax.microedition.lcdui.Screen import Screen
-        pass
-    
+proc newABCustomItem*(label: string, backgroundBasicColor: BasicColor, foregroundBasicColor: BasicColor): ABCustomItem =
+    result = ABCustomItem()
+    initABCustomItem(result, label, backgroundBasicColor, foregroundBasicColor)
 
-    def paintXY(self, graphics: Graphics, x: int, y: int) -> None:
-        from javax.microedition.lcdui.Graphics import Graphics
-        pass
-    
+method setOwner*(this: ABCustomItem, owner: Screen) {.base.} =
+        discard
 
-    def paintUnselected(self, graphics: Graphics, x: int, y: int) -> None:
-        from javax.microedition.lcdui.Graphics import Graphics
-        pass
-    
+method paintXY*(this: ABCustomItem, graphics: Graphics, x: int32, y: int32) {.base.} =
+        discard
 
-    def isFocusable(self) -> bool:
-        return False
-    
+method paintUnselected*(this: ABCustomItem, graphics: Graphics, x: int32, y: int32) {.base.} =
+        discard
 
-    def getLabel(self) -> str:
-        from org.allbinary.logic.string.StringUtil import StringUtil
+method isFocusable*(this: ABCustomItem): bool {.base, discardable.} =
+        return false
+
+method getLabel*(this: ABCustomItem): string {.base, discardable.} =
         return StringUtil.getInstance().EMPTY_STRING
-    
 
-    def setLabel(self, label: str) -> None:
-        pass
-    
+method setLabel*(this: ABCustomItem, label: string) {.base.} =
+        discard
 
-    def getHeight(self) -> int:
+method getHeight*(this: ABCustomItem): int32 {.base, discardable.} =
         return 0
-    
 
-    def setHeight(self, height: int) -> None:
-        pass
-    
+method setHeight*(this: ABCustomItem, height: int32) {.base.} =
+        discard
 
-    def getValue(self) -> float:
-        return 0.0
-    
+method getValue*(this: ABCustomItem): float32 {.base, discardable.} =
+        return 0.0'f32
 
-    def setValue(self, value: float) -> None:
-        pass
-    
+method setValue*(this: ABCustomItem, value: float32) {.base.} =
+        discard
 
-    def getMinimumWidth(self) -> int:
+method getMinimumWidth*(this: ABCustomItem): int32 {.base, discardable.} =
         return 0
-    
 
-    def getMinimumHeight(self) -> int:
+method getMinimumHeight*(this: ABCustomItem): int32 {.base, discardable.} =
         return 0
-    
 
-    def preMeasurement(self, graphics: Graphics) -> None:
-        from javax.microedition.lcdui.Graphics import Graphics
-        pass
-# from javax.microedition.lcdui.Graphics import Graphics
-# from javax.microedition.lcdui.Screen import Screen
-# from org.allbinary.graphics.color.BasicColor import BasicColor
-# from org.allbinary.graphics.color.BasicColorFactory import BasicColorFactory
-# from org.allbinary.logic.NullUtil import NullUtil
-# from org.allbinary.logic.string.StringUtil import StringUtil
-
-
-def _ABCustomItem_NULL_CUSTOM_ITEM() -> object:
-    from org.allbinary.logic.NullUtil import NullUtil
-    return NullUtil.getInstance().NULL_OBJECT
-
-lazy_static(ABCustomItem, "NULL_CUSTOM_ITEM", _ABCustomItem_NULL_CUSTOM_ITEM)
+method preMeasurement*(this: ABCustomItem, graphics: Graphics) {.base.} =
+        discard
 

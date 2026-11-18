@@ -1,100 +1,125 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.input
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/android/input/motion/AnalogLocationInputProcessor as AnalogLocationInputProcessorModule
+export AnalogLocationInputProcessorModule
+import org/allbinary/game/input/GameInputProcessor as GameInputProcessorModule
+export GameInputProcessorModule
+import org/allbinary/game/input/GameKeyEventSourceInterface as GameKeyEventSourceInterfaceModule
+export GameKeyEventSourceInterfaceModule
+import org/allbinary/game/input/GameKeyFactory as GameKeyFactoryModule
+export GameKeyFactoryModule
+import org/allbinary/game/input/analog/AnalogLocationInput as AnalogLocationInputModule
+export AnalogLocationInputModule
+import org/allbinary/game/input/event/GameKeyEvent as GameKeyEventModule
+export GameKeyEventModule
+import org/allbinary/layer/AllBinaryLayerManager as AllBinaryLayerManagerModule
+export AllBinaryLayerManagerModule
+import org/allbinary/logic/communication/log/LogUtil as LogUtilModule
+export LogUtilModule
 
-from org.allbinary.android.input.motion.AnalogLocationInputProcessor import AnalogLocationInputProcessor
-from org.allbinary.game.input.GameKeyEventSourceInterface import GameKeyEventSourceInterface
+type
+    DirectionalAnalogLocationInputProcessor* = ref object of AnalogLocationInputProcessor
+        logUtil*: LogUtil
+        inputProcessorArray*: JArray[GameInputProcessor]
+        gameKeyFactory*: GameKeyFactory
+        leftGameKeyEvent*: GameKeyEvent
+        rightGameKeyEvent*: GameKeyEvent
+        upGameKeyEvent*: GameKeyEvent
+        downGameKeyEvent*: GameKeyEvent
+        leftTriggerGameKeyEvent*: GameKeyEvent
+        rightTriggerGameKeyEvent*: GameKeyEvent
+
+converter jAsGameKeyEventSourceInterface*(value: DirectionalAnalogLocationInputProcessor): GameKeyEventSourceInterface = cast[GameKeyEventSourceInterface](value)
+proc newDirectionalAnalogLocationInputProcessor*(inputProcessorArray: JArray[GameInputProcessor]): DirectionalAnalogLocationInputProcessor
+proc initDirectionalAnalogLocationInputProcessor*(this: DirectionalAnalogLocationInputProcessor, inputProcessorArray: JArray[GameInputProcessor])
+method process*(this: DirectionalAnalogLocationInputProcessor, allbinaryLayerManager: AllBinaryLayerManager, analogLocationInput: AnalogLocationInput)
+method getSourceId*(this: DirectionalAnalogLocationInputProcessor): int32 {.discardable.}
+import org/allbinary/game/input/event/GameKeyEventFactory as GameKeyEventFactoryModule
+export GameKeyEventFactoryModule
+import org/allbinary/graphics/CustomGPoint as CustomGPointModule
+export CustomGPointModule
+import org/allbinary/string/CommonStrings as CommonStringsModule
+export CommonStringsModule
 
 
-class DirectionalAnalogLocationInputProcessor(AnalogLocationInputProcessor, GameKeyEventSourceInterface):
-
-    def _init_fields(self) -> None:
-        from org.allbinary.game.input.GameInputProcessor import GameInputProcessor
-        from org.allbinary.game.input.GameKeyFactory import GameKeyFactory
-        from org.allbinary.game.input.event.GameKeyEvent import GameKeyEvent
-        from org.allbinary.logic.communication.log.LogUtil import LogUtil
-        self.logUtil: LogUtil = LogUtil.getInstance()
-        self.inputProcessorArray: list[GameInputProcessor] = None
-        self.gameKeyFactory: GameKeyFactory = GameKeyFactory.getInstance()
-        self.leftGameKeyEvent: GameKeyEvent = GameKeyEvent.NONE
-        self.rightGameKeyEvent: GameKeyEvent = GameKeyEvent.NONE
-        self.upGameKeyEvent: GameKeyEvent = GameKeyEvent.NONE
-        self.downGameKeyEvent: GameKeyEvent = GameKeyEvent.NONE
-        self.leftTriggerGameKeyEvent: GameKeyEvent = GameKeyEvent.NONE
-        self.rightTriggerGameKeyEvent: GameKeyEvent = GameKeyEvent.NONE
+# Java field initializers run after the base initializer
+proc initFieldsDirectionalAnalogLocationInputProcessor(this: DirectionalAnalogLocationInputProcessor) =
+    this.logUtil = LogUtil.getInstance()
     
+    this.gameKeyFactory = GameKeyFactory.getInstance()
+    this.leftGameKeyEvent = GameKeyEvent.NONE
+    this.rightGameKeyEvent = GameKeyEvent.NONE
+    this.upGameKeyEvent = GameKeyEvent.NONE
+    this.downGameKeyEvent = GameKeyEvent.NONE
+    this.leftTriggerGameKeyEvent = GameKeyEvent.NONE
+    this.rightTriggerGameKeyEvent = GameKeyEvent.NONE
+    discard
 
-    def __init__(self, inputProcessorArray: list[GameInputProcessor]) -> None:
-        from org.allbinary.game.input.GameInputProcessor import GameInputProcessor
-        from org.allbinary.game.input.event.GameKeyEventFactory import GameKeyEventFactory
-        from org.allbinary.string.CommonStrings import CommonStrings
-        super().__init__()
-        self._init_fields()
-        self.inputProcessorArray = inputProcessorArray
+proc initDirectionalAnalogLocationInputProcessor*(this: DirectionalAnalogLocationInputProcessor, inputProcessorArray: JArray[GameInputProcessor]) =
+        initAnalogLocationInputProcessor(this)
+        this.initFieldsDirectionalAnalogLocationInputProcessor()
+        this.inputProcessorArray = inputProcessorArray
         try:
-            self.leftGameKeyEvent = GameKeyEventFactory.getInstance().getInstanceForInput(self, self.gameKeyFactory.LEFT)
-            self.rightGameKeyEvent = GameKeyEventFactory.getInstance().getInstanceForInput(self, self.gameKeyFactory.RIGHT)
-            self.upGameKeyEvent = GameKeyEventFactory.getInstance().getInstanceForInput(self, self.gameKeyFactory.UP)
-            self.downGameKeyEvent = GameKeyEventFactory.getInstance().getInstanceForInput(self, self.gameKeyFactory.DOWN)
-            self.leftTriggerGameKeyEvent = GameKeyEventFactory.getInstance().getInstanceForInput(self, self.gameKeyFactory.KEY_NUM0)
-            self.rightTriggerGameKeyEvent = GameKeyEventFactory.getInstance().getInstanceForInput(self, self.gameKeyFactory.KEY_NUM5)
-        except Exception as e:
-            commonStrings: CommonStrings = CommonStrings.getInstance()
-            self.logUtil.put(commonStrings.EXCEPTION, self, commonStrings.CONSTRUCTOR, e)
-    
+            this.leftGameKeyEvent = GameKeyEventFactory.getInstance().getInstanceForInput(this, this.gameKeyFactory.LEFT)
+            this.rightGameKeyEvent = GameKeyEventFactory.getInstance().getInstanceForInput(this, this.gameKeyFactory.RIGHT)
+            this.upGameKeyEvent = GameKeyEventFactory.getInstance().getInstanceForInput(this, this.gameKeyFactory.UP)
+            this.downGameKeyEvent = GameKeyEventFactory.getInstance().getInstanceForInput(this, this.gameKeyFactory.DOWN)
+            this.leftTriggerGameKeyEvent = GameKeyEventFactory.getInstance().getInstanceForInput(this, this.gameKeyFactory.KEY_NUM0)
+            this.rightTriggerGameKeyEvent = GameKeyEventFactory.getInstance().getInstanceForInput(this, this.gameKeyFactory.KEY_NUM5)
+        except CatchableError as jcaught:
+            let e = jToException(jcaught)
+            let commonStrings: CommonStrings = CommonStrings.getInstance()
+            this.logUtil.put(commonStrings.EXCEPTION, this, commonStrings.CONSTRUCTOR, e)
 
-    def process(self, allbinaryLayerManager: AllBinaryLayerManager, analogLocationInput: AnalogLocationInput) -> None:
-        from org.allbinary.game.input.analog.AnalogLocationInput import AnalogLocationInput
-        from org.allbinary.graphics.CustomGPoint import CustomGPoint
-        from org.allbinary.layer.AllBinaryLayerManager import AllBinaryLayerManager
-        from org.allbinary.string.CommonStrings import CommonStrings
+proc newDirectionalAnalogLocationInputProcessor*(inputProcessorArray: JArray[GameInputProcessor]): DirectionalAnalogLocationInputProcessor =
+    result = DirectionalAnalogLocationInputProcessor()
+    initDirectionalAnalogLocationInputProcessor(result, inputProcessorArray)
+
+method process*(this: DirectionalAnalogLocationInputProcessor, allbinaryLayerManager: AllBinaryLayerManager, analogLocationInput: AnalogLocationInput) =
         try:
-            customGPoint: CustomGPoint = None
+            var customGPoint: CustomGPoint = nil
             customGPoint = analogLocationInput.getCustomGPoint()
-            x: int = customGPoint.getX()
-            y: int = customGPoint.getY()
-            leftTrigger: int = analogLocationInput.getLeftTrigger()
-            rightTrigger: int = analogLocationInput.getRightTrigger()
+            var x: int32 = customGPoint.getX()
+            var y: int32 = customGPoint.getY()
+            var leftTrigger: int32 = analogLocationInput.getLeftTrigger()
+            var rightTrigger: int32 = analogLocationInput.getRightTrigger()
             if x < 0:
-                self.inputProcessorArray[self.leftGameKeyEvent.getKey()].processAnalog(allbinaryLayerManager, self.leftGameKeyEvent, x)
+                this.inputProcessorArray[this.leftGameKeyEvent.getKey()].processAnalog(allbinaryLayerManager, this.leftGameKeyEvent, x)
             elif x > 0:
-                self.inputProcessorArray[self.rightGameKeyEvent.getKey()].processAnalog(allbinaryLayerManager, self.rightGameKeyEvent, x)
+                this.inputProcessorArray[this.rightGameKeyEvent.getKey()].processAnalog(allbinaryLayerManager, this.rightGameKeyEvent, x)
             if y < 0:
-                self.inputProcessorArray[self.downGameKeyEvent.getKey()].processAnalog(allbinaryLayerManager, self.downGameKeyEvent, y)
+                this.inputProcessorArray[this.downGameKeyEvent.getKey()].processAnalog(allbinaryLayerManager, this.downGameKeyEvent, y)
             elif y > 0:
-                self.inputProcessorArray[self.upGameKeyEvent.getKey()].processAnalog(allbinaryLayerManager, self.upGameKeyEvent, y)
+                this.inputProcessorArray[this.upGameKeyEvent.getKey()].processAnalog(allbinaryLayerManager, this.upGameKeyEvent, y)
             if leftTrigger > 0:
-                self.inputProcessorArray[self.leftTriggerGameKeyEvent.getKey()].processAnalog(allbinaryLayerManager, self.leftTriggerGameKeyEvent, leftTrigger)
+                this.inputProcessorArray[this.leftTriggerGameKeyEvent.getKey()].processAnalog(allbinaryLayerManager, this.leftTriggerGameKeyEvent, leftTrigger)
             if rightTrigger > 0:
-                self.inputProcessorArray[self.rightTriggerGameKeyEvent.getKey()].processAnalog(allbinaryLayerManager, self.rightTriggerGameKeyEvent, rightTrigger)
-        except Exception as e:
-            commonStrings: CommonStrings = CommonStrings.getInstance()
-            self.logUtil.put("Unable to process analog input", self, commonStrings.PROCESS, e)
-    
+                this.inputProcessorArray[this.rightTriggerGameKeyEvent.getKey()].processAnalog(allbinaryLayerManager, this.rightTriggerGameKeyEvent, rightTrigger)
+        except CatchableError as jcaught:
+            let e = jToException(jcaught)
+            let commonStrings: CommonStrings = CommonStrings.getInstance()
+            this.logUtil.put("Unable to process analog input", this, commonStrings.PROCESS, e)
 
-    def getSourceId(self) -> int:
+method getSourceId*(this: DirectionalAnalogLocationInputProcessor): int32 {.discardable.} =
         return 0
-# from org.allbinary.game.input.GameInputProcessor import GameInputProcessor
-# from org.allbinary.game.input.GameKeyFactory import GameKeyFactory
-# from org.allbinary.game.input.analog.AnalogLocationInput import AnalogLocationInput
-# from org.allbinary.game.input.event.GameKeyEvent import GameKeyEvent
-# from org.allbinary.game.input.event.GameKeyEventFactory import GameKeyEventFactory
-# from org.allbinary.graphics.CustomGPoint import CustomGPoint
-# from org.allbinary.layer.AllBinaryLayerManager import AllBinaryLayerManager
-# from org.allbinary.logic.communication.log.LogUtil import LogUtil
-# from org.allbinary.string.CommonStrings import CommonStrings
 
+when declared(newDirectionalAnalogLocationInputProcessorHook1):
+    newDirectionalAnalogLocationInputProcessorHook1 = proc (inputProcessorArray: JArray[GameInputProcessor]): AnalogLocationInputProcessor = newDirectionalAnalogLocationInputProcessor(inputProcessorArray)
 

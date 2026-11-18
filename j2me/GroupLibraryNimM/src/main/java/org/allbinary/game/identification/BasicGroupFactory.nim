@@ -1,55 +1,77 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.identification
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/game/identification/Group as GroupModule
+export GroupModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    BasicGroupFactory* = ref object of JObject
+        NAME*: string
+        NO_SUCH_GROUP*: string
+        GOOD*: Group
+        ENEMY*: Group
+        ENEMY_ON_LEVEL*: Group
+        NONE*: Group
+        GOOD_ARRAY*: JArray[Group]
+        ENEMY_ARRAY*: JArray[Group]
+        ENEMY_ON_LEVEL_ARRAY*: JArray[Group]
+        NONE_ARRAY*: JArray[Group]
 
+proc newBasicGroupFactory*(): BasicGroupFactory
+proc getInstance*(t: typedesc[BasicGroupFactory]): BasicGroupFactory {.discardable.}
+import org/allbinary/logic/NullUtil as NullUtilModule
+export NullUtilModule
 
-class BasicGroupFactory:
-    instance: object = None
+var BasicGroupFactory_instanceValue: JObject
+var BasicGroupFactory_instanceSet = false
+proc instance*(t: typedesc[BasicGroupFactory]): JObject =
+    if not BasicGroupFactory_instanceSet:
+        BasicGroupFactory_instanceSet = true
+        BasicGroupFactory_instanceValue = NullUtil.getInstance().NULL_OBJECT
+    BasicGroupFactory_instanceValue
+proc `instance=`*(t: typedesc[BasicGroupFactory], value: JObject) =
+    BasicGroupFactory_instanceSet = true
+    BasicGroupFactory_instanceValue = value
 
-    def _init_fields(self) -> None:
-        self.NAME: str = "GROUP_NAME"
-        self.NO_SUCH_GROUP: str = "No Such Group: "
-        self.GOOD: Group = Group("Good Guys", ((int(0) + 32768) % 65536 - 32768))
-        self.ENEMY: Group = Group("Bad Guys", ((int(1) + 32768) % 65536 - 32768))
-        self.ENEMY_ON_LEVEL: Group = Group("Bad Guys on Level", ((int(2) + 32768) % 65536 - 32768))
-        self.NONE: Group = Group("Not On A Team", ((int(3) + 32768) % 65536 - 32768))
-        self.GOOD_ARRAY: list[Group] = [self.GOOD]
-        self.ENEMY_ARRAY: list[Group] = [self.ENEMY]
-        self.ENEMY_ON_LEVEL_ARRAY: list[Group] = [self.ENEMY, self.ENEMY_ON_LEVEL]
-        self.NONE_ARRAY: list[Group] = [self.NONE]
+# Java field initializers run after the base initializer
+proc initFieldsBasicGroupFactory(this: BasicGroupFactory) =
+    this.NAME = "GROUP_NAME"
+    this.NO_SUCH_GROUP = "No Such Group: "
+    this.GOOD = newGroup("Good Guys", jToInt16(0))
+    this.ENEMY = newGroup("Bad Guys", jToInt16(1))
+    this.ENEMY_ON_LEVEL = newGroup("Bad Guys on Level", jToInt16(2))
+    this.NONE = newGroup("Not On A Team", jToInt16(3))
+    this.GOOD_ARRAY = newJArrayFromRefs[Group](this.GOOD)
+    this.ENEMY_ARRAY = newJArrayFromRefs[Group](this.ENEMY)
+    this.ENEMY_ON_LEVEL_ARRAY = newJArrayFromRefs[Group](this.ENEMY, this.ENEMY_ON_LEVEL)
+    this.NONE_ARRAY = newJArrayFromRefs[Group](this.NONE)
+    discard
 
-    def __init__(self) -> None:
-        self._init_fields()
-    
+proc initBasicGroupFactory*(this: BasicGroupFactory) =
+    this.initFieldsBasicGroupFactory()
 
-    @staticmethod
-    def getInstance() -> BasicGroupFactory:
-        from org.allbinary.logic.NullUtil import NullUtil
+proc newBasicGroupFactory*(): BasicGroupFactory =
+    result = BasicGroupFactory()
+    initBasicGroupFactory(result)
+
+proc getInstance*(t: typedesc[BasicGroupFactory]): BasicGroupFactory {.discardable.} =
         if BasicGroupFactory.instance == NullUtil.getInstance().NULL_OBJECT:
-            BasicGroupFactory.instance = BasicGroupFactory()
-        return BasicGroupFactory.instance
-# from org.allbinary.logic.NullUtil import NullUtil
-from org.allbinary.game.identification.Group import Group
-
-
-def _BasicGroupFactory_instance() -> object:
-    from org.allbinary.logic.NullUtil import NullUtil
-    return NullUtil.getInstance().NULL_OBJECT
-
-lazy_static(BasicGroupFactory, "instance", _BasicGroupFactory_instance)
+            BasicGroupFactory.instance = newBasicGroupFactory()
+        return BasicGroupFactory(JObject(BasicGroupFactory.instance))
 

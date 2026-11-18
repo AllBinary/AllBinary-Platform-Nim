@@ -1,14 +1,23 @@
 # Generated Code Do Not Modify
 # package org.allbinary.graphics.form
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+
+type
+    CustomDisplayable* = ref object of JObject
+
+proc newCustomDisplayable*(): CustomDisplayable
+method setTitle*(this: CustomDisplayable, title: string) {.base.}
 
 
+proc initCustomDisplayable*(this: CustomDisplayable) =
+    discard
 
-class CustomDisplayable:
-    
+proc newCustomDisplayable*(): CustomDisplayable =
+    result = CustomDisplayable()
+    initCustomDisplayable(result)
 
-    def setTitle(self, title: str) -> None:
-        pass
-
+method setTitle*(this: CustomDisplayable, title: string) {.base.} =
+        discard
 

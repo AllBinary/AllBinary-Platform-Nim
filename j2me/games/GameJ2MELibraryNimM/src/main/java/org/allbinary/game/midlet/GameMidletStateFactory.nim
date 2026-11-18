@@ -1,53 +1,61 @@
 # Generated Code Do Not Modify
 # package org.allbinary.game.midlet
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/game/state/GameState as GameStateModule
+export GameStateModule
+import org/allbinary/logic/communication/log/LogUtil as LogUtilModule
+export LogUtilModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    GameMidletStateFactory* = ref object of JObject
+        logUtil*: LogUtil
+        currentGameState*: GameState
 
+proc newGameMidletStateFactory*(): GameMidletStateFactory
+proc initGameMidletStateFactory*(this: GameMidletStateFactory)
+proc getInstance*(t: typedesc[GameMidletStateFactory]): GameMidletStateFactory {.discardable.}
+method getCurrentGameState*(this: GameMidletStateFactory): GameState {.base, discardable.}
+method setCurrentGameState*(this: GameMidletStateFactory, currentGameState: GameState) {.base.}
+import org/allbinary/game/state/GameStateFactory as GameStateFactoryModule
+export GameStateFactoryModule
+import org/allbinary/logic/string/StringMaker as StringMakerModule
+export StringMakerModule
+import org/allbinary/logic/string/StringUtil as StringUtilModule
+export StringUtilModule
+import org/allbinary/string/CommonLabels as CommonLabelsModule
+export CommonLabelsModule
 
-class GameMidletStateFactory:
-    INSTANCE: GameMidletStateFactory = None
+var GameMidletStateFactory_INSTANCEValue: GameMidletStateFactory
+var GameMidletStateFactory_INSTANCESet = false
+proc INSTANCE*(t: typedesc[GameMidletStateFactory]): GameMidletStateFactory =
+    if not GameMidletStateFactory_INSTANCESet:
+        GameMidletStateFactory_INSTANCESet = true
+        GameMidletStateFactory_INSTANCEValue = newGameMidletStateFactory()
+    GameMidletStateFactory_INSTANCEValue
 
-    def _init_fields(self) -> None:
-        from org.allbinary.game.state.GameState import GameState
-        from org.allbinary.game.state.GameStateFactory import GameStateFactory
-        from org.allbinary.logic.communication.log.LogUtil import LogUtil
-        self.logUtil: LogUtil = LogUtil.getInstance()
-        self.currentGameState: GameState = GameStateFactory.getInstance().NO_GAME_STATE
-    
+# Java field initializers run after the base initializer
+proc initFieldsGameMidletStateFactory(this: GameMidletStateFactory) =
+    this.logUtil = LogUtil.getInstance()
+    this.currentGameState = GameStateFactory.getInstance().NO_GAME_STATE
+    discard
 
-    def __init__(self) -> None:
-        self._init_fields()
-    
+proc initGameMidletStateFactory*(this: GameMidletStateFactory) =
+        this.initFieldsGameMidletStateFactory()
+        discard
 
-    @staticmethod
-    def getInstance() -> GameMidletStateFactory:
+proc newGameMidletStateFactory*(): GameMidletStateFactory =
+    result = GameMidletStateFactory()
+    initGameMidletStateFactory(result)
+
+proc getInstance*(t: typedesc[GameMidletStateFactory]): GameMidletStateFactory {.discardable.} =
         return GameMidletStateFactory.INSTANCE
-    
 
-    def getCurrentGameState(self) -> GameState:
-        from org.allbinary.game.state.GameState import GameState
-        return self.currentGameState
-    
+method getCurrentGameState*(this: GameMidletStateFactory): GameState {.base, discardable.} =
+        return this.currentGameState
 
-    def setCurrentGameState(self, currentGameState: GameState) -> None:
-        from org.allbinary.game.state.GameState import GameState
-        from org.allbinary.logic.string.StringMaker import StringMaker
-        from org.allbinary.logic.string.StringUtil import StringUtil
-        from org.allbinary.string.CommonLabels import CommonLabels
-        self.logUtil.putF(str(StringMaker().append(CommonLabels.getInstance().CURRENT).append(" GameState: ").append(StringUtil.getInstance().toString(currentGameState))), self, "setCurrentGameState")
-        self.currentGameState = currentGameState
-# from org.allbinary.game.state.GameState import GameState
-# from org.allbinary.game.state.GameStateFactory import GameStateFactory
-# from org.allbinary.logic.communication.log.LogUtil import LogUtil
-# from org.allbinary.logic.string.StringMaker import StringMaker
-# from org.allbinary.logic.string.StringUtil import StringUtil
-# from org.allbinary.string.CommonLabels import CommonLabels
-
-
-def _GameMidletStateFactory_INSTANCE() -> object:
-    return GameMidletStateFactory()
-
-lazy_static(GameMidletStateFactory, "INSTANCE", _GameMidletStateFactory_INSTANCE)
+method setCurrentGameState*(this: GameMidletStateFactory, currentGameState: GameState) {.base.} =
+        this.logUtil.putF(newStringMaker().append(CommonLabels.getInstance().CURRENT).append(" GameState: ").append(StringUtil.getInstance().toString(currentGameState)).toString(), this, "setCurrentGameState")
+        this.currentGameState = currentGameState
 

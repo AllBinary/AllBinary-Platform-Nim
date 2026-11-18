@@ -1,138 +1,153 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.configuration
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import java/lang/Integer as IntegerModule
+export IntegerModule
+import java/lang/Boolean as BooleanModule
+export BooleanModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    GameConfiguration* = ref object of JObject
+        name*: string
+        defaultValue*: int32
+        value*: int32
+        minValue*: int32
+        maxValue*: int32
+        modifiable*: bool
 
+proc newGameConfiguration*(name: string, defaultValue: int32, minValue: int32, maxValue: int32): GameConfiguration
+proc initGameConfiguration*(this: GameConfiguration, name: string, defaultValue: int32, minValue: int32, maxValue: int32)
+method setValue*(this: GameConfiguration, value: int32) {.base.}
+method getValue*(this: GameConfiguration): int32 {.base, discardable.}
+method setMaxValue*(this: GameConfiguration, maxValue: int32) {.base.}
+method getMaxValue*(this: GameConfiguration): int32 {.base, discardable.}
+method setMinValue*(this: GameConfiguration, minValue: int32) {.base.}
+method getMinValue*(this: GameConfiguration): int32 {.base, discardable.}
+method setName*(this: GameConfiguration, name: string) {.base.}
+method getName*(this: GameConfiguration): string {.base, discardable.}
+method setDefaultValue*(this: GameConfiguration, defaultValue: int32) {.base.}
+method getDefaultValue*(this: GameConfiguration): int32 {.base, discardable.}
+method setDefault*(this: GameConfiguration) {.base.}
+method toString*(this: GameConfiguration): string {.discardable.}
+method setModifiable*(this: GameConfiguration, modifiable: bool) {.base.}
+method isModifiable*(this: GameConfiguration): bool {.base, discardable.}
+import org/allbinary/game/configuration/event/GameFeatureEvent as GameFeatureEventModule
+export GameFeatureEventModule
+import org/allbinary/game/configuration/event/GameFeatureEventHandler as GameFeatureEventHandlerModule
+export GameFeatureEventHandlerModule
+import org/allbinary/logic/java/bool/BooleanFactory as BooleanFactoryModule
+export BooleanFactoryModule
+import org/allbinary/logic/math/SmallIntegerSingletonFactory as SmallIntegerSingletonFactoryModule
+export SmallIntegerSingletonFactoryModule
+import org/allbinary/logic/string/StringMaker as StringMakerModule
+export StringMakerModule
+import org/allbinary/logic/string/StringUtil as StringUtilModule
+export StringUtilModule
+import org/allbinary/game/configuration/GameConfigurationSingleton as GameConfigurationSingletonModule
+export GameConfigurationSingletonModule
 
-class GameConfiguration:
-    MIN_VALUE: int = None
+var GameConfiguration_MIN_VALUEValue: int32
+var GameConfiguration_MIN_VALUESet = false
+proc MIN_VALUE*(t: typedesc[GameConfiguration]): int32 =
+    if not GameConfiguration_MIN_VALUESet:
+        GameConfiguration_MIN_VALUESet = true
+        GameConfiguration_MIN_VALUEValue = Integer.MIN_VALUE
+    GameConfiguration_MIN_VALUEValue
 
-    def _init_fields(self) -> None:
-        from org.allbinary.logic.java.bool.BooleanFactory import BooleanFactory
-        from org.allbinary.logic.math.SmallIntegerSingletonFactory import SmallIntegerSingletonFactory
-        from org.allbinary.logic.string.StringUtil import StringUtil
-        self.name: str = StringUtil.getInstance().EMPTY_STRING
-        self.defaultValue: int = SmallIntegerSingletonFactory.getInstance().getAt(0)
-        self.value: int = GameConfiguration.MIN_VALUE
-        self.minValue: int = self.defaultValue
-        self.maxValue: int = self.defaultValue
-        self.modifiable: bool = BooleanFactory.getInstance().TRUE
-    
+# Java field initializers run after the base initializer
+proc initFieldsGameConfiguration(this: GameConfiguration) =
+    this.name = StringUtil.getInstance().EMPTY_STRING
+    this.defaultValue = SmallIntegerSingletonFactory.getInstance().getAt(0)
+    this.value = GameConfiguration.MIN_VALUE
+    this.minValue = this.defaultValue
+    this.maxValue = this.defaultValue
+    this.modifiable = BooleanFactory.getInstance().TRUE
+    discard
 
-    def __init__(self, name: str, defaultValue: int, minValue: int, maxValue: int) -> None:
-        from org.allbinary.game.configuration.GameConfigurationSingleton import GameConfigurationSingleton
-        self._init_fields()
-        self.setName(name)
-        self.setDefaultValue(defaultValue)
-        self.value = self.getDefaultValue()
-        self.setMinValue(minValue)
-        self.setMaxValue(maxValue)
-        GameConfigurationSingleton.getInstance().getHashtable().put(self.getName(), self)
-    
+proc initGameConfiguration*(this: GameConfiguration, name: string, defaultValue: int32, minValue: int32, maxValue: int32) =
+        this.initFieldsGameConfiguration()
+        this.setName(name)
+        this.setDefaultValue(defaultValue)
+        this.value = this.getDefaultValue()
+        this.setMinValue(minValue)
+        this.setMaxValue(maxValue)
+        GameConfigurationSingleton.getInstance().getHashtable().put(this.getName(), this)
 
-    # throws Exception
-    def setValue(self, value: int) -> None:
-        from org.allbinary.game.configuration.event.GameFeatureEvent import GameFeatureEvent
-        from org.allbinary.game.configuration.event.GameFeatureEventHandler import GameFeatureEventHandler
-        from org.allbinary.logic.string.StringMaker import StringMaker
-        if self.value != value:
-            oldValue: int = self.value
-            self.value = value
-            GameFeatureEventHandler.getInstance().fireEvent(GameFeatureEvent(self, str(StringMaker().append(self.name).append(" value: from: ").appendint(int(int(oldValue))).append(" to ").appendint(int(int(self.value))))))
-    
+proc newGameConfiguration*(name: string, defaultValue: int32, minValue: int32, maxValue: int32): GameConfiguration =
+    result = GameConfiguration()
+    initGameConfiguration(result, name, defaultValue, minValue, maxValue)
 
-    def getValue(self) -> int:
-        return self.value
-    
+method setValue*(this: GameConfiguration, value: int32) {.base.} =
+        if this.value != value:
+            let oldValue: int32 = this.value
+            this.value = value
+            GameFeatureEventHandler.getInstance().fireEvent(newGameFeatureEvent(this, newStringMaker().append(this.name).append(" value: from: ").appendint(int32(oldValue.intValue())).append(" to ").appendint(int32(this.value.intValue())).toString()))
 
-    def setMaxValue(self, maxValue: int) -> None:
-        self.maxValue = maxValue
-    
+method getValue*(this: GameConfiguration): int32 {.base, discardable.} =
+        return this.value
 
-    def getMaxValue(self) -> int:
-        return self.maxValue
-    
+method setMaxValue*(this: GameConfiguration, maxValue: int32) {.base.} =
+        this.maxValue = maxValue
 
-    def setMinValue(self, minValue: int) -> None:
-        self.minValue = minValue
-    
+method getMaxValue*(this: GameConfiguration): int32 {.base, discardable.} =
+        return this.maxValue
 
-    def getMinValue(self) -> int:
-        return self.minValue
-    
+method setMinValue*(this: GameConfiguration, minValue: int32) {.base.} =
+        this.minValue = minValue
 
-    def setName(self, name: str) -> None:
-        self.name = name
-    
+method getMinValue*(this: GameConfiguration): int32 {.base, discardable.} =
+        return this.minValue
 
-    def getName(self) -> str:
-        return self.name
-    
+method setName*(this: GameConfiguration, name: string) {.base.} =
+        this.name = name
 
-    def setDefaultValue(self, defaultValue: int) -> None:
-        self.defaultValue = defaultValue
-    
+method getName*(this: GameConfiguration): string {.base, discardable.} =
+        return this.name
 
-    def getDefaultValue(self) -> int:
-        return self.defaultValue
-    
+method setDefaultValue*(this: GameConfiguration, defaultValue: int32) {.base.} =
+        this.defaultValue = defaultValue
 
-    # throws Exception
-    def setDefault(self) -> None:
-        self.setValue(self.getDefaultValue())
-    
+method getDefaultValue*(this: GameConfiguration): int32 {.base, discardable.} =
+        return this.defaultValue
 
-    def toString(self) -> str:
-        from org.allbinary.logic.string.StringMaker import StringMaker
-        stringBuffer: StringMaker = StringMaker()
+method setDefault*(this: GameConfiguration) {.base.} =
+        this.setValue(this.getDefaultValue())
+
+method toString*(this: GameConfiguration): string {.discardable.} =
+        let stringBuffer: StringMaker = newStringMaker()
         stringBuffer.append("Name: ")
-        stringBuffer.append(self.name)
+        stringBuffer.append(this.name)
         stringBuffer.append(" Min: ")
-        stringBuffer.appendint(int(int(self.getMinValue())))
+        stringBuffer.appendint(int32(this.getMinValue().intValue()))
         stringBuffer.append(" Max: ")
-        stringBuffer.appendint(int(int(self.getMaxValue())))
+        stringBuffer.appendint(int32(this.getMaxValue().intValue()))
         stringBuffer.append(" Value: ")
-        stringBuffer.appendint(int(int(self.getValue())))
+        stringBuffer.appendint(int32(this.getValue().intValue()))
         stringBuffer.append(" Default: ")
-        stringBuffer.appendint(int(int(self.getDefaultValue())))
+        stringBuffer.appendint(int32(this.getDefaultValue().intValue()))
         stringBuffer.append(" Modifiable: ")
-        stringBuffer.appendboolean(self.isModifiable())
-        return str(stringBuffer)
+        stringBuffer.appendboolean(this.isModifiable().booleanValue())
+        return stringBuffer.toString()
 
-    def __str__(self) -> str:
-        return self.toString()
-    
+method setModifiable*(this: GameConfiguration, modifiable: bool) {.base.} =
+        this.modifiable = modifiable
 
-    def setModifiable(self, modifiable: bool) -> None:
-        self.modifiable = modifiable
-    
-
-    def isModifiable(self) -> bool:
-        return self.modifiable
-# from org.allbinary.game.configuration.event.GameFeatureEvent import GameFeatureEvent
-# from org.allbinary.game.configuration.event.GameFeatureEventHandler import GameFeatureEventHandler
-# from org.allbinary.logic.java.bool.BooleanFactory import BooleanFactory
-# from org.allbinary.logic.math.SmallIntegerSingletonFactory import SmallIntegerSingletonFactory
-# from org.allbinary.logic.string.StringMaker import StringMaker
-# from org.allbinary.logic.string.StringUtil import StringUtil
-
-
-def _GameConfiguration_MIN_VALUE() -> object:
-    return int(-2147483648)
-
-lazy_static(GameConfiguration, "MIN_VALUE", _GameConfiguration_MIN_VALUE)
+method isModifiable*(this: GameConfiguration): bool {.base, discardable.} =
+        return this.modifiable
 

@@ -1,87 +1,104 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.logic.system.security.crypt.jcehelper
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import java/security/Security as SecurityModule
+export SecurityModule
+import java/security/spec/KeySpec as KeySpecModule
+export KeySpecModule
+import org/allbinary/TsUtil as TsUtilModule
+export TsUtilModule
+import org/allbinary/init/crypt/jcehelper/CryptInterface as CryptInterfaceModule
+export CryptInterfaceModule
+import org/allbinary/logic/system/security/crypt/jcehelper/BaseSecretComposite as BaseSecretCompositeModule
+export BaseSecretCompositeModule
 
-from org.allbinary.init.crypt.jcehelper.CryptInterface import CryptInterface
+type
+    AbCrypt* = ref object of CryptInterface
+        tsUtil*: TsUtil
+        secretComposite*: BaseSecretComposite
+        algorithm*: string
+
+proc newAbCrypt*(algorithm: string): AbCrypt
+proc initAbCrypt*(this: AbCrypt, algorithm: string)
+method init*(this: AbCrypt, keyAsString: string) {.base.}
+method encrypt*(this: AbCrypt, array: JArray[int8]): JArray[int8] {.discardable.}
+method decrypt*(this: AbCrypt, array: JArray[int8]): JArray[int8] {.discardable.}
+import org/allbinary/logic/NullUtil as NullUtilModule
+export NullUtilModule
+import org/allbinary/logic/communication/log/PreLogUtil as PreLogUtilModule
+export PreLogUtilModule
+import org/allbinary/string/CommonStrings as CommonStringsModule
+export CommonStringsModule
+import org/bouncycastle/jce/provider/BouncyCastleProvider as BouncyCastleProviderModule
+export BouncyCastleProviderModule
+import org/allbinary/logic/system/security/crypt/jcehelper/KeySpecFactory as KeySpecFactoryModule
+export KeySpecFactoryModule
+import org/allbinary/logic/system/security/crypt/jcehelper/SecretComposite as SecretCompositeModule
+export SecretCompositeModule
 
 
-class AbCrypt(CryptInterface):
-
-    def _init_fields(self) -> None:
-        from org.allbinary.TsUtil import TsUtil
-        self.tsUtil: TsUtil = TsUtil.getInstance()
-        self.secretComposite: BaseSecretComposite = BaseSecretComposite.NULL_SECRET_COMPOSITE
-        self.algorithm: str = None
+# Java field initializers run after the base initializer
+proc initFieldsAbCrypt(this: AbCrypt) =
+    this.tsUtil = TsUtil.getInstance()
+    this.secretComposite = BaseSecretComposite.NULL_SECRET_COMPOSITE
     
+    discard
 
-    def __init__(self, algorithm: str) -> None:
-        self._init_fields()
-        self.algorithm = algorithm
-    
+proc initAbCrypt*(this: AbCrypt, algorithm: string) =
+        this.initFieldsAbCrypt()
+        this.algorithm = algorithm
 
-    def init(self, keyAsString: str) -> None:
-        from org.allbinary.logic.system.security.crypt.jcehelper.KeySpecFactory import KeySpecFactory
-        from org.allbinary.logic.system.security.crypt.jcehelper.SecretComposite import SecretComposite
-        from org.allbinary.logic.communication.log.PreLogUtil import PreLogUtil
-        from org.allbinary.string.CommonStrings import CommonStrings
-        from org.bouncycastle.jce.provider.BouncyCastleProvider import BouncyCastleProvider
-        commonStrings: CommonStrings = CommonStrings.getInstance()
+proc newAbCrypt*(algorithm: string): AbCrypt =
+    result = AbCrypt()
+    initAbCrypt(result, algorithm)
+
+method init*(this: AbCrypt, keyAsString: string) {.base.} =
+        let commonStrings: CommonStrings = CommonStrings.getInstance()
         try:
             try:
-                Security.addProvider(BouncyCastleProvider())
-            except Exception as e:
-                PreLogUtil.putOE(commonStrings.EXCEPTION, self, commonStrings.INIT, e)
-            key: list[int] = self.tsUtil.getByteArray(keyAsString)
-            keySpec: KeySpec = KeySpecFactory.getInstance().getInstance(self.algorithm, key)
-            keyFactory: SecretKeyFactory = SecretKeyFactory.getInstance(self.algorithm)
-            secretKey: SecretKey = keyFactory.generateSecret(keySpec)
-            cipher: Cipher = Cipher.getInstance(self.algorithm)
-            self.secretComposite = SecretComposite(secretKey, cipher, key)
-        except Exception as e:
-            PreLogUtil.putOE("init Failed", self, commonStrings.INIT, e)
-    
+                Security.addProvider(newBouncyCastleProvider())
+            except CatchableError as jcaught:
+                let e = jToException(jcaught)
+                PreLogUtil.putOE(commonStrings.EXCEPTION, this, commonStrings.INIT, e)
+            let key: JArray[int8] = this.tsUtil.getByteArray(keyAsString)
+            let keySpec: KeySpec = KeySpecFactory.getInstance().getInstance(this.algorithm, key)
+            let keyFactory: SecretKeyFactory = SecretKeyFactory.getInstance(this.algorithm)
+            let secretKey: SecretKey = keyFactory.generateSecret(keySpec)
+            let cipher: Cipher = Cipher.getInstance(this.algorithm)
+            this.secretComposite = newSecretComposite(secretKey, cipher, key)
+        except CatchableError as jcaught:
+            let e = jToException(jcaught)
+            PreLogUtil.putOE("init Failed", this, commonStrings.INIT, e)
 
-    def encrypt(self, array: list[int]) -> list[int]:
-        from org.allbinary.logic.NullUtil import NullUtil
-        from org.allbinary.logic.communication.log.PreLogUtil import PreLogUtil
+method encrypt*(this: AbCrypt, array: JArray[int8]): JArray[int8] {.discardable.} =
         try:
-            return self.secretComposite.encrypt(array)
-        except Exception as e:
-            PreLogUtil.putOE("Encrypt Failed", self, "encrypt", e)
+            return this.secretComposite.encrypt(array)
+        except CatchableError as jcaught:
+            let e = jToException(jcaught)
+            PreLogUtil.putOE("Encrypt Failed", this, "encrypt", e)
             return NullUtil.getInstance().NULL_BYTE_ARRAY
-    
 
-    def decrypt(self, array: list[int]) -> list[int]:
-        from org.allbinary.logic.NullUtil import NullUtil
-        from org.allbinary.logic.communication.log.PreLogUtil import PreLogUtil
+method decrypt*(this: AbCrypt, array: JArray[int8]): JArray[int8] {.discardable.} =
         try:
-            return self.secretComposite.decrypt(array)
-        except Exception as e:
-            PreLogUtil.putOE("decrypt Failed", self, "decrypt", e)
+            return this.secretComposite.decrypt(array)
+        except CatchableError as jcaught:
+            let e = jToException(jcaught)
+            PreLogUtil.putOE("decrypt Failed", this, "decrypt", e)
             return NullUtil.getInstance().NULL_BYTE_ARRAY
-# from java.security.Security import Security
-# from java.security.spec.KeySpec import KeySpec
-# from javax.crypto.Cipher import Cipher
-# from javax.crypto.SecretKey import SecretKey
-# from javax.crypto.SecretKeyFactory import SecretKeyFactory
-# from org.allbinary.TsUtil import TsUtil
-# from org.allbinary.logic.NullUtil import NullUtil
-# from org.allbinary.logic.communication.log.PreLogUtil import PreLogUtil
-# from org.allbinary.string.CommonStrings import CommonStrings
-# from org.bouncycastle.jce.provider.BouncyCastleProvider import BouncyCastleProvider
-from org.allbinary.logic.system.security.crypt.jcehelper.BaseSecretComposite import BaseSecretComposite
-
 

@@ -1,49 +1,64 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.graphics.displayable.event
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/logic/util/event/AllBinaryEventObject as AllBinaryEventObjectModule
+export AllBinaryEventObjectModule
+import org/allbinary/logic/util/event/EventListenerInterface as EventListenerInterfaceModule
+export EventListenerInterfaceModule
+import org/allbinary/logic/util/event/handler/BasicEventHandler as BasicEventHandlerModule
+export BasicEventHandlerModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
-from org.allbinary.logic.util.event.handler.BasicEventHandler import BasicEventHandler
+type
+    DisplayChangeEventHandler* = ref object of BasicEventHandler
 
+proc newDisplayChangeEventHandler*(): DisplayChangeEventHandler
+proc initDisplayChangeEventHandler*(this: DisplayChangeEventHandler)
+proc getInstance*(t: typedesc[DisplayChangeEventHandler]): DisplayChangeEventHandler {.discardable.}
+method process*(this: DisplayChangeEventHandler, eventObject: AllBinaryEventObject, eventListenerInterface: EventListenerInterface)
+import org/allbinary/graphics/displayable/event/DisplayChangeEventListener as DisplayChangeEventListenerModule
+export DisplayChangeEventListenerModule
+import org/allbinary/graphics/displayable/event/DisplayChangeEvent as DisplayChangeEventModule
+export DisplayChangeEventModule
 
-class DisplayChangeEventHandler(BasicEventHandler):
-    SINGLETON: DisplayChangeEventHandler = None
-    
+var DisplayChangeEventHandler_SINGLETONValue: DisplayChangeEventHandler
+var DisplayChangeEventHandler_SINGLETONSet = false
+proc SINGLETON*(t: typedesc[DisplayChangeEventHandler]): DisplayChangeEventHandler =
+    if not DisplayChangeEventHandler_SINGLETONSet:
+        DisplayChangeEventHandler_SINGLETONSet = true
+        DisplayChangeEventHandler_SINGLETONValue = newDisplayChangeEventHandler()
+    DisplayChangeEventHandler_SINGLETONValue
 
-    @staticmethod
-    def getInstance() -> DisplayChangeEventHandler:
+proc getInstance*(t: typedesc[DisplayChangeEventHandler]): DisplayChangeEventHandler {.discardable.} =
         return DisplayChangeEventHandler.SINGLETON
-    
 
-    def __init__(self) -> None:
-        super().__init__()
-    
+proc initDisplayChangeEventHandler*(this: DisplayChangeEventHandler) =
+        initBasicEventHandler(this)
+        discard
 
-    # throws Exception
-    def process(self, eventObject: AllBinaryEventObject, eventListenerInterface: EventListenerInterface) -> None:
-        from org.allbinary.logic.util.event.AllBinaryEventObject import AllBinaryEventObject
-        from org.allbinary.logic.util.event.EventListenerInterface import EventListenerInterface
-        displayChangeEventListener: DisplayChangeEventListener = (eventListenerInterface)
-        displayChangeEventListener.onDisplayChangeEvent(eventObject)
-# from org.allbinary.logic.util.event.AllBinaryEventObject import AllBinaryEventObject
-# from org.allbinary.logic.util.event.EventListenerInterface import EventListenerInterface
+proc newDisplayChangeEventHandler*(): DisplayChangeEventHandler =
+    result = DisplayChangeEventHandler()
+    initDisplayChangeEventHandler(result)
 
+method process*(this: DisplayChangeEventHandler, eventObject: AllBinaryEventObject, eventListenerInterface: EventListenerInterface) =
+        let displayChangeEventListener: DisplayChangeEventListener = (DisplayChangeEventListener(JObject(eventListenerInterface)))
+        displayChangeEventListener.onDisplayChangeEvent(DisplayChangeEvent(JObject(eventObject)))
 
-def _DisplayChangeEventHandler_SINGLETON() -> object:
-    return DisplayChangeEventHandler()
-
-lazy_static(DisplayChangeEventHandler, "SINGLETON", _DisplayChangeEventHandler_SINGLETON)
+when declared(newDisplayChangeEventHandlerHook0):
+    newDisplayChangeEventHandlerHook0 = proc (): BasicEventHandler = newDisplayChangeEventHandler()
 

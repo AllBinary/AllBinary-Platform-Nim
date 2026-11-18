@@ -1,46 +1,65 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.displayable.canvas
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/canvas/Processor as ProcessorModule
+export ProcessorModule
+import org/allbinary/logic/communication/log/LogUtil as LogUtilModule
+export LogUtilModule
+import org/allbinary/string/CommonStrings as CommonStringsModule
+export CommonStringsModule
+import org/allbinary/game/displayable/canvas/AllBinaryGameCanvas as AllBinaryGameCanvasModule
+export AllBinaryGameCanvasModule
 
-from org.allbinary.canvas.Processor import Processor
+type
+    StartIntermissionProcessor* = ref object of Processor
+        logUtil*: LogUtil
+        commonStrings*: CommonStrings
+        gameCanvas*: AllBinaryGameCanvas
+        WAIT*: int64
+
+proc newStartIntermissionProcessor*(gameCanvas: AllBinaryGameCanvas): StartIntermissionProcessor
+proc initStartIntermissionProcessor*(this: StartIntermissionProcessor, gameCanvas: AllBinaryGameCanvas)
+method process*(this: StartIntermissionProcessor)
 
 
-class StartIntermissionProcessor(Processor):
-
-    def _init_fields(self) -> None:
-        from org.allbinary.logic.communication.log.LogUtil import LogUtil
-        from org.allbinary.string.CommonStrings import CommonStrings
-        self.logUtil: LogUtil = LogUtil.getInstance()
-        self.commonStrings: CommonStrings = CommonStrings.getInstance()
-        self.gameCanvas: AllBinaryGameCanvas = None
-        self.WAIT: int = 5000
+# Java field initializers run after the base initializer
+proc initFieldsStartIntermissionProcessor(this: StartIntermissionProcessor) =
+    this.logUtil = LogUtil.getInstance()
+    this.commonStrings = CommonStrings.getInstance()
     
+    this.WAIT = 5000'i64
+    discard
 
-    def __init__(self, gameCanvas: AllBinaryGameCanvas) -> None:
-        super().__init__()
-        self._init_fields()
-        self.gameCanvas = gameCanvas
-    
+proc initStartIntermissionProcessor*(this: StartIntermissionProcessor, gameCanvas: AllBinaryGameCanvas) =
+        initProcessor(this)
+        this.initFieldsStartIntermissionProcessor()
+        this.gameCanvas = gameCanvas
 
-    # throws Exception
-    def process(self) -> None:
-        if self.gameCanvas.getStartIntermissionInterface().getTimeDelayHelper().isElapsedTNT(self.WAIT):
-            self.logUtil.putF("Intermission End", self, self.commonStrings.PROCESS)
-            self.gameCanvas.getStartIntermissionInterface().setEnabled(False)
-# from org.allbinary.logic.communication.log.LogUtil import LogUtil
-# from org.allbinary.string.CommonStrings import CommonStrings
+proc newStartIntermissionProcessor*(gameCanvas: AllBinaryGameCanvas): StartIntermissionProcessor =
+    result = StartIntermissionProcessor()
+    initStartIntermissionProcessor(result, gameCanvas)
 
+method process*(this: StartIntermissionProcessor) =
+        if this.gameCanvas.getStartIntermissionInterface().getTimeDelayHelper().isElapsedTNT(this.WAIT):
+            this.logUtil.putF("Intermission End", this, this.commonStrings.PROCESS)
+            this.gameCanvas.getStartIntermissionInterface().setEnabled(false)
+
+when declared(newStartIntermissionProcessorHook1):
+    newStartIntermissionProcessorHook1 = proc (gameCanvas: AllBinaryGameCanvas): Processor = newStartIntermissionProcessor(gameCanvas)
 

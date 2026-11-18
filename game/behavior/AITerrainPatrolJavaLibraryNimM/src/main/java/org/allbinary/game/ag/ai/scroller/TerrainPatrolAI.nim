@@ -1,78 +1,96 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.ag.ai.scroller
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/game/input/GameInput as GameInputModule
+export GameInputModule
+import org/allbinary/game/terrain/BasicTerrainInfo as BasicTerrainInfoModule
+export BasicTerrainInfoModule
+import org/allbinary/game/terrain/TerrainEventListener as TerrainEventListenerModule
+export TerrainEventListenerModule
+import org/allbinary/layer/AllBinaryLayer as AllBinaryLayerModule
+export AllBinaryLayerModule
+import org/allbinary/math/Angle as AngleModule
+export AngleModule
+import org/allbinary/util/ABHashtable as ABHashtableModule
+export ABHashtableModule
+import org/allbinary/game/ag/ai/scroller/PacePatrolAI as PacePatrolAIModule
+export PacePatrolAIModule
 
-from org.allbinary.game.ag.ai.scroller.PacePatrolAI import PacePatrolAI
+type
+    TerrainPatrolAI* = ref object of PacePatrolAI
+        terrainEventListener*: TerrainEventListener
+        DOWN*: Angle
+        CLIFF*: BasicTerrainInfo
+
+proc newTerrainPatrolAI*(hashtable: ABHashtable, ownerLayerInterface: AllBinaryLayer, gameInput: GameInput): TerrainPatrolAI
+proc initTerrainPatrolAI*(this: TerrainPatrolAI, hashtable: ABHashtable, ownerLayerInterface: AllBinaryLayer, gameInput: GameInput)
+method update*(this: TerrainPatrolAI)
+method changeDirectionIfCliffReached*(this: TerrainPatrolAI) {.base.}
+import org/allbinary/game/terrain/TerrainEvent as TerrainEventModule
+export TerrainEventModule
+import org/allbinary/game/terrain/TerrainEventCircularStaticPool as TerrainEventCircularStaticPoolModule
+export TerrainEventCircularStaticPoolModule
+import org/allbinary/game/terrain/TerrainEventHandler as TerrainEventHandlerModule
+export TerrainEventHandlerModule
+import org/allbinary/math/AngleFactory as AngleFactoryModule
+export AngleFactoryModule
+import org/allbinary/util/BasicArrayList as BasicArrayListModule
+export BasicArrayListModule
 
 
-class TerrainPatrolAI(PacePatrolAI):
+# Java field initializers run after the base initializer
+proc initFieldsTerrainPatrolAI(this: TerrainPatrolAI) =
+    this.terrainEventListener = newTerrainEventListener()
+    this.DOWN = AngleFactory.getInstance().DOWN
+    this.CLIFF = newBasicTerrainInfo(this.DOWN)
+    discard
 
-    def _init_fields(self) -> None:
-        from org.allbinary.game.terrain.BasicTerrainInfo import BasicTerrainInfo
-        from org.allbinary.game.terrain.TerrainEventListener import TerrainEventListener
-        from org.allbinary.math.Angle import Angle
-        from org.allbinary.math.AngleFactory import AngleFactory
-        self.terrainEventListener: TerrainEventListener = TerrainEventListener()
-        self.DOWN: Angle = AngleFactory.getInstance().DOWN
-        self.CLIFF: BasicTerrainInfo = BasicTerrainInfo(self.DOWN)
-    
+proc initTerrainPatrolAI*(this: TerrainPatrolAI, hashtable: ABHashtable, ownerLayerInterface: AllBinaryLayer, gameInput: GameInput) =
+        initPacePatrolAI(this, hashtable, ownerLayerInterface, gameInput)
+        this.initFieldsTerrainPatrolAI()
+        TerrainEventHandler.getInstance(ownerLayerInterface).addListener(this.terrainEventListener)
+        this.terrainEventListener.onTerrainEvent(TerrainEventCircularStaticPool.getInstance().getNext(this.CLIFF))
 
-    def __init__(self, hashtable: ABHashtable[object, object], ownerLayerInterface: AllBinaryLayer, gameInput: GameInput) -> None:
-        from org.allbinary.game.input.GameInput import GameInput
-        from org.allbinary.game.terrain.TerrainEventCircularStaticPool import TerrainEventCircularStaticPool
-        from org.allbinary.game.terrain.TerrainEventHandler import TerrainEventHandler
-        from org.allbinary.layer.AllBinaryLayer import AllBinaryLayer
-        from org.allbinary.util.ABHashtable import ABHashtable
-        super().__init__(hashtable, ownerLayerInterface, gameInput)
-        self._init_fields()
-        TerrainEventHandler.getInstance(ownerLayerInterface).addListener(self.terrainEventListener)
-        self.terrainEventListener.onTerrainEvent(TerrainEventCircularStaticPool.getInstance().getNext(self.CLIFF))
-    
+proc newTerrainPatrolAI*(hashtable: ABHashtable, ownerLayerInterface: AllBinaryLayer, gameInput: GameInput): TerrainPatrolAI =
+    result = TerrainPatrolAI()
+    initTerrainPatrolAI(result, hashtable, ownerLayerInterface, gameInput)
 
-    def update(self) -> None:
-        super().update()
-        self.changeDirectionIfCliffReached()
-    
+method update*(this: TerrainPatrolAI) =
+        procCall PacePatrolAI(this).update()
+        this.changeDirectionIfCliffReached()
 
-    def changeDirectionIfCliffReached(self) -> None:
-        from org.allbinary.game.terrain.BasicTerrainInfo import BasicTerrainInfo
-        from org.allbinary.game.terrain.TerrainEvent import TerrainEvent
-        from org.allbinary.math.Angle import Angle
-        from org.allbinary.util.BasicArrayList import BasicArrayList
-        list_: BasicArrayList = self.terrainEventListener.getList()
-        size: int = list_.size()
-        for index in range(0, size):
-            terrainEvent: TerrainEvent = list_.removeAt(index)
-            basicTerrainInfo: BasicTerrainInfo = terrainEvent.getBasicTerrainInfo()
-            angle: Angle = basicTerrainInfo.getAngle()
-            if angle == self.DOWN:
-                self.nextDirection()
-                if not self.isFollowLimitedByTerrain:
-                    self.logUtil.putF("Following Limited", self, "onTerrainEvent")
-                    self.isFollowLimitedByTerrain = True
-# from org.allbinary.game.input.GameInput import GameInput
-# from org.allbinary.game.terrain.BasicTerrainInfo import BasicTerrainInfo
-# from org.allbinary.game.terrain.TerrainEvent import TerrainEvent
-# from org.allbinary.game.terrain.TerrainEventCircularStaticPool import TerrainEventCircularStaticPool
-# from org.allbinary.game.terrain.TerrainEventHandler import TerrainEventHandler
-# from org.allbinary.game.terrain.TerrainEventListener import TerrainEventListener
-# from org.allbinary.layer.AllBinaryLayer import AllBinaryLayer
-# from org.allbinary.math.Angle import Angle
-# from org.allbinary.math.AngleFactory import AngleFactory
-# from org.allbinary.util.ABHashtable import ABHashtable
-# from org.allbinary.util.BasicArrayList import BasicArrayList
+method changeDirectionIfCliffReached*(this: TerrainPatrolAI) {.base.} =
+        let list: BasicArrayList = this.terrainEventListener.getList()
+        let size: int32 = list.size()
+        block:
+            var index: int32 = 0
+            while index < size:
+                defer: index = index +% 1
+                let terrainEvent: TerrainEvent = TerrainEvent(JObject(list.removeAt(index)))
+                let basicTerrainInfo: BasicTerrainInfo = terrainEvent.getBasicTerrainInfo()
+                let angle: Angle = basicTerrainInfo.getAngle()
+                if angle == this.DOWN:
+                    this.nextDirection()
+                    if (not this.isFollowLimitedByTerrain):
+                        this.logUtil.putF("Following Limited", this, "onTerrainEvent")
+                        this.isFollowLimitedByTerrain = true
 
+when declared(newTerrainPatrolAIHook3):
+    newTerrainPatrolAIHook3 = proc (hashtable: ABHashtable, ownerLayerInterface: AllBinaryLayer, gameInput: GameInput): PacePatrolAI = newTerrainPatrolAI(hashtable, ownerLayerInterface, gameInput)
 

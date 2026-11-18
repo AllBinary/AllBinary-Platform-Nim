@@ -1,52 +1,62 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.tick
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/layer/AllBinaryLayerManager as AllBinaryLayerManagerModule
+export AllBinaryLayerManagerModule
+import org/allbinary/game/tick/TickableInterface as TickableInterfaceModule
+export TickableInterfaceModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
-from org.allbinary.game.tick.TickableInterface import TickableInterface
+type
+    NullTickable* = ref object of TickableInterface
+        NAME*: string
 
+proc newNullTickable*(): NullTickable
+proc getInstance*(t: typedesc[NullTickable]): NullTickable {.discardable.}
+method processTick*(this: NullTickable, allBinaryLayerManager: AllBinaryLayerManager)
+method getName*(this: NullTickable): string {.discardable.}
 
-class NullTickable(TickableInterface):
-    SINGLETON: NullTickable = None
+var NullTickable_SINGLETONValue: NullTickable
+var NullTickable_SINGLETONSet = false
+proc SINGLETON*(t: typedesc[NullTickable]): NullTickable =
+    if not NullTickable_SINGLETONSet:
+        NullTickable_SINGLETONSet = true
+        NullTickable_SINGLETONValue = newNullTickable()
+    NullTickable_SINGLETONValue
 
-    def _init_fields(self) -> None:
-        self.NAME: str = "NulLTickable"
+# Java field initializers run after the base initializer
+proc initFieldsNullTickable(this: NullTickable) =
+    this.NAME = "NulLTickable"
+    discard
 
-    def __init__(self) -> None:
-        self._init_fields()
-    
+proc initNullTickable*(this: NullTickable) =
+    this.initFieldsNullTickable()
 
-    @staticmethod
-    def getInstance() -> NullTickable:
+proc newNullTickable*(): NullTickable =
+    result = NullTickable()
+    initNullTickable(result)
+
+proc getInstance*(t: typedesc[NullTickable]): NullTickable {.discardable.} =
         return NullTickable.SINGLETON
-    
 
-    # throws Exception
-    def processTick(self, allBinaryLayerManager: AllBinaryLayerManager) -> None:
-        from org.allbinary.layer.AllBinaryLayerManager import AllBinaryLayerManager
-        pass
-    
+method processTick*(this: NullTickable, allBinaryLayerManager: AllBinaryLayerManager) =
+        discard
 
-    def getName(self) -> str:
-        return self.NAME
-# from org.allbinary.layer.AllBinaryLayerManager import AllBinaryLayerManager
-
-
-def _NullTickable_SINGLETON() -> object:
-    return NullTickable()
-
-lazy_static(NullTickable, "SINGLETON", _NullTickable_SINGLETON)
+method getName*(this: NullTickable): string {.discardable.} =
+        return this.NAME
 

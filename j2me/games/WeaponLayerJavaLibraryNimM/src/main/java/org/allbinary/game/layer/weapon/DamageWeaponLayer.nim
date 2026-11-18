@@ -1,39 +1,52 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.layer.weapon
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/animation/Animation as AnimationModule
+export AnimationModule
+import org/allbinary/game/multiplayer/layer/RemoteInfo as RemoteInfoModule
+export RemoteInfoModule
+import org/allbinary/graphics/Rectangle as RectangleModule
+export RectangleModule
+import org/allbinary/physics/movement/Movement as MovementModule
+export MovementModule
+import org/allbinary/view/ViewPositionBase as ViewPositionBaseModule
+export ViewPositionBaseModule
+import org/allbinary/game/layer/weapon/WeaponLayer as WeaponLayerModule
+export WeaponLayerModule
 
-from org.allbinary.game.layer.weapon.WeaponLayer import WeaponLayer
+type
+    DamageWeaponLayer* = ref object of WeaponLayer
+
+proc newDamageWeaponLayer*(name: string, remoteInfo: RemoteInfo, movement: Movement, animationInterface: Animation, destroyedAnimationInterface: Animation, rectangle: Rectangle, viewPosition: ViewPositionBase, username: string, actorSessionId: int32, id: int32, multiPlayerType: int32): DamageWeaponLayer
+proc initDamageWeaponLayer*(this: DamageWeaponLayer, name: string, remoteInfo: RemoteInfo, movement: Movement, animationInterface: Animation, destroyedAnimationInterface: Animation, rectangle: Rectangle, viewPosition: ViewPositionBase, username: string, actorSessionId: int32, id: int32, multiPlayerType: int32)
+import org/allbinary/game/layer/weapon/CollidableDamageWeaponBehavior as CollidableDamageWeaponBehaviorModule
+export CollidableDamageWeaponBehaviorModule
 
 
-class DamageWeaponLayer(WeaponLayer):
-    
+proc initDamageWeaponLayer*(this: DamageWeaponLayer, name: string, remoteInfo: RemoteInfo, movement: Movement, animationInterface: Animation, destroyedAnimationInterface: Animation, rectangle: Rectangle, viewPosition: ViewPositionBase, username: string, actorSessionId: int32, id: int32, multiPlayerType: int32) =
+        initWeaponLayer(this, name, remoteInfo, multiPlayerType, movement, animationInterface, destroyedAnimationInterface, rectangle, viewPosition)
+        this.setCollidableInferface(newCollidableDamageWeaponBehavior(true))
 
-    def __init__(self, name: str, remoteInfo: RemoteInfo, movement: Movement, animationInterface: Animation, destroyedAnimationInterface: Animation, rectangle: Rectangle, viewPosition: ViewPositionBase, username: str, actorSessionId: int, id: int, multiPlayerType: int) -> None:
-        from org.allbinary.game.layer.weapon.CollidableDamageWeaponBehavior import CollidableDamageWeaponBehavior
-        from org.allbinary.animation.Animation import Animation
-        from org.allbinary.game.multiplayer.layer.RemoteInfo import RemoteInfo
-        from org.allbinary.graphics.Rectangle import Rectangle
-        from org.allbinary.physics.movement.Movement import Movement
-        from org.allbinary.view.ViewPositionBase import ViewPositionBase
-        super().__init__(name, remoteInfo, multiPlayerType, movement, animationInterface, destroyedAnimationInterface, rectangle, viewPosition)
-        self.setCollidableInferface(CollidableDamageWeaponBehavior(True))
-# from org.allbinary.animation.Animation import Animation
-# from org.allbinary.game.multiplayer.layer.RemoteInfo import RemoteInfo
-# from org.allbinary.graphics.Rectangle import Rectangle
-# from org.allbinary.physics.movement.Movement import Movement
-# from org.allbinary.view.ViewPositionBase import ViewPositionBase
+proc newDamageWeaponLayer*(name: string, remoteInfo: RemoteInfo, movement: Movement, animationInterface: Animation, destroyedAnimationInterface: Animation, rectangle: Rectangle, viewPosition: ViewPositionBase, username: string, actorSessionId: int32, id: int32, multiPlayerType: int32): DamageWeaponLayer =
+    result = DamageWeaponLayer()
+    initDamageWeaponLayer(result, name, remoteInfo, movement, animationInterface, destroyedAnimationInterface, rectangle, viewPosition, username, actorSessionId, id, multiPlayerType)
 
+when declared(newDamageWeaponLayerHook11):
+    newDamageWeaponLayerHook11 = proc (name: string, remoteInfo: RemoteInfo, movement: Movement, animationInterface: Animation, destroyedAnimationInterface: Animation, rectangle: Rectangle, viewPosition: ViewPositionBase, username: string, actorSessionId: int32, id: int32, multiPlayerType: int32): WeaponLayer = newDamageWeaponLayer(name, remoteInfo, movement, animationInterface, destroyedAnimationInterface, rectangle, viewPosition, username, actorSessionId, id, multiPlayerType)
 

@@ -1,29 +1,41 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-# 
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+  
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.input
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/layer/LayerManager as LayerManagerModule
+export LayerManagerModule
 
-from org.allbinary.layer.LayerManager import LayerManager
+type
+    OptimizedGameInputLayerManager* = ref object of LayerManager
+
+proc newOptimizedGameInputLayerManager*(): OptimizedGameInputLayerManager
+proc initOptimizedGameInputLayerManager*(this: OptimizedGameInputLayerManager)
+import org/allbinary/layer/LayerManagerNoDebug as LayerManagerNoDebugModule
+export LayerManagerNoDebugModule
 
 
-class OptimizedGameInputLayerManager(LayerManager):
-    
+proc initOptimizedGameInputLayerManager*(this: OptimizedGameInputLayerManager) =
+        initLayerManager(this, LayerManagerNoDebug.getInstance())
 
-    def __init__(self) -> None:
-        from org.allbinary.layer.LayerManagerNoDebug import LayerManagerNoDebug
-        super().__init__(LayerManagerNoDebug.getInstance())
-# from org.allbinary.layer.LayerManagerNoDebug import LayerManagerNoDebug
+proc newOptimizedGameInputLayerManager*(): OptimizedGameInputLayerManager =
+    result = OptimizedGameInputLayerManager()
+    initOptimizedGameInputLayerManager(result)
 
+when declared(newOptimizedGameInputLayerManagerHook0):
+    newOptimizedGameInputLayerManagerHook0 = proc (): LayerManager = newOptimizedGameInputLayerManager()
 

@@ -1,67 +1,77 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.layer.special
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/game/collision/CollidableBaseBehavior as CollidableBaseBehaviorModule
+export CollidableBaseBehaviorModule
+import org/allbinary/game/collision/CollidableInterfaceCompositeInterface as CollidableInterfaceCompositeInterfaceModule
+export CollidableInterfaceCompositeInterfaceModule
+import org/allbinary/game/combat/damage/DamageUtil as DamageUtilModule
+export DamageUtilModule
+import org/allbinary/game/layer/CollidableCompositeLayer as CollidableCompositeLayerModule
+export CollidableCompositeLayerModule
 
-from org.allbinary.game.collision.CollidableBaseBehavior import CollidableBaseBehavior
+type
+    CollidableDestroyableDamageableBehavior* = ref object of CollidableBaseBehavior
+        damageUtil*: DamageUtil
+
+proc newCollidableDestroyableDamageableBehavior*(collidable: bool): CollidableDestroyableDamageableBehavior
+proc initCollidableDestroyableDamageableBehavior*(this: CollidableDestroyableDamageableBehavior, collidable: bool)
+method isCollision*(this: CollidableDestroyableDamageableBehavior, ownerLayer: CollidableCompositeLayer, collisionLayer: CollidableCompositeLayer): bool {.discardable.}
+method collide*(this: CollidableDestroyableDamageableBehavior, ownerLayer: CollidableCompositeLayer, collidableInterfaceCompositeInterface: CollidableCompositeLayer)
+method isCollisionInterface*(this: CollidableDestroyableDamageableBehavior, ownerLayer: CollidableCompositeLayer, collidableInterfaceCompositeInterface: CollidableInterfaceCompositeInterface): bool {.discardable.}
+method collideInterface*(this: CollidableDestroyableDamageableBehavior, ownerLayer: CollidableCompositeLayer, collidableInterfaceCompositeInterface: CollidableInterfaceCompositeInterface)
+import org/allbinary/logic/communication/log/ForcedLogUtil as ForcedLogUtilModule
+export ForcedLogUtilModule
+import org/allbinary/game/layer/special/CollidableDestroyableDamageableLayer as CollidableDestroyableDamageableLayerModule
+export CollidableDestroyableDamageableLayerModule
 
 
-class CollidableDestroyableDamageableBehavior(CollidableBaseBehavior):
+# Java field initializers run after the base initializer
+proc initFieldsCollidableDestroyableDamageableBehavior(this: CollidableDestroyableDamageableBehavior) =
+    this.damageUtil = DamageUtil.getInstance()
+    discard
 
-    def _init_fields(self) -> None:
-        from org.allbinary.game.combat.damage.DamageUtil import DamageUtil
-        self.damageUtil: DamageUtil = DamageUtil.getInstance()
-    
+proc initCollidableDestroyableDamageableBehavior*(this: CollidableDestroyableDamageableBehavior, collidable: bool) =
+        initCollidableBaseBehavior(this, collidable)
+        this.initFieldsCollidableDestroyableDamageableBehavior()
 
-    def __init__(self, collidable: bool) -> None:
-        super().__init__(collidable)
-        self._init_fields()
-    
+proc newCollidableDestroyableDamageableBehavior*(collidable: bool): CollidableDestroyableDamageableBehavior =
+    result = CollidableDestroyableDamageableBehavior()
+    initCollidableDestroyableDamageableBehavior(result, collidable)
 
-    def isCollision(self, ownerLayer: CollidableCompositeLayer, collisionLayer: CollidableCompositeLayer) -> bool:
-        from org.allbinary.game.layer.CollidableCompositeLayer import CollidableCompositeLayer
+method isCollision*(this: CollidableDestroyableDamageableBehavior, ownerLayer: CollidableCompositeLayer, collisionLayer: CollidableCompositeLayer): bool {.discardable.} =
         if ownerLayer.getGroupInterface()[0] != collisionLayer.getGroupInterface()[0]:
-            return super().isCollision(ownerLayer, collisionLayer)
-        return False
-    
+            return procCall CollidableBaseBehavior(this).isCollision(ownerLayer, collisionLayer)
+        return false
 
-    # throws Exception
-    def collide(self, ownerLayer: CollidableCompositeLayer, collidableInterfaceCompositeInterface: CollidableCompositeLayer) -> None:
-        from org.allbinary.game.layer.CollidableCompositeLayer import CollidableCompositeLayer
-        ownerCollidableDestroyableDamageableLayer: CollidableDestroyableDamageableLayer = ownerLayer
-        collidableDestroyableDamageableLayer: CollidableDestroyableDamageableLayer = collidableInterfaceCompositeInterface
+method collide*(this: CollidableDestroyableDamageableBehavior, ownerLayer: CollidableCompositeLayer, collidableInterfaceCompositeInterface: CollidableCompositeLayer) =
+        let ownerCollidableDestroyableDamageableLayer: CollidableDestroyableDamageableLayer = CollidableDestroyableDamageableLayer(JObject(ownerLayer))
+        let collidableDestroyableDamageableLayer: CollidableDestroyableDamageableLayer = CollidableDestroyableDamageableLayer(JObject(collidableInterfaceCompositeInterface))
         ownerCollidableDestroyableDamageableLayer.damage(collidableDestroyableDamageableLayer.getDamage(0), 0)
-    
 
-    def isCollisionInterface(self, ownerLayer: CollidableCompositeLayer, collidableInterfaceCompositeInterface: CollidableInterfaceCompositeInterface) -> bool:
-        from org.allbinary.game.collision.CollidableInterfaceCompositeInterface import CollidableInterfaceCompositeInterface
-        from org.allbinary.game.layer.CollidableCompositeLayer import CollidableCompositeLayer
-        from org.allbinary.logic.communication.log.ForcedLogUtil import ForcedLogUtil
-        ForcedLogUtil.log("No Longer Used", self)
-        return False
-    
+method isCollisionInterface*(this: CollidableDestroyableDamageableBehavior, ownerLayer: CollidableCompositeLayer, collidableInterfaceCompositeInterface: CollidableInterfaceCompositeInterface): bool {.discardable.} =
+        ForcedLogUtil.log("No Longer Used", this)
+        return false
 
-    # throws Exception
-    def collideInterface(self, ownerLayer: CollidableCompositeLayer, collidableInterfaceCompositeInterface: CollidableInterfaceCompositeInterface) -> None:
-        from org.allbinary.game.collision.CollidableInterfaceCompositeInterface import CollidableInterfaceCompositeInterface
-        from org.allbinary.game.layer.CollidableCompositeLayer import CollidableCompositeLayer
-        from org.allbinary.logic.communication.log.ForcedLogUtil import ForcedLogUtil
-        ForcedLogUtil.log("No Longer Used", self)
-# from org.allbinary.game.collision.CollidableInterfaceCompositeInterface import CollidableInterfaceCompositeInterface
-# from org.allbinary.game.combat.damage.DamageUtil import DamageUtil
-# from org.allbinary.game.layer.CollidableCompositeLayer import CollidableCompositeLayer
-# from org.allbinary.logic.communication.log.ForcedLogUtil import ForcedLogUtil
+method collideInterface*(this: CollidableDestroyableDamageableBehavior, ownerLayer: CollidableCompositeLayer, collidableInterfaceCompositeInterface: CollidableInterfaceCompositeInterface) =
+        ForcedLogUtil.log("No Longer Used", this)
 
+when declared(newCollidableDestroyableDamageableBehaviorHook1):
+    newCollidableDestroyableDamageableBehaviorHook1 = proc (collidable: bool): CollidableBaseBehavior = newCollidableDestroyableDamageableBehavior(collidable)
 

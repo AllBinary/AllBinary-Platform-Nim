@@ -1,49 +1,58 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.graphics.color
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import javax/microedition/lcdui/Graphics as GraphicsModule
+export GraphicsModule
+import org/allbinary/graphics/color/BasicColor as BasicColorModule
+export BasicColorModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    BasicColorSetUtil* = ref object of JObject
 
+proc newBasicColorSetUtil*(): BasicColorSetUtil
+proc initBasicColorSetUtil*(this: BasicColorSetUtil)
+proc getInstance*(t: typedesc[BasicColorSetUtil]): BasicColorSetUtil {.discardable.}
+method setBasicColorP*(this: BasicColorSetUtil, graphics: Graphics, basicColor: BasicColor) {.base.}
+method setBasicColorP3*(this: BasicColorSetUtil, graphics: Graphics, basicColor: BasicColor, value: int32) {.base.}
 
-class BasicColorSetUtil:
-    instance: BasicColorSetUtil = None
-    
+var BasicColorSetUtil_instanceValue: BasicColorSetUtil
+var BasicColorSetUtil_instanceSet = false
+proc instance*(t: typedesc[BasicColorSetUtil]): BasicColorSetUtil =
+    if not BasicColorSetUtil_instanceSet:
+        BasicColorSetUtil_instanceSet = true
+        BasicColorSetUtil_instanceValue = newBasicColorSetUtil()
+    BasicColorSetUtil_instanceValue
 
-    @staticmethod
-    def getInstance() -> BasicColorSetUtil:
+proc getInstance*(t: typedesc[BasicColorSetUtil]): BasicColorSetUtil {.discardable.} =
         return BasicColorSetUtil.instance
-    
 
-    def __init__(self) -> None:
-        pass
-    
+proc initBasicColorSetUtil*(this: BasicColorSetUtil) =
+        discard
+        discard
 
-    def setBasicColorP(self, graphics: Graphics, basicColor: BasicColor) -> None:
-        from javax.microedition.lcdui.Graphics import Graphics
-        graphics.setColor(int(basicColor))
-    
+proc newBasicColorSetUtil*(): BasicColorSetUtil =
+    result = BasicColorSetUtil()
+    initBasicColorSetUtil(result)
 
-    def setBasicColorP3(self, graphics: Graphics, basicColor: BasicColor, value: int) -> None:
-        from javax.microedition.lcdui.Graphics import Graphics
+method setBasicColorP*(this: BasicColorSetUtil, graphics: Graphics, basicColor: BasicColor) {.base.} =
+        graphics.setColor(basicColor.intValue())
+
+method setBasicColorP3*(this: BasicColorSetUtil, graphics: Graphics, basicColor: BasicColor, value: int32) {.base.} =
         graphics.setColor(value)
-# from javax.microedition.lcdui.Graphics import Graphics
-
-
-def _BasicColorSetUtil_instance() -> object:
-    return BasicColorSetUtil()
-
-lazy_static(BasicColorSetUtil, "instance", _BasicColorSetUtil_instance)
 

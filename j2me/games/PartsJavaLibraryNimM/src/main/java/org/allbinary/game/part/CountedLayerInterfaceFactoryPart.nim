@@ -1,146 +1,155 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#   
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+    
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.part
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import javax/microedition/lcdui/Graphics as GraphicsModule
+export GraphicsModule
+import org/allbinary/animation/Animation as AnimationModule
+export AnimationModule
+import org/allbinary/game/layer/pickup/CountedPickedUpLayerInterfaceFactory as CountedPickedUpLayerInterfaceFactoryModule
+export CountedPickedUpLayerInterfaceFactoryModule
+import org/allbinary/graphics/font/MyFontProcessor as MyFontProcessorModule
+export MyFontProcessorModule
+import org/allbinary/graphics/font/UpdateMyFontInterface as UpdateMyFontInterfaceModule
+export UpdateMyFontInterfaceModule
+import org/allbinary/layer/AllBinaryLayer as AllBinaryLayerModule
+export AllBinaryLayerModule
+import org/allbinary/logic/math/PrimitiveLongUtil as PrimitiveLongUtilModule
+export PrimitiveLongUtilModule
+import org/allbinary/util/ABHashtable as ABHashtableModule
+export ABHashtableModule
+import org/allbinary/game/part/PartInterface as PartInterfaceModule
+export PartInterfaceModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
-from org.allbinary.graphics.font.UpdateMyFontInterface import UpdateMyFontInterface
-from org.allbinary.game.part.PartInterface import PartInterface
+type
+    CountedLayerInterfaceFactoryPart* = ref object of PartInterface
+        updateMyFontProcessor*: MyFontProcessor
+        myFontProcessor*: MyFontProcessor
+        animationInterface*: Animation
+        total*: int32
+        totalString*: JArray[uint16]
+        xOffset*: int32
+        countedPickedUpLayerInterfaceFactory*: CountedPickedUpLayerInterfaceFactory
+        primitiveLongUtil*: PrimitiveLongUtil
 
+converter jAsUpdateMyFontInterface*(value: CountedLayerInterfaceFactoryPart): UpdateMyFontInterface = cast[UpdateMyFontInterface](value)
+proc newCountedLayerInterfaceFactoryPart*(total: int32, countedPickedUpLayerInterfaceFactory: CountedPickedUpLayerInterfaceFactory): CountedLayerInterfaceFactoryPart
+proc initCountedLayerInterfaceFactoryPart*(this: CountedLayerInterfaceFactoryPart, total: int32, countedPickedUpLayerInterfaceFactory: CountedPickedUpLayerInterfaceFactory)
+method updateMeasurement*(this: CountedLayerInterfaceFactoryPart, graphics: Graphics)
+method init*(this: CountedLayerInterfaceFactoryPart, total: int32, countedPickedUpLayerInterfaceFactory: CountedPickedUpLayerInterfaceFactory) {.base.}
+method getInstance*(this: CountedLayerInterfaceFactoryPart, hashtable: ABHashtable, x: int32, y: int32, z: int32): AllBinaryLayer {.base, discardable.}
+method getTotal*(this: CountedLayerInterfaceFactoryPart): int32 {.base, discardable.}
+method setTotal*(this: CountedLayerInterfaceFactoryPart, total: int32) {.base.}
+method paint*(this: CountedLayerInterfaceFactoryPart, graphics: Graphics)
+method paintThreed*(this: CountedLayerInterfaceFactoryPart, graphics: Graphics)
+method getAnimationInterface*(this: CountedLayerInterfaceFactoryPart): Animation {.discardable.}
+method setAnimationInterface*(this: CountedLayerInterfaceFactoryPart, animationInterface: Animation) {.base.}
+method getXOffset*(this: CountedLayerInterfaceFactoryPart): int32 {.base, discardable.}
+method setXOffset*(this: CountedLayerInterfaceFactoryPart, totalStringWidth: int32) {.base.}
+method getTotalString*(this: CountedLayerInterfaceFactoryPart): JArray[uint16] {.base, discardable.}
+method getCountedPickedUpLayerInterfaceFactory*(this: CountedLayerInterfaceFactoryPart): CountedPickedUpLayerInterfaceFactory {.base, discardable.}
+method setCountedPickedUpLayerInterfaceFactory*(this: CountedLayerInterfaceFactoryPart, countedPickedUpLayerInterfaceFactory: CountedPickedUpLayerInterfaceFactory) {.base.}
+import javax/microedition/lcdui/Font as FontModule
+export FontModule
+import org/allbinary/animation/NullAnimationFactory as NullAnimationFactoryModule
+export NullAnimationFactoryModule
+import org/allbinary/graphics/font/UpdateMyFontProcessor as UpdateMyFontProcessorModule
+export UpdateMyFontProcessorModule
+import org/allbinary/logic/NullUtil as NullUtilModule
+export NullUtilModule
 
-class CountedLayerInterfaceFactoryPart(PartInterface, UpdateMyFontInterface):
-    NULL_COUNTED_LAYER_INTERFACE_FACTORY: CountedLayerInterfaceFactoryPart = None
+var CountedLayerInterfaceFactoryPart_NULL_COUNTED_LAYER_INTERFACE_FACTORYValue: CountedLayerInterfaceFactoryPart
+var CountedLayerInterfaceFactoryPart_NULL_COUNTED_LAYER_INTERFACE_FACTORYSet = false
+proc NULL_COUNTED_LAYER_INTERFACE_FACTORY*(t: typedesc[CountedLayerInterfaceFactoryPart]): CountedLayerInterfaceFactoryPart =
+    if not CountedLayerInterfaceFactoryPart_NULL_COUNTED_LAYER_INTERFACE_FACTORYSet:
+        CountedLayerInterfaceFactoryPart_NULL_COUNTED_LAYER_INTERFACE_FACTORYSet = true
+        CountedLayerInterfaceFactoryPart_NULL_COUNTED_LAYER_INTERFACE_FACTORYValue = newCountedLayerInterfaceFactoryPart(0, CountedPickedUpLayerInterfaceFactory.NULL_COUNTED_PICKUP_LAYER_FACTORY)
+    CountedLayerInterfaceFactoryPart_NULL_COUNTED_LAYER_INTERFACE_FACTORYValue
 
-    def _init_fields(self) -> None:
-        from org.allbinary.animation.Animation import Animation
-        from org.allbinary.animation.NullAnimationFactory import NullAnimationFactory
-        from org.allbinary.game.layer.pickup.CountedPickedUpLayerInterfaceFactory import CountedPickedUpLayerInterfaceFactory
-        from org.allbinary.graphics.font.MyFontProcessor import MyFontProcessor
-        from org.allbinary.graphics.font.UpdateMyFontProcessor import UpdateMyFontProcessor
-        from org.allbinary.logic.NullUtil import NullUtil
-        from org.allbinary.logic.math.PrimitiveLongUtil import PrimitiveLongUtil
-        self.updateMyFontProcessor: MyFontProcessor = UpdateMyFontProcessor(self)
-        self.myFontProcessor: MyFontProcessor = self.updateMyFontProcessor
-        self.animationInterface: Animation = NullAnimationFactory.getFactoryInstance().getInstance(0)
-        self.total: int = 0
-        self.totalString: list[str] = NullUtil.getInstance().NULL_CHAR_ARRAY
-        self.xOffset: int = 0
-        self.countedPickedUpLayerInterfaceFactory: CountedPickedUpLayerInterfaceFactory = CountedPickedUpLayerInterfaceFactory.NULL_COUNTED_PICKUP_LAYER_FACTORY
-        self.primitiveLongUtil: PrimitiveLongUtil = None
+# Java field initializers run after the base initializer
+proc initFieldsCountedLayerInterfaceFactoryPart(this: CountedLayerInterfaceFactoryPart) =
+    this.updateMyFontProcessor = newUpdateMyFontProcessor(this)
+    this.myFontProcessor = this.updateMyFontProcessor
+    this.animationInterface = NullAnimationFactory.getFactoryInstance().getInstance(0)
+    this.total = 0
+    this.totalString = NullUtil.getInstance().NULL_CHAR_ARRAY
+    this.xOffset = 0
+    this.countedPickedUpLayerInterfaceFactory = CountedPickedUpLayerInterfaceFactory.NULL_COUNTED_PICKUP_LAYER_FACTORY
     
+    discard
 
-    def __init__(self, total: int, countedPickedUpLayerInterfaceFactory: CountedPickedUpLayerInterfaceFactory) -> None:
-        from org.allbinary.game.layer.pickup.CountedPickedUpLayerInterfaceFactory import CountedPickedUpLayerInterfaceFactory
-        from org.allbinary.logic.math.PrimitiveLongUtil import PrimitiveLongUtil
-        self._init_fields()
-        self.primitiveLongUtil = PrimitiveLongUtil.createPowerOfTen(1000)
-        self.init(total, countedPickedUpLayerInterfaceFactory)
-    
+proc initCountedLayerInterfaceFactoryPart*(this: CountedLayerInterfaceFactoryPart, total: int32, countedPickedUpLayerInterfaceFactory: CountedPickedUpLayerInterfaceFactory) =
+        this.initFieldsCountedLayerInterfaceFactoryPart()
+        this.primitiveLongUtil = PrimitiveLongUtil.createPowerOfTen(1000)
+        this.init(total, countedPickedUpLayerInterfaceFactory)
 
-    def updateMeasurement(self, graphics: Graphics) -> None:
-        from javax.microedition.lcdui.Font import Font
-        from javax.microedition.lcdui.Graphics import Graphics
-        from org.allbinary.graphics.font.MyFontProcessor import MyFontProcessor
-        font: Font = graphics.getFont()
-        self.setXOffset(font.charsWidth(self.totalString, 0, self.primitiveLongUtil.getCurrentTotalDigits()) + (font.getSize() >> 1))
-        self.myFontProcessor = MyFontProcessor.getInstance()
-    
+proc newCountedLayerInterfaceFactoryPart*(total: int32, countedPickedUpLayerInterfaceFactory: CountedPickedUpLayerInterfaceFactory): CountedLayerInterfaceFactoryPart =
+    result = CountedLayerInterfaceFactoryPart()
+    initCountedLayerInterfaceFactoryPart(result, total, countedPickedUpLayerInterfaceFactory)
 
-    def init(self, total: int, countedPickedUpLayerInterfaceFactory: CountedPickedUpLayerInterfaceFactory) -> None:
-        from org.allbinary.game.layer.pickup.CountedPickedUpLayerInterfaceFactory import CountedPickedUpLayerInterfaceFactory
-        self.setCountedPickedUpLayerInterfaceFactory(countedPickedUpLayerInterfaceFactory)
-        self.total = total
-    
+method updateMeasurement*(this: CountedLayerInterfaceFactoryPart, graphics: Graphics) =
+        let font: Font = graphics.getFont()
+        this.setXOffset(font.charsWidth(this.totalString, 0, this.primitiveLongUtil.getCurrentTotalDigits()) +% (ashr(font.getSize(), 1)))
+        this.myFontProcessor = MyFontProcessor.getInstance()
 
-    # throws Exception
-    def getInstance(self, hashtable: ABHashtable[object, object], x: int, y: int, z: int) -> AllBinaryLayer:
-        from org.allbinary.layer.AllBinaryLayer import AllBinaryLayer
-        from org.allbinary.util.ABHashtable import ABHashtable
-        if self.total > 0:
-            self.setTotal(self.total - 1)
-            return self.getCountedPickedUpLayerInterfaceFactory().getNextInstance(hashtable, x, y, z)
+method init*(this: CountedLayerInterfaceFactoryPart, total: int32, countedPickedUpLayerInterfaceFactory: CountedPickedUpLayerInterfaceFactory) {.base.} =
+        this.setCountedPickedUpLayerInterfaceFactory(countedPickedUpLayerInterfaceFactory)
+        this.total = total
+
+method getInstance*(this: CountedLayerInterfaceFactoryPart, hashtable: ABHashtable, x: int32, y: int32, z: int32): AllBinaryLayer {.base, discardable.} =
+        if this.total > 0:
+            this.setTotal(this.total -% 1)
+            return this.getCountedPickedUpLayerInterfaceFactory().getNextInstance(hashtable, x, y, z)
         else:
-            raise Exception("No more left. Could use a listener to automatically remove")
-    
+            raise newJException("Exception", "No more left. Could use a listener to automatically remove")
 
-    def getTotal(self) -> int:
-        return self.total
-    
+method getTotal*(this: CountedLayerInterfaceFactoryPart): int32 {.base, discardable.} =
+        return this.total
 
-    def setTotal(self, total: int) -> None:
-        self.total = total
-        self.totalString = self.primitiveLongUtil.getCharArray(total)
-        self.myFontProcessor = self.updateMyFontProcessor
-    
+method setTotal*(this: CountedLayerInterfaceFactoryPart, total: int32) {.base.} =
+        this.total = total
+        this.totalString = this.primitiveLongUtil.getCharArray(total)
+        this.myFontProcessor = this.updateMyFontProcessor
 
-    def paint(self, graphics: Graphics) -> None:
-        from javax.microedition.lcdui.Graphics import Graphics
-        self.myFontProcessor.process(graphics)
-    
+method paint*(this: CountedLayerInterfaceFactoryPart, graphics: Graphics) =
+        this.myFontProcessor.process(graphics)
 
-    def paintThreed(self, graphics: Graphics) -> None:
-        from javax.microedition.lcdui.Graphics import Graphics
-        pass
-    
+method paintThreed*(this: CountedLayerInterfaceFactoryPart, graphics: Graphics) =
+        discard
 
-    def getAnimationInterface(self) -> Animation:
-        from org.allbinary.animation.Animation import Animation
-        return self.animationInterface
-    
+method getAnimationInterface*(this: CountedLayerInterfaceFactoryPart): Animation {.discardable.} =
+        return this.animationInterface
 
-    def setAnimationInterface(self, animationInterface: Animation) -> None:
-        from org.allbinary.animation.Animation import Animation
-        self.animationInterface = animationInterface
-    
+method setAnimationInterface*(this: CountedLayerInterfaceFactoryPart, animationInterface: Animation) {.base.} =
+        this.animationInterface = animationInterface
 
-    def getXOffset(self) -> int:
-        return self.xOffset
-    
+method getXOffset*(this: CountedLayerInterfaceFactoryPart): int32 {.base, discardable.} =
+        return this.xOffset
 
-    def setXOffset(self, totalStringWidth: int) -> None:
-        self.xOffset = totalStringWidth
-    
+method setXOffset*(this: CountedLayerInterfaceFactoryPart, totalStringWidth: int32) {.base.} =
+        this.xOffset = totalStringWidth
 
-    def getTotalString(self) -> list[str]:
-        return self.totalString
-    
+method getTotalString*(this: CountedLayerInterfaceFactoryPart): JArray[uint16] {.base, discardable.} =
+        return this.totalString
 
-    def getCountedPickedUpLayerInterfaceFactory(self) -> CountedPickedUpLayerInterfaceFactory:
-        from org.allbinary.game.layer.pickup.CountedPickedUpLayerInterfaceFactory import CountedPickedUpLayerInterfaceFactory
-        return self.countedPickedUpLayerInterfaceFactory
-    
+method getCountedPickedUpLayerInterfaceFactory*(this: CountedLayerInterfaceFactoryPart): CountedPickedUpLayerInterfaceFactory {.base, discardable.} =
+        return this.countedPickedUpLayerInterfaceFactory
 
-    def setCountedPickedUpLayerInterfaceFactory(self, countedPickedUpLayerInterfaceFactory: CountedPickedUpLayerInterfaceFactory) -> None:
-        from org.allbinary.game.layer.pickup.CountedPickedUpLayerInterfaceFactory import CountedPickedUpLayerInterfaceFactory
-        self.countedPickedUpLayerInterfaceFactory = countedPickedUpLayerInterfaceFactory
-# from javax.microedition.lcdui.Font import Font
-# from javax.microedition.lcdui.Graphics import Graphics
-# from org.allbinary.animation.Animation import Animation
-# from org.allbinary.animation.NullAnimationFactory import NullAnimationFactory
-# from org.allbinary.game.layer.pickup.CountedPickedUpLayerInterfaceFactory import CountedPickedUpLayerInterfaceFactory
-# from org.allbinary.graphics.font.MyFontProcessor import MyFontProcessor
-# from org.allbinary.graphics.font.UpdateMyFontProcessor import UpdateMyFontProcessor
-# from org.allbinary.layer.AllBinaryLayer import AllBinaryLayer
-# from org.allbinary.logic.NullUtil import NullUtil
-# from org.allbinary.logic.math.PrimitiveLongUtil import PrimitiveLongUtil
-# from org.allbinary.util.ABHashtable import ABHashtable
-
-
-def _CountedLayerInterfaceFactoryPart_NULL_COUNTED_LAYER_INTERFACE_FACTORY() -> object:
-    from org.allbinary.game.layer.pickup.CountedPickedUpLayerInterfaceFactory import CountedPickedUpLayerInterfaceFactory
-    return CountedLayerInterfaceFactoryPart(0, CountedPickedUpLayerInterfaceFactory.NULL_COUNTED_PICKUP_LAYER_FACTORY)
-
-lazy_static(CountedLayerInterfaceFactoryPart, "NULL_COUNTED_LAYER_INTERFACE_FACTORY", _CountedLayerInterfaceFactoryPart_NULL_COUNTED_LAYER_INTERFACE_FACTORY)
+method setCountedPickedUpLayerInterfaceFactory*(this: CountedLayerInterfaceFactoryPart, countedPickedUpLayerInterfaceFactory: CountedPickedUpLayerInterfaceFactory) {.base.} =
+        this.countedPickedUpLayerInterfaceFactory = countedPickedUpLayerInterfaceFactory
 

@@ -1,68 +1,82 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.vector
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+
+type
+    VectorInfo* = ref object of JObject
+        width*: int32
+        height*: int32
+        points*: JArray[JArray[int32]]
+        totalFrames*: int32
+
+proc newVectorInfo*(width: int32, height: int32, points: JArray[JArray[int32]], totalFrames: int32): VectorInfo
+proc initVectorInfo*(this: VectorInfo, width: int32, height: int32, points: JArray[JArray[int32]], totalFrames: int32)
+method getWidth*(this: VectorInfo): int32 {.base, discardable.}
+method setWidth*(this: VectorInfo, width: int32) {.base.}
+method getHeight*(this: VectorInfo): int32 {.base, discardable.}
+method setHeight*(this: VectorInfo, height: int32) {.base.}
+method getPoints*(this: VectorInfo): JArray[JArray[int32]] {.base, discardable.}
+method setPoints*(this: VectorInfo, points: JArray[JArray[int32]]) {.base.}
+method getTotalFrames*(this: VectorInfo): int32 {.base, discardable.}
+method setTotalFrames*(this: VectorInfo, totalFrames: int32) {.base.}
 
 
-
-class VectorInfo:
-
-    def _init_fields(self) -> None:
-        self.width: int = None
-        self.height: int = None
-        self.points: list[list[int]] = None
-        self.totalFrames: int = None
+# Java field initializers run after the base initializer
+proc initFieldsVectorInfo(this: VectorInfo) =
     
-
-    def __init__(self, width: int, height: int, points: list[list[int]], totalFrames: int) -> None:
-        self._init_fields()
-        self.width = width
-        self.height = height
-        self.points = points
-        self.totalFrames = totalFrames
     
-
-    def getWidth(self) -> int:
-        return self.width
     
-
-    def setWidth(self, width: int) -> None:
-        self.width = width
     
+    discard
 
-    def getHeight(self) -> int:
-        return self.height
-    
+proc initVectorInfo*(this: VectorInfo, width: int32, height: int32, points: JArray[JArray[int32]], totalFrames: int32) =
+        this.initFieldsVectorInfo()
+        this.width = width
+        this.height = height
+        this.points = points
+        this.totalFrames = totalFrames
 
-    def setHeight(self, height: int) -> None:
-        self.height = height
-    
+proc newVectorInfo*(width: int32, height: int32, points: JArray[JArray[int32]], totalFrames: int32): VectorInfo =
+    result = VectorInfo()
+    initVectorInfo(result, width, height, points, totalFrames)
 
-    def getPoints(self) -> list[list[int]]:
-        return self.points
-    
+method getWidth*(this: VectorInfo): int32 {.base, discardable.} =
+        return this.width
 
-    def setPoints(self, points: list[list[int]]) -> None:
-        self.points = points
-    
+method setWidth*(this: VectorInfo, width: int32) {.base.} =
+        this.width = width
 
-    def getTotalFrames(self) -> int:
-        return self.totalFrames
-    
+method getHeight*(this: VectorInfo): int32 {.base, discardable.} =
+        return this.height
 
-    def setTotalFrames(self, totalFrames: int) -> None:
-        self.totalFrames = totalFrames
+method setHeight*(this: VectorInfo, height: int32) {.base.} =
+        this.height = height
 
+method getPoints*(this: VectorInfo): JArray[JArray[int32]] {.base, discardable.} =
+        return this.points
+
+method setPoints*(this: VectorInfo, points: JArray[JArray[int32]]) {.base.} =
+        this.points = points
+
+method getTotalFrames*(this: VectorInfo): int32 {.base, discardable.} =
+        return this.totalFrames
+
+method setTotalFrames*(this: VectorInfo, totalFrames: int32) {.base.} =
+        this.totalFrames = totalFrames
 

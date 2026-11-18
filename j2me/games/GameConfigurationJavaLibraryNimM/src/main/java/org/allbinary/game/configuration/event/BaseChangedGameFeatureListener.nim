@@ -1,98 +1,112 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.configuration.event
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/game/configuration/feature/Feature as FeatureModule
+export FeatureModule
+import org/allbinary/game/configuration/feature/GameFeatureUtil as GameFeatureUtilModule
+export GameFeatureUtilModule
+import org/allbinary/logic/communication/log/LogUtil as LogUtilModule
+export LogUtilModule
+import org/allbinary/logic/util/event/AllBinaryEventObject as AllBinaryEventObjectModule
+export AllBinaryEventObjectModule
+import org/allbinary/util/BasicArrayList as BasicArrayListModule
+export BasicArrayListModule
+import org/allbinary/game/configuration/event/GameFeatureListenerInterface as GameFeatureListenerInterfaceModule
+export GameFeatureListenerInterfaceModule
+import org/allbinary/game/configuration/event/GameFeatureEvent as GameFeatureEventModule
+export GameFeatureEventModule
 
-from org.allbinary.game.configuration.event.GameFeatureListenerInterface import GameFeatureListenerInterface
+type
+    BaseChangedGameFeatureListener* = ref object of GameFeatureListenerInterface
+        logUtil*: LogUtil
+        gameFeatureUtil*: GameFeatureUtil
+        list*: BasicArrayList
+        changed*: bool
+
+proc newBaseChangedGameFeatureListener*(): BaseChangedGameFeatureListener
+method onEvent*(this: BaseChangedGameFeatureListener, eventObject: AllBinaryEventObject)
+method onGameFeatureChange*(this: BaseChangedGameFeatureListener, gameFeatureEvent: GameFeatureEvent)
+method add*(this: BaseChangedGameFeatureListener, gameFeature: Feature) {.base.}
+method remove*(this: BaseChangedGameFeatureListener, gameFeature: Feature) {.base.}
+method setChanged*(this: BaseChangedGameFeatureListener, initialized: bool) {.base.}
+method isChangedFeature*(this: BaseChangedGameFeatureListener, gameFeature: Feature): bool {.base, discardable.}
+method isChanged*(this: BaseChangedGameFeatureListener): bool {.base, discardable.}
+import org/allbinary/game/configuration/feature/Features as FeaturesModule
+export FeaturesModule
+import org/allbinary/logic/communication/log/ForcedLogUtil as ForcedLogUtilModule
+export ForcedLogUtilModule
+import org/allbinary/logic/string/StringMaker as StringMakerModule
+export StringMakerModule
+import org/allbinary/logic/string/StringUtil as StringUtilModule
+export StringUtilModule
+import org/allbinary/string/CommonStrings as CommonStringsModule
+export CommonStringsModule
+import org/allbinary/util/BasicArrayListD as BasicArrayListDModule
+export BasicArrayListDModule
 
 
-class BaseChangedGameFeatureListener(GameFeatureListenerInterface):
+# Java field initializers run after the base initializer
+proc initFieldsBaseChangedGameFeatureListener(this: BaseChangedGameFeatureListener) =
+    this.logUtil = LogUtil.getInstance()
+    this.gameFeatureUtil = GameFeatureUtil.getInstance()
+    this.list = newBasicArrayListD()
+    this.changed = true
+    discard
 
-    def _init_fields(self) -> None:
-        from org.allbinary.game.configuration.feature.GameFeatureUtil import GameFeatureUtil
-        from org.allbinary.logic.communication.log.LogUtil import LogUtil
-        from org.allbinary.util.BasicArrayList import BasicArrayList
-        from org.allbinary.util.BasicArrayListD import BasicArrayListD
-        self.logUtil: LogUtil = LogUtil.getInstance()
-        self.gameFeatureUtil: GameFeatureUtil = GameFeatureUtil.getInstance()
-        self.list_: BasicArrayList = BasicArrayListD()
-        self.changed: bool = True
+proc initBaseChangedGameFeatureListener*(this: BaseChangedGameFeatureListener) =
+    this.initFieldsBaseChangedGameFeatureListener()
 
-    def __init__(self) -> None:
-        self._init_fields()
-    
+proc newBaseChangedGameFeatureListener*(): BaseChangedGameFeatureListener =
+    result = BaseChangedGameFeatureListener()
+    initBaseChangedGameFeatureListener(result)
 
-    def onEvent(self, eventObject: AllBinaryEventObject) -> None:
-        from org.allbinary.logic.communication.log.ForcedLogUtil import ForcedLogUtil
-        from org.allbinary.logic.util.event.AllBinaryEventObject import AllBinaryEventObject
-        from org.allbinary.string.CommonStrings import CommonStrings
-        ForcedLogUtil.log(CommonStrings.getInstance().NOT_IMPLEMENTED, self)
-    
+method onEvent*(this: BaseChangedGameFeatureListener, eventObject: AllBinaryEventObject) =
+        ForcedLogUtil.log(CommonStrings.getInstance().NOT_IMPLEMENTED, this)
 
-    def onGameFeatureChange(self, gameFeatureEvent: GameFeatureEvent) -> None:
-        from org.allbinary.logic.string.StringMaker import StringMaker
-        self.logUtil.putF(str(StringMaker().append(self.gameFeatureUtil.GAME_FEATURE_CHANGED).append(gameFeatureEvent.getWhatChanged())), self, self.gameFeatureUtil.ON_GAME_FEATURE_CHANGE)
-        self.list_.add(gameFeatureEvent.getGameOption())
-        self.setChanged(True)
-    
+method onGameFeatureChange*(this: BaseChangedGameFeatureListener, gameFeatureEvent: GameFeatureEvent) =
+        this.logUtil.putF(newStringMaker().append(this.gameFeatureUtil.GAME_FEATURE_CHANGED).append(gameFeatureEvent.getWhatChanged()).toString(), this, this.gameFeatureUtil.ON_GAME_FEATURE_CHANGE)
+        this.list.add(gameFeatureEvent.getGameOption())
+        this.setChanged(true)
 
-    def add(self, gameFeature: Feature) -> None:
-        from org.allbinary.game.configuration.feature.Feature import Feature
-        self.list_.add(gameFeature)
-    
+method add*(this: BaseChangedGameFeatureListener, gameFeature: Feature) {.base.} =
+        this.list.add(gameFeature)
 
-    def remove(self, gameFeature: Feature) -> None:
-        from org.allbinary.game.configuration.feature.Feature import Feature
-        self.list_.remove(gameFeature)
-    
+method remove*(this: BaseChangedGameFeatureListener, gameFeature: Feature) {.base.} =
+        this.list.remove(gameFeature)
 
-    def setChanged(self, initialized: bool) -> None:
-        self.changed = initialized
-        if not self.isChanged():
-            self.list_.clear()
-    
+method setChanged*(this: BaseChangedGameFeatureListener, initialized: bool) {.base.} =
+        this.changed = initialized
+        if (not this.isChanged()):
+            this.list.clear()
 
-    def isChangedFeature(self, gameFeature: Feature) -> bool:
-        from org.allbinary.game.configuration.feature.Feature import Feature
-        from org.allbinary.game.configuration.feature.Features import Features
-        from org.allbinary.logic.string.StringMaker import StringMaker
-        from org.allbinary.logic.string.StringUtil import StringUtil
-        isChanged: bool = self.list_.contains(gameFeature)
-        stringBuffer: StringMaker = StringMaker()
+method isChangedFeature*(this: BaseChangedGameFeatureListener, gameFeature: Feature): bool {.base, discardable.} =
+        let isChanged: bool = this.list.contains(gameFeature)
+        let stringBuffer: StringMaker = newStringMaker()
         stringBuffer.append("GameFeature: ")
         stringBuffer.append(StringUtil.getInstance().toString(gameFeature))
         stringBuffer.append(" isFeature: ")
         stringBuffer.appendboolean(Features.getInstance().isFeature(gameFeature))
         stringBuffer.append(" isChanged: ")
         stringBuffer.appendboolean(isChanged)
-        self.logUtil.putF(str(stringBuffer), self, "isChanged")
+        this.logUtil.putF(stringBuffer.toString(), this, "isChanged")
         return isChanged
-    
 
-    def isChanged(self) -> bool:
-        return self.changed
-# from org.allbinary.game.configuration.feature.Feature import Feature
-# from org.allbinary.game.configuration.feature.Features import Features
-# from org.allbinary.game.configuration.feature.GameFeatureUtil import GameFeatureUtil
-# from org.allbinary.logic.communication.log.ForcedLogUtil import ForcedLogUtil
-# from org.allbinary.logic.communication.log.LogUtil import LogUtil
-# from org.allbinary.logic.string.StringMaker import StringMaker
-# from org.allbinary.logic.string.StringUtil import StringUtil
-# from org.allbinary.logic.util.event.AllBinaryEventObject import AllBinaryEventObject
-# from org.allbinary.string.CommonStrings import CommonStrings
-# from org.allbinary.util.BasicArrayList import BasicArrayList
-# from org.allbinary.util.BasicArrayListD import BasicArrayListD
-
+method isChanged*(this: BaseChangedGameFeatureListener): bool {.base, discardable.} =
+        return this.changed
 

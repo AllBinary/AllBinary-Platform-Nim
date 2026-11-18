@@ -1,51 +1,61 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.logic.io
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    AbIOSystem* = ref object of JObject
+        `type`*: string
 
+proc newAbIOSystem*(): AbIOSystem
+proc getInstance*(t: typedesc[AbIOSystem]): AbIOSystem {.discardable.}
+method getType*(this: AbIOSystem): string {.base, discardable.}
+method isType*(this: AbIOSystem, `type`: string): bool {.base, discardable.}
 
-class AbIOSystem:
-    instance: AbIOSystem = None
+var AbIOSystem_instanceValue: AbIOSystem
+var AbIOSystem_instanceSet = false
+proc instance*(t: typedesc[AbIOSystem]): AbIOSystem =
+    if not AbIOSystem_instanceSet:
+        AbIOSystem_instanceSet = true
+        AbIOSystem_instanceValue = newAbIOSystem()
+    AbIOSystem_instanceValue
 
-    def _init_fields(self) -> None:
-        self.type_: str = "java.io"
+# Java field initializers run after the base initializer
+proc initFieldsAbIOSystem(this: AbIOSystem) =
+    this.`type` = "java.io"
+    discard
 
-    def __init__(self) -> None:
-        self._init_fields()
-    
+proc initAbIOSystem*(this: AbIOSystem) =
+    this.initFieldsAbIOSystem()
 
-    @staticmethod
-    def getInstance() -> AbIOSystem:
+proc newAbIOSystem*(): AbIOSystem =
+    result = AbIOSystem()
+    initAbIOSystem(result)
+
+proc getInstance*(t: typedesc[AbIOSystem]): AbIOSystem {.discardable.} =
         return AbIOSystem.instance
-    
 
-    def getType(self) -> str:
-        return self.type_
-    
+method getType*(this: AbIOSystem): string {.base, discardable.} =
+        return this.`type`
 
-    def isType(self, type_: str) -> bool:
-        if ((self.type_ > type_) - (self.type_ < type_)) == 0:
-            return True
+method isType*(this: AbIOSystem, `type`: string): bool {.base, discardable.} =
+        if jCompareTo(this.`type`, `type`) == 0:
+            return true
         else:
-            return False
-
-
-def _AbIOSystem_instance() -> object:
-    return AbIOSystem()
-
-lazy_static(AbIOSystem, "instance", _AbIOSystem_instance)
+            return false
 

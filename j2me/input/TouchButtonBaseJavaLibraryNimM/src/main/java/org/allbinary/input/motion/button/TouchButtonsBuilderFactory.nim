@@ -1,34 +1,48 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.input.motion.button
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/input/motion/button/BaseTouchInput as BaseTouchInputModule
+export BaseTouchInputModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    TouchButtonsBuilderFactory* = ref object of JObject
 
+proc newTouchButtonsBuilderFactory*(): TouchButtonsBuilderFactory
+method getInstance*(this: TouchButtonsBuilderFactory): BaseTouchInput {.base, discardable.}
+import org/allbinary/input/motion/button/NoButtonsTouchInputFactory as NoButtonsTouchInputFactoryModule
+export NoButtonsTouchInputFactoryModule
 
-class TouchButtonsBuilderFactory:
-    NO_TOUCH_BUTTON_BUILDER_FACTORY: TouchButtonsBuilderFactory = None
-    
+var TouchButtonsBuilderFactory_NO_TOUCH_BUTTON_BUILDER_FACTORYValue: TouchButtonsBuilderFactory
+var TouchButtonsBuilderFactory_NO_TOUCH_BUTTON_BUILDER_FACTORYSet = false
+proc NO_TOUCH_BUTTON_BUILDER_FACTORY*(t: typedesc[TouchButtonsBuilderFactory]): TouchButtonsBuilderFactory =
+    if not TouchButtonsBuilderFactory_NO_TOUCH_BUTTON_BUILDER_FACTORYSet:
+        TouchButtonsBuilderFactory_NO_TOUCH_BUTTON_BUILDER_FACTORYSet = true
+        TouchButtonsBuilderFactory_NO_TOUCH_BUTTON_BUILDER_FACTORYValue = newTouchButtonsBuilderFactory()
+    TouchButtonsBuilderFactory_NO_TOUCH_BUTTON_BUILDER_FACTORYValue
 
-    def getInstance(self) -> BaseTouchInput:
-        from org.allbinary.input.motion.button.NoButtonsTouchInputFactory import NoButtonsTouchInputFactory
+proc initTouchButtonsBuilderFactory*(this: TouchButtonsBuilderFactory) =
+    discard
+
+proc newTouchButtonsBuilderFactory*(): TouchButtonsBuilderFactory =
+    result = TouchButtonsBuilderFactory()
+    initTouchButtonsBuilderFactory(result)
+
+method getInstance*(this: TouchButtonsBuilderFactory): BaseTouchInput {.base, discardable.} =
         return NoButtonsTouchInputFactory.getInstance()
-
-
-def _TouchButtonsBuilderFactory_NO_TOUCH_BUTTON_BUILDER_FACTORY() -> object:
-    return TouchButtonsBuilderFactory()
-
-lazy_static(TouchButtonsBuilderFactory, "NO_TOUCH_BUTTON_BUILDER_FACTORY", _TouchButtonsBuilderFactory_NO_TOUCH_BUTTON_BUILDER_FACTORY)
 

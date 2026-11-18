@@ -1,81 +1,93 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.animation.image
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import javax/microedition/lcdui/Image as ImageModule
+export ImageModule
+import org/allbinary/math/AngleInfo as AngleInfoModule
+export AngleInfoModule
+
+type
+    ImageArrayRotationAnimationInfo* = ref object of JObject
+        imageArray*: JArray[Image]
+        angleIncrement*: int32
+        totalAngle*: int32
+        dx*: int32
+        dy*: int32
+
+proc newImageArrayRotationAnimationInfo*(imageArray: JArray[Image], angleIncrement: int32, totalAngle: int32, dx: int32, dy: int32): ImageArrayRotationAnimationInfo
+proc initImageArrayRotationAnimationInfo*(this: ImageArrayRotationAnimationInfo, imageArray: JArray[Image], angleIncrement: int32, totalAngle: int32, dx: int32, dy: int32)
+method setImageArray*(this: ImageArrayRotationAnimationInfo, imageArray: JArray[Image]) {.base.}
+method getImageArray*(this: ImageArrayRotationAnimationInfo): JArray[Image] {.base, discardable.}
+method getAngleInfoP*(this: ImageArrayRotationAnimationInfo): AngleInfo {.base, discardable.}
+method setTotalAngle*(this: ImageArrayRotationAnimationInfo, totalAngle: int32) {.base.}
+method getTotalAngle*(this: ImageArrayRotationAnimationInfo): int32 {.base, discardable.}
+method setDx*(this: ImageArrayRotationAnimationInfo, dx: int32) {.base.}
+method getDx*(this: ImageArrayRotationAnimationInfo): int32 {.base, discardable.}
+method setDy*(this: ImageArrayRotationAnimationInfo, dy: int32) {.base.}
+method getDy*(this: ImageArrayRotationAnimationInfo): int32 {.base, discardable.}
 
 
-
-class ImageArrayRotationAnimationInfo:
-
-    def _init_fields(self) -> None:
-        from javax.microedition.lcdui.Image import Image
-        self.imageArray: list[Image] = None
-        self.angleIncrement: int = None
-        self.totalAngle: int = None
-        self.dx: int = None
-        self.dy: int = None
+# Java field initializers run after the base initializer
+proc initFieldsImageArrayRotationAnimationInfo(this: ImageArrayRotationAnimationInfo) =
     
-
-    def __init__(self, imageArray: list[Image], angleIncrement: int, totalAngle: int, dx: int, dy: int) -> None:
-        from javax.microedition.lcdui.Image import Image
-        self._init_fields()
-        self.imageArray = imageArray
-        self.angleIncrement = angleIncrement
-        self.totalAngle = totalAngle
-        self.dx = dx
-        self.dy = dy
     
-
-    def setImageArray(self, imageArray: list[Image]) -> None:
-        from javax.microedition.lcdui.Image import Image
-        self.imageArray = imageArray
     
-
-    def getImageArray(self) -> list[Image]:
-        from javax.microedition.lcdui.Image import Image
-        return self.imageArray
     
-
-    def getAngleInfoP(self) -> AngleInfo:
-        from org.allbinary.math.AngleInfo import AngleInfo
-        return AngleInfo.getInstance(((int(self.angleIncrement) + 32768) % 65536 - 32768))
     
+    discard
 
-    def setTotalAngle(self, totalAngle: int) -> None:
-        self.totalAngle = totalAngle
-    
+proc initImageArrayRotationAnimationInfo*(this: ImageArrayRotationAnimationInfo, imageArray: JArray[Image], angleIncrement: int32, totalAngle: int32, dx: int32, dy: int32) =
+        this.initFieldsImageArrayRotationAnimationInfo()
+        this.imageArray = imageArray
+        this.angleIncrement = angleIncrement
+        this.totalAngle = totalAngle
+        this.dx = dx
+        this.dy = dy
 
-    def getTotalAngle(self) -> int:
-        return self.totalAngle
-    
+proc newImageArrayRotationAnimationInfo*(imageArray: JArray[Image], angleIncrement: int32, totalAngle: int32, dx: int32, dy: int32): ImageArrayRotationAnimationInfo =
+    result = ImageArrayRotationAnimationInfo()
+    initImageArrayRotationAnimationInfo(result, imageArray, angleIncrement, totalAngle, dx, dy)
 
-    def setDx(self, dx: int) -> None:
-        self.dx = dx
-    
+method setImageArray*(this: ImageArrayRotationAnimationInfo, imageArray: JArray[Image]) {.base.} =
+        this.imageArray = imageArray
 
-    def getDx(self) -> int:
-        return self.dx
-    
+method getImageArray*(this: ImageArrayRotationAnimationInfo): JArray[Image] {.base, discardable.} =
+        return this.imageArray
 
-    def setDy(self, dy: int) -> None:
-        self.dy = dy
-    
+method getAngleInfoP*(this: ImageArrayRotationAnimationInfo): AngleInfo {.base, discardable.} =
+        return AngleInfo.getInstance(jToInt16(this.angleIncrement))
 
-    def getDy(self) -> int:
-        return self.dy
-# from javax.microedition.lcdui.Image import Image
-# from org.allbinary.math.AngleInfo import AngleInfo
+method setTotalAngle*(this: ImageArrayRotationAnimationInfo, totalAngle: int32) {.base.} =
+        this.totalAngle = totalAngle
 
+method getTotalAngle*(this: ImageArrayRotationAnimationInfo): int32 {.base, discardable.} =
+        return this.totalAngle
+
+method setDx*(this: ImageArrayRotationAnimationInfo, dx: int32) {.base.} =
+        this.dx = dx
+
+method getDx*(this: ImageArrayRotationAnimationInfo): int32 {.base, discardable.} =
+        return this.dx
+
+method setDy*(this: ImageArrayRotationAnimationInfo, dy: int32) {.base.} =
+        this.dy = dy
+
+method getDy*(this: ImageArrayRotationAnimationInfo): int32 {.base, discardable.} =
+        return this.dy
 

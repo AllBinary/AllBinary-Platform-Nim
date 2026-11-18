@@ -1,88 +1,66 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.physics.velocity
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/direction/Direction as DirectionModule
+export DirectionModule
+import org/allbinary/logic/math/BasicDecimal as BasicDecimalModule
+export BasicDecimalModule
+import org/allbinary/math/Angle as AngleModule
+export AngleModule
+
+type
+    BasicVelocityInterface* = ref object of JObject
 
 
+method getVelocityXBasicDecimalP*(this: BasicVelocityInterface): BasicDecimal {.base, discardable.} =
+        raise newJException("AbstractMethodError", "getVelocityXBasicDecimalP")
 
-# Java interface
-class BasicVelocityInterface:
-    
+method getVelocityYBasicDecimalP*(this: BasicVelocityInterface): BasicDecimal {.base, discardable.} =
+        raise newJException("AbstractMethodError", "getVelocityYBasicDecimalP")
 
-    def getVelocityXBasicDecimalP(self) -> BasicDecimal:
-        from org.allbinary.logic.math.BasicDecimal import BasicDecimal
-        raise NotImplementedError()
-    
+method zero*(this: BasicVelocityInterface) {.base.} =
+        raise newJException("AbstractMethodError", "zero")
 
-    def getVelocityYBasicDecimalP(self) -> BasicDecimal:
-        from org.allbinary.logic.math.BasicDecimal import BasicDecimal
-        raise NotImplementedError()
-    
+method setVelocityWithBigDecimalAndDirection*(this: BasicVelocityInterface, magnitudeBasicDecimal: BasicDecimal, direction: Direction, otherDirection: Direction) {.base.} =
+        raise newJException("AbstractMethodError", "setVelocityWithBigDecimalAndDirection")
 
-    def zero(self) -> None:
-        raise NotImplementedError()
-    
+method addVelocityWithBigDecimalAndDirection*(this: BasicVelocityInterface, magnitudeBasicDecimal: BasicDecimal, direction: Direction, otherDirection: Direction) {.base.} =
+        raise newJException("AbstractMethodError", "addVelocityWithBigDecimalAndDirection")
 
-    def setVelocityWithBigDecimalAndDirection(self, magnitudeBasicDecimal: BasicDecimal, direction: Direction, otherDirection: Direction) -> None:
-        from org.allbinary.direction.Direction import Direction
-        from org.allbinary.logic.math.BasicDecimal import BasicDecimal
-        raise NotImplementedError()
-    
+method setVelocityWithDirection*(this: BasicVelocityInterface, magnitude: int64, direction: Direction, otherDirection: Direction) {.base.} =
+        raise newJException("AbstractMethodError", "setVelocityWithDirection")
 
-    def addVelocityWithBigDecimalAndDirection(self, magnitudeBasicDecimal: BasicDecimal, direction: Direction, otherDirection: Direction) -> None:
-        from org.allbinary.direction.Direction import Direction
-        from org.allbinary.logic.math.BasicDecimal import BasicDecimal
-        raise NotImplementedError()
-    
+method addVelocityWithDirection*(this: BasicVelocityInterface, magnitude: int64, direction: Direction, otherDirection: Direction) {.base.} =
+        raise newJException("AbstractMethodError", "addVelocityWithDirection")
 
-    def setVelocityWithDirection(self, magnitude: int, direction: Direction, otherDirection: Direction) -> None:
-        from org.allbinary.direction.Direction import Direction
-        raise NotImplementedError()
-    
+method setVelocityWithBigDecimal*(this: BasicVelocityInterface, magnitudeBasicDecimal: BasicDecimal, angle: Angle, otherAngle: Angle) {.base.} =
+        raise newJException("AbstractMethodError", "setVelocityWithBigDecimal")
 
-    def addVelocityWithDirection(self, magnitude: int, direction: Direction, otherDirection: Direction) -> None:
-        from org.allbinary.direction.Direction import Direction
-        raise NotImplementedError()
-    
+method addVelocityWithBigDecimal*(this: BasicVelocityInterface, magnitudeBasicDecimal: BasicDecimal, angle: Angle, otherAngle: Angle) {.base.} =
+        raise newJException("AbstractMethodError", "addVelocityWithBigDecimal")
 
-    def setVelocityWithBigDecimal(self, magnitudeBasicDecimal: BasicDecimal, angle: Angle, otherAngle: Angle) -> None:
-        from org.allbinary.logic.math.BasicDecimal import BasicDecimal
-        from org.allbinary.math.Angle import Angle
-        raise NotImplementedError()
-    
+method setVelocity*(this: BasicVelocityInterface, magnitude: int64, angle: Angle, otherAngle: Angle) {.base.} =
+        raise newJException("AbstractMethodError", "setVelocity")
 
-    def addVelocityWithBigDecimal(self, magnitudeBasicDecimal: BasicDecimal, angle: Angle, otherAngle: Angle) -> None:
-        from org.allbinary.logic.math.BasicDecimal import BasicDecimal
-        from org.allbinary.math.Angle import Angle
-        raise NotImplementedError()
-    
+method addVelocity*(this: BasicVelocityInterface, magnitude: int64, angle: Angle, otherAngle: Angle) {.base.} =
+        raise newJException("AbstractMethodError", "addVelocity")
 
-    def setVelocity(self, magnitude: int, angle: Angle, otherAngle: Angle) -> None:
-        from org.allbinary.math.Angle import Angle
-        raise NotImplementedError()
-    
-
-    def addVelocity(self, magnitude: int, angle: Angle, otherAngle: Angle) -> None:
-        from org.allbinary.math.Angle import Angle
-        raise NotImplementedError()
-    
-
-    def addVelocityi(self, magnitude: int, angle: int, otherAngle: int) -> None:
-        raise NotImplementedError()
-# from org.allbinary.direction.Direction import Direction
-# from org.allbinary.logic.math.BasicDecimal import BasicDecimal
-# from org.allbinary.math.Angle import Angle
-
+method addVelocityi*(this: BasicVelocityInterface, magnitude: int64, angle: int32, otherAngle: int32) {.base.} =
+        raise newJException("AbstractMethodError", "addVelocityi")
 

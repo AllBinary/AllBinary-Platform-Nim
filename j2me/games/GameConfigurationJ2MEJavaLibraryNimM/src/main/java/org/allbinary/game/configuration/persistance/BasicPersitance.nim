@@ -1,108 +1,124 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.configuration.persistance
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import java/lang/Integer as IntegerModule
+export IntegerModule
+import org/allbinary/logic/communication/log/LogUtil as LogUtilModule
+export LogUtilModule
+import org/allbinary/logic/system/security/licensing/AbeClientInformationInterface as AbeClientInformationInterfaceModule
+export AbeClientInformationInterfaceModule
+import org/allbinary/persistance/PlatformRecordIdUtil as PlatformRecordIdUtilModule
+export PlatformRecordIdUtilModule
+import org/allbinary/string/CommonStrings as CommonStringsModule
+export CommonStringsModule
+import org/allbinary/util/BasicArrayList as BasicArrayListModule
+export BasicArrayListModule
+import org/allbinary/game/configuration/persistance/PersistanceStrings as PersistanceStringsModule
+export PersistanceStringsModule
+
+type
+    BasicPersitance* = ref object of JObject
+        logUtil*: LogUtil
+        commonStrings*: CommonStrings
+        persistanceStrings*: PersistanceStrings
+        platformRecordIdUtil*: PlatformRecordIdUtil
+        recordId*: string
+        valueList*: BasicArrayList
+        idList*: BasicArrayList
+
+proc newBasicPersitance*(recordId: string): BasicPersitance
+proc initBasicPersitance*(this: BasicPersitance, recordId: string)
+method deleteRecoreStore*(this: BasicPersitance, abeClientInformation: AbeClientInformationInterface) {.base.}
+method deleteAll*(this: BasicPersitance, abeClientInformation: AbeClientInformationInterface) {.base.}
+method delete*(this: BasicPersitance, abeClientInformation: AbeClientInformationInterface, deleteId: int32) {.base.}
+method getRecordId*(this: BasicPersitance, abeClientInformation: AbeClientInformationInterface): string {.base, discardable.}
+method getList*(this: BasicPersitance): BasicArrayList {.base, discardable.}
+method getIds*(this: BasicPersitance): BasicArrayList {.base, discardable.}
+method clear*(this: BasicPersitance) {.base.}
+import javax/microedition/rms/RecordStore as RecordStoreModule
+export RecordStoreModule
+import org/allbinary/logic/communication/log/PreLogUtil as PreLogUtilModule
+export PreLogUtilModule
+import org/allbinary/logic/string/StringMaker as StringMakerModule
+export StringMakerModule
+import org/allbinary/util/BasicArrayListD as BasicArrayListDModule
+export BasicArrayListDModule
+import org/allbinary/game/configuration/persistance/NullRecordStore as NullRecordStoreModule
+export NullRecordStoreModule
 
 
-
-class BasicPersitance:
-
-    def _init_fields(self) -> None:
-        from org.allbinary.logic.communication.log.LogUtil import LogUtil
-        from org.allbinary.persistance.PlatformRecordIdUtil import PlatformRecordIdUtil
-        from org.allbinary.string.CommonStrings import CommonStrings
-        from org.allbinary.util.BasicArrayList import BasicArrayList
-        from org.allbinary.util.BasicArrayListD import BasicArrayListD
-        self.logUtil: LogUtil = LogUtil.getInstance()
-        self.commonStrings: CommonStrings = CommonStrings.getInstance()
-        self.persistanceStrings: PersistanceStrings = PersistanceStrings.getInstance()
-        self.platformRecordIdUtil: PlatformRecordIdUtil = PlatformRecordIdUtil.getInstance()
-        self.recordId: str = None
-        self.valueList: BasicArrayList = BasicArrayListD()
-        self.idList: BasicArrayList = BasicArrayListD()
+# Java field initializers run after the base initializer
+proc initFieldsBasicPersitance(this: BasicPersitance) =
+    this.logUtil = LogUtil.getInstance()
+    this.commonStrings = CommonStrings.getInstance()
+    this.persistanceStrings = PersistanceStrings.getInstance()
+    this.platformRecordIdUtil = PlatformRecordIdUtil.getInstance()
     
+    this.valueList = newBasicArrayListD()
+    this.idList = newBasicArrayListD()
+    discard
 
-    def __init__(self, recordId: str) -> None:
-        self._init_fields()
-        self.recordId = recordId
-    
+proc initBasicPersitance*(this: BasicPersitance, recordId: string) =
+        this.initFieldsBasicPersitance()
+        this.recordId = recordId
 
-    # throws Exception
-    def deleteRecoreStore(self, abeClientInformation: AbeClientInformationInterface) -> None:
-        from javax.microedition.rms.RecordStore import RecordStore
-        from org.allbinary.logic.system.security.licensing.AbeClientInformationInterface import AbeClientInformationInterface
-        RecordStore.deleteRecordStore(self.getRecordId(abeClientInformation))
-    
+proc newBasicPersitance*(recordId: string): BasicPersitance =
+    result = BasicPersitance()
+    initBasicPersitance(result, recordId)
 
-    # throws Exception
-    def deleteAll(self, abeClientInformation: AbeClientInformationInterface) -> None:
-        from org.allbinary.logic.system.security.licensing.AbeClientInformationInterface import AbeClientInformationInterface
-        size: int = self.idList.size()
-        for index in range(0, size):
-            integer: int = self.idList.objectArray[index]
-            self.delete(abeClientInformation, int(integer))
-        self.clear()
-    
+method deleteRecoreStore*(this: BasicPersitance, abeClientInformation: AbeClientInformationInterface) {.base.} =
+        RecordStore.deleteRecordStore(this.getRecordId(abeClientInformation))
 
-    # throws Exception
-    def delete(self, abeClientInformation: AbeClientInformationInterface, deleteId: int) -> None:
-        from org.allbinary.game.configuration.persistance.NullRecordStore import NullRecordStore
-        from javax.microedition.rms.RecordStore import RecordStore
-        from org.allbinary.logic.communication.log.PreLogUtil import PreLogUtil
-        from org.allbinary.logic.string.StringMaker import StringMaker
-        from org.allbinary.logic.system.security.licensing.AbeClientInformationInterface import AbeClientInformationInterface
-        recordStore: RecordStore = NullRecordStore.NULL_RECORD_STORE
+method deleteAll*(this: BasicPersitance, abeClientInformation: AbeClientInformationInterface) {.base.} =
+        var size: int32 = this.idList.size()
+        block:
+            var index: int32 = 0
+            while index < size:
+                defer: index = index +% 1
+                var integer: int32 = jUnboxInteger(this.idList.objectArray[index])
+                this.delete(abeClientInformation, integer.intValue())
+        this.clear()
+
+method delete*(this: BasicPersitance, abeClientInformation: AbeClientInformationInterface, deleteId: int32) {.base.} =
+        var recordStore: RecordStore = NullRecordStore.NULL_RECORD_STOREStatic
         try:
-            self.logUtil.putF(str(StringMaker().append(self.persistanceStrings.DELETING_WITH_ID).appendint(deleteId)), self, self.commonStrings.delete)
-            recordStore = RecordStore.openRecordStore(self.getRecordId(abeClientInformation), True)
+            this.logUtil.putF(newStringMaker().append(this.persistanceStrings.DELETING_WITH_ID).appendint(deleteId).toString(), this, this.commonStrings.delete)
+            recordStore = RecordStore.openRecordStore(this.getRecordId(abeClientInformation), true)
             recordStore.deleteRecord(deleteId)
-        except Exception as e:
+        except CatchableError as jcaught:
+            let e = jToException(jcaught)
             raise e
         finally:
-            if recordStore is not None:
-                PreLogUtil.put(self.persistanceStrings.CLOSING_RECORDSTORE, self, self.commonStrings.delete)
+            if (not jIsNil(recordStore)):
+                PreLogUtil.put(this.persistanceStrings.CLOSING_RECORDSTORE, this, this.commonStrings.delete)
                 recordStore.closeRecordStore()
-    
 
-    def getRecordId(self, abeClientInformation: AbeClientInformationInterface) -> str:
-        from org.allbinary.logic.system.security.licensing.AbeClientInformationInterface import AbeClientInformationInterface
-        return self.platformRecordIdUtil.getRecordId(abeClientInformation, self.recordId)
-    
+method getRecordId*(this: BasicPersitance, abeClientInformation: AbeClientInformationInterface): string {.base, discardable.} =
+        return this.platformRecordIdUtil.getRecordId(abeClientInformation, this.recordId)
 
-    def getList(self) -> BasicArrayList:
-        from org.allbinary.util.BasicArrayList import BasicArrayList
-        return self.valueList
-    
+method getList*(this: BasicPersitance): BasicArrayList {.base, discardable.} =
+        return this.valueList
 
-    def getIds(self) -> BasicArrayList:
-        from org.allbinary.util.BasicArrayList import BasicArrayList
-        return self.idList
-    
+method getIds*(this: BasicPersitance): BasicArrayList {.base, discardable.} =
+        return this.idList
 
-    def clear(self) -> None:
-        self.valueList.clear()
-        self.idList.clear()
-# from javax.microedition.rms.RecordStore import RecordStore
-# from org.allbinary.logic.communication.log.LogUtil import LogUtil
-# from org.allbinary.logic.communication.log.PreLogUtil import PreLogUtil
-# from org.allbinary.logic.string.StringMaker import StringMaker
-# from org.allbinary.logic.system.security.licensing.AbeClientInformationInterface import AbeClientInformationInterface
-# from org.allbinary.persistance.PlatformRecordIdUtil import PlatformRecordIdUtil
-# from org.allbinary.string.CommonStrings import CommonStrings
-# from org.allbinary.util.BasicArrayList import BasicArrayList
-# from org.allbinary.util.BasicArrayListD import BasicArrayListD
-from org.allbinary.game.configuration.persistance.PersistanceStrings import PersistanceStrings
-
+method clear*(this: BasicPersitance) {.base.} =
+        this.valueList.clear()
+        this.idList.clear()
 

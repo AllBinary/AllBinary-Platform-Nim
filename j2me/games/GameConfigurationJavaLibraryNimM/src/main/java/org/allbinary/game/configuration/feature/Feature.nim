@@ -1,66 +1,75 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.configuration.feature
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/util/ABHashtable as ABHashtableModule
+export ABHashtableModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    Feature* = ref object of JObject
+        name*: string
 
+proc newFeature*(name: string): Feature
+proc initFeature*(this: Feature, name: string)
+proc getInstance*(t: typedesc[Feature], name: string): Feature {.discardable.}
+proc add*(t: typedesc[Feature], name: string, gameFeature: Feature)
+method toString*(this: Feature): string {.discardable.}
+method getName*(this: Feature): string {.base, discardable.}
+import org/allbinary/game/configuration/event/ChangedGameFeatureListener as ChangedGameFeatureListenerModule
+export ChangedGameFeatureListenerModule
+import org/allbinary/logic/StdUtil as StdUtilModule
+export StdUtilModule
 
-class Feature:
-    hashtable: ABHashtable[object, object] = None
+var Feature_hashtableValue: ABHashtable
+var Feature_hashtableSet = false
+proc hashtable*(t: typedesc[Feature]): ABHashtable =
+    if not Feature_hashtableSet:
+        Feature_hashtableSet = true
+        Feature_hashtableValue = StdUtil.getInstance().createHashtable()
+    Feature_hashtableValue
+proc `hashtable=`*(t: typedesc[Feature], value: ABHashtable) =
+    Feature_hashtableSet = true
+    Feature_hashtableValue = value
 
-    def _init_fields(self) -> None:
-        self.name: str = None
+# Java field initializers run after the base initializer
+proc initFieldsFeature(this: Feature) =
     
+    discard
 
-    def __init__(self, name: str) -> None:
-        from org.allbinary.game.configuration.event.ChangedGameFeatureListener import ChangedGameFeatureListener
-        self._init_fields()
-        self.name = name
-        Feature.add(name, self)
-        ChangedGameFeatureListener.getInstance().add(self)
-    
+proc initFeature*(this: Feature, name: string) =
+        this.initFieldsFeature()
+        this.name = name
+        Feature.add(name, this)
+        ChangedGameFeatureListener.getInstance().add(this)
 
-    @staticmethod
-    def getInstance(name: str) -> Feature:
-        return Feature.hashtable.get(name)
-    
+proc newFeature*(name: string): Feature =
+    result = Feature()
+    initFeature(result, name)
 
-    @staticmethod
-    def add(name: str, gameFeature: Feature) -> None:
+proc getInstance*(t: typedesc[Feature], name: string): Feature {.discardable.} =
+        return Feature(JObject(Feature.hashtable.get(name)))
+
+proc add*(t: typedesc[Feature], name: string, gameFeature: Feature) =
         Feature.hashtable.put(name, gameFeature)
-    
 
-    def toString(self) -> str:
-        return self.getName()
+method toString*(this: Feature): string {.discardable.} =
+        return this.getName()
 
-    def __str__(self) -> str:
-        return self.toString()
-    
-
-    def getName(self) -> str:
-        return self.name
-# from org.allbinary.game.configuration.event.ChangedGameFeatureListener import ChangedGameFeatureListener
-# from org.allbinary.logic.StdUtil import StdUtil
-# from org.allbinary.util.ABHashtable import ABHashtable
-
-
-def _Feature_hashtable() -> object:
-    from org.allbinary.logic.StdUtil import StdUtil
-    from org.allbinary.util.ABHashtable import ABHashtable
-    return StdUtil.getInstance().createHashtable()
-
-lazy_static(Feature, "hashtable", _Feature_hashtable)
+method getName*(this: Feature): string {.base, discardable.} =
+        return this.name
 

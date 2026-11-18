@@ -1,72 +1,82 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.layer.drop
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/game/layer/pickup/PickedUpLayerInterfaceFactoryInterface as PickedUpLayerInterfaceFactoryInterfaceModule
+export PickedUpLayerInterfaceFactoryInterfaceModule
+import org/allbinary/util/BasicArrayList as BasicArrayListModule
+export BasicArrayListModule
+import org/allbinary/util/BasicArrayListUtil as BasicArrayListUtilModule
+export BasicArrayListUtilModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    DropLayerFactory* = ref object of JObject
+        list*: BasicArrayList
+        basicArrayListUtil*: BasicArrayListUtil
 
+proc newDropLayerFactory*(): DropLayerFactory
+proc initDropLayerFactory*(this: DropLayerFactory)
+method clear*(this: DropLayerFactory) {.base.}
+proc getInstance*(t: typedesc[DropLayerFactory]): DropLayerFactory {.discardable.}
+method getSize*(this: DropLayerFactory): int32 {.base, discardable.}
+method getRandomInstance*(this: DropLayerFactory): PickedUpLayerInterfaceFactoryInterface {.base, discardable.}
+method add*(this: DropLayerFactory, layerInterfaceFactoryInterface: PickedUpLayerInterfaceFactoryInterface) {.base.}
+method getList*(this: DropLayerFactory): BasicArrayList {.base, discardable.}
+import org/allbinary/util/BasicArrayListD as BasicArrayListDModule
+export BasicArrayListDModule
 
-class DropLayerFactory:
-    DROP_LAYER_FACTORY: DropLayerFactory = None
+var DropLayerFactory_DROP_LAYER_FACTORYValue: DropLayerFactory
+var DropLayerFactory_DROP_LAYER_FACTORYSet = false
+proc DROP_LAYER_FACTORYStatic*(t: typedesc[DropLayerFactory]): DropLayerFactory =
+    if not DropLayerFactory_DROP_LAYER_FACTORYSet:
+        DropLayerFactory_DROP_LAYER_FACTORYSet = true
+        DropLayerFactory_DROP_LAYER_FACTORYValue = newDropLayerFactory()
+    DropLayerFactory_DROP_LAYER_FACTORYValue
 
-    def _init_fields(self) -> None:
-        from org.allbinary.util.BasicArrayList import BasicArrayList
-        from org.allbinary.util.BasicArrayListD import BasicArrayListD
-        from org.allbinary.util.BasicArrayListUtil import BasicArrayListUtil
-        self.list_: BasicArrayList = BasicArrayListD()
-        self.basicArrayListUtil: BasicArrayListUtil = BasicArrayListUtil.getInstance()
-    
+# Java field initializers run after the base initializer
+proc initFieldsDropLayerFactory(this: DropLayerFactory) =
+    this.list = newBasicArrayListD()
+    this.basicArrayListUtil = BasicArrayListUtil.getInstance()
+    discard
 
-    def __init__(self) -> None:
-        self._init_fields()
-    
+proc initDropLayerFactory*(this: DropLayerFactory) =
+        this.initFieldsDropLayerFactory()
+        discard
 
-    def clear(self) -> None:
-        self.list_.clear()
-    
+proc newDropLayerFactory*(): DropLayerFactory =
+    result = DropLayerFactory()
+    initDropLayerFactory(result)
 
-    @staticmethod
-    def getInstance() -> DropLayerFactory:
-        return DropLayerFactory.DROP_LAYER_FACTORY
-    
+method clear*(this: DropLayerFactory) {.base.} =
+        this.list.clear()
 
-    def getSize(self) -> int:
-        return self.list_.size()
-    
+proc getInstance*(t: typedesc[DropLayerFactory]): DropLayerFactory {.discardable.} =
+        return DropLayerFactory.DROP_LAYER_FACTORYStatic
 
-    def getRandomInstance(self) -> PickedUpLayerInterfaceFactoryInterface:
-        from org.allbinary.game.layer.pickup.PickedUpLayerInterfaceFactoryInterface import PickedUpLayerInterfaceFactoryInterface
-        return self.basicArrayListUtil.getRandom(self.list_)
-    
+method getSize*(this: DropLayerFactory): int32 {.base, discardable.} =
+        return this.list.size()
 
-    def add(self, layerInterfaceFactoryInterface: PickedUpLayerInterfaceFactoryInterface) -> None:
-        from org.allbinary.game.layer.pickup.PickedUpLayerInterfaceFactoryInterface import PickedUpLayerInterfaceFactoryInterface
-        self.list_.add(layerInterfaceFactoryInterface)
-    
+method getRandomInstance*(this: DropLayerFactory): PickedUpLayerInterfaceFactoryInterface {.base, discardable.} =
+        return PickedUpLayerInterfaceFactoryInterface(JObject(this.basicArrayListUtil.getRandom(this.list)))
 
-    def getList(self) -> BasicArrayList:
-        from org.allbinary.util.BasicArrayList import BasicArrayList
-        return self.list_
-# from org.allbinary.game.layer.pickup.PickedUpLayerInterfaceFactoryInterface import PickedUpLayerInterfaceFactoryInterface
-# from org.allbinary.util.BasicArrayList import BasicArrayList
-# from org.allbinary.util.BasicArrayListD import BasicArrayListD
-# from org.allbinary.util.BasicArrayListUtil import BasicArrayListUtil
+method add*(this: DropLayerFactory, layerInterfaceFactoryInterface: PickedUpLayerInterfaceFactoryInterface) {.base.} =
+        this.list.add(layerInterfaceFactoryInterface)
 
-
-def _DropLayerFactory_DROP_LAYER_FACTORY() -> object:
-    return DropLayerFactory()
-
-lazy_static(DropLayerFactory, "DROP_LAYER_FACTORY", _DropLayerFactory_DROP_LAYER_FACTORY)
+method getList*(this: DropLayerFactory): BasicArrayList {.base, discardable.} =
+        return this.list
 

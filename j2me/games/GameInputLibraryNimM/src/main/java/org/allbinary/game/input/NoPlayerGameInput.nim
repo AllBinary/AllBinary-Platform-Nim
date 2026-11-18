@@ -1,62 +1,62 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.input
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/game/input/event/GameKeyEvent as GameKeyEventModule
+export GameKeyEventModule
+import org/allbinary/game/input/PlayerGameInput as PlayerGameInputModule
+export PlayerGameInputModule
 
-import threading
-from java.lang.JavaRuntimeStatic import lazy_static
-from org.allbinary.game.input.PlayerGameInput import PlayerGameInput
+type
+    NoPlayerGameInput* = ref object of PlayerGameInput
 
+proc newNoPlayerGameInput*(): NoPlayerGameInput
+proc initNoPlayerGameInput*(this: NoPlayerGameInput)
+proc getInstance*(t: typedesc[NoPlayerGameInput]): NoPlayerGameInput {.discardable.}
+method onDownGameKeyEvent*(this: NoPlayerGameInput, gameKeyEvent: GameKeyEvent)
+method onUpGameKeyEvent*(this: NoPlayerGameInput, gameKeyEvent: GameKeyEvent)
+import org/allbinary/util/BasicArrayListD as BasicArrayListDModule
+export BasicArrayListDModule
 
-class NoPlayerGameInput(PlayerGameInput):
-    SINGLETON: NoPlayerGameInput = None
-    _lock = threading.RLock()
-    
+var NoPlayerGameInput_SINGLETONValue: NoPlayerGameInput
+var NoPlayerGameInput_SINGLETONSet = false
+proc SINGLETON*(t: typedesc[NoPlayerGameInput]): NoPlayerGameInput =
+    if not NoPlayerGameInput_SINGLETONSet:
+        NoPlayerGameInput_SINGLETONSet = true
+        NoPlayerGameInput_SINGLETONValue = newNoPlayerGameInput()
+    NoPlayerGameInput_SINGLETONValue
 
-    @staticmethod
-    def getInstance() -> NoPlayerGameInput:
+proc getInstance*(t: typedesc[NoPlayerGameInput]): NoPlayerGameInput {.discardable.} =
         return NoPlayerGameInput.SINGLETON
-    
 
-    def __init__(self) -> None:
-        from org.allbinary.util.BasicArrayListD import BasicArrayListD
-        super().__init__(BasicArrayListD(), BasicArrayListD(), -1)
-    
+proc initNoPlayerGameInput*(this: NoPlayerGameInput) =
+        initPlayerGameInput(this, newBasicArrayListD(), newBasicArrayListD(), -1)
 
-    def onDownGameKeyEvent(self, gameKeyEvent: GameKeyEvent) -> None:
-        with self._lock:
-            return self._onDownGameKeyEvent_unlocked(gameKeyEvent)
+proc newNoPlayerGameInput*(): NoPlayerGameInput =
+    result = NoPlayerGameInput()
+    initNoPlayerGameInput(result)
 
-    def _onDownGameKeyEvent_unlocked(self, gameKeyEvent: GameKeyEvent) -> None:
-        from org.allbinary.game.input.event.GameKeyEvent import GameKeyEvent
-        pass
-    
+method onDownGameKeyEvent*(this: NoPlayerGameInput, gameKeyEvent: GameKeyEvent) =
+        discard
 
-    def onUpGameKeyEvent(self, gameKeyEvent: GameKeyEvent) -> None:
-        with self._lock:
-            return self._onUpGameKeyEvent_unlocked(gameKeyEvent)
+method onUpGameKeyEvent*(this: NoPlayerGameInput, gameKeyEvent: GameKeyEvent) =
+        discard
 
-    def _onUpGameKeyEvent_unlocked(self, gameKeyEvent: GameKeyEvent) -> None:
-        from org.allbinary.game.input.event.GameKeyEvent import GameKeyEvent
-        pass
-# from org.allbinary.game.input.event.GameKeyEvent import GameKeyEvent
-# from org.allbinary.util.BasicArrayListD import BasicArrayListD
-
-
-def _NoPlayerGameInput_SINGLETON() -> object:
-    return NoPlayerGameInput()
-
-lazy_static(NoPlayerGameInput, "SINGLETON", _NoPlayerGameInput_SINGLETON)
+when declared(newNoPlayerGameInputHook0):
+    newNoPlayerGameInputHook0 = proc (): PlayerGameInput = newNoPlayerGameInput()
 

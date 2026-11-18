@@ -1,39 +1,48 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.input
 
-from __future__ import annotations
-
-
+{.warning[UnusedImport]: off.}
+import allbinary_java
 
 #TouchJ2MENone
-class TouchJ2ME:
-    
+type
+    TouchJ2ME* = ref object of JObject
 
-    def __init__(self) -> None:
-        pass
-    
+proc newTouchJ2ME*(): TouchJ2ME
+proc initTouchJ2ME*(this: TouchJ2ME)
+method pointerDragged*(this: TouchJ2ME, x: int32, y: int32) {.base.}
+method pointerPressed*(this: TouchJ2ME, x: int32, y: int32) {.base.}
+method pointerReleased*(this: TouchJ2ME, x: int32, y: int32) {.base.}
 
-    def pointerDragged(self, x: int, y: int) -> None:
-        pass
-    
 
-    def pointerPressed(self, x: int, y: int) -> None:
-        pass
-    
+proc initTouchJ2ME*(this: TouchJ2ME) =
+        discard
+        discard
 
-    def pointerReleased(self, x: int, y: int) -> None:
-        pass
+proc newTouchJ2ME*(): TouchJ2ME =
+    result = TouchJ2ME()
+    initTouchJ2ME(result)
 
+method pointerDragged*(this: TouchJ2ME, x: int32, y: int32) {.base.} =
+        discard
+
+method pointerPressed*(this: TouchJ2ME, x: int32, y: int32) {.base.} =
+        discard
+
+method pointerReleased*(this: TouchJ2ME, x: int32, y: int32) {.base.} =
+        discard
 

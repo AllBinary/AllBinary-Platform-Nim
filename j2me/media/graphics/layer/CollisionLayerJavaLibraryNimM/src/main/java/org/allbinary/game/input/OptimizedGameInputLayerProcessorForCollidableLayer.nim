@@ -1,48 +1,59 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.input
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/layer/AllBinaryLayer as AllBinaryLayerModule
+export AllBinaryLayerModule
+import org/allbinary/layer/AllBinaryLayerManager as AllBinaryLayerManagerModule
+export AllBinaryLayerManagerModule
+import org/allbinary/layer/LayerProcessor as LayerProcessorModule
+export LayerProcessorModule
 
-from org.allbinary.layer.LayerProcessor import LayerProcessor
+type
+    OptimizedGameInputLayerProcessorForCollidableLayer* = ref object of LayerProcessor
+
+proc newOptimizedGameInputLayerProcessorForCollidableLayer*(): OptimizedGameInputLayerProcessorForCollidableLayer
+proc initOptimizedGameInputLayerProcessorForCollidableLayer*(this: OptimizedGameInputLayerProcessorForCollidableLayer)
+method processAt*(this: OptimizedGameInputLayerProcessorForCollidableLayer, allBinaryLayerManager: AllBinaryLayerManager, layerInterface: AllBinaryLayer, index: int32)
+method isProcessorLayer*(this: OptimizedGameInputLayerProcessorForCollidableLayer, layerInterface: AllBinaryLayer): bool {.discardable.}
+import org/allbinary/game/layer/AllBinaryGameLayer as AllBinaryGameLayerModule
+export AllBinaryGameLayerModule
+import org/allbinary/game/input/OptimizedGameInputLayerManager as OptimizedGameInputLayerManagerModule
+export OptimizedGameInputLayerManagerModule
 
 
-class OptimizedGameInputLayerProcessorForCollidableLayer(LayerProcessor):
-    
+proc initOptimizedGameInputLayerProcessorForCollidableLayer*(this: OptimizedGameInputLayerProcessorForCollidableLayer) =
+        initLayerProcessor(this, newOptimizedGameInputLayerManager())
 
-    def __init__(self) -> None:
-        from org.allbinary.game.input.OptimizedGameInputLayerManager import OptimizedGameInputLayerManager
-        super().__init__(OptimizedGameInputLayerManager())
-    
+proc newOptimizedGameInputLayerProcessorForCollidableLayer*(): OptimizedGameInputLayerProcessorForCollidableLayer =
+    result = OptimizedGameInputLayerProcessorForCollidableLayer()
+    initOptimizedGameInputLayerProcessorForCollidableLayer(result)
 
-    # throws Exception
-    def processAt(self, allBinaryLayerManager: AllBinaryLayerManager, layerInterface: AllBinaryLayer, index: int) -> None:
-        from org.allbinary.game.layer.AllBinaryGameLayer import AllBinaryGameLayer
-        from org.allbinary.layer.AllBinaryLayer import AllBinaryLayer
-        from org.allbinary.layer.AllBinaryLayerManager import AllBinaryLayerManager
-        gameInputInterface: AllBinaryGameLayer = layerInterface
+method processAt*(this: OptimizedGameInputLayerProcessorForCollidableLayer, allBinaryLayerManager: AllBinaryLayerManager, layerInterface: AllBinaryLayer, index: int32) =
+        let gameInputInterface: AllBinaryGameLayer = AllBinaryGameLayer(JObject(layerInterface))
         gameInputInterface.processInput(allBinaryLayerManager)
-    
 
-    def isProcessorLayer(self, layerInterface: AllBinaryLayer) -> bool:
-        from org.allbinary.layer.AllBinaryLayer import AllBinaryLayer
+method isProcessorLayer*(this: OptimizedGameInputLayerProcessorForCollidableLayer, layerInterface: AllBinaryLayer): bool {.discardable.} =
         if layerInterface.implmentsGameInputInterface():
-            return True
+            return true
         else:
-            return False
-# from org.allbinary.game.layer.AllBinaryGameLayer import AllBinaryGameLayer
-# from org.allbinary.layer.AllBinaryLayer import AllBinaryLayer
-# from org.allbinary.layer.AllBinaryLayerManager import AllBinaryLayerManager
+            return false
 
+when declared(newOptimizedGameInputLayerProcessorForCollidableLayerHook0):
+    newOptimizedGameInputLayerProcessorForCollidableLayerHook0 = proc (): LayerProcessor = newOptimizedGameInputLayerProcessorForCollidableLayer()
 

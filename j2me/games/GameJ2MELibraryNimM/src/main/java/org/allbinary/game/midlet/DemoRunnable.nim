@@ -1,63 +1,85 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.midlet
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import java/lang/Runnable as RunnableModule
+export RunnableModule
+import org/allbinary/logic/communication/log/LogUtil as LogUtilModule
+export LogUtilModule
+import org/allbinary/string/CommonStrings as CommonStringsModule
+export CommonStringsModule
+import org/allbinary/game/midlet/DemoGameMidlet as DemoGameMidletModule
+export DemoGameMidletModule
+import org/allbinary/game/midlet/DemoGameMidletEvent as DemoGameMidletEventModule
+export DemoGameMidletEventModule
+
+type
+    DemoRunnable* = ref object of Runnable
+        logUtil*: LogUtil
+        commonStrings*: CommonStrings
+        demoGameMidlet*: DemoGameMidlet
+        startDemoGameMidletEvent*: DemoGameMidletEvent
+
+proc newDemoRunnable*(demoGameMidlet: DemoGameMidlet): DemoRunnable
+proc initDemoRunnable*(this: DemoRunnable, demoGameMidlet: DemoGameMidlet)
+method run*(this: DemoRunnable)
+import org/allbinary/graphics/canvas/transition/progress/ProgressCanvasFactory as ProgressCanvasFactoryModule
+export ProgressCanvasFactoryModule
+import org/allbinary/graphics/displayable/command/MyCommandsFactory as MyCommandsFactoryModule
+export MyCommandsFactoryModule
+import org/allbinary/logic/string/StringMaker as StringMakerModule
+export StringMakerModule
+import org/allbinary/string/CommonLabels as CommonLabelsModule
+export CommonLabelsModule
+import org/allbinary/game/midlet/DemoGameMidletStateFactory as DemoGameMidletStateFactoryModule
+export DemoGameMidletStateFactoryModule
+import org/allbinary/game/midlet/DemoGameMidletEventHandler as DemoGameMidletEventHandlerModule
+export DemoGameMidletEventHandlerModule
 
 
-
-class DemoRunnable(object):
-
-    def _init_fields(self) -> None:
-        from org.allbinary.logic.communication.log.LogUtil import LogUtil
-        from org.allbinary.string.CommonStrings import CommonStrings
-        self.logUtil: LogUtil = LogUtil.getInstance()
-        self.commonStrings: CommonStrings = CommonStrings.getInstance()
-        self.demoGameMidlet: DemoGameMidlet = None
-        self.startDemoGameMidletEvent: DemoGameMidletEvent = None
+# Java field initializers run after the base initializer
+proc initFieldsDemoRunnable(this: DemoRunnable) =
+    this.logUtil = LogUtil.getInstance()
+    this.commonStrings = CommonStrings.getInstance()
     
-
-    def __init__(self, demoGameMidlet: DemoGameMidlet) -> None:
-        from org.allbinary.game.midlet.DemoGameMidletEvent import DemoGameMidletEvent
-        from org.allbinary.game.midlet.DemoGameMidletStateFactory import DemoGameMidletStateFactory
-        self._init_fields()
-        self.demoGameMidlet = demoGameMidlet
-        self.startDemoGameMidletEvent = DemoGameMidletEvent(self.demoGameMidlet, DemoGameMidletStateFactory.getInstance().START_DEMO)
     
+    discard
 
-    def run(self) -> None:
-        from org.allbinary.game.midlet.DemoGameMidletEventHandler import DemoGameMidletEventHandler
-        from org.allbinary.graphics.canvas.transition.progress.ProgressCanvasFactory import ProgressCanvasFactory
-        from org.allbinary.graphics.displayable.command.MyCommandsFactory import MyCommandsFactory
-        from org.allbinary.logic.string.StringMaker import StringMaker
-        from org.allbinary.string.CommonLabels import CommonLabels
+proc initDemoRunnable*(this: DemoRunnable, demoGameMidlet: DemoGameMidlet) =
+        this.initFieldsDemoRunnable()
+        this.demoGameMidlet = demoGameMidlet
+        this.startDemoGameMidletEvent = newDemoGameMidletEvent(this.demoGameMidlet, DemoGameMidletStateFactory.getInstance().START_DEMO)
+
+proc newDemoRunnable*(demoGameMidlet: DemoGameMidlet): DemoRunnable =
+    result = DemoRunnable()
+    initDemoRunnable(result, demoGameMidlet)
+
+method run*(this: DemoRunnable) =
         try:
-            self.logUtil.putF(str(StringMaker().append(CommonLabels.getInstance().START_LABEL).append("GameCanvasRunnableInterface")), self, self.commonStrings.RUN)
-            self.demoGameMidlet.commandAction(MyCommandsFactory.getInstance().SET_DISPLAYABLE, ProgressCanvasFactory.getInstance())
-            self.demoGameMidlet.setGameCanvasRunnableInterface(self.demoGameMidlet.createDemoGameCanvasRunnableInterface())
-            self.demoGameMidlet.demoSetup()
-            DemoGameMidletEventHandler.getInstance().fireEvent(self.startDemoGameMidletEvent)
-            self.demoGameMidlet.startGameCanvasRunnableInterface()
-            self.demoGameMidlet.postDemoSetup()
-            self.logUtil.putF(self.commonStrings.END_RUNNABLE, self, self.commonStrings.RUN)
-        except Exception as e:
-            self.logUtil.put(self.commonStrings.EXCEPTION, self, self.commonStrings.RUN, e)
-# from org.allbinary.graphics.canvas.transition.progress.ProgressCanvasFactory import ProgressCanvasFactory
-# from org.allbinary.graphics.displayable.command.MyCommandsFactory import MyCommandsFactory
-# from org.allbinary.logic.communication.log.LogUtil import LogUtil
-# from org.allbinary.logic.string.StringMaker import StringMaker
-# from org.allbinary.string.CommonLabels import CommonLabels
-# from org.allbinary.string.CommonStrings import CommonStrings
-
+            this.logUtil.putF(newStringMaker().append(CommonLabels.getInstance().START_LABEL).append("GameCanvasRunnableInterface").toString(), this, this.commonStrings.RUN)
+            this.demoGameMidlet.commandAction(MyCommandsFactory.getInstance().SET_DISPLAYABLE, ProgressCanvasFactory.getInstance())
+            this.demoGameMidlet.setGameCanvasRunnableInterface(this.demoGameMidlet.createDemoGameCanvasRunnableInterface())
+            this.demoGameMidlet.demoSetup()
+            DemoGameMidletEventHandler.getInstance().fireEvent(this.startDemoGameMidletEvent)
+            this.demoGameMidlet.startGameCanvasRunnableInterface()
+            this.demoGameMidlet.postDemoSetup()
+            this.logUtil.putF(this.commonStrings.END_RUNNABLE, this, this.commonStrings.RUN)
+        except CatchableError as jcaught:
+            let e = jToException(jcaught)
+            this.logUtil.put(this.commonStrings.EXCEPTION, this, this.commonStrings.RUN, e)
 

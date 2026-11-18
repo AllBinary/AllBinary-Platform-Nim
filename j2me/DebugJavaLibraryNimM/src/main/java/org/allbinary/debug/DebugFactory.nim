@@ -1,28 +1,41 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.debug
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/debug/DebugInterface as DebugInterfaceModule
+export DebugInterfaceModule
+
+type
+    DebugFactory* = ref object of JObject
+
+proc newDebugFactory*(): DebugFactory
+proc getInstance*(t: typedesc[DebugFactory]): DebugInterface {.discardable.}
+import org/allbinary/debug/NoDebug as NoDebugModule
+export NoDebugModule
 
 
+proc initDebugFactory*(this: DebugFactory) =
+    discard
 
-class DebugFactory:
-    
+proc newDebugFactory*(): DebugFactory =
+    result = DebugFactory()
+    initDebugFactory(result)
 
-    @staticmethod
-    def getInstance() -> DebugInterface:
-        from org.allbinary.debug.NoDebug import NoDebug
+proc getInstance*(t: typedesc[DebugFactory]): DebugInterface {.discardable.} =
         return NoDebug.getInstance()
-
 

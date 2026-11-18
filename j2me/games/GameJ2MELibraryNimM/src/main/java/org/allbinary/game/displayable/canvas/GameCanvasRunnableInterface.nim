@@ -1,94 +1,78 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.displayable.canvas
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import javax/microedition/lcdui/CommandListener as CommandListenerModule
+export CommandListenerModule
+import javax/microedition/lcdui/ItemStateListener as ItemStateListenerModule
+export ItemStateListenerModule
+import org/allbinary/game/state/GameStateCompositeInterface as GameStateCompositeInterfaceModule
+export GameStateCompositeInterfaceModule
+import org/allbinary/graphics/paint/PaintableInterface as PaintableInterfaceModule
+export PaintableInterfaceModule
+import org/allbinary/thread/RunnableInterface as RunnableInterfaceModule
+export RunnableInterfaceModule
+import org/allbinary/util/ABHashtable as ABHashtableModule
+export ABHashtableModule
 
-from javax.microedition.lcdui.ItemStateListener import ItemStateListener
-from org.allbinary.game.state.GameStateCompositeInterface import GameStateCompositeInterface
-from org.allbinary.graphics.paint.PaintableInterface import PaintableInterface
-from org.allbinary.thread.RunnableInterface import RunnableInterface
+type
+    GameCanvasRunnableInterface* = ref object of RunnableInterface
 
 
-# Java interface
-class GameCanvasRunnableInterface(RunnableInterface, PaintableInterface, ItemStateListener, GameStateCompositeInterface):
-    
+method getTitle*(this: GameCanvasRunnableInterface): string {.base, discardable.} =
+        raise newJException("AbstractMethodError", "getTitle")
 
-    def getTitle(self) -> str:
-        raise NotImplementedError()
-    
+method isInitialized*(this: GameCanvasRunnableInterface): bool {.base, discardable.} =
+        raise newJException("AbstractMethodError", "isInitialized")
 
-    def isInitialized(self) -> bool:
-        raise NotImplementedError()
-    
+method isPaused*(this: GameCanvasRunnableInterface): bool {.base, discardable.} =
+        raise newJException("AbstractMethodError", "isPaused")
 
-    def isPaused(self) -> bool:
-        raise NotImplementedError()
-    
+method unPause*(this: GameCanvasRunnableInterface) {.base.} =
+        raise newJException("AbstractMethodError", "unPause")
 
-    def unPause(self) -> None:
-        raise NotImplementedError()
-    
+method pause*(this: GameCanvasRunnableInterface) {.base.} =
+        raise newJException("AbstractMethodError", "pause")
 
-    def pause(self) -> None:
-        raise NotImplementedError()
-    
+method isHighScoreSubmitted*(this: GameCanvasRunnableInterface): bool {.base, discardable.} =
+        raise newJException("AbstractMethodError", "isHighScoreSubmitted")
 
-    def isHighScoreSubmitted(self) -> bool:
-        raise NotImplementedError()
-    
+method setHighScoreSubmitted*(this: GameCanvasRunnableInterface, highScoreSubmitted: bool) {.base.} =
+        raise newJException("AbstractMethodError", "setHighScoreSubmitted")
 
-    # throws Exception
-    def setHighScoreSubmitted(self, highScoreSubmitted: bool) -> None:
-        raise NotImplementedError()
-    
+method processGameOver*(this: GameCanvasRunnableInterface) {.base.} =
+        raise newJException("AbstractMethodError", "processGameOver")
 
-    # throws Exception
-    def processGameOver(self) -> None:
-        raise NotImplementedError()
-    
+method isGameOver*(this: GameCanvasRunnableInterface): bool {.base, discardable.} =
+        raise newJException("AbstractMethodError", "isGameOver")
 
-    def isGameOver(self) -> bool:
-        raise NotImplementedError()
-    
+method initCommands*(this: GameCanvasRunnableInterface, cmdListener: CommandListener) {.base.} =
+        raise newJException("AbstractMethodError", "initCommands")
 
-    def initCommands(self, cmdListener: CommandListener) -> None:
-        from javax.microedition.lcdui.CommandListener import CommandListener
-        raise NotImplementedError()
-    
+method getCurrentStateHashtable*(this: GameCanvasRunnableInterface): ABHashtable {.base, discardable.} =
+        raise newJException("AbstractMethodError", "getCurrentStateHashtable")
 
-    # throws Exception
-    def getCurrentStateHashtable(self) -> ABHashtable[object, object]:
-        from org.allbinary.util.ABHashtable import ABHashtable
-        raise NotImplementedError()
-    
+method getLoadStateHashtable*(this: GameCanvasRunnableInterface): ABHashtable {.base, discardable.} =
+        raise newJException("AbstractMethodError", "getLoadStateHashtable")
 
-    # throws Exception
-    def getLoadStateHashtable(self) -> ABHashtable[object, object]:
-        from org.allbinary.util.ABHashtable import ABHashtable
-        raise NotImplementedError()
-    
+method setLoadStateHashtable*(this: GameCanvasRunnableInterface, hashtable: ABHashtable) {.base.} =
+        raise newJException("AbstractMethodError", "setLoadStateHashtable")
 
-    # throws Exception
-    def setLoadStateHashtable(self, hashtable: ABHashtable[object, object]) -> None:
-        from org.allbinary.util.ABHashtable import ABHashtable
-        raise NotImplementedError()
-    
-
-    def getType(self) -> int:
-        raise NotImplementedError()
-# from javax.microedition.lcdui.CommandListener import CommandListener
-# from org.allbinary.util.ABHashtable import ABHashtable
-
+method getType*(this: GameCanvasRunnableInterface): int32 {.base, discardable.} =
+        raise newJException("AbstractMethodError", "getType")
 

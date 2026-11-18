@@ -1,42 +1,53 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.combat.damage
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/graphics/paint/Paintable as PaintableModule
+export PaintableModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
-from org.allbinary.graphics.paint.Paintable import Paintable
+type
+    DamageFloaters* = ref object of Paintable
 
+proc newDamageFloaters*(): DamageFloaters
+proc getInstance*(t: typedesc[DamageFloaters]): DamageFloaters {.discardable.}
+method add*(this: DamageFloaters, damage: int32) {.base.}
 
-class DamageFloaters(Paintable):
-    SINGLETON: DamageFloaters = None
+var DamageFloaters_SINGLETONValue: DamageFloaters
+var DamageFloaters_SINGLETONSet = false
+proc SINGLETON*(t: typedesc[DamageFloaters]): DamageFloaters =
+    if not DamageFloaters_SINGLETONSet:
+        DamageFloaters_SINGLETONSet = true
+        DamageFloaters_SINGLETONValue = newDamageFloaters()
+    DamageFloaters_SINGLETONValue
 
-    def __init__(self) -> None:
-        super().__init__()
-    
+proc initDamageFloaters*(this: DamageFloaters) =
+    initPaintable(this)
 
-    @staticmethod
-    def getInstance() -> DamageFloaters:
+proc newDamageFloaters*(): DamageFloaters =
+    result = DamageFloaters()
+    initDamageFloaters(result)
+
+proc getInstance*(t: typedesc[DamageFloaters]): DamageFloaters {.discardable.} =
         return DamageFloaters.SINGLETON
-    
 
-    def add(self, damage: int) -> None:
-        pass
+method add*(this: DamageFloaters, damage: int32) {.base.} =
+        discard
 
-
-def _DamageFloaters_SINGLETON() -> object:
-    return DamageFloaters()
-
-lazy_static(DamageFloaters, "SINGLETON", _DamageFloaters_SINGLETON)
+when declared(newDamageFloatersHook0):
+    newDamageFloatersHook0 = proc (): Paintable = newDamageFloaters()
 

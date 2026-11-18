@@ -1,77 +1,90 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.time
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import java/lang/Integer as IntegerModule
+export IntegerModule
+import java/util/Calendar as CalendarModule
+export CalendarModule
 
-import datetime
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    TimeUtil* = ref object of JObject
 
+proc newTimeUtil*(): TimeUtil
+proc getInstance*(t: typedesc[TimeUtil]): TimeUtil {.discardable.}
+method setCalendar*(this: TimeUtil, calendar: Calendar, yearString: string, monthString: string, dayString: string, hourString: string) {.base.}
+method setCalendarWithTime*(this: TimeUtil, calendar: Calendar, yearString: string, monthString: string, dayString: string, hourString: string, minuteString: string, secondString: string) {.base.}
+method setExpirationCalendar*(this: TimeUtil, calendar: Calendar, yearsString: string, monthsString: string, daysString: string, hoursString: string, minutesString: string, secondsString: string) {.base.}
+method getTotalTime*(this: TimeUtil, yearString: string, monthString: string, dayString: string, hourString: string, minuteString: string, secondString: string): int64 {.base, discardable.}
 
-class TimeUtil:
-    instance: TimeUtil = None
-    calendar: datetime.datetime = None
-    
+var TimeUtil_instanceValue: TimeUtil
+var TimeUtil_instanceSet = false
+proc instance*(t: typedesc[TimeUtil]): TimeUtil =
+    if not TimeUtil_instanceSet:
+        TimeUtil_instanceSet = true
+        TimeUtil_instanceValue = newTimeUtil()
+    TimeUtil_instanceValue
+var TimeUtil_calendarValue: Calendar
+var TimeUtil_calendarSet = false
+proc calendar*(t: typedesc[TimeUtil]): Calendar =
+    if not TimeUtil_calendarSet:
+        TimeUtil_calendarSet = true
+        TimeUtil_calendarValue = Calendar.getInstance()
+    TimeUtil_calendarValue
 
-    @staticmethod
-    def getInstance() -> TimeUtil:
+proc initTimeUtil*(this: TimeUtil) =
+    discard
+
+proc newTimeUtil*(): TimeUtil =
+    result = TimeUtil()
+    initTimeUtil(result)
+
+proc getInstance*(t: typedesc[TimeUtil]): TimeUtil {.discardable.} =
         return TimeUtil.instance
-    
 
-    def setCalendar(self, calendar: datetime.datetime, yearString: str, monthString: str, dayString: str, hourString: str) -> None:
-        year: int = int(int(yearString))
-        month: int = int(int(monthString))
-        day: int = int(int(dayString))
-        hour: int = int(int(hourString))
+method setCalendar*(this: TimeUtil, calendar: Calendar, yearString: string, monthString: string, dayString: string, hourString: string) {.base.} =
+        var year: int32 = jParseInt(yearString).intValue()
+        var month: int32 = jParseInt(monthString).intValue()
+        var day: int32 = jParseInt(dayString).intValue()
+        var hour: int32 = jParseInt(hourString).intValue()
         calendar.set(year, month, day, hour, 0)
-    
 
-    def setCalendarWithTime(self, calendar: datetime.datetime, yearString: str, monthString: str, dayString: str, hourString: str, minuteString: str, secondString: str) -> None:
-        year: int = int(int(yearString))
-        month: int = int(int(monthString))
-        day: int = int(int(dayString))
-        hour: int = int(int(hourString))
-        minute: int = int(int(minuteString))
-        second: int = int(int(secondString))
+method setCalendarWithTime*(this: TimeUtil, calendar: Calendar, yearString: string, monthString: string, dayString: string, hourString: string, minuteString: string, secondString: string) {.base.} =
+        var year: int32 = jParseInt(yearString).intValue()
+        var month: int32 = jParseInt(monthString).intValue()
+        var day: int32 = jParseInt(dayString).intValue()
+        var hour: int32 = jParseInt(hourString).intValue()
+        var minute: int32 = jParseInt(minuteString).intValue()
+        var second: int32 = jParseInt(secondString).intValue()
         calendar.set(year, month, day, hour, minute, second)
-    
 
-    def setExpirationCalendar(self, calendar: datetime.datetime, yearsString: str, monthsString: str, daysString: str, hoursString: str, minutesString: str, secondsString: str) -> None:
-        year: int = calendar.get(Calendar.YEAR) + int(int(yearsString))
-        month: int = calendar.get(Calendar.MONTH) + int(int(monthsString))
-        day: int = calendar.get(Calendar.DAY_OF_MONTH) + int(int(daysString))
-        hour: int = calendar.get(Calendar.HOUR) + int(int(hoursString))
-        minute: int = calendar.get(Calendar.MINUTE) + int(int(minutesString))
-        second: int = calendar.get(Calendar.SECOND) + int(int(secondsString))
+method setExpirationCalendar*(this: TimeUtil, calendar: Calendar, yearsString: string, monthsString: string, daysString: string, hoursString: string, minutesString: string, secondsString: string) {.base.} =
+        var year: int32 = calendar.get(Calendar.YEAR) + jParseInt(yearsString).intValue()
+        var month: int32 = calendar.get(Calendar.MONTH) + jParseInt(monthsString).intValue()
+        var day: int32 = calendar.get(Calendar.DAY_OF_MONTH) + jParseInt(daysString).intValue()
+        var hour: int32 = calendar.get(Calendar.HOUR) + jParseInt(hoursString).intValue()
+        var minute: int32 = calendar.get(Calendar.MINUTE) + jParseInt(minutesString).intValue()
+        var second: int32 = calendar.get(Calendar.SECOND) + jParseInt(secondsString).intValue()
         calendar.set(year, month, day, hour, minute, second)
-    
 
-    def getTotalTime(self, yearString: str, monthString: str, dayString: str, hourString: str, minuteString: str, secondString: str) -> int:
-        time: int = TimeUtil.calendar.getTimeInMillis()
-        self.setExpirationCalendar(TimeUtil.calendar, yearString, monthString, dayString, hourString, minuteString, secondString)
-        timeDelta: int = TimeUtil.calendar.getTimeInMillis()
-        return timeDelta - time
-# from java.util.Calendar import Calendar
-
-
-def _TimeUtil_instance() -> object:
-    return TimeUtil()
-
-lazy_static(TimeUtil, "instance", _TimeUtil_instance)
-
-def _TimeUtil_calendar() -> object:
-    return datetime.datetime.now()
-
-lazy_static(TimeUtil, "calendar", _TimeUtil_calendar)
+method getTotalTime*(this: TimeUtil, yearString: string, monthString: string, dayString: string, hourString: string, minuteString: string, secondString: string): int64 {.base, discardable.} =
+        var time: int64 = TimeUtil.calendar.getTimeInMillis()
+        this.setExpirationCalendar(TimeUtil.calendar, yearString, monthString, dayString, hourString, minuteString, secondString)
+        var timeDelta: int64 = TimeUtil.calendar.getTimeInMillis()
+        return timeDelta -% time
 

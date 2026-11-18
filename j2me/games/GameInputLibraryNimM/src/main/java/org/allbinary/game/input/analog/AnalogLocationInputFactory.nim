@@ -1,54 +1,61 @@
 # Generated Code Do Not Modify
 # package org.allbinary.game.input.analog
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/util/BasicArrayList as BasicArrayListModule
+export BasicArrayListModule
+import org/allbinary/game/input/analog/AnalogLocationInput as AnalogLocationInputModule
+export AnalogLocationInputModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    AnalogLocationInputFactory* = ref object of JObject
+        list*: BasicArrayList
 
+proc newAnalogLocationInputFactory*(): AnalogLocationInputFactory
+proc initAnalogLocationInputFactory*(this: AnalogLocationInputFactory)
+proc getInstance*(t: typedesc[AnalogLocationInputFactory]): AnalogLocationInputFactory {.discardable.}
+method addPlayer*(this: AnalogLocationInputFactory, playerInputId: int32) {.base.}
+method getInstanceForPlayer*(this: AnalogLocationInputFactory, playerInputId: int32): AnalogLocationInput {.base, discardable.}
+method getList*(this: AnalogLocationInputFactory): BasicArrayList {.base, discardable.}
+import org/allbinary/util/BasicArrayListD as BasicArrayListDModule
+export BasicArrayListDModule
 
-class AnalogLocationInputFactory:
-    instance: AnalogLocationInputFactory = None
+var AnalogLocationInputFactory_instanceValue: AnalogLocationInputFactory
+var AnalogLocationInputFactory_instanceSet = false
+proc instance*(t: typedesc[AnalogLocationInputFactory]): AnalogLocationInputFactory =
+    if not AnalogLocationInputFactory_instanceSet:
+        AnalogLocationInputFactory_instanceSet = true
+        AnalogLocationInputFactory_instanceValue = newAnalogLocationInputFactory()
+    AnalogLocationInputFactory_instanceValue
 
-    def _init_fields(self) -> None:
-        from org.allbinary.util.BasicArrayList import BasicArrayList
-        from org.allbinary.util.BasicArrayListD import BasicArrayListD
-        self.list_: BasicArrayList = BasicArrayListD()
-    
+# Java field initializers run after the base initializer
+proc initFieldsAnalogLocationInputFactory(this: AnalogLocationInputFactory) =
+    this.list = newBasicArrayListD()
+    discard
 
-    @staticmethod
-    def getInstance() -> AnalogLocationInputFactory:
+proc getInstance*(t: typedesc[AnalogLocationInputFactory]): AnalogLocationInputFactory {.discardable.} =
         return AnalogLocationInputFactory.instance
-    
 
-    def __init__(self) -> None:
-        self._init_fields()
-    
+proc initAnalogLocationInputFactory*(this: AnalogLocationInputFactory) =
+        this.initFieldsAnalogLocationInputFactory()
+        discard
 
-    def addPlayer(self, playerInputId: int) -> None:
-        from org.allbinary.game.input.analog.AnalogLocationInput import AnalogLocationInput
-        from org.allbinary.game.input.analog.AnalogLocationInput import AnalogLocationInput
-        from org.allbinary.game.input.analog.AnalogLocationInput import AnalogLocationInput
-        analogLocationInput: AnalogLocationInput = AnalogLocationInput.NULL_ANALOG_LOCATION_INPUT
-        if playerInputId < self.list_.size():
-            analogLocationInput = self.list_.get(playerInputId)
+proc newAnalogLocationInputFactory*(): AnalogLocationInputFactory =
+    result = AnalogLocationInputFactory()
+    initAnalogLocationInputFactory(result)
+
+method addPlayer*(this: AnalogLocationInputFactory, playerInputId: int32) {.base.} =
+        var analogLocationInput: AnalogLocationInput = AnalogLocationInput.NULL_ANALOG_LOCATION_INPUT
+        if playerInputId < this.list.size():
+            analogLocationInput = AnalogLocationInput(JObject(this.list.get(playerInputId)))
         if analogLocationInput == AnalogLocationInput.NULL_ANALOG_LOCATION_INPUT:
-            analogLocationInput = AnalogLocationInput(playerInputId)
-            self.list_.add(analogLocationInput)
-    
+            analogLocationInput = newAnalogLocationInput(playerInputId)
+            this.list.add(analogLocationInput)
 
-    def getInstanceForPlayer(self, playerInputId: int) -> AnalogLocationInput:
-        return self.list_.get(playerInputId)
-    
+method getInstanceForPlayer*(this: AnalogLocationInputFactory, playerInputId: int32): AnalogLocationInput {.base, discardable.} =
+        return AnalogLocationInput(JObject(this.list.get(playerInputId)))
 
-    def getList(self) -> BasicArrayList:
-        from org.allbinary.util.BasicArrayList import BasicArrayList
-        return self.list_
-# from org.allbinary.util.BasicArrayList import BasicArrayList
-# from org.allbinary.util.BasicArrayListD import BasicArrayListD
-
-
-def _AnalogLocationInputFactory_instance() -> object:
-    return AnalogLocationInputFactory()
-
-lazy_static(AnalogLocationInputFactory, "instance", _AnalogLocationInputFactory_instance)
+method getList*(this: AnalogLocationInputFactory): BasicArrayList {.base, discardable.} =
+        return this.list
 

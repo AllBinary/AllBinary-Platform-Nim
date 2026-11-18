@@ -1,62 +1,81 @@
-# 
-# AllBinary Open License Version 1 
-# Copyright (c) 2025 AllBinary 
-#  
-# By agreeing to this license you and any business entity you represent are 
-# legally bound to the AllBinary Open License Version 1 legal agreement. 
-#  
-# You may obtain the AllBinary Open License Version 1 legal agreement from 
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
-#  
-# Created By: Travis Berthelot 
-#   
+#[
+  
+  AllBinary Open License Version 1 
+  Copyright (c) 2025 AllBinary 
+   
+  By agreeing to this license you and any business entity you represent are 
+  legally bound to the AllBinary Open License Version 1 legal agreement. 
+   
+  You may obtain the AllBinary Open License Version 1 legal agreement from 
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
+   
+  Created By: Travis Berthelot 
+    
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.logic.system.security.crypt.jcehelper
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/logic/java/byteutil/ByteUtil as ByteUtilModule
+export ByteUtilModule
+import org/allbinary/logic/system/security/crypt/jcehelper/BaseSecretComposite as BaseSecretCompositeModule
+export BaseSecretCompositeModule
 
-from org.allbinary.logic.system.security.crypt.jcehelper.BaseSecretComposite import BaseSecretComposite
+type
+    SecretComposite* = ref object of BaseSecretComposite
+        byteUtil*: ByteUtil
+        cipher*: Cipher
+        secretKey*: SecretKey
+        key*: JArray[int8]
+
+proc newSecretComposite*(secretKey: SecretKey, cipher: Cipher, key: JArray[int8]): SecretComposite
+proc initSecretComposite*(this: SecretComposite, secretKey: SecretKey, cipher: Cipher, key: JArray[int8])
+method encrypt*(this: SecretComposite, array: JArray[int8]): JArray[int8] {.discardable.}
+method decrypt*(this: SecretComposite, array: JArray[int8]): JArray[int8] {.discardable.}
+method mutilate*(this: SecretComposite, array: JArray[int8]): JArray[int8] {.base, discardable.}
 
 
-class SecretComposite(BaseSecretComposite):
-
-    def _init_fields(self) -> None:
-        from org.allbinary.logic.java.byteutil.ByteUtil import ByteUtil
-        self.byteUtil: ByteUtil = ByteUtil.getInstance()
-        self.cipher: Cipher = None
-        self.secretKey: SecretKey = None
-        self.key: list[int] = None
+# Java field initializers run after the base initializer
+proc initFieldsSecretComposite(this: SecretComposite) =
+    this.byteUtil = ByteUtil.getInstance()
     
-
-    def __init__(self, secretKey: SecretKey, cipher: Cipher, key: list[int]) -> None:
-        super().__init__()
-        self._init_fields()
-        self.secretKey = secretKey
-        self.cipher = cipher
-        self.key = key
     
-
-    # throws Exception
-    def encrypt(self, array: list[int]) -> list[int]:
-        array = self.mutilate(array)
-        self.cipher.init(Cipher.ENCRYPT_MODE, self.secretKey)
-        return self.cipher.doFinal(array)
     
+    discard
 
-    # throws Exception
-    def decrypt(self, array: list[int]) -> list[int]:
-        self.cipher.init(Cipher.DECRYPT_MODE, self.secretKey)
-        return self.mutilate(self.cipher.doFinal(array))
-    
+proc initSecretComposite*(this: SecretComposite, secretKey: SecretKey, cipher: Cipher, key: JArray[int8]) =
+        initBaseSecretComposite(this)
+        this.initFieldsSecretComposite()
+        this.secretKey = secretKey
+        this.cipher = cipher
+        this.key = key
 
-    def mutilate(self, array: list[int]) -> list[int]:
-        for index in range(0, len(self.key)):
-            value: int = self.key[index]
-            if value < 8 and value > 0:
-                array = self.byteUtil.xorByte(array, value)
+proc newSecretComposite*(secretKey: SecretKey, cipher: Cipher, key: JArray[int8]): SecretComposite =
+    result = SecretComposite()
+    initSecretComposite(result, secretKey, cipher, key)
+
+method encrypt*(this: SecretComposite, array: JArray[int8]): JArray[int8] {.discardable.} =
+        var array = array
+        array = this.mutilate(array)
+        this.cipher.init(Cipher.ENCRYPT_MODE, this.secretKey)
+        return this.cipher.doFinal(array)
+
+method decrypt*(this: SecretComposite, array: JArray[int8]): JArray[int8] {.discardable.} =
+        this.cipher.init(Cipher.DECRYPT_MODE, this.secretKey)
+        return this.mutilate(this.cipher.doFinal(array))
+
+method mutilate*(this: SecretComposite, array: JArray[int8]): JArray[int8] {.base, discardable.} =
+        var array = array
+        block:
+            var index: int32 = 0
+            while index < this.key.length:
+                defer: index = index +% 1
+                var value: int8 = this.key[index]
+                if int32(value) < 8 and int32(value) > 0:
+                    array = this.byteUtil.xorByte(array, int32(value))
         return array
-# from javax.crypto.Cipher import Cipher
-# from javax.crypto.SecretKey import SecretKey
-# from org.allbinary.logic.java.byteutil.ByteUtil import ByteUtil
 
+when declared(newSecretCompositeHook3):
+    newSecretCompositeHook3 = proc (secretKey: SecretKey, cipher: Cipher, key: JArray[int8]): BaseSecretComposite = newSecretComposite(secretKey, cipher, key)
 

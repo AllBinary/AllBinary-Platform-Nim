@@ -1,17 +1,27 @@
 # Generated Code Do Not Modify
 # package org.allbinary.business.advertisement
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/business/advertisement/AdConfiguration as AdConfigurationModule
+export AdConfigurationModule
 
-from org.allbinary.business.advertisement.AdConfiguration import AdConfiguration
+type
+    AppNameLicensingAdConfiguration* = ref object of AdConfiguration
+
+proc newAppNameLicensingAdConfiguration*(): AppNameLicensingAdConfiguration
+proc initAppNameLicensingAdConfiguration*(this: AppNameLicensingAdConfiguration)
+import org/allbinary/logic/string/StringUtil as StringUtilModule
+export StringUtilModule
 
 
-class AppNameLicensingAdConfiguration(AdConfiguration):
-    
+proc initAppNameLicensingAdConfiguration*(this: AppNameLicensingAdConfiguration) =
+        initAdConfiguration(this, newJArrayFromRefs[JObject](StringUtil.getInstance().EMPTY_STRING, StringUtil.getInstance().EMPTY_STRING, StringUtil.getInstance().EMPTY_STRING))
 
-    def __init__(self) -> None:
-        from org.allbinary.logic.string.StringUtil import StringUtil
-        super().__init__([StringUtil.getInstance().EMPTY_STRING, StringUtil.getInstance().EMPTY_STRING, StringUtil.getInstance().EMPTY_STRING])
-# from org.allbinary.logic.string.StringUtil import StringUtil
+proc newAppNameLicensingAdConfiguration*(): AppNameLicensingAdConfiguration =
+    result = AppNameLicensingAdConfiguration()
+    initAppNameLicensingAdConfiguration(result)
 
+when declared(newAppNameLicensingAdConfigurationHook0):
+    newAppNameLicensingAdConfigurationHook0 = proc (): AdConfiguration = newAppNameLicensingAdConfiguration()
 

@@ -1,228 +1,426 @@
-# 
-# AllBinary Open License Version 1 
-# Copyright (c) 2026 AllBinary 
-#  
-# By agreeing to this license you and any business entity you represent are 
-# legally bound to the AllBinary Open License Version 1 legal agreement. 
-#  
-# You may obtain the AllBinary Open License Version 1 legal agreement from 
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
-#  
-# Created By: Travis Berthelot 
-#   
+#[
+  
+  AllBinary Open License Version 1 
+  Copyright (c) 2026 AllBinary 
+   
+  By agreeing to this license you and any business entity you represent are 
+  legally bound to the AllBinary Open License Version 1 legal agreement. 
+   
+  You may obtain the AllBinary Open License Version 1 legal agreement from 
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
+   
+  Created By: Travis Berthelot 
+    
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.logic.io.file
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    CommonDataFileStrings* = ref object of JObject
+        XML*: string
+        U_XML*: string
+        JSON*: string
+        U_JSON*: string
+        XSL*: string
+        U_XSL*: string
+        JAVA*: string
+        U_JAVA*: string
+        KT*: string
+        U_KT*: string
+        TS*: string
+        U_TS*: string
+        JS*: string
+        U_JS*: string
+        CPP*: string
+        U_CPP*: string
+        H*: string
+        U_H*: string
+        PY*: string
+        U_PY*: string
+        GO*: string
+        U_GO*: string
+        CS*: string
+        U_CS*: string
+        ADB*: string
+        U_ADB*: string
+        ADS*: string
+        U_ADS*: string
+        ADA*: string
+        U_ADA*: string
+        RUST*: string
+        U_RUST*: string
+        C*: string
+        U_C*: string
+        CSHARP*: string
+        U_CSHARP*: string
+        ERL*: string
+        U_ERL*: string
+        HS*: string
+        U_HS*: string
+        HX*: string
+        U_HX*: string
+        LUA*: string
+        U_LUA*: string
+        PAS*: string
+        U_PAS*: string
+        ML*: string
+        U_ML*: string
+        PL*: string
+        U_PL*: string
+        RB*: string
+        U_RB*: string
+        ZIG*: string
+        U_ZIG*: string
+        PM*: string
+        U_PM*: string
+        KTS*: string
+        U_KTS*: string
+        CBL*: string
+        U_CBL*: string
+        COB*: string
+        U_COB*: string
+        F90*: string
+        U_F90*: string
+        F*: string
+        U_F*: string
+        DART*: string
+        U_DART*: string
+        EX*: string
+        U_EX*: string
+        EXS*: string
+        U_EXS*: string
+        M*: string
+        U_M*: string
+        SWIFT*: string
+        U_SWIFT*: string
+        ASM*: string
+        U_ASM*: string
+        S*: string
+        U_S*: string
+        NIM*: string
+        U_NIM*: string
+        VALA*: string
+        U_VALA*: string
+        LISP*: string
+        U_LISP*: string
+        RKT*: string
+        U_RKT*: string
+        SCM*: string
+        U_SCM*: string
+        AS*: string
+        U_AS*: string
+        OBX*: string
+        U_OBX*: string
+        SCALA*: string
+        U_SCALA*: string
+        GROOVY*: string
+        U_GROOVY*: string
+        JL*: string
+        U_JL*: string
+        TCL*: string
+        U_TCL*: string
+        WREN*: string
+        U_WREN*: string
+        JANET*: string
+        U_JANET*: string
+        GR*: string
+        U_GR*: string
+        ELM*: string
+        U_ELM*: string
+        KOTLIN*: string
+        TYPESCRIPT*: string
+        JAVASCRIPT*: string
+        C_PLUS_PLUS*: string
+        PYTHON*: string
+        C_SHARPOfCommonDataFileStrings*: string
+        RUST_NAME*: string
+        RUBY*: string
+        PERL*: string
+        OBJECT_PASCAL*: string
+        OCAML*: string
+        HASKELL*: string
+        HAXE*: string
+        ERLANG*: string
+        COBOL*: string
+        FORTRAN*: string
+        ELIXIR*: string
+        OBJECTIVE_C*: string
+        RACKET*: string
+        SCHEME*: string
+        ACTIONSCRIPT*: string
+        OBERON_PLUS*: string
+        JULIA*: string
+        GRAIN*: string
+        CPLUSPLUSOfCommonDataFileStrings*: string
+        GOLANG*: string
+        CSHARP_ALIAS*: string
+        C23*: string
+        PASCAL*: string
+        OBJECT_PASCAL_ALIAS*: string
+        OBJC*: string
+        OBJECTIVE_C_ALIAS*: string
+        ASSEMBLY*: string
+        COMMON_LISP*: string
+        OBERON*: string
+        OBERON_PLUS_ALIAS*: string
+        KT_SHORT_NAME*: string
+        TS_SHORT_NAME*: string
+        JS_SHORT_NAME*: string
+        CPP_SHORT_NAME*: string
+        PY_SHORT_NAME*: string
+        GO_SHORT_NAME*: string
+        CS_SHORT_NAME*: string
+        ADA_SHORT_NAME*: string
+        RUST_SHORT_NAME*: string
+        LUA_SHORT_NAME*: string
+        C_SHORT_NAME*: string
+        ZIG_SHORT_NAME*: string
+        RB_SHORT_NAME*: string
+        PL_SHORT_NAME*: string
+        PAS_SHORT_NAME*: string
+        ML_SHORT_NAME*: string
+        HS_SHORT_NAME*: string
+        HX_SHORT_NAME*: string
+        ERL_SHORT_NAME*: string
+        CBL_SHORT_NAME*: string
+        F90_SHORT_NAME*: string
+        DART_SHORT_NAME*: string
+        EX_SHORT_NAME*: string
+        OBJC_SHORT_NAME*: string
+        SWIFT_SHORT_NAME*: string
+        ASM_SHORT_NAME*: string
+        NIM_SHORT_NAME*: string
+        VALA_SHORT_NAME*: string
+        LISP_SHORT_NAME*: string
+        RKT_SHORT_NAME*: string
+        SCM_SHORT_NAME*: string
+        AS_SHORT_NAME*: string
+        OBX_SHORT_NAME*: string
+        SCALA_SHORT_NAME*: string
+        GROOVY_SHORT_NAME*: string
+        JL_SHORT_NAME*: string
+        TCL_SHORT_NAME*: string
+        WREN_SHORT_NAME*: string
+        JANET_SHORT_NAME*: string
+        GR_SHORT_NAME*: string
+        ELM_SHORT_NAME*: string
+        UNCRYPTED_EXTENSION*: string
+        ENCRYPTED_EXTENSION*: string
 
+proc newCommonDataFileStrings*(): CommonDataFileStrings
+proc getInstance*(t: typedesc[CommonDataFileStrings]): CommonDataFileStrings {.discardable.}
 
-class CommonDataFileStrings:
-    instance: CommonDataFileStrings = None
+var CommonDataFileStrings_instanceValue: CommonDataFileStrings
+var CommonDataFileStrings_instanceSet = false
+proc instance*(t: typedesc[CommonDataFileStrings]): CommonDataFileStrings =
+    if not CommonDataFileStrings_instanceSet:
+        CommonDataFileStrings_instanceSet = true
+        CommonDataFileStrings_instanceValue = newCommonDataFileStrings()
+    CommonDataFileStrings_instanceValue
 
-    def _init_fields(self) -> None:
-        self.XML: str = "xml"
-        self._XML: str = ".xml"
-        self.JSON: str = "json"
-        self._JSON: str = ".json"
-        self.XSL: str = "xsl"
-        self._XSL: str = ".xsl"
-        self.JAVA: str = "java"
-        self._JAVA: str = ".java"
-        self.KT: str = "kt"
-        self._KT: str = ".kt"
-        self.TS: str = "ts"
-        self._TS: str = ".ts"
-        self.JS: str = "js"
-        self._JS: str = ".js"
-        self.CPP: str = "cpp"
-        self._CPP: str = ".cpp"
-        self.H: str = "h"
-        self._H: str = ".h"
-        self.PY: str = "py"
-        self._PY: str = ".py"
-        self.GO: str = "go"
-        self._GO: str = ".go"
-        self.CS: str = "cs"
-        self._CS: str = ".cs"
-        self.ADB: str = "adb"
-        self._ADB: str = ".adb"
-        self.ADS: str = "ads"
-        self._ADS: str = ".ads"
-        self.ADA: str = "ada"
-        self._ADA: str = ".ada"
-        self.RUST: str = "rs"
-        self._RUST: str = ".rs"
-        self.C: str = "c"
-        self._C: str = ".c"
-        self.CSHARP: str = "cs"
-        self._CSHARP: str = ".cs"
-        self.ERL: str = "erl"
-        self._ERL: str = ".erl"
-        self.HS: str = "hs"
-        self._HS: str = ".hs"
-        self.HX: str = "hx"
-        self._HX: str = ".hx"
-        self.LUA: str = "lua"
-        self._LUA: str = ".lua"
-        self.PAS: str = "pas"
-        self._PAS: str = ".pas"
-        self.ML: str = "ml"
-        self._ML: str = ".ml"
-        self.PL: str = "pl"
-        self._PL: str = ".pl"
-        self.RB: str = "rb"
-        self._RB: str = ".rb"
-        self.ZIG: str = "zig"
-        self._ZIG: str = ".zig"
-        self.PM: str = "pm"
-        self._PM: str = ".pm"
-        self.KTS: str = "kts"
-        self._KTS: str = ".kts"
-        self.CBL: str = "cbl"
-        self._CBL: str = ".cbl"
-        self.COB: str = "cob"
-        self._COB: str = ".cob"
-        self.F90: str = "f90"
-        self._F90: str = ".f90"
-        self.F: str = "f"
-        self._F: str = ".f"
-        self.DART: str = "dart"
-        self._DART: str = ".dart"
-        self.EX: str = "ex"
-        self._EX: str = ".ex"
-        self.EXS: str = "exs"
-        self._EXS: str = ".exs"
-        self.M: str = "m"
-        self._M: str = ".m"
-        self.SWIFT: str = "swift"
-        self._SWIFT: str = ".swift"
-        self.ASM: str = "asm"
-        self._ASM: str = ".asm"
-        self.S: str = "s"
-        self._S: str = ".s"
-        self.NIM: str = "nim"
-        self._NIM: str = ".nim"
-        self.VALA: str = "vala"
-        self._VALA: str = ".vala"
-        self.LISP: str = "lisp"
-        self._LISP: str = ".lisp"
-        self.RKT: str = "rkt"
-        self._RKT: str = ".rkt"
-        self.SCM: str = "scm"
-        self._SCM: str = ".scm"
-        self.AS: str = "as"
-        self._AS: str = ".as"
-        self.OBX: str = "obx"
-        self._OBX: str = ".obx"
-        self.SCALA: str = "scala"
-        self._SCALA: str = ".scala"
-        self.GROOVY: str = "groovy"
-        self._GROOVY: str = ".groovy"
-        self.JL: str = "jl"
-        self._JL: str = ".jl"
-        self.TCL: str = "tcl"
-        self._TCL: str = ".tcl"
-        self.WREN: str = "wren"
-        self._WREN: str = ".wren"
-        self.JANET: str = "janet"
-        self._JANET: str = ".janet"
-        self.GR: str = "gr"
-        self._GR: str = ".gr"
-        self.ELM: str = "elm"
-        self._ELM: str = ".elm"
-        self.KOTLIN: str = "kotlin"
-        self.TYPESCRIPT: str = "typescript"
-        self.JAVASCRIPT: str = "javascript"
-        self.C_PLUS_PLUS: str = "c++"
-        self.PYTHON: str = "python"
-        self.C_SHARP: str = "c#"
-        self.RUST_NAME: str = "rust"
-        self.RUBY: str = "ruby"
-        self.PERL: str = "perl"
-        self.OBJECT_PASCAL: str = "objectpascal"
-        self.OCAML: str = "ocaml"
-        self.HASKELL: str = "haskell"
-        self.HAXE: str = "haxe"
-        self.ERLANG: str = "erlang"
-        self.COBOL: str = "cobol"
-        self.FORTRAN: str = "fortran"
-        self.ELIXIR: str = "elixir"
-        self.OBJECTIVE_C: str = "objective-c"
-        self.RACKET: str = "racket"
-        self.SCHEME: str = "scheme"
-        self.ACTIONSCRIPT: str = "actionscript"
-        self.OBERON_PLUS: str = "oberon+"
-        self.JULIA: str = "julia"
-        self.GRAIN: str = "grain"
-        self.CPLUSPLUS: str = "cplusplus"
-        self.GOLANG: str = "golang"
-        self.CSHARP_ALIAS: str = "csharp"
-        self.C23: str = "c23"
-        self.PASCAL: str = "pascal"
-        self.OBJECT_PASCAL_ALIAS: str = "object pascal"
-        self.OBJC: str = "objc"
-        self.OBJECTIVE_C_ALIAS: str = "objectivec"
-        self.ASSEMBLY: str = "assembly"
-        self.COMMON_LISP: str = "common lisp"
-        self.OBERON: str = "oberon"
-        self.OBERON_PLUS_ALIAS: str = "oberonplus"
-        self.KT_SHORT_NAME: str = "Kt"
-        self.TS_SHORT_NAME: str = "Ts"
-        self.JS_SHORT_NAME: str = "Js"
-        self.CPP_SHORT_NAME: str = "Cpp"
-        self.PY_SHORT_NAME: str = "Py"
-        self.GO_SHORT_NAME: str = "Go"
-        self.CS_SHORT_NAME: str = "Cs"
-        self.ADA_SHORT_NAME: str = "Ada"
-        self.RUST_SHORT_NAME: str = "Rust"
-        self.LUA_SHORT_NAME: str = "Lua"
-        self.C_SHORT_NAME: str = "C"
-        self.ZIG_SHORT_NAME: str = "Zig"
-        self.RB_SHORT_NAME: str = "Rb"
-        self.PL_SHORT_NAME: str = "Pl"
-        self.PAS_SHORT_NAME: str = "Pas"
-        self.ML_SHORT_NAME: str = "Ml"
-        self.HS_SHORT_NAME: str = "Hs"
-        self.HX_SHORT_NAME: str = "Hx"
-        self.ERL_SHORT_NAME: str = "Erl"
-        self.CBL_SHORT_NAME: str = "Cbl"
-        self.F90_SHORT_NAME: str = "F90"
-        self.DART_SHORT_NAME: str = "Dart"
-        self.EX_SHORT_NAME: str = "Ex"
-        self.OBJC_SHORT_NAME: str = "ObjC"
-        self.SWIFT_SHORT_NAME: str = "Swift"
-        self.ASM_SHORT_NAME: str = "Asm"
-        self.NIM_SHORT_NAME: str = "Nim"
-        self.VALA_SHORT_NAME: str = "Vala"
-        self.LISP_SHORT_NAME: str = "Lisp"
-        self.RKT_SHORT_NAME: str = "Rkt"
-        self.SCM_SHORT_NAME: str = "Scm"
-        self.AS_SHORT_NAME: str = "As"
-        self.OBX_SHORT_NAME: str = "Obx"
-        self.SCALA_SHORT_NAME: str = "Scala"
-        self.GROOVY_SHORT_NAME: str = "Groovy"
-        self.JL_SHORT_NAME: str = "Jl"
-        self.TCL_SHORT_NAME: str = "Tcl"
-        self.WREN_SHORT_NAME: str = "Wren"
-        self.JANET_SHORT_NAME: str = "Janet"
-        self.GR_SHORT_NAME: str = "Gr"
-        self.ELM_SHORT_NAME: str = "Elm"
-        self.UNCRYPTED_EXTENSION: str = self.XML
-        self.ENCRYPTED_EXTENSION: str = "abd"
+# Java field initializers run after the base initializer
+proc initFieldsCommonDataFileStrings(this: CommonDataFileStrings) =
+    this.XML = "xml"
+    this.U_XML = ".xml"
+    this.JSON = "json"
+    this.U_JSON = ".json"
+    this.XSL = "xsl"
+    this.U_XSL = ".xsl"
+    this.JAVA = "java"
+    this.U_JAVA = ".java"
+    this.KT = "kt"
+    this.U_KT = ".kt"
+    this.TS = "ts"
+    this.U_TS = ".ts"
+    this.JS = "js"
+    this.U_JS = ".js"
+    this.CPP = "cpp"
+    this.U_CPP = ".cpp"
+    this.H = "h"
+    this.U_H = ".h"
+    this.PY = "py"
+    this.U_PY = ".py"
+    this.GO = "go"
+    this.U_GO = ".go"
+    this.CS = "cs"
+    this.U_CS = ".cs"
+    this.ADB = "adb"
+    this.U_ADB = ".adb"
+    this.ADS = "ads"
+    this.U_ADS = ".ads"
+    this.ADA = "ada"
+    this.U_ADA = ".ada"
+    this.RUST = "rs"
+    this.U_RUST = ".rs"
+    this.C = "c"
+    this.U_C = ".c"
+    this.CSHARP = "cs"
+    this.U_CSHARP = ".cs"
+    this.ERL = "erl"
+    this.U_ERL = ".erl"
+    this.HS = "hs"
+    this.U_HS = ".hs"
+    this.HX = "hx"
+    this.U_HX = ".hx"
+    this.LUA = "lua"
+    this.U_LUA = ".lua"
+    this.PAS = "pas"
+    this.U_PAS = ".pas"
+    this.ML = "ml"
+    this.U_ML = ".ml"
+    this.PL = "pl"
+    this.U_PL = ".pl"
+    this.RB = "rb"
+    this.U_RB = ".rb"
+    this.ZIG = "zig"
+    this.U_ZIG = ".zig"
+    this.PM = "pm"
+    this.U_PM = ".pm"
+    this.KTS = "kts"
+    this.U_KTS = ".kts"
+    this.CBL = "cbl"
+    this.U_CBL = ".cbl"
+    this.COB = "cob"
+    this.U_COB = ".cob"
+    this.F90 = "f90"
+    this.U_F90 = ".f90"
+    this.F = "f"
+    this.U_F = ".f"
+    this.DART = "dart"
+    this.U_DART = ".dart"
+    this.EX = "ex"
+    this.U_EX = ".ex"
+    this.EXS = "exs"
+    this.U_EXS = ".exs"
+    this.M = "m"
+    this.U_M = ".m"
+    this.SWIFT = "swift"
+    this.U_SWIFT = ".swift"
+    this.ASM = "asm"
+    this.U_ASM = ".asm"
+    this.S = "s"
+    this.U_S = ".s"
+    this.NIM = "nim"
+    this.U_NIM = ".nim"
+    this.VALA = "vala"
+    this.U_VALA = ".vala"
+    this.LISP = "lisp"
+    this.U_LISP = ".lisp"
+    this.RKT = "rkt"
+    this.U_RKT = ".rkt"
+    this.SCM = "scm"
+    this.U_SCM = ".scm"
+    this.AS = "as"
+    this.U_AS = ".as"
+    this.OBX = "obx"
+    this.U_OBX = ".obx"
+    this.SCALA = "scala"
+    this.U_SCALA = ".scala"
+    this.GROOVY = "groovy"
+    this.U_GROOVY = ".groovy"
+    this.JL = "jl"
+    this.U_JL = ".jl"
+    this.TCL = "tcl"
+    this.U_TCL = ".tcl"
+    this.WREN = "wren"
+    this.U_WREN = ".wren"
+    this.JANET = "janet"
+    this.U_JANET = ".janet"
+    this.GR = "gr"
+    this.U_GR = ".gr"
+    this.ELM = "elm"
+    this.U_ELM = ".elm"
+    this.KOTLIN = "kotlin"
+    this.TYPESCRIPT = "typescript"
+    this.JAVASCRIPT = "javascript"
+    this.C_PLUS_PLUS = "c++"
+    this.PYTHON = "python"
+    this.C_SHARPOfCommonDataFileStrings = "c#"
+    this.RUST_NAME = "rust"
+    this.RUBY = "ruby"
+    this.PERL = "perl"
+    this.OBJECT_PASCAL = "objectpascal"
+    this.OCAML = "ocaml"
+    this.HASKELL = "haskell"
+    this.HAXE = "haxe"
+    this.ERLANG = "erlang"
+    this.COBOL = "cobol"
+    this.FORTRAN = "fortran"
+    this.ELIXIR = "elixir"
+    this.OBJECTIVE_C = "objective-c"
+    this.RACKET = "racket"
+    this.SCHEME = "scheme"
+    this.ACTIONSCRIPT = "actionscript"
+    this.OBERON_PLUS = "oberon+"
+    this.JULIA = "julia"
+    this.GRAIN = "grain"
+    this.CPLUSPLUSOfCommonDataFileStrings = "cplusplus"
+    this.GOLANG = "golang"
+    this.CSHARP_ALIAS = "csharp"
+    this.C23 = "c23"
+    this.PASCAL = "pascal"
+    this.OBJECT_PASCAL_ALIAS = "object pascal"
+    this.OBJC = "objc"
+    this.OBJECTIVE_C_ALIAS = "objectivec"
+    this.ASSEMBLY = "assembly"
+    this.COMMON_LISP = "common lisp"
+    this.OBERON = "oberon"
+    this.OBERON_PLUS_ALIAS = "oberonplus"
+    this.KT_SHORT_NAME = "Kt"
+    this.TS_SHORT_NAME = "Ts"
+    this.JS_SHORT_NAME = "Js"
+    this.CPP_SHORT_NAME = "Cpp"
+    this.PY_SHORT_NAME = "Py"
+    this.GO_SHORT_NAME = "Go"
+    this.CS_SHORT_NAME = "Cs"
+    this.ADA_SHORT_NAME = "Ada"
+    this.RUST_SHORT_NAME = "Rust"
+    this.LUA_SHORT_NAME = "Lua"
+    this.C_SHORT_NAME = "C"
+    this.ZIG_SHORT_NAME = "Zig"
+    this.RB_SHORT_NAME = "Rb"
+    this.PL_SHORT_NAME = "Pl"
+    this.PAS_SHORT_NAME = "Pas"
+    this.ML_SHORT_NAME = "Ml"
+    this.HS_SHORT_NAME = "Hs"
+    this.HX_SHORT_NAME = "Hx"
+    this.ERL_SHORT_NAME = "Erl"
+    this.CBL_SHORT_NAME = "Cbl"
+    this.F90_SHORT_NAME = "F90"
+    this.DART_SHORT_NAME = "Dart"
+    this.EX_SHORT_NAME = "Ex"
+    this.OBJC_SHORT_NAME = "ObjC"
+    this.SWIFT_SHORT_NAME = "Swift"
+    this.ASM_SHORT_NAME = "Asm"
+    this.NIM_SHORT_NAME = "Nim"
+    this.VALA_SHORT_NAME = "Vala"
+    this.LISP_SHORT_NAME = "Lisp"
+    this.RKT_SHORT_NAME = "Rkt"
+    this.SCM_SHORT_NAME = "Scm"
+    this.AS_SHORT_NAME = "As"
+    this.OBX_SHORT_NAME = "Obx"
+    this.SCALA_SHORT_NAME = "Scala"
+    this.GROOVY_SHORT_NAME = "Groovy"
+    this.JL_SHORT_NAME = "Jl"
+    this.TCL_SHORT_NAME = "Tcl"
+    this.WREN_SHORT_NAME = "Wren"
+    this.JANET_SHORT_NAME = "Janet"
+    this.GR_SHORT_NAME = "Gr"
+    this.ELM_SHORT_NAME = "Elm"
+    this.UNCRYPTED_EXTENSION = this.XML
+    this.ENCRYPTED_EXTENSION = "abd"
+    discard
 
-    def __init__(self) -> None:
-        self._init_fields()
-    
+proc initCommonDataFileStrings*(this: CommonDataFileStrings) =
+    this.initFieldsCommonDataFileStrings()
 
-    @staticmethod
-    def getInstance() -> CommonDataFileStrings:
+proc newCommonDataFileStrings*(): CommonDataFileStrings =
+    result = CommonDataFileStrings()
+    initCommonDataFileStrings(result)
+
+proc getInstance*(t: typedesc[CommonDataFileStrings]): CommonDataFileStrings {.discardable.} =
         return CommonDataFileStrings.instance
-
-
-def _CommonDataFileStrings_instance() -> object:
-    return CommonDataFileStrings()
-
-lazy_static(CommonDataFileStrings, "instance", _CommonDataFileStrings_instance)
 

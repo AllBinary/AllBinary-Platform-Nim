@@ -45,7 +45,7 @@ proc instance*(t: typedesc[StringUtil]): StringUtil =
 
 # Java field initializers run after the base initializer
 proc initFieldsStringUtil(this: StringUtil) =
-    this.INIT_STRING = ""
+    this.INIT_STRING = jNewString("")
     this.NULL_STRING = "null"
     this.EMPTY_STRING = ""
     this.ONE_EMPTY_STRING_ARRAY = newJArrayFrom[string]([this.EMPTY_STRING])

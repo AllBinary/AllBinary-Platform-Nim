@@ -1,67 +1,71 @@
-# 
-# AllBinary Open License Version 1 
-# Copyright (c) 2025 AllBinary 
-# 
-# By agreeing to this license you and any business entity you represent are 
-# legally bound to the AllBinary Open License Version 1 legal agreement. 
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from 
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
-# 
-# Created By: Travis Berthelot 
-#  
+#[
+  
+  AllBinary Open License Version 1 
+  Copyright (c) 2025 AllBinary 
+  
+  By agreeing to this license you and any business entity you represent are 
+  legally bound to the AllBinary Open License Version 1 legal agreement. 
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from 
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
+  
+  Created By: Travis Berthelot 
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.logic.io
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import java/io/IOException as IOExceptionModule
+export IOExceptionModule
+import java/io/Writer as WriterModule
+export WriterModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
-from java.io.Writer import Writer
+type
+    NullWriter* = ref object of Writer
 
+proc newNullWriter*(): NullWriter
+method write*(this: NullWriter, c: int32)
+method write*(this: NullWriter, cbuf: JArray[uint16], off: int32, len: int32)
+method write*(this: NullWriter, str: string)
+method write*(this: NullWriter, str: string, off: int32, len: int32)
+method flush*(this: NullWriter)
+method close*(this: NullWriter)
 
-class NullWriter(Writer):
-    NULL_WRITER: NullWriter = None
+var NullWriter_NULL_WRITERValue: NullWriter
+var NullWriter_NULL_WRITERSet = false
+proc NULL_WRITERStatic*(t: typedesc[NullWriter]): NullWriter =
+    if not NullWriter_NULL_WRITERSet:
+        NullWriter_NULL_WRITERSet = true
+        NullWriter_NULL_WRITERValue = newNullWriter()
+    NullWriter_NULL_WRITERValue
 
-    def __init__(self) -> None:
-        super().__init__()
-    
+proc initNullWriter*(this: NullWriter) =
+    initWriter(this)
 
-    # throws IOException
-    def write(self, c: int) -> None:
-        pass
-    
+proc newNullWriter*(): NullWriter =
+    result = NullWriter()
+    initNullWriter(result)
 
-    # throws IOException
-    # Java overloaded method: Python keeps the last definition
-    def write(self, cbuf: list[str], off: int, len_: int) -> None:
-        pass
-    
+method write*(this: NullWriter, c: int32) =
+        discard
 
-    # throws IOException
-    # Java overloaded method: Python keeps the last definition
-    def write(self, str_: str) -> None:
-        pass
-    
+method write*(this: NullWriter, cbuf: JArray[uint16], off: int32, len: int32) =
+        discard
 
-    # throws IOException
-    # Java overloaded method: Python keeps the last definition
-    def write(self, str_: str, off: int, len_: int) -> None:
-        pass
-    
+method write*(this: NullWriter, str: string) =
+        discard
 
-    # throws IOException
-    def flush(self) -> None:
-        pass
-    
+method write*(this: NullWriter, str: string, off: int32, len: int32) =
+        discard
 
-    # throws IOException
-    def close(self) -> None:
-        pass
-# from java.io.IOException import IOException
+method flush*(this: NullWriter) =
+        discard
 
+method close*(this: NullWriter) =
+        discard
 
-def _NullWriter_NULL_WRITER() -> object:
-    return NullWriter()
-
-lazy_static(NullWriter, "NULL_WRITER", _NullWriter_NULL_WRITER)
+when declared(newNullWriterHook0):
+    newNullWriterHook0 = proc (): Writer = newNullWriter()
 

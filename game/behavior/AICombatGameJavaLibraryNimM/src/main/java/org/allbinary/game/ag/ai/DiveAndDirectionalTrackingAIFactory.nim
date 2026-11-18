@@ -1,52 +1,67 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.ag.ai
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/ai/ArtificialIntelligenceInterface as ArtificialIntelligenceInterfaceModule
+export ArtificialIntelligenceInterfaceModule
+import org/allbinary/game/ai/ArtificialIntelligenceInterfaceFactoryInterface as ArtificialIntelligenceInterfaceFactoryInterfaceModule
+export ArtificialIntelligenceInterfaceFactoryInterfaceModule
+import org/allbinary/game/input/GameInput as GameInputModule
+export GameInputModule
+import org/allbinary/layer/AllBinaryLayer as AllBinaryLayerModule
+export AllBinaryLayerModule
+import org/allbinary/util/ABHashtable as ABHashtableModule
+export ABHashtableModule
 
-from org.allbinary.game.ai.ArtificialIntelligenceInterfaceFactoryInterface import ArtificialIntelligenceInterfaceFactoryInterface
+type
+    DiveAndDirectionalTrackingAIFactory* = ref object of ArtificialIntelligenceInterfaceFactoryInterface
+
+proc newDiveAndDirectionalTrackingAIFactory*(): DiveAndDirectionalTrackingAIFactory
+method getInstance*(this: DiveAndDirectionalTrackingAIFactory, hashtable: ABHashtable, ownerLayerInterface: AllBinaryLayer, gameInput: GameInput): ArtificialIntelligenceInterface {.discardable.}
+import org/allbinary/game/ag/ai/tactical/BasicRandomAIFactory as BasicRandomAIFactoryModule
+export BasicRandomAIFactoryModule
+import org/allbinary/game/ai/BasicAI as BasicAIModule
+export BasicAIModule
+import org/allbinary/logic/util/visitor/Visitor as VisitorModule
+export VisitorModule
+import org/allbinary/game/ag/ai/ThrustAIVisitorFactory as ThrustAIVisitorFactoryModule
+export ThrustAIVisitorFactoryModule
+import org/allbinary/game/ag/ai/BasicProbabilityAIDataFactory as BasicProbabilityAIDataFactoryModule
+export BasicProbabilityAIDataFactoryModule
+import org/allbinary/game/ag/ai/LastKeyAIVisitorFactory as LastKeyAIVisitorFactoryModule
+export LastKeyAIVisitorFactoryModule
+import org/allbinary/game/ag/ai/DiveAndDirectionalTrackingAI as DiveAndDirectionalTrackingAIModule
+export DiveAndDirectionalTrackingAIModule
 
 
-class DiveAndDirectionalTrackingAIFactory(ArtificialIntelligenceInterfaceFactoryInterface):
-    
+proc initDiveAndDirectionalTrackingAIFactory*(this: DiveAndDirectionalTrackingAIFactory) =
+    discard
 
-    # throws Exception
-    def getInstance(self, hashtable: ABHashtable[object, object], ownerLayerInterface: AllBinaryLayer, gameInput: GameInput) -> ArtificialIntelligenceInterface:
-        from org.allbinary.game.ag.ai.ThrustAIVisitorFactory import ThrustAIVisitorFactory
-        from org.allbinary.game.ag.ai.BasicProbabilityAIDataFactory import BasicProbabilityAIDataFactory
-        from org.allbinary.game.ag.ai.LastKeyAIVisitorFactory import LastKeyAIVisitorFactory
-        from org.allbinary.game.ag.ai.DiveAndDirectionalTrackingAI import DiveAndDirectionalTrackingAI
-        from org.allbinary.ai.ArtificialIntelligenceInterface import ArtificialIntelligenceInterface
-        from org.allbinary.game.ag.ai.tactical.BasicRandomAIFactory import BasicRandomAIFactory
-        from org.allbinary.game.ai.BasicAI import BasicAI
-        from org.allbinary.game.input.GameInput import GameInput
-        from org.allbinary.layer.AllBinaryLayer import AllBinaryLayer
-        from org.allbinary.logic.util.visitor.Visitor import Visitor
-        from org.allbinary.util.ABHashtable import ABHashtable
-        visitorCanBeNull: object = hashtable.get(BasicAI.AI_VISITOR)
-        if visitorCanBeNull is None:
+proc newDiveAndDirectionalTrackingAIFactory*(): DiveAndDirectionalTrackingAIFactory =
+    result = DiveAndDirectionalTrackingAIFactory()
+    initDiveAndDirectionalTrackingAIFactory(result)
+
+method getInstance*(this: DiveAndDirectionalTrackingAIFactory, hashtable: ABHashtable, ownerLayerInterface: AllBinaryLayer, gameInput: GameInput): ArtificialIntelligenceInterface {.discardable.} =
+        var visitorCanBeNull: JObject = hashtable.get(JObject(JObject(BasicAI.AI_VISITOR)))
+        if (jIsNil(visitorCanBeNull)):
             visitorCanBeNull = ThrustAIVisitorFactory.getInstance()
-        hashtable2: ABHashtable[object, object] = BasicProbabilityAIDataFactory().getInstance()
+        let hashtable2: ABHashtable = newBasicProbabilityAIDataFactory().getInstance()
         hashtable2.put(BasicAI.AI_VISITOR, LastKeyAIVisitorFactory.getInstance())
-        artificialIntelligenceInterface: ArtificialIntelligenceInterface = BasicRandomAIFactory().getInstance(hashtable2, ownerLayerInterface, gameInput)
-        return DiveAndDirectionalTrackingAI(ownerLayerInterface, artificialIntelligenceInterface, gameInput, visitorCanBeNull)
-# from org.allbinary.ai.ArtificialIntelligenceInterface import ArtificialIntelligenceInterface
-# from org.allbinary.game.ag.ai.tactical.BasicRandomAIFactory import BasicRandomAIFactory
-# from org.allbinary.game.ai.BasicAI import BasicAI
-# from org.allbinary.game.input.GameInput import GameInput
-# from org.allbinary.layer.AllBinaryLayer import AllBinaryLayer
-# from org.allbinary.logic.util.visitor.Visitor import Visitor
-# from org.allbinary.util.ABHashtable import ABHashtable
-
+        let artificialIntelligenceInterface: ArtificialIntelligenceInterface = newBasicRandomAIFactory().getInstance(hashtable2, ownerLayerInterface, gameInput)
+        return newDiveAndDirectionalTrackingAI(ownerLayerInterface, artificialIntelligenceInterface, gameInput, Visitor(JObject(visitorCanBeNull)))
 

@@ -1,41 +1,54 @@
-# 
-# AllBinary Open License Version 1 
-# Copyright (c) 2025 AllBinary 
-#  
-# By agreeing to this license you and any business entity you represent are 
-# legally bound to the AllBinary Open License Version 1 legal agreement. 
-#  
-# You may obtain the AllBinary Open License Version 1 legal agreement from 
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
-#  
-# Created By: Travis Berthelot 
-#   
+#[
+  
+  AllBinary Open License Version 1 
+  Copyright (c) 2025 AllBinary 
+   
+  By agreeing to this license you and any business entity you represent are 
+  legally bound to the AllBinary Open License Version 1 legal agreement. 
+   
+  You may obtain the AllBinary Open License Version 1 legal agreement from 
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
+   
+  Created By: Travis Berthelot 
+    
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.input.mapping.event
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/logic/util/event/AllBinaryEventObject as AllBinaryEventObjectModule
+export AllBinaryEventObjectModule
+import org/allbinary/game/input/mapping/event/InputMappingEventListenerInterface as InputMappingEventListenerInterfaceModule
+export InputMappingEventListenerInterfaceModule
+import org/allbinary/game/input/mapping/event/InputMappingEvent as InputMappingEventModule
+export InputMappingEventModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
-from org.allbinary.game.input.mapping.event.InputMappingEventListenerInterface import InputMappingEventListenerInterface
+type
+    NullInputMappingEventListener* = ref object of InputMappingEventListenerInterface
 
+proc newNullInputMappingEventListener*(): NullInputMappingEventListener
+method onInputMappingEvent*(this: NullInputMappingEventListener, inputMappingEvent: InputMappingEvent)
+method onEvent*(this: NullInputMappingEventListener, eventObject: AllBinaryEventObject)
 
-class NullInputMappingEventListener(InputMappingEventListenerInterface):
-    NULL_INPUT_MAPPING_EVENT_LISTENER: NullInputMappingEventListener = None
-    
+var NullInputMappingEventListener_NULL_INPUT_MAPPING_EVENT_LISTENERValue: NullInputMappingEventListener
+var NullInputMappingEventListener_NULL_INPUT_MAPPING_EVENT_LISTENERSet = false
+proc NULL_INPUT_MAPPING_EVENT_LISTENERStatic*(t: typedesc[NullInputMappingEventListener]): NullInputMappingEventListener =
+    if not NullInputMappingEventListener_NULL_INPUT_MAPPING_EVENT_LISTENERSet:
+        NullInputMappingEventListener_NULL_INPUT_MAPPING_EVENT_LISTENERSet = true
+        NullInputMappingEventListener_NULL_INPUT_MAPPING_EVENT_LISTENERValue = newNullInputMappingEventListener()
+    NullInputMappingEventListener_NULL_INPUT_MAPPING_EVENT_LISTENERValue
 
-    # throws Exception
-    def onInputMappingEvent(self, inputMappingEvent: InputMappingEvent) -> None:
-        pass
-    
+proc initNullInputMappingEventListener*(this: NullInputMappingEventListener) =
+    discard
 
-    def onEvent(self, eventObject: AllBinaryEventObject) -> None:
-        from org.allbinary.logic.util.event.AllBinaryEventObject import AllBinaryEventObject
-        pass
-# from org.allbinary.logic.util.event.AllBinaryEventObject import AllBinaryEventObject
+proc newNullInputMappingEventListener*(): NullInputMappingEventListener =
+    result = NullInputMappingEventListener()
+    initNullInputMappingEventListener(result)
 
+method onInputMappingEvent*(this: NullInputMappingEventListener, inputMappingEvent: InputMappingEvent) =
+        discard
 
-def _NullInputMappingEventListener_NULL_INPUT_MAPPING_EVENT_LISTENER() -> object:
-    return NullInputMappingEventListener()
-
-lazy_static(NullInputMappingEventListener, "NULL_INPUT_MAPPING_EVENT_LISTENER", _NullInputMappingEventListener_NULL_INPUT_MAPPING_EVENT_LISTENER)
+method onEvent*(this: NullInputMappingEventListener, eventObject: AllBinaryEventObject) =
+        discard
 

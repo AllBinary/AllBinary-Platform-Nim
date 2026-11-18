@@ -1,28 +1,38 @@
 # Generated Code Do Not Modify
 # package org.allbinary.graphics.form.item
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/graphics/color/BasicColor as BasicColorModule
+export BasicColorModule
+import org/allbinary/graphics/form/item/ABCustomItem as ABCustomItemModule
+export ABCustomItemModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
-from org.allbinary.graphics.form.item.ABCustomItem import ABCustomItem
+type
+    ABCustomGaugeItem* = ref object of ABCustomItem
 
+proc newABCustomGaugeItem*(label: string, maxValue: int32, initialValue: int32, backgroundBasicColor: BasicColor, foregroundBasicColor: BasicColor): ABCustomGaugeItem
+proc initABCustomGaugeItem*(this: ABCustomGaugeItem, label: string, maxValue: int32, initialValue: int32, backgroundBasicColor: BasicColor, foregroundBasicColor: BasicColor)
+import org/allbinary/graphics/color/BasicColorFactory as BasicColorFactoryModule
+export BasicColorFactoryModule
+import org/allbinary/logic/string/StringUtil as StringUtilModule
+export StringUtilModule
 
-class ABCustomGaugeItem(ABCustomItem):
-    NULL_GAUGE_ITEM: ABCustomGaugeItem = None
-    
+var ABCustomGaugeItem_NULL_GAUGE_ITEMValue: ABCustomGaugeItem
+var ABCustomGaugeItem_NULL_GAUGE_ITEMSet = false
+proc NULL_GAUGE_ITEM*(t: typedesc[ABCustomGaugeItem]): ABCustomGaugeItem =
+    if not ABCustomGaugeItem_NULL_GAUGE_ITEMSet:
+        ABCustomGaugeItem_NULL_GAUGE_ITEMSet = true
+        ABCustomGaugeItem_NULL_GAUGE_ITEMValue = newABCustomGaugeItem(StringUtil.getInstance().EMPTY_STRING, 1, 0, BasicColorFactory.getInstance().BLACK, BasicColorFactory.getInstance().WHITE)
+    ABCustomGaugeItem_NULL_GAUGE_ITEMValue
 
-    def __init__(self, label: str, maxValue: int, initialValue: int, backgroundBasicColor: BasicColor, foregroundBasicColor: BasicColor) -> None:
-        from org.allbinary.graphics.color.BasicColor import BasicColor
-        super().__init__(label, backgroundBasicColor, foregroundBasicColor)
-# from org.allbinary.graphics.color.BasicColor import BasicColor
-# from org.allbinary.graphics.color.BasicColorFactory import BasicColorFactory
-# from org.allbinary.logic.string.StringUtil import StringUtil
+proc initABCustomGaugeItem*(this: ABCustomGaugeItem, label: string, maxValue: int32, initialValue: int32, backgroundBasicColor: BasicColor, foregroundBasicColor: BasicColor) =
+        initABCustomItem(this, label, backgroundBasicColor, foregroundBasicColor)
 
+proc newABCustomGaugeItem*(label: string, maxValue: int32, initialValue: int32, backgroundBasicColor: BasicColor, foregroundBasicColor: BasicColor): ABCustomGaugeItem =
+    result = ABCustomGaugeItem()
+    initABCustomGaugeItem(result, label, maxValue, initialValue, backgroundBasicColor, foregroundBasicColor)
 
-def _ABCustomGaugeItem_NULL_GAUGE_ITEM() -> object:
-    from org.allbinary.graphics.color.BasicColorFactory import BasicColorFactory
-    from org.allbinary.logic.string.StringUtil import StringUtil
-    return ABCustomGaugeItem(StringUtil.getInstance().EMPTY_STRING, 1, 0, BasicColorFactory.getInstance().BLACK, BasicColorFactory.getInstance().WHITE)
-
-lazy_static(ABCustomGaugeItem, "NULL_GAUGE_ITEM", _ABCustomGaugeItem_NULL_GAUGE_ITEM)
+when declared(newABCustomGaugeItemHook5):
+    newABCustomGaugeItemHook5 = proc (label: string, maxValue: int32, initialValue: int32, backgroundBasicColor: BasicColor, foregroundBasicColor: BasicColor): ABCustomItem = newABCustomGaugeItem(label, maxValue, initialValue, backgroundBasicColor, foregroundBasicColor)
 

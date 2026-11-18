@@ -1,39 +1,50 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.thirdparty.store
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/thirdparty/store/NoThirdPartyStore as NoThirdPartyStoreModule
+export NoThirdPartyStoreModule
+import org/allbinary/thirdparty/store/ThirdPartyStore as ThirdPartyStoreModule
+export ThirdPartyStoreModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    ThirdPartyStoreFactory* = ref object of JObject
 
+proc newThirdPartyStoreFactory*(): ThirdPartyStoreFactory
+proc initThirdPartyStoreFactory*(this: ThirdPartyStoreFactory)
+proc getInstance*(t: typedesc[ThirdPartyStoreFactory]): ThirdPartyStore {.discardable.}
 
-class ThirdPartyStoreFactory:
-    instance: NoThirdPartyStore = None
-    
+var ThirdPartyStoreFactory_instanceValue: NoThirdPartyStore
+var ThirdPartyStoreFactory_instanceSet = false
+proc instance*(t: typedesc[ThirdPartyStoreFactory]): NoThirdPartyStore =
+    if not ThirdPartyStoreFactory_instanceSet:
+        ThirdPartyStoreFactory_instanceSet = true
+        ThirdPartyStoreFactory_instanceValue = newNoThirdPartyStore()
+    ThirdPartyStoreFactory_instanceValue
 
-    @staticmethod
-    def getInstance() -> ThirdPartyStore:
+proc getInstance*(t: typedesc[ThirdPartyStoreFactory]): ThirdPartyStore {.discardable.} =
         return ThirdPartyStoreFactory.instance
-    
 
-    def __init__(self) -> None:
-        pass
+proc initThirdPartyStoreFactory*(this: ThirdPartyStoreFactory) =
+        discard
+        discard
 
-
-def _ThirdPartyStoreFactory_instance() -> object:
-    from org.allbinary.thirdparty.store.NoThirdPartyStore import NoThirdPartyStore
-    return NoThirdPartyStore()
-
-lazy_static(ThirdPartyStoreFactory, "instance", _ThirdPartyStoreFactory_instance)
+proc newThirdPartyStoreFactory*(): ThirdPartyStoreFactory =
+    result = ThirdPartyStoreFactory()
+    initThirdPartyStoreFactory(result)
 

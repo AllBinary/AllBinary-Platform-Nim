@@ -1,47 +1,63 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.combat.destroy
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/game/layer/CollidableCompositeLayer as CollidableCompositeLayerModule
+export CollidableCompositeLayerModule
+import org/allbinary/game/combat/destroy/DestroyableBaseBehavior as DestroyableBaseBehaviorModule
+export DestroyableBaseBehaviorModule
 
-from org.allbinary.game.combat.destroy.DestroyableBaseBehavior import DestroyableBaseBehavior
+type
+    DestroyableSimpleBehavior* = ref object of DestroyableBaseBehavior
+        ownerLayer*: CollidableCompositeLayer
+        destroyed*: bool
+
+proc newDestroyableSimpleBehavior*(ownerLayer: CollidableCompositeLayer): DestroyableSimpleBehavior
+proc initDestroyableSimpleBehavior*(this: DestroyableSimpleBehavior, ownerLayer: CollidableCompositeLayer)
+method isDestroyed*(this: DestroyableSimpleBehavior): bool {.discardable.}
+method setDestroyed*(this: DestroyableSimpleBehavior, destroyed: bool)
+import org/allbinary/game/combat/destroy/DestroyedLayerProcessor as DestroyedLayerProcessorModule
+export DestroyedLayerProcessorModule
 
 
-class DestroyableSimpleBehavior(DestroyableBaseBehavior):
-
-    def _init_fields(self) -> None:
-        from org.allbinary.game.layer.CollidableCompositeLayer import CollidableCompositeLayer
-        self.ownerLayer: CollidableCompositeLayer = None
-        self.destroyed: bool = False
+# Java field initializers run after the base initializer
+proc initFieldsDestroyableSimpleBehavior(this: DestroyableSimpleBehavior) =
     
+    this.destroyed = false
+    discard
 
-    def __init__(self, ownerLayer: CollidableCompositeLayer) -> None:
-        from org.allbinary.game.layer.CollidableCompositeLayer import CollidableCompositeLayer
-        super().__init__()
-        self._init_fields()
-        self.ownerLayer = ownerLayer
-    
+proc initDestroyableSimpleBehavior*(this: DestroyableSimpleBehavior, ownerLayer: CollidableCompositeLayer) =
+        initDestroyableBaseBehavior(this)
+        this.initFieldsDestroyableSimpleBehavior()
+        this.ownerLayer = ownerLayer
 
-    def isDestroyed(self) -> bool:
-        return self.destroyed
-    
+proc newDestroyableSimpleBehavior*(ownerLayer: CollidableCompositeLayer): DestroyableSimpleBehavior =
+    result = DestroyableSimpleBehavior()
+    initDestroyableSimpleBehavior(result, ownerLayer)
 
-    def setDestroyed(self, destroyed: bool) -> None:
-        from org.allbinary.game.combat.destroy.DestroyedLayerProcessor import DestroyedLayerProcessor
-        self.destroyed = destroyed
-        if self.isDestroyed():
-            DestroyedLayerProcessor.getInstance().add(self.ownerLayer)
-# from org.allbinary.game.layer.CollidableCompositeLayer import CollidableCompositeLayer
+method isDestroyed*(this: DestroyableSimpleBehavior): bool {.discardable.} =
+        return this.destroyed
 
+method setDestroyed*(this: DestroyableSimpleBehavior, destroyed: bool) =
+        this.destroyed = destroyed
+        if this.isDestroyed():
+            DestroyedLayerProcessor.getInstance().add(this.ownerLayer)
+
+when declared(newDestroyableSimpleBehaviorHook1):
+    newDestroyableSimpleBehaviorHook1 = proc (ownerLayer: CollidableCompositeLayer): DestroyableBaseBehavior = newDestroyableSimpleBehavior(ownerLayer)
 

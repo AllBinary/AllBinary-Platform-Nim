@@ -1,46 +1,58 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#   
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+    
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.animation.image
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import javax/microedition/lcdui/Image as ImageModule
+export ImageModule
+import org/allbinary/animation/Animation as AnimationModule
+export AnimationModule
+import org/allbinary/animation/AnimationBehaviorFactory as AnimationBehaviorFactoryModule
+export AnimationBehaviorFactoryModule
+import org/allbinary/animation/image/BaseImageAnimationFactory as BaseImageAnimationFactoryModule
+export BaseImageAnimationFactoryModule
 
-from org.allbinary.animation.image.BaseImageAnimationFactory import BaseImageAnimationFactory
+type
+    LeftToRightImageAnimationFactory* = ref object of BaseImageAnimationFactory
+
+proc newLeftToRightImageAnimationFactory*(image: Image, sequenceArray: JArray[int32], dx: int32, dy: int32, animationBehaviorFactory: AnimationBehaviorFactory): LeftToRightImageAnimationFactory
+proc initLeftToRightImageAnimationFactory*(this: LeftToRightImageAnimationFactory, image: Image, sequenceArray: JArray[int32], dx: int32, dy: int32, animationBehaviorFactory: AnimationBehaviorFactory)
+method getInstance*(this: LeftToRightImageAnimationFactory, instanceId: int32): Animation {.discardable.}
+import org/allbinary/animation/image/LeftToRightImageAnimation as LeftToRightImageAnimationModule
+export LeftToRightImageAnimationModule
+import org/allbinary/animation/image/AdjustedLeftToRightImageAnimation as AdjustedLeftToRightImageAnimationModule
+export AdjustedLeftToRightImageAnimationModule
 
 
-class LeftToRightImageAnimationFactory(BaseImageAnimationFactory):
-    
+proc initLeftToRightImageAnimationFactory*(this: LeftToRightImageAnimationFactory, image: Image, sequenceArray: JArray[int32], dx: int32, dy: int32, animationBehaviorFactory: AnimationBehaviorFactory) =
+        initBaseImageAnimationFactory(this, image, sequenceArray, image.getWidth(), image.getHeight(), dx, dy, animationBehaviorFactory)
 
-    def __init__(self, image: Image, sequenceArray: list[int], dx: int, dy: int, animationBehaviorFactory: AnimationBehaviorFactory) -> None:
-        from javax.microedition.lcdui.Image import Image
-        from org.allbinary.animation.AnimationBehaviorFactory import AnimationBehaviorFactory
-        super().__init__(image, sequenceArray, image.getWidth(), image.getHeight(), dx, dy, animationBehaviorFactory)
-    
+proc newLeftToRightImageAnimationFactory*(image: Image, sequenceArray: JArray[int32], dx: int32, dy: int32, animationBehaviorFactory: AnimationBehaviorFactory): LeftToRightImageAnimationFactory =
+    result = LeftToRightImageAnimationFactory()
+    initLeftToRightImageAnimationFactory(result, image, sequenceArray, dx, dy, animationBehaviorFactory)
 
-    # throws Exception
-    def getInstance(self, instanceId: int) -> Animation:
-        from org.allbinary.animation.image.LeftToRightImageAnimation import LeftToRightImageAnimation
-        from org.allbinary.animation.image.AdjustedLeftToRightImageAnimation import AdjustedLeftToRightImageAnimation
-        from javax.microedition.lcdui.Image import Image
-        from org.allbinary.animation.Animation import Animation
-        scaledImage: Image = self.animationFactoryImageScaleUtil.createImage(self.getImage(), self.animationFactoryInitializationVisitor.width, self.animationFactoryInitializationVisitor.height, self.scaleProperties.scaleWidth, self.scaleProperties.scaleHeight)
-        if self.animationFactoryInitializationVisitor.dx != 0 or self.animationFactoryInitializationVisitor.dy != 0:
-            self.animationFactoryImageScaleUtil.processAdjust(self)
-            return AdjustedLeftToRightImageAnimation(scaledImage, self.getSequenceArray(), self.animationFactoryInitializationVisitor.dx, self.animationFactoryInitializationVisitor.dy, self.animationBehaviorFactory.getOrCreateInstance())
+method getInstance*(this: LeftToRightImageAnimationFactory, instanceId: int32): Animation {.discardable.} =
+        let scaledImage: Image = this.animationFactoryImageScaleUtil.createImage(this.getImage(), this.animationFactoryInitializationVisitor.width, this.animationFactoryInitializationVisitor.height, this.scaleProperties.scaleWidth, this.scaleProperties.scaleHeight)
+        if this.animationFactoryInitializationVisitor.dx != 0 or this.animationFactoryInitializationVisitor.dy != 0:
+            this.animationFactoryImageScaleUtil.processAdjust(this)
+            return newAdjustedLeftToRightImageAnimation(scaledImage, this.getSequenceArray(), this.animationFactoryInitializationVisitor.dx, this.animationFactoryInitializationVisitor.dy, this.animationBehaviorFactory.getOrCreateInstance())
         else:
-            return LeftToRightImageAnimation(scaledImage, self.getSequenceArray(), self.animationBehaviorFactory.getOrCreateInstance())
-# from javax.microedition.lcdui.Image import Image
-# from org.allbinary.animation.Animation import Animation
-# from org.allbinary.animation.AnimationBehaviorFactory import AnimationBehaviorFactory
+            return newLeftToRightImageAnimation(scaledImage, this.getSequenceArray(), this.animationBehaviorFactory.getOrCreateInstance())
 
+when declared(newLeftToRightImageAnimationFactoryHook5):
+    newLeftToRightImageAnimationFactoryHook5 = proc (image: Image, sequenceArray: JArray[int32], dx: int32, dy: int32, animationBehaviorFactory: AnimationBehaviorFactory): BaseImageAnimationFactory = newLeftToRightImageAnimationFactory(image, sequenceArray, dx, dy, animationBehaviorFactory)
 

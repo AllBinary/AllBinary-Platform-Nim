@@ -1,86 +1,72 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.logic.system.security.licensing
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/logic/system/os/GenericOperatingSystem as GenericOperatingSystemModule
+export GenericOperatingSystemModule
+import org/allbinary/util/ABHashtable as ABHashtableModule
+export ABHashtableModule
+import org/allbinary/util/BasicArrayList as BasicArrayListModule
+export BasicArrayListModule
+
+type
+    AbeClientInformationInterface* = ref object of JObject
 
 
+method init*(this: AbeClientInformationInterface) {.base.} =
+        raise newJException("AbstractMethodError", "init")
 
-# Java interface
-class AbeClientInformationInterface:
-    
+method getOperatingSystemInterface*(this: AbeClientInformationInterface): GenericOperatingSystem {.base, discardable.} =
+        raise newJException("AbstractMethodError", "getOperatingSystemInterface")
 
-    def init(self) -> None:
-        raise NotImplementedError()
-    
+method getName*(this: AbeClientInformationInterface): string {.base, discardable.} =
+        raise newJException("AbstractMethodError", "getName")
 
-    def getOperatingSystemInterface(self) -> GenericOperatingSystem:
-        from org.allbinary.logic.system.os.GenericOperatingSystem import GenericOperatingSystem
-        raise NotImplementedError()
-    
+method getSpecialName*(this: AbeClientInformationInterface): string {.base, discardable.} =
+        raise newJException("AbstractMethodError", "getSpecialName")
 
-    def getName(self) -> str:
-        raise NotImplementedError()
-    
+method getVersion*(this: AbeClientInformationInterface): string {.base, discardable.} =
+        raise newJException("AbstractMethodError", "getVersion")
 
-    def getSpecialName(self) -> str:
-        raise NotImplementedError()
-    
+method getLicenseId*(this: AbeClientInformationInterface): string {.base, discardable.} =
+        raise newJException("AbstractMethodError", "getLicenseId")
 
-    def getVersion(self) -> str:
-        raise NotImplementedError()
-    
+method getLicenseServers*(this: AbeClientInformationInterface): BasicArrayList {.base, discardable.} =
+        raise newJException("AbstractMethodError", "getLicenseServers")
 
-    def getLicenseId(self) -> str:
-        raise NotImplementedError()
-    
+method getLicenseServer*(this: AbeClientInformationInterface, index: int32): string {.base, discardable.} =
+        raise newJException("AbstractMethodError", "getLicenseServer")
 
-    def getLicenseServers(self) -> BasicArrayList:
-        from org.allbinary.util.BasicArrayList import BasicArrayList
-        raise NotImplementedError()
-    
+method getNumberOfLicenseServers*(this: AbeClientInformationInterface): int32 {.base, discardable.} =
+        raise newJException("AbstractMethodError", "getNumberOfLicenseServers")
 
-    def getLicenseServer(self, index: int) -> str:
-        raise NotImplementedError()
-    
+method toHashtable*(this: AbeClientInformationInterface): ABHashtable {.base, discardable.} =
+        raise newJException("AbstractMethodError", "toHashtable")
 
-    def getNumberOfLicenseServers(self) -> int:
-        raise NotImplementedError()
-    
+method isSameId*(this: AbeClientInformationInterface, alicenseId: string): bool {.base, discardable.} =
+        raise newJException("AbstractMethodError", "isSameId")
 
-    def toHashtable(self) -> ABHashtable[object, object]:
-        from org.allbinary.util.ABHashtable import ABHashtable
-        raise NotImplementedError()
-    
+method isLargerOrDifferentServerList*(this: AbeClientInformationInterface, vector: BasicArrayList): bool {.base, discardable.} =
+        raise newJException("AbstractMethodError", "isLargerOrDifferentServerList")
 
-    def isSameId(self, alicenseId: str) -> bool:
-        raise NotImplementedError()
-    
+method isHardSale*(this: AbeClientInformationInterface): bool {.base, discardable.} =
+        raise newJException("AbstractMethodError", "isHardSale")
 
-    def isLargerOrDifferentServerList(self, vector: BasicArrayList) -> bool:
-        from org.allbinary.util.BasicArrayList import BasicArrayList
-        raise NotImplementedError()
-    
-
-    def isHardSale(self) -> bool:
-        raise NotImplementedError()
-    
-
-    def toShortString(self) -> str:
-        raise NotImplementedError()
-# from org.allbinary.logic.system.os.GenericOperatingSystem import GenericOperatingSystem
-# from org.allbinary.util.ABHashtable import ABHashtable
-# from org.allbinary.util.BasicArrayList import BasicArrayList
-
+method toShortString*(this: AbeClientInformationInterface): string {.base, discardable.} =
+        raise newJException("AbstractMethodError", "toShortString")
 

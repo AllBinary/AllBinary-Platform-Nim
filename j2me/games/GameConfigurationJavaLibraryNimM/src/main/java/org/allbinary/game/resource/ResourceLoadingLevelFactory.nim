@@ -1,54 +1,76 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.resource
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import java/lang/Integer as IntegerModule
+export IntegerModule
+import org/allbinary/game/resource/ResourceLoadingLevel as ResourceLoadingLevelModule
+export ResourceLoadingLevelModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    ResourceLoadingLevelFactory* = ref object of JObject
+        LOAD_EARLY*: ResourceLoadingLevel
+        LOAD_TOUCH*: ResourceLoadingLevel
+        LOAD_GAME*: ResourceLoadingLevel
+        LEVEL*: ResourceLoadingLevel
+        MAX_LEVEL*: ResourceLoadingLevel
+        LOAD_ALL*: ResourceLoadingLevel
+        RESOURCE_LOADING_LEVEL_ARRAY*: JArray[ResourceLoadingLevel]
 
+proc newResourceLoadingLevelFactory*(): ResourceLoadingLevelFactory
+proc getInstance*(t: typedesc[ResourceLoadingLevelFactory]): ResourceLoadingLevelFactory {.discardable.}
+method getLevelString*(this: ResourceLoadingLevelFactory, level: int32): string {.base, discardable.}
 
-class ResourceLoadingLevelFactory:
-    instance: ResourceLoadingLevelFactory = None
+var ResourceLoadingLevelFactory_instanceValue: ResourceLoadingLevelFactory
+var ResourceLoadingLevelFactory_instanceSet = false
+proc instance*(t: typedesc[ResourceLoadingLevelFactory]): ResourceLoadingLevelFactory =
+    if not ResourceLoadingLevelFactory_instanceSet:
+        ResourceLoadingLevelFactory_instanceSet = true
+        ResourceLoadingLevelFactory_instanceValue = newResourceLoadingLevelFactory()
+    ResourceLoadingLevelFactory_instanceValue
 
-    def _init_fields(self) -> None:
-        self.LOAD_EARLY: ResourceLoadingLevel = ResourceLoadingLevel("Load Early", 2147483647)
-        self.LOAD_TOUCH: ResourceLoadingLevel = ResourceLoadingLevel("Load Touch", 2147483647 - 1)
-        self.LOAD_GAME: ResourceLoadingLevel = ResourceLoadingLevel("Load Game", 2147483647 - 2)
-        self.LEVEL: ResourceLoadingLevel = ResourceLoadingLevel("Level", 2147483647 - 99)
-        self.MAX_LEVEL: ResourceLoadingLevel = ResourceLoadingLevel("Max Level", 2147483647 - 100)
-        self.LOAD_ALL: ResourceLoadingLevel = ResourceLoadingLevel("Load All", -1)
-        self.RESOURCE_LOADING_LEVEL_ARRAY: list[ResourceLoadingLevel] = [self.LOAD_ALL, self.MAX_LEVEL, self.LEVEL, self.LOAD_GAME, self.LOAD_TOUCH, self.LOAD_EARLY]
+# Java field initializers run after the base initializer
+proc initFieldsResourceLoadingLevelFactory(this: ResourceLoadingLevelFactory) =
+    this.LOAD_EARLY = newResourceLoadingLevel("Load Early", Integer.MAX_VALUE)
+    this.LOAD_TOUCH = newResourceLoadingLevel("Load Touch", Integer.MAX_VALUE -% 1)
+    this.LOAD_GAME = newResourceLoadingLevel("Load Game", Integer.MAX_VALUE -% 2)
+    this.LEVEL = newResourceLoadingLevel("Level", Integer.MAX_VALUE -% 99)
+    this.MAX_LEVEL = newResourceLoadingLevel("Max Level", Integer.MAX_VALUE -% 100)
+    this.LOAD_ALL = newResourceLoadingLevel("Load All", -1)
+    this.RESOURCE_LOADING_LEVEL_ARRAY = newJArrayFromRefs[ResourceLoadingLevel](this.LOAD_ALL, this.MAX_LEVEL, this.LEVEL, this.LOAD_GAME, this.LOAD_TOUCH, this.LOAD_EARLY)
+    discard
 
-    def __init__(self) -> None:
-        self._init_fields()
-    
+proc initResourceLoadingLevelFactory*(this: ResourceLoadingLevelFactory) =
+    this.initFieldsResourceLoadingLevelFactory()
 
-    @staticmethod
-    def getInstance() -> ResourceLoadingLevelFactory:
+proc newResourceLoadingLevelFactory*(): ResourceLoadingLevelFactory =
+    result = ResourceLoadingLevelFactory()
+    initResourceLoadingLevelFactory(result)
+
+proc getInstance*(t: typedesc[ResourceLoadingLevelFactory]): ResourceLoadingLevelFactory {.discardable.} =
         return ResourceLoadingLevelFactory.instance
-    
 
-    def getLevelString(self, level: int) -> str:
-        for index in range(0, len(self.RESOURCE_LOADING_LEVEL_ARRAY)):
-            if level == self.RESOURCE_LOADING_LEVEL_ARRAY[index].getLevel():
-                return self.RESOURCE_LOADING_LEVEL_ARRAY[index].getName()
-        return str(level)
-from org.allbinary.game.resource.ResourceLoadingLevel import ResourceLoadingLevel
-
-
-def _ResourceLoadingLevelFactory_instance() -> object:
-    return ResourceLoadingLevelFactory()
-
-lazy_static(ResourceLoadingLevelFactory, "instance", _ResourceLoadingLevelFactory_instance)
+method getLevelString*(this: ResourceLoadingLevelFactory, level: int32): string {.base, discardable.} =
+        block:
+            var index: int32 = 0
+            while index < this.RESOURCE_LOADING_LEVEL_ARRAY.length:
+                defer: index = index +% 1
+                if level == this.RESOURCE_LOADING_LEVEL_ARRAY[index].getLevel():
+                    return this.RESOURCE_LOADING_LEVEL_ARRAY[index].getName()
+        return jstr(level)
 

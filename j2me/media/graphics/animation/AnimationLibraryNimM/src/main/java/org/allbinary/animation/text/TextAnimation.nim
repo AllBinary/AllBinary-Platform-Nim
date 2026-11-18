@@ -1,133 +1,156 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.animation.text
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import javax/microedition/lcdui/Graphics as GraphicsModule
+export GraphicsModule
+import org/allbinary/animation/AnimationBehavior as AnimationBehaviorModule
+export AnimationBehaviorModule
+import org/allbinary/animation/IndexedAnimation as IndexedAnimationModule
+export IndexedAnimationModule
+import org/allbinary/graphics/font/MyFontProcessor as MyFontProcessorModule
+export MyFontProcessorModule
+import org/allbinary/graphics/font/UpdateMyFontInterface as UpdateMyFontInterfaceModule
+export UpdateMyFontInterfaceModule
+import org/allbinary/animation/text/TextChangeListener as TextChangeListenerModule
+export TextChangeListenerModule
 
-from org.allbinary.animation.IndexedAnimation import IndexedAnimation
-from org.allbinary.graphics.font.UpdateMyFontInterface import UpdateMyFontInterface
+type
+    TextAnimation* = ref object of IndexedAnimation
+        updateMyFontProcessor*: MyFontProcessor
+        myFontProcessor*: MyFontProcessor
+        textArrayP*: JArray[string]
+        anchor*: int32
+        fontHeight*: int32
+        offsetY*: int32
+        textChangeListener*: TextChangeListener
+
+converter jAsUpdateMyFontInterface*(value: TextAnimation): UpdateMyFontInterface = cast[UpdateMyFontInterface](value)
+proc newTextAnimation*(text: string, animationBehavior: AnimationBehavior): TextAnimation
+proc initTextAnimation*(this: TextAnimation, text: string, animationBehavior: AnimationBehavior)
+method updateMeasurement*(this: TextAnimation, graphics: Graphics)
+method nextFrame*(this: TextAnimation)
+method paintXY*(this: TextAnimation, graphics: Graphics, x: int32, y: int32)
+method paintXYNoUpdate*(this: TextAnimation, graphics: Graphics, x: int32, y: int32) {.base.}
+method setTextWithOnMeasure*(this: TextAnimation, text: string, textChangeListener: TextChangeListener) {.base.}
+method setText*(this: TextAnimation, text: string) {.base.}
+method getTextArray*(this: TextAnimation): JArray[string] {.base, discardable.}
+method getFontHeight*(this: TextAnimation): int32 {.base, discardable.}
+import javax/microedition/lcdui/Font as FontModule
+export FontModule
+import org/allbinary/graphics/Anchor as AnchorModule
+export AnchorModule
+import org/allbinary/graphics/font/UpdateMyFontProcessor as UpdateMyFontProcessorModule
+export UpdateMyFontProcessorModule
+import org/allbinary/graphics/threed/SWTJOGLProcessor as SWTJOGLProcessorModule
+export SWTJOGLProcessorModule
+import org/allbinary/logic/string/StringUtil as StringUtilModule
+export StringUtilModule
+import org/allbinary/util/BasicArrayList as BasicArrayListModule
+export BasicArrayListModule
+import org/allbinary/util/BasicArrayListD as BasicArrayListDModule
+export BasicArrayListDModule
 
 
-class TextAnimation(IndexedAnimation, UpdateMyFontInterface):
+# Java field initializers run after the base initializer
+proc initFieldsTextAnimation(this: TextAnimation) =
+    this.updateMyFontProcessor = newUpdateMyFontProcessor(this)
+    this.myFontProcessor = this.updateMyFontProcessor
+    this.textArrayP = StringUtil.getInstance().ONE_EMPTY_STRING_ARRAY
+    this.anchor = Anchor.TOP_LEFT
+    this.fontHeight = 0
+    this.offsetY = 0
+    this.textChangeListener = TextChangeListener.getInstance()
+    discard
 
-    def _init_fields(self) -> None:
-        from org.allbinary.graphics.Anchor import Anchor
-        from org.allbinary.graphics.font.MyFontProcessor import MyFontProcessor
-        from org.allbinary.graphics.font.UpdateMyFontProcessor import UpdateMyFontProcessor
-        from org.allbinary.logic.string.StringUtil import StringUtil
-        self.updateMyFontProcessor: MyFontProcessor = UpdateMyFontProcessor(self)
-        self.myFontProcessor: MyFontProcessor = self.updateMyFontProcessor
-        self.textArrayP: list[str] = StringUtil.getInstance().ONE_EMPTY_STRING_ARRAY
-        self.anchor: int = Anchor.TOP_LEFT
-        self.fontHeight: int = 0
-        self.offsetY: int = 0
-        self.textChangeListener: TextChangeListener = TextChangeListener.getInstance()
-    
+proc initTextAnimation*(this: TextAnimation, text: string, animationBehavior: AnimationBehavior) =
+        initIndexedAnimation(this, animationBehavior)
+        this.initFieldsTextAnimation()
+        this.setText(text)
 
-    def __init__(self, text: str, animationBehavior: AnimationBehavior) -> None:
-        from org.allbinary.animation.AnimationBehavior import AnimationBehavior
-        super().__init__(animationBehavior)
-        self._init_fields()
-        self.setText(text)
-    
+proc newTextAnimation*(text: string, animationBehavior: AnimationBehavior): TextAnimation =
+    result = TextAnimation()
+    initTextAnimation(result, text, animationBehavior)
 
-    def updateMeasurement(self, graphics: Graphics) -> None:
-        from org.allbinary.animation.text.TextChangeListener import TextChangeListener
-        from javax.microedition.lcdui.Font import Font
-        from javax.microedition.lcdui.Graphics import Graphics
-        from org.allbinary.graphics.font.MyFontProcessor import MyFontProcessor
-        from org.allbinary.graphics.threed.SWTJOGLProcessor import SWTJOGLProcessor
-        font: Font = graphics.getFont()
-        self.fontHeight = font.getHeight()
-        adjustedFontHeight: int = int(-(float(self.fontHeight) * 2.00))
-        self.offsetY = (adjustedFontHeight if SWTJOGLProcessor.getInstance().isJOGL() else 0)
-        self.textChangeListener.onMeasure()
-        self.textChangeListener = TextChangeListener.getInstance()
-        self.myFontProcessor = MyFontProcessor.getInstance()
-    
+method updateMeasurement*(this: TextAnimation, graphics: Graphics) =
+        let font: Font = graphics.getFont()
+        this.fontHeight = font.getHeight()
+        let adjustedFontHeight: int32 = jToInt32(float64(-(float64(this.fontHeight) * 2.00)))
+        this.offsetY = (if SWTJOGLProcessor.getInstance().isJOGL(): adjustedFontHeight else: 0)
+        this.textChangeListener.onMeasure()
+        this.textChangeListener = TextChangeListener.getInstance()
+        this.myFontProcessor = MyFontProcessor.getInstance()
 
-    # throws Exception
-    def nextFrame(self) -> None:
-        pass
-    
+method nextFrame*(this: TextAnimation) =
+        discard
 
-    def paintXY(self, graphics: Graphics, x: int, y: int) -> None:
-        from javax.microedition.lcdui.Graphics import Graphics
-        self.myFontProcessor.process(graphics)
-        self.paintXYNoUpdate(graphics, x, y)
-    
+method paintXY*(this: TextAnimation, graphics: Graphics, x: int32, y: int32) =
+        this.myFontProcessor.process(graphics)
+        this.paintXYNoUpdate(graphics, x, y)
 
-    def paintXYNoUpdate(self, graphics: Graphics, x: int, y: int) -> None:
-        from javax.microedition.lcdui.Graphics import Graphics
-        self.basicSetColorUtil.setBasicColorP3(graphics, self.getBasicColorP(), self.getColor())
-        size: int = len(self.textArrayP)
-        for index in range(0, size):
-            graphics.drawString(self.textArrayP[index], x, y + self.offsetY + (index * self.fontHeight), self.anchor)
-    
+method paintXYNoUpdate*(this: TextAnimation, graphics: Graphics, x: int32, y: int32) {.base.} =
+        this.basicSetColorUtil.setBasicColorP3(graphics, this.getBasicColorP(), this.getColor())
+        let size: int32 = this.textArrayP.length
+        block:
+            var index: int32 = 0
+            while index < size:
+                defer: index = index +% 1
+                graphics.drawString(this.textArrayP[index], x, y +% this.offsetY +% (index *% this.fontHeight), this.anchor)
 
-    def setTextWithOnMeasure(self, text: str, textChangeListener: TextChangeListener) -> None:
-        self.setText(text)
-        self.textChangeListener = textChangeListener
-    
+method setTextWithOnMeasure*(this: TextAnimation, text: string, textChangeListener: TextChangeListener) {.base.} =
+        this.setText(text)
+        this.textChangeListener = textChangeListener
 
-    def setText(self, text: str) -> None:
-        from org.allbinary.logic.string.StringUtil import StringUtil
-        from org.allbinary.util.BasicArrayList import BasicArrayList
-        from org.allbinary.util.BasicArrayListD import BasicArrayListD
-        list_: BasicArrayList = BasicArrayListD()
-        if len(text) > 0:
-            index: int = 0
-            startIndex: int = 0
-            endIndex: int = 0
+method setText*(this: TextAnimation, text: string) {.base.} =
+        let list: BasicArrayList = newBasicArrayListD()
+        if jLength(text) > 0:
+            var index: int32 = 0
+            var startIndex: int32 = 0
+            var endIndex: int32 = 0
             while index >= 0:
                 startIndex = index
-                index = text.find('\n', startIndex)
+                index = jIndexOf(text, uint16(ord('\n')), startIndex)
                 endIndex = index
                 if index < 0:
-                    endIndex = len(text)
-                list_.add(text[startIndex:endIndex])
+                    endIndex = jLength(text)
+                list.add(jSubstring(text, startIndex, endIndex))
                 if index < 0:
                     break
-                index += 1
-        if list_.size() > 0:
-            textArray: list[str] = [None] * (list_.size())
-            size: int = list_.size()
-            for index in range(0, size):
-                textArray[index] = list_.get(index)
-            self.textArrayP = textArray
+                index = index +% 1
+        if list.size() > 0:
+            let textArray: JArray[string] = newJArray[string](list.size(), default(string))
+            let size: int32 = list.size()
+            block:
+                var index: int32 = 0
+                while index < size:
+                    defer: index = index +% 1
+                    textArray[index] = jstr(list.get(index))
+            this.textArrayP = textArray
         else:
-            self.textArrayP = StringUtil.getInstance().ONE_EMPTY_STRING_ARRAY
-        self.myFontProcessor = self.updateMyFontProcessor
-    
+            this.textArrayP = StringUtil.getInstance().ONE_EMPTY_STRING_ARRAY
+        this.myFontProcessor = this.updateMyFontProcessor
 
-    def getTextArray(self) -> list[str]:
-        return self.textArrayP
-    
+method getTextArray*(this: TextAnimation): JArray[string] {.base, discardable.} =
+        return this.textArrayP
 
-    def getFontHeight(self) -> int:
-        return self.fontHeight
-# from javax.microedition.lcdui.Font import Font
-# from javax.microedition.lcdui.Graphics import Graphics
-# from org.allbinary.animation.AnimationBehavior import AnimationBehavior
-# from org.allbinary.graphics.Anchor import Anchor
-# from org.allbinary.graphics.font.MyFontProcessor import MyFontProcessor
-# from org.allbinary.graphics.font.UpdateMyFontProcessor import UpdateMyFontProcessor
-# from org.allbinary.graphics.threed.SWTJOGLProcessor import SWTJOGLProcessor
-# from org.allbinary.logic.string.StringMaker import StringMaker
-# from org.allbinary.logic.string.StringUtil import StringUtil
-# from org.allbinary.util.BasicArrayList import BasicArrayList
-# from org.allbinary.util.BasicArrayListD import BasicArrayListD
-from org.allbinary.animation.text.TextChangeListener import TextChangeListener
+method getFontHeight*(this: TextAnimation): int32 {.base, discardable.} =
+        return this.fontHeight
 
+when declared(newTextAnimationHook2):
+    newTextAnimationHook2 = proc (text: string, animationBehavior: AnimationBehavior): IndexedAnimation = newTextAnimation(text, animationBehavior)
 

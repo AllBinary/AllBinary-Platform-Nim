@@ -1,49 +1,66 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.displayable.canvas
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import javax/microedition/lcdui/Graphics as GraphicsModule
+export GraphicsModule
+import org/allbinary/graphics/paint/InitUpdatePaintable as InitUpdatePaintableModule
+export InitUpdatePaintableModule
+import org/allbinary/logic/communication/log/LogUtil as LogUtilModule
+export LogUtilModule
 
-from org.allbinary.graphics.paint.InitUpdatePaintable import InitUpdatePaintable
+type
+    OverlayPaintable* = ref object of InitUpdatePaintable
+        logUtil*: LogUtil
+
+proc newOverlayPaintable*(): OverlayPaintable
+proc initOverlayPaintable*(this: OverlayPaintable)
+method update*(this: OverlayPaintable)
+method paint*(this: OverlayPaintable, graphics: Graphics)
+import org/allbinary/string/CommonStrings as CommonStringsModule
+export CommonStringsModule
 
 
-class OverlayPaintable(InitUpdatePaintable):
+# Java field initializers run after the base initializer
+proc initFieldsOverlayPaintable(this: OverlayPaintable) =
+    this.logUtil = LogUtil.getInstance()
+    discard
 
-    def _init_fields(self) -> None:
-        from org.allbinary.logic.communication.log.LogUtil import LogUtil
-        self.logUtil: LogUtil = LogUtil.getInstance()
-    
+proc initOverlayPaintable*(this: OverlayPaintable) =
+        initInitUpdatePaintable(this)
+        this.initFieldsOverlayPaintable()
+        discard
 
-    def __init__(self) -> None:
-        super().__init__()
-        self._init_fields()
-    
+proc newOverlayPaintable*(): OverlayPaintable =
+    result = OverlayPaintable()
+    initOverlayPaintable(result)
 
-    def update(self) -> None:
-        from org.allbinary.string.CommonStrings import CommonStrings
+method update*(this: OverlayPaintable) =
         try:
-            pass
-        except Exception as e:
-            commonStrings: CommonStrings = CommonStrings.getInstance()
-            self.logUtil.put(commonStrings.EXCEPTION, self, commonStrings.UPDATE, e)
-    
+            discard
+        except CatchableError as jcaught:
+            let e = jToException(jcaught)
+            let commonStrings: CommonStrings = CommonStrings.getInstance()
+            this.logUtil.put(commonStrings.EXCEPTION, this, commonStrings.UPDATE, e)
 
-    def paint(self, graphics: Graphics) -> None:
-        from javax.microedition.lcdui.Graphics import Graphics
-        pass
-# from javax.microedition.lcdui.Graphics import Graphics
-# from org.allbinary.logic.communication.log.LogUtil import LogUtil
-# from org.allbinary.string.CommonStrings import CommonStrings
+method paint*(this: OverlayPaintable, graphics: Graphics) =
+        discard
 
+when declared(newOverlayPaintableHook0):
+    newOverlayPaintableHook0 = proc (): InitUpdatePaintable = newOverlayPaintable()
 

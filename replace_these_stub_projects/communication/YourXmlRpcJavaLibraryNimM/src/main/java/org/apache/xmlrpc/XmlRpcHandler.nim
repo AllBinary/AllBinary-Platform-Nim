@@ -1,19 +1,15 @@
 # Generated Code Do Not Modify
 # package org.apache.xmlrpc
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/util/BasicArrayList as BasicArrayListModule
+export BasicArrayListModule
+
+type
+    XmlRpcHandler* = ref object of JObject
 
 
-
-# Java interface
-class XmlRpcHandler:
-    
-
-    # throws Exception
-    def execute(self, method: str, params: BasicArrayList) -> object:
-        from org.allbinary.util.BasicArrayList import BasicArrayList
-        raise NotImplementedError()
-# from org.allbinary.util.BasicArrayList import BasicArrayList
-# from org.allbinary.util.BasicArrayListD import BasicArrayListD
-
+method execute*(this: XmlRpcHandler, `method`: string, params: BasicArrayList): JObject {.base, discardable.} =
+        raise newJException("AbstractMethodError", "execute")
 

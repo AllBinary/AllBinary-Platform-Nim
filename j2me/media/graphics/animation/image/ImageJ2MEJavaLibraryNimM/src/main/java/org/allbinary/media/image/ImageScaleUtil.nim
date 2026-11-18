@@ -1,54 +1,58 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.media.image
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import javax/microedition/lcdui/Image as ImageModule
+export ImageModule
+import org/allbinary/image/ImageCache as ImageCacheModule
+export ImageCacheModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    ImageScaleUtil* = ref object of JObject
 
+proc newImageScaleUtil*(): ImageScaleUtil
+proc initImageScaleUtil*(this: ImageScaleUtil)
+proc getInstance*(t: typedesc[ImageScaleUtil]): ImageScaleUtil {.discardable.}
+method createImage2*(this: ImageScaleUtil, imageCache: ImageCache, originalImage: Image, scaleNominatorX: float32, scaleDenominatorX: float32, scaleNominatorY: float32, scaleDenominatorY: float32, cached: bool): Image {.base, discardable.}
+method createImage3*(this: ImageScaleUtil, imageCache: ImageCache, originalImage: Image, scaleNominatorX: float32, scaleDenominatorX: float32, scaleNominatorY: float32, scaleDenominatorY: float32, cached: bool, mutable: bool): Image {.base, discardable.}
 
-class ImageScaleUtil:
-    instance: ImageScaleUtil = None
-    
+var ImageScaleUtil_instanceValue: ImageScaleUtil
+var ImageScaleUtil_instanceSet = false
+proc instance*(t: typedesc[ImageScaleUtil]): ImageScaleUtil =
+    if not ImageScaleUtil_instanceSet:
+        ImageScaleUtil_instanceSet = true
+        ImageScaleUtil_instanceValue = newImageScaleUtil()
+    ImageScaleUtil_instanceValue
 
-    @staticmethod
-    def getInstance() -> ImageScaleUtil:
+proc getInstance*(t: typedesc[ImageScaleUtil]): ImageScaleUtil {.discardable.} =
         return ImageScaleUtil.instance
-    
 
-    def __init__(self) -> None:
-        pass
-    
+proc initImageScaleUtil*(this: ImageScaleUtil) =
+        discard
+        discard
 
-    # throws Exception
-    def createImage2(self, imageCache: ImageCache, originalImage: Image, scaleNominatorX: float, scaleDenominatorX: float, scaleNominatorY: float, scaleDenominatorY: float, cached: bool) -> Image:
-        from javax.microedition.lcdui.Image import Image
-        from org.allbinary.image.ImageCache import ImageCache
-        return self.createImage3(imageCache, originalImage, scaleNominatorX, scaleDenominatorX, scaleNominatorY, scaleDenominatorY, cached, True)
-    
+proc newImageScaleUtil*(): ImageScaleUtil =
+    result = ImageScaleUtil()
+    initImageScaleUtil(result)
 
-    # throws Exception
-    def createImage3(self, imageCache: ImageCache, originalImage: Image, scaleNominatorX: float, scaleDenominatorX: float, scaleNominatorY: float, scaleDenominatorY: float, cached: bool, mutable: bool) -> Image:
-        from javax.microedition.lcdui.Image import Image
-        from org.allbinary.image.ImageCache import ImageCache
+method createImage2*(this: ImageScaleUtil, imageCache: ImageCache, originalImage: Image, scaleNominatorX: float32, scaleDenominatorX: float32, scaleNominatorY: float32, scaleDenominatorY: float32, cached: bool): Image {.base, discardable.} =
+        return this.createImage3(imageCache, originalImage, scaleNominatorX, scaleDenominatorX, scaleNominatorY, scaleDenominatorY, cached, true)
+
+method createImage3*(this: ImageScaleUtil, imageCache: ImageCache, originalImage: Image, scaleNominatorX: float32, scaleDenominatorX: float32, scaleNominatorY: float32, scaleDenominatorY: float32, cached: bool, mutable: bool): Image {.base, discardable.} =
         return originalImage
-# from javax.microedition.lcdui.Image import Image
-# from org.allbinary.image.ImageCache import ImageCache
-
-
-def _ImageScaleUtil_instance() -> object:
-    return ImageScaleUtil()
-
-lazy_static(ImageScaleUtil, "instance", _ImageScaleUtil_instance)
 

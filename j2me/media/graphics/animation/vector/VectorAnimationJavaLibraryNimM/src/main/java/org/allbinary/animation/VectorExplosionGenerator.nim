@@ -1,143 +1,158 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.animation
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/graphics/pipeline/RandomRotationFactory as RandomRotationFactoryModule
+export RandomRotationFactoryModule
+import org/allbinary/util/BasicArrayList as BasicArrayListModule
+export BasicArrayListModule
+import org/allbinary/animation/VectorExplosionType as VectorExplosionTypeModule
+export VectorExplosionTypeModule
+import org/allbinary/animation/VectorAnimationUtil as VectorAnimationUtilModule
+export VectorAnimationUtilModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    VectorExplosionGenerator* = ref object of JObject
+        RANDOM*: VectorExplosionType
+        ROTATION*: VectorExplosionType
+        vectorAnimationUtil*: VectorAnimationUtil
+        randomRotationFactory*: RandomRotationFactory
 
+proc newVectorExplosionGenerator*(): VectorExplosionGenerator
+proc initVectorExplosionGenerator*(this: VectorExplosionGenerator)
+proc getInstance*(t: typedesc[VectorExplosionGenerator]): VectorExplosionGenerator {.discardable.}
+method createList*(this: VectorExplosionGenerator, list: BasicArrayList, howMuch: int32, `type`: VectorExplosionType): BasicArrayList {.base, discardable.}
+method getInstance*(this: VectorExplosionGenerator, points: JArray[JArray[int32]], howMuch: int32, `type`: VectorExplosionType): JArray[JArray[JArray[int32]]] {.base, discardable.}
+method getInstanceStartFrame*(this: VectorExplosionGenerator, points: JArray[JArray[int32]], howMuch: int32, `type`: VectorExplosionType, startFrame: bool): BasicArrayList {.base, discardable.}
+method createListFromPoints*(this: VectorExplosionGenerator, tempBasicArrayList: BasicArrayList, points: JArray[JArray[int32]], howMuch: int32, `type`: VectorExplosionType): BasicArrayList {.base, discardable.}
+method createPointsBasicArrayList*(this: VectorExplosionGenerator, points: JArray[JArray[int32]]): BasicArrayList {.base, discardable.}
+import org/allbinary/graphics/GPoint as GPointModule
+export GPointModule
+import org/allbinary/graphics/PointFactory as PointFactoryModule
+export PointFactoryModule
+import org/allbinary/graphics/pipeline/RandomTranslation as RandomTranslationModule
+export RandomTranslationModule
+import org/allbinary/util/BasicArrayListD as BasicArrayListDModule
+export BasicArrayListDModule
+import org/allbinary/util/BasicArrayListS as BasicArrayListSModule
+export BasicArrayListSModule
 
-class VectorExplosionGenerator:
-    instance: VectorExplosionGenerator = None
+var VectorExplosionGenerator_instanceValue: VectorExplosionGenerator
+var VectorExplosionGenerator_instanceSet = false
+proc instance*(t: typedesc[VectorExplosionGenerator]): VectorExplosionGenerator =
+    if not VectorExplosionGenerator_instanceSet:
+        VectorExplosionGenerator_instanceSet = true
+        VectorExplosionGenerator_instanceValue = newVectorExplosionGenerator()
+    VectorExplosionGenerator_instanceValue
 
-    def _init_fields(self) -> None:
-        from org.allbinary.graphics.pipeline.RandomRotationFactory import RandomRotationFactory
-        self.RANDOM: VectorExplosionType = VectorExplosionType()
-        self.ROTATION: VectorExplosionType = VectorExplosionType()
-        self.vectorAnimationUtil: VectorAnimationUtil = VectorAnimationUtil.getInstance()
-        self.randomRotationFactory: RandomRotationFactory = RandomRotationFactory.getInstance()
-    
+# Java field initializers run after the base initializer
+proc initFieldsVectorExplosionGenerator(this: VectorExplosionGenerator) =
+    this.RANDOM = newVectorExplosionType()
+    this.ROTATION = newVectorExplosionType()
+    this.vectorAnimationUtil = VectorAnimationUtil.getInstance()
+    this.randomRotationFactory = RandomRotationFactory.getInstance()
+    discard
 
-    @staticmethod
-    def getInstance() -> VectorExplosionGenerator:
+proc getInstance*(t: typedesc[VectorExplosionGenerator]): VectorExplosionGenerator {.discardable.} =
         return VectorExplosionGenerator.instance
-    
 
-    def __init__(self) -> None:
-        self._init_fields()
-    
+proc initVectorExplosionGenerator*(this: VectorExplosionGenerator) =
+        this.initFieldsVectorExplosionGenerator()
+        discard
 
-    # throws Exception
-    def createList(self, list_: BasicArrayList, howMuch: int, type_: VectorExplosionType) -> BasicArrayList:
-        from org.allbinary.graphics.GPoint import GPoint
-        from org.allbinary.util.BasicArrayList import BasicArrayList
-        point: GPoint = None
-        size: int = list_.size()
-        points: list[list[int]] = [[0] * (2) for _ in range(size)]
-        for index in range(0, size):
-            point = list_.objectArray[index]
-            points[index][0] = point.getX()
-            points[index][1] = point.getY()
-        return self.createListFromPoints(list_, points, howMuch, type_)
-    
+proc newVectorExplosionGenerator*(): VectorExplosionGenerator =
+    result = VectorExplosionGenerator()
+    initVectorExplosionGenerator(result)
 
-    # throws Exception
-    # Java overloaded method: Python keeps the last definition
-    def getInstance(self, points: list[list[int]], howMuch: int, type_: VectorExplosionType) -> list[list[list[int]]]:
-        from org.allbinary.util.BasicArrayList import BasicArrayList
-        pointsBasicArrayList: BasicArrayList = self.getInstanceStartFrame(points, howMuch, type_, True)
-        tempBasicArrayList: BasicArrayList = pointsBasicArrayList.objectArray[0]
-        newPoints: list[list[list[int]]] = self.vectorAnimationUtil.toAnimationArrayFromListOfPointListWithPointsPerFrame(pointsBasicArrayList, tempBasicArrayList.size())
+method createList*(this: VectorExplosionGenerator, list: BasicArrayList, howMuch: int32, `type`: VectorExplosionType): BasicArrayList {.base, discardable.} =
+        var point: GPoint = nil
+        let size: int32 = list.size()
+        let points: JArray[JArray[int32]] = newJArrayOf[JArray[int32]](size, proc (): JArray[int32] = newJArray[int32](2, default(int32)))
+        block:
+            var index: int32 = 0
+            while index < size:
+                defer: index = index +% 1
+                point = GPoint(JObject(list.objectArray[index]))
+                points[index][0] = point.getX()
+                points[index][1] = point.getY()
+        return this.createListFromPoints(list, points, howMuch, `type`)
+
+method getInstance*(this: VectorExplosionGenerator, points: JArray[JArray[int32]], howMuch: int32, `type`: VectorExplosionType): JArray[JArray[JArray[int32]]] {.base, discardable.} =
+        let pointsBasicArrayList: BasicArrayList = this.getInstanceStartFrame(points, howMuch, `type`, true)
+        let tempBasicArrayList: BasicArrayList = BasicArrayList(JObject(pointsBasicArrayList.objectArray[0]))
+        let newPoints: JArray[JArray[JArray[int32]]] = this.vectorAnimationUtil.toAnimationArrayFromListOfPointListWithPointsPerFrame(pointsBasicArrayList, tempBasicArrayList.size())
         return newPoints
-    
 
-    # throws Exception
-    def getInstanceStartFrame(self, points: list[list[int]], howMuch: int, type_: VectorExplosionType, startFrame: bool) -> BasicArrayList:
-        from org.allbinary.util.BasicArrayList import BasicArrayList
-        from org.allbinary.util.BasicArrayListS import BasicArrayListS
+method getInstanceStartFrame*(this: VectorExplosionGenerator, points: JArray[JArray[int32]], howMuch: int32, `type`: VectorExplosionType, startFrame: bool): BasicArrayList {.base, discardable.} =
         try:
-            pointsBasicArrayList: BasicArrayList = BasicArrayListS(howMuch)
-            pointsBasicArrayList.add(self.createPointsBasicArrayList(points))
-            frameIndex: int = 0
-            tempBasicArrayList: BasicArrayList = None
-            pointBasicArrayList: BasicArrayList = None
+            let pointsBasicArrayList: BasicArrayList = newBasicArrayListS(howMuch)
+            pointsBasicArrayList.add(this.createPointsBasicArrayList(points))
+            var frameIndex: int32 = 0
+            var tempBasicArrayList: BasicArrayList = nil
+            var pointBasicArrayList: BasicArrayList = nil
             while frameIndex < howMuch:
-                tempBasicArrayList = pointsBasicArrayList.objectArray[frameIndex]
-                pointBasicArrayList = self.createListFromPoints(tempBasicArrayList, points, howMuch, type_)
+                tempBasicArrayList = BasicArrayList(JObject(pointsBasicArrayList.objectArray[frameIndex]))
+                pointBasicArrayList = this.createListFromPoints(tempBasicArrayList, points, howMuch, `type`)
                 pointsBasicArrayList.add(pointBasicArrayList)
-                frameIndex += 1
-            if not startFrame:
+                frameIndex = frameIndex +% 1
+            if (not startFrame):
                 pointsBasicArrayList.removeAt(0)
             return pointsBasicArrayList
-        except Exception as e:
+        except CatchableError as jcaught:
+            let e = jToException(jcaught)
             raise e
-    
 
-    # throws Exception
-    def createListFromPoints(self, tempBasicArrayList: BasicArrayList, points: list[list[int]], howMuch: int, type_: VectorExplosionType) -> BasicArrayList:
-        from org.allbinary.graphics.pipeline.RandomTranslation import RandomTranslation
-        from org.allbinary.util.BasicArrayList import BasicArrayList
-        from org.allbinary.util.BasicArrayListD import BasicArrayListD
-        index: int = 0
-        pointBasicArrayList: BasicArrayList = BasicArrayListD()
-        sectionBasicArrayList: BasicArrayList = None
-        while index < len(points):
-            sectionBasicArrayList = BasicArrayListD()
+method createListFromPoints*(this: VectorExplosionGenerator, tempBasicArrayList: BasicArrayList, points: JArray[JArray[int32]], howMuch: int32, `type`: VectorExplosionType): BasicArrayList {.base, discardable.} =
+        var index: int32 = 0
+        let pointBasicArrayList: BasicArrayList = newBasicArrayListD()
+        var sectionBasicArrayList: BasicArrayList = nil
+        while index < points.length:
+            sectionBasicArrayList = newBasicArrayListD()
             while points[index][0] != 1000:
                 sectionBasicArrayList.add(tempBasicArrayList.objectArray[index])
-                index += 1
-                if index >= len(points):
+                index = index +% 1
+                if index >= points.length:
                     break
             sectionBasicArrayList = RandomTranslation.getInstance(sectionBasicArrayList, howMuch)
-            if type_ == self.ROTATION:
-                sectionBasicArrayList = self.randomRotationFactory.getInstanceList(sectionBasicArrayList, howMuch)
-            size: int = sectionBasicArrayList.size()
-            for index2 in range(0, size):
-                pointBasicArrayList.add(sectionBasicArrayList.objectArray[index2])
-            if index >= len(points):
+            if `type` == this.ROTATION:
+                sectionBasicArrayList = this.randomRotationFactory.getInstanceList(sectionBasicArrayList, howMuch)
+            var size: int32 = sectionBasicArrayList.size()
+            block:
+                var index2: int32 = 0
+                while index2 < size:
+                    defer: index2 = index2 +% 1
+                    pointBasicArrayList.add(sectionBasicArrayList.objectArray[index2])
+            if index >= points.length:
                 break
             elif points[index][0] == 1000:
                 pointBasicArrayList.add(tempBasicArrayList.objectArray[index])
-                index += 1
+                index = index +% 1
         return pointBasicArrayList
-    
 
-    # throws Exception
-    def createPointsBasicArrayList(self, points: list[list[int]]) -> BasicArrayList:
-        from org.allbinary.graphics.PointFactory import PointFactory
-        from org.allbinary.util.BasicArrayList import BasicArrayList
-        from org.allbinary.util.BasicArrayListS import BasicArrayListS
-        if len(points) == 0:
-            raise Exception("Not Points Provided")
-        firstPointBasicArrayList: BasicArrayList = BasicArrayListS(len(points))
-        pointFactory: PointFactory = PointFactory.getInstance()
-        for index in range(0, len(points)):
-            firstPointBasicArrayList.add(pointFactory.createXY(points[index][0], points[index][1]))
+method createPointsBasicArrayList*(this: VectorExplosionGenerator, points: JArray[JArray[int32]]): BasicArrayList {.base, discardable.} =
+        if points.length == 0:
+            raise newJException("Exception", "Not Points Provided")
+        let firstPointBasicArrayList: BasicArrayList = newBasicArrayListS(points.length)
+        let pointFactory: PointFactory = PointFactory.getInstance()
+        block:
+            var index: int32 = 0
+            while index < points.length:
+                defer: index = index +% 1
+                firstPointBasicArrayList.add(pointFactory.createXY(points[index][0], points[index][1]))
         return firstPointBasicArrayList
-# from org.allbinary.graphics.GPoint import GPoint
-# from org.allbinary.graphics.PointFactory import PointFactory
-# from org.allbinary.graphics.pipeline.RandomRotationFactory import RandomRotationFactory
-# from org.allbinary.graphics.pipeline.RandomTranslation import RandomTranslation
-# from org.allbinary.util.BasicArrayList import BasicArrayList
-# from org.allbinary.util.BasicArrayListD import BasicArrayListD
-# from org.allbinary.util.BasicArrayListS import BasicArrayListS
-from org.allbinary.animation.VectorExplosionType import VectorExplosionType
-from org.allbinary.animation.VectorAnimationUtil import VectorAnimationUtil
-
-
-def _VectorExplosionGenerator_instance() -> object:
-    return VectorExplosionGenerator()
-
-lazy_static(VectorExplosionGenerator, "instance", _VectorExplosionGenerator_instance)
 

@@ -1,41 +1,52 @@
 # Generated Code Do Not Modify
 # package org.allbinary.game.terrain
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/logic/util/event/AllBinaryEventObject as AllBinaryEventObjectModule
+export AllBinaryEventObjectModule
+import org/allbinary/util/BasicArrayList as BasicArrayListModule
+export BasicArrayListModule
+import org/allbinary/game/terrain/TerrainEventListenerInterface as TerrainEventListenerInterfaceModule
+export TerrainEventListenerInterfaceModule
+import org/allbinary/game/terrain/TerrainEvent as TerrainEventModule
+export TerrainEventModule
 
-from org.allbinary.game.terrain.TerrainEventListenerInterface import TerrainEventListenerInterface
+type
+    TerrainEventListener* = ref object of TerrainEventListenerInterface
+        list*: BasicArrayList
+
+proc newTerrainEventListener*(): TerrainEventListener
+method onEvent*(this: TerrainEventListener, eventObject: AllBinaryEventObject)
+method onTerrainEvent*(this: TerrainEventListener, terrainEvent: TerrainEvent)
+method getList*(this: TerrainEventListener): BasicArrayList {.base, discardable.}
+import org/allbinary/logic/communication/log/ForcedLogUtil as ForcedLogUtilModule
+export ForcedLogUtilModule
+import org/allbinary/logic/util/event/EventStrings as EventStringsModule
+export EventStringsModule
+import org/allbinary/util/BasicArrayListD as BasicArrayListDModule
+export BasicArrayListDModule
 
 
-class TerrainEventListener(TerrainEventListenerInterface):
+# Java field initializers run after the base initializer
+proc initFieldsTerrainEventListener(this: TerrainEventListener) =
+    this.list = newBasicArrayListD()
+    discard
 
-    def _init_fields(self) -> None:
-        from org.allbinary.util.BasicArrayList import BasicArrayList
-        from org.allbinary.util.BasicArrayListD import BasicArrayListD
-        self.list_: BasicArrayList = BasicArrayListD()
+proc initTerrainEventListener*(this: TerrainEventListener) =
+    this.initFieldsTerrainEventListener()
 
-    def __init__(self) -> None:
-        self._init_fields()
-    
+proc newTerrainEventListener*(): TerrainEventListener =
+    result = TerrainEventListener()
+    initTerrainEventListener(result)
 
-    def onEvent(self, eventObject: AllBinaryEventObject) -> None:
-        from org.allbinary.logic.communication.log.ForcedLogUtil import ForcedLogUtil
-        from org.allbinary.logic.util.event.AllBinaryEventObject import AllBinaryEventObject
-        from org.allbinary.logic.util.event.EventStrings import EventStrings
-        ForcedLogUtil.log(EventStrings.getInstance().PERFORMANCE_MESSAGE, self)
-    
+method onEvent*(this: TerrainEventListener, eventObject: AllBinaryEventObject) =
+        ForcedLogUtil.log(EventStrings.getInstance().PERFORMANCE_MESSAGE, this)
 
-    def onTerrainEvent(self, terrainEvent: TerrainEvent) -> None:
-        self.list_.clear()
-        self.list_.add(terrainEvent)
-    
+method onTerrainEvent*(this: TerrainEventListener, terrainEvent: TerrainEvent) =
+        this.list.clear()
+        this.list.add(terrainEvent)
 
-    def getList(self) -> BasicArrayList:
-        from org.allbinary.util.BasicArrayList import BasicArrayList
-        return self.list_
-# from org.allbinary.logic.communication.log.ForcedLogUtil import ForcedLogUtil
-# from org.allbinary.logic.util.event.AllBinaryEventObject import AllBinaryEventObject
-# from org.allbinary.logic.util.event.EventStrings import EventStrings
-# from org.allbinary.util.BasicArrayList import BasicArrayList
-# from org.allbinary.util.BasicArrayListD import BasicArrayListD
-
+method getList*(this: TerrainEventListener): BasicArrayList {.base, discardable.} =
+        return this.list
 

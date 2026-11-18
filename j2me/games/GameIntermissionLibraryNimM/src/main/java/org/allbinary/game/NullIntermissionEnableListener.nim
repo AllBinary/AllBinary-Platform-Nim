@@ -1,43 +1,52 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/game/IntermissionEnableListenerInterface as IntermissionEnableListenerInterfaceModule
+export IntermissionEnableListenerInterfaceModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
-from org.allbinary.game.IntermissionEnableListenerInterface import IntermissionEnableListenerInterface
+type
+    NullIntermissionEnableListener* = ref object of IntermissionEnableListenerInterface
 
+proc newNullIntermissionEnableListener*(): NullIntermissionEnableListener
+proc initNullIntermissionEnableListener*(this: NullIntermissionEnableListener)
+proc getInstance*(t: typedesc[NullIntermissionEnableListener]): IntermissionEnableListenerInterface {.discardable.}
+method notifyIntermission*(this: NullIntermissionEnableListener, enable: bool)
 
-class NullIntermissionEnableListener(IntermissionEnableListenerInterface):
-    SINGLETON: IntermissionEnableListenerInterface = None
-    
+var NullIntermissionEnableListener_SINGLETONValue: IntermissionEnableListenerInterface
+var NullIntermissionEnableListener_SINGLETONSet = false
+proc SINGLETON*(t: typedesc[NullIntermissionEnableListener]): IntermissionEnableListenerInterface =
+    if not NullIntermissionEnableListener_SINGLETONSet:
+        NullIntermissionEnableListener_SINGLETONSet = true
+        NullIntermissionEnableListener_SINGLETONValue = newNullIntermissionEnableListener()
+    NullIntermissionEnableListener_SINGLETONValue
 
-    @staticmethod
-    def getInstance() -> IntermissionEnableListenerInterface:
+proc getInstance*(t: typedesc[NullIntermissionEnableListener]): IntermissionEnableListenerInterface {.discardable.} =
         return NullIntermissionEnableListener.SINGLETON
-    
 
-    def __init__(self) -> None:
-        pass
-    
+proc initNullIntermissionEnableListener*(this: NullIntermissionEnableListener) =
+        discard
+        discard
 
-    def notifyIntermission(self, enable: bool) -> None:
-        pass
+proc newNullIntermissionEnableListener*(): NullIntermissionEnableListener =
+    result = NullIntermissionEnableListener()
+    initNullIntermissionEnableListener(result)
 
-
-def _NullIntermissionEnableListener_SINGLETON() -> object:
-    return NullIntermissionEnableListener()
-
-lazy_static(NullIntermissionEnableListener, "SINGLETON", _NullIntermissionEnableListener_SINGLETON)
+method notifyIntermission*(this: NullIntermissionEnableListener, enable: bool) =
+        discard
 

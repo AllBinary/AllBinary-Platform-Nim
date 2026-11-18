@@ -1,45 +1,60 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.score.remote
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    RemoteHighScoresData* = ref object of JObject
+        HIGH_SCORES*: string
+        CUSTOMER_USER_NAME*: string
+        DISPLAY_NAME*: string
+        SCORE*: string
+        GAME_INFO*: string
+        GAME_CONFIGURATION*: string
 
+proc newRemoteHighScoresData*(): RemoteHighScoresData
+proc getInstance*(t: typedesc[RemoteHighScoresData]): RemoteHighScoresData {.discardable.}
 
-class RemoteHighScoresData:
-    SINGLETON: RemoteHighScoresData = None
+var RemoteHighScoresData_SINGLETONValue: RemoteHighScoresData
+var RemoteHighScoresData_SINGLETONSet = false
+proc SINGLETON*(t: typedesc[RemoteHighScoresData]): RemoteHighScoresData =
+    if not RemoteHighScoresData_SINGLETONSet:
+        RemoteHighScoresData_SINGLETONSet = true
+        RemoteHighScoresData_SINGLETONValue = newRemoteHighScoresData()
+    RemoteHighScoresData_SINGLETONValue
 
-    def _init_fields(self) -> None:
-        self.HIGH_SCORES: str = "HIGH_SCORES"
-        self.CUSTOMER_USER_NAME: str = "CUSTOMER_USER_NAME"
-        self.DISPLAY_NAME: str = "DISPLAY_NAME"
-        self.SCORE: str = "SCORE"
-        self.GAME_INFO: str = "GAME_INFO"
-        self.GAME_CONFIGURATION: str = "GAME_CONFIGURATION"
+# Java field initializers run after the base initializer
+proc initFieldsRemoteHighScoresData(this: RemoteHighScoresData) =
+    this.HIGH_SCORES = "HIGH_SCORES"
+    this.CUSTOMER_USER_NAME = "CUSTOMER_USER_NAME"
+    this.DISPLAY_NAME = "DISPLAY_NAME"
+    this.SCORE = "SCORE"
+    this.GAME_INFO = "GAME_INFO"
+    this.GAME_CONFIGURATION = "GAME_CONFIGURATION"
+    discard
 
-    def __init__(self) -> None:
-        self._init_fields()
-    
+proc initRemoteHighScoresData*(this: RemoteHighScoresData) =
+    this.initFieldsRemoteHighScoresData()
 
-    @staticmethod
-    def getInstance() -> RemoteHighScoresData:
+proc newRemoteHighScoresData*(): RemoteHighScoresData =
+    result = RemoteHighScoresData()
+    initRemoteHighScoresData(result)
+
+proc getInstance*(t: typedesc[RemoteHighScoresData]): RemoteHighScoresData {.discardable.} =
         return RemoteHighScoresData.SINGLETON
-
-
-def _RemoteHighScoresData_SINGLETON() -> object:
-    return RemoteHighScoresData()
-
-lazy_static(RemoteHighScoresData, "SINGLETON", _RemoteHighScoresData_SINGLETON)
 

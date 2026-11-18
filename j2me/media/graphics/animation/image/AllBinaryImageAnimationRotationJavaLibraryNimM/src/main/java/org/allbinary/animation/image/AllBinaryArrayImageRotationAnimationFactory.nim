@@ -1,113 +1,119 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.animation.image
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import javax/microedition/lcdui/Image as ImageModule
+export ImageModule
+import org/allbinary/animation/Animation as AnimationModule
+export AnimationModule
+import org/allbinary/animation/AnimationBehaviorFactory as AnimationBehaviorFactoryModule
+export AnimationBehaviorFactoryModule
+import org/allbinary/animation/image/BaseImageAnimationFactory as BaseImageAnimationFactoryModule
+export BaseImageAnimationFactoryModule
 
-from org.allbinary.animation.image.BaseImageAnimationFactory import BaseImageAnimationFactory
+type
+    AllBinaryArrayImageRotationAnimationFactory* = ref object of BaseImageAnimationFactory
+        imageArray*: JArray[Image]
+        angleIncrement*: int32
+
+proc newAllBinaryArrayImageRotationAnimationFactory*(image: Image, width: int32, height: int32, angleIncrement: int32, animationBehaviorFactory: AnimationBehaviorFactory): AllBinaryArrayImageRotationAnimationFactory
+proc initAllBinaryArrayImageRotationAnimationFactory*(this: AllBinaryArrayImageRotationAnimationFactory, image: Image, width: int32, height: int32, angleIncrement: int32, animationBehaviorFactory: AnimationBehaviorFactory)
+proc createFactory*(t: typedesc[AllBinaryArrayImageRotationAnimationFactory], image: Image, dx: int32, dy: int32): AllBinaryArrayImageRotationAnimationFactory {.discardable.}
+proc createFactoryA*(t: typedesc[AllBinaryArrayImageRotationAnimationFactory], image: Image, dx: int32, dy: int32, angleIncrement: int32): AllBinaryArrayImageRotationAnimationFactory {.discardable.}
+method init*(this: AllBinaryArrayImageRotationAnimationFactory) {.base.}
+method initDXY*(this: AllBinaryArrayImageRotationAnimationFactory, dx: int32, dy: int32) {.base.}
+method getInstance*(this: AllBinaryArrayImageRotationAnimationFactory, instanceId: int32): Animation {.discardable.}
+method setImageArray*(this: AllBinaryArrayImageRotationAnimationFactory, imageArray: JArray[Image]) {.base.}
+method getAngleIncrement*(this: AllBinaryArrayImageRotationAnimationFactory): int32 {.base, discardable.}
+import javax/microedition/lcdui/NullImage as NullImageModule
+export NullImageModule
+import org/allbinary/game/configuration/GameConfigurationCentral as GameConfigurationCentralModule
+export GameConfigurationCentralModule
+import org/allbinary/logic/math/PrimitiveIntUtil as PrimitiveIntUtilModule
+export PrimitiveIntUtilModule
+import org/allbinary/math/AngleFactory as AngleFactoryModule
+export AngleFactoryModule
+import org/allbinary/math/AngleInfo as AngleInfoModule
+export AngleInfoModule
+import org/allbinary/media/image/ImageToRotationImageArrayUtil as ImageToRotationImageArrayUtilModule
+export ImageToRotationImageArrayUtilModule
+import org/allbinary/animation/image/ImageArrayRotationAnimation as ImageArrayRotationAnimationModule
+export ImageArrayRotationAnimationModule
+import org/allbinary/animation/image/AdjustedImageArrayRotationAnimation as AdjustedImageArrayRotationAnimationModule
+export AdjustedImageArrayRotationAnimationModule
 
 
-class AllBinaryArrayImageRotationAnimationFactory(BaseImageAnimationFactory):
-
-    def _init_fields(self) -> None:
-        from javax.microedition.lcdui.Image import Image
-        from javax.microedition.lcdui.NullImage import NullImage
-        self.imageArray: list[Image] = NullImage.NULL_IMAGE_ARRAY
-        self.angleIncrement: int = None
+# Java field initializers run after the base initializer
+proc initFieldsAllBinaryArrayImageRotationAnimationFactory(this: AllBinaryArrayImageRotationAnimationFactory) =
+    this.imageArray = NullImage.NULL_IMAGE_ARRAY
     
+    discard
 
-    # throws Exception
-    @staticmethod
-    def createFactory(image: Image, dx: int, dy: int) -> AllBinaryArrayImageRotationAnimationFactory:
-        from javax.microedition.lcdui.Image import Image
-        from org.allbinary.animation.AnimationBehaviorFactory import AnimationBehaviorFactory
-        from org.allbinary.game.configuration.GameConfigurationCentral import GameConfigurationCentral
-        from org.allbinary.math.AngleFactory import AngleFactory
-        arrayImageRotationAnimationFactory: AllBinaryArrayImageRotationAnimationFactory = AllBinaryArrayImageRotationAnimationFactory(image, image.getWidth(), image.getHeight(), AngleFactory.getInstance().TOTAL_ANGLE / GameConfigurationCentral.getInstance().getGameControlFidelity(), AnimationBehaviorFactory.getInstance())
+proc createFactory*(t: typedesc[AllBinaryArrayImageRotationAnimationFactory], image: Image, dx: int32, dy: int32): AllBinaryArrayImageRotationAnimationFactory {.discardable.} =
+        let arrayImageRotationAnimationFactory: AllBinaryArrayImageRotationAnimationFactory = newAllBinaryArrayImageRotationAnimationFactory(image, image.getWidth(), image.getHeight(), int32(AngleFactory.getInstance().TOTAL_ANGLE) div GameConfigurationCentral.getInstance().getGameControlFidelity(), AnimationBehaviorFactory.getInstance())
         arrayImageRotationAnimationFactory.initDXY(dx, dy)
         return arrayImageRotationAnimationFactory
-    
 
-    # throws Exception
-    @staticmethod
-    def createFactoryA(image: Image, dx: int, dy: int, angleIncrement: int) -> AllBinaryArrayImageRotationAnimationFactory:
-        from javax.microedition.lcdui.Image import Image
-        from org.allbinary.animation.AnimationBehaviorFactory import AnimationBehaviorFactory
-        arrayImageRotationAnimationFactory: AllBinaryArrayImageRotationAnimationFactory = AllBinaryArrayImageRotationAnimationFactory(image, image.getWidth(), image.getHeight(), angleIncrement, AnimationBehaviorFactory.getInstance())
+proc createFactoryA*(t: typedesc[AllBinaryArrayImageRotationAnimationFactory], image: Image, dx: int32, dy: int32, angleIncrement: int32): AllBinaryArrayImageRotationAnimationFactory {.discardable.} =
+        let arrayImageRotationAnimationFactory: AllBinaryArrayImageRotationAnimationFactory = newAllBinaryArrayImageRotationAnimationFactory(image, image.getWidth(), image.getHeight(), angleIncrement, AnimationBehaviorFactory.getInstance())
         arrayImageRotationAnimationFactory.initDXY(dx, dy)
         return arrayImageRotationAnimationFactory
-    
 
-    def __init__(self, image: Image, width: int, height: int, angleIncrement: int, animationBehaviorFactory: AnimationBehaviorFactory) -> None:
-        from javax.microedition.lcdui.Image import Image
-        from org.allbinary.animation.AnimationBehaviorFactory import AnimationBehaviorFactory
-        from org.allbinary.logic.math.PrimitiveIntUtil import PrimitiveIntUtil
-        super().__init__(image, PrimitiveIntUtil.getArrayInstance(), width, height, 0, 0, animationBehaviorFactory)
-        self._init_fields()
-        self.angleIncrement = angleIncrement
-        self.init()
-    
+proc initAllBinaryArrayImageRotationAnimationFactory*(this: AllBinaryArrayImageRotationAnimationFactory, image: Image, width: int32, height: int32, angleIncrement: int32, animationBehaviorFactory: AnimationBehaviorFactory) =
+        initBaseImageAnimationFactory(this, image, PrimitiveIntUtil.getArrayInstance(), width, height, 0, 0, animationBehaviorFactory)
+        this.initFieldsAllBinaryArrayImageRotationAnimationFactory()
+        this.angleIncrement = angleIncrement
+        this.init()
 
-    # throws Exception
-    def init(self) -> None:
-        from org.allbinary.math.AngleFactory import AngleFactory
-        from org.allbinary.media.image.ImageToRotationImageArrayUtil import ImageToRotationImageArrayUtil
-        self.setImageArray(ImageToRotationImageArrayUtil.getInstance().generate(self.getImage(), self.getAngleIncrement(), int(AngleFactory.getInstance().TOTAL_ANGLE)))
-    
+proc newAllBinaryArrayImageRotationAnimationFactory*(image: Image, width: int32, height: int32, angleIncrement: int32, animationBehaviorFactory: AnimationBehaviorFactory): AllBinaryArrayImageRotationAnimationFactory =
+    result = AllBinaryArrayImageRotationAnimationFactory()
+    initAllBinaryArrayImageRotationAnimationFactory(result, image, width, height, angleIncrement, animationBehaviorFactory)
 
-    def initDXY(self, dx: int, dy: int) -> None:
-        self.animationFactoryInitializationVisitor.dx = dx
-        self.animationFactoryInitializationVisitor.dy = dy
-        self.animationFactoryInitializationVisitor.originalDx = dx
-        self.animationFactoryInitializationVisitor.originalDy = dy
-    
+method init*(this: AllBinaryArrayImageRotationAnimationFactory) {.base.} =
+        this.setImageArray(ImageToRotationImageArrayUtil.getInstance().generate(this.getImage(), this.getAngleIncrement(), int32(AngleFactory.getInstance().TOTAL_ANGLE)))
 
-    # throws Exception
-    def getInstance(self, instanceId: int) -> Animation:
-        from org.allbinary.animation.image.ImageArrayRotationAnimation import ImageArrayRotationAnimation
-        from org.allbinary.animation.image.AdjustedImageArrayRotationAnimation import AdjustedImageArrayRotationAnimation
-        from javax.microedition.lcdui.Image import Image
-        from org.allbinary.animation.Animation import Animation
-        from org.allbinary.math.AngleFactory import AngleFactory
-        from org.allbinary.math.AngleInfo import AngleInfo
-        scaledImageArray: list[Image] = [None] * (len(self.imageArray))
-        size: int = len(scaledImageArray)
-        image: Image = self.getImage()
-        for index in range(0, size):
-            scaledImageArray[index] = self.animationFactoryImageScaleUtil.createImage(image, image.getWidth(), image.getHeight(), self.scaleProperties.scaleWidth, self.scaleProperties.scaleHeight)
-        if self.animationFactoryInitializationVisitor.dx != 0 or self.animationFactoryInitializationVisitor.dy != 0:
-            self.animationFactoryImageScaleUtil.processAdjust(self)
-            return AdjustedImageArrayRotationAnimation(scaledImageArray, AngleInfo.getInstance(((int(self.getAngleIncrement()) + 32768) % 65536 - 32768)), int(AngleFactory.getInstance().TOTAL_ANGLE), self.animationFactoryInitializationVisitor.dx, self.animationFactoryInitializationVisitor.dy, self.animationBehaviorFactory.getOrCreateInstance())
+method initDXY*(this: AllBinaryArrayImageRotationAnimationFactory, dx: int32, dy: int32) {.base.} =
+        this.animationFactoryInitializationVisitor.dx = dx
+        this.animationFactoryInitializationVisitor.dy = dy
+        this.animationFactoryInitializationVisitor.originalDx = dx
+        this.animationFactoryInitializationVisitor.originalDy = dy
+
+method getInstance*(this: AllBinaryArrayImageRotationAnimationFactory, instanceId: int32): Animation {.discardable.} =
+        let scaledImageArray: JArray[Image] = newJArray[Image](this.imageArray.length, default(Image))
+        let size: int32 = scaledImageArray.length
+        let image: Image = this.getImage()
+        block:
+            var index: int32 = 0
+            while index < size:
+                defer: index = index +% 1
+                scaledImageArray[index] = this.animationFactoryImageScaleUtil.createImage(image, image.getWidth(), image.getHeight(), this.scaleProperties.scaleWidth, this.scaleProperties.scaleHeight)
+        if this.animationFactoryInitializationVisitor.dx != 0 or this.animationFactoryInitializationVisitor.dy != 0:
+            this.animationFactoryImageScaleUtil.processAdjust(this)
+            return newAdjustedImageArrayRotationAnimation(scaledImageArray, AngleInfo.getInstance(jToInt16(this.getAngleIncrement())), int32(AngleFactory.getInstance().TOTAL_ANGLE), this.animationFactoryInitializationVisitor.dx, this.animationFactoryInitializationVisitor.dy, this.animationBehaviorFactory.getOrCreateInstance())
         else:
-            return ImageArrayRotationAnimation(scaledImageArray, AngleInfo.getInstance(((int(self.getAngleIncrement()) + 32768) % 65536 - 32768)), int(AngleFactory.getInstance().TOTAL_ANGLE), self.animationBehaviorFactory.getOrCreateInstance())
-    
+            return newImageArrayRotationAnimation(scaledImageArray, AngleInfo.getInstance(jToInt16(this.getAngleIncrement())), int32(AngleFactory.getInstance().TOTAL_ANGLE), this.animationBehaviorFactory.getOrCreateInstance())
 
-    def setImageArray(self, imageArray: list[Image]) -> None:
-        from javax.microedition.lcdui.Image import Image
-        self.imageArray = imageArray
-    
+method setImageArray*(this: AllBinaryArrayImageRotationAnimationFactory, imageArray: JArray[Image]) {.base.} =
+        this.imageArray = imageArray
 
-    def getAngleIncrement(self) -> int:
-        return self.angleIncrement
-# from javax.microedition.lcdui.Image import Image
-# from javax.microedition.lcdui.NullImage import NullImage
-# from org.allbinary.animation.Animation import Animation
-# from org.allbinary.animation.AnimationBehaviorFactory import AnimationBehaviorFactory
-# from org.allbinary.game.configuration.GameConfigurationCentral import GameConfigurationCentral
-# from org.allbinary.logic.math.PrimitiveIntUtil import PrimitiveIntUtil
-# from org.allbinary.math.AngleFactory import AngleFactory
-# from org.allbinary.math.AngleInfo import AngleInfo
-# from org.allbinary.media.image.ImageToRotationImageArrayUtil import ImageToRotationImageArrayUtil
+method getAngleIncrement*(this: AllBinaryArrayImageRotationAnimationFactory): int32 {.base, discardable.} =
+        return this.angleIncrement
 
+when declared(newAllBinaryArrayImageRotationAnimationFactoryHook5):
+    newAllBinaryArrayImageRotationAnimationFactoryHook5 = proc (image: Image, width: int32, height: int32, angleIncrement: int32, animationBehaviorFactory: AnimationBehaviorFactory): BaseImageAnimationFactory = newAllBinaryArrayImageRotationAnimationFactory(image, width, height, angleIncrement, animationBehaviorFactory)
 

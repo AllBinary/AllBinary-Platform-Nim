@@ -1,38 +1,50 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.input.accelerometer
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/input/gyro/AllBinaryOrientationSensor as AllBinaryOrientationSensorModule
+export AllBinaryOrientationSensorModule
+import org/allbinary/logic/math/Orientation as OrientationModule
+export OrientationModule
 
-from org.allbinary.input.gyro.AllBinaryOrientationSensor import AllBinaryOrientationSensor
+type
+    NoAccelerometerSensor* = ref object of AllBinaryOrientationSensor
+
+proc newNoAccelerometerSensor*(): NoAccelerometerSensor
+proc initNoAccelerometerSensor*(this: NoAccelerometerSensor)
+method getOrientation*(this: NoAccelerometerSensor): Orientation {.discardable.}
+method onSensorChange*(this: NoAccelerometerSensor)
 
 
-class NoAccelerometerSensor(AllBinaryOrientationSensor):
-    
+proc initNoAccelerometerSensor*(this: NoAccelerometerSensor) =
+        initAllBinaryOrientationSensor(this)
+        discard
 
-    def __init__(self) -> None:
-        super().__init__()
-    
+proc newNoAccelerometerSensor*(): NoAccelerometerSensor =
+    result = NoAccelerometerSensor()
+    initNoAccelerometerSensor(result)
 
-    # throws Exception
-    def getOrientation(self) -> Orientation:
-        from org.allbinary.logic.math.Orientation import Orientation
+method getOrientation*(this: NoAccelerometerSensor): Orientation {.discardable.} =
         return Orientation.NONE
-    
 
-    def onSensorChange(self) -> None:
-        pass
-# from org.allbinary.logic.math.Orientation import Orientation
+method onSensorChange*(this: NoAccelerometerSensor) =
+        discard
 
+when declared(newNoAccelerometerSensorHook0):
+    newNoAccelerometerSensorHook0 = proc (): AllBinaryOrientationSensor = newNoAccelerometerSensor()
 

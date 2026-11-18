@@ -1,52 +1,72 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.ag.ai
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import java/lang/Boolean as BooleanModule
+export BooleanModule
+import org/allbinary/logic/communication/log/LogUtil as LogUtilModule
+export LogUtilModule
+import org/allbinary/logic/util/visitor/Visitor as VisitorModule
+export VisitorModule
 
-from org.allbinary.logic.util.visitor.Visitor import Visitor
+type
+    ThrustAIVisitor* = ref object of Visitor
+        logUtil*: LogUtil
+        TRUE*: bool
+
+proc newThrustAIVisitor*(): ThrustAIVisitor
+proc initThrustAIVisitor*(this: ThrustAIVisitor)
+method visit*(this: ThrustAIVisitor, anyType: JObject): JObject {.discardable.}
+import javax/microedition/lcdui/Canvas as CanvasModule
+export CanvasModule
+import org/allbinary/game/ai/BasicAI as BasicAIModule
+export BasicAIModule
+import org/allbinary/logic/java/bool/BooleanFactory as BooleanFactoryModule
+export BooleanFactoryModule
+import org/allbinary/string/CommonStrings as CommonStringsModule
+export CommonStringsModule
 
 
-class ThrustAIVisitor(Visitor):
+# Java field initializers run after the base initializer
+proc initFieldsThrustAIVisitor(this: ThrustAIVisitor) =
+    this.logUtil = LogUtil.getInstance()
+    this.TRUE = BooleanFactory.getInstance().TRUE
+    discard
 
-    def _init_fields(self) -> None:
-        from org.allbinary.logic.communication.log.LogUtil import LogUtil
-        from org.allbinary.logic.java.bool.BooleanFactory import BooleanFactory
-        self.logUtil: LogUtil = LogUtil.getInstance()
-        self.TRUE: bool = BooleanFactory.getInstance().TRUE
-    
+proc initThrustAIVisitor*(this: ThrustAIVisitor) =
+        initVisitor(this)
+        this.initFieldsThrustAIVisitor()
+        discard
 
-    def __init__(self) -> None:
-        super().__init__()
-        self._init_fields()
-    
+proc newThrustAIVisitor*(): ThrustAIVisitor =
+    result = ThrustAIVisitor()
+    initThrustAIVisitor(result)
 
-    def visit(self, anyType: object) -> object:
-        from javax.microedition.lcdui.Canvas import Canvas
-        from org.allbinary.game.ai.BasicAI import BasicAI
-        from org.allbinary.string.CommonStrings import CommonStrings
+method visit*(this: ThrustAIVisitor, anyType: JObject): JObject {.discardable.} =
         try:
-            basicAI: BasicAI = anyType
+            var basicAI: BasicAI = BasicAI(JObject(anyType))
             basicAI.processKeyAI(Canvas.UP)
-        except Exception as e:
-            commonStrings: CommonStrings = CommonStrings.getInstance()
-            self.logUtil.put(commonStrings.EXCEPTION, self, commonStrings.VISIT, e)
-        return self.TRUE
-# from javax.microedition.lcdui.Canvas import Canvas
-# from org.allbinary.game.ai.BasicAI import BasicAI
-# from org.allbinary.logic.communication.log.LogUtil import LogUtil
-# from org.allbinary.logic.java.bool.BooleanFactory import BooleanFactory
-# from org.allbinary.string.CommonStrings import CommonStrings
+        except CatchableError as jcaught:
+            let e = jToException(jcaught)
+            let commonStrings: CommonStrings = CommonStrings.getInstance()
+            this.logUtil.put(commonStrings.EXCEPTION, this, commonStrings.VISIT, e)
+        return this.TRUE
 
+when declared(newThrustAIVisitorHook0):
+    newThrustAIVisitorHook0 = proc (): Visitor = newThrustAIVisitor()
 

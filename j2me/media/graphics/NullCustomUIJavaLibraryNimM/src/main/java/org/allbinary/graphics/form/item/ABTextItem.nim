@@ -1,50 +1,62 @@
 # Generated Code Do Not Modify
 # package org.allbinary.graphics.form.item
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import javax/microedition/lcdui/Graphics as GraphicsModule
+export GraphicsModule
+import org/allbinary/graphics/color/BasicColor as BasicColorModule
+export BasicColorModule
+import org/allbinary/graphics/form/item/CustomCustomItem as CustomCustomItemModule
+export CustomCustomItemModule
+import org/allbinary/graphics/form/item/ABCustomItemInterface as ABCustomItemInterfaceModule
+export ABCustomItemInterfaceModule
+import org/allbinary/graphics/form/item/ABStringComponent as ABStringComponentModule
+export ABStringComponentModule
 
-from org.allbinary.graphics.form.item.CustomCustomItem import CustomCustomItem
-from org.allbinary.graphics.form.item.ABCustomItemInterface import ABCustomItemInterface
+type
+    ABTextItem* = ref object of CustomCustomItem
+
+converter jAsABCustomItemInterface*(value: ABTextItem): ABCustomItemInterface = cast[ABCustomItemInterface](value)
+proc newABTextItem*(label: string, layout: int32, altText: string, backgroundBasicColor: BasicColor, foregroundBasicColor: BasicColor): ABTextItem
+proc initABTextItem*(this: ABTextItem, label: string, layout: int32, altText: string, backgroundBasicColor: BasicColor, foregroundBasicColor: BasicColor)
+method keyPressed*(this: ABTextItem, keyCode: int32) {.base.}
+method paintUnselected*(this: ABTextItem, graphics: Graphics, x: int32, y: int32)
+method getLabelStringComponent*(this: ABTextItem): ABStringComponent {.base, discardable.}
+method getMinimumWidth*(this: ABTextItem): int32 {.discardable.}
+method getMinimumHeight*(this: ABTextItem): int32 {.discardable.}
+method getLabel*(this: ABTextItem): string {.discardable.}
+method paintXY*(this: ABTextItem, graphics: Graphics, x: int32, y: int32)
 
 
-class ABTextItem(CustomCustomItem, ABCustomItemInterface):
-    
+proc initABTextItem*(this: ABTextItem, label: string, layout: int32, altText: string, backgroundBasicColor: BasicColor, foregroundBasicColor: BasicColor) =
+        initCustomCustomItem(this, label, backgroundBasicColor, foregroundBasicColor)
 
-    def __init__(self, label: str, layout: int, altText: str, backgroundBasicColor: BasicColor, foregroundBasicColor: BasicColor) -> None:
-        from org.allbinary.graphics.color.BasicColor import BasicColor
-        super().__init__(label, backgroundBasicColor, foregroundBasicColor)
-    
+proc newABTextItem*(label: string, layout: int32, altText: string, backgroundBasicColor: BasicColor, foregroundBasicColor: BasicColor): ABTextItem =
+    result = ABTextItem()
+    initABTextItem(result, label, layout, altText, backgroundBasicColor, foregroundBasicColor)
 
-    def keyPressed(self, keyCode: int) -> None:
-        pass
-    
+method keyPressed*(this: ABTextItem, keyCode: int32) {.base.} =
+        discard
 
-    def paintUnselected(self, graphics: Graphics, x: int, y: int) -> None:
-        from javax.microedition.lcdui.Graphics import Graphics
-        pass
-    
+method paintUnselected*(this: ABTextItem, graphics: Graphics, x: int32, y: int32) =
+        discard
 
-    def getLabelStringComponent(self) -> ABStringComponent:
-        from org.allbinary.graphics.form.item.ABStringComponent import ABStringComponent
+method getLabelStringComponent*(this: ABTextItem): ABStringComponent {.base, discardable.} =
         return ABStringComponent.NULL_STRING_COMPONENT
-    
 
-    def getMinimumWidth(self) -> int:
-        return super().getMinimumWidth()
-    
+method getMinimumWidth*(this: ABTextItem): int32 {.discardable.} =
+        return procCall CustomCustomItem(this).getMinimumWidth()
 
-    def getMinimumHeight(self) -> int:
-        return super().getMinimumHeight()
-    
+method getMinimumHeight*(this: ABTextItem): int32 {.discardable.} =
+        return procCall CustomCustomItem(this).getMinimumHeight()
 
-    def getLabel(self) -> str:
-        return super().getLabel()
-    
+method getLabel*(this: ABTextItem): string {.discardable.} =
+        return procCall CustomCustomItem(this).getLabel()
 
-    def paintXY(self, graphics: Graphics, x: int, y: int) -> None:
-        from javax.microedition.lcdui.Graphics import Graphics
-        super().paintXY(graphics, x, y)
-# from javax.microedition.lcdui.Graphics import Graphics
-# from org.allbinary.graphics.color.BasicColor import BasicColor
+method paintXY*(this: ABTextItem, graphics: Graphics, x: int32, y: int32) =
+        procCall CustomCustomItem(this).paintXY(graphics, x, y)
 
+when declared(newABTextItemHook5):
+    newABTextItemHook5 = proc (label: string, layout: int32, altText: string, backgroundBasicColor: BasicColor, foregroundBasicColor: BasicColor): CustomCustomItem = newABTextItem(label, layout, altText, backgroundBasicColor, foregroundBasicColor)
 

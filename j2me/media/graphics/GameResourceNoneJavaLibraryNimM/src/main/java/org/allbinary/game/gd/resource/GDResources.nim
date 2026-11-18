@@ -1,41 +1,52 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#   
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+    
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.gd.resource
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    GDResources* = ref object of JObject
+        resourceStringArray*: JArray[string]
+        currentLayoutRequiredTotal*: int32
 
+proc newGDResources*(): GDResources
+proc getInstance*(t: typedesc[GDResources]): GDResources {.discardable.}
 
-class GDResources:
-    instance: GDResources = None
+var GDResources_instanceValue: GDResources
+var GDResources_instanceSet = false
+proc instance*(t: typedesc[GDResources]): GDResources =
+    if not GDResources_instanceSet:
+        GDResources_instanceSet = true
+        GDResources_instanceValue = newGDResources()
+    GDResources_instanceValue
 
-    def _init_fields(self) -> None:
-        self.resourceStringArray: list[str] = []
-        self.currentLayoutRequiredTotal: int = 0
+# Java field initializers run after the base initializer
+proc initFieldsGDResources(this: GDResources) =
+    this.resourceStringArray = newJArrayFrom[string]([])
+    this.currentLayoutRequiredTotal = 0
+    discard
 
-    def __init__(self) -> None:
-        self._init_fields()
-    
+proc initGDResources*(this: GDResources) =
+    this.initFieldsGDResources()
 
-    @staticmethod
-    def getInstance() -> GDResources:
+proc newGDResources*(): GDResources =
+    result = GDResources()
+    initGDResources(result)
+
+proc getInstance*(t: typedesc[GDResources]): GDResources {.discardable.} =
         return GDResources.instance
-
-
-def _GDResources_instance() -> object:
-    return GDResources()
-
-lazy_static(GDResources, "instance", _GDResources_instance)
 

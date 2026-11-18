@@ -1,123 +1,141 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.input.motion
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/graphics/GPointCircularPool as GPointCircularPoolModule
+export GPointCircularPoolModule
+import org/allbinary/input/motion/button/TouchButtonRecognizer as TouchButtonRecognizerModule
+export TouchButtonRecognizerModule
+import org/allbinary/input/motion/gesture/MotionGestureRecognizer as MotionGestureRecognizerModule
+export MotionGestureRecognizerModule
+import org/allbinary/logic/communication/log/LogUtil as LogUtilModule
+export LogUtilModule
+import org/allbinary/input/motion/MotionRecognizer as MotionRecognizerModule
+export MotionRecognizerModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
-from org.allbinary.input.motion.MotionRecognizer import MotionRecognizer
+type
+    AllMotionRecognizer* = ref object of MotionRecognizer
+        logUtil*: LogUtil
+        motionGestureRecognizer*: MotionGestureRecognizer
+        touchButtonProcessing*: bool
+        touchButtonRecognizer*: TouchButtonRecognizer
+        id*: int32
+        lastX*: int32
+        lastY*: int32
 
+proc newAllMotionRecognizer*(): AllMotionRecognizer
+proc initAllMotionRecognizer*(this: AllMotionRecognizer)
+method processStartMotionEvent*(this: AllMotionRecognizer, x: int32, y: int32, deviceId: int32, modifiers: int32)
+method processEndMotionEvent*(this: AllMotionRecognizer, x: int32, y: int32, deviceId: int32, modifiers: int32)
+method processDraggedMotionEvent*(this: AllMotionRecognizer, x: int32, y: int32, deviceId: int32, modifiers: int32)
+method processMovedMotionEvent*(this: AllMotionRecognizer, x: int32, y: int32, deviceId: int32, modifiers: int32) {.base.}
+method processScrolledMotionEvent*(this: AllMotionRecognizer, x: int32, y: int32, deviceId: int32, modifiers: int32) {.base.}
+method getMotionGestureRecognizer*(this: AllMotionRecognizer): MotionGestureRecognizer {.base, discardable.}
+import org/allbinary/graphics/CustomGPoint as CustomGPointModule
+export CustomGPointModule
 
-class AllMotionRecognizer(MotionRecognizer):
-    index: int = 0
-    pointCircularPool: GPointCircularPool = None
+var AllMotionRecognizer_indexValue: int32
+var AllMotionRecognizer_indexSet = false
+proc index*(t: typedesc[AllMotionRecognizer]): int32 =
+    if not AllMotionRecognizer_indexSet:
+        AllMotionRecognizer_indexSet = true
+        AllMotionRecognizer_indexValue = 0
+    AllMotionRecognizer_indexValue
+proc `index=`*(t: typedesc[AllMotionRecognizer], value: int32) =
+    AllMotionRecognizer_indexSet = true
+    AllMotionRecognizer_indexValue = value
+var AllMotionRecognizer_pointCircularPoolValue: GPointCircularPool
+var AllMotionRecognizer_pointCircularPoolSet = false
+proc pointCircularPool*(t: typedesc[AllMotionRecognizer]): GPointCircularPool =
+    if not AllMotionRecognizer_pointCircularPoolSet:
+        AllMotionRecognizer_pointCircularPoolSet = true
+        AllMotionRecognizer_pointCircularPoolValue = newGPointCircularPool(40)
+    AllMotionRecognizer_pointCircularPoolValue
 
-    def _init_fields(self) -> None:
-        from org.allbinary.input.motion.button.TouchButtonRecognizer import TouchButtonRecognizer
-        from org.allbinary.input.motion.gesture.MotionGestureRecognizer import MotionGestureRecognizer
-        from org.allbinary.logic.communication.log.LogUtil import LogUtil
-        self.logUtil: LogUtil = LogUtil.getInstance()
-        self.motionGestureRecognizer: MotionGestureRecognizer = None
-        self.touchButtonProcessing: bool = False
-        self.touchButtonRecognizer: TouchButtonRecognizer = None
-        self.id: int = None
-        self.lastX: int = 0
-        self.lastY: int = 0
+# Java field initializers run after the base initializer
+proc initFieldsAllMotionRecognizer(this: AllMotionRecognizer) =
+    this.logUtil = LogUtil.getInstance()
     
-
-    def __init__(self) -> None:
-        from org.allbinary.input.motion.button.TouchButtonRecognizer import TouchButtonRecognizer
-        from org.allbinary.input.motion.gesture.MotionGestureRecognizer import MotionGestureRecognizer
-        super().__init__()
-        self._init_fields()
-        self.id = ((setattr(AllMotionRecognizer, "index", AllMotionRecognizer.index + 1) or AllMotionRecognizer.index) - 1)
-        self.motionGestureRecognizer = MotionGestureRecognizer(self.id)
-        self.touchButtonRecognizer = TouchButtonRecognizer()
+    this.touchButtonProcessing = false
     
+    
+    this.lastX = 0
+    this.lastY = 0
+    discard
 
-    # throws Exception
-    def processStartMotionEvent(self, x: int, y: int, deviceId: int, modifiers: int) -> None:
-        from org.allbinary.graphics.CustomGPoint import CustomGPoint
-        if self.touchButtonRecognizer.pressTouchButtonInput(x, y, deviceId):
-            self.touchButtonProcessing = True
-        if not self.touchButtonProcessing:
-            point: CustomGPoint = AllMotionRecognizer.pointCircularPool.getNextInstance()
+proc initAllMotionRecognizer*(this: AllMotionRecognizer) =
+        initMotionRecognizer(this)
+        this.initFieldsAllMotionRecognizer()
+        this.id = jPostIncrement(AllMotionRecognizer.index)
+        this.motionGestureRecognizer = newMotionGestureRecognizer(this.id)
+        this.touchButtonRecognizer = newTouchButtonRecognizer()
+
+proc newAllMotionRecognizer*(): AllMotionRecognizer =
+    result = AllMotionRecognizer()
+    initAllMotionRecognizer(result)
+
+method processStartMotionEvent*(this: AllMotionRecognizer, x: int32, y: int32, deviceId: int32, modifiers: int32) =
+        if this.touchButtonRecognizer.pressTouchButtonInput(x, y, deviceId):
+            this.touchButtonProcessing = true
+        if (not this.touchButtonProcessing):
+            let point: CustomGPoint = CustomGPoint(JObject(AllMotionRecognizer.pointCircularPool.getNextInstance()))
             point.setX(x)
             point.setY(y)
-            self.motionGestureRecognizer.processPressedMotionEvent(point, deviceId, modifiers)
-    
+            this.motionGestureRecognizer.processPressedMotionEvent(point, deviceId, modifiers)
 
-    # throws Exception
-    def processEndMotionEvent(self, x: int, y: int, deviceId: int, modifiers: int) -> None:
-        from org.allbinary.graphics.CustomGPoint import CustomGPoint
-        if self.touchButtonRecognizer.releaseTouchButtonInput(x, y, deviceId):
-            pass
-        if not self.touchButtonProcessing:
-            point: CustomGPoint = AllMotionRecognizer.pointCircularPool.getNextInstance()
+method processEndMotionEvent*(this: AllMotionRecognizer, x: int32, y: int32, deviceId: int32, modifiers: int32) =
+        if this.touchButtonRecognizer.releaseTouchButtonInput(x, y, deviceId):
+            discard
+        if (not this.touchButtonProcessing):
+            let point: CustomGPoint = CustomGPoint(JObject(AllMotionRecognizer.pointCircularPool.getNextInstance()))
             point.setX(x)
             point.setY(y)
-            self.motionGestureRecognizer.processReleasedMotionEvent(point, deviceId, modifiers)
-        if self.touchButtonProcessing:
-            self.touchButtonProcessing = False
-    
+            this.motionGestureRecognizer.processReleasedMotionEvent(point, deviceId, modifiers)
+        if this.touchButtonProcessing:
+            this.touchButtonProcessing = false
 
-    # throws Exception
-    def processDraggedMotionEvent(self, x: int, y: int, deviceId: int, modifiers: int) -> None:
-        from org.allbinary.graphics.CustomGPoint import CustomGPoint
-        if self.touchButtonProcessing:
-            self.touchButtonRecognizer.pressTouchButtonInput(x, y, deviceId)
-        if not self.touchButtonProcessing:
-            point: CustomGPoint = AllMotionRecognizer.pointCircularPool.getNextInstance()
+method processDraggedMotionEvent*(this: AllMotionRecognizer, x: int32, y: int32, deviceId: int32, modifiers: int32) =
+        if this.touchButtonProcessing:
+            this.touchButtonRecognizer.pressTouchButtonInput(x, y, deviceId)
+        if (not this.touchButtonProcessing):
+            let point: CustomGPoint = CustomGPoint(JObject(AllMotionRecognizer.pointCircularPool.getNextInstance()))
             point.setX(x)
             point.setY(y)
-            self.motionGestureRecognizer.processDraggedMotionEvent(point, deviceId, modifiers)
-    
+            this.motionGestureRecognizer.processDraggedMotionEvent(point, deviceId, modifiers)
 
-    # throws Exception
-    def processMovedMotionEvent(self, x: int, y: int, deviceId: int, modifiers: int) -> None:
-        from org.allbinary.graphics.CustomGPoint import CustomGPoint
-        if x != self.lastX or y != self.lastY:
-            self.lastX = x
-            self.lastY = y
-            point: CustomGPoint = AllMotionRecognizer.pointCircularPool.getNextInstance()
+method processMovedMotionEvent*(this: AllMotionRecognizer, x: int32, y: int32, deviceId: int32, modifiers: int32) {.base.} =
+        if x != this.lastX or y != this.lastY:
+            this.lastX = x
+            this.lastY = y
+            let point: CustomGPoint = CustomGPoint(JObject(AllMotionRecognizer.pointCircularPool.getNextInstance()))
             point.setX(x)
             point.setY(y)
-            self.motionGestureRecognizer.processMovedMotionEvent(point, deviceId, modifiers)
-    
+            this.motionGestureRecognizer.processMovedMotionEvent(point, deviceId, modifiers)
 
-    # throws Exception
-    def processScrolledMotionEvent(self, x: int, y: int, deviceId: int, modifiers: int) -> None:
-        from org.allbinary.graphics.CustomGPoint import CustomGPoint
-        point: CustomGPoint = AllMotionRecognizer.pointCircularPool.getNextInstance()
+method processScrolledMotionEvent*(this: AllMotionRecognizer, x: int32, y: int32, deviceId: int32, modifiers: int32) {.base.} =
+        let point: CustomGPoint = CustomGPoint(JObject(AllMotionRecognizer.pointCircularPool.getNextInstance()))
         point.setX(x)
         point.setY(y)
-        self.motionGestureRecognizer.processScrolledMotionEvent(point, deviceId, modifiers)
-    
+        this.motionGestureRecognizer.processScrolledMotionEvent(point, deviceId, modifiers)
 
-    def getMotionGestureRecognizer(self) -> MotionGestureRecognizer:
-        from org.allbinary.input.motion.gesture.MotionGestureRecognizer import MotionGestureRecognizer
-        return self.motionGestureRecognizer
-# from org.allbinary.graphics.CustomGPoint import CustomGPoint
-# from org.allbinary.graphics.GPointCircularPool import GPointCircularPool
-# from org.allbinary.input.motion.button.TouchButtonRecognizer import TouchButtonRecognizer
-# from org.allbinary.input.motion.gesture.MotionGestureRecognizer import MotionGestureRecognizer
-# from org.allbinary.logic.communication.log.LogUtil import LogUtil
+method getMotionGestureRecognizer*(this: AllMotionRecognizer): MotionGestureRecognizer {.base, discardable.} =
+        return this.motionGestureRecognizer
 
-
-def _AllMotionRecognizer_pointCircularPool() -> object:
-    from org.allbinary.graphics.GPointCircularPool import GPointCircularPool
-    return GPointCircularPool(40)
-
-lazy_static(AllMotionRecognizer, "pointCircularPool", _AllMotionRecognizer_pointCircularPool)
+when declared(newAllMotionRecognizerHook0):
+    newAllMotionRecognizerHook0 = proc (): MotionRecognizer = newAllMotionRecognizer()
 

@@ -1,44 +1,57 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.ag.layer.pickup.life
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/layer/AllBinaryLayer as AllBinaryLayerModule
+export AllBinaryLayerModule
+import org/allbinary/layer/AllBinaryLayerCircularPool as AllBinaryLayerCircularPoolModule
+export AllBinaryLayerCircularPoolModule
+import org/allbinary/layer/AllBinaryLayerFactoryInterface as AllBinaryLayerFactoryInterfaceModule
+export AllBinaryLayerFactoryInterfaceModule
 
-from org.allbinary.layer.AllBinaryLayerCircularPool import AllBinaryLayerCircularPool
+type
+    LifeLayerCircularStaticPool* = ref object of AllBinaryLayerCircularPool
+
+proc newLifeLayerCircularStaticPool*(allbinaryLayerFactoryInterface: AllBinaryLayerFactoryInterface, total: int32): LifeLayerCircularStaticPool
+proc initLifeLayerCircularStaticPool*(this: LifeLayerCircularStaticPool, allbinaryLayerFactoryInterface: AllBinaryLayerFactoryInterface, total: int32)
+method visit*(this: LifeLayerCircularStaticPool, sourceLayerInterface: AllBinaryLayer) {.base.}
+import org/allbinary/game/ag/life/Life as LifeModule
+export LifeModule
+import org/allbinary/game/ag/life/LifeInterfaceCompositeInterface as LifeInterfaceCompositeInterfaceModule
+export LifeInterfaceCompositeInterfaceModule
+import org/allbinary/game/ag/layer/pickup/life/LifeLayer as LifeLayerModule
+export LifeLayerModule
 
 
-class LifeLayerCircularStaticPool(AllBinaryLayerCircularPool):
-    
+proc initLifeLayerCircularStaticPool*(this: LifeLayerCircularStaticPool, allbinaryLayerFactoryInterface: AllBinaryLayerFactoryInterface, total: int32) =
+        initAllBinaryLayerCircularPool(this)
+        procCall AllBinaryLayerCircularPool(this).initAllBinaryLayerCircularPool(allbinaryLayerFactoryInterface, total)
 
-    def __init__(self, allbinaryLayerFactoryInterface: AllBinaryLayerFactoryInterface, total: int) -> None:
-        from org.allbinary.layer.AllBinaryLayerFactoryInterface import AllBinaryLayerFactoryInterface
-        super().__init__()
-        super().initAllBinaryLayerCircularPool(allbinaryLayerFactoryInterface, total)
-    
+proc newLifeLayerCircularStaticPool*(allbinaryLayerFactoryInterface: AllBinaryLayerFactoryInterface, total: int32): LifeLayerCircularStaticPool =
+    result = LifeLayerCircularStaticPool()
+    initLifeLayerCircularStaticPool(result, allbinaryLayerFactoryInterface, total)
 
-    # throws Exception
-    def visit(self, sourceLayerInterface: AllBinaryLayer) -> None:
-        from org.allbinary.game.ag.life.Life import Life
-        from org.allbinary.game.ag.life.LifeInterfaceCompositeInterface import LifeInterfaceCompositeInterface
-        from org.allbinary.layer.AllBinaryLayer import AllBinaryLayer
-        lifeLayer: LifeLayer = self.getNextInstance()
-        lifeInterfaceCompositeInterface: LifeInterfaceCompositeInterface = sourceLayerInterface
-        lifeInterface: Life = lifeInterfaceCompositeInterface.getLifeInterface()
+method visit*(this: LifeLayerCircularStaticPool, sourceLayerInterface: AllBinaryLayer) {.base.} =
+        let lifeLayer: LifeLayer = LifeLayer(JObject(this.getNextInstance()))
+        let lifeInterfaceCompositeInterface: LifeInterfaceCompositeInterface = LifeInterfaceCompositeInterface(JObject(sourceLayerInterface))
+        let lifeInterface: Life = lifeInterfaceCompositeInterface.getLifeInterface()
         lifeLayer.visit(lifeInterface)
-# from org.allbinary.game.ag.life.Life import Life
-# from org.allbinary.game.ag.life.LifeInterfaceCompositeInterface import LifeInterfaceCompositeInterface
-# from org.allbinary.layer.AllBinaryLayer import AllBinaryLayer
-# from org.allbinary.layer.AllBinaryLayerFactoryInterface import AllBinaryLayerFactoryInterface
 
+when declared(newLifeLayerCircularStaticPoolHook2):
+    newLifeLayerCircularStaticPoolHook2 = proc (allbinaryLayerFactoryInterface: AllBinaryLayerFactoryInterface, total: int32): AllBinaryLayerCircularPool = newLifeLayerCircularStaticPool(allbinaryLayerFactoryInterface, total)
 

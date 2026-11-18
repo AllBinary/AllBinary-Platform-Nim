@@ -1,124 +1,139 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.ai
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import java/lang/Integer as IntegerModule
+export IntegerModule
+import org/allbinary/ai/ArtificialIntelligence as ArtificialIntelligenceModule
+export ArtificialIntelligenceModule
+import org/allbinary/game/input/GameInput as GameInputModule
+export GameInputModule
+import org/allbinary/game/input/GameKeyEventSourceInterface as GameKeyEventSourceInterfaceModule
+export GameKeyEventSourceInterfaceModule
+import org/allbinary/game/input/event/GameKeyEventFactory as GameKeyEventFactoryModule
+export GameKeyEventFactoryModule
+import org/allbinary/layer/AllBinaryLayer as AllBinaryLayerModule
+export AllBinaryLayerModule
+import org/allbinary/layer/AllBinaryLayerManager as AllBinaryLayerManagerModule
+export AllBinaryLayerManagerModule
+import org/allbinary/logic/communication/log/LogUtil as LogUtilModule
+export LogUtilModule
+import org/allbinary/string/CommonStrings as CommonStringsModule
+export CommonStringsModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
-from org.allbinary.ai.ArtificialIntelligence import ArtificialIntelligence
-from org.allbinary.game.input.GameKeyEventSourceInterface import GameKeyEventSourceInterface
+type
+    BasicAI* = ref object of ArtificialIntelligence
+        logUtil*: LogUtil
+        commonStrings*: CommonStrings
+        gameKeyEventFactory*: GameKeyEventFactory
+        ownerLayerInterface*: AllBinaryLayer
+        gameInput*: GameInput
+        lastKey*: int32
 
+converter jAsGameKeyEventSourceInterface*(value: BasicAI): GameKeyEventSourceInterface = cast[GameKeyEventSourceInterface](value)
+proc newBasicAI*(ownerLayerInterface: AllBinaryLayer, gameInput: GameInput): BasicAI
+proc initBasicAI*(this: BasicAI, ownerLayerInterface: AllBinaryLayer, gameInput: GameInput)
+method processAI*(this: BasicAI, allBinaryLayerManager: AllBinaryLayerManager)
+method processKeyAI*(this: BasicAI, key: int32) {.base.}
+method setLastKey*(this: BasicAI, lastKey: int32) {.base.}
+method getLastKey*(this: BasicAI): int32 {.base, discardable.}
+method getOwnerLayerInterface*(this: BasicAI): AllBinaryLayer {.base, discardable.}
+method getGameInput*(this: BasicAI): GameInput {.base, discardable.}
+method getName*(this: BasicAI): string {.base, discardable.}
+method toString*(this: BasicAI): string {.discardable.}
+method getSourceId*(this: BasicAI): int32 {.discardable.}
+import org/allbinary/game/displayable/canvas/CanvasUtil as CanvasUtilModule
+export CanvasUtilModule
+import org/allbinary/logic/math/SmallIntegerSingletonFactory as SmallIntegerSingletonFactoryModule
+export SmallIntegerSingletonFactoryModule
+import org/allbinary/logic/string/StringMaker as StringMakerModule
+export StringMakerModule
+import org/allbinary/string/CommonSeps as CommonSepsModule
+export CommonSepsModule
 
-class BasicAI(ArtificialIntelligence, GameKeyEventSourceInterface):
-    AI_VISITOR: int = None
-    ID: int = None
+var BasicAI_AI_VISITORValue: int32
+var BasicAI_AI_VISITORSet = false
+proc AI_VISITOR*(t: typedesc[BasicAI]): int32 =
+    if not BasicAI_AI_VISITORSet:
+        BasicAI_AI_VISITORSet = true
+        BasicAI_AI_VISITORValue = SmallIntegerSingletonFactory.getInstance().getAt(2)
+    BasicAI_AI_VISITORValue
+var BasicAI_IDValue: int32
+var BasicAI_IDSet = false
+proc ID*(t: typedesc[BasicAI]): int32 =
+    if not BasicAI_IDSet:
+        BasicAI_IDSet = true
+        BasicAI_IDValue = SmallIntegerSingletonFactory.getInstance().getAt(1)
+    BasicAI_IDValue
 
-    def _init_fields(self) -> None:
-        from org.allbinary.game.input.GameInput import GameInput
-        from org.allbinary.game.input.event.GameKeyEventFactory import GameKeyEventFactory
-        from org.allbinary.layer.AllBinaryLayer import AllBinaryLayer
-        from org.allbinary.logic.communication.log.LogUtil import LogUtil
-        from org.allbinary.string.CommonStrings import CommonStrings
-        self.logUtil: LogUtil = LogUtil.getInstance()
-        self.commonStrings: CommonStrings = CommonStrings.getInstance()
-        self.gameKeyEventFactory: GameKeyEventFactory = GameKeyEventFactory.getInstance()
-        self.ownerLayerInterface: AllBinaryLayer = None
-        self.gameInput: GameInput = None
-        self.lastKey: int = -1
+# Java field initializers run after the base initializer
+proc initFieldsBasicAI(this: BasicAI) =
+    this.logUtil = LogUtil.getInstance()
+    this.commonStrings = CommonStrings.getInstance()
+    this.gameKeyEventFactory = GameKeyEventFactory.getInstance()
     
-
-    def __init__(self, ownerLayerInterface: AllBinaryLayer, gameInput: GameInput) -> None:
-        from org.allbinary.game.input.GameInput import GameInput
-        from org.allbinary.layer.AllBinaryLayer import AllBinaryLayer
-        super().__init__()
-        self._init_fields()
-        self.ownerLayerInterface = ownerLayerInterface
-        self.gameInput = gameInput
     
+    this.lastKey = -1
+    discard
 
-    # throws Exception
-    def processAI(self, allBinaryLayerManager: AllBinaryLayerManager) -> None:
-        from org.allbinary.layer.AllBinaryLayerManager import AllBinaryLayerManager
-        raise Exception(self.commonStrings.NOT_IMPLEMENTED)
-    
+proc initBasicAI*(this: BasicAI, ownerLayerInterface: AllBinaryLayer, gameInput: GameInput) =
+        initArtificialIntelligence(this)
+        this.initFieldsBasicAI()
+        this.ownerLayerInterface = ownerLayerInterface
+        this.gameInput = gameInput
 
-    # throws Exception
-    def processKeyAI(self, key: int) -> None:
+proc newBasicAI*(ownerLayerInterface: AllBinaryLayer, gameInput: GameInput): BasicAI =
+    result = BasicAI()
+    initBasicAI(result, ownerLayerInterface, gameInput)
+
+method processAI*(this: BasicAI, allBinaryLayerManager: AllBinaryLayerManager) =
+        raise newJException("Exception", this.commonStrings.NOT_IMPLEMENTED)
+
+method processKeyAI*(this: BasicAI, key: int32) {.base.} =
         if key != -1:
-            self.gameInput.add(self.gameKeyEventFactory.getInstanceForKey(self, key))
-    
+            this.gameInput.add(this.gameKeyEventFactory.getInstanceForKey(this, key))
 
-    def setLastKey(self, lastKey: int) -> None:
-        self.lastKey = lastKey
-    
+method setLastKey*(this: BasicAI, lastKey: int32) {.base.} =
+        this.lastKey = lastKey
 
-    def getLastKey(self) -> int:
-        return self.lastKey
-    
+method getLastKey*(this: BasicAI): int32 {.base, discardable.} =
+        return this.lastKey
 
-    def getOwnerLayerInterface(self) -> AllBinaryLayer:
-        from org.allbinary.layer.AllBinaryLayer import AllBinaryLayer
-        return self.ownerLayerInterface
-    
+method getOwnerLayerInterface*(this: BasicAI): AllBinaryLayer {.base, discardable.} =
+        return this.ownerLayerInterface
 
-    def getGameInput(self) -> GameInput:
-        from org.allbinary.game.input.GameInput import GameInput
-        return self.gameInput
-    
+method getGameInput*(this: BasicAI): GameInput {.base, discardable.} =
+        return this.gameInput
 
-    def getName(self) -> str:
-        return type(self).__module__ + "." + type(self).__qualname__
-    
+method getName*(this: BasicAI): string {.base, discardable.} =
+        return jClassName(this)
 
-    def toString(self) -> str:
-        from org.allbinary.game.displayable.canvas.CanvasUtil import CanvasUtil
-        from org.allbinary.logic.string.StringMaker import StringMaker
-        from org.allbinary.string.CommonSeps import CommonSeps
-        stringBuffer: StringMaker = StringMaker()
+method toString*(this: BasicAI): string {.discardable.} =
+        var stringBuffer: StringMaker = newStringMaker()
         stringBuffer.append(CommonSeps.getInstance().NEW_LINE)
-        stringBuffer.append(self.getName())
+        stringBuffer.append(this.getName())
         stringBuffer.append(" LastKey: ")
-        stringBuffer.append(CanvasUtil.getKeyName(self.getLastKey()))
-        return str(stringBuffer)
+        stringBuffer.append(CanvasUtil.getKeyName(this.getLastKey()))
+        return stringBuffer.toString()
 
-    def __str__(self) -> str:
-        return self.toString()
-    
-
-    def getSourceId(self) -> int:
+method getSourceId*(this: BasicAI): int32 {.discardable.} =
         return 1
-# from org.allbinary.game.displayable.canvas.CanvasUtil import CanvasUtil
-# from org.allbinary.game.input.GameInput import GameInput
-# from org.allbinary.game.input.event.GameKeyEventFactory import GameKeyEventFactory
-# from org.allbinary.layer.AllBinaryLayer import AllBinaryLayer
-# from org.allbinary.layer.AllBinaryLayerManager import AllBinaryLayerManager
-# from org.allbinary.logic.communication.log.LogUtil import LogUtil
-# from org.allbinary.logic.math.SmallIntegerSingletonFactory import SmallIntegerSingletonFactory
-# from org.allbinary.logic.string.StringMaker import StringMaker
-# from org.allbinary.string.CommonSeps import CommonSeps
-# from org.allbinary.string.CommonStrings import CommonStrings
 
-
-def _BasicAI_AI_VISITOR() -> object:
-    from org.allbinary.logic.math.SmallIntegerSingletonFactory import SmallIntegerSingletonFactory
-    return SmallIntegerSingletonFactory.getInstance().getAt(2)
-
-lazy_static(BasicAI, "AI_VISITOR", _BasicAI_AI_VISITOR)
-
-def _BasicAI_ID() -> object:
-    from org.allbinary.logic.math.SmallIntegerSingletonFactory import SmallIntegerSingletonFactory
-    return SmallIntegerSingletonFactory.getInstance().getAt(1)
-
-lazy_static(BasicAI, "ID", _BasicAI_ID)
+when declared(newBasicAIHook2):
+    newBasicAIHook2 = proc (ownerLayerInterface: AllBinaryLayer, gameInput: GameInput): ArtificialIntelligence = newBasicAI(ownerLayerInterface, gameInput)
 

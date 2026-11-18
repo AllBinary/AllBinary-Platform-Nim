@@ -1,36 +1,49 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.layer.special
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/game/input/event/GameKeyEvent as GameKeyEventModule
+export GameKeyEventModule
+import org/allbinary/layer/AllBinaryLayerManager as AllBinaryLayerManagerModule
+export AllBinaryLayerManagerModule
+import org/allbinary/game/layer/special/SpecialGameInputProcessor as SpecialGameInputProcessorModule
+export SpecialGameInputProcessorModule
+import org/allbinary/game/layer/special/CollidableDestroyableDamageableLayer as CollidableDestroyableDamageableLayerModule
+export CollidableDestroyableDamageableLayerModule
 
-from org.allbinary.game.layer.special.SpecialGameInputProcessor import SpecialGameInputProcessor
+type
+    Special4GameInputProcessor* = ref object of SpecialGameInputProcessor
+
+proc newSpecial4GameInputProcessor*(collidableDestroyableDamageableLayer: CollidableDestroyableDamageableLayer): Special4GameInputProcessor
+proc initSpecial4GameInputProcessor*(this: Special4GameInputProcessor, collidableDestroyableDamageableLayer: CollidableDestroyableDamageableLayer)
+method processEvent*(this: Special4GameInputProcessor, allbinaryLayerManager: AllBinaryLayerManager, gameKeyEvent: GameKeyEvent)
 
 
-class Special4GameInputProcessor(SpecialGameInputProcessor):
-    
+proc initSpecial4GameInputProcessor*(this: Special4GameInputProcessor, collidableDestroyableDamageableLayer: CollidableDestroyableDamageableLayer) =
+        initSpecialGameInputProcessor(this, collidableDestroyableDamageableLayer)
 
-    def __init__(self, collidableDestroyableDamageableLayer: CollidableDestroyableDamageableLayer) -> None:
-        super().__init__(collidableDestroyableDamageableLayer)
-    
+proc newSpecial4GameInputProcessor*(collidableDestroyableDamageableLayer: CollidableDestroyableDamageableLayer): Special4GameInputProcessor =
+    result = Special4GameInputProcessor()
+    initSpecial4GameInputProcessor(result, collidableDestroyableDamageableLayer)
 
-    # throws Exception
-    def processEvent(self, allbinaryLayerManager: AllBinaryLayerManager, gameKeyEvent: GameKeyEvent) -> None:
-        from org.allbinary.game.input.event.GameKeyEvent import GameKeyEvent
-        from org.allbinary.layer.AllBinaryLayerManager import AllBinaryLayerManager
-        self.collidableDestroyableDamageableLayer.special4(allbinaryLayerManager, gameKeyEvent)
-# from org.allbinary.game.input.event.GameKeyEvent import GameKeyEvent
-# from org.allbinary.layer.AllBinaryLayerManager import AllBinaryLayerManager
+method processEvent*(this: Special4GameInputProcessor, allbinaryLayerManager: AllBinaryLayerManager, gameKeyEvent: GameKeyEvent) =
+        this.collidableDestroyableDamageableLayer.special4(allbinaryLayerManager, gameKeyEvent)
 
+when declared(newSpecial4GameInputProcessorHook1):
+    newSpecial4GameInputProcessorHook1 = proc (collidableDestroyableDamageableLayer: CollidableDestroyableDamageableLayer): SpecialGameInputProcessor = newSpecial4GameInputProcessor(collidableDestroyableDamageableLayer)
 

@@ -1,36 +1,37 @@
-# 
-# AllBinary Open License Version 1 
-# Copyright (c) 2022 AllBinary 
-#  
-# By agreeing to this license you and any business entity you represent are 
-# legally bound to the AllBinary Open License Version 1 legal agreement. 
-#  
-# You may obtain the AllBinary Open License Version 1 legal agreement from 
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
-#  
-# Created By: Travis Berthelot 
-#   
+#[
+  
+  AllBinary Open License Version 1 
+  Copyright (c) 2022 AllBinary 
+   
+  By agreeing to this license you and any business entity you represent are 
+  legally bound to the AllBinary Open License Version 1 legal agreement. 
+   
+  You may obtain the AllBinary Open License Version 1 legal agreement from 
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
+   
+  Created By: Travis Berthelot 
+    
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.score
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/game/score/HighScoresResultsListener as HighScoresResultsListenerModule
+export HighScoresResultsListenerModule
+import org/allbinary/game/score/HighScores as HighScoresModule
+export HighScoresModule
 
-from org.allbinary.game.score.HighScoresResultsListener import HighScoresResultsListener
+type
+    HighScoresHelperBaseInterface* = ref object of HighScoresResultsListener
 
 
-# Java interface
-class HighScoresHelperBaseInterface(HighScoresResultsListener):
-    
+method setSelectedHighScores*(this: HighScoresHelperBaseInterface, selectedHighScores: HighScores) {.base.} =
+        raise newJException("AbstractMethodError", "setSelectedHighScores")
 
-    def setSelectedHighScores(self, selectedHighScores: HighScores) -> None:
-        raise NotImplementedError()
-    
+method getHighScoresArray*(this: HighScoresHelperBaseInterface): JArray[HighScores] {.base, discardable.} =
+        raise newJException("AbstractMethodError", "getHighScoresArray")
 
-    def getHighScoresArray(self) -> list[HighScores]:
-        raise NotImplementedError()
-    
-
-    def getSelectedHighScores(self) -> HighScores:
-        raise NotImplementedError()
-
+method getSelectedHighScores*(this: HighScoresHelperBaseInterface): HighScores {.base, discardable.} =
+        raise newJException("AbstractMethodError", "getSelectedHighScores")
 

@@ -1,69 +1,85 @@
 # Generated Code Do Not Modify
 # package org.allbinary.device
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import javax/microedition/khronos/opengles/GL as GLModule
+export GLModule
+import javax/microedition/khronos/opengles/GL10 as GL10Module
+export GL10Module
+import javax/microedition/lcdui/Font as FontModule
+export FontModule
+import javax/microedition/lcdui/Graphics as GraphicsModule
+export GraphicsModule
+import org/allbinary/graphics/font/FontDebugBase as FontDebugBaseModule
+export FontDebugBaseModule
+import org/allbinary/image/opengles/OpenGLSurfaceChangedInterface as OpenGLSurfaceChangedInterfaceModule
+export OpenGLSurfaceChangedInterfaceModule
+import org/allbinary/string/CommonStrings as CommonStringsModule
+export CommonStringsModule
+import org/allbinary/device/GraphicsInterface as GraphicsInterfaceModule
+export GraphicsInterfaceModule
 
-from javax.microedition.lcdui.Graphics import Graphics
-from org.allbinary.image.opengles.OpenGLSurfaceChangedInterface import OpenGLSurfaceChangedInterface
-from org.allbinary.device.GraphicsInterface import GraphicsInterface
+type
+    OpenGLESGraphics* = ref object of Graphics
+        commonStrings*: CommonStrings
+        gl*: GL10
+
+converter jAsOpenGLSurfaceChangedInterface*(value: OpenGLESGraphics): OpenGLSurfaceChangedInterface = cast[OpenGLSurfaceChangedInterface](value)
+converter jAsGraphicsInterface*(value: OpenGLESGraphics): GraphicsInterface = cast[GraphicsInterface](value)
+proc newOpenGLESGraphics*(): OpenGLESGraphics
+proc initOpenGLESGraphics*(this: OpenGLESGraphics)
+method updateGL*(this: OpenGLESGraphics, gl: GL) {.base.}
+method set*(this: OpenGLESGraphics, gl: GL)
+method init*(this: OpenGLESGraphics) {.base.}
+method update*(this: OpenGLESGraphics) {.base.}
+method setOrthoginalMode*(this: OpenGLESGraphics) {.base.}
+method setCameraMode*(this: OpenGLESGraphics) {.base.}
+method getGl10*(this: OpenGLESGraphics): GL10 {.base, discardable.}
+method setFontDebug*(this: OpenGLESGraphics, font: Font, fontDebug: FontDebugBase)
+import org/allbinary/device/NullGL10 as NullGL10Module
+export NullGL10Module
 
 
-class OpenGLESGraphics(Graphics, OpenGLSurfaceChangedInterface, GraphicsInterface):
+# Java field initializers run after the base initializer
+proc initFieldsOpenGLESGraphics(this: OpenGLESGraphics) =
+    this.commonStrings = CommonStrings.getInstance()
+    this.gl = NullGL10.NULL_GL10Static
+    discard
 
-    def _init_fields(self) -> None:
-        from javax.microedition.khronos.opengles.GL10 import GL10
-        from org.allbinary.string.CommonStrings import CommonStrings
-        self.commonStrings: CommonStrings = CommonStrings.getInstance()
-        self.gl: GL10 = NullGL10.NULL_GL10
-    
+proc initOpenGLESGraphics*(this: OpenGLESGraphics) =
+        initGraphics(this)
+        this.initFieldsOpenGLESGraphics()
+        discard
 
-    def __init__(self) -> None:
-        super().__init__()
-        self._init_fields()
-    
+proc newOpenGLESGraphics*(): OpenGLESGraphics =
+    result = OpenGLESGraphics()
+    initOpenGLESGraphics(result)
 
-    def updateGL(self, gl: GL) -> None:
-        from javax.microedition.khronos.opengles.GL import GL
-        pass
-    
+method updateGL*(this: OpenGLESGraphics, gl: GL) {.base.} =
+        discard
 
-    def set(self, gl: GL) -> None:
-        from javax.microedition.khronos.opengles.GL import GL
-        pass
-    
+method set*(this: OpenGLESGraphics, gl: GL) =
+        discard
 
-    # throws Exception
-    def init(self) -> None:
-        pass
-    
+method init*(this: OpenGLESGraphics) {.base.} =
+        discard
 
-    # throws Exception
-    def update(self) -> None:
-        pass
-    
+method update*(this: OpenGLESGraphics) {.base.} =
+        discard
 
-    def setOrthoginalMode(self) -> None:
-        pass
-    
+method setOrthoginalMode*(this: OpenGLESGraphics) {.base.} =
+        discard
 
-    def setCameraMode(self) -> None:
-        pass
-    
+method setCameraMode*(this: OpenGLESGraphics) {.base.} =
+        discard
 
-    def getGl10(self) -> GL10:
-        from javax.microedition.khronos.opengles.GL10 import GL10
-        return self.gl
-    
+method getGl10*(this: OpenGLESGraphics): GL10 {.base, discardable.} =
+        return this.gl
 
-    def setFontDebug(self, font: Font, fontDebug: FontDebugBase) -> None:
-        from javax.microedition.lcdui.Font import Font
-        from org.allbinary.graphics.font.FontDebugBase import FontDebugBase
-        raise RuntimeError()
-# from javax.microedition.khronos.opengles.GL import GL
-# from javax.microedition.khronos.opengles.GL10 import GL10
-# from javax.microedition.lcdui.Font import Font
-# from org.allbinary.graphics.font.FontDebugBase import FontDebugBase
-# from org.allbinary.string.CommonStrings import CommonStrings
-from org.allbinary.device.NullGL10 import NullGL10
+method setFontDebug*(this: OpenGLESGraphics, font: Font, fontDebug: FontDebugBase) =
+        raise newJException("RuntimeException", "")
 
+when declared(newOpenGLESGraphicsHook0):
+    newOpenGLESGraphicsHook0 = proc (): Graphics = newOpenGLESGraphics()
 

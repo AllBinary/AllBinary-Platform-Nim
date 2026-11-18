@@ -1,126 +1,144 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.input.motion.button
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import javax/microedition/lcdui/Graphics as GraphicsModule
+export GraphicsModule
+import org/allbinary/animation/Animation as AnimationModule
+export AnimationModule
+import org/allbinary/animation/AnimationInterface as AnimationInterfaceModule
+export AnimationInterfaceModule
+import org/allbinary/graphics/CellPosition as CellPositionModule
+export CellPositionModule
+import org/allbinary/graphics/Rectangle as RectangleModule
+export RectangleModule
+import org/allbinary/graphics/paint/Paintable as PaintableModule
+export PaintableModule
+import org/allbinary/logic/communication/log/LogUtil as LogUtilModule
+export LogUtilModule
+import org/allbinary/string/CommonStrings as CommonStringsModule
+export CommonStringsModule
+import org/allbinary/input/motion/button/TouchButtonInput as TouchButtonInputModule
+export TouchButtonInputModule
 
-from org.allbinary.graphics.paint.Paintable import Paintable
+type
+    TouchButton* = ref object of Paintable
+        logUtil*: LogUtil
+        commonStrings*: CommonStrings
+        touchButtonInput*: TouchButtonInput
+        animationInterface*: Animation
+        rawRectangle*: Rectangle
+        xBorder*: int32
+        yBorder*: int32
+        rectangle*: Rectangle
+        cellPosition*: CellPosition
+        animationX*: int32
+        animationY*: int32
+
+proc newTouchButton*(touchButtonInput: TouchButtonInput, animationInterface: AnimationInterface, rawRectangle: Rectangle, cellPosition: CellPosition, xBorder: int32, yBorder: int32): TouchButton
+proc initTouchButton*(this: TouchButton, touchButtonInput: TouchButtonInput, animationInterface: AnimationInterface, rawRectangle: Rectangle, cellPosition: CellPosition, xBorder: int32, yBorder: int32)
+method paint*(this: TouchButton, graphics: Graphics)
+method updateRectangle*(this: TouchButton) {.base.}
+method getCellPositionP*(this: TouchButton): CellPosition {.base, discardable.}
+method getRectangleP*(this: TouchButton): Rectangle {.base, discardable.}
+method getTouchButtonInput*(this: TouchButton): TouchButtonInput {.base, discardable.}
+method toString*(this: TouchButton): string {.discardable.}
+import org/allbinary/graphics/GPoint as GPointModule
+export GPointModule
+import org/allbinary/graphics/PointFactory as PointFactoryModule
+export PointFactoryModule
+import org/allbinary/graphics/RectangleFactory as RectangleFactoryModule
+export RectangleFactoryModule
+import org/allbinary/logic/string/StringMaker as StringMakerModule
+export StringMakerModule
+import org/allbinary/logic/string/StringUtil as StringUtilModule
+export StringUtilModule
 
 
-class TouchButton(Paintable):
-
-    def _init_fields(self) -> None:
-        from org.allbinary.animation.Animation import Animation
-        from org.allbinary.graphics.CellPosition import CellPosition
-        from org.allbinary.graphics.Rectangle import Rectangle
-        from org.allbinary.graphics.RectangleFactory import RectangleFactory
-        from org.allbinary.logic.communication.log.LogUtil import LogUtil
-        from org.allbinary.string.CommonStrings import CommonStrings
-        self.logUtil: LogUtil = LogUtil.getInstance()
-        self.commonStrings: CommonStrings = CommonStrings.getInstance()
-        self.touchButtonInput: TouchButtonInput = None
-        self.animationInterface: Animation = None
-        self.rawRectangle: Rectangle = None
-        self.xBorder: int = None
-        self.yBorder: int = None
-        self.rectangle: Rectangle = RectangleFactory.SINGLETON
-        self.cellPosition: CellPosition = None
-        self.animationX: int = 0
-        self.animationY: int = 0
+# Java field initializers run after the base initializer
+proc initFieldsTouchButton(this: TouchButton) =
+    this.logUtil = LogUtil.getInstance()
+    this.commonStrings = CommonStrings.getInstance()
     
-
-    def __init__(self, touchButtonInput: TouchButtonInput, animationInterface: AnimationInterface, rawRectangle: Rectangle, cellPosition: CellPosition, xBorder: int, yBorder: int) -> None:
-        from org.allbinary.animation.Animation import Animation
-        from org.allbinary.animation.AnimationInterface import AnimationInterface
-        from org.allbinary.graphics.CellPosition import CellPosition
-        from org.allbinary.graphics.Rectangle import Rectangle
-        from org.allbinary.logic.string.StringMaker import StringMaker
-        super().__init__()
-        self._init_fields()
-        self.touchButtonInput = touchButtonInput
-        self.animationInterface = animationInterface
-        self.rawRectangle = rawRectangle
-        self.cellPosition = cellPosition
-        self.xBorder = xBorder
-        self.yBorder = yBorder
-        self.updateRectangle()
-        self.logUtil.putF(str(StringMaker().append("Created: ").append(str(self))), self, self.commonStrings.CONSTRUCTOR)
     
-
-    def paint(self, graphics: Graphics) -> None:
-        from javax.microedition.lcdui.Graphics import Graphics
-        self.animationInterface.paintXY(graphics, self.animationX, self.animationY)
     
+    
+    
+    this.rectangle = RectangleFactory.SINGLETON
+    
+    this.animationX = 0
+    this.animationY = 0
+    discard
 
-    def updateRectangle(self) -> None:
-        from org.allbinary.graphics.GPoint import GPoint
-        from org.allbinary.graphics.PointFactory import PointFactory
-        from org.allbinary.graphics.Rectangle import Rectangle
+proc initTouchButton*(this: TouchButton, touchButtonInput: TouchButtonInput, animationInterface: AnimationInterface, rawRectangle: Rectangle, cellPosition: CellPosition, xBorder: int32, yBorder: int32) =
+        initPaintable(this)
+        this.initFieldsTouchButton()
+        this.touchButtonInput = touchButtonInput
+        this.animationInterface = Animation(JObject(animationInterface))
+        this.rawRectangle = rawRectangle
+        this.cellPosition = cellPosition
+        this.xBorder = xBorder
+        this.yBorder = yBorder
+        this.updateRectangle()
+        this.logUtil.putF(newStringMaker().append("Created: ").append(this.toString()).toString(), this, this.commonStrings.CONSTRUCTOR)
+
+proc newTouchButton*(touchButtonInput: TouchButtonInput, animationInterface: AnimationInterface, rawRectangle: Rectangle, cellPosition: CellPosition, xBorder: int32, yBorder: int32): TouchButton =
+    result = TouchButton()
+    initTouchButton(result, touchButtonInput, animationInterface, rawRectangle, cellPosition, xBorder, yBorder)
+
+method paint*(this: TouchButton, graphics: Graphics) =
+        this.animationInterface.paintXY(graphics, this.animationX, this.animationY)
+
+method updateRectangle*(this: TouchButton) {.base.} =
         try:
-            x: int = self.rawRectangle.getWidth() * self.cellPosition.getColumn()
-            y: int = self.rawRectangle.getHeight() * self.cellPosition.getRow()
-            pointFactory: PointFactory = PointFactory.getInstance()
-            self.rectangle = Rectangle(pointFactory.createXY(x + self.xBorder, y + self.yBorder), self.rawRectangle.getWidth(), self.rawRectangle.getHeight())
-            point: GPoint = self.rectangle.getPoint()
-            self.animationX = point.getX()
-            self.animationY = point.getY()
-        except Exception as e:
-            self.logUtil.put(self.commonStrings.EXCEPTION, self, "updateRectangle", e)
-    
+            let x: int32 = this.rawRectangle.getWidth() *% this.cellPosition.getColumn()
+            let y: int32 = this.rawRectangle.getHeight() *% this.cellPosition.getRow()
+            let pointFactory: PointFactory = PointFactory.getInstance()
+            this.rectangle = newRectangle(pointFactory.createXY(x +% this.xBorder, y +% this.yBorder), this.rawRectangle.getWidth(), this.rawRectangle.getHeight())
+            let point: GPoint = this.rectangle.getPoint()
+            this.animationX = point.getX()
+            this.animationY = point.getY()
+        except CatchableError as jcaught:
+            let e = jToException(jcaught)
+            this.logUtil.put(this.commonStrings.EXCEPTION, this, "updateRectangle", e)
 
-    def getCellPositionP(self) -> CellPosition:
-        from org.allbinary.graphics.CellPosition import CellPosition
-        return self.cellPosition
-    
+method getCellPositionP*(this: TouchButton): CellPosition {.base, discardable.} =
+        return this.cellPosition
 
-    def getRectangleP(self) -> Rectangle:
-        from org.allbinary.graphics.Rectangle import Rectangle
-        return self.rectangle
-    
+method getRectangleP*(this: TouchButton): Rectangle {.base, discardable.} =
+        return this.rectangle
 
-    def getTouchButtonInput(self) -> TouchButtonInput:
-        return self.touchButtonInput
-    
+method getTouchButtonInput*(this: TouchButton): TouchButtonInput {.base, discardable.} =
+        return this.touchButtonInput
 
-    def toString(self) -> str:
-        from org.allbinary.logic.string.StringMaker import StringMaker
-        from org.allbinary.logic.string.StringUtil import StringUtil
-        stringBuffer: StringMaker = StringMaker()
-        stringUtil: StringUtil = StringUtil.getInstance()
+method toString*(this: TouchButton): string {.discardable.} =
+        let stringBuffer: StringMaker = newStringMaker()
+        let stringUtil: StringUtil = StringUtil.getInstance()
         stringBuffer.append("TouchButton: ")
-        stringBuffer.append(stringUtil.toString(self.rectangle))
+        stringBuffer.append(stringUtil.toString(this.rectangle))
         stringBuffer.append(" CellPosition: ")
-        stringBuffer.append(stringUtil.toString(self.cellPosition))
+        stringBuffer.append(stringUtil.toString(this.cellPosition))
         stringBuffer.append(" xBorder: ")
-        stringBuffer.appendint(self.xBorder)
+        stringBuffer.appendint(this.xBorder)
         stringBuffer.append(" yBorder: ")
-        stringBuffer.appendint(self.yBorder)
-        return str(stringBuffer)
+        stringBuffer.appendint(this.yBorder)
+        return stringBuffer.toString()
 
-    def __str__(self) -> str:
-        return self.toString()
-# from javax.microedition.lcdui.Graphics import Graphics
-# from org.allbinary.animation.Animation import Animation
-# from org.allbinary.animation.AnimationInterface import AnimationInterface
-# from org.allbinary.graphics.CellPosition import CellPosition
-# from org.allbinary.graphics.GPoint import GPoint
-# from org.allbinary.graphics.PointFactory import PointFactory
-# from org.allbinary.graphics.Rectangle import Rectangle
-# from org.allbinary.graphics.RectangleFactory import RectangleFactory
-# from org.allbinary.logic.communication.log.LogUtil import LogUtil
-# from org.allbinary.logic.string.StringMaker import StringMaker
-# from org.allbinary.logic.string.StringUtil import StringUtil
-# from org.allbinary.string.CommonStrings import CommonStrings
-
+when declared(newTouchButtonHook6):
+    newTouchButtonHook6 = proc (touchButtonInput: TouchButtonInput, animationInterface: AnimationInterface, rawRectangle: Rectangle, cellPosition: CellPosition, xBorder: int32, yBorder: int32): Paintable = newTouchButton(touchButtonInput, animationInterface, rawRectangle, cellPosition, xBorder, yBorder)
 

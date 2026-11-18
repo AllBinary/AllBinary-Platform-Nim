@@ -1,85 +1,94 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.input
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import java/lang/Integer as IntegerModule
+export IntegerModule
+import java/lang/Boolean as BooleanModule
+export BooleanModule
+import org/allbinary/game/layer/hud/event/GameNotificationEventHandler as GameNotificationEventHandlerModule
+export GameNotificationEventHandlerModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    TextNotificationUtil* = ref object of JObject
+        TWO*: int32
+        FALSE*: bool
+        gameNotificationEventHandler*: GameNotificationEventHandler
 
+proc newTextNotificationUtil*(): TextNotificationUtil
+proc getInstance*(t: typedesc[TextNotificationUtil]): TextNotificationUtil {.discardable.}
+method fireError*(this: TextNotificationUtil, message: string) {.base.}
+method fireNew*(this: TextNotificationUtil, message: string) {.base.}
+method fireSuccess*(this: TextNotificationUtil, message: string) {.base.}
+method fire*(this: TextNotificationUtil, message: string) {.base.}
+import org/allbinary/game/layer/hud/event/GameNotificationEvent as GameNotificationEventModule
+export GameNotificationEventModule
+import org/allbinary/graphics/color/BasicColorFactory as BasicColorFactoryModule
+export BasicColorFactoryModule
+import org/allbinary/logic/java/bool/BooleanFactory as BooleanFactoryModule
+export BooleanFactoryModule
+import org/allbinary/logic/math/SmallIntegerSingletonFactory as SmallIntegerSingletonFactoryModule
+export SmallIntegerSingletonFactoryModule
+import org/allbinary/media/audio/ErrorSound as ErrorSoundModule
+export ErrorSoundModule
+import org/allbinary/media/audio/PrimaryPlayerQueueFactory as PrimaryPlayerQueueFactoryModule
+export PrimaryPlayerQueueFactoryModule
+import org/allbinary/media/audio/SelectSound as SelectSoundModule
+export SelectSoundModule
 
-class TextNotificationUtil:
-    instance: TextNotificationUtil = None
+var TextNotificationUtil_instanceValue: TextNotificationUtil
+var TextNotificationUtil_instanceSet = false
+proc instance*(t: typedesc[TextNotificationUtil]): TextNotificationUtil =
+    if not TextNotificationUtil_instanceSet:
+        TextNotificationUtil_instanceSet = true
+        TextNotificationUtil_instanceValue = newTextNotificationUtil()
+    TextNotificationUtil_instanceValue
 
-    def _init_fields(self) -> None:
-        from org.allbinary.game.layer.hud.event.GameNotificationEventHandler import GameNotificationEventHandler
-        from org.allbinary.logic.java.bool.BooleanFactory import BooleanFactory
-        from org.allbinary.logic.math.SmallIntegerSingletonFactory import SmallIntegerSingletonFactory
-        self.TWO: int = SmallIntegerSingletonFactory.getInstance().getAt(2)
-        self.FALSE: bool = BooleanFactory.getInstance().FALSE
-        self.gameNotificationEventHandler: GameNotificationEventHandler = GameNotificationEventHandler.getInstance()
+# Java field initializers run after the base initializer
+proc initFieldsTextNotificationUtil(this: TextNotificationUtil) =
+    this.TWO = SmallIntegerSingletonFactory.getInstance().getAt(2)
+    this.FALSE = BooleanFactory.getInstance().FALSE
+    this.gameNotificationEventHandler = GameNotificationEventHandler.getInstance()
+    discard
 
-    def __init__(self) -> None:
-        self._init_fields()
-    
+proc initTextNotificationUtil*(this: TextNotificationUtil) =
+    this.initFieldsTextNotificationUtil()
 
-    @staticmethod
-    def getInstance() -> TextNotificationUtil:
+proc newTextNotificationUtil*(): TextNotificationUtil =
+    result = TextNotificationUtil()
+    initTextNotificationUtil(result)
+
+proc getInstance*(t: typedesc[TextNotificationUtil]): TextNotificationUtil {.discardable.} =
         return TextNotificationUtil.instance
-    
 
-    # throws Exception
-    def fireError(self, message: str) -> None:
-        from org.allbinary.media.audio.ErrorSound import ErrorSound
-        from org.allbinary.media.audio.PrimaryPlayerQueueFactory import PrimaryPlayerQueueFactory
+method fireError*(this: TextNotificationUtil, message: string) {.base.} =
         PrimaryPlayerQueueFactory.getInstance().add(ErrorSound.getInstance())
-        self.fire(message)
-    
+        this.fire(message)
 
-    # throws Exception
-    def fireNew(self, message: str) -> None:
-        from org.allbinary.media.audio.PrimaryPlayerQueueFactory import PrimaryPlayerQueueFactory
-        from org.allbinary.media.audio.SelectSound import SelectSound
+method fireNew*(this: TextNotificationUtil, message: string) {.base.} =
         PrimaryPlayerQueueFactory.getInstance().add(SelectSound.getInstance())
-        self.fire(message)
-    
+        this.fire(message)
 
-    # throws Exception
-    def fireSuccess(self, message: str) -> None:
-        from org.allbinary.media.audio.PrimaryPlayerQueueFactory import PrimaryPlayerQueueFactory
-        from org.allbinary.media.audio.SelectSound import SelectSound
+method fireSuccess*(this: TextNotificationUtil, message: string) {.base.} =
         PrimaryPlayerQueueFactory.getInstance().add(SelectSound.getInstance())
-        self.fire(message)
-    
+        this.fire(message)
 
-    # throws Exception
-    def fire(self, message: str) -> None:
-        from org.allbinary.game.layer.hud.event.GameNotificationEvent import GameNotificationEvent
-        from org.allbinary.graphics.color.BasicColorFactory import BasicColorFactory
-        gameNotificationEvent: GameNotificationEvent = GameNotificationEvent(self, message, self.TWO, BasicColorFactory.getInstance().RED, self.FALSE)
-        self.gameNotificationEventHandler.fireEvent(gameNotificationEvent)
-# from org.allbinary.game.layer.hud.event.GameNotificationEvent import GameNotificationEvent
-# from org.allbinary.game.layer.hud.event.GameNotificationEventHandler import GameNotificationEventHandler
-# from org.allbinary.graphics.color.BasicColorFactory import BasicColorFactory
-# from org.allbinary.logic.java.bool.BooleanFactory import BooleanFactory
-# from org.allbinary.logic.math.SmallIntegerSingletonFactory import SmallIntegerSingletonFactory
-# from org.allbinary.media.audio.ErrorSound import ErrorSound
-# from org.allbinary.media.audio.PrimaryPlayerQueueFactory import PrimaryPlayerQueueFactory
-# from org.allbinary.media.audio.SelectSound import SelectSound
-
-
-def _TextNotificationUtil_instance() -> object:
-    return TextNotificationUtil()
-
-lazy_static(TextNotificationUtil, "instance", _TextNotificationUtil_instance)
+method fire*(this: TextNotificationUtil, message: string) {.base.} =
+        var gameNotificationEvent: GameNotificationEvent = newGameNotificationEvent(this, message, this.TWO, BasicColorFactory.getInstance().RED, this.FALSE)
+        this.gameNotificationEventHandler.fireEvent(gameNotificationEvent)
 

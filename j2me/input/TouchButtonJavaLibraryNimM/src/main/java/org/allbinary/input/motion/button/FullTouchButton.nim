@@ -1,62 +1,74 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.input.motion.button
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/animation/Animation as AnimationModule
+export AnimationModule
+import org/allbinary/graphics/CellPosition as CellPositionModule
+export CellPositionModule
+import org/allbinary/graphics/Rectangle as RectangleModule
+export RectangleModule
+import org/allbinary/input/motion/button/TouchButton as TouchButtonModule
+export TouchButtonModule
+import org/allbinary/input/motion/button/TouchButtonInput as TouchButtonInputModule
+export TouchButtonInputModule
+import org/allbinary/input/motion/button/TouchButtonResource as TouchButtonResourceModule
+export TouchButtonResourceModule
 
-from org.allbinary.input.motion.button.TouchButton import TouchButton
+type
+    FullTouchButton* = ref object of TouchButton
+
+proc newFullTouchButton*(touchButtonInput: TouchButtonInput, animationInterface: Animation, hintAnimationInterface: Animation, rawRectangle: Rectangle, cellPosition: CellPosition, xBorder: int32, yBorder: int32): FullTouchButton
+proc initFullTouchButton*(this: FullTouchButton, touchButtonInput: TouchButtonInput, animationInterface: Animation, hintAnimationInterface: Animation, rawRectangle: Rectangle, cellPosition: CellPosition, xBorder: int32, yBorder: int32)
+proc createButton*(t: typedesc[FullTouchButton], touchButtonInput: TouchButtonInput, touchButtonResource: TouchButtonResource, rawRectangle: Rectangle, cellPosition: CellPosition, xBorder: int32, yBorder: int32): FullTouchButton {.discardable.}
+method updateRectangle*(this: FullTouchButton)
+import org/allbinary/animation/FeaturedAnimationInterfaceFactoryInterfaceFactory as FeaturedAnimationInterfaceFactoryInterfaceFactoryModule
+export FeaturedAnimationInterfaceFactoryInterfaceFactoryModule
+import org/allbinary/graphics/GPoint as GPointModule
+export GPointModule
+import org/allbinary/graphics/PointFactory as PointFactoryModule
+export PointFactoryModule
 
 
-class FullTouchButton(TouchButton):
-    
+proc createButton*(t: typedesc[FullTouchButton], touchButtonInput: TouchButtonInput, touchButtonResource: TouchButtonResource, rawRectangle: Rectangle, cellPosition: CellPosition, xBorder: int32, yBorder: int32): FullTouchButton {.discardable.} =
+        return newFullTouchButton(touchButtonInput, FeaturedAnimationInterfaceFactoryInterfaceFactory.getInstance().get(touchButtonResource.RESOURCE).getInstance(0), FeaturedAnimationInterfaceFactoryInterfaceFactory.getInstance().get(touchButtonResource.HINT).getInstance(0), rawRectangle, cellPosition, xBorder, yBorder)
 
-    # throws Exception
-    @staticmethod
-    def createButton(touchButtonInput: TouchButtonInput, touchButtonResource: TouchButtonResource, rawRectangle: Rectangle, cellPosition: CellPosition, xBorder: int, yBorder: int) -> FullTouchButton:
-        from org.allbinary.animation.FeaturedAnimationInterfaceFactoryInterfaceFactory import FeaturedAnimationInterfaceFactoryInterfaceFactory
-        from org.allbinary.graphics.CellPosition import CellPosition
-        from org.allbinary.graphics.Rectangle import Rectangle
-        return FullTouchButton(touchButtonInput, FeaturedAnimationInterfaceFactoryInterfaceFactory.getInstance().get(touchButtonResource.RESOURCE).getInstance(0), FeaturedAnimationInterfaceFactoryInterfaceFactory.getInstance().get(touchButtonResource.HINT).getInstance(0), rawRectangle, cellPosition, xBorder, yBorder)
-    
+proc initFullTouchButton*(this: FullTouchButton, touchButtonInput: TouchButtonInput, animationInterface: Animation, hintAnimationInterface: Animation, rawRectangle: Rectangle, cellPosition: CellPosition, xBorder: int32, yBorder: int32) =
+        initTouchButton(this, touchButtonInput, animationInterface, hintAnimationInterface, rawRectangle, cellPosition, xBorder, yBorder)
 
-    def __init__(self, touchButtonInput: TouchButtonInput, animationInterface: Animation, hintAnimationInterface: Animation, rawRectangle: Rectangle, cellPosition: CellPosition, xBorder: int, yBorder: int) -> None:
-        from org.allbinary.animation.Animation import Animation
-        from org.allbinary.graphics.CellPosition import CellPosition
-        from org.allbinary.graphics.Rectangle import Rectangle
-        super().__init__(touchButtonInput, animationInterface, hintAnimationInterface, rawRectangle, cellPosition, xBorder, yBorder)
-    
+proc newFullTouchButton*(touchButtonInput: TouchButtonInput, animationInterface: Animation, hintAnimationInterface: Animation, rawRectangle: Rectangle, cellPosition: CellPosition, xBorder: int32, yBorder: int32): FullTouchButton =
+    result = FullTouchButton()
+    initFullTouchButton(result, touchButtonInput, animationInterface, hintAnimationInterface, rawRectangle, cellPosition, xBorder, yBorder)
 
-    def updateRectangle(self) -> None:
-        from org.allbinary.graphics.GPoint import GPoint
-        from org.allbinary.graphics.PointFactory import PointFactory
-        from org.allbinary.graphics.Rectangle import Rectangle
+method updateRectangle*(this: FullTouchButton) =
         try:
-            pointFactory: PointFactory = PointFactory.getInstance()
-            x: int = self.rawRectangle.getWidth() * self.cellPositionP.getColumn()
-            y: int = self.rawRectangle.getHeight() * self.cellPositionP.getRow()
-            self.rectangleP = Rectangle(pointFactory.createXY(x, y), self.rawRectangle.getWidth() + (2 * self.xBorder), self.rawRectangle.getHeight() + (2 * self.yBorder))
-            point: GPoint = self.rectangleP.getPoint()
-            self.animationX = point.getX() + self.xBorder
-            self.animationY = point.getY() + self.yBorder
-            self.hintAnimationY = self.animationY - self.rectangleP.getHeight() >> 1
-        except Exception as e:
-            self.logUtil.put(self.commonStrings.EXCEPTION, self, "updateRectangle", e)
-# from org.allbinary.animation.Animation import Animation
-# from org.allbinary.animation.FeaturedAnimationInterfaceFactoryInterfaceFactory import FeaturedAnimationInterfaceFactoryInterfaceFactory
-# from org.allbinary.graphics.CellPosition import CellPosition
-# from org.allbinary.graphics.GPoint import GPoint
-# from org.allbinary.graphics.PointFactory import PointFactory
-# from org.allbinary.graphics.Rectangle import Rectangle
+            let pointFactory: PointFactory = PointFactory.getInstance()
+            let x: int32 = this.rawRectangle.getWidth() *% this.cellPositionP.getColumn()
+            let y: int32 = this.rawRectangle.getHeight() *% this.cellPositionP.getRow()
+            this.rectangleP = newRectangle(pointFactory.createXY(x, y), this.rawRectangle.getWidth() +% (2 *% this.xBorder), this.rawRectangle.getHeight() +% (2 *% this.yBorder))
+            let point: GPoint = this.rectangleP.getPoint()
+            this.animationX = point.getX() +% this.xBorder
+            this.animationY = point.getY() +% this.yBorder
+            this.hintAnimationY = ashr(this.animationY -% this.rectangleP.getHeight(), 1)
+        except CatchableError as jcaught:
+            let e = jToException(jcaught)
+            this.logUtil.put(this.commonStrings.EXCEPTION, this, "updateRectangle", e)
 
+when declared(newFullTouchButtonHook7):
+    newFullTouchButtonHook7 = proc (touchButtonInput: TouchButtonInput, animationInterface: Animation, hintAnimationInterface: Animation, rawRectangle: Rectangle, cellPosition: CellPosition, xBorder: int32, yBorder: int32): TouchButton = newFullTouchButton(touchButtonInput, animationInterface, hintAnimationInterface, rawRectangle, cellPosition, xBorder, yBorder)
 

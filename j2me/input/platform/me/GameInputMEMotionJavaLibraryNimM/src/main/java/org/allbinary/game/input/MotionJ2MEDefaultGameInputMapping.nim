@@ -1,35 +1,46 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.input
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/game/input/mapping/PersistentInputMapping as PersistentInputMappingModule
+export PersistentInputMappingModule
 
-from org.allbinary.game.input.mapping.PersistentInputMapping import PersistentInputMapping
+type
+    MotionJ2MEDefaultGameInputMapping* = ref object of PersistentInputMapping
+
+proc newMotionJ2MEDefaultGameInputMapping*(): MotionJ2MEDefaultGameInputMapping
+proc initMotionJ2MEDefaultGameInputMapping*(this: MotionJ2MEDefaultGameInputMapping)
+import org/allbinary/game/configuration/persistance/GamePersistanceStrings as GamePersistanceStringsModule
+export GamePersistanceStringsModule
+import org/allbinary/game/input/mapping/InputToGameKeyMapping as InputToGameKeyMappingModule
+export InputToGameKeyMappingModule
+import org/allbinary/input/motion/button/BasicTouchInputFactory as BasicTouchInputFactoryModule
+export BasicTouchInputFactoryModule
+import org/allbinary/input/motion/gesture/TouchMotionGestureFactory as TouchMotionGestureFactoryModule
+export TouchMotionGestureFactoryModule
+import org/allbinary/game/input/GameKeyFactory as GameKeyFactoryModule
+export GameKeyFactoryModule
 
 
-class MotionJ2MEDefaultGameInputMapping(PersistentInputMapping):
-    
-
-    def __init__(self) -> None:
-        from org.allbinary.game.input.GameKeyFactory import GameKeyFactory
-        from org.allbinary.game.configuration.persistance.GamePersistanceStrings import GamePersistanceStrings
-        from org.allbinary.game.input.mapping.InputToGameKeyMapping import InputToGameKeyMapping
-        from org.allbinary.input.motion.button.BasicTouchInputFactory import BasicTouchInputFactory
-        from org.allbinary.input.motion.gesture.TouchMotionGestureFactory import TouchMotionGestureFactory
-        super().__init__(GamePersistanceStrings.getInstance().DEFAULT_INPUT_MAPPING_RECORD_ID)
-        inputToGameKeyMapping: InputToGameKeyMapping = self.getInputMapping()
-        gameKeyFactory: GameKeyFactory = GameKeyFactory.getInstance()
+proc initMotionJ2MEDefaultGameInputMapping*(this: MotionJ2MEDefaultGameInputMapping) =
+        initPersistentInputMapping(this, GamePersistanceStrings.getInstance().DEFAULT_INPUT_MAPPING_RECORD_ID)
+        let inputToGameKeyMapping: InputToGameKeyMapping = this.getInputMapping()
+        let gameKeyFactory: GameKeyFactory = GameKeyFactory.getInstance()
         inputToGameKeyMapping.add(gameKeyFactory.UP, gameKeyFactory.KEY_NUM2)
         inputToGameKeyMapping.add(gameKeyFactory.LEFT, gameKeyFactory.KEY_NUM4)
         inputToGameKeyMapping.add(gameKeyFactory.RIGHT, gameKeyFactory.KEY_NUM6)
@@ -57,7 +68,7 @@ class MotionJ2MEDefaultGameInputMapping(PersistentInputMapping):
         inputToGameKeyMapping.add(gameKeyFactory.DOWN, TouchMotionGestureFactory.getInstance().DOWN)
         inputToGameKeyMapping.add(gameKeyFactory.LEFT, TouchMotionGestureFactory.getInstance().LEFT)
         inputToGameKeyMapping.add(gameKeyFactory.RIGHT, TouchMotionGestureFactory.getInstance().RIGHT)
-        basicTouchInputFactory: BasicTouchInputFactory = BasicTouchInputFactory.getInstance()
+        let basicTouchInputFactory: BasicTouchInputFactory = BasicTouchInputFactory.getInstance()
         inputToGameKeyMapping.add(gameKeyFactory.UP, basicTouchInputFactory.UP)
         inputToGameKeyMapping.add(gameKeyFactory.LEFT, basicTouchInputFactory.LEFT)
         inputToGameKeyMapping.add(gameKeyFactory.RIGHT, basicTouchInputFactory.RIGHT)
@@ -68,9 +79,11 @@ class MotionJ2MEDefaultGameInputMapping(PersistentInputMapping):
         inputToGameKeyMapping.add(gameKeyFactory.KEY_NUM1, basicTouchInputFactory.SPECIAL_BUTTON_TWO)
         inputToGameKeyMapping.add(gameKeyFactory.KEY_NUM3, basicTouchInputFactory.SPECIAL_BUTTON_ONE)
         inputToGameKeyMapping.add(gameKeyFactory.KEY_NUM2, basicTouchInputFactory.SPECIAL_BUTTON_SIX)
-# from org.allbinary.game.configuration.persistance.GamePersistanceStrings import GamePersistanceStrings
-# from org.allbinary.game.input.mapping.InputToGameKeyMapping import InputToGameKeyMapping
-# from org.allbinary.input.motion.button.BasicTouchInputFactory import BasicTouchInputFactory
-# from org.allbinary.input.motion.gesture.TouchMotionGestureFactory import TouchMotionGestureFactory
 
+proc newMotionJ2MEDefaultGameInputMapping*(): MotionJ2MEDefaultGameInputMapping =
+    result = MotionJ2MEDefaultGameInputMapping()
+    initMotionJ2MEDefaultGameInputMapping(result)
+
+when declared(newMotionJ2MEDefaultGameInputMappingHook0):
+    newMotionJ2MEDefaultGameInputMappingHook0 = proc (): PersistentInputMapping = newMotionJ2MEDefaultGameInputMapping()
 

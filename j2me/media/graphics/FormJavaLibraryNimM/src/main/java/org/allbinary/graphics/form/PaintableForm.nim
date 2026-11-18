@@ -1,73 +1,91 @@
 # Generated Code Do Not Modify
 # package org.allbinary.graphics.form
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/graphics/Rectangle as RectangleModule
+export RectangleModule
+import org/allbinary/graphics/color/BasicColor as BasicColorModule
+export BasicColorModule
+import org/allbinary/graphics/displayable/CanvasStrings as CanvasStringsModule
+export CanvasStringsModule
+import org/allbinary/graphics/form/item/ABCustomItem as ABCustomItemModule
+export ABCustomItemModule
+import org/allbinary/graphics/form/ABCustomForm as ABCustomFormModule
+export ABCustomFormModule
+import org/allbinary/graphics/form/FormType as FormTypeModule
+export FormTypeModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
-from org.allbinary.graphics.form.ABCustomForm import ABCustomForm
+type
+    PaintableForm* = ref object of ABCustomForm
+        canvasStrings*: CanvasStrings
+        rectangle*: Rectangle
+        x*: int32
+        y*: int32
+        formType*: FormType
 
+proc newPaintableForm*(title: string, items: JArray[ABCustomItem], backgroundBasicColor: BasicColor, foregroundBasicColor: BasicColor): PaintableForm
+proc initPaintableForm*(this: PaintableForm, title: string, items: JArray[ABCustomItem], backgroundBasicColor: BasicColor, foregroundBasicColor: BasicColor)
+proc getNullPaintableForm*(t: typedesc[PaintableForm]): PaintableForm {.discardable.}
+method init*(this: PaintableForm, rectangle: Rectangle, formType: FormType) {.base.}
+method getWidth*(this: PaintableForm): int32 {.discardable.}
+import org/allbinary/graphics/GPoint as GPointModule
+export GPointModule
+import org/allbinary/graphics/RectangleFactory as RectangleFactoryModule
+export RectangleFactoryModule
+import org/allbinary/graphics/color/BasicColorFactory as BasicColorFactoryModule
+export BasicColorFactoryModule
+import org/allbinary/logic/NullUtil as NullUtilModule
+export NullUtilModule
+import org/allbinary/logic/string/StringUtil as StringUtilModule
+export StringUtilModule
+import org/allbinary/graphics/form/FormTypeFactory as FormTypeFactoryModule
+export FormTypeFactoryModule
 
-class PaintableForm(ABCustomForm):
-    NULL_PAINTABLE_FORM: object = None
+var PaintableForm_NULL_PAINTABLE_FORMValue: JObject
+var PaintableForm_NULL_PAINTABLE_FORMSet = false
+proc NULL_PAINTABLE_FORM*(t: typedesc[PaintableForm]): JObject =
+    if not PaintableForm_NULL_PAINTABLE_FORMSet:
+        PaintableForm_NULL_PAINTABLE_FORMSet = true
+        PaintableForm_NULL_PAINTABLE_FORMValue = NullUtil.getInstance().NULL_OBJECT
+    PaintableForm_NULL_PAINTABLE_FORMValue
+proc `NULL_PAINTABLE_FORM=`*(t: typedesc[PaintableForm], value: JObject) =
+    PaintableForm_NULL_PAINTABLE_FORMSet = true
+    PaintableForm_NULL_PAINTABLE_FORMValue = value
 
-    def _init_fields(self) -> None:
-        from org.allbinary.graphics.Rectangle import Rectangle
-        from org.allbinary.graphics.RectangleFactory import RectangleFactory
-        from org.allbinary.graphics.displayable.CanvasStrings import CanvasStrings
-        self.canvasStrings: CanvasStrings = CanvasStrings.getInstance()
-        self.rectangle: Rectangle = RectangleFactory.SINGLETON
-        self.x: int = 0
-        self.y: int = 0
-        self.formType: FormType = FormTypeFactory.getInstance().NULL_FORM_TYPE
-    
+# Java field initializers run after the base initializer
+proc initFieldsPaintableForm(this: PaintableForm) =
+    this.canvasStrings = CanvasStrings.getInstance()
+    this.rectangle = RectangleFactory.SINGLETON
+    this.x = 0
+    this.y = 0
+    this.formType = FormTypeFactory.getInstance().NULL_FORM_TYPE
+    discard
 
-    @staticmethod
-    def getNullPaintableForm() -> PaintableForm:
-        from org.allbinary.graphics.color.BasicColorFactory import BasicColorFactory
-        from org.allbinary.graphics.form.item.ABCustomItem import ABCustomItem
-        from org.allbinary.logic.NullUtil import NullUtil
-        from org.allbinary.logic.string.StringUtil import StringUtil
+proc getNullPaintableForm*(t: typedesc[PaintableForm]): PaintableForm {.discardable.} =
         if PaintableForm.NULL_PAINTABLE_FORM == NullUtil.getInstance().NULL_OBJECT:
-            PaintableForm.NULL_PAINTABLE_FORM = PaintableForm(StringUtil.getInstance().EMPTY_STRING, [None] * (0), BasicColorFactory.getInstance().BLACK, BasicColorFactory.getInstance().WHITE)
-        return PaintableForm.NULL_PAINTABLE_FORM
-    
+            PaintableForm.NULL_PAINTABLE_FORM = newPaintableForm(StringUtil.getInstance().EMPTY_STRING, newJArray[ABCustomItem](0, default(ABCustomItem)), BasicColorFactory.getInstance().BLACK, BasicColorFactory.getInstance().WHITE)
+        return PaintableForm(JObject(PaintableForm.NULL_PAINTABLE_FORM))
 
-    def __init__(self, title: str, items: list[ABCustomItem], backgroundBasicColor: BasicColor, foregroundBasicColor: BasicColor) -> None:
-        from org.allbinary.graphics.color.BasicColor import BasicColor
-        from org.allbinary.graphics.form.item.ABCustomItem import ABCustomItem
-        super().__init__(title, items, backgroundBasicColor, foregroundBasicColor)
-        self._init_fields()
-        self.setSelectedIndex(0)
-    
+proc initPaintableForm*(this: PaintableForm, title: string, items: JArray[ABCustomItem], backgroundBasicColor: BasicColor, foregroundBasicColor: BasicColor) =
+        initABCustomForm(this, title, items, backgroundBasicColor, foregroundBasicColor)
+        this.initFieldsPaintableForm()
+        this.setSelectedIndex(0)
 
-    # throws Exception
-    def init(self, rectangle: Rectangle, formType: FormType) -> None:
-        from org.allbinary.graphics.GPoint import GPoint
-        from org.allbinary.graphics.Rectangle import Rectangle
-        self.rectangle = rectangle
-        point: GPoint = self.rectangle.getPoint()
-        self.x = point.getX()
-        self.y = point.getY()
-        self.formType = formType
-    
+proc newPaintableForm*(title: string, items: JArray[ABCustomItem], backgroundBasicColor: BasicColor, foregroundBasicColor: BasicColor): PaintableForm =
+    result = PaintableForm()
+    initPaintableForm(result, title, items, backgroundBasicColor, foregroundBasicColor)
 
-    def getWidth(self) -> int:
-        return self.rectangle.getWidth()
-# from org.allbinary.graphics.GPoint import GPoint
-# from org.allbinary.graphics.Rectangle import Rectangle
-# from org.allbinary.graphics.RectangleFactory import RectangleFactory
-# from org.allbinary.graphics.color.BasicColor import BasicColor
-# from org.allbinary.graphics.color.BasicColorFactory import BasicColorFactory
-# from org.allbinary.graphics.displayable.CanvasStrings import CanvasStrings
-# from org.allbinary.graphics.form.item.ABCustomItem import ABCustomItem
-# from org.allbinary.logic.NullUtil import NullUtil
-# from org.allbinary.logic.string.StringUtil import StringUtil
-from org.allbinary.graphics.form.FormTypeFactory import FormTypeFactory
+method init*(this: PaintableForm, rectangle: Rectangle, formType: FormType) {.base.} =
+        this.rectangle = rectangle
+        let point: GPoint = this.rectangle.getPoint()
+        this.x = point.getX()
+        this.y = point.getY()
+        this.formType = formType
 
+method getWidth*(this: PaintableForm): int32 {.discardable.} =
+        return this.rectangle.getWidth()
 
-def _PaintableForm_NULL_PAINTABLE_FORM() -> object:
-    from org.allbinary.logic.NullUtil import NullUtil
-    return NullUtil.getInstance().NULL_OBJECT
-
-lazy_static(PaintableForm, "NULL_PAINTABLE_FORM", _PaintableForm_NULL_PAINTABLE_FORM)
+when declared(newPaintableFormHook4):
+    newPaintableFormHook4 = proc (title: string, items: JArray[ABCustomItem], backgroundBasicColor: BasicColor, foregroundBasicColor: BasicColor): ABCustomForm = newPaintableForm(title, items, backgroundBasicColor, foregroundBasicColor)
 

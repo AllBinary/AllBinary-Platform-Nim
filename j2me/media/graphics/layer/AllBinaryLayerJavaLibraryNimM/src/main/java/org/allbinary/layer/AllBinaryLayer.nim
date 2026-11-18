@@ -1,251 +1,267 @@
-# 
-# AllBinary Open License Version 1 
-# Copyright (c) 2011 AllBinary 
-#  
-# By agreeing to this license you and any business entity you represent are 
-# legally bound to the AllBinary Open License Version 1 legal agreement. 
-#  
-# You may obtain the AllBinary Open License Version 1 legal agreement from 
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
-#  
-# Created By: Travis Berthelot 
-#   
+#[
+  
+  AllBinary Open License Version 1 
+  Copyright (c) 2011 AllBinary 
+   
+  By agreeing to this license you and any business entity you represent are 
+  legally bound to the AllBinary Open License Version 1 legal agreement. 
+   
+  You may obtain the AllBinary Open License Version 1 legal agreement from 
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
+   
+  Created By: Travis Berthelot 
+    
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.layer
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import java/lang/Integer as IntegerModule
+export IntegerModule
+import javax/microedition/lcdui/Graphics as GraphicsModule
+export GraphicsModule
+import org/allbinary/game/identification/Group as GroupModule
+export GroupModule
+import org/allbinary/graphics/Rectangle as RectangleModule
+export RectangleModule
+import org/allbinary/logic/string/StringMaker as StringMakerModule
+export StringMakerModule
+import org/allbinary/view/ViewPositionBase as ViewPositionBaseModule
+export ViewPositionBaseModule
+import org/allbinary/view/event/ViewPositionEvent as ViewPositionEventModule
+export ViewPositionEventModule
+import org/allbinary/layer/Layer as LayerModule
+export LayerModule
+import org/allbinary/layer/LayerInterface as LayerInterfaceModule
+export LayerInterfaceModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
-from org.allbinary.layer.Layer import Layer
-from org.allbinary.layer.LayerInterface import LayerInterface
+type
+    AllBinaryLayer* = ref object of Layer
+        viewPositionEvent*: ViewPositionEvent
+        halfWidth*: int32
+        halfHeight*: int32
+        name*: string
+        viewPosition*: ViewPositionBase
 
+converter jAsLayerInterface*(value: AllBinaryLayer): LayerInterface = cast[LayerInterface](value)
+proc newAllBinaryLayer*(name: string, rectangle: Rectangle, viewPosition: ViewPositionBase): AllBinaryLayer
+proc initAllBinaryLayer*(this: AllBinaryLayer, name: string, rectangle: Rectangle, viewPosition: ViewPositionBase)
+method setPosition*(this: AllBinaryLayer, x: int32, y: int32, z: int32)
+method moveDXYZ*(this: AllBinaryLayer, dx: int32, dy: int32, dz: int32)
+method getXP*(this: AllBinaryLayer): int32 {.discardable.}
+method getYP*(this: AllBinaryLayer): int32 {.discardable.}
+method getZP*(this: AllBinaryLayer): int32 {.discardable.}
+method getWidth*(this: AllBinaryLayer): int32 {.discardable.}
+method getHeight*(this: AllBinaryLayer): int32 {.discardable.}
+method setVisible*(this: AllBinaryLayer, visible: bool)
+method isVisible*(this: AllBinaryLayer): bool {.discardable.}
+method paint*(this: AllBinaryLayer, graphics: Graphics)
+method onChangeEvent*(this: AllBinaryLayer, layerManagerEvent: ViewPositionEvent) {.base.}
+method paintThreed*(this: AllBinaryLayer, graphics: Graphics)
+method getX2*(this: AllBinaryLayer): int32 {.discardable.}
+method getY2*(this: AllBinaryLayer): int32 {.discardable.}
+method getZ2*(this: AllBinaryLayer): int32 {.discardable.}
+method getName*(this: AllBinaryLayer): string {.discardable.}
+method setHalfWidth*(this: AllBinaryLayer, halfWidth: int32) {.base.}
+method getHalfWidth*(this: AllBinaryLayer): int32 {.discardable.}
+method setHalfHeight*(this: AllBinaryLayer, halfHeight: int32) {.base.}
+method getHalfHeight*(this: AllBinaryLayer): int32 {.discardable.}
+method getHalfDepth*(this: AllBinaryLayer): int32 {.base, discardable.}
+method getViewPosition*(this: AllBinaryLayer): ViewPositionBase {.base, discardable.}
+method setViewPosition*(this: AllBinaryLayer, viewPosition: ViewPositionBase) {.base.}
+method getGroupInterface*(this: AllBinaryLayer): JArray[Group] {.discardable.}
+method implmentsTickableInterface*(this: AllBinaryLayer): bool {.discardable.}
+method implmentsGameInputInterface*(this: AllBinaryLayer): bool {.discardable.}
+method implmentsArtificialIntelligenceCompositeInterface*(this: AllBinaryLayer): bool {.discardable.}
+method implmentsCollidableInterface*(this: AllBinaryLayer): bool {.discardable.}
+method implementsThreedInterface*(this: AllBinaryLayer): bool {.base, discardable.}
+method getType*(this: AllBinaryLayer): int32 {.discardable.}
+method getMultiPlayerType*(this: AllBinaryLayer): int32 {.base, discardable.}
+method toStringAppend*(this: AllBinaryLayer, stringBuffer: StringMaker)
+method toString*(this: AllBinaryLayer): string {.discardable.}
+import org/allbinary/game/identification/BasicGroupFactory as BasicGroupFactoryModule
+export BasicGroupFactoryModule
+import org/allbinary/graphics/GPoint as GPointModule
+export GPointModule
+import org/allbinary/graphics/RectangleFactory as RectangleFactoryModule
+export RectangleFactoryModule
+import org/allbinary/graphics/opengles/OpenGLFeatureUtil as OpenGLFeatureUtilModule
+export OpenGLFeatureUtilModule
+import org/allbinary/TsUtil as TsUtilModule
+export TsUtilModule
+import org/allbinary/logic/string/StringUtil as StringUtilModule
+export StringUtilModule
+import org/allbinary/math/PositionStrings as PositionStringsModule
+export PositionStringsModule
+import org/allbinary/string/CommonLabels as CommonLabelsModule
+export CommonLabelsModule
+import org/allbinary/string/CommonSeps as CommonSepsModule
+export CommonSepsModule
 
-class AllBinaryLayer(Layer, LayerInterface):
-    NULL_ALLBINARY_LAYER: AllBinaryLayer = None
-    TYPE: str = "Type: "
+var AllBinaryLayer_NULL_ALLBINARY_LAYERValue: AllBinaryLayer
+var AllBinaryLayer_NULL_ALLBINARY_LAYERSet = false
+proc NULL_ALLBINARY_LAYER*(t: typedesc[AllBinaryLayer]): AllBinaryLayer =
+    if not AllBinaryLayer_NULL_ALLBINARY_LAYERSet:
+        AllBinaryLayer_NULL_ALLBINARY_LAYERSet = true
+        AllBinaryLayer_NULL_ALLBINARY_LAYERValue = newAllBinaryLayer(StringUtil.getInstance().EMPTY_STRING, RectangleFactory.SINGLETON, ViewPositionBase.NULL_VIEW_POSITION)
+    AllBinaryLayer_NULL_ALLBINARY_LAYERValue
+var AllBinaryLayer_TYPEValue: string
+var AllBinaryLayer_TYPESet = false
+proc TYPE*(t: typedesc[AllBinaryLayer]): string =
+    if not AllBinaryLayer_TYPESet:
+        AllBinaryLayer_TYPESet = true
+        AllBinaryLayer_TYPEValue = "Type: "
+    AllBinaryLayer_TYPEValue
 
-    def _init_fields(self) -> None:
-        from org.allbinary.view.ViewPositionBase import ViewPositionBase
-        from org.allbinary.view.event.ViewPositionEvent import ViewPositionEvent
-        self.viewPositionEvent: ViewPositionEvent = ViewPositionEvent(self)
-        self.halfWidth: int = 0
-        self.halfHeight: int = 0
-        self.name: str = None
-        self.viewPosition: ViewPositionBase = ViewPositionBase.NULL_VIEW_POSITION
+# Java field initializers run after the base initializer
+proc initFieldsAllBinaryLayer(this: AllBinaryLayer) =
+    this.viewPositionEvent = newViewPositionEvent(this)
+    this.halfWidth = 0
+    this.halfHeight = 0
     
+    this.viewPosition = ViewPositionBase.NULL_VIEW_POSITION
+    discard
 
-    def __init__(self, name: str, rectangle: Rectangle, viewPosition: ViewPositionBase) -> None:
-        from org.allbinary.graphics.GPoint import GPoint
-        from org.allbinary.graphics.Rectangle import Rectangle
-        from org.allbinary.TsUtil import TsUtil
-        from org.allbinary.logic.string.StringMaker import StringMaker
-        from org.allbinary.string.CommonSeps import CommonSeps
-        from org.allbinary.view.ViewPositionBase import ViewPositionBase
-        super().__init__(rectangle.getWidth(), rectangle.getHeight())
-        self._init_fields()
-        localName: str = None
-        localName = str(StringMaker().append(name).append(CommonSeps.getInstance().COLON).append(format(TsUtil.getInstance().hashCode(self), "x")))
-        self.name = localName
-        point: GPoint = rectangle.getPoint()
-        self.setPosition(point.getX(), point.getY(), point.getZ())
-        self.setHalfWidth((self.getWidth() >> 1))
-        self.setHalfHeight((self.getHeight() >> 1))
-        self.viewPosition = viewPosition
-        self.viewPosition.setAllbinaryLayer(self)
-    
+proc initAllBinaryLayer*(this: AllBinaryLayer, name: string, rectangle: Rectangle, viewPosition: ViewPositionBase) =
+        initLayer(this, rectangle.getWidth(), rectangle.getHeight())
+        this.initFieldsAllBinaryLayer()
+        var localName: string = ""
+        localName = newStringMaker().append(name).append(CommonSeps.getInstance().COLON).append(Integer.toHexString(TsUtil.getInstance().hashCode(this))).toString()
+        this.name = localName
+        let point: GPoint = rectangle.getPoint()
+        this.setPosition(point.getX(), point.getY(), point.getZ())
+        this.setHalfWidth((ashr(this.getWidth(), 1)))
+        this.setHalfHeight((ashr(this.getHeight(), 1)))
+        this.viewPosition = viewPosition
+        this.viewPosition.setAllbinaryLayer(this)
 
-    def setPosition(self, x: int, y: int, z: int) -> None:
-        super().setPosition(x, y, z)
-    
+proc newAllBinaryLayer*(name: string, rectangle: Rectangle, viewPosition: ViewPositionBase): AllBinaryLayer =
+    result = AllBinaryLayer()
+    initAllBinaryLayer(result, name, rectangle, viewPosition)
 
-    def moveDXYZ(self, dx: int, dy: int, dz: int) -> None:
-        super().moveDXYZ(dx, dy, dz)
-    
+method setPosition*(this: AllBinaryLayer, x: int32, y: int32, z: int32) =
+        procCall Layer(this).setPosition(x, y, z)
 
-    def getXP(self) -> int:
-        return super().getXP()
-    
+method moveDXYZ*(this: AllBinaryLayer, dx: int32, dy: int32, dz: int32) =
+        procCall Layer(this).moveDXYZ(dx, dy, dz)
 
-    def getYP(self) -> int:
-        return super().getYP()
-    
+method getXP*(this: AllBinaryLayer): int32 {.discardable.} =
+        return procCall Layer(this).getXP()
 
-    def getZP(self) -> int:
-        return super().getZP()
-    
+method getYP*(this: AllBinaryLayer): int32 {.discardable.} =
+        return procCall Layer(this).getYP()
 
-    def getWidth(self) -> int:
-        return super().getWidth()
-    
+method getZP*(this: AllBinaryLayer): int32 {.discardable.} =
+        return procCall Layer(this).getZP()
 
-    def getHeight(self) -> int:
-        return super().getHeight()
-    
+method getWidth*(this: AllBinaryLayer): int32 {.discardable.} =
+        return procCall Layer(this).getWidth()
 
-    def setVisible(self, visible: bool) -> None:
-        super().setVisible(visible)
-    
+method getHeight*(this: AllBinaryLayer): int32 {.discardable.} =
+        return procCall Layer(this).getHeight()
 
-    def isVisible(self) -> bool:
-        return super().isVisible()
-    
+method setVisible*(this: AllBinaryLayer, visible: bool) =
+        procCall Layer(this).setVisible(visible)
 
-    def paint(self, graphics: Graphics) -> None:
-        from javax.microedition.lcdui.Graphics import Graphics
-        super().paint(graphics)
-    
+method isVisible*(this: AllBinaryLayer): bool {.discardable.} =
+        return procCall Layer(this).isVisible()
 
-    # throws Exception
-    def onChangeEvent(self, layerManagerEvent: ViewPositionEvent) -> None:
-        from org.allbinary.view.event.ViewPositionEvent import ViewPositionEvent
-        pass
-    
+method paint*(this: AllBinaryLayer, graphics: Graphics) =
+        procCall Layer(this).paint(graphics)
 
-    def paintThreed(self, graphics: Graphics) -> None:
-        from javax.microedition.lcdui.Graphics import Graphics
-        pass
-    
+method onChangeEvent*(this: AllBinaryLayer, layerManagerEvent: ViewPositionEvent) {.base.} =
+        discard
 
-    def getX2(self) -> int:
-        return self.getXP() + self.getWidth()
-    
+method paintThreed*(this: AllBinaryLayer, graphics: Graphics) =
+        discard
 
-    def getY2(self) -> int:
-        return self.getYP() + self.getHeight()
-    
+method getX2*(this: AllBinaryLayer): int32 {.discardable.} =
+        return this.getXP() +% this.getWidth()
 
-    def getZ2(self) -> int:
-        return int((self.getZP() + self.getDepth()))
-    
+method getY2*(this: AllBinaryLayer): int32 {.discardable.} =
+        return this.getYP() +% this.getHeight()
 
-    def getName(self) -> str:
-        return self.name
-    
+method getZ2*(this: AllBinaryLayer): int32 {.discardable.} =
+        return jToInt32((int64(this.getZP()) +% this.getDepth()))
 
-    def setHalfWidth(self, halfWidth: int) -> None:
-        self.halfWidth = halfWidth
-    
+method getName*(this: AllBinaryLayer): string {.discardable.} =
+        return this.name
 
-    def getHalfWidth(self) -> int:
-        return self.halfWidth
-    
+method setHalfWidth*(this: AllBinaryLayer, halfWidth: int32) {.base.} =
+        this.halfWidth = halfWidth
 
-    def setHalfHeight(self, halfHeight: int) -> None:
-        self.halfHeight = halfHeight
-    
+method getHalfWidth*(this: AllBinaryLayer): int32 {.discardable.} =
+        return this.halfWidth
 
-    def getHalfHeight(self) -> int:
-        return self.halfHeight
-    
+method setHalfHeight*(this: AllBinaryLayer, halfHeight: int32) {.base.} =
+        this.halfHeight = halfHeight
 
-    def getHalfDepth(self) -> int:
-        return int(int(self.getDepth()) / 2)
-    
+method getHalfHeight*(this: AllBinaryLayer): int32 {.discardable.} =
+        return this.halfHeight
 
-    def getViewPosition(self) -> ViewPositionBase:
-        from org.allbinary.view.ViewPositionBase import ViewPositionBase
-        return self.viewPosition
-    
+method getHalfDepth*(this: AllBinaryLayer): int32 {.base, discardable.} =
+        return jToInt32(this.getDepth()) div 2
 
-    def setViewPosition(self, viewPosition: ViewPositionBase) -> None:
-        from org.allbinary.view.ViewPositionBase import ViewPositionBase
-        self.viewPosition = viewPosition
-    
+method getViewPosition*(this: AllBinaryLayer): ViewPositionBase {.base, discardable.} =
+        return this.viewPosition
 
-    def getGroupInterface(self) -> list[Group]:
-        from org.allbinary.game.identification.BasicGroupFactory import BasicGroupFactory
-        from org.allbinary.game.identification.Group import Group
+method setViewPosition*(this: AllBinaryLayer, viewPosition: ViewPositionBase) {.base.} =
+        this.viewPosition = viewPosition
+
+method getGroupInterface*(this: AllBinaryLayer): JArray[Group] {.discardable.} =
         return BasicGroupFactory.getInstance().NONE_ARRAY
-    
 
-    def implmentsTickableInterface(self) -> bool:
-        return False
-    
+method implmentsTickableInterface*(this: AllBinaryLayer): bool {.discardable.} =
+        return false
 
-    def implmentsGameInputInterface(self) -> bool:
-        return False
-    
+method implmentsGameInputInterface*(this: AllBinaryLayer): bool {.discardable.} =
+        return false
 
-    def implmentsArtificialIntelligenceCompositeInterface(self) -> bool:
-        return False
-    
+method implmentsArtificialIntelligenceCompositeInterface*(this: AllBinaryLayer): bool {.discardable.} =
+        return false
 
-    def implmentsCollidableInterface(self) -> bool:
-        return False
-    
+method implmentsCollidableInterface*(this: AllBinaryLayer): bool {.discardable.} =
+        return false
 
-    def implementsThreedInterface(self) -> bool:
-        from org.allbinary.graphics.opengles.OpenGLFeatureUtil import OpenGLFeatureUtil
+method implementsThreedInterface*(this: AllBinaryLayer): bool {.base, discardable.} =
         return OpenGLFeatureUtil.getInstance().isAnyThreed()
-    
 
-    def getType(self) -> int:
+method getType*(this: AllBinaryLayer): int32 {.discardable.} =
         return -1
-    
 
-    def getMultiPlayerType(self) -> int:
+method getMultiPlayerType*(this: AllBinaryLayer): int32 {.base, discardable.} =
         return -1
-    
 
-    def toStringAppend(self, stringBuffer: StringMaker) -> None:
-        from org.allbinary.logic.string.StringMaker import StringMaker
-        from org.allbinary.math.PositionStrings import PositionStrings
-        from org.allbinary.string.CommonLabels import CommonLabels
-        from org.allbinary.string.CommonSeps import CommonSeps
-        commonSeps: CommonSeps = CommonSeps.getInstance()
-        positionStrings: PositionStrings = PositionStrings.getInstance()
-        commonLabels: CommonLabels = CommonLabels.getInstance()
-        stringBuffer.append(self.getName())
+method toStringAppend*(this: AllBinaryLayer, stringBuffer: StringMaker) =
+        let commonSeps: CommonSeps = CommonSeps.getInstance()
+        let positionStrings: PositionStrings = PositionStrings.getInstance()
+        let commonLabels: CommonLabels = CommonLabels.getInstance()
+        stringBuffer.append(this.getName())
         stringBuffer.append(commonSeps.COLON)
         stringBuffer.append(AllBinaryLayer.TYPE)
-        stringBuffer.appendint(self.getType())
+        stringBuffer.appendint(this.getType())
         stringBuffer.append(commonSeps.SPACE)
         stringBuffer.append(positionStrings.X_LABEL)
-        stringBuffer.appendint(self.getXP())
+        stringBuffer.appendint(this.getXP())
         stringBuffer.append(commonSeps.SPACE)
         stringBuffer.append(positionStrings.Y_LABEL)
-        stringBuffer.appendint(self.getYP())
+        stringBuffer.appendint(this.getYP())
         stringBuffer.append(commonSeps.SPACE)
         stringBuffer.append(positionStrings.Z_LABEL)
-        stringBuffer.appendint(self.getZP())
+        stringBuffer.appendint(this.getZP())
         stringBuffer.append(commonSeps.SPACE)
         stringBuffer.append(commonLabels.WIDTH_LABEL)
-        stringBuffer.appendint(self.getWidth())
+        stringBuffer.appendint(this.getWidth())
         stringBuffer.append(commonSeps.SPACE)
         stringBuffer.append(commonLabels.HEIGHT_LABEL)
-        stringBuffer.appendint(self.getHeight())
-    
+        stringBuffer.appendint(this.getHeight())
 
-    def toString(self) -> str:
-        from org.allbinary.logic.string.StringMaker import StringMaker
-        stringBuffer: StringMaker = StringMaker()
-        self.toStringAppend(stringBuffer)
-        return str(stringBuffer)
+method toString*(this: AllBinaryLayer): string {.discardable.} =
+        let stringBuffer: StringMaker = newStringMaker()
+        this.toStringAppend(stringBuffer)
+        return stringBuffer.toString()
 
-    def __str__(self) -> str:
-        return self.toString()
-# from javax.microedition.lcdui.Graphics import Graphics
-# from org.allbinary.game.identification.BasicGroupFactory import BasicGroupFactory
-# from org.allbinary.game.identification.Group import Group
-# from org.allbinary.graphics.GPoint import GPoint
-# from org.allbinary.graphics.Rectangle import Rectangle
-# from org.allbinary.graphics.RectangleFactory import RectangleFactory
-# from org.allbinary.graphics.opengles.OpenGLFeatureUtil import OpenGLFeatureUtil
-# from org.allbinary.TsUtil import TsUtil
-# from org.allbinary.logic.string.StringMaker import StringMaker
-# from org.allbinary.logic.string.StringUtil import StringUtil
-# from org.allbinary.math.PositionStrings import PositionStrings
-# from org.allbinary.string.CommonLabels import CommonLabels
-# from org.allbinary.string.CommonSeps import CommonSeps
-# from org.allbinary.view.ViewPositionBase import ViewPositionBase
-# from org.allbinary.view.event.ViewPositionEvent import ViewPositionEvent
-
-
-def _AllBinaryLayer_NULL_ALLBINARY_LAYER() -> object:
-    from org.allbinary.graphics.RectangleFactory import RectangleFactory
-    from org.allbinary.logic.string.StringUtil import StringUtil
-    from org.allbinary.view.ViewPositionBase import ViewPositionBase
-    return AllBinaryLayer(StringUtil.getInstance().EMPTY_STRING, RectangleFactory.SINGLETON, ViewPositionBase.NULL_VIEW_POSITION)
-
-lazy_static(AllBinaryLayer, "NULL_ALLBINARY_LAYER", _AllBinaryLayer_NULL_ALLBINARY_LAYER)
+when declared(newAllBinaryLayerHook3):
+    newAllBinaryLayerHook3 = proc (name: string, rectangle: Rectangle, viewPosition: ViewPositionBase): Layer = newAllBinaryLayer(name, rectangle, viewPosition)
 

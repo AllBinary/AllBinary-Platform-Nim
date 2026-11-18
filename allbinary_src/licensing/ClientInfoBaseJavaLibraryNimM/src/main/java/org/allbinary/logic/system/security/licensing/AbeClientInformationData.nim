@@ -1,56 +1,82 @@
-# 
-# AllBinary Open License Version 1 
-# Copyright (c) 2011 AllBinary 
-#  
-# By agreeing to this license you and any business entity you represent are 
-# legally bound to the AllBinary Open License Version 1 legal agreement. 
-#  
-# You may obtain the AllBinary Open License Version 1 legal agreement from 
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
-#  
-# Created By: Travis Berthelot 
-#   
+#[
+  
+  AllBinary Open License Version 1 
+  Copyright (c) 2011 AllBinary 
+   
+  By agreeing to this license you and any business entity you represent are 
+  legally bound to the AllBinary Open License Version 1 legal agreement. 
+   
+  You may obtain the AllBinary Open License Version 1 legal agreement from 
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
+   
+  Created By: Travis Berthelot 
+    
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.logic.system.security.licensing
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    AbeClientInformationData* = ref object of JObject
+        KEY*: string
+        NAME*: string
+        VERSION*: string
+        SPECIALNAME*: string
+        LICENSEID*: string
+        LICENSE_TYPE*: string
+        PREVIOUSLICENSEID*: string
+        OSNAME*: string
+        OSARCH*: string
+        OSVERSION*: string
+        OS*: string
+        HARDWARE*: string
+        LICENSESERVERS*: string
+        NEWLICENSE*: string
+        ISNEW*: string
+        SPECIAL*: string
 
+proc newAbeClientInformationData*(): AbeClientInformationData
+proc initAbeClientInformationData*(this: AbeClientInformationData)
+proc getInstance*(t: typedesc[AbeClientInformationData]): AbeClientInformationData {.discardable.}
 
-class AbeClientInformationData:
-    instance: AbeClientInformationData = None
+var AbeClientInformationData_instanceValue: AbeClientInformationData
+var AbeClientInformationData_instanceSet = false
+proc instance*(t: typedesc[AbeClientInformationData]): AbeClientInformationData =
+    if not AbeClientInformationData_instanceSet:
+        AbeClientInformationData_instanceSet = true
+        AbeClientInformationData_instanceValue = newAbeClientInformationData()
+    AbeClientInformationData_instanceValue
 
-    def _init_fields(self) -> None:
-        self.KEY: str = "KEY"
-        self.NAME: str = "NAME"
-        self.VERSION: str = "VERSION"
-        self.SPECIALNAME: str = "SPECIALNAME"
-        self.LICENSEID: str = "LICENSEID"
-        self.LICENSE_TYPE: str = "LICENSETYPE"
-        self.PREVIOUSLICENSEID: str = "PREVIOUSLICENSEID"
-        self.OSNAME: str = "OSNAME"
-        self.OSARCH: str = "OSARCH"
-        self.OSVERSION: str = "OSVERSION"
-        self.OS: str = "OS"
-        self.HARDWARE: str = "HARDWARE"
-        self.LICENSESERVERS: str = "LICENSESERVERS"
-        self.NEWLICENSE: str = "NEWLICENSE"
-        self.ISNEW: str = "ISNEW"
-        self.SPECIAL: str = "SPECIAL"
-    
+# Java field initializers run after the base initializer
+proc initFieldsAbeClientInformationData(this: AbeClientInformationData) =
+    this.KEY = "KEY"
+    this.NAME = "NAME"
+    this.VERSION = "VERSION"
+    this.SPECIALNAME = "SPECIALNAME"
+    this.LICENSEID = "LICENSEID"
+    this.LICENSE_TYPE = "LICENSETYPE"
+    this.PREVIOUSLICENSEID = "PREVIOUSLICENSEID"
+    this.OSNAME = "OSNAME"
+    this.OSARCH = "OSARCH"
+    this.OSVERSION = "OSVERSION"
+    this.OS = "OS"
+    this.HARDWARE = "HARDWARE"
+    this.LICENSESERVERS = "LICENSESERVERS"
+    this.NEWLICENSE = "NEWLICENSE"
+    this.ISNEW = "ISNEW"
+    this.SPECIAL = "SPECIAL"
+    discard
 
-    @staticmethod
-    def getInstance() -> AbeClientInformationData:
+proc getInstance*(t: typedesc[AbeClientInformationData]): AbeClientInformationData {.discardable.} =
         return AbeClientInformationData.instance
-    
 
-    def __init__(self) -> None:
-        self._init_fields()
+proc initAbeClientInformationData*(this: AbeClientInformationData) =
+        this.initFieldsAbeClientInformationData()
+        discard
 
-
-def _AbeClientInformationData_instance() -> object:
-    return AbeClientInformationData()
-
-lazy_static(AbeClientInformationData, "instance", _AbeClientInformationData_instance)
+proc newAbeClientInformationData*(): AbeClientInformationData =
+    result = AbeClientInformationData()
+    initAbeClientInformationData(result)
 

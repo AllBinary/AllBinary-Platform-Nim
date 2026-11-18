@@ -1,70 +1,87 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.input.motion.touch.action
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/game/input/GameKey as GameKeyModule
+export GameKeyModule
+import org/allbinary/game/input/motion/action/GameKeyCompleteMotionGestureInputEvent as GameKeyCompleteMotionGestureInputEventModule
+export GameKeyCompleteMotionGestureInputEventModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
-from org.allbinary.game.input.motion.action.GameKeyCompleteMotionGestureInputEvent import GameKeyCompleteMotionGestureInputEvent
+type
+    ReleaseTouchInputToGameKeyEventAction* = ref object of GameKeyCompleteMotionGestureInputEvent
+        NONE*: GameKey
 
+proc newReleaseTouchInputToGameKeyEventAction*(): ReleaseTouchInputToGameKeyEventAction
+proc initReleaseTouchInputToGameKeyEventAction*(this: ReleaseTouchInputToGameKeyEventAction)
+proc getInstance*(t: typedesc[ReleaseTouchInputToGameKeyEventAction]): GameKeyCompleteMotionGestureInputEvent {.discardable.}
+method update*(this: ReleaseTouchInputToGameKeyEventAction)
+import org/allbinary/game/input/GameKeyFactory as GameKeyFactoryModule
+export GameKeyFactoryModule
+import org/allbinary/game/input/PlatformInputMappingFactory as PlatformInputMappingFactoryModule
+export PlatformInputMappingFactoryModule
+import org/allbinary/game/input/event/GameKeyEventFactory as GameKeyEventFactoryModule
+export GameKeyEventFactoryModule
+import org/allbinary/input/motion/gesture/TouchMotionGestureFactory as TouchMotionGestureFactoryModule
+export TouchMotionGestureFactoryModule
+import org/allbinary/logic/NullUtil as NullUtilModule
+export NullUtilModule
+import org/allbinary/string/CommonStrings as CommonStringsModule
+export CommonStringsModule
 
-class ReleaseTouchInputToGameKeyEventAction(GameKeyCompleteMotionGestureInputEvent):
-    instance: object = None
+var ReleaseTouchInputToGameKeyEventAction_instanceValue: JObject
+var ReleaseTouchInputToGameKeyEventAction_instanceSet = false
+proc instance*(t: typedesc[ReleaseTouchInputToGameKeyEventAction]): JObject =
+    if not ReleaseTouchInputToGameKeyEventAction_instanceSet:
+        ReleaseTouchInputToGameKeyEventAction_instanceSet = true
+        ReleaseTouchInputToGameKeyEventAction_instanceValue = NullUtil.getInstance().NULL_OBJECT
+    ReleaseTouchInputToGameKeyEventAction_instanceValue
+proc `instance=`*(t: typedesc[ReleaseTouchInputToGameKeyEventAction], value: JObject) =
+    ReleaseTouchInputToGameKeyEventAction_instanceSet = true
+    ReleaseTouchInputToGameKeyEventAction_instanceValue = value
 
-    def _init_fields(self) -> None:
-        from org.allbinary.game.input.GameKey import GameKey
-        from org.allbinary.game.input.GameKeyFactory import GameKeyFactory
-        self.NONE: GameKey = GameKeyFactory.getInstance().NONE
-    
+# Java field initializers run after the base initializer
+proc initFieldsReleaseTouchInputToGameKeyEventAction(this: ReleaseTouchInputToGameKeyEventAction) =
+    this.NONE = GameKeyFactory.getInstance().NONE
+    discard
 
-    @staticmethod
-    def getInstance() -> GameKeyCompleteMotionGestureInputEvent:
-        from org.allbinary.logic.NullUtil import NullUtil
+proc getInstance*(t: typedesc[ReleaseTouchInputToGameKeyEventAction]): GameKeyCompleteMotionGestureInputEvent {.discardable.} =
         if ReleaseTouchInputToGameKeyEventAction.instance == NullUtil.getInstance().NULL_OBJECT:
-            ReleaseTouchInputToGameKeyEventAction.instance = ReleaseTouchInputToGameKeyEventAction()
-        return ReleaseTouchInputToGameKeyEventAction.instance
-    
+            ReleaseTouchInputToGameKeyEventAction.instance = newReleaseTouchInputToGameKeyEventAction()
+        return GameKeyCompleteMotionGestureInputEvent(JObject(ReleaseTouchInputToGameKeyEventAction.instance))
 
-    def __init__(self) -> None:
-        from org.allbinary.game.input.PlatformInputMappingFactory import PlatformInputMappingFactory
-        from org.allbinary.game.input.event.GameKeyEventFactory import GameKeyEventFactory
-        from org.allbinary.input.motion.gesture.TouchMotionGestureFactory import TouchMotionGestureFactory
-        from org.allbinary.string.CommonStrings import CommonStrings
-        super().__init__("Release Action", TouchMotionGestureFactory.getInstance().RELEASED, PlatformInputMappingFactory.getInstance().getPersistentInputMappingInstance().getInputMapping())
-        self._init_fields()
+proc initReleaseTouchInputToGameKeyEventAction*(this: ReleaseTouchInputToGameKeyEventAction) =
+        initGameKeyCompleteMotionGestureInputEvent(this, "Release Action", TouchMotionGestureFactory.getInstance().RELEASED, PlatformInputMappingFactory.getInstance().getPersistentInputMappingInstance().getInputMapping())
+        this.initFieldsReleaseTouchInputToGameKeyEventAction()
         try:
-            self.setGameKey(self.NONE)
-            self.setGameKeyEvent(GameKeyEventFactory.getInstance().getInstanceForInput(self, self.NONE))
-        except Exception as e:
-            commonStrings: CommonStrings = CommonStrings.getInstance()
-            self.logUtil.put(commonStrings.EXCEPTION, self, commonStrings.CONSTRUCTOR, e)
-    
+            this.setGameKey(this.NONE)
+            this.setGameKeyEvent(GameKeyEventFactory.getInstance().getInstanceForInput(this, this.NONE))
+        except CatchableError as jcaught:
+            let e = jToException(jcaught)
+            let commonStrings: CommonStrings = CommonStrings.getInstance()
+            this.logUtil.put(commonStrings.EXCEPTION, this, commonStrings.CONSTRUCTOR, e)
 
-    def update(self) -> None:
-        pass
-# from org.allbinary.game.input.GameKey import GameKey
-# from org.allbinary.game.input.GameKeyFactory import GameKeyFactory
-# from org.allbinary.game.input.PlatformInputMappingFactory import PlatformInputMappingFactory
-# from org.allbinary.game.input.event.GameKeyEventFactory import GameKeyEventFactory
-# from org.allbinary.input.motion.gesture.TouchMotionGestureFactory import TouchMotionGestureFactory
-# from org.allbinary.logic.NullUtil import NullUtil
-# from org.allbinary.string.CommonStrings import CommonStrings
+proc newReleaseTouchInputToGameKeyEventAction*(): ReleaseTouchInputToGameKeyEventAction =
+    result = ReleaseTouchInputToGameKeyEventAction()
+    initReleaseTouchInputToGameKeyEventAction(result)
 
+method update*(this: ReleaseTouchInputToGameKeyEventAction) =
+        discard
 
-def _ReleaseTouchInputToGameKeyEventAction_instance() -> object:
-    from org.allbinary.logic.NullUtil import NullUtil
-    return NullUtil.getInstance().NULL_OBJECT
-
-lazy_static(ReleaseTouchInputToGameKeyEventAction, "instance", _ReleaseTouchInputToGameKeyEventAction_instance)
+when declared(newReleaseTouchInputToGameKeyEventActionHook0):
+    newReleaseTouchInputToGameKeyEventActionHook0 = proc (): GameKeyCompleteMotionGestureInputEvent = newReleaseTouchInputToGameKeyEventAction()
 

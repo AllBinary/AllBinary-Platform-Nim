@@ -1,82 +1,92 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.resource
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/graphics/RelativeRelationship as RelativeRelationshipModule
+export RelativeRelationshipModule
+import org/allbinary/util/ABHashtable as ABHashtableModule
+export ABHashtableModule
+import org/allbinary/util/BasicArrayList as BasicArrayListModule
+export BasicArrayListModule
+import org/allbinary/util/BasicArrayListUtil as BasicArrayListUtilModule
+export BasicArrayListUtilModule
+import org/allbinary/game/resource/ResourceRelativeRelationshipFactoryInterface as ResourceRelativeRelationshipFactoryInterfaceModule
+export ResourceRelativeRelationshipFactoryInterfaceModule
 
-from org.allbinary.game.resource.ResourceRelativeRelationshipFactoryInterface import ResourceRelativeRelationshipFactoryInterface
+type
+    ResourceRelativeRelationshipFactory* = ref object of ResourceRelativeRelationshipFactoryInterface
+        basicArrayListUtil*: BasicArrayListUtil
+        hashtable*: ABHashtable
+        initialized*: bool
+
+proc newResourceRelativeRelationshipFactory*(): ResourceRelativeRelationshipFactory
+method init*(this: ResourceRelativeRelationshipFactory, level: int32)
+method getResourceRelativeRelationshipList*(this: ResourceRelativeRelationshipFactory, resource: string): BasicArrayList {.discardable.}
+method addResourceRelativeRelationship*(this: ResourceRelativeRelationshipFactory, resource: string, hardPoint: RelativeRelationship)
+method isLoadingLevel*(this: ResourceRelativeRelationshipFactory, level: int32): bool {.discardable.}
+method isFeature*(this: ResourceRelativeRelationshipFactory): bool {.discardable.}
+method setInitialized*(this: ResourceRelativeRelationshipFactory, initialized: bool) {.base.}
+method isInitialized*(this: ResourceRelativeRelationshipFactory): bool {.base, discardable.}
+import org/allbinary/logic/StdUtil as StdUtilModule
+export StdUtilModule
+import org/allbinary/util/BasicArrayListD as BasicArrayListDModule
+export BasicArrayListDModule
 
 
-class ResourceRelativeRelationshipFactory(ResourceRelativeRelationshipFactoryInterface):
+# Java field initializers run after the base initializer
+proc initFieldsResourceRelativeRelationshipFactory(this: ResourceRelativeRelationshipFactory) =
+    this.basicArrayListUtil = BasicArrayListUtil.getInstance()
+    this.hashtable = StdUtil.getInstance().createHashtable()
+    this.initialized = false
+    discard
 
-    def _init_fields(self) -> None:
-        from org.allbinary.logic.StdUtil import StdUtil
-        from org.allbinary.util.ABHashtable import ABHashtable
-        from org.allbinary.util.BasicArrayListUtil import BasicArrayListUtil
-        self.basicArrayListUtil: BasicArrayListUtil = BasicArrayListUtil.getInstance()
-        self.hashtable: ABHashtable[object, object] = StdUtil.getInstance().createHashtable()
-        self.initialized: bool = False
+proc initResourceRelativeRelationshipFactory*(this: ResourceRelativeRelationshipFactory) =
+    this.initFieldsResourceRelativeRelationshipFactory()
 
-    def __init__(self) -> None:
-        self._init_fields()
-    
+proc newResourceRelativeRelationshipFactory*(): ResourceRelativeRelationshipFactory =
+    result = ResourceRelativeRelationshipFactory()
+    initResourceRelativeRelationshipFactory(result)
 
-    # throws Exception
-    def init(self, level: int) -> None:
-        self.setInitialized(True)
-    
+method init*(this: ResourceRelativeRelationshipFactory, level: int32) =
+        this.setInitialized(true)
 
-    # throws Exception
-    def getResourceRelativeRelationshipList(self, resource: str) -> BasicArrayList:
-        from org.allbinary.util.BasicArrayList import BasicArrayList
-        listCanBeNull: object = self.hashtable.get(resource)
-        if listCanBeNull is None:
-            return self.basicArrayListUtil.getImmutableInstance()
-        return listCanBeNull
-    
+method getResourceRelativeRelationshipList*(this: ResourceRelativeRelationshipFactory, resource: string): BasicArrayList {.discardable.} =
+        let listCanBeNull: JObject = this.hashtable.get(resource)
+        if (jIsNil(listCanBeNull)):
+            return this.basicArrayListUtil.getImmutableInstance()
+        return BasicArrayList(JObject(listCanBeNull))
 
-    # throws Exception
-    def addResourceRelativeRelationship(self, resource: str, hardPoint: RelativeRelationship) -> None:
-        from org.allbinary.graphics.RelativeRelationship import RelativeRelationship
-        from org.allbinary.util.BasicArrayList import BasicArrayList
-        from org.allbinary.util.BasicArrayListD import BasicArrayListD
-        list_: BasicArrayList = self.getResourceRelativeRelationshipList(resource)
-        if list_ == self.basicArrayListUtil.getImmutableInstance():
-            list_ = BasicArrayListD()
-        list_.add(hardPoint)
-        self.hashtable.put(resource, list_)
-    
+method addResourceRelativeRelationship*(this: ResourceRelativeRelationshipFactory, resource: string, hardPoint: RelativeRelationship) =
+        var list: BasicArrayList = this.getResourceRelativeRelationshipList(resource)
+        if list == this.basicArrayListUtil.getImmutableInstance():
+            list = newBasicArrayListD()
+        list.add(hardPoint)
+        this.hashtable.put(resource, list)
 
-    def isLoadingLevel(self, level: int) -> bool:
-        return False
-    
+method isLoadingLevel*(this: ResourceRelativeRelationshipFactory, level: int32): bool {.discardable.} =
+        return false
 
-    def isFeature(self) -> bool:
-        return False
-    
+method isFeature*(this: ResourceRelativeRelationshipFactory): bool {.discardable.} =
+        return false
 
-    def setInitialized(self, initialized: bool) -> None:
-        self.initialized = initialized
-    
+method setInitialized*(this: ResourceRelativeRelationshipFactory, initialized: bool) {.base.} =
+        this.initialized = initialized
 
-    def isInitialized(self) -> bool:
-        return self.initialized
-# from org.allbinary.graphics.RelativeRelationship import RelativeRelationship
-# from org.allbinary.logic.StdUtil import StdUtil
-# from org.allbinary.util.ABHashtable import ABHashtable
-# from org.allbinary.util.BasicArrayList import BasicArrayList
-# from org.allbinary.util.BasicArrayListD import BasicArrayListD
-# from org.allbinary.util.BasicArrayListUtil import BasicArrayListUtil
-
+method isInitialized*(this: ResourceRelativeRelationshipFactory): bool {.base, discardable.} =
+        return this.initialized
 

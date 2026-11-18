@@ -1,91 +1,110 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.graphics.paint
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import javax/microedition/lcdui/Graphics as GraphicsModule
+export GraphicsModule
+import org/allbinary/graphics/color/BasicColor as BasicColorModule
+export BasicColorModule
+import org/allbinary/graphics/displayable/DisplayInfoSingleton as DisplayInfoSingletonModule
+export DisplayInfoSingletonModule
+import org/allbinary/graphics/font/MyFontProcessor as MyFontProcessorModule
+export MyFontProcessorModule
+import org/allbinary/graphics/font/UpdateMyFontInterface as UpdateMyFontInterfaceModule
+export UpdateMyFontInterfaceModule
+import org/allbinary/graphics/paint/Paintable as PaintableModule
+export PaintableModule
 
-from org.allbinary.graphics.font.UpdateMyFontInterface import UpdateMyFontInterface
-from org.allbinary.graphics.paint.Paintable import Paintable
+type
+    SimpleTextPaintable* = ref object of Paintable
+        displayInfoSingleton*: DisplayInfoSingleton
+        updateMyFontProcessor*: MyFontProcessor
+        myFontProcessor*: MyFontProcessor
+        text*: string
+        basicColor*: BasicColor
+        topScoresWidth*: int32
+        fontHeight*: int32
+        anchor*: int32
+
+converter jAsUpdateMyFontInterface*(value: SimpleTextPaintable): UpdateMyFontInterface = cast[UpdateMyFontInterface](value)
+proc newSimpleTextPaintable*(text: string, basicColor: BasicColor): SimpleTextPaintable
+proc initSimpleTextPaintable*(this: SimpleTextPaintable, text: string, basicColor: BasicColor)
+method updateMeasurement*(this: SimpleTextPaintable, graphics: Graphics)
+method paint*(this: SimpleTextPaintable, graphics: Graphics)
+method setBasicColorP*(this: SimpleTextPaintable, basicColor: BasicColor)
+method getBasicColorP*(this: SimpleTextPaintable): BasicColor {.base, discardable.}
+method setText*(this: SimpleTextPaintable, text: string) {.base.}
+method getText*(this: SimpleTextPaintable): string {.base, discardable.}
+import javax/microedition/lcdui/Font as FontModule
+export FontModule
+import org/allbinary/graphics/Anchor as AnchorModule
+export AnchorModule
+import org/allbinary/graphics/font/UpdateMyFontProcessor as UpdateMyFontProcessorModule
+export UpdateMyFontProcessorModule
 
 
-class SimpleTextPaintable(Paintable, UpdateMyFontInterface):
-
-    def _init_fields(self) -> None:
-        from org.allbinary.graphics.Anchor import Anchor
-        from org.allbinary.graphics.color.BasicColor import BasicColor
-        from org.allbinary.graphics.displayable.DisplayInfoSingleton import DisplayInfoSingleton
-        from org.allbinary.graphics.font.MyFontProcessor import MyFontProcessor
-        from org.allbinary.graphics.font.UpdateMyFontProcessor import UpdateMyFontProcessor
-        self.displayInfoSingleton: DisplayInfoSingleton = DisplayInfoSingleton.getInstance()
-        self.updateMyFontProcessor: MyFontProcessor = UpdateMyFontProcessor(self)
-        self.myFontProcessor: MyFontProcessor = self.updateMyFontProcessor
-        self.text: str = None
-        self.basicColor: BasicColor = None
-        self.topScoresWidth: int = 0
-        self.fontHeight: int = 0
-        self.anchor: int = Anchor.TOP_LEFT
+# Java field initializers run after the base initializer
+proc initFieldsSimpleTextPaintable(this: SimpleTextPaintable) =
+    this.displayInfoSingleton = DisplayInfoSingleton.getInstance()
+    this.updateMyFontProcessor = newUpdateMyFontProcessor(this)
+    this.myFontProcessor = this.updateMyFontProcessor
     
-
-    def __init__(self, text: str, basicColor: BasicColor) -> None:
-        from org.allbinary.graphics.color.BasicColor import BasicColor
-        super().__init__()
-        self._init_fields()
-        self.text = text
-        self.basicColor = basicColor
     
+    this.topScoresWidth = 0
+    this.fontHeight = 0
+    this.anchor = Anchor.TOP_LEFT
+    discard
 
-    def updateMeasurement(self, graphics: Graphics) -> None:
-        from javax.microedition.lcdui.Font import Font
-        from javax.microedition.lcdui.Graphics import Graphics
-        from org.allbinary.graphics.font.MyFontProcessor import MyFontProcessor
-        font: Font = graphics.getFont()
-        self.topScoresWidth = (font.stringWidth(self.text) >> 1)
-        self.fontHeight = font.getHeight()
-        self.myFontProcessor = MyFontProcessor.getInstance()
-    
+proc initSimpleTextPaintable*(this: SimpleTextPaintable, text: string, basicColor: BasicColor) =
+        initPaintable(this)
+        this.initFieldsSimpleTextPaintable()
+        this.text = text
+        this.basicColor = basicColor
 
-    def paint(self, graphics: Graphics) -> None:
-        from javax.microedition.lcdui.Graphics import Graphics
-        self.myFontProcessor.process(graphics)
-        width: int = self.displayInfoSingleton.getLast()[self.displayInfoSingleton.WIDTH]
-        graphics.setColor(int(self.getBasicColorP()))
-        graphics.drawString(self.text, (width >> 1) - self.topScoresWidth, self.fontHeight, self.anchor)
-    
+proc newSimpleTextPaintable*(text: string, basicColor: BasicColor): SimpleTextPaintable =
+    result = SimpleTextPaintable()
+    initSimpleTextPaintable(result, text, basicColor)
 
-    def setBasicColorP(self, basicColor: BasicColor) -> None:
-        from org.allbinary.graphics.color.BasicColor import BasicColor
-        self.basicColor = basicColor
-    
+method updateMeasurement*(this: SimpleTextPaintable, graphics: Graphics) =
+        let font: Font = graphics.getFont()
+        this.topScoresWidth = (ashr(font.stringWidth(this.text), 1))
+        this.fontHeight = font.getHeight()
+        this.myFontProcessor = MyFontProcessor.getInstance()
 
-    def getBasicColorP(self) -> BasicColor:
-        from org.allbinary.graphics.color.BasicColor import BasicColor
-        return self.basicColor
-    
+method paint*(this: SimpleTextPaintable, graphics: Graphics) =
+        this.myFontProcessor.process(graphics)
+        let width: int32 = this.displayInfoSingleton.getLast()[this.displayInfoSingleton.WIDTH]
+        graphics.setColor(this.getBasicColorP().intValue())
+        graphics.drawString(this.text, (ashr(width, 1)) -% this.topScoresWidth, this.fontHeight, this.anchor)
 
-    def setText(self, text: str) -> None:
-        self.text = text
-        self.myFontProcessor = self.updateMyFontProcessor
-    
+method setBasicColorP*(this: SimpleTextPaintable, basicColor: BasicColor) =
+        this.basicColor = basicColor
 
-    def getText(self) -> str:
-        return self.text
-# from javax.microedition.lcdui.Font import Font
-# from javax.microedition.lcdui.Graphics import Graphics
-# from org.allbinary.graphics.Anchor import Anchor
-# from org.allbinary.graphics.color.BasicColor import BasicColor
-# from org.allbinary.graphics.displayable.DisplayInfoSingleton import DisplayInfoSingleton
-# from org.allbinary.graphics.font.MyFontProcessor import MyFontProcessor
-# from org.allbinary.graphics.font.UpdateMyFontProcessor import UpdateMyFontProcessor
+method getBasicColorP*(this: SimpleTextPaintable): BasicColor {.base, discardable.} =
+        return this.basicColor
 
+method setText*(this: SimpleTextPaintable, text: string) {.base.} =
+        this.text = text
+        this.myFontProcessor = this.updateMyFontProcessor
+
+method getText*(this: SimpleTextPaintable): string {.base, discardable.} =
+        return this.text
+
+when declared(newSimpleTextPaintableHook2):
+    newSimpleTextPaintableHook2 = proc (text: string, basicColor: BasicColor): Paintable = newSimpleTextPaintable(text, basicColor)
 

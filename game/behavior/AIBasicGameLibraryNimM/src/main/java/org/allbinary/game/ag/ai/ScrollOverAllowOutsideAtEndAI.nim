@@ -1,54 +1,64 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.ag.ai
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/game/ai/BasicAI as BasicAIModule
+export BasicAIModule
+import org/allbinary/game/input/GameInput as GameInputModule
+export GameInputModule
+import org/allbinary/layer/AllBinaryLayer as AllBinaryLayerModule
+export AllBinaryLayerModule
+import org/allbinary/layer/AllBinaryLayerManager as AllBinaryLayerManagerModule
+export AllBinaryLayerManagerModule
 
-from org.allbinary.game.ai.BasicAI import BasicAI
+type
+    ScrollOverAllowOutsideAtEndAI* = ref object of BasicAI
+
+proc newScrollOverAllowOutsideAtEndAI*(ownerLayerInterface: AllBinaryLayer, gameInput: GameInput): ScrollOverAllowOutsideAtEndAI
+proc initScrollOverAllowOutsideAtEndAI*(this: ScrollOverAllowOutsideAtEndAI, ownerLayerInterface: AllBinaryLayer, gameInput: GameInput)
+method processAI*(this: ScrollOverAllowOutsideAtEndAI, allBinaryLayerManager: AllBinaryLayerManager)
+import org/allbinary/graphics/displayable/DisplayInfoSingleton as DisplayInfoSingletonModule
+export DisplayInfoSingletonModule
 
 
-class ScrollOverAllowOutsideAtEndAI(BasicAI):
-    
+proc initScrollOverAllowOutsideAtEndAI*(this: ScrollOverAllowOutsideAtEndAI, ownerLayerInterface: AllBinaryLayer, gameInput: GameInput) =
+        initBasicAI(this, ownerLayerInterface, gameInput)
 
-    def __init__(self, ownerLayerInterface: AllBinaryLayer, gameInput: GameInput) -> None:
-        from org.allbinary.game.input.GameInput import GameInput
-        from org.allbinary.layer.AllBinaryLayer import AllBinaryLayer
-        super().__init__(ownerLayerInterface, gameInput)
-    
+proc newScrollOverAllowOutsideAtEndAI*(ownerLayerInterface: AllBinaryLayer, gameInput: GameInput): ScrollOverAllowOutsideAtEndAI =
+    result = ScrollOverAllowOutsideAtEndAI()
+    initScrollOverAllowOutsideAtEndAI(result, ownerLayerInterface, gameInput)
 
-    # throws Exception
-    def processAI(self, allBinaryLayerManager: AllBinaryLayerManager) -> None:
-        from org.allbinary.graphics.displayable.DisplayInfoSingleton import DisplayInfoSingleton
-        from org.allbinary.layer.AllBinaryLayer import AllBinaryLayer
-        from org.allbinary.layer.AllBinaryLayerManager import AllBinaryLayerManager
-        ownerLayerInterface: AllBinaryLayer = self.getOwnerLayerInterface()
-        x: int = ownerLayerInterface.getXP()
-        y: int = ownerLayerInterface.getYP()
-        width: int = ownerLayerInterface.getWidth()
-        height: int = ownerLayerInterface.getHeight()
-        displayInfo: DisplayInfoSingleton = DisplayInfoSingleton.getInstance()
+method processAI*(this: ScrollOverAllowOutsideAtEndAI, allBinaryLayerManager: AllBinaryLayerManager) =
+        var ownerLayerInterface: AllBinaryLayer = this.getOwnerLayerInterface()
+        var x: int32 = ownerLayerInterface.getXP()
+        var y: int32 = ownerLayerInterface.getYP()
+        var width: int32 = ownerLayerInterface.getWidth()
+        var height: int32 = ownerLayerInterface.getHeight()
+        var displayInfo: DisplayInfoSingleton = DisplayInfoSingleton.getInstance()
         if x > displayInfo.getLastWidth():
             ownerLayerInterface.setPosition(-width, y, ownerLayerInterface.getZP())
         if y > displayInfo.getLastHeight():
             ownerLayerInterface.setPosition(x, -height, ownerLayerInterface.getZP())
         if x < -width:
-            ownerLayerInterface.setPosition(displayInfo.getLastWidth() + width, y, ownerLayerInterface.getZP())
+            ownerLayerInterface.setPosition(displayInfo.getLastWidth() +% width, y, ownerLayerInterface.getZP())
         if y < -height:
-            ownerLayerInterface.setPosition(x, displayInfo.getLastHeight() + height, ownerLayerInterface.getZP())
-# from org.allbinary.game.input.GameInput import GameInput
-# from org.allbinary.graphics.displayable.DisplayInfoSingleton import DisplayInfoSingleton
-# from org.allbinary.layer.AllBinaryLayer import AllBinaryLayer
-# from org.allbinary.layer.AllBinaryLayerManager import AllBinaryLayerManager
+            ownerLayerInterface.setPosition(x, displayInfo.getLastHeight() +% height, ownerLayerInterface.getZP())
 
+when declared(newScrollOverAllowOutsideAtEndAIHook2):
+    newScrollOverAllowOutsideAtEndAIHook2 = proc (ownerLayerInterface: AllBinaryLayer, gameInput: GameInput): BasicAI = newScrollOverAllowOutsideAtEndAI(ownerLayerInterface, gameInput)
 

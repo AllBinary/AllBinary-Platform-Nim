@@ -1,33 +1,48 @@
-# 
-# AllBinary Open License Version 1 
-# Copyright (c) 2025 AllBinary 
-#  
-# By agreeing to this license you and any business entity you represent are 
-# legally bound to the AllBinary Open License Version 1 legal agreement. 
-#  
-# You may obtain the AllBinary Open License Version 1 legal agreement from 
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
-#  
-# Created By: Travis Berthelot 
-#   
+#[
+  
+  AllBinary Open License Version 1 
+  Copyright (c) 2025 AllBinary 
+   
+  By agreeing to this license you and any business entity you represent are 
+  legally bound to the AllBinary Open License Version 1 legal agreement. 
+   
+  You may obtain the AllBinary Open License Version 1 legal agreement from 
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
+   
+  Created By: Travis Berthelot 
+    
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.configuration.persistance
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import javax/microedition/rms/RecordStore as RecordStoreModule
+export RecordStoreModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
-from javax.microedition.rms.RecordStore import RecordStore
+type
+    NullRecordStore* = ref object of RecordStore
 
+proc newNullRecordStore*(): NullRecordStore
 
-class NullRecordStore(RecordStore):
-    NULL_RECORD_STORE: NullRecordStore = None
+var NullRecordStore_NULL_RECORD_STOREValue: NullRecordStore
+var NullRecordStore_NULL_RECORD_STORESet = false
+proc NULL_RECORD_STOREStatic*(t: typedesc[NullRecordStore]): NullRecordStore =
+    if not NullRecordStore_NULL_RECORD_STORESet:
+        NullRecordStore_NULL_RECORD_STORESet = true
+        NullRecordStore_NULL_RECORD_STOREValue = newNullRecordStore()
+    NullRecordStore_NULL_RECORD_STOREValue
+proc `NULL_RECORD_STOREStatic=`*(t: typedesc[NullRecordStore], value: NullRecordStore) =
+    NullRecordStore_NULL_RECORD_STORESet = true
+    NullRecordStore_NULL_RECORD_STOREValue = value
 
-    def __init__(self) -> None:
-        super().__init__()
+proc initNullRecordStore*(this: NullRecordStore) =
+    initRecordStore(this)
 
+proc newNullRecordStore*(): NullRecordStore =
+    result = NullRecordStore()
+    initNullRecordStore(result)
 
-def _NullRecordStore_NULL_RECORD_STORE() -> object:
-    return NullRecordStore()
-
-lazy_static(NullRecordStore, "NULL_RECORD_STORE", _NullRecordStore_NULL_RECORD_STORE)
+when declared(newNullRecordStoreHook0):
+    newNullRecordStoreHook0 = proc (): RecordStore = newNullRecordStore()
 

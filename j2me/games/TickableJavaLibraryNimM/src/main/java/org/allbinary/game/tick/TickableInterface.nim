@@ -1,31 +1,31 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.tick
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/layer/AllBinaryLayerManager as AllBinaryLayerManagerModule
+export AllBinaryLayerManagerModule
+import org/allbinary/layer/NamedInterface as NamedInterfaceModule
+export NamedInterfaceModule
 
-from org.allbinary.layer.NamedInterface import NamedInterface
+type
+    TickableInterface* = ref object of NamedInterface
 
 
-# Java interface
-class TickableInterface(NamedInterface):
-    
-
-    # throws Exception
-    def processTick(self, allBinaryLayerManager: AllBinaryLayerManager) -> None:
-        from org.allbinary.layer.AllBinaryLayerManager import AllBinaryLayerManager
-        raise NotImplementedError()
-# from org.allbinary.layer.AllBinaryLayerManager import AllBinaryLayerManager
-
+method processTick*(this: TickableInterface, allBinaryLayerManager: AllBinaryLayerManager) {.base.} =
+        raise newJException("AbstractMethodError", "processTick")
 

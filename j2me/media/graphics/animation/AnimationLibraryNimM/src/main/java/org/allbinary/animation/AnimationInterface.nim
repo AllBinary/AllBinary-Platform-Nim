@@ -1,35 +1,34 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.animation
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import javax/microedition/lcdui/Graphics as GraphicsModule
+export GraphicsModule
+import org/allbinary/graphics/paint/LocationPaintableInterface as LocationPaintableInterfaceModule
+export LocationPaintableInterfaceModule
 
-from org.allbinary.graphics.paint.LocationPaintableInterface import LocationPaintableInterface
+type
+    AnimationInterface* = ref object of LocationPaintableInterface
 
 
-# Java interface
-class AnimationInterface(LocationPaintableInterface):
-    
+method nextFrame*(this: AnimationInterface) {.base.} =
+        raise newJException("AbstractMethodError", "nextFrame")
 
-    # throws Exception
-    def nextFrame(self) -> None:
-        raise NotImplementedError()
-    
-
-    def paintThreedXYZ(self, graphics: Graphics, x: int, y: int, z: int) -> None:
-        from javax.microedition.lcdui.Graphics import Graphics
-        raise NotImplementedError()
-# from javax.microedition.lcdui.Graphics import Graphics
-
+method paintThreedXYZ*(this: AnimationInterface, graphics: Graphics, x: int32, y: int32, z: int32) {.base.} =
+        raise newJException("AbstractMethodError", "paintThreedXYZ")
 

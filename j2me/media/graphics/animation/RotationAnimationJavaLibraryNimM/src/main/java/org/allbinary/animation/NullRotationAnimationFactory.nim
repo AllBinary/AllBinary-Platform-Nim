@@ -1,60 +1,82 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.animation
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/media/ScaleProperties as ScalePropertiesModule
+export ScalePropertiesModule
+import org/allbinary/animation/AnimationInterfaceFactoryInterface as AnimationInterfaceFactoryInterfaceModule
+export AnimationInterfaceFactoryInterfaceModule
+import org/allbinary/animation/ProceduralAnimationInterfaceFactoryInterface as ProceduralAnimationInterfaceFactoryInterfaceModule
+export ProceduralAnimationInterfaceFactoryInterfaceModule
+import org/allbinary/animation/RotationAnimation as RotationAnimationModule
+export RotationAnimationModule
+import org/allbinary/animation/Animation as AnimationModule
+export AnimationModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
-from org.allbinary.animation.AnimationInterfaceFactoryInterface import AnimationInterfaceFactoryInterface
-from org.allbinary.animation.ProceduralAnimationInterfaceFactoryInterface import ProceduralAnimationInterfaceFactoryInterface
+type
+    NullRotationAnimationFactory* = ref object of AnimationInterfaceFactoryInterface
+        NULL_ROTATION_ANIMATION_ARRAY*: JArray[RotationAnimation]
+        NULL_ANIMATION*: Animation
 
+converter jAsProceduralAnimationInterfaceFactoryInterface*(value: NullRotationAnimationFactory): ProceduralAnimationInterfaceFactoryInterface = cast[ProceduralAnimationInterfaceFactoryInterface](value)
+proc newNullRotationAnimationFactory*(): NullRotationAnimationFactory
+proc initNullRotationAnimationFactory*(this: NullRotationAnimationFactory)
+proc getFactoryInstance*(t: typedesc[NullRotationAnimationFactory]): NullRotationAnimationFactory {.discardable.}
+method getInstance*(this: NullRotationAnimationFactory, instanceId: int32): Animation {.discardable.}
+method getInstanceAnimation*(this: NullRotationAnimationFactory, animationInterface: Animation): Animation {.discardable.}
+method setInitialScale*(this: NullRotationAnimationFactory, scaleProperties: ScaleProperties)
+import org/allbinary/animation/NullRotationAnimation2 as NullRotationAnimation2Module
+export NullRotationAnimation2Module
 
-class NullRotationAnimationFactory(AnimationInterfaceFactoryInterface, ProceduralAnimationInterfaceFactoryInterface):
-    NULL_ROTATION_ANIMATION_FACTORY: NullRotationAnimationFactory = None
+var NullRotationAnimationFactory_NULL_ROTATION_ANIMATION_FACTORYValue: NullRotationAnimationFactory
+var NullRotationAnimationFactory_NULL_ROTATION_ANIMATION_FACTORYSet = false
+proc NULL_ROTATION_ANIMATION_FACTORYStatic*(t: typedesc[NullRotationAnimationFactory]): NullRotationAnimationFactory =
+    if not NullRotationAnimationFactory_NULL_ROTATION_ANIMATION_FACTORYSet:
+        NullRotationAnimationFactory_NULL_ROTATION_ANIMATION_FACTORYSet = true
+        NullRotationAnimationFactory_NULL_ROTATION_ANIMATION_FACTORYValue = newNullRotationAnimationFactory()
+    NullRotationAnimationFactory_NULL_ROTATION_ANIMATION_FACTORYValue
+proc `NULL_ROTATION_ANIMATION_FACTORYStatic=`*(t: typedesc[NullRotationAnimationFactory], value: NullRotationAnimationFactory) =
+    NullRotationAnimationFactory_NULL_ROTATION_ANIMATION_FACTORYSet = true
+    NullRotationAnimationFactory_NULL_ROTATION_ANIMATION_FACTORYValue = value
 
-    def _init_fields(self) -> None:
-        self.NULL_ROTATION_ANIMATION_ARRAY: list[RotationAnimation] = [None] * (0)
-        self.NULL_ANIMATION: Animation = NullRotationAnimation2()
-    
+# Java field initializers run after the base initializer
+proc initFieldsNullRotationAnimationFactory(this: NullRotationAnimationFactory) =
+    this.NULL_ROTATION_ANIMATION_ARRAY = newJArray[RotationAnimation](0, default(RotationAnimation))
+    this.NULL_ANIMATION = newNullRotationAnimation2()
+    discard
 
-    def __init__(self) -> None:
-        self._init_fields()
-    
+proc initNullRotationAnimationFactory*(this: NullRotationAnimationFactory) =
+        this.initFieldsNullRotationAnimationFactory()
+        discard
 
-    @staticmethod
-    def getFactoryInstance() -> NullRotationAnimationFactory:
-        return NullRotationAnimationFactory.NULL_ROTATION_ANIMATION_FACTORY
-    
+proc newNullRotationAnimationFactory*(): NullRotationAnimationFactory =
+    result = NullRotationAnimationFactory()
+    initNullRotationAnimationFactory(result)
 
-    def getInstance(self, instanceId: int) -> Animation:
-        return self.NULL_ANIMATION
-    
+proc getFactoryInstance*(t: typedesc[NullRotationAnimationFactory]): NullRotationAnimationFactory {.discardable.} =
+        return NullRotationAnimationFactory.NULL_ROTATION_ANIMATION_FACTORYStatic
 
-    # throws Exception
-    def getInstanceAnimation(self, animationInterface: Animation) -> Animation:
-        return self.NULL_ANIMATION
-    
+method getInstance*(this: NullRotationAnimationFactory, instanceId: int32): Animation {.discardable.} =
+        return this.NULL_ANIMATION
 
-    def setInitialScale(self, scaleProperties: ScaleProperties) -> None:
-        from org.allbinary.media.ScaleProperties import ScaleProperties
-        pass
-# from org.allbinary.media.ScaleProperties import ScaleProperties
-from org.allbinary.animation.NullRotationAnimation2 import NullRotationAnimation2
+method getInstanceAnimation*(this: NullRotationAnimationFactory, animationInterface: Animation): Animation {.discardable.} =
+        return this.NULL_ANIMATION
 
-
-def _NullRotationAnimationFactory_NULL_ROTATION_ANIMATION_FACTORY() -> object:
-    return NullRotationAnimationFactory()
-
-lazy_static(NullRotationAnimationFactory, "NULL_ROTATION_ANIMATION_FACTORY", _NullRotationAnimationFactory_NULL_ROTATION_ANIMATION_FACTORY)
+method setInitialScale*(this: NullRotationAnimationFactory, scaleProperties: ScaleProperties) =
+        discard
 

@@ -1,11 +1,19 @@
 # Generated Code Do Not Modify
 # package org.allbinary.graphics.form.item
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+
+type
+    ImageItem* = ref object of JObject
+
+proc newImageItem*(): ImageItem
 
 
+proc initImageItem*(this: ImageItem) =
+    discard
 
-class ImageItem:
-    pass
-
+proc newImageItem*(): ImageItem =
+    result = ImageItem()
+    initImageItem(result)
 

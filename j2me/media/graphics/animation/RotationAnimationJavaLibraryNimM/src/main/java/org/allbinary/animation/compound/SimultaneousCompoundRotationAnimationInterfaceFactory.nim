@@ -1,50 +1,61 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#   
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+    
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.animation.compound
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/animation/Animation as AnimationModule
+export AnimationModule
+import org/allbinary/animation/AnimationBehaviorFactory as AnimationBehaviorFactoryModule
+export AnimationBehaviorFactoryModule
+import org/allbinary/animation/AnimationInterfaceFactoryInterface as AnimationInterfaceFactoryInterfaceModule
+export AnimationInterfaceFactoryInterfaceModule
+import org/allbinary/animation/compound/CompoundAnimationInterfaceFactory as CompoundAnimationInterfaceFactoryModule
+export CompoundAnimationInterfaceFactoryModule
 
-from org.allbinary.animation.compound.CompoundAnimationInterfaceFactory import CompoundAnimationInterfaceFactory
+type
+    SimultaneousCompoundRotationAnimationInterfaceFactory* = ref object of CompoundAnimationInterfaceFactory
+
+proc newSimultaneousCompoundRotationAnimationInterfaceFactory*(basicAnimationInterfaceFactoryInterfaceArray: JArray[AnimationInterfaceFactoryInterface], animationBehaviorFactory: AnimationBehaviorFactory): SimultaneousCompoundRotationAnimationInterfaceFactory
+proc initSimultaneousCompoundRotationAnimationInterfaceFactory*(this: SimultaneousCompoundRotationAnimationInterfaceFactory, basicAnimationInterfaceFactoryInterfaceArray: JArray[AnimationInterfaceFactoryInterface], animationBehaviorFactory: AnimationBehaviorFactory)
+method createArray*(this: SimultaneousCompoundRotationAnimationInterfaceFactory, size: int32): JArray[Animation] {.discardable.}
+method createAnimation*(this: SimultaneousCompoundRotationAnimationInterfaceFactory, animationInterfaceArray: JArray[Animation]): Animation {.discardable.}
+import org/allbinary/animation/RotationAnimation as RotationAnimationModule
+export RotationAnimationModule
+import org/allbinary/logic/communication/log/ForcedLogUtil as ForcedLogUtilModule
+export ForcedLogUtilModule
+import org/allbinary/animation/compound/SimultaneousCompoundRotationAnimation as SimultaneousCompoundRotationAnimationModule
+export SimultaneousCompoundRotationAnimationModule
 
 
-class SimultaneousCompoundRotationAnimationInterfaceFactory(CompoundAnimationInterfaceFactory):
-    
-
-    def __init__(self, basicAnimationInterfaceFactoryInterfaceArray: list[AnimationInterfaceFactoryInterface], animationBehaviorFactory: AnimationBehaviorFactory) -> None:
-        from org.allbinary.animation.AnimationBehaviorFactory import AnimationBehaviorFactory
-        from org.allbinary.animation.AnimationInterfaceFactoryInterface import AnimationInterfaceFactoryInterface
-        from org.allbinary.logic.communication.log.ForcedLogUtil import ForcedLogUtil
-        super().__init__(basicAnimationInterfaceFactoryInterfaceArray, animationBehaviorFactory)
+proc initSimultaneousCompoundRotationAnimationInterfaceFactory*(this: SimultaneousCompoundRotationAnimationInterfaceFactory, basicAnimationInterfaceFactoryInterfaceArray: JArray[AnimationInterfaceFactoryInterface], animationBehaviorFactory: AnimationBehaviorFactory) =
+        initCompoundAnimationInterfaceFactory(this, basicAnimationInterfaceFactoryInterfaceArray, animationBehaviorFactory)
         if animationBehaviorFactory == AnimationBehaviorFactory.getInstance():
-            ForcedLogUtil.log("Using default AnimationBehaviorFactory with IndexedAnimationFactory", self)
-    
+            ForcedLogUtil.log("Using default AnimationBehaviorFactory with IndexedAnimationFactory", this)
 
-    def createArray(self, size: int) -> list[Animation]:
-        from org.allbinary.animation.Animation import Animation
-        from org.allbinary.animation.RotationAnimation import RotationAnimation
-        return [None] * (size)
-    
+proc newSimultaneousCompoundRotationAnimationInterfaceFactory*(basicAnimationInterfaceFactoryInterfaceArray: JArray[AnimationInterfaceFactoryInterface], animationBehaviorFactory: AnimationBehaviorFactory): SimultaneousCompoundRotationAnimationInterfaceFactory =
+    result = SimultaneousCompoundRotationAnimationInterfaceFactory()
+    initSimultaneousCompoundRotationAnimationInterfaceFactory(result, basicAnimationInterfaceFactoryInterfaceArray, animationBehaviorFactory)
 
-    def createAnimation(self, animationInterfaceArray: list[Animation]) -> Animation:
-        from org.allbinary.animation.compound.SimultaneousCompoundRotationAnimation import SimultaneousCompoundRotationAnimation
-        from org.allbinary.animation.Animation import Animation
-        from org.allbinary.animation.RotationAnimation import RotationAnimation
-        return SimultaneousCompoundRotationAnimation(animationInterfaceArray, self.animationBehaviorFactory.getOrCreateInstance())
-# from org.allbinary.animation.Animation import Animation
-# from org.allbinary.animation.AnimationBehaviorFactory import AnimationBehaviorFactory
-# from org.allbinary.animation.AnimationInterfaceFactoryInterface import AnimationInterfaceFactoryInterface
-# from org.allbinary.animation.RotationAnimation import RotationAnimation
-# from org.allbinary.logic.communication.log.ForcedLogUtil import ForcedLogUtil
+method createArray*(this: SimultaneousCompoundRotationAnimationInterfaceFactory, size: int32): JArray[Animation] {.discardable.} =
+        return cast[JArray[Animation]](newJArray[RotationAnimation](size, default(RotationAnimation)))
 
+method createAnimation*(this: SimultaneousCompoundRotationAnimationInterfaceFactory, animationInterfaceArray: JArray[Animation]): Animation {.discardable.} =
+        return newSimultaneousCompoundRotationAnimation(cast[JArray[RotationAnimation]](animationInterfaceArray), this.animationBehaviorFactory.getOrCreateInstance())
+
+when declared(newSimultaneousCompoundRotationAnimationInterfaceFactoryHook2):
+    newSimultaneousCompoundRotationAnimationInterfaceFactoryHook2 = proc (basicAnimationInterfaceFactoryInterfaceArray: JArray[AnimationInterfaceFactoryInterface], animationBehaviorFactory: AnimationBehaviorFactory): CompoundAnimationInterfaceFactory = newSimultaneousCompoundRotationAnimationInterfaceFactory(basicAnimationInterfaceFactoryInterfaceArray, animationBehaviorFactory)
 

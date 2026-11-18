@@ -1,70 +1,82 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.layer
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import java/lang/Integer as IntegerModule
+export IntegerModule
+import java/util/Enumeration as EnumerationModule
+export EnumerationModule
+import org/allbinary/util/ABHashtable as ABHashtableModule
+export ABHashtableModule
+import org/allbinary/util/BasicArrayList as BasicArrayListModule
+export BasicArrayListModule
+import org/allbinary/util/EnumerationUtil as EnumerationUtilModule
+export EnumerationUtilModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    LevelLayersFinder* = ref object of JObject
+        enumerationUtil*: EnumerationUtil
 
+proc newLevelLayersFinder*(): LevelLayersFinder
+proc getInstance*(t: typedesc[LevelLayersFinder]): LevelLayersFinder {.discardable.}
+method get*(this: LevelLayersFinder, hashtable: ABHashtable): BasicArrayList {.base, discardable.}
+import org/allbinary/layer/Layer as LayerModule
+export LayerModule
+import org/allbinary/logic/math/SmallIntegerSingletonFactory as SmallIntegerSingletonFactoryModule
+export SmallIntegerSingletonFactoryModule
+import org/allbinary/util/BasicArrayListD as BasicArrayListDModule
+export BasicArrayListDModule
 
-class LevelLayersFinder:
-    instance: LevelLayersFinder = None
+var LevelLayersFinder_instanceValue: LevelLayersFinder
+var LevelLayersFinder_instanceSet = false
+proc instance*(t: typedesc[LevelLayersFinder]): LevelLayersFinder =
+    if not LevelLayersFinder_instanceSet:
+        LevelLayersFinder_instanceSet = true
+        LevelLayersFinder_instanceValue = newLevelLayersFinder()
+    LevelLayersFinder_instanceValue
 
-    def _init_fields(self) -> None:
-        from org.allbinary.util.EnumerationUtil import EnumerationUtil
-        self.enumerationUtil: EnumerationUtil = EnumerationUtil.getInstance()
+# Java field initializers run after the base initializer
+proc initFieldsLevelLayersFinder(this: LevelLayersFinder) =
+    this.enumerationUtil = EnumerationUtil.getInstance()
+    discard
 
-    def __init__(self) -> None:
-        self._init_fields()
-    
+proc initLevelLayersFinder*(this: LevelLayersFinder) =
+    this.initFieldsLevelLayersFinder()
 
-    @staticmethod
-    def getInstance() -> LevelLayersFinder:
+proc newLevelLayersFinder*(): LevelLayersFinder =
+    result = LevelLayersFinder()
+    initLevelLayersFinder(result)
+
+proc getInstance*(t: typedesc[LevelLayersFinder]): LevelLayersFinder {.discardable.} =
         return LevelLayersFinder.instance
-    
 
-    def get(self, hashtable: ABHashtable[object, object]) -> BasicArrayList:
-        from java.util.Enumeration import Enumeration
-        from org.allbinary.layer.Layer import Layer
-        from org.allbinary.logic.math.SmallIntegerSingletonFactory import SmallIntegerSingletonFactory
-        from org.allbinary.util.ABHashtable import ABHashtable
-        from org.allbinary.util.BasicArrayList import BasicArrayList
-        from org.allbinary.util.BasicArrayListD import BasicArrayListD
-        smallIntegerSingletonFactory: SmallIntegerSingletonFactory = SmallIntegerSingletonFactory.getInstance()
-        list_: BasicArrayList = BasicArrayListD()
-        enumeration: Enumeration = hashtable.keys()
-        layerHashtableCanBeNull: ABHashtable[object, object] = None
-        integerCanBeNull: int = None
-        cachedIntegerCanBeNull: int = None
-        while self.enumerationUtil.hasMoreElements(enumeration):
-            layerHashtableCanBeNull = hashtable.get(self.enumerationUtil.nextElement(enumeration))
-            integerCanBeNull = layerHashtableCanBeNull.get(Layer.ID)
-            cachedIntegerCanBeNull = smallIntegerSingletonFactory.getAt(int(integerCanBeNull))
-            if not list_.contains(cachedIntegerCanBeNull):
-                list_.add(cachedIntegerCanBeNull)
-        return list_
-# from java.util.Enumeration import Enumeration
-# from org.allbinary.layer.Layer import Layer
-# from org.allbinary.logic.math.SmallIntegerSingletonFactory import SmallIntegerSingletonFactory
-# from org.allbinary.util.ABHashtable import ABHashtable
-# from org.allbinary.util.BasicArrayList import BasicArrayList
-# from org.allbinary.util.BasicArrayListD import BasicArrayListD
-# from org.allbinary.util.EnumerationUtil import EnumerationUtil
-
-
-def _LevelLayersFinder_instance() -> object:
-    return LevelLayersFinder()
-
-lazy_static(LevelLayersFinder, "instance", _LevelLayersFinder_instance)
+method get*(this: LevelLayersFinder, hashtable: ABHashtable): BasicArrayList {.base, discardable.} =
+        let smallIntegerSingletonFactory: SmallIntegerSingletonFactory = SmallIntegerSingletonFactory.getInstance()
+        let list: BasicArrayList = newBasicArrayListD()
+        let enumeration: Enumeration = hashtable.keys()
+        var layerHashtableCanBeNull: ABHashtable = nil
+        var integerCanBeNull: int32 = nil
+        var cachedIntegerCanBeNull: int32 = nil
+        while this.enumerationUtil.hasMoreElements(enumeration):
+            layerHashtableCanBeNull = ABHashtable(JObject(hashtable.get(JObject(JObject(this.enumerationUtil.nextElement(enumeration))))))
+            integerCanBeNull = jUnboxInteger(layerHashtableCanBeNull.get(JObject(JObject(Layer.ID))))
+            cachedIntegerCanBeNull = smallIntegerSingletonFactory.getAt(integerCanBeNull.intValue())
+            if (not list.contains(cachedIntegerCanBeNull)):
+                list.add(cachedIntegerCanBeNull)
+        return list
 

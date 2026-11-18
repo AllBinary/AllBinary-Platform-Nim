@@ -1,32 +1,49 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.layer.special
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/game/input/GameInputProcessor as GameInputProcessorModule
+export GameInputProcessorModule
+import org/allbinary/game/layer/special/SpecialGameInputInterface as SpecialGameInputInterfaceModule
+export SpecialGameInputInterfaceModule
 
-from org.allbinary.game.input.GameInputProcessor import GameInputProcessor
+type
+    SpecialGameInputInterfaceProcessor* = ref object of GameInputProcessor
+        specialGameInputInterface*: SpecialGameInputInterface
+
+proc newSpecialGameInputInterfaceProcessor*(collidableDestroyableDamageableLayer: SpecialGameInputInterface): SpecialGameInputInterfaceProcessor
+proc initSpecialGameInputInterfaceProcessor*(this: SpecialGameInputInterfaceProcessor, collidableDestroyableDamageableLayer: SpecialGameInputInterface)
 
 
-class SpecialGameInputInterfaceProcessor(GameInputProcessor):
-
-    def _init_fields(self) -> None:
-        self.specialGameInputInterface: SpecialGameInputInterface = None
+# Java field initializers run after the base initializer
+proc initFieldsSpecialGameInputInterfaceProcessor(this: SpecialGameInputInterfaceProcessor) =
     
+    discard
 
-    def __init__(self, collidableDestroyableDamageableLayer: SpecialGameInputInterface) -> None:
-        super().__init__()
-        self._init_fields()
-        self.specialGameInputInterface = collidableDestroyableDamageableLayer
+proc initSpecialGameInputInterfaceProcessor*(this: SpecialGameInputInterfaceProcessor, collidableDestroyableDamageableLayer: SpecialGameInputInterface) =
+        initGameInputProcessor(this)
+        this.initFieldsSpecialGameInputInterfaceProcessor()
+        this.specialGameInputInterface = collidableDestroyableDamageableLayer
 
+proc newSpecialGameInputInterfaceProcessor*(collidableDestroyableDamageableLayer: SpecialGameInputInterface): SpecialGameInputInterfaceProcessor =
+    result = SpecialGameInputInterfaceProcessor()
+    initSpecialGameInputInterfaceProcessor(result, collidableDestroyableDamageableLayer)
+
+when declared(newSpecialGameInputInterfaceProcessorHook1):
+    newSpecialGameInputInterfaceProcessorHook1 = proc (collidableDestroyableDamageableLayer: SpecialGameInputInterface): GameInputProcessor = newSpecialGameInputInterfaceProcessor(collidableDestroyableDamageableLayer)
 

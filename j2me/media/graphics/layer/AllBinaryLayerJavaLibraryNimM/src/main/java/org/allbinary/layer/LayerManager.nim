@@ -1,120 +1,140 @@
 # Generated Code Do Not Modify
 # package org.allbinary.layer
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import javax/microedition/lcdui/Graphics as GraphicsModule
+export GraphicsModule
+import org/allbinary/TsUtil as TsUtilModule
+export TsUtilModule
+import org/allbinary/logic/communication/log/LogUtil as LogUtilModule
+export LogUtilModule
+import org/allbinary/string/CommonStrings as CommonStringsModule
+export CommonStringsModule
+import org/allbinary/thread/SynchObject as SynchObjectModule
+export SynchObjectModule
+import org/allbinary/util/BasicArrayList as BasicArrayListModule
+export BasicArrayListModule
+import org/allbinary/logic/ABSystemWrapper as ABSystemWrapperModule
+export ABSystemWrapperModule
+import org/allbinary/layer/LayerManagerLoggingBase as LayerManagerLoggingBaseModule
+export LayerManagerLoggingBaseModule
+import org/allbinary/layer/AllBinaryLayer as AllBinaryLayerModule
+export AllBinaryLayerModule
+import org/allbinary/layer/Layer as LayerModule
+export LayerModule
 
-import threading
+type
+    LayerManager* = ref object of JObject
+        logUtil*: LogUtil
+        commonStrings*: CommonStrings
+        systemWrapper*: ABSystemWrapper
+        tsUtil*: TsUtil
+        layerManagerLogging*: LayerManagerLoggingBase
+        list*: BasicArrayList
+        anyType*: SynchObject
+
+proc newLayerManager*(layerManagerLogging: LayerManagerLoggingBase): LayerManager
+proc initLayerManager*(this: LayerManager, layerManagerLogging: LayerManagerLoggingBase)
+method contains*(this: LayerManager, layerInterface: AllBinaryLayer): bool {.base, discardable.}
+method update*(this: LayerManager, layerInterface: AllBinaryLayer) {.base.}
+method insert*(this: LayerManager, layerInterface: AllBinaryLayer) {.base.}
+method append*(this: LayerManager, layerInterface: AllBinaryLayer) {.base.}
+method appendAt*(this: LayerManager, layerInterface: AllBinaryLayer, index: int32) {.base.}
+method remove*(this: LayerManager, layerInterface: AllBinaryLayer) {.base.}
+method getLayerAt*(this: LayerManager, index: int32): Layer {.base, discardable.}
+method getSize*(this: LayerManager): int32 {.base, discardable.}
+method cleanup*(this: LayerManager) {.base.}
+method paint*(this: LayerManager, g: Graphics, x: int32, y: int32) {.base.}
+import org/allbinary/util/BasicArrayListD as BasicArrayListDModule
+export BasicArrayListDModule
 
 
-class LayerManager:
-    _lock = threading.RLock()
-
-    def _init_fields(self) -> None:
-        from org.allbinary.TsUtil import TsUtil
-        from org.allbinary.logic.communication.log.LogUtil import LogUtil
-        from org.allbinary.string.CommonStrings import CommonStrings
-        from org.allbinary.thread.SynchObject import SynchObject
-        from org.allbinary.util.BasicArrayList import BasicArrayList
-        from org.allbinary.util.BasicArrayListD import BasicArrayListD
-        from org.allbinary.logic.ABSystemWrapper import ABSystemWrapper
-        self.logUtil: LogUtil = LogUtil.getInstance()
-        self.commonStrings: CommonStrings = CommonStrings.getInstance()
-        self.systemWrapper: ABSystemWrapper = ABSystemWrapper.getInstance()
-        self.tsUtil: TsUtil = TsUtil.getInstance()
-        self.layerManagerLogging: LayerManagerLoggingBase = None
-        self.list_: BasicArrayList = BasicArrayListD()
-        self.anyType: SynchObject = SynchObject()
+# Java field initializers run after the base initializer
+proc initFieldsLayerManager(this: LayerManager) =
+    this.logUtil = LogUtil.getInstance()
+    this.commonStrings = CommonStrings.getInstance()
+    this.systemWrapper = ABSystemWrapper.getInstance()
+    this.tsUtil = TsUtil.getInstance()
     
+    this.list = newBasicArrayListD()
+    this.anyType = newSynchObject()
+    discard
 
-    def __init__(self, layerManagerLogging: LayerManagerLoggingBase) -> None:
-        self._init_fields()
-        self.logUtil.putF(self.commonStrings.START, self, self.commonStrings.CONSTRUCTOR)
-        self.layerManagerLogging = layerManagerLogging
-    
+proc initLayerManager*(this: LayerManager, layerManagerLogging: LayerManagerLoggingBase) =
+        this.initFieldsLayerManager()
+        this.logUtil.putF(this.commonStrings.START, this, this.commonStrings.CONSTRUCTOR)
+        this.layerManagerLogging = layerManagerLogging
 
-    def contains(self, layerInterface: AllBinaryLayer) -> bool:
-        return self.list_.contains(layerInterface)
-    
+proc newLayerManager*(layerManagerLogging: LayerManagerLoggingBase): LayerManager =
+    result = LayerManager()
+    initLayerManager(result, layerManagerLogging)
 
-    # throws Exception
-    def update(self, layerInterface: AllBinaryLayer) -> None:
-        had: bool = self.list_.remove(layerInterface)
+method contains*(this: LayerManager, layerInterface: AllBinaryLayer): bool {.base, discardable.} =
+        return this.list.contains(layerInterface)
+
+method update*(this: LayerManager, layerInterface: AllBinaryLayer) {.base.} =
+        var had: bool = this.list.remove(layerInterface)
         if had:
-            nextLayerInterface: AllBinaryLayer = None
-            size: int = self.list_.size()
-            for index in range(0, size):
-                nextLayerInterface = self.list_.get(index)
+            var nextLayerInterface: AllBinaryLayer = nil
+            let size: int32 = this.list.size()
+            block:
+                var index: int32 = 0
+                while index < size:
+                    defer: index = index +% 1
+                    nextLayerInterface = AllBinaryLayer(JObject(this.list.get(index)))
+                    if layerInterface.getZP() > nextLayerInterface.getZP():
+                        this.list.addAt(index, layerInterface)
+                        return
+            this.list.add(layerInterface)
+
+method insert*(this: LayerManager, layerInterface: AllBinaryLayer) {.base.} =
+        var nextLayerInterface: AllBinaryLayer = nil
+        let size: int32 = this.list.size()
+        block:
+            var index: int32 = 0
+            while index < size:
+                defer: index = index +% 1
+                nextLayerInterface = AllBinaryLayer(JObject(this.list.get(index)))
                 if layerInterface.getZP() > nextLayerInterface.getZP():
-                    self.list_.addAt(index, layerInterface)
+                    this.appendAt(layerInterface, index)
                     return
-            self.list_.add(layerInterface)
-    
+        this.append(layerInterface)
 
-    # throws Exception
-    def insert(self, layerInterface: AllBinaryLayer) -> None:
-        nextLayerInterface: AllBinaryLayer = None
-        size: int = self.list_.size()
-        for index in range(0, size):
-            nextLayerInterface = self.list_.get(index)
-            if layerInterface.getZP() > nextLayerInterface.getZP():
-                self.appendAt(layerInterface, index)
-                return
-        self.append(layerInterface)
-    
+method append*(this: LayerManager, layerInterface: AllBinaryLayer) {.base.} =
+        this.layerManagerLogging.append(layerInterface)
+        this.list.add(layerInterface)
 
-    # throws Exception
-    def append(self, layerInterface: AllBinaryLayer) -> None:
-        self.layerManagerLogging.append(layerInterface)
-        self.list_.add(layerInterface)
-    
+method appendAt*(this: LayerManager, layerInterface: AllBinaryLayer, index: int32) {.base.} =
+        this.layerManagerLogging.appendAt(layerInterface, index)
+        this.list.addAt(index, layerInterface)
 
-    # throws Exception
-    def appendAt(self, layerInterface: AllBinaryLayer, index: int) -> None:
-        self.layerManagerLogging.appendAt(layerInterface, index)
-        self.list_.addAt(index, layerInterface)
-    
+method remove*(this: LayerManager, layerInterface: AllBinaryLayer) {.base.} =
+        block:
+            this.layerManagerLogging.remove(layerInterface)
+            let `result`: bool = this.list.remove(layerInterface)
+            this.layerManagerLogging.removeResult(this, layerInterface, `result`)
 
-    # throws Exception
-    def remove(self, layerInterface: AllBinaryLayer) -> None:
-        with self._lock:  # synchronized (self.anyType)
-            self.layerManagerLogging.remove(layerInterface)
-            result: bool = self.list_.remove(layerInterface)
-            self.layerManagerLogging.removeResult(self, layerInterface, result)
-    
+method getLayerAt*(this: LayerManager, index: int32): Layer {.base, discardable.} =
+        return Layer(JObject(this.list.objectArray[index]))
 
-    def getLayerAt(self, index: int) -> Layer:
-        return self.list_.objectArray[index]
-    
+method getSize*(this: LayerManager): int32 {.base, discardable.} =
+        return this.list.size()
 
-    def getSize(self) -> int:
-        return self.list_.size()
-    
+method cleanup*(this: LayerManager) {.base.} =
+        block:
+            this.list.clear()
+            this.layerManagerLogging.clear()
+            this.tsUtil.gc()
+            this.tsUtil.gc()
 
-    # throws Exception
-    def cleanup(self) -> None:
-        with self._lock:  # synchronized (self.anyType)
-            self.list_.clear()
-            self.layerManagerLogging.clear()
-            self.tsUtil.gc()
-            self.tsUtil.gc()
-    
-
-    def paint(self, g: Graphics, x: int, y: int) -> None:
-        from javax.microedition.lcdui.Graphics import Graphics
-        with self._lock:  # synchronized (self.anyType)
-            comp: Layer = None
-            index = self.list_.size()
-            while (index := index - 1) >= 0:
-                comp = self.list_.objectArray[index]
-                if comp is not None and comp.isVisible():
-                    comp.paint(g)
-# from javax.microedition.lcdui.Graphics import Graphics
-# from org.allbinary.TsUtil import TsUtil
-# from org.allbinary.logic.communication.log.LogUtil import LogUtil
-# from org.allbinary.string.CommonStrings import CommonStrings
-# from org.allbinary.thread.SynchObject import SynchObject
-# from org.allbinary.util.BasicArrayList import BasicArrayList
-# from org.allbinary.util.BasicArrayListD import BasicArrayListD
-# from org.allbinary.logic.ABSystemWrapper import ABSystemWrapper
-
+method paint*(this: LayerManager, g: Graphics, x: int32, y: int32) {.base.} =
+        block:
+            var comp: Layer = nil
+            block:
+                var index: int32 = this.list.size()
+                while jPreDecrement(index) >= 0:
+                    comp = Layer(JObject(this.list.objectArray[index]))
+                    if (not jIsNil(comp)) and comp.isVisible():
+                        comp.paint(g)
 

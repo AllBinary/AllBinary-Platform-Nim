@@ -1,76 +1,96 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.input
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/logic/communication/log/LogUtil as LogUtilModule
+export LogUtilModule
+import org/allbinary/string/CommonStrings as CommonStringsModule
+export CommonStringsModule
+import org/allbinary/input/AllBinarySensorListener as AllBinarySensorListenerModule
+export AllBinarySensorListenerModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
-from org.allbinary.input.AllBinarySensorListener import AllBinarySensorListener
+type
+    AllBinarySensor* = ref object of AllBinarySensorListener
+        logUtil*: LogUtil
+        commonStrings*: CommonStrings
 
+proc newAllBinarySensor*(): AllBinarySensor
+proc initAllBinarySensor*(this: AllBinarySensor)
+method init*(this: AllBinarySensor) {.base.}
+method update*(this: AllBinarySensor) {.base.}
+proc setMax*(t: typedesc[AllBinarySensor], max: int32)
+proc getMax*(t: typedesc[AllBinarySensor]): int32 {.discardable.}
+method getId*(this: AllBinarySensor): int32 {.base, discardable.}
+method shutdown*(this: AllBinarySensor) {.base.}
+method onSensorChange*(this: AllBinarySensor)
+import org/allbinary/logic/communication/log/ForcedLogUtil as ForcedLogUtilModule
+export ForcedLogUtilModule
 
-class AllBinarySensor(AllBinarySensorListener):
-    NULL_ALLBINARY_SENSOR: AllBinarySensor = None
-    max: int = 100
+var AllBinarySensor_NULL_ALLBINARY_SENSORValue: AllBinarySensor
+var AllBinarySensor_NULL_ALLBINARY_SENSORSet = false
+proc NULL_ALLBINARY_SENSOR*(t: typedesc[AllBinarySensor]): AllBinarySensor =
+    if not AllBinarySensor_NULL_ALLBINARY_SENSORSet:
+        AllBinarySensor_NULL_ALLBINARY_SENSORSet = true
+        AllBinarySensor_NULL_ALLBINARY_SENSORValue = newAllBinarySensor()
+    AllBinarySensor_NULL_ALLBINARY_SENSORValue
+var AllBinarySensor_maxValue: int32
+var AllBinarySensor_maxSet = false
+proc max*(t: typedesc[AllBinarySensor]): int32 =
+    if not AllBinarySensor_maxSet:
+        AllBinarySensor_maxSet = true
+        AllBinarySensor_maxValue = 100
+    AllBinarySensor_maxValue
+proc `max=`*(t: typedesc[AllBinarySensor], value: int32) =
+    AllBinarySensor_maxSet = true
+    AllBinarySensor_maxValue = value
 
-    def _init_fields(self) -> None:
-        from org.allbinary.logic.communication.log.LogUtil import LogUtil
-        from org.allbinary.string.CommonStrings import CommonStrings
-        self.logUtil: LogUtil = LogUtil.getInstance()
-        self.commonStrings: CommonStrings = CommonStrings.getInstance()
-    
+# Java field initializers run after the base initializer
+proc initFieldsAllBinarySensor(this: AllBinarySensor) =
+    this.logUtil = LogUtil.getInstance()
+    this.commonStrings = CommonStrings.getInstance()
+    discard
 
-    def __init__(self) -> None:
-        self._init_fields()
-    
+proc initAllBinarySensor*(this: AllBinarySensor) =
+        this.initFieldsAllBinarySensor()
+        discard
 
-    def init(self) -> None:
-        pass
-    
+proc newAllBinarySensor*(): AllBinarySensor =
+    result = AllBinarySensor()
+    initAllBinarySensor(result)
 
-    # throws Exception
-    def update(self) -> None:
-        pass
-    
+method init*(this: AllBinarySensor) {.base.} =
+        discard
 
-    @staticmethod
-    def setMax(max: int) -> None:
+method update*(this: AllBinarySensor) {.base.} =
+        discard
+
+proc setMax*(t: typedesc[AllBinarySensor], max: int32) =
         AllBinarySensor.max = max
-    
 
-    @staticmethod
-    def getMax() -> int:
+proc getMax*(t: typedesc[AllBinarySensor]): int32 {.discardable.} =
         return AllBinarySensor.max
-    
 
-    def getId(self) -> int:
+method getId*(this: AllBinarySensor): int32 {.base, discardable.} =
         return AllBinarySensor.getMax()
-    
 
-    def shutdown(self) -> None:
-        self.logUtil.putF(self.commonStrings.START, self, "shutdown")
-    
+method shutdown*(this: AllBinarySensor) {.base.} =
+        this.logUtil.putF(this.commonStrings.START, this, "shutdown")
 
-    def onSensorChange(self) -> None:
-        from org.allbinary.logic.communication.log.ForcedLogUtil import ForcedLogUtil
-        ForcedLogUtil.log(self.commonStrings.NOT_IMPLEMENTED, self)
-# from org.allbinary.logic.communication.log.ForcedLogUtil import ForcedLogUtil
-# from org.allbinary.logic.communication.log.LogUtil import LogUtil
-# from org.allbinary.string.CommonStrings import CommonStrings
-
-
-def _AllBinarySensor_NULL_ALLBINARY_SENSOR() -> object:
-    return AllBinarySensor()
-
-lazy_static(AllBinarySensor, "NULL_ALLBINARY_SENSOR", _AllBinarySensor_NULL_ALLBINARY_SENSOR)
+method onSensorChange*(this: AllBinarySensor) =
+        ForcedLogUtil.log(this.commonStrings.NOT_IMPLEMENTED, this)
 

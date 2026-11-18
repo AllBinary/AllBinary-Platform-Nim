@@ -59,7 +59,7 @@ method get*(this: KeylessBasicArrayListCache): BasicArrayList {.base, discardabl
         try:
             if this.index >= this.list.size():
                 this.addDefault()
-            let list: BasicArrayList = BasicArrayList(this.getAt(jPostIncrement(this.index)))
+            let list: BasicArrayList = BasicArrayList(JObject(this.getAt(jPostIncrement(this.index))))
             return list
         except CatchableError as jcaught:
             let e = jToException(jcaught)
@@ -73,7 +73,7 @@ method clear*(this: KeylessBasicArrayListCache) =
             var index: int32 = this.list.size() -% 1
             while index >= 0:
                 defer: index = index -% 1
-                basicArrayList = (BasicArrayList(this.list.objectArray[index]))
+                basicArrayList = (BasicArrayList(JObject(this.list.objectArray[index])))
                 basicArrayList.clear()
 
 method log*(this: KeylessBasicArrayListCache): string {.discardable.} =
@@ -87,7 +87,7 @@ method log*(this: KeylessBasicArrayListCache): string {.discardable.} =
             while index >= 0:
                 defer: index = index -% 1
                 stringBuffer.append(S_LABEL)
-                basicArrayList = (BasicArrayList(this.list.objectArray[index]))
+                basicArrayList = (BasicArrayList(JObject(this.list.objectArray[index])))
                 stringBuffer.appendint(basicArrayList.size())
         return stringBuffer.toString()
 

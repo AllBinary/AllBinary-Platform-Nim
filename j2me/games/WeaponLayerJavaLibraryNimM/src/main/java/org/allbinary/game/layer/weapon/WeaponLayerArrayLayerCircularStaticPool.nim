@@ -1,76 +1,94 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.layer.weapon
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/util/CircularIndexUtil as CircularIndexUtilModule
+export CircularIndexUtilModule
+import org/allbinary/game/layer/weapon/WeaponLayer as WeaponLayerModule
+export WeaponLayerModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    WeaponLayerArrayLayerCircularStaticPool* = ref object of JObject
+        MAX*: int32
+        circularIndexUtil*: CircularIndexUtil
+        WEAPONLAYER_ARRAY*: JArray[JArray[WeaponLayer]]
+        TWO_WEAPONLAYER_ARRAY*: JArray[JArray[WeaponLayer]]
+        THREE_WEAPONLAYER_ARRAY*: JArray[JArray[WeaponLayer]]
 
+proc newWeaponLayerArrayLayerCircularStaticPool*(): WeaponLayerArrayLayerCircularStaticPool
+proc getInstance*(t: typedesc[WeaponLayerArrayLayerCircularStaticPool]): WeaponLayerArrayLayerCircularStaticPool {.discardable.}
+method init*(this: WeaponLayerArrayLayerCircularStaticPool) {.base.}
+method getWeaponLayerArrays*(this: WeaponLayerArrayLayerCircularStaticPool, size: int32): JArray[JArray[WeaponLayer]] {.base, discardable.}
+method getInstanceArray*(this: WeaponLayerArrayLayerCircularStaticPool, size: int32): JArray[WeaponLayer] {.base, discardable.}
 
-class WeaponLayerArrayLayerCircularStaticPool:
-    instance: WeaponLayerArrayLayerCircularStaticPool = None
+var WeaponLayerArrayLayerCircularStaticPool_instanceValue: WeaponLayerArrayLayerCircularStaticPool
+var WeaponLayerArrayLayerCircularStaticPool_instanceSet = false
+proc instance*(t: typedesc[WeaponLayerArrayLayerCircularStaticPool]): WeaponLayerArrayLayerCircularStaticPool =
+    if not WeaponLayerArrayLayerCircularStaticPool_instanceSet:
+        WeaponLayerArrayLayerCircularStaticPool_instanceSet = true
+        WeaponLayerArrayLayerCircularStaticPool_instanceValue = newWeaponLayerArrayLayerCircularStaticPool()
+    WeaponLayerArrayLayerCircularStaticPool_instanceValue
 
-    def _init_fields(self) -> None:
-        from org.allbinary.util.CircularIndexUtil import CircularIndexUtil
-        self.MAX: int = 5
-        self.circularIndexUtil: CircularIndexUtil = CircularIndexUtil.createInstance(self.MAX)
-        self.WEAPONLAYER_ARRAY: list[list[WeaponLayer]] = None
-        self.TWO_WEAPONLAYER_ARRAY: list[list[WeaponLayer]] = None
-        self.THREE_WEAPONLAYER_ARRAY: list[list[WeaponLayer]] = None
-
-    def __init__(self) -> None:
-        self._init_fields()
+# Java field initializers run after the base initializer
+proc initFieldsWeaponLayerArrayLayerCircularStaticPool(this: WeaponLayerArrayLayerCircularStaticPool) =
+    this.MAX = 5
+    this.circularIndexUtil = CircularIndexUtil.createInstance(this.MAX)
     
+    
+    
+    discard
 
-    @staticmethod
-    def getInstance() -> WeaponLayerArrayLayerCircularStaticPool:
+proc initWeaponLayerArrayLayerCircularStaticPool*(this: WeaponLayerArrayLayerCircularStaticPool) =
+    this.initFieldsWeaponLayerArrayLayerCircularStaticPool()
+
+proc newWeaponLayerArrayLayerCircularStaticPool*(): WeaponLayerArrayLayerCircularStaticPool =
+    result = WeaponLayerArrayLayerCircularStaticPool()
+    initWeaponLayerArrayLayerCircularStaticPool(result)
+
+proc getInstance*(t: typedesc[WeaponLayerArrayLayerCircularStaticPool]): WeaponLayerArrayLayerCircularStaticPool {.discardable.} =
         return WeaponLayerArrayLayerCircularStaticPool.instance
-    
 
-    def init(self) -> None:
-        WEAPONLAYER_ARRAY: list[list[WeaponLayer]] = [None] * (self.MAX * 2)
-        TWO_WEAPONLAYER_ARRAY: list[list[WeaponLayer]] = [None] * (self.MAX)
-        THREE_WEAPONLAYER_ARRAY: list[list[WeaponLayer]] = [None] * (self.MAX)
-        for index in range(0, self.MAX):
-            WEAPONLAYER_ARRAY[index] = [None] * (1)
-            TWO_WEAPONLAYER_ARRAY[index] = [None] * (2)
-            THREE_WEAPONLAYER_ARRAY[index] = [None] * (3)
-        self.WEAPONLAYER_ARRAY = WEAPONLAYER_ARRAY
-        self.TWO_WEAPONLAYER_ARRAY = TWO_WEAPONLAYER_ARRAY
-        self.THREE_WEAPONLAYER_ARRAY = THREE_WEAPONLAYER_ARRAY
-    
+method init*(this: WeaponLayerArrayLayerCircularStaticPool) {.base.} =
+        let WEAPONLAYER_ARRAY: JArray[JArray[WeaponLayer]] = newJArray[JArray[WeaponLayer]](this.MAX *% 2, nil)
+        let TWO_WEAPONLAYER_ARRAY: JArray[JArray[WeaponLayer]] = newJArray[JArray[WeaponLayer]](this.MAX, nil)
+        let THREE_WEAPONLAYER_ARRAY: JArray[JArray[WeaponLayer]] = newJArray[JArray[WeaponLayer]](this.MAX, nil)
+        block:
+            var index: int32 = 0
+            while index < this.MAX:
+                defer: index = index +% 1
+                WEAPONLAYER_ARRAY[index] = newJArray[WeaponLayer](1, default(WeaponLayer))
+                TWO_WEAPONLAYER_ARRAY[index] = newJArray[WeaponLayer](2, default(WeaponLayer))
+                THREE_WEAPONLAYER_ARRAY[index] = newJArray[WeaponLayer](3, default(WeaponLayer))
+        this.WEAPONLAYER_ARRAY = WEAPONLAYER_ARRAY
+        this.TWO_WEAPONLAYER_ARRAY = TWO_WEAPONLAYER_ARRAY
+        this.THREE_WEAPONLAYER_ARRAY = THREE_WEAPONLAYER_ARRAY
 
-    def getWeaponLayerArrays(self, size: int) -> list[list[WeaponLayer]]:
+method getWeaponLayerArrays*(this: WeaponLayerArrayLayerCircularStaticPool, size: int32): JArray[JArray[WeaponLayer]] {.base, discardable.} =
         if size == 1:
-            return self.WEAPONLAYER_ARRAY
+            return this.WEAPONLAYER_ARRAY
         elif size == 2:
-            return self.TWO_WEAPONLAYER_ARRAY
+            return this.TWO_WEAPONLAYER_ARRAY
         elif size == 3:
-            return self.THREE_WEAPONLAYER_ARRAY
-        raise RuntimeError()
-    
+            return this.THREE_WEAPONLAYER_ARRAY
+        raise newJException("RuntimeException", "")
 
-    # throws Exception
-    def getInstanceArray(self, size: int) -> list[WeaponLayer]:
-        weaponLayerArray: list[WeaponLayer] = self.getWeaponLayerArrays(size)[self.circularIndexUtil.getIndex()]
-        self.circularIndexUtil.next()
+method getInstanceArray*(this: WeaponLayerArrayLayerCircularStaticPool, size: int32): JArray[WeaponLayer] {.base, discardable.} =
+        let weaponLayerArray: JArray[WeaponLayer] = this.getWeaponLayerArrays(size)[this.circularIndexUtil.getIndex()]
+        this.circularIndexUtil.next()
         return weaponLayerArray
-# from org.allbinary.util.CircularIndexUtil import CircularIndexUtil
-
-
-def _WeaponLayerArrayLayerCircularStaticPool_instance() -> object:
-    return WeaponLayerArrayLayerCircularStaticPool()
-
-lazy_static(WeaponLayerArrayLayerCircularStaticPool, "instance", _WeaponLayerArrayLayerCircularStaticPool_instance)
 

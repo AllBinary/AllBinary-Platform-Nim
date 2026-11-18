@@ -1,53 +1,60 @@
-# 
-# AllBinary Open License Version 1 
-# Copyright (c) 2025 AllBinary 
-#  
-# By agreeing to this license you and any business entity you represent are 
-# legally bound to the AllBinary Open License Version 1 legal agreement. 
-#  
-# You may obtain the AllBinary Open License Version 1 legal agreement from 
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
-#  
-# Created By: Travis Berthelot 
-#   
+#[
+  
+  AllBinary Open License Version 1 
+  Copyright (c) 2025 AllBinary 
+   
+  By agreeing to this license you and any business entity you represent are 
+  legally bound to the AllBinary Open License Version 1 legal agreement. 
+   
+  You may obtain the AllBinary Open License Version 1 legal agreement from 
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
+   
+  Created By: Travis Berthelot 
+    
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.graphics.font
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import javax/microedition/lcdui/Font as FontModule
+export FontModule
+import javax/microedition/lcdui/Graphics as GraphicsModule
+export GraphicsModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    MyFontProcessor* = ref object of JObject
 
+proc newMyFontProcessor*(): MyFontProcessor
+proc defaultCharWidth*(t: typedesc[MyFontProcessor], font: Font): int32 {.discardable.}
+proc defaultStringWidth*(t: typedesc[MyFontProcessor], font: Font, size: int32): int32 {.discardable.}
+proc getInstance*(t: typedesc[MyFontProcessor]): MyFontProcessor {.discardable.}
+method process*(this: MyFontProcessor, graphics: Graphics) {.base.}
 
-class MyFontProcessor:
-    instance: MyFontProcessor = None
-    
+var MyFontProcessor_instanceValue: MyFontProcessor
+var MyFontProcessor_instanceSet = false
+proc instance*(t: typedesc[MyFontProcessor]): MyFontProcessor =
+    if not MyFontProcessor_instanceSet:
+        MyFontProcessor_instanceSet = true
+        MyFontProcessor_instanceValue = newMyFontProcessor()
+    MyFontProcessor_instanceValue
 
-    @staticmethod
-    def defaultCharWidth(font: Font) -> int:
-        from javax.microedition.lcdui.Font import Font
-        return font.charWidth('C')
-    
+proc initMyFontProcessor*(this: MyFontProcessor) =
+    discard
 
-    @staticmethod
-    def defaultStringWidth(font: Font, size: int) -> int:
-        from javax.microedition.lcdui.Font import Font
-        return MyFontProcessor.defaultCharWidth(font) * size
-    
+proc newMyFontProcessor*(): MyFontProcessor =
+    result = MyFontProcessor()
+    initMyFontProcessor(result)
 
-    @staticmethod
-    def getInstance() -> MyFontProcessor:
+proc defaultCharWidth*(t: typedesc[MyFontProcessor], font: Font): int32 {.discardable.} =
+        return font.charWidth(uint16(ord('C')))
+
+proc defaultStringWidth*(t: typedesc[MyFontProcessor], font: Font, size: int32): int32 {.discardable.} =
+        return MyFontProcessor.defaultCharWidth(font) *% size
+
+proc getInstance*(t: typedesc[MyFontProcessor]): MyFontProcessor {.discardable.} =
         return MyFontProcessor.instance
-    
 
-    def process(self, graphics: Graphics) -> None:
-        from javax.microedition.lcdui.Graphics import Graphics
-        pass
-# from javax.microedition.lcdui.Font import Font
-# from javax.microedition.lcdui.Graphics import Graphics
-
-
-def _MyFontProcessor_instance() -> object:
-    return MyFontProcessor()
-
-lazy_static(MyFontProcessor, "instance", _MyFontProcessor_instance)
+method process*(this: MyFontProcessor, graphics: Graphics) {.base.} =
+        discard
 

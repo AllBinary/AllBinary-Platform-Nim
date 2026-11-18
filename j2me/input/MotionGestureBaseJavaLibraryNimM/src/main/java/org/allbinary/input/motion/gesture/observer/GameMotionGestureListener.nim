@@ -1,133 +1,153 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.input.motion.gesture.observer
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/logic/communication/log/LogUtil as LogUtilModule
+export LogUtilModule
+import org/allbinary/logic/util/event/AllBinaryEventObject as AllBinaryEventObjectModule
+export AllBinaryEventObjectModule
+import org/allbinary/string/CommonStrings as CommonStringsModule
+export CommonStringsModule
+import org/allbinary/util/BasicArrayList as BasicArrayListModule
+export BasicArrayListModule
+import org/allbinary/input/motion/gesture/observer/MotionGestureEventListener as MotionGestureEventListenerModule
+export MotionGestureEventListenerModule
+import org/allbinary/input/motion/gesture/observer/CompleteMotionGestureListenerInterface as CompleteMotionGestureListenerInterfaceModule
+export CompleteMotionGestureListenerInterfaceModule
+import org/allbinary/input/motion/gesture/observer/MotionGestureEvent as MotionGestureEventModule
+export MotionGestureEventModule
 
-from org.allbinary.input.motion.gesture.observer.MotionGestureEventListener import MotionGestureEventListener
+type
+    GameMotionGestureListener* = ref object of MotionGestureEventListener
+        logUtil*: LogUtil
+        commonStrings*: CommonStrings
+        motionGestureCollection*: BasicArrayList
+        touchGestureCollection*: BasicArrayList
+        signed*: CompleteMotionGestureListenerInterface
+
+proc newGameMotionGestureListener*(signed: CompleteMotionGestureListenerInterface): GameMotionGestureListener
+proc initGameMotionGestureListener*(this: GameMotionGestureListener, signed: CompleteMotionGestureListenerInterface)
+method onEvent*(this: GameMotionGestureListener, eventObject: AllBinaryEventObject)
+method onUpMotionGestureEvent*(this: GameMotionGestureListener, ev: MotionGestureEvent)
+method onDownMotionGestureEvent*(this: GameMotionGestureListener, ev: MotionGestureEvent)
+method onLeftMotionGestureEvent*(this: GameMotionGestureListener, ev: MotionGestureEvent)
+method onRightMotionGestureEvent*(this: GameMotionGestureListener, ev: MotionGestureEvent)
+method onDiagonalDownRightMotionGestureEvent*(this: GameMotionGestureListener, ev: MotionGestureEvent)
+method onDiagonalDownLeftMotionGestureEvent*(this: GameMotionGestureListener, ev: MotionGestureEvent)
+method onDiagonalUpRightMotionGestureEvent*(this: GameMotionGestureListener, ev: MotionGestureEvent)
+method onDiagonalUpLeftMotionGestureEvent*(this: GameMotionGestureListener, ev: MotionGestureEvent)
+method onPressedMotionGestureEvent*(this: GameMotionGestureListener, ev: MotionGestureEvent)
+method released*(this: GameMotionGestureListener, ev: MotionGestureEvent)
+method onScrolledMotionGestureEvent*(this: GameMotionGestureListener, motionGestureEvent: MotionGestureEvent)
+method onMotionGestureEvent*(this: GameMotionGestureListener, ev: MotionGestureEvent)
+import org/allbinary/input/motion/gesture/MotionGestureInput as MotionGestureInputModule
+export MotionGestureInputModule
+import org/allbinary/input/motion/gesture/TouchMotionGestureFactory as TouchMotionGestureFactoryModule
+export TouchMotionGestureFactoryModule
+import org/allbinary/logic/communication/log/ForcedLogUtil as ForcedLogUtilModule
+export ForcedLogUtilModule
+import org/allbinary/logic/string/StringMaker as StringMakerModule
+export StringMakerModule
+import org/allbinary/logic/string/StringUtil as StringUtilModule
+export StringUtilModule
+import org/allbinary/util/BasicArrayListD as BasicArrayListDModule
+export BasicArrayListDModule
 
 
-class GameMotionGestureListener(MotionGestureEventListener):
-
-    def _init_fields(self) -> None:
-        from org.allbinary.logic.communication.log.LogUtil import LogUtil
-        from org.allbinary.string.CommonStrings import CommonStrings
-        from org.allbinary.util.BasicArrayList import BasicArrayList
-        from org.allbinary.util.BasicArrayListD import BasicArrayListD
-        self.logUtil: LogUtil = LogUtil.getInstance()
-        self.commonStrings: CommonStrings = CommonStrings.getInstance()
-        self.motionGestureCollection: BasicArrayList = BasicArrayListD()
-        self.touchGestureCollection: BasicArrayList = BasicArrayListD()
-        self.signed: CompleteMotionGestureListenerInterface = None
+# Java field initializers run after the base initializer
+proc initFieldsGameMotionGestureListener(this: GameMotionGestureListener) =
+    this.logUtil = LogUtil.getInstance()
+    this.commonStrings = CommonStrings.getInstance()
+    this.motionGestureCollection = newBasicArrayListD()
+    this.touchGestureCollection = newBasicArrayListD()
     
+    discard
 
-    def __init__(self, signed: CompleteMotionGestureListenerInterface) -> None:
-        self._init_fields()
-        self.logUtil.putF(self.commonStrings.START, self, self.commonStrings.CONSTRUCTOR)
-        self.signed = signed
-    
+proc initGameMotionGestureListener*(this: GameMotionGestureListener, signed: CompleteMotionGestureListenerInterface) =
+        this.initFieldsGameMotionGestureListener()
+        this.logUtil.putF(this.commonStrings.START, this, this.commonStrings.CONSTRUCTOR)
+        this.signed = signed
 
-    def onEvent(self, eventObject: AllBinaryEventObject) -> None:
-        from org.allbinary.logic.communication.log.ForcedLogUtil import ForcedLogUtil
-        from org.allbinary.logic.util.event.AllBinaryEventObject import AllBinaryEventObject
-        ForcedLogUtil.log(self.commonStrings.NOT_IMPLEMENTED, self)
-    
+proc newGameMotionGestureListener*(signed: CompleteMotionGestureListenerInterface): GameMotionGestureListener =
+    result = GameMotionGestureListener()
+    initGameMotionGestureListener(result, signed)
 
-    def onUpMotionGestureEvent(self, ev: MotionGestureEvent) -> None:
-        self.onMotionGestureEvent(ev)
-    
+method onEvent*(this: GameMotionGestureListener, eventObject: AllBinaryEventObject) =
+        ForcedLogUtil.log(this.commonStrings.NOT_IMPLEMENTED, this)
 
-    def onDownMotionGestureEvent(self, ev: MotionGestureEvent) -> None:
-        self.onMotionGestureEvent(ev)
-    
+method onUpMotionGestureEvent*(this: GameMotionGestureListener, ev: MotionGestureEvent) =
+        this.onMotionGestureEvent(ev)
 
-    def onLeftMotionGestureEvent(self, ev: MotionGestureEvent) -> None:
-        self.onMotionGestureEvent(ev)
-    
+method onDownMotionGestureEvent*(this: GameMotionGestureListener, ev: MotionGestureEvent) =
+        this.onMotionGestureEvent(ev)
 
-    def onRightMotionGestureEvent(self, ev: MotionGestureEvent) -> None:
-        self.onMotionGestureEvent(ev)
-    
+method onLeftMotionGestureEvent*(this: GameMotionGestureListener, ev: MotionGestureEvent) =
+        this.onMotionGestureEvent(ev)
 
-    def onDiagonalDownRightMotionGestureEvent(self, ev: MotionGestureEvent) -> None:
-        self.onMotionGestureEvent(ev)
-    
+method onRightMotionGestureEvent*(this: GameMotionGestureListener, ev: MotionGestureEvent) =
+        this.onMotionGestureEvent(ev)
 
-    def onDiagonalDownLeftMotionGestureEvent(self, ev: MotionGestureEvent) -> None:
-        self.onMotionGestureEvent(ev)
-    
+method onDiagonalDownRightMotionGestureEvent*(this: GameMotionGestureListener, ev: MotionGestureEvent) =
+        this.onMotionGestureEvent(ev)
 
-    def onDiagonalUpRightMotionGestureEvent(self, ev: MotionGestureEvent) -> None:
-        self.onMotionGestureEvent(ev)
-    
+method onDiagonalDownLeftMotionGestureEvent*(this: GameMotionGestureListener, ev: MotionGestureEvent) =
+        this.onMotionGestureEvent(ev)
 
-    def onDiagonalUpLeftMotionGestureEvent(self, ev: MotionGestureEvent) -> None:
-        self.onMotionGestureEvent(ev)
-    
+method onDiagonalUpRightMotionGestureEvent*(this: GameMotionGestureListener, ev: MotionGestureEvent) =
+        this.onMotionGestureEvent(ev)
 
-    def onPressedMotionGestureEvent(self, ev: MotionGestureEvent) -> None:
-        self.touchGestureCollection.add(ev.getMotionGesture())
-    
+method onDiagonalUpLeftMotionGestureEvent*(this: GameMotionGestureListener, ev: MotionGestureEvent) =
+        this.onMotionGestureEvent(ev)
 
-    def released(self, ev: MotionGestureEvent) -> None:
-        from org.allbinary.logic.string.StringMaker import StringMaker
-        from org.allbinary.logic.string.StringUtil import StringUtil
+method onPressedMotionGestureEvent*(this: GameMotionGestureListener, ev: MotionGestureEvent) =
+        this.touchGestureCollection.add(ev.getMotionGesture())
+
+method released*(this: GameMotionGestureListener, ev: MotionGestureEvent) =
         try:
-            self.touchGestureCollection.add(ev.getMotionGesture())
-            self.signed.onMotionGestureCompleted(self.touchGestureCollection)
-            self.touchGestureCollection.clear()
-        except Exception as e:
-            stringBuffer: StringMaker = StringMaker()
-            stringBuffer.append(self.commonStrings.EXCEPTION_LABEL)
+            this.touchGestureCollection.add(ev.getMotionGesture())
+            this.signed.onMotionGestureCompleted(this.touchGestureCollection)
+            this.touchGestureCollection.clear()
+        except CatchableError as jcaught:
+            let e = jToException(jcaught)
+            let stringBuffer: StringMaker = newStringMaker()
+            stringBuffer.append(this.commonStrings.EXCEPTION_LABEL)
             stringBuffer.append(StringUtil.getInstance().toString(ev.getMotionGesture()))
-            self.logUtil.put(str(stringBuffer), self, "release", e)
-    
+            this.logUtil.put(stringBuffer.toString(), this, "release", e)
 
-    def onScrolledMotionGestureEvent(self, motionGestureEvent: MotionGestureEvent) -> None:
-        pass
-    
+method onScrolledMotionGestureEvent*(this: GameMotionGestureListener, motionGestureEvent: MotionGestureEvent) =
+        discard
 
-    def onMotionGestureEvent(self, ev: MotionGestureEvent) -> None:
-        from org.allbinary.input.motion.gesture.MotionGestureInput import MotionGestureInput
-        from org.allbinary.input.motion.gesture.TouchMotionGestureFactory import TouchMotionGestureFactory
-        from org.allbinary.logic.string.StringMaker import StringMaker
-        from org.allbinary.logic.string.StringUtil import StringUtil
+method onMotionGestureEvent*(this: GameMotionGestureListener, ev: MotionGestureEvent) =
         try:
-            motionGestureInput: MotionGestureInput = ev.getMotionGesture()
+            var motionGestureInput: MotionGestureInput = ev.getMotionGesture()
             if motionGestureInput == TouchMotionGestureFactory.getInstance().PRESSED:
-                self.onPressedMotionGestureEvent(ev)
+                this.onPressedMotionGestureEvent(ev)
             elif motionGestureInput == TouchMotionGestureFactory.getInstance().RELEASED:
-                self.released(ev)
+                this.released(ev)
             else:
-                self.motionGestureCollection.add(motionGestureInput)
-                self.signed.onMotionGestureCompleted(self.motionGestureCollection)
-                self.motionGestureCollection.clear()
-                self.touchGestureCollection.clear()
-        except Exception as e:
-            stringBuffer: StringMaker = StringMaker()
-            stringBuffer.append(self.commonStrings.EXCEPTION_LABEL)
+                this.motionGestureCollection.add(motionGestureInput)
+                this.signed.onMotionGestureCompleted(this.motionGestureCollection)
+                this.motionGestureCollection.clear()
+                this.touchGestureCollection.clear()
+        except CatchableError as jcaught:
+            let e = jToException(jcaught)
+            var stringBuffer: StringMaker = newStringMaker()
+            stringBuffer.append(this.commonStrings.EXCEPTION_LABEL)
             stringBuffer.append(StringUtil.getInstance().toString(ev.getMotionGesture()))
-            self.logUtil.put(str(stringBuffer), self, "onMotionGestureEvent", e)
-# from org.allbinary.input.motion.gesture.MotionGestureInput import MotionGestureInput
-# from org.allbinary.input.motion.gesture.TouchMotionGestureFactory import TouchMotionGestureFactory
-# from org.allbinary.logic.communication.log.ForcedLogUtil import ForcedLogUtil
-# from org.allbinary.logic.communication.log.LogUtil import LogUtil
-# from org.allbinary.logic.string.StringMaker import StringMaker
-# from org.allbinary.logic.string.StringUtil import StringUtil
-# from org.allbinary.logic.util.event.AllBinaryEventObject import AllBinaryEventObject
-# from org.allbinary.string.CommonStrings import CommonStrings
-# from org.allbinary.util.BasicArrayList import BasicArrayList
-# from org.allbinary.util.BasicArrayListD import BasicArrayListD
-
+            this.logUtil.put(stringBuffer.toString(), this, "onMotionGestureEvent", e)
 

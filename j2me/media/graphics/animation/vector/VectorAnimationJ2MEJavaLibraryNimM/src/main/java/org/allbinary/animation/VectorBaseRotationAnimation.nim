@@ -1,122 +1,138 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.animation
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import javax/microedition/lcdui/Graphics as GraphicsModule
+export GraphicsModule
+import org/allbinary/graphics/color/BasicColor as BasicColorModule
+export BasicColorModule
+import org/allbinary/math/AngleInfo as AngleInfoModule
+export AngleInfoModule
+import org/allbinary/animation/RotationAnimation as RotationAnimationModule
+export RotationAnimationModule
+import org/allbinary/animation/VectorAnimationInterface as VectorAnimationInterfaceModule
+export VectorAnimationInterfaceModule
+import org/allbinary/animation/AnimationBehavior as AnimationBehaviorModule
+export AnimationBehaviorModule
 
-from org.allbinary.animation.RotationAnimation import RotationAnimation
-from org.allbinary.animation.VectorAnimationInterface import VectorAnimationInterface
+type
+    VectorBaseRotationAnimation* = ref object of RotationAnimation
+        currentPoints*: JArray[JArray[JArray[int32]]]
+
+converter jAsVectorAnimationInterface*(value: VectorBaseRotationAnimation): VectorAnimationInterface = cast[VectorAnimationInterface](value)
+proc newVectorBaseRotationAnimation*(angleInfo: AngleInfo, currentPoints: JArray[JArray[JArray[int32]]], basicColor: BasicColor, animationBehavior: AnimationBehavior): VectorBaseRotationAnimation
+proc initVectorBaseRotationAnimation*(this: VectorBaseRotationAnimation, angleInfo: AngleInfo, currentPoints: JArray[JArray[JArray[int32]]], basicColor: BasicColor, animationBehavior: AnimationBehavior)
+method getAnimationSize*(this: VectorBaseRotationAnimation): int32 {.discardable.}
+method getFrame*(this: VectorBaseRotationAnimation): int32 {.discardable.}
+method setFrame*(this: VectorBaseRotationAnimation, index: int32)
+method nextFrame*(this: VectorBaseRotationAnimation)
+method previousFrame*(this: VectorBaseRotationAnimation)
+method getSize*(this: VectorBaseRotationAnimation): int32 {.discardable.}
+method setSequence*(this: VectorBaseRotationAnimation, sequence: JArray[int32])
+method getSequence*(this: VectorBaseRotationAnimation): JArray[int32] {.discardable.}
+method paintXY*(this: VectorBaseRotationAnimation, graphics: Graphics, x: int32, y: int32)
+method getPoints*(this: VectorBaseRotationAnimation, frame: int32): JArray[JArray[int32]] {.discardable.}
+method setPoints*(this: VectorBaseRotationAnimation, currentPoints: JArray[JArray[JArray[int32]]]) {.base.}
+method getBasicColorP*(this: VectorBaseRotationAnimation): BasicColor {.discardable.}
+method setBasicColorP*(this: VectorBaseRotationAnimation, basicColor: BasicColor)
+import org/allbinary/logic/NullUtil as NullUtilModule
+export NullUtilModule
+import org/allbinary/logic/math/PrimitiveIntUtil as PrimitiveIntUtilModule
+export PrimitiveIntUtilModule
+import org/allbinary/util/CircularIndexUtil as CircularIndexUtilModule
+export CircularIndexUtilModule
 
 
-class VectorBaseRotationAnimation(RotationAnimation, VectorAnimationInterface):
+# Java field initializers run after the base initializer
+proc initFieldsVectorBaseRotationAnimation(this: VectorBaseRotationAnimation) =
+    this.currentPoints = NullUtil.getInstance().NULL_INT_ARRAY_ARRAY_ARRAY
+    discard
 
-    def _init_fields(self) -> None:
-        from org.allbinary.logic.NullUtil import NullUtil
-        self.currentPoints: list[list[list[int]]] = NullUtil.getInstance().NULL_INT_ARRAY_ARRAY_ARRAY
-    
+proc initVectorBaseRotationAnimation*(this: VectorBaseRotationAnimation, angleInfo: AngleInfo, currentPoints: JArray[JArray[JArray[int32]]], basicColor: BasicColor, animationBehavior: AnimationBehavior) =
+        initRotationAnimation(this, angleInfo, CircularIndexUtil.createInstance(360 div int32(angleInfo.getAngleIncrementInfo().getAngleIncrement())), animationBehavior)
+        this.initFieldsVectorBaseRotationAnimation()
+        this.setPoints(currentPoints)
+        this.setBasicColorP(basicColor)
 
-    def __init__(self, angleInfo: AngleInfo, currentPoints: list[list[list[int]]], basicColor: BasicColor, animationBehavior: AnimationBehavior) -> None:
-        from org.allbinary.graphics.color.BasicColor import BasicColor
-        from org.allbinary.math.AngleInfo import AngleInfo
-        from org.allbinary.util.CircularIndexUtil import CircularIndexUtil
-        super().__init__(angleInfo, CircularIndexUtil.createInstance(360 / angleInfo.getAngleIncrementInfo().getAngleIncrement()), animationBehavior)
-        self._init_fields()
-        self.setPoints(currentPoints)
-        self.setBasicColorP(basicColor)
-    
+proc newVectorBaseRotationAnimation*(angleInfo: AngleInfo, currentPoints: JArray[JArray[JArray[int32]]], basicColor: BasicColor, animationBehavior: AnimationBehavior): VectorBaseRotationAnimation =
+    result = VectorBaseRotationAnimation()
+    initVectorBaseRotationAnimation(result, angleInfo, currentPoints, basicColor, animationBehavior)
 
-    # throws Exception
-    def getAnimationSize(self) -> int:
-        return self.getSize()
-    
+method getAnimationSize*(this: VectorBaseRotationAnimation): int32 {.discardable.} =
+        return this.getSize()
 
-    def getFrame(self) -> int:
-        return self.circularIndexUtil.getIndex()
-    
+method getFrame*(this: VectorBaseRotationAnimation): int32 {.discardable.} =
+        return this.circularIndexUtil.getIndex()
 
-    def setFrame(self, index: int) -> None:
-        self.circularIndexUtil.setIndex(index)
-    
+method setFrame*(this: VectorBaseRotationAnimation, index: int32) =
+        this.circularIndexUtil.setIndex(index)
 
-    def nextFrame(self) -> None:
-        self.circularIndexUtil.next()
-    
+method nextFrame*(this: VectorBaseRotationAnimation) =
+        this.circularIndexUtil.next()
 
-    def previousFrame(self) -> None:
-        self.circularIndexUtil.previous()
-    
+method previousFrame*(this: VectorBaseRotationAnimation) =
+        this.circularIndexUtil.previous()
 
-    def getSize(self) -> int:
-        return len(self.currentPoints)
-    
+method getSize*(this: VectorBaseRotationAnimation): int32 {.discardable.} =
+        return this.currentPoints.length
 
-    def setSequence(self, sequence: list[int]) -> None:
-        pass
-    
+method setSequence*(this: VectorBaseRotationAnimation, sequence: JArray[int32]) =
+        discard
 
-    def getSequence(self) -> list[int]:
-        from org.allbinary.logic.math.PrimitiveIntUtil import PrimitiveIntUtil
+method getSequence*(this: VectorBaseRotationAnimation): JArray[int32] {.discardable.} =
         return PrimitiveIntUtil.getArrayInstance()
-    
 
-    def paintXY(self, graphics: Graphics, x: int, y: int) -> None:
-        from javax.microedition.lcdui.Graphics import Graphics
-        self.basicSetColorUtil.setBasicColorP(graphics, self.basicColor)
+method paintXY*(this: VectorBaseRotationAnimation, graphics: Graphics, x: int32, y: int32) =
+        this.basicSetColorUtil.setBasicColorP(graphics, this.basicColor)
         try:
-            nextPointX: int = 0
-            nextPointY: int = 0
-            nextPoint: list[int] = None
-            point: list[int] = None
-            currentPointsFrame: list[list[int]] = self.currentPoints[self.circularIndexUtil.getIndex()]
-            size: int = len(currentPointsFrame)
-            index: int = size - 2
-            while (index := index - 1) >= 0:
+            var nextPointX: int32 = 0
+            var nextPointY: int32 = 0
+            var nextPoint: JArray[int32] = nil
+            var point: JArray[int32] = nil
+            let currentPointsFrame: JArray[JArray[int32]] = this.currentPoints[this.circularIndexUtil.getIndex()]
+            let size: int32 = currentPointsFrame.length
+            var index: int32 = size -% 2
+            while jPreDecrement(index) >= 0:
                 nextPoint = currentPointsFrame[index]
-                point = currentPointsFrame[index + 1]
+                point = currentPointsFrame[index +% 1]
                 nextPointX = nextPoint[0]
                 nextPointY = nextPoint[1]
                 if nextPointX != 1000:
-                    graphics.drawLine(point[0] + x, point[1] + y, nextPointX + x, nextPointY + y)
+                    graphics.drawLine(point[0] +% x, point[1] +% y, nextPointX +% x, nextPointY +% y)
                 else:
-                    index -= 1
-        except Exception as e:
-            self.logUtil.put(self.commonStrings.EXCEPTION, self, "paintVectors", e)
-    
+                    index = index -% 1
+        except CatchableError as jcaught:
+            let e = jToException(jcaught)
+            this.logUtil.put(this.commonStrings.EXCEPTION, this, "paintVectors", e)
 
-    def getPoints(self, frame: int) -> list[list[int]]:
-        return self.currentPoints[frame]
-    
+method getPoints*(this: VectorBaseRotationAnimation, frame: int32): JArray[JArray[int32]] {.discardable.} =
+        return this.currentPoints[frame]
 
-    def setPoints(self, currentPoints: list[list[list[int]]]) -> None:
-        from org.allbinary.util.CircularIndexUtil import CircularIndexUtil
-        self.currentPoints = currentPoints
-        self.circularIndexUtil = CircularIndexUtil.createInstance(len(self.currentPoints))
-    
+method setPoints*(this: VectorBaseRotationAnimation, currentPoints: JArray[JArray[JArray[int32]]]) {.base.} =
+        this.currentPoints = currentPoints
+        this.circularIndexUtil = CircularIndexUtil.createInstance(this.currentPoints.length)
 
-    def getBasicColorP(self) -> BasicColor:
-        from org.allbinary.graphics.color.BasicColor import BasicColor
-        return super().getBasicColorP()
-    
+method getBasicColorP*(this: VectorBaseRotationAnimation): BasicColor {.discardable.} =
+        return procCall RotationAnimation(this).getBasicColorP()
 
-    def setBasicColorP(self, basicColor: BasicColor) -> None:
-        from org.allbinary.graphics.color.BasicColor import BasicColor
-        super().setBasicColorP(basicColor)
-# from javax.microedition.lcdui.Graphics import Graphics
-# from org.allbinary.graphics.color.BasicColor import BasicColor
-# from org.allbinary.logic.NullUtil import NullUtil
-# from org.allbinary.logic.math.PrimitiveIntUtil import PrimitiveIntUtil
-# from org.allbinary.math.AngleInfo import AngleInfo
-# from org.allbinary.util.CircularIndexUtil import CircularIndexUtil
+method setBasicColorP*(this: VectorBaseRotationAnimation, basicColor: BasicColor) =
+        procCall RotationAnimation(this).setBasicColorP(basicColor)
 
+when declared(newVectorBaseRotationAnimationHook4):
+    newVectorBaseRotationAnimationHook4 = proc (angleInfo: AngleInfo, currentPoints: JArray[JArray[JArray[int32]]], basicColor: BasicColor, animationBehavior: AnimationBehavior): RotationAnimation = newVectorBaseRotationAnimation(angleInfo, currentPoints, basicColor, animationBehavior)
 

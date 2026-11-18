@@ -1,134 +1,120 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.input
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/game/input/event/GameKeyEvent as GameKeyEventModule
+export GameKeyEventModule
+import org/allbinary/logic/communication/log/LogUtil as LogUtilModule
+export LogUtilModule
+import org/allbinary/string/CommonStrings as CommonStringsModule
+export CommonStringsModule
+import org/allbinary/util/BasicArrayList as BasicArrayListModule
+export BasicArrayListModule
 
-import threading
+type
+    GameInput* = ref object of JObject
+        logUtil*: LogUtil
+        commonStrings*: CommonStrings
+        gameKeyEventList*: BasicArrayList
+        removalGameKeyEventList*: BasicArrayList
+        isRemoveDuplicateKeyPresses*: bool
+
+proc newGameInput*(gameKeyEventList: BasicArrayList, removalGameKeyEventList: BasicArrayList): GameInput
+proc initGameInput*(this: GameInput, gameKeyEventList: BasicArrayList, removalGameKeyEventList: BasicArrayList)
+method add*(this: GameInput, gameKeyEvent: GameKeyEvent) {.base.}
+method addForRemoval*(this: GameInput, gameKeyEvent: GameKeyEvent) {.base.}
+method isForRemoval*(this: GameInput, gameKeyEvent: GameKeyEvent): bool {.base, discardable.}
+method clear*(this: GameInput) {.base.}
+method removeNonAIInputGameKeyEvents*(this: GameInput) {.base.}
+method update*(this: GameInput) {.base.}
+method getRemovalGameKeyEventList*(this: GameInput): BasicArrayList {.base, discardable.}
+method getGameKeyEventList*(this: GameInput): BasicArrayList {.base, discardable.}
+import org/allbinary/game/configuration/feature/Features as FeaturesModule
+export FeaturesModule
+import org/allbinary/game/configuration/feature/InputFeatureFactory as InputFeatureFactoryModule
+export InputFeatureFactoryModule
 
 
-class GameInput:
-    _lock = threading.RLock()
-
-    def _init_fields(self) -> None:
-        from org.allbinary.logic.communication.log.LogUtil import LogUtil
-        from org.allbinary.string.CommonStrings import CommonStrings
-        from org.allbinary.util.BasicArrayList import BasicArrayList
-        self.logUtil: LogUtil = LogUtil.getInstance()
-        self.commonStrings: CommonStrings = CommonStrings.getInstance()
-        self.gameKeyEventList: BasicArrayList = None
-        self.removalGameKeyEventList: BasicArrayList = None
-        self.isRemoveDuplicateKeyPresses: bool = None
+# Java field initializers run after the base initializer
+proc initFieldsGameInput(this: GameInput) =
+    this.logUtil = LogUtil.getInstance()
+    this.commonStrings = CommonStrings.getInstance()
     
-
-    def __init__(self, gameKeyEventList: BasicArrayList, removalGameKeyEventList: BasicArrayList) -> None:
-        from org.allbinary.game.configuration.feature.Features import Features
-        from org.allbinary.game.configuration.feature.InputFeatureFactory import InputFeatureFactory
-        from org.allbinary.util.BasicArrayList import BasicArrayList
-        self._init_fields()
-        self.gameKeyEventList = gameKeyEventList
-        self.removalGameKeyEventList = removalGameKeyEventList
-        self.isRemoveDuplicateKeyPresses = Features.getInstance().isFeature(InputFeatureFactory.getInstance().REMOVE_DUPLICATE_KEY_PRESSES)
     
+    
+    discard
 
-    def add(self, gameKeyEvent: GameKeyEvent) -> None:
-        with self._lock:
-            return self._add_unlocked(gameKeyEvent)
+proc initGameInput*(this: GameInput, gameKeyEventList: BasicArrayList, removalGameKeyEventList: BasicArrayList) =
+        this.initFieldsGameInput()
+        this.gameKeyEventList = gameKeyEventList
+        this.removalGameKeyEventList = removalGameKeyEventList
+        this.isRemoveDuplicateKeyPresses = Features.getInstance().isFeature(InputFeatureFactory.getInstance().REMOVE_DUPLICATE_KEY_PRESSES)
 
-    def _add_unlocked(self, gameKeyEvent: GameKeyEvent) -> None:
-        from org.allbinary.game.input.event.GameKeyEvent import GameKeyEvent
-        if self.isRemoveDuplicateKeyPresses and self.gameKeyEventList.contains(gameKeyEvent):
+proc newGameInput*(gameKeyEventList: BasicArrayList, removalGameKeyEventList: BasicArrayList): GameInput =
+    result = GameInput()
+    initGameInput(result, gameKeyEventList, removalGameKeyEventList)
+
+method add*(this: GameInput, gameKeyEvent: GameKeyEvent) {.base.} =
+        if this.isRemoveDuplicateKeyPresses and this.gameKeyEventList.contains(gameKeyEvent):
             return
-        if gameKeyEvent is not None:
-            self.gameKeyEventList.add(gameKeyEvent)
+        if (not jIsNil(gameKeyEvent)):
+            this.gameKeyEventList.add(gameKeyEvent)
         else:
-            self.logUtil.putF("Danger Passed Null GameKeyEvent", self, self.commonStrings.ADD)
-    
+            this.logUtil.putF("Danger Passed Null GameKeyEvent", this, this.commonStrings.ADD)
 
-    def addForRemoval(self, gameKeyEvent: GameKeyEvent) -> None:
-        with self._lock:
-            return self._addForRemoval_unlocked(gameKeyEvent)
+method addForRemoval*(this: GameInput, gameKeyEvent: GameKeyEvent) {.base.} =
+        this.removalGameKeyEventList.add(gameKeyEvent)
 
-    def _addForRemoval_unlocked(self, gameKeyEvent: GameKeyEvent) -> None:
-        from org.allbinary.game.input.event.GameKeyEvent import GameKeyEvent
-        self.removalGameKeyEventList.add(gameKeyEvent)
-    
+method isForRemoval*(this: GameInput, gameKeyEvent: GameKeyEvent): bool {.base, discardable.} =
+        return this.removalGameKeyEventList.contains(gameKeyEvent)
 
-    def isForRemoval(self, gameKeyEvent: GameKeyEvent) -> bool:
-        with self._lock:
-            return self._isForRemoval_unlocked(gameKeyEvent)
+method clear*(this: GameInput) {.base.} =
+        this.gameKeyEventList.clear()
 
-    def _isForRemoval_unlocked(self, gameKeyEvent: GameKeyEvent) -> bool:
-        from org.allbinary.game.input.event.GameKeyEvent import GameKeyEvent
-        return self.removalGameKeyEventList.contains(gameKeyEvent)
-    
+method removeNonAIInputGameKeyEvents*(this: GameInput) {.base.} =
+        var list: BasicArrayList = this.gameKeyEventList
+        var gameKeyEvent: GameKeyEvent = nil
+        block:
+            var index: int32 = list.size()
+            while jPreDecrement(index) >= 0:
+                gameKeyEvent = GameKeyEvent(JObject(list.objectArray[index]))
+                if gameKeyEvent.getSourceId() != 1:
+                    list.removeAt(index)
 
-    def clear(self) -> None:
-        with self._lock:
-            return self._clear_unlocked()
-
-    def _clear_unlocked(self) -> None:
-        self.gameKeyEventList.clear()
-    
-
-    def removeNonAIInputGameKeyEvents(self) -> None:
-        with self._lock:
-            return self._removeNonAIInputGameKeyEvents_unlocked()
-
-    def _removeNonAIInputGameKeyEvents_unlocked(self) -> None:
-        from org.allbinary.game.input.event.GameKeyEvent import GameKeyEvent
-        from org.allbinary.util.BasicArrayList import BasicArrayList
-        list_: BasicArrayList = self.gameKeyEventList
-        gameKeyEvent: GameKeyEvent = None
-        index = list_.size()
-        while (index := index - 1) >= 0:
-            gameKeyEvent = list_.objectArray[index]
-            if gameKeyEvent.getSourceId() != 1:
-                list_.removeAt(index)
-    
-
-    def update(self) -> None:
-        with self._lock:
-            return self._update_unlocked()
-
-    def _update_unlocked(self) -> None:
-        from org.allbinary.util.BasicArrayList import BasicArrayList
-        removeList: BasicArrayList = self.removalGameKeyEventList
-        list_: BasicArrayList = self.gameKeyEventList
-        size: int = removeList.size()
-        for index in range(0, size):
-            anyType: object = removeList.objectArray[index]
-            index2 = list_.size()
-            while (index2 := index2 - 1) >= 0:
-                if list_.objectArray[index2] == anyType:
-                    list_.removeAt(index2)
+method update*(this: GameInput) {.base.} =
+        var removeList: BasicArrayList = this.removalGameKeyEventList
+        var list: BasicArrayList = this.gameKeyEventList
+        var size: int32 = removeList.size()
+        block:
+            var index: int32 = 0
+            while index < size:
+                defer: index = index +% 1
+                var anyType: JObject = removeList.objectArray[index]
+                block:
+                    var index2: int32 = list.size()
+                    while jPreDecrement(index2) >= 0:
+                        if list.objectArray[index2] == anyType:
+                            list.removeAt(index2)
         removeList.clear()
-    
 
-    def getRemovalGameKeyEventList(self) -> BasicArrayList:
-        from org.allbinary.util.BasicArrayList import BasicArrayList
-        return self.removalGameKeyEventList
-    
+method getRemovalGameKeyEventList*(this: GameInput): BasicArrayList {.base, discardable.} =
+        return this.removalGameKeyEventList
 
-    def getGameKeyEventList(self) -> BasicArrayList:
-        from org.allbinary.util.BasicArrayList import BasicArrayList
-        return self.gameKeyEventList
-# from org.allbinary.game.configuration.feature.Features import Features
-# from org.allbinary.game.configuration.feature.InputFeatureFactory import InputFeatureFactory
-# from org.allbinary.game.input.event.GameKeyEvent import GameKeyEvent
-# from org.allbinary.logic.communication.log.LogUtil import LogUtil
-# from org.allbinary.string.CommonStrings import CommonStrings
-# from org.allbinary.util.BasicArrayList import BasicArrayList
-
+method getGameKeyEventList*(this: GameInput): BasicArrayList {.base, discardable.} =
+        return this.gameKeyEventList
 

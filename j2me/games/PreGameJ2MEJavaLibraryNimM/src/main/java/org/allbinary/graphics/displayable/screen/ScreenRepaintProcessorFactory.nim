@@ -1,52 +1,61 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.graphics.displayable.screen
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import javax/microedition/lcdui/Displayable as DisplayableModule
+export DisplayableModule
+import org/allbinary/canvas/Processor as ProcessorModule
+export ProcessorModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    ScreenRepaintProcessorFactory* = ref object of JObject
 
+proc newScreenRepaintProcessorFactory*(): ScreenRepaintProcessorFactory
+proc initScreenRepaintProcessorFactory*(this: ScreenRepaintProcessorFactory)
+proc getInstance*(t: typedesc[ScreenRepaintProcessorFactory]): ScreenRepaintProcessorFactory {.discardable.}
+method create*(this: ScreenRepaintProcessorFactory, displayable: Displayable): Processor {.base, discardable.}
+import org/allbinary/J2MEUtil as J2MEUtilModule
+export J2MEUtilModule
+import org/allbinary/graphics/displayable/screen/ScreenRepaintProcessor as ScreenRepaintProcessorModule
+export ScreenRepaintProcessorModule
 
-class ScreenRepaintProcessorFactory:
-    instance: ScreenRepaintProcessorFactory = None
-    
+var ScreenRepaintProcessorFactory_instanceValue: ScreenRepaintProcessorFactory
+var ScreenRepaintProcessorFactory_instanceSet = false
+proc instance*(t: typedesc[ScreenRepaintProcessorFactory]): ScreenRepaintProcessorFactory =
+    if not ScreenRepaintProcessorFactory_instanceSet:
+        ScreenRepaintProcessorFactory_instanceSet = true
+        ScreenRepaintProcessorFactory_instanceValue = newScreenRepaintProcessorFactory()
+    ScreenRepaintProcessorFactory_instanceValue
 
-    @staticmethod
-    def getInstance() -> ScreenRepaintProcessorFactory:
+proc getInstance*(t: typedesc[ScreenRepaintProcessorFactory]): ScreenRepaintProcessorFactory {.discardable.} =
         return ScreenRepaintProcessorFactory.instance
-    
 
-    def __init__(self) -> None:
-        pass
-    
+proc initScreenRepaintProcessorFactory*(this: ScreenRepaintProcessorFactory) =
+        discard
+        discard
 
-    def create(self, displayable: Displayable) -> Processor:
-        from org.allbinary.graphics.displayable.screen.ScreenRepaintProcessor import ScreenRepaintProcessor
-        from javax.microedition.lcdui.Displayable import Displayable
-        from org.allbinary.J2MEUtil import J2MEUtil
-        from org.allbinary.canvas.Processor import Processor
-        if not J2MEUtil.isJ2ME():
-            return ScreenRepaintProcessor(displayable)
+proc newScreenRepaintProcessorFactory*(): ScreenRepaintProcessorFactory =
+    result = ScreenRepaintProcessorFactory()
+    initScreenRepaintProcessorFactory(result)
+
+method create*(this: ScreenRepaintProcessorFactory, displayable: Displayable): Processor {.base, discardable.} =
+        if (not J2MEUtil.isJ2ME()):
+            return newScreenRepaintProcessor(displayable)
         else:
             return Processor.getInstance()
-# from javax.microedition.lcdui.Displayable import Displayable
-# from org.allbinary.J2MEUtil import J2MEUtil
-# from org.allbinary.canvas.Processor import Processor
-
-
-def _ScreenRepaintProcessorFactory_instance() -> object:
-    return ScreenRepaintProcessorFactory()
-
-lazy_static(ScreenRepaintProcessorFactory, "instance", _ScreenRepaintProcessorFactory_instance)
 

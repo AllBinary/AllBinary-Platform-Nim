@@ -1,42 +1,54 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.android.view
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import java/lang/Runnable as RunnableModule
+export RunnableModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    AllBinaryRenderer* = ref object of JObject
 
+proc newAllBinaryRenderer*(): AllBinaryRenderer
+proc getInstance*(t: typedesc[AllBinaryRenderer]): AllBinaryRenderer {.discardable.}
+method setRunnable*(this: AllBinaryRenderer, runnable: Runnable) {.base.}
+method clearRunnable*(this: AllBinaryRenderer) {.base.}
 
-class AllBinaryRenderer:
-    instance: AllBinaryRenderer = None
-    
+var AllBinaryRenderer_instanceValue: AllBinaryRenderer
+var AllBinaryRenderer_instanceSet = false
+proc instance*(t: typedesc[AllBinaryRenderer]): AllBinaryRenderer =
+    if not AllBinaryRenderer_instanceSet:
+        AllBinaryRenderer_instanceSet = true
+        AllBinaryRenderer_instanceValue = newAllBinaryRenderer()
+    AllBinaryRenderer_instanceValue
 
-    @staticmethod
-    def getInstance() -> AllBinaryRenderer:
+proc initAllBinaryRenderer*(this: AllBinaryRenderer) =
+    discard
+
+proc newAllBinaryRenderer*(): AllBinaryRenderer =
+    result = AllBinaryRenderer()
+    initAllBinaryRenderer(result)
+
+proc getInstance*(t: typedesc[AllBinaryRenderer]): AllBinaryRenderer {.discardable.} =
         return AllBinaryRenderer.instance
-    
 
-    def setRunnable(self, runnable: object) -> None:
-        pass
-    
+method setRunnable*(this: AllBinaryRenderer, runnable: Runnable) {.base.} =
+        discard
 
-    def clearRunnable(self) -> None:
-        pass
-
-
-def _AllBinaryRenderer_instance() -> object:
-    return AllBinaryRenderer()
-
-lazy_static(AllBinaryRenderer, "instance", _AllBinaryRenderer_instance)
+method clearRunnable*(this: AllBinaryRenderer) {.base.} =
+        discard
 

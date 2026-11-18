@@ -1,55 +1,50 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.health
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/game/health/HealthListenerInterface as HealthListenerInterfaceModule
+export HealthListenerInterfaceModule
+
+type
+    HealthInterface* = ref object of JObject
 
 
+method isAlive*(this: HealthInterface): bool {.base, discardable.} =
+        raise newJException("AbstractMethodError", "isAlive")
 
-# Java interface
-class HealthInterface:
-    
+method damage*(this: HealthInterface, ahealth: int32) {.base.} =
+        raise newJException("AbstractMethodError", "damage")
 
-    def isAlive(self) -> bool:
-        raise NotImplementedError()
-    
+method heal*(this: HealthInterface, ahealth: int32) {.base.} =
+        raise newJException("AbstractMethodError", "heal")
 
-    def damage(self, ahealth: int) -> None:
-        raise NotImplementedError()
-    
+method healMax*(this: HealthInterface) {.base.} =
+        raise newJException("AbstractMethodError", "healMax")
 
-    def heal(self, ahealth: int) -> None:
-        raise NotImplementedError()
-    
+method getMaxHealth*(this: HealthInterface): int32 {.base, discardable.} =
+        raise newJException("AbstractMethodError", "getMaxHealth")
 
-    def healMax(self) -> None:
-        raise NotImplementedError()
-    
+method setMaxHealth*(this: HealthInterface, maxHealth: int32) {.base.} =
+        raise newJException("AbstractMethodError", "setMaxHealth")
 
-    def getMaxHealth(self) -> int:
-        raise NotImplementedError()
-    
+method getHealth*(this: HealthInterface): int32 {.base, discardable.} =
+        raise newJException("AbstractMethodError", "getHealth")
 
-    def setMaxHealth(self, maxHealth: int) -> None:
-        raise NotImplementedError()
-    
-
-    def getHealth(self) -> int:
-        raise NotImplementedError()
-    
-
-    def addListener(self, healthListenerInterface: HealthListenerInterface) -> None:
-        raise NotImplementedError()
-
+method addListener*(this: HealthInterface, healthListenerInterface: HealthListenerInterface) {.base.} =
+        raise newJException("AbstractMethodError", "addListener")
 

@@ -1,40 +1,55 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.configuration.persistance
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/game/configuration/persistance/KeyValuePersistance as KeyValuePersistanceModule
+export KeyValuePersistanceModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
-from org.allbinary.game.configuration.persistance.KeyValuePersistance import KeyValuePersistance
+type
+    GameConfigurationPersistanceSingleton* = ref object of KeyValuePersistance
 
+proc newGameConfigurationPersistanceSingleton*(): GameConfigurationPersistanceSingleton
+proc initGameConfigurationPersistanceSingleton*(this: GameConfigurationPersistanceSingleton)
+proc getInstance*(t: typedesc[GameConfigurationPersistanceSingleton]): GameConfigurationPersistanceSingleton {.discardable.}
+import org/allbinary/game/configuration/persistance/GamePersistanceStrings as GamePersistanceStringsModule
+export GamePersistanceStringsModule
 
-class GameConfigurationPersistanceSingleton(KeyValuePersistance):
-    GAME_PERSISTANCE: GameConfigurationPersistanceSingleton = None
-    
+var GameConfigurationPersistanceSingleton_GAME_PERSISTANCEValue: GameConfigurationPersistanceSingleton
+var GameConfigurationPersistanceSingleton_GAME_PERSISTANCESet = false
+proc GAME_PERSISTANCE*(t: typedesc[GameConfigurationPersistanceSingleton]): GameConfigurationPersistanceSingleton =
+    if not GameConfigurationPersistanceSingleton_GAME_PERSISTANCESet:
+        GameConfigurationPersistanceSingleton_GAME_PERSISTANCESet = true
+        GameConfigurationPersistanceSingleton_GAME_PERSISTANCEValue = newGameConfigurationPersistanceSingleton()
+    GameConfigurationPersistanceSingleton_GAME_PERSISTANCEValue
+proc `GAME_PERSISTANCE=`*(t: typedesc[GameConfigurationPersistanceSingleton], value: GameConfigurationPersistanceSingleton) =
+    GameConfigurationPersistanceSingleton_GAME_PERSISTANCESet = true
+    GameConfigurationPersistanceSingleton_GAME_PERSISTANCEValue = value
 
-    @staticmethod
-    def getInstance() -> GameConfigurationPersistanceSingleton:
+proc getInstance*(t: typedesc[GameConfigurationPersistanceSingleton]): GameConfigurationPersistanceSingleton {.discardable.} =
         return GameConfigurationPersistanceSingleton.GAME_PERSISTANCE
-    
 
-    def __init__(self) -> None:
-        from org.allbinary.game.configuration.persistance.GamePersistanceStrings import GamePersistanceStrings
-        super().__init__(GamePersistanceStrings.getInstance().SAVED_GAME_CONFIGURATION_RECORD_ID)
+proc initGameConfigurationPersistanceSingleton*(this: GameConfigurationPersistanceSingleton) =
+        initKeyValuePersistance(this, GamePersistanceStrings.getInstance().SAVED_GAME_CONFIGURATION_RECORD_ID)
 
+proc newGameConfigurationPersistanceSingleton*(): GameConfigurationPersistanceSingleton =
+    result = GameConfigurationPersistanceSingleton()
+    initGameConfigurationPersistanceSingleton(result)
 
-def _GameConfigurationPersistanceSingleton_GAME_PERSISTANCE() -> object:
-    return GameConfigurationPersistanceSingleton()
-
-lazy_static(GameConfigurationPersistanceSingleton, "GAME_PERSISTANCE", _GameConfigurationPersistanceSingleton_GAME_PERSISTANCE)
+when declared(newGameConfigurationPersistanceSingletonHook0):
+    newGameConfigurationPersistanceSingletonHook0 = proc (): KeyValuePersistance = newGameConfigurationPersistanceSingleton()
 

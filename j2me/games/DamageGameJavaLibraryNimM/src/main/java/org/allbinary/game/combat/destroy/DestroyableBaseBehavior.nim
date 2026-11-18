@@ -1,50 +1,60 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.combat.destroy
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/game/combat/destroy/DestroyableInterface as DestroyableInterfaceModule
+export DestroyableInterfaceModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
-from org.allbinary.game.combat.destroy.DestroyableInterface import DestroyableInterface
+type
+    DestroyableBaseBehavior* = ref object of DestroyableInterface
 
+proc newDestroyableBaseBehavior*(): DestroyableBaseBehavior
+proc getInstance*(t: typedesc[DestroyableBaseBehavior]): DestroyableBaseBehavior {.discardable.}
+method getName*(this: DestroyableBaseBehavior): string {.discardable.}
+method isDestroyed*(this: DestroyableBaseBehavior): bool {.discardable.}
+method setDestroyed*(this: DestroyableBaseBehavior, destroyed: bool) {.base.}
+import org/allbinary/string/CommonStrings as CommonStringsModule
+export CommonStringsModule
 
-class DestroyableBaseBehavior(DestroyableInterface):
-    instance: DestroyableBaseBehavior = None
-    
+var DestroyableBaseBehavior_instanceValue: DestroyableBaseBehavior
+var DestroyableBaseBehavior_instanceSet = false
+proc instance*(t: typedesc[DestroyableBaseBehavior]): DestroyableBaseBehavior =
+    if not DestroyableBaseBehavior_instanceSet:
+        DestroyableBaseBehavior_instanceSet = true
+        DestroyableBaseBehavior_instanceValue = newDestroyableBaseBehavior()
+    DestroyableBaseBehavior_instanceValue
 
-    @staticmethod
-    def getInstance() -> DestroyableBaseBehavior:
+proc initDestroyableBaseBehavior*(this: DestroyableBaseBehavior) =
+    discard
+
+proc newDestroyableBaseBehavior*(): DestroyableBaseBehavior =
+    result = DestroyableBaseBehavior()
+    initDestroyableBaseBehavior(result)
+
+proc getInstance*(t: typedesc[DestroyableBaseBehavior]): DestroyableBaseBehavior {.discardable.} =
         return DestroyableBaseBehavior.instance
-    
 
-    def getName(self) -> str:
-        return type(self).__module__ + "." + type(self).__qualname__
-    
+method getName*(this: DestroyableBaseBehavior): string {.discardable.} =
+        return jClassName(this)
 
-    # throws Exception
-    def isDestroyed(self) -> bool:
-        from org.allbinary.string.CommonStrings import CommonStrings
-        raise Exception(CommonStrings.getInstance().NOT_IMPLEMENTED)
-    
+method isDestroyed*(this: DestroyableBaseBehavior): bool {.discardable.} =
+        raise newJException("Exception", CommonStrings.getInstance().NOT_IMPLEMENTED)
 
-    def setDestroyed(self, destroyed: bool) -> None:
-        pass
-# from org.allbinary.string.CommonStrings import CommonStrings
-
-
-def _DestroyableBaseBehavior_instance() -> object:
-    return DestroyableBaseBehavior()
-
-lazy_static(DestroyableBaseBehavior, "instance", _DestroyableBaseBehavior_instance)
+method setDestroyed*(this: DestroyableBaseBehavior, destroyed: bool) {.base.} =
+        discard
 

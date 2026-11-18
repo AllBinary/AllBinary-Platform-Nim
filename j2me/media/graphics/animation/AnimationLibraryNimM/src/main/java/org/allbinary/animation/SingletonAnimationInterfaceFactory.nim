@@ -1,48 +1,62 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.animation
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/media/ScaleProperties as ScalePropertiesModule
+export ScalePropertiesModule
+import org/allbinary/animation/AnimationInterfaceFactoryInterface as AnimationInterfaceFactoryInterfaceModule
+export AnimationInterfaceFactoryInterfaceModule
+import org/allbinary/animation/ProceduralAnimationInterfaceFactoryInterface as ProceduralAnimationInterfaceFactoryInterfaceModule
+export ProceduralAnimationInterfaceFactoryInterfaceModule
+import org/allbinary/animation/Animation as AnimationModule
+export AnimationModule
 
-from org.allbinary.animation.AnimationInterfaceFactoryInterface import AnimationInterfaceFactoryInterface
-from org.allbinary.animation.ProceduralAnimationInterfaceFactoryInterface import ProceduralAnimationInterfaceFactoryInterface
+type
+    SingletonAnimationInterfaceFactory* = ref object of AnimationInterfaceFactoryInterface
+        animationInterface*: Animation
+
+converter jAsProceduralAnimationInterfaceFactoryInterface*(value: SingletonAnimationInterfaceFactory): ProceduralAnimationInterfaceFactoryInterface = cast[ProceduralAnimationInterfaceFactoryInterface](value)
+proc newSingletonAnimationInterfaceFactory*(animationInterface: Animation): SingletonAnimationInterfaceFactory
+proc initSingletonAnimationInterfaceFactory*(this: SingletonAnimationInterfaceFactory, animationInterface: Animation)
+method getInstance*(this: SingletonAnimationInterfaceFactory, instanceId: int32): Animation {.discardable.}
+method getInstanceAnimation*(this: SingletonAnimationInterfaceFactory, animationInterface: Animation): Animation {.discardable.}
+method setInitialScale*(this: SingletonAnimationInterfaceFactory, scaleProperties: ScaleProperties)
 
 
-class SingletonAnimationInterfaceFactory(AnimationInterfaceFactoryInterface, ProceduralAnimationInterfaceFactoryInterface):
-
-    def _init_fields(self) -> None:
-        self.animationInterface: Animation = None
+# Java field initializers run after the base initializer
+proc initFieldsSingletonAnimationInterfaceFactory(this: SingletonAnimationInterfaceFactory) =
     
+    discard
 
-    def __init__(self, animationInterface: Animation) -> None:
-        self._init_fields()
-        self.animationInterface = animationInterface
-    
+proc initSingletonAnimationInterfaceFactory*(this: SingletonAnimationInterfaceFactory, animationInterface: Animation) =
+        this.initFieldsSingletonAnimationInterfaceFactory()
+        this.animationInterface = animationInterface
 
-    # throws Exception
-    def getInstance(self, instanceId: int) -> Animation:
-        return self.animationInterface
-    
+proc newSingletonAnimationInterfaceFactory*(animationInterface: Animation): SingletonAnimationInterfaceFactory =
+    result = SingletonAnimationInterfaceFactory()
+    initSingletonAnimationInterfaceFactory(result, animationInterface)
 
-    # throws Exception
-    def getInstanceAnimation(self, animationInterface: Animation) -> Animation:
-        return self.animationInterface
-    
+method getInstance*(this: SingletonAnimationInterfaceFactory, instanceId: int32): Animation {.discardable.} =
+        return this.animationInterface
 
-    def setInitialScale(self, scaleProperties: ScaleProperties) -> None:
-        from org.allbinary.media.ScaleProperties import ScaleProperties
-        pass
-# from org.allbinary.media.ScaleProperties import ScaleProperties
+method getInstanceAnimation*(this: SingletonAnimationInterfaceFactory, animationInterface: Animation): Animation {.discardable.} =
+        return this.animationInterface
 
+method setInitialScale*(this: SingletonAnimationInterfaceFactory, scaleProperties: ScaleProperties) =
+        discard
 

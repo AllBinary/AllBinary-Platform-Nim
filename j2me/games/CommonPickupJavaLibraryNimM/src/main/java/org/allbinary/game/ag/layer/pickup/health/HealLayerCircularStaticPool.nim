@@ -1,44 +1,57 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.ag.layer.pickup.health
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/layer/AllBinaryLayer as AllBinaryLayerModule
+export AllBinaryLayerModule
+import org/allbinary/layer/AllBinaryLayerCircularPool as AllBinaryLayerCircularPoolModule
+export AllBinaryLayerCircularPoolModule
+import org/allbinary/layer/AllBinaryLayerFactoryInterface as AllBinaryLayerFactoryInterfaceModule
+export AllBinaryLayerFactoryInterfaceModule
 
-from org.allbinary.layer.AllBinaryLayerCircularPool import AllBinaryLayerCircularPool
+type
+    HealLayerCircularStaticPool* = ref object of AllBinaryLayerCircularPool
+
+proc newHealLayerCircularStaticPool*(allbinaryLayerFactoryInterface: AllBinaryLayerFactoryInterface, total: int32): HealLayerCircularStaticPool
+proc initHealLayerCircularStaticPool*(this: HealLayerCircularStaticPool, allbinaryLayerFactoryInterface: AllBinaryLayerFactoryInterface, total: int32)
+method visit*(this: HealLayerCircularStaticPool, sourceLayerInterface: AllBinaryLayer) {.base.}
+import org/allbinary/game/health/HealthInterface as HealthInterfaceModule
+export HealthInterfaceModule
+import org/allbinary/game/health/HealthInterfaceCompositeInterface as HealthInterfaceCompositeInterfaceModule
+export HealthInterfaceCompositeInterfaceModule
+import org/allbinary/game/ag/layer/pickup/health/HealLayer as HealLayerModule
+export HealLayerModule
 
 
-class HealLayerCircularStaticPool(AllBinaryLayerCircularPool):
-    
+proc initHealLayerCircularStaticPool*(this: HealLayerCircularStaticPool, allbinaryLayerFactoryInterface: AllBinaryLayerFactoryInterface, total: int32) =
+        initAllBinaryLayerCircularPool(this)
+        procCall AllBinaryLayerCircularPool(this).initAllBinaryLayerCircularPool(allbinaryLayerFactoryInterface, total)
 
-    def __init__(self, allbinaryLayerFactoryInterface: AllBinaryLayerFactoryInterface, total: int) -> None:
-        from org.allbinary.layer.AllBinaryLayerFactoryInterface import AllBinaryLayerFactoryInterface
-        super().__init__()
-        super().initAllBinaryLayerCircularPool(allbinaryLayerFactoryInterface, total)
-    
+proc newHealLayerCircularStaticPool*(allbinaryLayerFactoryInterface: AllBinaryLayerFactoryInterface, total: int32): HealLayerCircularStaticPool =
+    result = HealLayerCircularStaticPool()
+    initHealLayerCircularStaticPool(result, allbinaryLayerFactoryInterface, total)
 
-    # throws Exception
-    def visit(self, sourceLayerInterface: AllBinaryLayer) -> None:
-        from org.allbinary.game.health.HealthInterface import HealthInterface
-        from org.allbinary.game.health.HealthInterfaceCompositeInterface import HealthInterfaceCompositeInterface
-        from org.allbinary.layer.AllBinaryLayer import AllBinaryLayer
-        healLayer: HealLayer = self.getNextInstance()
-        healthInterfaceCompositeInterface: HealthInterfaceCompositeInterface = sourceLayerInterface
-        healthInterface: HealthInterface = healthInterfaceCompositeInterface.getHealthInterface()
+method visit*(this: HealLayerCircularStaticPool, sourceLayerInterface: AllBinaryLayer) {.base.} =
+        let healLayer: HealLayer = HealLayer(JObject(this.getNextInstance()))
+        let healthInterfaceCompositeInterface: HealthInterfaceCompositeInterface = HealthInterfaceCompositeInterface(JObject(sourceLayerInterface))
+        let healthInterface: HealthInterface = healthInterfaceCompositeInterface.getHealthInterface()
         healLayer.visit(healthInterface)
-# from org.allbinary.game.health.HealthInterface import HealthInterface
-# from org.allbinary.game.health.HealthInterfaceCompositeInterface import HealthInterfaceCompositeInterface
-# from org.allbinary.layer.AllBinaryLayer import AllBinaryLayer
-# from org.allbinary.layer.AllBinaryLayerFactoryInterface import AllBinaryLayerFactoryInterface
 
+when declared(newHealLayerCircularStaticPoolHook2):
+    newHealLayerCircularStaticPoolHook2 = proc (allbinaryLayerFactoryInterface: AllBinaryLayerFactoryInterface, total: int32): AllBinaryLayerCircularPool = newHealLayerCircularStaticPool(allbinaryLayerFactoryInterface, total)
 

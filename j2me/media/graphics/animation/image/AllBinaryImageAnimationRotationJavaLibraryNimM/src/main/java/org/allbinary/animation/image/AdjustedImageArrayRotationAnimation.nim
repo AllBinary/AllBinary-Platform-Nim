@@ -1,85 +1,94 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.animation.image
 
-from __future__ import annotations
-
-from org.allbinary.animation.image.ImageArrayRotationAnimation import ImageArrayRotationAnimation
-
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import javax/microedition/lcdui/Graphics as GraphicsModule
+export GraphicsModule
+import javax/microedition/lcdui/Image as ImageModule
+export ImageModule
+import org/allbinary/animation/AnimationBehavior as AnimationBehaviorModule
+export AnimationBehaviorModule
+import org/allbinary/math/AngleInfo as AngleInfoModule
+export AngleInfoModule
+import org/allbinary/animation/image/ImageArrayRotationAnimation as ImageArrayRotationAnimationModule
+export ImageArrayRotationAnimationModule
 
 #TWB - Adjustments should be done in the resource creation and not at the animation level
-class AdjustedImageArrayRotationAnimation(ImageArrayRotationAnimation):
+type
+    AdjustedImageArrayRotationAnimation* = ref object of ImageArrayRotationAnimation
+        dx*: int32
+        dy*: int32
 
-    def _init_fields(self) -> None:
-        self.dx: int = 0
-        self.dy: int = 0
-    
+proc newAdjustedImageArrayRotationAnimation*(imageArray: JArray[Image], angleInfo: AngleInfo, totalAngle: int32, dx: int32, dy: int32, animationBehavior: AnimationBehavior): AdjustedImageArrayRotationAnimation
+proc initAdjustedImageArrayRotationAnimation*(this: AdjustedImageArrayRotationAnimation, imageArray: JArray[Image], angleInfo: AngleInfo, totalAngle: int32, dx: int32, dy: int32, animationBehavior: AnimationBehavior)
+proc createAdjustedImageArrayRotationAnimationInfo*(t: typedesc[AdjustedImageArrayRotationAnimation], anyType: JObject, animationBehavior: AnimationBehavior): AdjustedImageArrayRotationAnimation {.discardable.}
+proc createAnimation*(t: typedesc[AdjustedImageArrayRotationAnimation], imageArray: JArray[Image], angleInfo: AngleInfo, totalAngle: int32, animationBehavior: AnimationBehavior): AdjustedImageArrayRotationAnimation {.discardable.}
+method init*(this: AdjustedImageArrayRotationAnimation, dx: int32, dy: int32) {.base.}
+method paintXY*(this: AdjustedImageArrayRotationAnimation, graphics: Graphics, x: int32, y: int32)
+method setDx*(this: AdjustedImageArrayRotationAnimation, dx: int32)
+method getDx*(this: AdjustedImageArrayRotationAnimation): int32 {.discardable.}
+method setDy*(this: AdjustedImageArrayRotationAnimation, dy: int32)
+method getDy*(this: AdjustedImageArrayRotationAnimation): int32 {.discardable.}
+import org/allbinary/animation/image/ImageArrayRotationAnimationInfo as ImageArrayRotationAnimationInfoModule
+export ImageArrayRotationAnimationInfoModule
 
-    # throws Exception
-    @staticmethod
-    def createAdjustedImageArrayRotationAnimationInfo(anyType: object, animationBehavior: AnimationBehavior) -> AdjustedImageArrayRotationAnimation:
-        from org.allbinary.animation.AnimationBehavior import AnimationBehavior
-        imageRotationAnimationInfo: ImageArrayRotationAnimationInfo = anyType
-        return AdjustedImageArrayRotationAnimation(imageRotationAnimationInfo.getImageArray(), imageRotationAnimationInfo.getAngleInfoP(), imageRotationAnimationInfo.getTotalAngle(), imageRotationAnimationInfo.getDx(), imageRotationAnimationInfo.getDy(), animationBehavior)
-    
 
-    # throws Exception
-    @staticmethod
-    def createAnimation(imageArray: list[Image], angleInfo: AngleInfo, totalAngle: int, animationBehavior: AnimationBehavior) -> AdjustedImageArrayRotationAnimation:
-        from javax.microedition.lcdui.Image import Image
-        from org.allbinary.animation.AnimationBehavior import AnimationBehavior
-        from org.allbinary.math.AngleInfo import AngleInfo
-        return AdjustedImageArrayRotationAnimation(imageArray, angleInfo, totalAngle, -(imageArray[0].getWidth() >> 2), -(imageArray[0].getHeight() >> 2), animationBehavior)
-    
+# Java field initializers run after the base initializer
+proc initFieldsAdjustedImageArrayRotationAnimation(this: AdjustedImageArrayRotationAnimation) =
+    this.dx = 0
+    this.dy = 0
+    discard
 
-    def __init__(self, imageArray: list[Image], angleInfo: AngleInfo, totalAngle: int, dx: int, dy: int, animationBehavior: AnimationBehavior) -> None:
-        from javax.microedition.lcdui.Image import Image
-        from org.allbinary.animation.AnimationBehavior import AnimationBehavior
-        from org.allbinary.math.AngleInfo import AngleInfo
-        super().__init__(imageArray, angleInfo, totalAngle, animationBehavior)
-        self._init_fields()
-        self.init(dx, dy)
-    
+proc createAdjustedImageArrayRotationAnimationInfo*(t: typedesc[AdjustedImageArrayRotationAnimation], anyType: JObject, animationBehavior: AnimationBehavior): AdjustedImageArrayRotationAnimation {.discardable.} =
+        let imageRotationAnimationInfo: ImageArrayRotationAnimationInfo = ImageArrayRotationAnimationInfo(JObject(anyType))
+        return newAdjustedImageArrayRotationAnimation(imageRotationAnimationInfo.getImageArray(), imageRotationAnimationInfo.getAngleInfoP(), imageRotationAnimationInfo.getTotalAngle(), imageRotationAnimationInfo.getDx(), imageRotationAnimationInfo.getDy(), animationBehavior)
 
-    # throws Exception
-    def init(self, dx: int, dy: int) -> None:
-        self.setDx(dx)
-        self.setDy(dy)
-    
+proc createAnimation*(t: typedesc[AdjustedImageArrayRotationAnimation], imageArray: JArray[Image], angleInfo: AngleInfo, totalAngle: int32, animationBehavior: AnimationBehavior): AdjustedImageArrayRotationAnimation {.discardable.} =
+        return newAdjustedImageArrayRotationAnimation(imageArray, angleInfo, totalAngle, -(ashr(imageArray[0].getWidth(), 2)), -(ashr(imageArray[0].getHeight(), 2)), animationBehavior)
 
-    def paintXY(self, graphics: Graphics, x: int, y: int) -> None:
-        from javax.microedition.lcdui.Graphics import Graphics
-        super().paintXY(graphics, x + self.dx, y + self.dy)
-    
+proc initAdjustedImageArrayRotationAnimation*(this: AdjustedImageArrayRotationAnimation, imageArray: JArray[Image], angleInfo: AngleInfo, totalAngle: int32, dx: int32, dy: int32, animationBehavior: AnimationBehavior) =
+        initImageArrayRotationAnimation(this, imageArray, angleInfo, totalAngle, animationBehavior)
+        this.initFieldsAdjustedImageArrayRotationAnimation()
+        this.init(dx, dy)
 
-    def setDx(self, dx: int) -> None:
-        self.dx = dx
-    
+proc newAdjustedImageArrayRotationAnimation*(imageArray: JArray[Image], angleInfo: AngleInfo, totalAngle: int32, dx: int32, dy: int32, animationBehavior: AnimationBehavior): AdjustedImageArrayRotationAnimation =
+    result = AdjustedImageArrayRotationAnimation()
+    initAdjustedImageArrayRotationAnimation(result, imageArray, angleInfo, totalAngle, dx, dy, animationBehavior)
 
-    def getDx(self) -> int:
-        return self.dx
-    
+method init*(this: AdjustedImageArrayRotationAnimation, dx: int32, dy: int32) {.base.} =
+        this.setDx(dx)
+        this.setDy(dy)
 
-    def setDy(self, dy: int) -> None:
-        self.dy = dy
-    
+method paintXY*(this: AdjustedImageArrayRotationAnimation, graphics: Graphics, x: int32, y: int32) =
+        procCall ImageArrayRotationAnimation(this).paintXY(graphics, x +% this.dx, y +% this.dy)
 
-    def getDy(self) -> int:
-        return self.dy
-# from javax.microedition.lcdui.Graphics import Graphics
-# from javax.microedition.lcdui.Image import Image
-# from org.allbinary.animation.AnimationBehavior import AnimationBehavior
-# from org.allbinary.math.AngleInfo import AngleInfo
+method setDx*(this: AdjustedImageArrayRotationAnimation, dx: int32) =
+        this.dx = dx
 
+method getDx*(this: AdjustedImageArrayRotationAnimation): int32 {.discardable.} =
+        return this.dx
+
+method setDy*(this: AdjustedImageArrayRotationAnimation, dy: int32) =
+        this.dy = dy
+
+method getDy*(this: AdjustedImageArrayRotationAnimation): int32 {.discardable.} =
+        return this.dy
+
+when declared(newAdjustedImageArrayRotationAnimationHook6):
+    newAdjustedImageArrayRotationAnimationHook6 = proc (imageArray: JArray[Image], angleInfo: AngleInfo, totalAngle: int32, dx: int32, dy: int32, animationBehavior: AnimationBehavior): ImageArrayRotationAnimation = newAdjustedImageArrayRotationAnimation(imageArray, angleInfo, totalAngle, dx, dy, animationBehavior)
 

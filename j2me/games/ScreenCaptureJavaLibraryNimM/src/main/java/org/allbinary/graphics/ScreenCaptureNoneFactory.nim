@@ -1,35 +1,46 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.graphics
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/graphics/ScreenCapture as ScreenCaptureModule
+export ScreenCaptureModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    ScreenCaptureNoneFactory* = ref object of JObject
 
+proc newScreenCaptureNoneFactory*(): ScreenCaptureNoneFactory
+proc getInstance*(t: typedesc[ScreenCaptureNoneFactory]): ScreenCapture {.discardable.}
 
-class ScreenCaptureNoneFactory:
-    instance: ScreenCapture = None
-    
+var ScreenCaptureNoneFactory_instanceValue: ScreenCapture
+var ScreenCaptureNoneFactory_instanceSet = false
+proc instance*(t: typedesc[ScreenCaptureNoneFactory]): ScreenCapture =
+    if not ScreenCaptureNoneFactory_instanceSet:
+        ScreenCaptureNoneFactory_instanceSet = true
+        ScreenCaptureNoneFactory_instanceValue = newScreenCapture()
+    ScreenCaptureNoneFactory_instanceValue
 
-    @staticmethod
-    def getInstance() -> ScreenCapture:
+proc initScreenCaptureNoneFactory*(this: ScreenCaptureNoneFactory) =
+    discard
+
+proc newScreenCaptureNoneFactory*(): ScreenCaptureNoneFactory =
+    result = ScreenCaptureNoneFactory()
+    initScreenCaptureNoneFactory(result)
+
+proc getInstance*(t: typedesc[ScreenCaptureNoneFactory]): ScreenCapture {.discardable.} =
         return ScreenCaptureNoneFactory.instance
-
-
-def _ScreenCaptureNoneFactory_instance() -> object:
-    from org.allbinary.graphics.ScreenCapture import ScreenCapture
-    return ScreenCapture()
-
-lazy_static(ScreenCaptureNoneFactory, "instance", _ScreenCaptureNoneFactory_instance)
 

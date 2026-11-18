@@ -1,42 +1,54 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.thirdparty.store
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    ThirdPartyMessageFactory* = ref object of JObject
+        AUTHORIZED*: string
+        NOT_AUTHORIZED*: string
+        LINKAGE_ERROR*: string
 
+proc newThirdPartyMessageFactory*(): ThirdPartyMessageFactory
+proc getInstance*(t: typedesc[ThirdPartyMessageFactory]): ThirdPartyMessageFactory {.discardable.}
 
-class ThirdPartyMessageFactory:
-    instance: ThirdPartyMessageFactory = None
+var ThirdPartyMessageFactory_instanceValue: ThirdPartyMessageFactory
+var ThirdPartyMessageFactory_instanceSet = false
+proc instance*(t: typedesc[ThirdPartyMessageFactory]): ThirdPartyMessageFactory =
+    if not ThirdPartyMessageFactory_instanceSet:
+        ThirdPartyMessageFactory_instanceSet = true
+        ThirdPartyMessageFactory_instanceValue = newThirdPartyMessageFactory()
+    ThirdPartyMessageFactory_instanceValue
 
-    def _init_fields(self) -> None:
-        self.AUTHORIZED: str = "Authorized"
-        self.NOT_AUTHORIZED: str = "Not Authorized"
-        self.LINKAGE_ERROR: str = "Linkage Error"
+# Java field initializers run after the base initializer
+proc initFieldsThirdPartyMessageFactory(this: ThirdPartyMessageFactory) =
+    this.AUTHORIZED = "Authorized"
+    this.NOT_AUTHORIZED = "Not Authorized"
+    this.LINKAGE_ERROR = "Linkage Error"
+    discard
 
-    def __init__(self) -> None:
-        self._init_fields()
-    
+proc initThirdPartyMessageFactory*(this: ThirdPartyMessageFactory) =
+    this.initFieldsThirdPartyMessageFactory()
 
-    @staticmethod
-    def getInstance() -> ThirdPartyMessageFactory:
+proc newThirdPartyMessageFactory*(): ThirdPartyMessageFactory =
+    result = ThirdPartyMessageFactory()
+    initThirdPartyMessageFactory(result)
+
+proc getInstance*(t: typedesc[ThirdPartyMessageFactory]): ThirdPartyMessageFactory {.discardable.} =
         return ThirdPartyMessageFactory.instance
-
-
-def _ThirdPartyMessageFactory_instance() -> object:
-    return ThirdPartyMessageFactory()
-
-lazy_static(ThirdPartyMessageFactory, "instance", _ThirdPartyMessageFactory_instance)
 

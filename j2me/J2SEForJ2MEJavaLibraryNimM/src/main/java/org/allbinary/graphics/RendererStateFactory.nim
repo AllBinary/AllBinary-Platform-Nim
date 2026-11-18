@@ -1,57 +1,68 @@
-# 
-# AllBinary Open License Version 1 
-# Copyright (c) 2022 AllBinary 
-#  
-# By agreeing to this license you and any business entity you represent are 
-# legally bound to the AllBinary Open License Version 1 legal agreement. 
-#  
-# You may obtain the AllBinary Open License Version 1 legal agreement from 
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
-#  
-# Created By: Travis Berthelot 
-#   
+#[
+  
+  AllBinary Open License Version 1 
+  Copyright (c) 2022 AllBinary 
+   
+  By agreeing to this license you and any business entity you represent are 
+  legally bound to the AllBinary Open License Version 1 legal agreement. 
+   
+  You may obtain the AllBinary Open License Version 1 legal agreement from 
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
+   
+  Created By: Travis Berthelot 
+    
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.graphics
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    RendererStateFactory* = ref object of JObject
+        loaded*: bool
+        surfaceChanged*: bool
 
+proc newRendererStateFactory*(): RendererStateFactory
+proc getInstance*(t: typedesc[RendererStateFactory]): RendererStateFactory {.discardable.}
+method setLoaded*(this: RendererStateFactory, loaded: bool) {.base.}
+method isLoaded*(this: RendererStateFactory): bool {.base, discardable.}
+method setSurfaceChanged*(this: RendererStateFactory, initialized: bool) {.base.}
+method isSurfaceChanged*(this: RendererStateFactory): bool {.base, discardable.}
 
-class RendererStateFactory:
-    instance: RendererStateFactory = None
+var RendererStateFactory_instanceValue: RendererStateFactory
+var RendererStateFactory_instanceSet = false
+proc instance*(t: typedesc[RendererStateFactory]): RendererStateFactory =
+    if not RendererStateFactory_instanceSet:
+        RendererStateFactory_instanceSet = true
+        RendererStateFactory_instanceValue = newRendererStateFactory()
+    RendererStateFactory_instanceValue
 
-    def _init_fields(self) -> None:
-        self.loaded: bool = False
-        self.surfaceChanged: bool = False
+# Java field initializers run after the base initializer
+proc initFieldsRendererStateFactory(this: RendererStateFactory) =
+    this.loaded = false
+    this.surfaceChanged = false
+    discard
 
-    def __init__(self) -> None:
-        self._init_fields()
-    
+proc initRendererStateFactory*(this: RendererStateFactory) =
+    this.initFieldsRendererStateFactory()
 
-    @staticmethod
-    def getInstance() -> RendererStateFactory:
+proc newRendererStateFactory*(): RendererStateFactory =
+    result = RendererStateFactory()
+    initRendererStateFactory(result)
+
+proc getInstance*(t: typedesc[RendererStateFactory]): RendererStateFactory {.discardable.} =
         return RendererStateFactory.instance
-    
 
-    def setLoaded(self, loaded: bool) -> None:
-        self.loaded = loaded
-    
+method setLoaded*(this: RendererStateFactory, loaded: bool) {.base.} =
+        this.loaded = loaded
 
-    def isLoaded(self) -> bool:
-        return self.loaded
-    
+method isLoaded*(this: RendererStateFactory): bool {.base, discardable.} =
+        return this.loaded
 
-    def setSurfaceChanged(self, initialized: bool) -> None:
-        self.surfaceChanged = initialized
-    
+method setSurfaceChanged*(this: RendererStateFactory, initialized: bool) {.base.} =
+        this.surfaceChanged = initialized
 
-    def isSurfaceChanged(self) -> bool:
-        return self.surfaceChanged
-
-
-def _RendererStateFactory_instance() -> object:
-    return RendererStateFactory()
-
-lazy_static(RendererStateFactory, "instance", _RendererStateFactory_instance)
+method isSurfaceChanged*(this: RendererStateFactory): bool {.base, discardable.} =
+        return this.surfaceChanged
 

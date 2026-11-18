@@ -1,52 +1,64 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#   
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+    
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.collision.layer
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/layer/AllBinaryLayer as AllBinaryLayerModule
+export AllBinaryLayerModule
+import org/allbinary/layer/AllBinaryLayerManager as AllBinaryLayerManagerModule
+export AllBinaryLayerManagerModule
+import org/allbinary/layer/LayerProcessor as LayerProcessorModule
+export LayerProcessorModule
 
-from org.allbinary.layer.LayerProcessor import LayerProcessor
+type
+    CollidableInterfaceLayerProcessor* = ref object of LayerProcessor
+
+proc newCollidableInterfaceLayerProcessor*(): CollidableInterfaceLayerProcessor
+proc initCollidableInterfaceLayerProcessor*(this: CollidableInterfaceLayerProcessor)
+method processAt*(this: CollidableInterfaceLayerProcessor, allBinaryLayerManager: AllBinaryLayerManager, layerInterface: AllBinaryLayer, index: int32)
+method isProcessorLayer*(this: CollidableInterfaceLayerProcessor, layerInterface: AllBinaryLayer): bool {.discardable.}
+import org/allbinary/game/collision/CollidableInterfaceCompositeInterface as CollidableInterfaceCompositeInterfaceModule
+export CollidableInterfaceCompositeInterfaceModule
+import org/allbinary/game/layer/CollidableCompositeLayer as CollidableCompositeLayerModule
+export CollidableCompositeLayerModule
+import org/allbinary/game/collision/layer/CollidableInterfaceLayerManager as CollidableInterfaceLayerManagerModule
+export CollidableInterfaceLayerManagerModule
+import org/allbinary/game/collision/layer/AllBinaryCollisionManager as AllBinaryCollisionManagerModule
+export AllBinaryCollisionManagerModule
 
 
-class CollidableInterfaceLayerProcessor(LayerProcessor):
-    
+proc initCollidableInterfaceLayerProcessor*(this: CollidableInterfaceLayerProcessor) =
+        initLayerProcessor(this, newCollidableInterfaceLayerManager())
 
-    def __init__(self) -> None:
-        from org.allbinary.game.collision.layer.CollidableInterfaceLayerManager import CollidableInterfaceLayerManager
-        super().__init__(CollidableInterfaceLayerManager())
-    
+proc newCollidableInterfaceLayerProcessor*(): CollidableInterfaceLayerProcessor =
+    result = CollidableInterfaceLayerProcessor()
+    initCollidableInterfaceLayerProcessor(result)
 
-    # throws Exception
-    def processAt(self, allBinaryLayerManager: AllBinaryLayerManager, layerInterface: AllBinaryLayer, index: int) -> None:
-        from org.allbinary.game.collision.layer.AllBinaryCollisionManager import AllBinaryCollisionManager
-        from org.allbinary.game.collision.CollidableInterfaceCompositeInterface import CollidableInterfaceCompositeInterface
-        from org.allbinary.game.layer.CollidableCompositeLayer import CollidableCompositeLayer
-        from org.allbinary.layer.AllBinaryLayer import AllBinaryLayer
-        from org.allbinary.layer.AllBinaryLayerManager import AllBinaryLayerManager
-        collidableInterfaceCompositeInterface: CollidableInterfaceCompositeInterface = layerInterface
-        if collidableInterfaceCompositeInterface.getCollidableInferface().isCollidable(collidableInterfaceCompositeInterface):
-            AllBinaryCollisionManager.getInstance().process(self.getLayerManager(), collidableInterfaceCompositeInterface, index)
-    
+method processAt*(this: CollidableInterfaceLayerProcessor, allBinaryLayerManager: AllBinaryLayerManager, layerInterface: AllBinaryLayer, index: int32) =
+        var collidableInterfaceCompositeInterface: CollidableInterfaceCompositeInterface = CollidableInterfaceCompositeInterface(JObject(layerInterface))
+        if collidableInterfaceCompositeInterface.getCollidableInferface().isCollidable(CollidableCompositeLayer(JObject(collidableInterfaceCompositeInterface))):
+            AllBinaryCollisionManager.getInstance().process(this.getLayerManager(), collidableInterfaceCompositeInterface, index)
 
-    def isProcessorLayer(self, layerInterface: AllBinaryLayer) -> bool:
-        from org.allbinary.layer.AllBinaryLayer import AllBinaryLayer
+method isProcessorLayer*(this: CollidableInterfaceLayerProcessor, layerInterface: AllBinaryLayer): bool {.discardable.} =
         if layerInterface.implmentsCollidableInterface():
-            return True
+            return true
         else:
-            return False
-# from org.allbinary.game.collision.CollidableInterfaceCompositeInterface import CollidableInterfaceCompositeInterface
-# from org.allbinary.game.layer.CollidableCompositeLayer import CollidableCompositeLayer
-# from org.allbinary.layer.AllBinaryLayer import AllBinaryLayer
-# from org.allbinary.layer.AllBinaryLayerManager import AllBinaryLayerManager
+            return false
 
+when declared(newCollidableInterfaceLayerProcessorHook0):
+    newCollidableInterfaceLayerProcessorHook0 = proc (): LayerProcessor = newCollidableInterfaceLayerProcessor()
 

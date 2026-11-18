@@ -1,37 +1,52 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.media
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/media/AllBinaryVibrationME as AllBinaryVibrationMEModule
+export AllBinaryVibrationMEModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
-from org.allbinary.media.AllBinaryVibrationME import AllBinaryVibrationME
+type
+    AllBinaryNoVibration* = ref object of AllBinaryVibrationME
 
+proc newAllBinaryNoVibration*(): AllBinaryNoVibration
+method vibrate*(this: AllBinaryNoVibration, duration: int32, `type`: int32, volume: int32)
 
-class AllBinaryNoVibration(AllBinaryVibrationME):
-    NO_VIBRATION: AllBinaryVibrationME = None
+var AllBinaryNoVibration_NO_VIBRATIONValue: AllBinaryVibrationME
+var AllBinaryNoVibration_NO_VIBRATIONSet = false
+proc NO_VIBRATION*(t: typedesc[AllBinaryNoVibration]): AllBinaryVibrationME =
+    if not AllBinaryNoVibration_NO_VIBRATIONSet:
+        AllBinaryNoVibration_NO_VIBRATIONSet = true
+        AllBinaryNoVibration_NO_VIBRATIONValue = newAllBinaryNoVibration()
+    AllBinaryNoVibration_NO_VIBRATIONValue
+proc `NO_VIBRATION=`*(t: typedesc[AllBinaryNoVibration], value: AllBinaryVibrationME) =
+    AllBinaryNoVibration_NO_VIBRATIONSet = true
+    AllBinaryNoVibration_NO_VIBRATIONValue = value
 
-    def __init__(self) -> None:
-        super().__init__()
-    
+proc initAllBinaryNoVibration*(this: AllBinaryNoVibration) =
+    initAllBinaryVibrationME(this)
 
-    def vibrate(self, duration: int, type_: int, volume: int) -> None:
-        pass
+proc newAllBinaryNoVibration*(): AllBinaryNoVibration =
+    result = AllBinaryNoVibration()
+    initAllBinaryNoVibration(result)
 
+method vibrate*(this: AllBinaryNoVibration, duration: int32, `type`: int32, volume: int32) =
+        discard
 
-def _AllBinaryNoVibration_NO_VIBRATION() -> object:
-    return AllBinaryNoVibration()
-
-lazy_static(AllBinaryNoVibration, "NO_VIBRATION", _AllBinaryNoVibration_NO_VIBRATION)
+when declared(newAllBinaryNoVibrationHook0):
+    newAllBinaryNoVibrationHook0 = proc (): AllBinaryVibrationME = newAllBinaryNoVibration()
 

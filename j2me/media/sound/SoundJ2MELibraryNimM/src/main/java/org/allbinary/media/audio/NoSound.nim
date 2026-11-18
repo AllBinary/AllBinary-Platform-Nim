@@ -1,43 +1,55 @@
-# 
-# AllBinary Open License Version 1 
-# Copyright (c) 2022 AllBinary 
-#  
-# By agreeing to this license you and any business entity you represent are 
-# legally bound to the AllBinary Open License Version 1 legal agreement. 
-#  
-# You may obtain the AllBinary Open License Version 1 legal agreement from 
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
-#  
-# Created By: Travis Berthelot 
-#   
+#[
+  
+  AllBinary Open License Version 1 
+  Copyright (c) 2022 AllBinary 
+   
+  By agreeing to this license you and any business entity you represent are 
+  legally bound to the AllBinary Open License Version 1 legal agreement. 
+   
+  You may obtain the AllBinary Open License Version 1 legal agreement from 
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
+   
+  Created By: Travis Berthelot 
+    
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.media.audio
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/media/audio/Sound as SoundModule
+export SoundModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
-from org.allbinary.media.audio.Sound import Sound
+type
+    NoSound* = ref object of Sound
 
+proc newNoSound*(): NoSound
+proc initNoSound*(this: NoSound)
+proc getInstance*(t: typedesc[NoSound]): NoSound {.discardable.}
+import org/allbinary/logic/string/StringUtil as StringUtilModule
+export StringUtilModule
+import org/allbinary/media/audio/NoPlayer as NoPlayerModule
+export NoPlayerModule
 
-class NoSound(Sound):
-    instance: NoSound = None
-    
+var NoSound_instanceValue: NoSound
+var NoSound_instanceSet = false
+proc instance*(t: typedesc[NoSound]): NoSound =
+    if not NoSound_instanceSet:
+        NoSound_instanceSet = true
+        NoSound_instanceValue = newNoSound()
+    NoSound_instanceValue
 
-    @staticmethod
-    def getInstance() -> NoSound:
+proc getInstance*(t: typedesc[NoSound]): NoSound {.discardable.} =
         return NoSound.instance
-    
 
-    def __init__(self) -> None:
-        from org.allbinary.media.audio.NoPlayer import NoPlayer
-        from org.allbinary.logic.string.StringUtil import StringUtil
-        super().__init__(StringUtil.getInstance().EMPTY_STRING)
-        self.setPlayerP(NoPlayer.NO_PLAYER)
-# from org.allbinary.logic.string.StringUtil import StringUtil
+proc initNoSound*(this: NoSound) =
+        initSound(this, StringUtil.getInstance().EMPTY_STRING)
+        this.setPlayerP(NoPlayer.NO_PLAYERStatic)
 
+proc newNoSound*(): NoSound =
+    result = NoSound()
+    initNoSound(result)
 
-def _NoSound_instance() -> object:
-    return NoSound()
-
-lazy_static(NoSound, "instance", _NoSound_instance)
+when declared(newNoSoundHook0):
+    newNoSoundHook0 = proc (): Sound = newNoSound()
 

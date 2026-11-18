@@ -1,39 +1,51 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.graphics.paint
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/graphics/paint/InitUpdatePaintable as InitUpdatePaintableModule
+export InitUpdatePaintableModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
-from org.allbinary.graphics.paint.InitUpdatePaintable import InitUpdatePaintable
+type
+    NullInitUpdatePaintable* = ref object of InitUpdatePaintable
 
+proc newNullInitUpdatePaintable*(): NullInitUpdatePaintable
+proc initNullInitUpdatePaintable*(this: NullInitUpdatePaintable)
+proc getInstance*(t: typedesc[NullInitUpdatePaintable]): InitUpdatePaintable {.discardable.}
 
-class NullInitUpdatePaintable(InitUpdatePaintable):
-    SINGLETON: NullInitUpdatePaintable = None
-    
+var NullInitUpdatePaintable_SINGLETONValue: NullInitUpdatePaintable
+var NullInitUpdatePaintable_SINGLETONSet = false
+proc SINGLETON*(t: typedesc[NullInitUpdatePaintable]): NullInitUpdatePaintable =
+    if not NullInitUpdatePaintable_SINGLETONSet:
+        NullInitUpdatePaintable_SINGLETONSet = true
+        NullInitUpdatePaintable_SINGLETONValue = newNullInitUpdatePaintable()
+    NullInitUpdatePaintable_SINGLETONValue
 
-    def __init__(self) -> None:
-        super().__init__()
-    
+proc initNullInitUpdatePaintable*(this: NullInitUpdatePaintable) =
+        initInitUpdatePaintable(this)
+        discard
 
-    @staticmethod
-    def getInstance() -> InitUpdatePaintable:
+proc newNullInitUpdatePaintable*(): NullInitUpdatePaintable =
+    result = NullInitUpdatePaintable()
+    initNullInitUpdatePaintable(result)
+
+proc getInstance*(t: typedesc[NullInitUpdatePaintable]): InitUpdatePaintable {.discardable.} =
         return NullInitUpdatePaintable.SINGLETON
 
-
-def _NullInitUpdatePaintable_SINGLETON() -> object:
-    return NullInitUpdatePaintable()
-
-lazy_static(NullInitUpdatePaintable, "SINGLETON", _NullInitUpdatePaintable_SINGLETON)
+when declared(newNullInitUpdatePaintableHook0):
+    newNullInitUpdatePaintableHook0 = proc (): InitUpdatePaintable = newNullInitUpdatePaintable()
 

@@ -1,49 +1,58 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.displayable.canvas
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/graphics/form/item/CommandTextItemArrayFactory as CommandTextItemArrayFactoryModule
+export CommandTextItemArrayFactoryModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    GameLimitedCommandTextItemArrayFactory* = ref object of JObject
+        commandTextItemArrayFactory*: CommandTextItemArrayFactory
 
+proc newGameLimitedCommandTextItemArrayFactory*(): GameLimitedCommandTextItemArrayFactory
+proc getInstance*(t: typedesc[GameLimitedCommandTextItemArrayFactory]): GameLimitedCommandTextItemArrayFactory {.discardable.}
+method getCommandTextItemArrayFactory*(this: GameLimitedCommandTextItemArrayFactory): CommandTextItemArrayFactory {.base, discardable.}
+import org/allbinary/graphics/form/item/LimitCommandsVisitor as LimitCommandsVisitorModule
+export LimitCommandsVisitorModule
 
-class GameLimitedCommandTextItemArrayFactory:
-    instance: GameLimitedCommandTextItemArrayFactory = None
+var GameLimitedCommandTextItemArrayFactory_instanceValue: GameLimitedCommandTextItemArrayFactory
+var GameLimitedCommandTextItemArrayFactory_instanceSet = false
+proc instance*(t: typedesc[GameLimitedCommandTextItemArrayFactory]): GameLimitedCommandTextItemArrayFactory =
+    if not GameLimitedCommandTextItemArrayFactory_instanceSet:
+        GameLimitedCommandTextItemArrayFactory_instanceSet = true
+        GameLimitedCommandTextItemArrayFactory_instanceValue = newGameLimitedCommandTextItemArrayFactory()
+    GameLimitedCommandTextItemArrayFactory_instanceValue
 
-    def _init_fields(self) -> None:
-        from org.allbinary.graphics.form.item.CommandTextItemArrayFactory import CommandTextItemArrayFactory
-        from org.allbinary.graphics.form.item.LimitCommandsVisitor import LimitCommandsVisitor
-        self.commandTextItemArrayFactory: CommandTextItemArrayFactory = CommandTextItemArrayFactory(LimitCommandsVisitor())
+# Java field initializers run after the base initializer
+proc initFieldsGameLimitedCommandTextItemArrayFactory(this: GameLimitedCommandTextItemArrayFactory) =
+    this.commandTextItemArrayFactory = newCommandTextItemArrayFactory(newLimitCommandsVisitor())
+    discard
 
-    def __init__(self) -> None:
-        self._init_fields()
-    
+proc initGameLimitedCommandTextItemArrayFactory*(this: GameLimitedCommandTextItemArrayFactory) =
+    this.initFieldsGameLimitedCommandTextItemArrayFactory()
 
-    @staticmethod
-    def getInstance() -> GameLimitedCommandTextItemArrayFactory:
+proc newGameLimitedCommandTextItemArrayFactory*(): GameLimitedCommandTextItemArrayFactory =
+    result = GameLimitedCommandTextItemArrayFactory()
+    initGameLimitedCommandTextItemArrayFactory(result)
+
+proc getInstance*(t: typedesc[GameLimitedCommandTextItemArrayFactory]): GameLimitedCommandTextItemArrayFactory {.discardable.} =
         return GameLimitedCommandTextItemArrayFactory.instance
-    
 
-    def getCommandTextItemArrayFactory(self) -> CommandTextItemArrayFactory:
-        from org.allbinary.graphics.form.item.CommandTextItemArrayFactory import CommandTextItemArrayFactory
-        return self.commandTextItemArrayFactory
-# from org.allbinary.graphics.form.item.CommandTextItemArrayFactory import CommandTextItemArrayFactory
-# from org.allbinary.graphics.form.item.LimitCommandsVisitor import LimitCommandsVisitor
-
-
-def _GameLimitedCommandTextItemArrayFactory_instance() -> object:
-    return GameLimitedCommandTextItemArrayFactory()
-
-lazy_static(GameLimitedCommandTextItemArrayFactory, "instance", _GameLimitedCommandTextItemArrayFactory_instance)
+method getCommandTextItemArrayFactory*(this: GameLimitedCommandTextItemArrayFactory): CommandTextItemArrayFactory {.base, discardable.} =
+        return this.commandTextItemArrayFactory
 

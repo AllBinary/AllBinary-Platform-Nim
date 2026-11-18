@@ -1,48 +1,62 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.ag.layer.pickup.life
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import javax/microedition/lcdui/Graphics as GraphicsModule
+export GraphicsModule
+import org/allbinary/game/ag/life/Life as LifeModule
+export LifeModule
+import org/allbinary/game/ag/life/LifeVisitorInterface as LifeVisitorInterfaceModule
+export LifeVisitorInterfaceModule
+import org/allbinary/layer/AllBinaryLayer as AllBinaryLayerModule
+export AllBinaryLayerModule
 
-from org.allbinary.game.ag.life.LifeVisitorInterface import LifeVisitorInterface
-from org.allbinary.layer.AllBinaryLayer import AllBinaryLayer
+type
+    LifeLayer* = ref object of AllBinaryLayer
+
+converter jAsLifeVisitorInterface*(value: LifeLayer): LifeVisitorInterface = cast[LifeVisitorInterface](value)
+proc newLifeLayer*(): LifeLayer
+proc initLifeLayer*(this: LifeLayer)
+method paint*(this: LifeLayer, graphics: Graphics)
+method visit*(this: LifeLayer, lifeInterface: Life)
+import org/allbinary/graphics/PointFactory as PointFactoryModule
+export PointFactoryModule
+import org/allbinary/graphics/Rectangle as RectangleModule
+export RectangleModule
+import org/allbinary/logic/string/StringUtil as StringUtilModule
+export StringUtilModule
+import org/allbinary/view/ViewPosition as ViewPositionModule
+export ViewPositionModule
 
 
-class LifeLayer(AllBinaryLayer, LifeVisitorInterface):
-    
+proc initLifeLayer*(this: LifeLayer) =
+        initAllBinaryLayer(this, StringUtil.getInstance().EMPTY_STRING, newRectangle(PointFactory.getInstance().ZERO_ZERO, 0, 0), ViewPosition.getInstanceD())
 
-    def __init__(self) -> None:
-        from org.allbinary.graphics.PointFactory import PointFactory
-        from org.allbinary.graphics.Rectangle import Rectangle
-        from org.allbinary.logic.string.StringUtil import StringUtil
-        from org.allbinary.view.ViewPosition import ViewPosition
-        super().__init__(StringUtil.getInstance().EMPTY_STRING, Rectangle(PointFactory.getInstance().ZERO_ZERO, 0, 0), ViewPosition.getInstanceD())
-    
+proc newLifeLayer*(): LifeLayer =
+    result = LifeLayer()
+    initLifeLayer(result)
 
-    def paint(self, graphics: Graphics) -> None:
-        from javax.microedition.lcdui.Graphics import Graphics
-        pass
-    
+method paint*(this: LifeLayer, graphics: Graphics) =
+        discard
 
-    def visit(self, lifeInterface: Life) -> None:
-        from org.allbinary.game.ag.life.Life import Life
-        lifeInterface.add(((int(1) + 32768) % 65536 - 32768))
-# from javax.microedition.lcdui.Graphics import Graphics
-# from org.allbinary.game.ag.life.Life import Life
-# from org.allbinary.graphics.PointFactory import PointFactory
-# from org.allbinary.graphics.Rectangle import Rectangle
-# from org.allbinary.logic.string.StringUtil import StringUtil
-# from org.allbinary.view.ViewPosition import ViewPosition
+method visit*(this: LifeLayer, lifeInterface: Life) =
+        lifeInterface.add(jToInt16(1))
 
+when declared(newLifeLayerHook0):
+    newLifeLayerHook0 = proc (): AllBinaryLayer = newLifeLayer()
 

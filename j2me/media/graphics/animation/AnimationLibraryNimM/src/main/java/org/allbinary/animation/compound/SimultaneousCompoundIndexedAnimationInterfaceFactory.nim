@@ -1,44 +1,55 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.animation.compound
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/animation/Animation as AnimationModule
+export AnimationModule
+import org/allbinary/animation/AnimationBehaviorFactory as AnimationBehaviorFactoryModule
+export AnimationBehaviorFactoryModule
+import org/allbinary/animation/AnimationInterfaceFactoryInterface as AnimationInterfaceFactoryInterfaceModule
+export AnimationInterfaceFactoryInterfaceModule
+import org/allbinary/animation/compound/CompoundAnimationInterfaceFactory as CompoundAnimationInterfaceFactoryModule
+export CompoundAnimationInterfaceFactoryModule
 
-from org.allbinary.animation.compound.CompoundAnimationInterfaceFactory import CompoundAnimationInterfaceFactory
+type
+    SimultaneousCompoundIndexedAnimationInterfaceFactory* = ref object of CompoundAnimationInterfaceFactory
+
+proc newSimultaneousCompoundIndexedAnimationInterfaceFactory*(basicAnimationInterfaceFactoryInterfaceArray: JArray[AnimationInterfaceFactoryInterface], animationBehaviorFactory: AnimationBehaviorFactory): SimultaneousCompoundIndexedAnimationInterfaceFactory
+proc initSimultaneousCompoundIndexedAnimationInterfaceFactory*(this: SimultaneousCompoundIndexedAnimationInterfaceFactory, basicAnimationInterfaceFactoryInterfaceArray: JArray[AnimationInterfaceFactoryInterface], animationBehaviorFactory: AnimationBehaviorFactory)
+method createArray*(this: SimultaneousCompoundIndexedAnimationInterfaceFactory, size: int32): JArray[Animation] {.discardable.}
+method createAnimation*(this: SimultaneousCompoundIndexedAnimationInterfaceFactory, animationArray: JArray[Animation]): Animation {.discardable.}
+import org/allbinary/animation/compound/SimultaneousCompoundIndexedAnimation as SimultaneousCompoundIndexedAnimationModule
+export SimultaneousCompoundIndexedAnimationModule
 
 
-class SimultaneousCompoundIndexedAnimationInterfaceFactory(CompoundAnimationInterfaceFactory):
-    
+proc initSimultaneousCompoundIndexedAnimationInterfaceFactory*(this: SimultaneousCompoundIndexedAnimationInterfaceFactory, basicAnimationInterfaceFactoryInterfaceArray: JArray[AnimationInterfaceFactoryInterface], animationBehaviorFactory: AnimationBehaviorFactory) =
+        initCompoundAnimationInterfaceFactory(this, basicAnimationInterfaceFactoryInterfaceArray, animationBehaviorFactory)
 
-    def __init__(self, basicAnimationInterfaceFactoryInterfaceArray: list[AnimationInterfaceFactoryInterface], animationBehaviorFactory: AnimationBehaviorFactory) -> None:
-        from org.allbinary.animation.AnimationBehaviorFactory import AnimationBehaviorFactory
-        from org.allbinary.animation.AnimationInterfaceFactoryInterface import AnimationInterfaceFactoryInterface
-        super().__init__(basicAnimationInterfaceFactoryInterfaceArray, animationBehaviorFactory)
-    
+proc newSimultaneousCompoundIndexedAnimationInterfaceFactory*(basicAnimationInterfaceFactoryInterfaceArray: JArray[AnimationInterfaceFactoryInterface], animationBehaviorFactory: AnimationBehaviorFactory): SimultaneousCompoundIndexedAnimationInterfaceFactory =
+    result = SimultaneousCompoundIndexedAnimationInterfaceFactory()
+    initSimultaneousCompoundIndexedAnimationInterfaceFactory(result, basicAnimationInterfaceFactoryInterfaceArray, animationBehaviorFactory)
 
-    def createArray(self, size: int) -> list[Animation]:
-        from org.allbinary.animation.Animation import Animation
-        return [None] * (size)
-    
+method createArray*(this: SimultaneousCompoundIndexedAnimationInterfaceFactory, size: int32): JArray[Animation] {.discardable.} =
+        return newJArray[Animation](size, default(Animation))
 
-    def createAnimation(self, animationArray: list[Animation]) -> Animation:
-        from org.allbinary.animation.compound.SimultaneousCompoundIndexedAnimation import SimultaneousCompoundIndexedAnimation
-        from org.allbinary.animation.Animation import Animation
-        return SimultaneousCompoundIndexedAnimation(animationArray, self.animationBehaviorFactory.getOrCreateInstance())
-# from org.allbinary.animation.Animation import Animation
-# from org.allbinary.animation.AnimationBehaviorFactory import AnimationBehaviorFactory
-# from org.allbinary.animation.AnimationInterfaceFactoryInterface import AnimationInterfaceFactoryInterface
-# from org.allbinary.logic.communication.log.ForcedLogUtil import ForcedLogUtil
+method createAnimation*(this: SimultaneousCompoundIndexedAnimationInterfaceFactory, animationArray: JArray[Animation]): Animation {.discardable.} =
+        return newSimultaneousCompoundIndexedAnimation(animationArray, this.animationBehaviorFactory.getOrCreateInstance())
 
+when declared(newSimultaneousCompoundIndexedAnimationInterfaceFactoryHook2):
+    newSimultaneousCompoundIndexedAnimationInterfaceFactoryHook2 = proc (basicAnimationInterfaceFactoryInterfaceArray: JArray[AnimationInterfaceFactoryInterface], animationBehaviorFactory: AnimationBehaviorFactory): CompoundAnimationInterfaceFactory = newSimultaneousCompoundIndexedAnimationInterfaceFactory(basicAnimationInterfaceFactoryInterfaceArray, animationBehaviorFactory)
 

@@ -1,39 +1,36 @@
-# 
-# AllBinary Open License Version 1 
-# Copyright (c) 2011 AllBinary 
-#  
-# By agreeing to this license you and any business entity you represent are 
-# legally bound to the AllBinary Open License Version 1 legal agreement. 
-#  
-# You may obtain the AllBinary Open License Version 1 legal agreement from 
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
-#  
-# Created By: Travis Berthelot 
-#   
+#[
+  
+  AllBinary Open License Version 1 
+  Copyright (c) 2011 AllBinary 
+   
+  By agreeing to this license you and any business entity you represent are 
+  legally bound to the AllBinary Open License Version 1 legal agreement. 
+   
+  You may obtain the AllBinary Open License Version 1 legal agreement from 
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
+   
+  Created By: Travis Berthelot 
+    
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.graphics.displayable
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+
+type
+    ScalableListener* = ref object of JObject
 
 
+method getRatio*(this: ScalableListener, ratio: float32): float32 {.base, discardable.} =
+        raise newJException("AbstractMethodError", "getRatio")
 
-# Java interface
-class ScalableListener:
-    
+method getLeft*(this: ScalableListener, xOffset: int32): int32 {.base, discardable.} =
+        raise newJException("AbstractMethodError", "getLeft")
 
-    def getRatio(self, ratio: float) -> float:
-        raise NotImplementedError()
-    
+method getTop*(this: ScalableListener, yOffset: int32): int32 {.base, discardable.} =
+        raise newJException("AbstractMethodError", "getTop")
 
-    def getLeft(self, xOffset: int) -> int:
-        raise NotImplementedError()
-    
-
-    def getTop(self, yOffset: int) -> int:
-        raise NotImplementedError()
-    
-
-    def scale(self, ratio: float) -> None:
-        raise NotImplementedError()
-
+method scale*(this: ScalableListener, ratio: float32) {.base.} =
+        raise newJException("AbstractMethodError", "scale")
 

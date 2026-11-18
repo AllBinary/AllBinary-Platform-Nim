@@ -1,28 +1,31 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.configuration.event
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/logic/util/event/EventListenerInterface as EventListenerInterfaceModule
+export EventListenerInterfaceModule
+import org/allbinary/game/configuration/event/GameFeatureEvent as GameFeatureEventModule
+export GameFeatureEventModule
 
-from org.allbinary.logic.util.event.EventListenerInterface import EventListenerInterface
+type
+    GameFeatureListenerInterface* = ref object of EventListenerInterface
 
 
-# Java interface
-class GameFeatureListenerInterface(EventListenerInterface):
-    
-
-    def onGameFeatureChange(self, gameFeatureEvent: GameFeatureEvent) -> None:
-        raise NotImplementedError()
-
+method onGameFeatureChange*(this: GameFeatureListenerInterface, gameFeatureEvent: GameFeatureEvent) {.base.} =
+        raise newJException("AbstractMethodError", "onGameFeatureChange")
 

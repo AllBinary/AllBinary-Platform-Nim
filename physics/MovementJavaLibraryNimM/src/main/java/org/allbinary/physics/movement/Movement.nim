@@ -1,44 +1,53 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.physics.movement
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/game/layer/AllBinaryGameLayer as AllBinaryGameLayerModule
+export AllBinaryGameLayerModule
+import org/allbinary/logic/math/BasicDecimal as BasicDecimalModule
+export BasicDecimalModule
+import org/allbinary/physics/movement/MovementInterface as MovementInterfaceModule
+export MovementInterfaceModule
 
-from org.allbinary.physics.movement.MovementInterface import MovementInterface
+type
+    Movement* = ref object of MovementInterface
+
+proc newMovement*(): Movement
+proc initMovement*(this: Movement)
+method init*(this: Movement, speedBasicDecimal: BasicDecimal, angle: int32, otherAngle: int32)
+method process*(this: Movement, layer: AllBinaryGameLayer)
+method stop*(this: Movement)
 
 
-class Movement(MovementInterface):
-    
+proc initMovement*(this: Movement) =
+        discard
+        discard
 
-    def __init__(self) -> None:
-        pass
-    
+proc newMovement*(): Movement =
+    result = Movement()
+    initMovement(result)
 
-    def init(self, speedBasicDecimal: BasicDecimal, angle: int, otherAngle: int) -> None:
-        from org.allbinary.logic.math.BasicDecimal import BasicDecimal
-        pass
-    
+method init*(this: Movement, speedBasicDecimal: BasicDecimal, angle: int32, otherAngle: int32) =
+        discard
 
-    # throws Exception
-    def process(self, layer: AllBinaryGameLayer) -> None:
-        from org.allbinary.game.layer.AllBinaryGameLayer import AllBinaryGameLayer
-        pass
-    
+method process*(this: Movement, layer: AllBinaryGameLayer) =
+        discard
 
-    def stop(self) -> None:
-        pass
-# from org.allbinary.game.layer.AllBinaryGameLayer import AllBinaryGameLayer
-# from org.allbinary.logic.math.BasicDecimal import BasicDecimal
-
+method stop*(this: Movement) =
+        discard
 

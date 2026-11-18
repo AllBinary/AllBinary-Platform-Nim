@@ -1,47 +1,58 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.physics.acceleration
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/game/physics/velocity/BasicVelocityProperties as BasicVelocityPropertiesModule
+export BasicVelocityPropertiesModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    GravityUtil* = ref object of JObject
+        GAME_GRAVITY_VELOCITY*: int32
+        MAX_GAME_VELOCITY*: int32
 
+proc newGravityUtil*(): GravityUtil
+proc getInstance*(t: typedesc[GravityUtil]): GravityUtil {.discardable.}
+method process*(this: GravityUtil, velocityProperties: BasicVelocityProperties, customGravity: int32) {.base.}
 
-class GravityUtil:
-    instance: GravityUtil = None
+var GravityUtil_instanceValue: GravityUtil
+var GravityUtil_instanceSet = false
+proc instance*(t: typedesc[GravityUtil]): GravityUtil =
+    if not GravityUtil_instanceSet:
+        GravityUtil_instanceSet = true
+        GravityUtil_instanceValue = newGravityUtil()
+    GravityUtil_instanceValue
 
-    def _init_fields(self) -> None:
-        self.GAME_GRAVITY_VELOCITY: int = 1800
-        self.MAX_GAME_VELOCITY: int = 18000
+# Java field initializers run after the base initializer
+proc initFieldsGravityUtil(this: GravityUtil) =
+    this.GAME_GRAVITY_VELOCITY = 1800
+    this.MAX_GAME_VELOCITY = 18000
+    discard
 
-    def __init__(self) -> None:
-        self._init_fields()
-    
+proc initGravityUtil*(this: GravityUtil) =
+    this.initFieldsGravityUtil()
 
-    @staticmethod
-    def getInstance() -> GravityUtil:
+proc newGravityUtil*(): GravityUtil =
+    result = GravityUtil()
+    initGravityUtil(result)
+
+proc getInstance*(t: typedesc[GravityUtil]): GravityUtil {.discardable.} =
         return GravityUtil.instance
-    
 
-    def process(self, velocityProperties: BasicVelocityProperties, customGravity: int) -> None:
-        from org.allbinary.game.physics.velocity.BasicVelocityProperties import BasicVelocityProperties
+method process*(this: GravityUtil, velocityProperties: BasicVelocityProperties, customGravity: int32) {.base.} =
         velocityProperties.getVelocityYBasicDecimalP().addint(customGravity)
-# from org.allbinary.game.physics.velocity.BasicVelocityProperties import BasicVelocityProperties
-
-
-def _GravityUtil_instance() -> object:
-    return GravityUtil()
-
-lazy_static(GravityUtil, "instance", _GravityUtil_instance)
 

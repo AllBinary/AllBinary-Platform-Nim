@@ -1,30 +1,29 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.animation.resource
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/animation/BasicAnimationInterfaceFactoryInterface as BasicAnimationInterfaceFactoryInterfaceModule
+export BasicAnimationInterfaceFactoryInterfaceModule
+
+type
+    ResourceAnimationInterfaceFactoryInterface* = ref object of JObject
 
 
-
-# Java interface
-class ResourceAnimationInterfaceFactoryInterface:
-    
-
-    # throws Exception
-    def getBasicAnimationInterfaceFactoryInstance(self, resource: str) -> BasicAnimationInterfaceFactoryInterface:
-        from org.allbinary.animation.BasicAnimationInterfaceFactoryInterface import BasicAnimationInterfaceFactoryInterface
-        raise NotImplementedError()
-# from org.allbinary.animation.BasicAnimationInterfaceFactoryInterface import BasicAnimationInterfaceFactoryInterface
-
+method getBasicAnimationInterfaceFactoryInstance*(this: ResourceAnimationInterfaceFactoryInterface, resource: string): BasicAnimationInterfaceFactoryInterface {.base, discardable.} =
+        raise newJException("AbstractMethodError", "getBasicAnimationInterfaceFactoryInstance")
 

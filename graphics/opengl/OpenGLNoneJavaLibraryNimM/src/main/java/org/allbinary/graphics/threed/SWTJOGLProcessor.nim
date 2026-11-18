@@ -1,122 +1,133 @@
-# 
-# AllBinary Open License Version 1 
-# Copyright (c) 2022 AllBinary 
-#  
-# By agreeing to this license you and any business entity you represent are 
-# legally bound to the AllBinary Open License Version 1 legal agreement. 
-#  
-# You may obtain the AllBinary Open License Version 1 legal agreement from 
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
-#  
-# Created By: Travis Berthelot 
-#   
+#[
+  
+  AllBinary Open License Version 1 
+  Copyright (c) 2022 AllBinary 
+   
+  By agreeing to this license you and any business entity you represent are 
+  legally bound to the AllBinary Open License Version 1 legal agreement. 
+   
+  You may obtain the AllBinary Open License Version 1 legal agreement from 
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
+   
+  Created By: Travis Berthelot 
+    
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.graphics.threed
 
-from __future__ import annotations
-
-from java.lang.JavaRuntimeStatic import lazy_static
-
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import java/lang/Runnable as RunnableModule
+export RunnableModule
+import javax/microedition/lcdui/Font as FontModule
+export FontModule
+import javax/microedition/midlet/MIDlet as MIDletModule
+export MIDletModule
+import org/allbinary/graphics/threed/RatioProcessor as RatioProcessorModule
+export RatioProcessorModule
 
 #OpenGLNone
-class SWTJOGLProcessor(object):
-    instance: SWTJOGLProcessor = None
-    
+type
+    SWTJOGLProcessor* = ref object of Runnable
 
-    @staticmethod
-    def getInstance() -> SWTJOGLProcessor:
+proc newSWTJOGLProcessor*(): SWTJOGLProcessor
+proc getInstance*(t: typedesc[SWTJOGLProcessor]): SWTJOGLProcessor {.discardable.}
+method init*(this: SWTJOGLProcessor, display: JObject, comp: JObject) {.base.}
+method isHolderCreated*(this: SWTJOGLProcessor): bool {.base, discardable.}
+method setRenderer*(this: SWTJOGLProcessor, renderer: JObject) {.base.}
+method isJOGL*(this: SWTJOGLProcessor): bool {.base, discardable.}
+method createSurface*(this: SWTJOGLProcessor) {.base.}
+method onSurfaceCreated*(this: SWTJOGLProcessor) {.base.}
+method onSurfaceChangedForEvent*(this: SWTJOGLProcessor, event: JObject) {.base.}
+method onSurfaceChanged*(this: SWTJOGLProcessor) {.base.}
+method onSurfaceChangedWH*(this: SWTJOGLProcessor, width: int32, height: int32) {.base.}
+method addListener*(this: SWTJOGLProcessor) {.base.}
+method addListeners*(this: SWTJOGLProcessor, midlet: MIDlet) {.base.}
+method run*(this: SWTJOGLProcessor)
+method clear*(this: SWTJOGLProcessor) {.base.}
+method setCustom*(this: SWTJOGLProcessor, width: int32, height: int32, ratio: float32) {.base.}
+method setRatioProcessor*(this: SWTJOGLProcessor, ratioProcessor: RatioProcessor) {.base.}
+method isPortraitRatioProcessor*(this: SWTJOGLProcessor): bool {.base, discardable.}
+method charWidth*(this: SWTJOGLProcessor, font: Font, ch: uint16): int32 {.base, discardable.}
+method charsWidth*(this: SWTJOGLProcessor, font: Font, ch: JArray[uint16], offset: int32, length: int32): int32 {.base, discardable.}
+method stringWidth*(this: SWTJOGLProcessor, font: Font, str: string): int32 {.base, discardable.}
+method substringWidth*(this: SWTJOGLProcessor, font: Font, str: string, offset: int32, len: int32): int32 {.base, discardable.}
+
+var SWTJOGLProcessor_instanceValue: SWTJOGLProcessor
+var SWTJOGLProcessor_instanceSet = false
+proc instance*(t: typedesc[SWTJOGLProcessor]): SWTJOGLProcessor =
+    if not SWTJOGLProcessor_instanceSet:
+        SWTJOGLProcessor_instanceSet = true
+        SWTJOGLProcessor_instanceValue = newSWTJOGLProcessor()
+    SWTJOGLProcessor_instanceValue
+
+proc initSWTJOGLProcessor*(this: SWTJOGLProcessor) =
+    discard
+
+proc newSWTJOGLProcessor*(): SWTJOGLProcessor =
+    result = SWTJOGLProcessor()
+    initSWTJOGLProcessor(result)
+
+proc getInstance*(t: typedesc[SWTJOGLProcessor]): SWTJOGLProcessor {.discardable.} =
         return SWTJOGLProcessor.instance
-    
 
-    def init(self, display: object, comp: object) -> None:
-        pass
-    
+method init*(this: SWTJOGLProcessor, display: JObject, comp: JObject) {.base.} =
+        discard
 
-    def isHolderCreated(self) -> bool:
-        return True
-    
+method isHolderCreated*(this: SWTJOGLProcessor): bool {.base, discardable.} =
+        return true
 
-    def setRenderer(self, renderer: object) -> None:
-        pass
-    
+method setRenderer*(this: SWTJOGLProcessor, renderer: JObject) {.base.} =
+        discard
 
-    def isJOGL(self) -> bool:
-        return False
-    
+method isJOGL*(this: SWTJOGLProcessor): bool {.base, discardable.} =
+        return false
 
-    def createSurface(self) -> None:
-        pass
-    
+method createSurface*(this: SWTJOGLProcessor) {.base.} =
+        discard
 
-    def onSurfaceCreated(self) -> None:
-        pass
-    
+method onSurfaceCreated*(this: SWTJOGLProcessor) {.base.} =
+        discard
 
-    def onSurfaceChangedForEvent(self, event: object) -> None:
-        pass
-    
+method onSurfaceChangedForEvent*(this: SWTJOGLProcessor, event: JObject) {.base.} =
+        discard
 
-    def onSurfaceChanged(self) -> None:
-        pass
-    
+method onSurfaceChanged*(this: SWTJOGLProcessor) {.base.} =
+        discard
 
-    def onSurfaceChangedWH(self, width: int, height: int) -> None:
-        pass
-    
+method onSurfaceChangedWH*(this: SWTJOGLProcessor, width: int32, height: int32) {.base.} =
+        discard
 
-    def addListener(self) -> None:
-        pass
-    
+method addListener*(this: SWTJOGLProcessor) {.base.} =
+        discard
 
-    def addListeners(self, midlet: MIDlet) -> None:
-        from javax.microedition.midlet.MIDlet import MIDlet
-        pass
-    
+method addListeners*(this: SWTJOGLProcessor, midlet: MIDlet) {.base.} =
+        discard
 
-    def run(self) -> None:
-        pass
-    
+method run*(this: SWTJOGLProcessor) =
+        discard
 
-    def clear(self) -> None:
-        pass
-    
+method clear*(this: SWTJOGLProcessor) {.base.} =
+        discard
 
-    def setCustom(self, width: int, height: int, ratio: float) -> None:
-        pass
-    
+method setCustom*(this: SWTJOGLProcessor, width: int32, height: int32, ratio: float32) {.base.} =
+        discard
 
-    def setRatioProcessor(self, ratioProcessor: RatioProcessor) -> None:
-        pass
-    
+method setRatioProcessor*(this: SWTJOGLProcessor, ratioProcessor: RatioProcessor) {.base.} =
+        discard
 
-    def isPortraitRatioProcessor(self) -> bool:
-        return True
-    
+method isPortraitRatioProcessor*(this: SWTJOGLProcessor): bool {.base, discardable.} =
+        return true
 
-    def charWidth(self, font: Font, ch: str) -> int:
-        from javax.microedition.lcdui.Font import Font
-        raise RuntimeError()
-    
+method charWidth*(this: SWTJOGLProcessor, font: Font, ch: uint16): int32 {.base, discardable.} =
+        raise newJException("RuntimeException", "")
 
-    def charsWidth(self, font: Font, ch: list[str], offset: int, length: int) -> int:
-        from javax.microedition.lcdui.Font import Font
-        raise RuntimeError()
-    
+method charsWidth*(this: SWTJOGLProcessor, font: Font, ch: JArray[uint16], offset: int32, length: int32): int32 {.base, discardable.} =
+        raise newJException("RuntimeException", "")
 
-    def stringWidth(self, font: Font, str_: str) -> int:
-        from javax.microedition.lcdui.Font import Font
-        raise RuntimeError()
-    
+method stringWidth*(this: SWTJOGLProcessor, font: Font, str: string): int32 {.base, discardable.} =
+        raise newJException("RuntimeException", "")
 
-    def substringWidth(self, font: Font, str_: str, offset: int, len_: int) -> int:
-        from javax.microedition.lcdui.Font import Font
-        raise RuntimeError()
-# from javax.microedition.lcdui.Font import Font
-# from javax.microedition.midlet.MIDlet import MIDlet
-
-
-def _SWTJOGLProcessor_instance() -> object:
-    return SWTJOGLProcessor()
-
-lazy_static(SWTJOGLProcessor, "instance", _SWTJOGLProcessor_instance)
+method substringWidth*(this: SWTJOGLProcessor, font: Font, str: string, offset: int32, len: int32): int32 {.base, discardable.} =
+        raise newJException("RuntimeException", "")
 

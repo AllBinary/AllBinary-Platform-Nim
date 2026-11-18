@@ -1,40 +1,54 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.bounds
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/graphics/Rectangle as RectangleModule
+export RectangleModule
+import org/allbinary/bounds/LayerBounds as LayerBoundsModule
+export LayerBoundsModule
+import org/allbinary/bounds/BoundsVisitorInterface as BoundsVisitorInterfaceModule
+export BoundsVisitorInterfaceModule
 
-from org.allbinary.bounds.LayerBounds import LayerBounds
+type
+    RectangleLayerBounds* = ref object of LayerBounds
+
+proc newRectangleLayerBounds*(rectangle: Rectangle): RectangleLayerBounds
+proc initRectangleLayerBounds*(this: RectangleLayerBounds, rectangle: Rectangle)
+method visit*(this: RectangleLayerBounds, boundsVisitorInterface: BoundsVisitorInterface)
 
 
-class RectangleLayerBounds(LayerBounds):
-    
+proc initRectangleLayerBounds*(this: RectangleLayerBounds, rectangle: Rectangle) =
+        initLayerBounds(this, rectangle)
 
-    def __init__(self, rectangle: Rectangle) -> None:
-        from org.allbinary.graphics.Rectangle import Rectangle
-        super().__init__(rectangle)
-    
+proc newRectangleLayerBounds*(rectangle: Rectangle): RectangleLayerBounds =
+    result = RectangleLayerBounds()
+    initRectangleLayerBounds(result, rectangle)
 
-    def visit(self, boundsVisitorInterface: BoundsVisitorInterface) -> None:
-        if boundsVisitorInterface.getX() > self.rectangle.getMaxX():
+method visit*(this: RectangleLayerBounds, boundsVisitorInterface: BoundsVisitorInterface) =
+        if boundsVisitorInterface.getX() > this.rectangle.getMaxX():
             boundsVisitorInterface.maxX()
-        if boundsVisitorInterface.getY() > self.rectangle.getMaxY():
+        if boundsVisitorInterface.getY() > this.rectangle.getMaxY():
             boundsVisitorInterface.maxY()
-        if boundsVisitorInterface.getX() < self.rectangle.getPoint().getX():
+        if boundsVisitorInterface.getX() < this.rectangle.getPoint().getX():
             boundsVisitorInterface.minX()
-        if boundsVisitorInterface.getY() < self.rectangle.getPoint().getY():
+        if boundsVisitorInterface.getY() < this.rectangle.getPoint().getY():
             boundsVisitorInterface.minY()
-# from org.allbinary.graphics.Rectangle import Rectangle
 
+when declared(newRectangleLayerBoundsHook1):
+    newRectangleLayerBoundsHook1 = proc (rectangle: Rectangle): LayerBounds = newRectangleLayerBounds(rectangle)
 

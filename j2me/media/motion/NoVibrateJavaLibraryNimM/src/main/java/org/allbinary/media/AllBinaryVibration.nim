@@ -1,55 +1,69 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.media
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/media/AllBinaryVibrationME as AllBinaryVibrationMEModule
+export AllBinaryVibrationMEModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
-from org.allbinary.media.AllBinaryVibrationME import AllBinaryVibrationME
+type
+    AllBinaryVibration* = ref object of AllBinaryVibrationME
 
+proc newAllBinaryVibration*(): AllBinaryVibration
+proc initAllBinaryVibration*(this: AllBinaryVibration)
+proc getInstance*(t: typedesc[AllBinaryVibration]): AllBinaryVibrationME {.discardable.}
+proc init*(t: typedesc[AllBinaryVibration])
+method vibrate*(this: AllBinaryVibration, duration: int32, `type`: int32, volume: int32)
+import org/allbinary/game/configuration/GameConfigurationCentral as GameConfigurationCentralModule
+export GameConfigurationCentralModule
+import org/allbinary/media/AllBinaryNoVibration as AllBinaryNoVibrationModule
+export AllBinaryNoVibrationModule
 
-class AllBinaryVibration(AllBinaryVibrationME):
-    VIBRATION: AllBinaryVibrationME = None
-    
+var AllBinaryVibration_VIBRATIONValue: AllBinaryVibrationME
+var AllBinaryVibration_VIBRATIONSet = false
+proc VIBRATION*(t: typedesc[AllBinaryVibration]): AllBinaryVibrationME =
+    if not AllBinaryVibration_VIBRATIONSet:
+        AllBinaryVibration_VIBRATIONSet = true
+        AllBinaryVibration_VIBRATIONValue = AllBinaryNoVibration.NO_VIBRATION
+    AllBinaryVibration_VIBRATIONValue
+proc `VIBRATION=`*(t: typedesc[AllBinaryVibration], value: AllBinaryVibrationME) =
+    AllBinaryVibration_VIBRATIONSet = true
+    AllBinaryVibration_VIBRATIONValue = value
 
-    def __init__(self) -> None:
-        super().__init__()
-    
+proc initAllBinaryVibration*(this: AllBinaryVibration) =
+        initAllBinaryVibrationME(this)
+        discard
 
-    @staticmethod
-    def getInstance() -> AllBinaryVibrationME:
+proc newAllBinaryVibration*(): AllBinaryVibration =
+    result = AllBinaryVibration()
+    initAllBinaryVibration(result)
+
+proc getInstance*(t: typedesc[AllBinaryVibration]): AllBinaryVibrationME {.discardable.} =
         return AllBinaryVibration.VIBRATION
-    
 
-    @staticmethod
-    def init() -> None:
-        from org.allbinary.media.AllBinaryNoVibration import AllBinaryNoVibration
-        from org.allbinary.game.configuration.GameConfigurationCentral import GameConfigurationCentral
-        if int(GameConfigurationCentral.getInstance().VIBRATION.getValue()) == 0:
+proc init*(t: typedesc[AllBinaryVibration]) =
+        if GameConfigurationCentral.getInstance().VIBRATION.getValue().intValue() == 0:
             AllBinaryVibration.VIBRATION = AllBinaryNoVibration.NO_VIBRATION
         else:
-            AllBinaryVibration.VIBRATION = AllBinaryVibration()
-    
+            AllBinaryVibration.VIBRATION = newAllBinaryVibration()
 
-    def vibrate(self, duration: int, type_: int, volume: int) -> None:
-        pass
-# from org.allbinary.game.configuration.GameConfigurationCentral import GameConfigurationCentral
+method vibrate*(this: AllBinaryVibration, duration: int32, `type`: int32, volume: int32) =
+        discard
 
-
-def _AllBinaryVibration_VIBRATION() -> object:
-    from org.allbinary.media.AllBinaryNoVibration import AllBinaryNoVibration
-    return AllBinaryNoVibration.NO_VIBRATION
-
-lazy_static(AllBinaryVibration, "VIBRATION", _AllBinaryVibration_VIBRATION)
+when declared(newAllBinaryVibrationHook0):
+    newAllBinaryVibrationHook0 = proc (): AllBinaryVibrationME = newAllBinaryVibration()
 

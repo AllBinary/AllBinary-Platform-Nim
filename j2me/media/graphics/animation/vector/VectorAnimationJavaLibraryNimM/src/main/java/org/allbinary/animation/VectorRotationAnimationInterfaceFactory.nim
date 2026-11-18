@@ -1,64 +1,79 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.animation
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/graphics/color/BasicColor as BasicColorModule
+export BasicColorModule
+import org/allbinary/media/ScaleProperties as ScalePropertiesModule
+export ScalePropertiesModule
+import org/allbinary/animation/AnimationInterfaceFactoryInterface as AnimationInterfaceFactoryInterfaceModule
+export AnimationInterfaceFactoryInterfaceModule
+import org/allbinary/animation/AnimationBehaviorFactory as AnimationBehaviorFactoryModule
+export AnimationBehaviorFactoryModule
+import org/allbinary/animation/Animation as AnimationModule
+export AnimationModule
 
-from org.allbinary.animation.AnimationInterfaceFactoryInterface import AnimationInterfaceFactoryInterface
+type
+    VectorRotationAnimationInterfaceFactory* = ref object of AnimationInterfaceFactoryInterface
+        currentPoints*: JArray[JArray[JArray[int32]]]
+        basicColor*: BasicColor
+        animationBehaviorFactory*: AnimationBehaviorFactory
+
+proc newVectorRotationAnimationInterfaceFactory*(currentPoints: JArray[JArray[JArray[int32]]], basicColor: BasicColor, animationBehaviorFactory: AnimationBehaviorFactory): VectorRotationAnimationInterfaceFactory
+proc initVectorRotationAnimationInterfaceFactory*(this: VectorRotationAnimationInterfaceFactory, currentPoints: JArray[JArray[JArray[int32]]], basicColor: BasicColor, animationBehaviorFactory: AnimationBehaviorFactory)
+method getInstance*(this: VectorRotationAnimationInterfaceFactory, instanceId: int32): Animation {.discardable.}
+method setBasicColorP*(this: VectorRotationAnimationInterfaceFactory, basicColor: BasicColor) {.base.}
+method getBasicColorP*(this: VectorRotationAnimationInterfaceFactory): BasicColor {.base, discardable.}
+method setInitialScale*(this: VectorRotationAnimationInterfaceFactory, scaleProperties: ScaleProperties)
+import org/allbinary/graphics/color/BasicColorFactory as BasicColorFactoryModule
+export BasicColorFactoryModule
+import org/allbinary/logic/NullUtil as NullUtilModule
+export NullUtilModule
+import org/allbinary/animation/VectorRotationAnimation as VectorRotationAnimationModule
+export VectorRotationAnimationModule
 
 
-class VectorRotationAnimationInterfaceFactory(AnimationInterfaceFactoryInterface):
-
-    def _init_fields(self) -> None:
-        from org.allbinary.graphics.color.BasicColor import BasicColor
-        from org.allbinary.graphics.color.BasicColorFactory import BasicColorFactory
-        from org.allbinary.logic.NullUtil import NullUtil
-        self.currentPoints: list[list[list[int]]] = NullUtil.getInstance().NULL_INT_ARRAY_ARRAY_ARRAY
-        self.basicColor: BasicColor = BasicColorFactory.getInstance().WHITE
-        self.animationBehaviorFactory: AnimationBehaviorFactory = None
+# Java field initializers run after the base initializer
+proc initFieldsVectorRotationAnimationInterfaceFactory(this: VectorRotationAnimationInterfaceFactory) =
+    this.currentPoints = NullUtil.getInstance().NULL_INT_ARRAY_ARRAY_ARRAY
+    this.basicColor = BasicColorFactory.getInstance().WHITE
     
+    discard
 
-    def __init__(self, currentPoints: list[list[list[int]]], basicColor: BasicColor, animationBehaviorFactory: AnimationBehaviorFactory) -> None:
-        from org.allbinary.graphics.color.BasicColor import BasicColor
-        self._init_fields()
-        self.currentPoints = currentPoints
-        self.setBasicColorP(basicColor)
-        self.animationBehaviorFactory = animationBehaviorFactory
-    
+proc initVectorRotationAnimationInterfaceFactory*(this: VectorRotationAnimationInterfaceFactory, currentPoints: JArray[JArray[JArray[int32]]], basicColor: BasicColor, animationBehaviorFactory: AnimationBehaviorFactory) =
+        this.initFieldsVectorRotationAnimationInterfaceFactory()
+        this.currentPoints = currentPoints
+        this.setBasicColorP(basicColor)
+        this.animationBehaviorFactory = animationBehaviorFactory
 
-    # throws Exception
-    def getInstance(self, instanceId: int) -> Animation:
-        from org.allbinary.animation.VectorRotationAnimation import VectorRotationAnimation
-        return VectorRotationAnimation(self.currentPoints, self.getBasicColorP(), self.animationBehaviorFactory.getOrCreateInstance())
-    
+proc newVectorRotationAnimationInterfaceFactory*(currentPoints: JArray[JArray[JArray[int32]]], basicColor: BasicColor, animationBehaviorFactory: AnimationBehaviorFactory): VectorRotationAnimationInterfaceFactory =
+    result = VectorRotationAnimationInterfaceFactory()
+    initVectorRotationAnimationInterfaceFactory(result, currentPoints, basicColor, animationBehaviorFactory)
 
-    def setBasicColorP(self, basicColor: BasicColor) -> None:
-        from org.allbinary.graphics.color.BasicColor import BasicColor
-        self.basicColor = basicColor
-    
+method getInstance*(this: VectorRotationAnimationInterfaceFactory, instanceId: int32): Animation {.discardable.} =
+        return newVectorRotationAnimation(this.currentPoints, this.getBasicColorP(), this.animationBehaviorFactory.getOrCreateInstance())
 
-    def getBasicColorP(self) -> BasicColor:
-        from org.allbinary.graphics.color.BasicColor import BasicColor
-        return self.basicColor
-    
+method setBasicColorP*(this: VectorRotationAnimationInterfaceFactory, basicColor: BasicColor) {.base.} =
+        this.basicColor = basicColor
 
-    def setInitialScale(self, scaleProperties: ScaleProperties) -> None:
-        from org.allbinary.media.ScaleProperties import ScaleProperties
-        pass
-# from org.allbinary.graphics.color.BasicColor import BasicColor
-# from org.allbinary.graphics.color.BasicColorFactory import BasicColorFactory
-# from org.allbinary.logic.NullUtil import NullUtil
-# from org.allbinary.media.ScaleProperties import ScaleProperties
+method getBasicColorP*(this: VectorRotationAnimationInterfaceFactory): BasicColor {.base, discardable.} =
+        return this.basicColor
 
+method setInitialScale*(this: VectorRotationAnimationInterfaceFactory, scaleProperties: ScaleProperties) =
+        discard
 

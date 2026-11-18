@@ -1,45 +1,59 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.physics.movement
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/game/layer/AllBinaryGameLayer as AllBinaryGameLayerModule
+export AllBinaryGameLayerModule
+import org/allbinary/game/physics/acceleration/GravityUtil as GravityUtilModule
+export GravityUtilModule
+import org/allbinary/logic/math/BasicDecimal as BasicDecimalModule
+export BasicDecimalModule
+import org/allbinary/physics/movement/BasicConstantVelocityMovement as BasicConstantVelocityMovementModule
+export BasicConstantVelocityMovementModule
 
-from org.allbinary.physics.movement.BasicConstantVelocityMovement import BasicConstantVelocityMovement
+type
+    SimpleGravityVelocityMovement* = ref object of BasicConstantVelocityMovement
+        gravityUtil*: GravityUtil
+
+proc newSimpleGravityVelocityMovement*(speedBasicDecimal: BasicDecimal): SimpleGravityVelocityMovement
+proc initSimpleGravityVelocityMovement*(this: SimpleGravityVelocityMovement, speedBasicDecimal: BasicDecimal)
+method process*(this: SimpleGravityVelocityMovement, layer: AllBinaryGameLayer)
+import org/allbinary/game/physics/velocity/VelocityProperties as VelocityPropertiesModule
+export VelocityPropertiesModule
 
 
-class SimpleGravityVelocityMovement(BasicConstantVelocityMovement):
+# Java field initializers run after the base initializer
+proc initFieldsSimpleGravityVelocityMovement(this: SimpleGravityVelocityMovement) =
+    this.gravityUtil = GravityUtil.getInstance()
+    discard
 
-    def _init_fields(self) -> None:
-        from org.allbinary.game.physics.acceleration.GravityUtil import GravityUtil
-        self.gravityUtil: GravityUtil = GravityUtil.getInstance()
-    
+proc initSimpleGravityVelocityMovement*(this: SimpleGravityVelocityMovement, speedBasicDecimal: BasicDecimal) =
+        initBasicConstantVelocityMovement(this, speedBasicDecimal, newVelocityProperties(jToInt32(speedBasicDecimal.getUnscaled()), jToInt32(speedBasicDecimal.getUnscaled())))
+        this.initFieldsSimpleGravityVelocityMovement()
 
-    def __init__(self, speedBasicDecimal: BasicDecimal) -> None:
-        from org.allbinary.game.physics.velocity.VelocityProperties import VelocityProperties
-        from org.allbinary.logic.math.BasicDecimal import BasicDecimal
-        super().__init__(speedBasicDecimal, VelocityProperties(int(speedBasicDecimal.getUnscaled()), int(speedBasicDecimal.getUnscaled())))
-        self._init_fields()
-    
+proc newSimpleGravityVelocityMovement*(speedBasicDecimal: BasicDecimal): SimpleGravityVelocityMovement =
+    result = SimpleGravityVelocityMovement()
+    initSimpleGravityVelocityMovement(result, speedBasicDecimal)
 
-    # throws Exception
-    def process(self, layer: AllBinaryGameLayer) -> None:
-        from org.allbinary.game.layer.AllBinaryGameLayer import AllBinaryGameLayer
-        self.gravityUtil.process(self.getVelocityProperties(), self.gravityUtil.GAME_GRAVITY_VELOCITY)
-        super().process(layer)
-# from org.allbinary.game.layer.AllBinaryGameLayer import AllBinaryGameLayer
-# from org.allbinary.game.physics.acceleration.GravityUtil import GravityUtil
-# from org.allbinary.game.physics.velocity.VelocityProperties import VelocityProperties
-# from org.allbinary.logic.math.BasicDecimal import BasicDecimal
+method process*(this: SimpleGravityVelocityMovement, layer: AllBinaryGameLayer) =
+        this.gravityUtil.process(this.getVelocityProperties(), this.gravityUtil.GAME_GRAVITY_VELOCITY)
+        procCall BasicConstantVelocityMovement(this).process(layer)
 
+when declared(newSimpleGravityVelocityMovementHook1):
+    newSimpleGravityVelocityMovementHook1 = proc (speedBasicDecimal: BasicDecimal): BasicConstantVelocityMovement = newSimpleGravityVelocityMovement(speedBasicDecimal)
 

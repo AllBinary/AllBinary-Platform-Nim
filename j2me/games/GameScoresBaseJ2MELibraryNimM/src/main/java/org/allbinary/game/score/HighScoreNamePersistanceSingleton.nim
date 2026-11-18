@@ -1,200 +1,210 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.score
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import java/lang/Integer as IntegerModule
+export IntegerModule
+import java/io/ByteArrayInputStream as ByteArrayInputStreamModule
+export ByteArrayInputStreamModule
+import java/io/ByteArrayOutputStream as ByteArrayOutputStreamModule
+export ByteArrayOutputStreamModule
+import java/io/DataInputStream as DataInputStreamModule
+export DataInputStreamModule
+import java/io/DataOutputStream as DataOutputStreamModule
+export DataOutputStreamModule
+import org/allbinary/TsUtil as TsUtilModule
+export TsUtilModule
+import org/allbinary/game/GameInfo as GameInfoModule
+export GameInfoModule
+import org/allbinary/logic/communication/log/LogUtil as LogUtilModule
+export LogUtilModule
+import org/allbinary/logic/system/security/licensing/AbeClientInformationInterface as AbeClientInformationInterfaceModule
+export AbeClientInformationInterfaceModule
+import org/allbinary/persistance/PlatformRecordIdUtil as PlatformRecordIdUtilModule
+export PlatformRecordIdUtilModule
+import org/allbinary/string/CommonStrings as CommonStringsModule
+export CommonStringsModule
+import org/allbinary/util/BasicArrayList as BasicArrayListModule
+export BasicArrayListModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    HighScoreNamePersistanceSingleton* = ref object of JObject
+        logUtil*: LogUtil
+        tsUtil*: TsUtil
+        commonStrings*: CommonStrings
+        platformRecordIdUtil*: PlatformRecordIdUtil
+        RECORD_ID*: string
+        name*: string
+        nameBasicArrayList*: BasicArrayList
 
+proc newHighScoreNamePersistanceSingleton*(): HighScoreNamePersistanceSingleton
+proc getInstance*(t: typedesc[HighScoreNamePersistanceSingleton]): HighScoreNamePersistanceSingleton {.discardable.}
+method clear*(this: HighScoreNamePersistanceSingleton) {.base.}
+method deleteAll*(this: HighScoreNamePersistanceSingleton, abeClientInformation: AbeClientInformationInterface, gameInfo: GameInfo) {.base.}
+method getRecordId*(this: HighScoreNamePersistanceSingleton, abeClientInformation: AbeClientInformationInterface): string {.base, discardable.}
+method delete*(this: HighScoreNamePersistanceSingleton, abeClientInformation: AbeClientInformationInterface, gameInfo: GameInfo, deleteId: int32) {.base.}
+method getIds*(this: HighScoreNamePersistanceSingleton): BasicArrayList {.base, discardable.}
+method load*(this: HighScoreNamePersistanceSingleton, abeClientInformation: AbeClientInformationInterface, gameInfo: GameInfo): string {.base, discardable.}
+method save*(this: HighScoreNamePersistanceSingleton, abeClientInformation: AbeClientInformationInterface, gameInfo: GameInfo, name: string) {.base.}
+import javax/microedition/rms/RecordEnumeration as RecordEnumerationModule
+export RecordEnumerationModule
+import javax/microedition/rms/RecordStore as RecordStoreModule
+export RecordStoreModule
+import javax/microedition/rms/RecordStoreException as RecordStoreExceptionModule
+export RecordStoreExceptionModule
+import org/allbinary/game/configuration/persistance/NullRecordComparator as NullRecordComparatorModule
+export NullRecordComparatorModule
+import org/allbinary/game/configuration/persistance/NullRecordFilter as NullRecordFilterModule
+export NullRecordFilterModule
+import org/allbinary/game/configuration/persistance/NullRecordStore as NullRecordStoreModule
+export NullRecordStoreModule
+import org/allbinary/logic/communication/log/PreLogUtil as PreLogUtilModule
+export PreLogUtilModule
+import org/allbinary/logic/java/exception/ExceptionUtil as ExceptionUtilModule
+export ExceptionUtilModule
+import org/allbinary/logic/math/SmallIntegerSingletonFactory as SmallIntegerSingletonFactoryModule
+export SmallIntegerSingletonFactoryModule
+import org/allbinary/logic/string/StringMaker as StringMakerModule
+export StringMakerModule
+import org/allbinary/logic/string/StringUtil as StringUtilModule
+export StringUtilModule
+import org/allbinary/util/BasicArrayListD as BasicArrayListDModule
+export BasicArrayListDModule
 
-class HighScoreNamePersistanceSingleton:
-    SINGLETON: HighScoreNamePersistanceSingleton = None
+var HighScoreNamePersistanceSingleton_SINGLETONValue: HighScoreNamePersistanceSingleton
+var HighScoreNamePersistanceSingleton_SINGLETONSet = false
+proc SINGLETON*(t: typedesc[HighScoreNamePersistanceSingleton]): HighScoreNamePersistanceSingleton =
+    if not HighScoreNamePersistanceSingleton_SINGLETONSet:
+        HighScoreNamePersistanceSingleton_SINGLETONSet = true
+        HighScoreNamePersistanceSingleton_SINGLETONValue = newHighScoreNamePersistanceSingleton()
+    HighScoreNamePersistanceSingleton_SINGLETONValue
+proc `SINGLETON=`*(t: typedesc[HighScoreNamePersistanceSingleton], value: HighScoreNamePersistanceSingleton) =
+    HighScoreNamePersistanceSingleton_SINGLETONSet = true
+    HighScoreNamePersistanceSingleton_SINGLETONValue = value
 
-    def _init_fields(self) -> None:
-        from org.allbinary.TsUtil import TsUtil
-        from org.allbinary.logic.communication.log.LogUtil import LogUtil
-        from org.allbinary.logic.string.StringUtil import StringUtil
-        from org.allbinary.persistance.PlatformRecordIdUtil import PlatformRecordIdUtil
-        from org.allbinary.string.CommonStrings import CommonStrings
-        from org.allbinary.util.BasicArrayList import BasicArrayList
-        from org.allbinary.util.BasicArrayListD import BasicArrayListD
-        self.logUtil: LogUtil = LogUtil.getInstance()
-        self.tsUtil: TsUtil = TsUtil.getInstance()
-        self.commonStrings: CommonStrings = CommonStrings.getInstance()
-        self.platformRecordIdUtil: PlatformRecordIdUtil = PlatformRecordIdUtil.getInstance()
-        self.RECORD_ID: str = "_SN"
-        self.name: str = StringUtil.getInstance().EMPTY_STRING
-        self.nameBasicArrayList: BasicArrayList = BasicArrayListD()
+# Java field initializers run after the base initializer
+proc initFieldsHighScoreNamePersistanceSingleton(this: HighScoreNamePersistanceSingleton) =
+    this.logUtil = LogUtil.getInstance()
+    this.tsUtil = TsUtil.getInstance()
+    this.commonStrings = CommonStrings.getInstance()
+    this.platformRecordIdUtil = PlatformRecordIdUtil.getInstance()
+    this.RECORD_ID = "_SN"
+    this.name = StringUtil.getInstance().EMPTY_STRING
+    this.nameBasicArrayList = newBasicArrayListD()
+    discard
 
-    def __init__(self) -> None:
-        self._init_fields()
-    
+proc initHighScoreNamePersistanceSingleton*(this: HighScoreNamePersistanceSingleton) =
+    this.initFieldsHighScoreNamePersistanceSingleton()
 
-    @staticmethod
-    def getInstance() -> HighScoreNamePersistanceSingleton:
+proc newHighScoreNamePersistanceSingleton*(): HighScoreNamePersistanceSingleton =
+    result = HighScoreNamePersistanceSingleton()
+    initHighScoreNamePersistanceSingleton(result)
+
+proc getInstance*(t: typedesc[HighScoreNamePersistanceSingleton]): HighScoreNamePersistanceSingleton {.discardable.} =
         return HighScoreNamePersistanceSingleton.SINGLETON
-    
 
-    def clear(self) -> None:
-        from org.allbinary.logic.string.StringUtil import StringUtil
-        self.name = StringUtil.getInstance().EMPTY_STRING
-    
+method clear*(this: HighScoreNamePersistanceSingleton) {.base.} =
+        this.name = StringUtil.getInstance().EMPTY_STRING
 
-    # throws Exception
-    def deleteAll(self, abeClientInformation: AbeClientInformationInterface, gameInfo: GameInfo) -> None:
-        from org.allbinary.game.GameInfo import GameInfo
-        from org.allbinary.logic.system.security.licensing.AbeClientInformationInterface import AbeClientInformationInterface
-        size: int = self.nameBasicArrayList.size()
-        for index in range(0, size):
-            integer: int = self.nameBasicArrayList.objectArray[index]
-            self.delete(abeClientInformation, gameInfo, int(integer))
-        self.clear()
-    
+method deleteAll*(this: HighScoreNamePersistanceSingleton, abeClientInformation: AbeClientInformationInterface, gameInfo: GameInfo) {.base.} =
+        var size: int32 = this.nameBasicArrayList.size()
+        block:
+            var index: int32 = 0
+            while index < size:
+                defer: index = index +% 1
+                let integer: int32 = jUnboxInteger(this.nameBasicArrayList.objectArray[index])
+                this.delete(abeClientInformation, gameInfo, integer.intValue())
+        this.clear()
 
-    def getRecordId(self, abeClientInformation: AbeClientInformationInterface) -> str:
-        from org.allbinary.logic.system.security.licensing.AbeClientInformationInterface import AbeClientInformationInterface
-        return self.platformRecordIdUtil.getRecordId(abeClientInformation, self.RECORD_ID)
-    
+method getRecordId*(this: HighScoreNamePersistanceSingleton, abeClientInformation: AbeClientInformationInterface): string {.base, discardable.} =
+        return this.platformRecordIdUtil.getRecordId(abeClientInformation, this.RECORD_ID)
 
-    # throws Exception
-    def delete(self, abeClientInformation: AbeClientInformationInterface, gameInfo: GameInfo, deleteId: int) -> None:
-        from javax.microedition.rms.RecordStore import RecordStore
-        from org.allbinary.game.GameInfo import GameInfo
-        from org.allbinary.game.configuration.persistance.NullRecordStore import NullRecordStore
-        from org.allbinary.logic.communication.log.PreLogUtil import PreLogUtil
-        from org.allbinary.logic.string.StringMaker import StringMaker
-        from org.allbinary.logic.system.security.licensing.AbeClientInformationInterface import AbeClientInformationInterface
-        recordStore: RecordStore = NullRecordStore.NULL_RECORD_STORE
+method delete*(this: HighScoreNamePersistanceSingleton, abeClientInformation: AbeClientInformationInterface, gameInfo: GameInfo, deleteId: int32) {.base.} =
+        var recordStore: RecordStore = NullRecordStore.NULL_RECORD_STOREStatic
         try:
-            self.logUtil.putF(str(StringMaker().append("Deleting: ").appendint(deleteId)), self, self.commonStrings.delete)
-            recordStore = RecordStore.openRecordStore(self.getRecordId(abeClientInformation), True)
+            this.logUtil.putF(newStringMaker().append("Deleting: ").appendint(deleteId).toString(), this, this.commonStrings.delete)
+            recordStore = RecordStore.openRecordStore(this.getRecordId(abeClientInformation), true)
             recordStore.deleteRecord(deleteId)
-        except Exception as e:
+        except CatchableError as jcaught:
+            let e = jToException(jcaught)
             raise e
         finally:
-            if recordStore is not None:
-                PreLogUtil.put("Closing RecordStore", self, self.commonStrings.delete)
+            if (not jIsNil(recordStore)):
+                PreLogUtil.put("Closing RecordStore", this, this.commonStrings.delete)
                 recordStore.closeRecordStore()
-    
 
-    def getIds(self) -> BasicArrayList:
-        from org.allbinary.util.BasicArrayList import BasicArrayList
-        return self.nameBasicArrayList
-    
+method getIds*(this: HighScoreNamePersistanceSingleton): BasicArrayList {.base, discardable.} =
+        return this.nameBasicArrayList
 
-    def load(self, abeClientInformation: AbeClientInformationInterface, gameInfo: GameInfo) -> str:
-        from java.io.DataInputStream import DataInputStream
-        from javax.microedition.rms.RecordEnumeration import RecordEnumeration
-        from javax.microedition.rms.RecordStore import RecordStore
-        from javax.microedition.rms.RecordStoreException import RecordStoreException
-        from org.allbinary.game.GameInfo import GameInfo
-        from org.allbinary.game.configuration.persistance.NullRecordComparator import NullRecordComparator
-        from org.allbinary.game.configuration.persistance.NullRecordFilter import NullRecordFilter
-        from org.allbinary.game.configuration.persistance.NullRecordStore import NullRecordStore
-        from org.allbinary.logic.communication.log.PreLogUtil import PreLogUtil
-        from org.allbinary.logic.java.exception.ExceptionUtil import ExceptionUtil
-        from org.allbinary.logic.math.SmallIntegerSingletonFactory import SmallIntegerSingletonFactory
-        from org.allbinary.logic.string.StringMaker import StringMaker
-        from org.allbinary.logic.string.StringUtil import StringUtil
-        from org.allbinary.logic.system.security.licensing.AbeClientInformationInterface import AbeClientInformationInterface
-        recordStore: RecordStore = NullRecordStore.NULL_RECORD_STORE
+method load*(this: HighScoreNamePersistanceSingleton, abeClientInformation: AbeClientInformationInterface, gameInfo: GameInfo): string {.base, discardable.} =
+        var recordStore: RecordStore = NullRecordStore.NULL_RECORD_STOREStatic
         try:
-            if self.name == StringUtil.getInstance().EMPTY_STRING:
-                LOADING_ID: str = "Loading id: "
-                recordStore = RecordStore.openRecordStore(self.getRecordId(abeClientInformation), True)
-                recordEnum: RecordEnumeration = recordStore.enumerateRecords(NullRecordFilter.NULL_RECORD_FILTER, NullRecordComparator.NULL_RECORD_COMPARATOR, True)
-                smallIntegerSingletonFactory: SmallIntegerSingletonFactory = SmallIntegerSingletonFactory.getInstance()
-                recordAsBytes: list[int] = None
-                byteArrayInputStream: ByteArrayInputStream = None
-                inputStream: DataInputStream = None
+            if this.name == StringUtil.getInstance().EMPTY_STRING:
+                let LOADING_ID: string = "Loading id: "
+                recordStore = RecordStore.openRecordStore(this.getRecordId(abeClientInformation), true)
+                let recordEnum: RecordEnumeration = recordStore.enumerateRecords(NullRecordFilter.NULL_RECORD_FILTERStatic, NullRecordComparator.NULL_RECORD_COMPARATORStatic, true)
+                let smallIntegerSingletonFactory: SmallIntegerSingletonFactory = SmallIntegerSingletonFactory.getInstance()
+                var recordAsBytes: JArray[int8] = nil
+                var byteArrayInputStream: ByteArrayInputStream = nil
+                var inputStream: DataInputStream = nil
                 while recordEnum.hasNextElement():
-                    id: int = recordEnum.nextRecordId()
-                    self.logUtil.putF(str(StringMaker().append(LOADING_ID).appendint(id)), self, self.commonStrings.LOAD)
-                    recordAsBytes = self.tsUtil.getRecord(recordStore, id)
-                    byteArrayInputStream = ByteArrayInputStream(recordAsBytes)
-                    inputStream = DataInputStream(byteArrayInputStream)
+                    let id: int32 = recordEnum.nextRecordId()
+                    this.logUtil.putF(newStringMaker().append(LOADING_ID).appendint(id).toString(), this, this.commonStrings.LOAD)
+                    recordAsBytes = this.tsUtil.getRecord(recordStore, id)
+                    byteArrayInputStream = newByteArrayInputStream(recordAsBytes)
+                    inputStream = newDataInputStream(byteArrayInputStream)
                     while inputStream.available() > 0:
-                        self.name = inputStream.readUTF()
-                    self.nameBasicArrayList.add(smallIntegerSingletonFactory.getAt(id))
-        except Exception as e:
-            self.save(abeClientInformation, gameInfo, self.name)
-            self.logUtil.putF(str(StringMaker().append(self.commonStrings.EXCEPTION_LABEL).append(ExceptionUtil.getInstance().getStackTrace(e))), self, self.commonStrings.LOAD)
+                        this.name = inputStream.readUTF()
+                    this.nameBasicArrayList.add(smallIntegerSingletonFactory.getAt(id))
+        except CatchableError as jcaught:
+            let e = jToException(jcaught)
+            this.save(abeClientInformation, gameInfo, this.name)
+            this.logUtil.putF(newStringMaker().append(this.commonStrings.EXCEPTION_LABEL).append(ExceptionUtil.getInstance().getStackTrace(e)).toString(), this, this.commonStrings.LOAD)
         finally:
             try:
-                if recordStore is not None:
-                    PreLogUtil.put("Closing RecordStore", self, self.commonStrings.LOAD)
+                if (not jIsNil(recordStore)):
+                    PreLogUtil.put("Closing RecordStore", this, this.commonStrings.LOAD)
                     recordStore.closeRecordStore()
-            except RecordStoreException as e:
-                self.logUtil.put(self.commonStrings.EXCEPTION, self, self.commonStrings.LOAD, e)
-        return self.name
-    
+            except CatchableError as jcaught:
+                let e = jToException(jcaught)
+                this.logUtil.put(this.commonStrings.EXCEPTION, this, this.commonStrings.LOAD, e)
+        return this.name
 
-    def save(self, abeClientInformation: AbeClientInformationInterface, gameInfo: GameInfo, name: str) -> None:
-        from java.io.DataOutputStream import DataOutputStream
-        from javax.microedition.rms.RecordStore import RecordStore
-        from javax.microedition.rms.RecordStoreException import RecordStoreException
-        from org.allbinary.game.GameInfo import GameInfo
-        from org.allbinary.game.configuration.persistance.NullRecordStore import NullRecordStore
-        from org.allbinary.logic.communication.log.PreLogUtil import PreLogUtil
-        from org.allbinary.logic.string.StringMaker import StringMaker
-        from org.allbinary.logic.system.security.licensing.AbeClientInformationInterface import AbeClientInformationInterface
-        recordStore: RecordStore = NullRecordStore.NULL_RECORD_STORE
+method save*(this: HighScoreNamePersistanceSingleton, abeClientInformation: AbeClientInformationInterface, gameInfo: GameInfo, name: string) {.base.} =
+        var recordStore: RecordStore = NullRecordStore.NULL_RECORD_STOREStatic
         try:
-            self.logUtil.putF(str(StringMaker().append("Saving: ").append(name)), self, self.commonStrings.SAVE)
-            recordStore = RecordStore.openRecordStore(self.getRecordId(abeClientInformation), True)
-            byteArrayOutputStream: ByteArrayOutputStream = ByteArrayOutputStream()
-            outputStream: DataOutputStream = DataOutputStream(byteArrayOutputStream)
+            this.logUtil.putF(newStringMaker().append("Saving: ").append(name).toString(), this, this.commonStrings.SAVE)
+            recordStore = RecordStore.openRecordStore(this.getRecordId(abeClientInformation), true)
+            let byteArrayOutputStream: ByteArrayOutputStream = newByteArrayOutputStream()
+            let outputStream: DataOutputStream = newDataOutputStream(byteArrayOutputStream)
             outputStream.writeUTF(name)
-            savedGameBytes: list[int] = byteArrayOutputStream.toByteArray()
-            recordStore.addRecord(savedGameBytes, 0, len(savedGameBytes))
-            self.name = name
-        except Exception as e:
-            self.logUtil.put(self.commonStrings.EXCEPTION, self, self.commonStrings.SAVE, e)
+            let savedGameBytes: JArray[int8] = byteArrayOutputStream.toByteArray()
+            recordStore.addRecord(savedGameBytes, 0, savedGameBytes.length)
+            this.name = name
+        except CatchableError as jcaught:
+            let e = jToException(jcaught)
+            this.logUtil.put(this.commonStrings.EXCEPTION, this, this.commonStrings.SAVE, e)
         finally:
             try:
-                if recordStore is not None:
-                    PreLogUtil.put("Closing RecordStore", self, self.commonStrings.SAVE)
+                if (not jIsNil(recordStore)):
+                    PreLogUtil.put("Closing RecordStore", this, this.commonStrings.SAVE)
                     recordStore.closeRecordStore()
-            except RecordStoreException as e:
-                self.logUtil.put(self.commonStrings.EXCEPTION, self, self.commonStrings.SAVE, e)
-# from java.io.ByteArrayInputStream import ByteArrayInputStream
-# from java.io.ByteArrayOutputStream import ByteArrayOutputStream
-# from java.io.DataInputStream import DataInputStream
-# from java.io.DataOutputStream import DataOutputStream
-# from javax.microedition.rms.RecordEnumeration import RecordEnumeration
-# from javax.microedition.rms.RecordStore import RecordStore
-# from javax.microedition.rms.RecordStoreException import RecordStoreException
-# from org.allbinary.TsUtil import TsUtil
-# from org.allbinary.game.GameInfo import GameInfo
-# from org.allbinary.game.configuration.persistance.NullRecordComparator import NullRecordComparator
-# from org.allbinary.game.configuration.persistance.NullRecordFilter import NullRecordFilter
-# from org.allbinary.game.configuration.persistance.NullRecordStore import NullRecordStore
-# from org.allbinary.logic.communication.log.LogUtil import LogUtil
-# from org.allbinary.logic.communication.log.PreLogUtil import PreLogUtil
-# from org.allbinary.logic.java.exception.ExceptionUtil import ExceptionUtil
-# from org.allbinary.logic.math.SmallIntegerSingletonFactory import SmallIntegerSingletonFactory
-# from org.allbinary.logic.string.StringMaker import StringMaker
-# from org.allbinary.logic.string.StringUtil import StringUtil
-# from org.allbinary.logic.system.security.licensing.AbeClientInformationInterface import AbeClientInformationInterface
-# from org.allbinary.persistance.PlatformRecordIdUtil import PlatformRecordIdUtil
-# from org.allbinary.string.CommonStrings import CommonStrings
-# from org.allbinary.util.BasicArrayList import BasicArrayList
-# from org.allbinary.util.BasicArrayListD import BasicArrayListD
-
-
-def _HighScoreNamePersistanceSingleton_SINGLETON() -> object:
-    return HighScoreNamePersistanceSingleton()
-
-lazy_static(HighScoreNamePersistanceSingleton, "SINGLETON", _HighScoreNamePersistanceSingleton_SINGLETON)
+            except CatchableError as jcaught:
+                let e = jToException(jcaught)
+                this.logUtil.put(this.commonStrings.EXCEPTION, this, this.commonStrings.SAVE, e)
 

@@ -1,85 +1,79 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.business.init
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/business/init/LicenseInitInfo as LicenseInitInfoModule
+export LicenseInitInfoModule
 
-import threading
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    LicenseInitInfoUtil* = ref object of JObject
+        INITFILENAME*: string
+        ABOUT*: string
+        PRIVACY_POLICY*: string
+        OFFICIAL_ALLBINARY_SERVICES_SERVER*: string
 
+proc newLicenseInitInfoUtil*(): LicenseInitInfoUtil
+proc initLicenseInitInfoUtil*(this: LicenseInitInfoUtil)
+proc getInstance*(t: typedesc[LicenseInitInfoUtil]): LicenseInitInfoUtil {.discardable.}
+method setFilePath*(this: LicenseInitInfoUtil, filePath: string) {.base.}
+method write*(this: LicenseInitInfoUtil, initData: LicenseInitInfo) {.base.}
+method read*(this: LicenseInitInfoUtil): LicenseInitInfo {.base, discardable.}
+method readAgain*(this: LicenseInitInfoUtil, initializeCounter: int32): LicenseInitInfo {.base, discardable.}
 
-class LicenseInitInfoUtil:
-    instance: LicenseInitInfoUtil = None
-    _lock = threading.RLock()
+var LicenseInitInfoUtil_instanceValue: LicenseInitInfoUtil
+var LicenseInitInfoUtil_instanceSet = false
+proc instance*(t: typedesc[LicenseInitInfoUtil]): LicenseInitInfoUtil =
+    if not LicenseInitInfoUtil_instanceSet:
+        LicenseInitInfoUtil_instanceSet = true
+        LicenseInitInfoUtil_instanceValue = newLicenseInitInfoUtil()
+    LicenseInitInfoUtil_instanceValue
 
-    def _init_fields(self) -> None:
-        self.INITFILENAME: str = "licenseinitdata.dat"
-        self.ABOUT: str = "about"
-        self.PRIVACY_POLICY: str = "privacy_policy"
-        self.OFFICIAL_ALLBINARY_SERVICES_SERVER: str = "https://services.allbinary.com/LicServ/serverssl.php"
-    
+# Java field initializers run after the base initializer
+proc initFieldsLicenseInitInfoUtil(this: LicenseInitInfoUtil) =
+    this.INITFILENAME = "licenseinitdata.dat"
+    this.ABOUT = "about"
+    this.PRIVACY_POLICY = "privacy_policy"
+    this.OFFICIAL_ALLBINARY_SERVICES_SERVER = "https://services.allbinary.com/LicServ/serverssl.php"
+    discard
 
-    @staticmethod
-    def getInstance() -> LicenseInitInfoUtil:
+proc getInstance*(t: typedesc[LicenseInitInfoUtil]): LicenseInitInfoUtil {.discardable.} =
         return LicenseInitInfoUtil.instance
-    
 
-    def setFilePath(self, filePath: str) -> None:
-        with self._lock:
-            return self._setFilePath_unlocked(filePath)
+method setFilePath*(this: LicenseInitInfoUtil, filePath: string) {.base.} =
+        discard
 
-    def _setFilePath_unlocked(self, filePath: str) -> None:
-        pass
-    
+proc initLicenseInitInfoUtil*(this: LicenseInitInfoUtil) =
+        this.initFieldsLicenseInitInfoUtil()
+        discard
 
-    def __init__(self) -> None:
-        self._init_fields()
-    
+proc newLicenseInitInfoUtil*(): LicenseInitInfoUtil =
+    result = LicenseInitInfoUtil()
+    initLicenseInitInfoUtil(result)
 
-    # throws Exception
-    def write(self, initData: LicenseInitInfo) -> None:
-        with self._lock:
-            return self._write_unlocked(initData)
+method write*(this: LicenseInitInfoUtil, initData: LicenseInitInfo) {.base.} =
+        discard
 
-    def _write_unlocked(self, initData: LicenseInitInfo) -> None:
-        pass
-    
+method read*(this: LicenseInitInfoUtil): LicenseInitInfo {.base, discardable.} =
+        return this.readAgain(0)
 
-    # throws Exception
-    def read(self) -> LicenseInitInfo:
-        with self._lock:
-            return self._read_unlocked()
-
-    def _read_unlocked(self) -> LicenseInitInfo:
-        return self.readAgain(0)
-    
-
-    # throws Exception
-    def readAgain(self, initializeCounter: int) -> LicenseInitInfo:
-        with self._lock:
-            return self._readAgain_unlocked(initializeCounter)
-
-    def _readAgain_unlocked(self, initializeCounter: int) -> LicenseInitInfo:
-        from org.allbinary.business.init.LicenseInitInfo import LicenseInitInfo
-        licenseInitInfo: LicenseInitInfo = LicenseInitInfo()
+method readAgain*(this: LicenseInitInfoUtil, initializeCounter: int32): LicenseInitInfo {.base, discardable.} =
+        var licenseInitInfo: LicenseInitInfo = newLicenseInitInfo()
         licenseInitInfo.clearServers()
-        licenseInitInfo.addServer(self.OFFICIAL_ALLBINARY_SERVICES_SERVER)
+        licenseInitInfo.addServer(this.OFFICIAL_ALLBINARY_SERVICES_SERVER)
         return licenseInitInfo
-
-
-def _LicenseInitInfoUtil_instance() -> object:
-    return LicenseInitInfoUtil()
-
-lazy_static(LicenseInitInfoUtil, "instance", _LicenseInitInfoUtil_instance)
 

@@ -1,106 +1,120 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.ag.life
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/game/ag/life/LifeInterface as LifeInterfaceModule
+export LifeInterfaceModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
-from org.allbinary.game.ag.life.LifeInterface import LifeInterface
+type
+    Life* = ref object of LifeInterface
+        lives*: int16
+        startLives*: int16
+        maxlives*: int16
 
+proc newLife*(lives: int16, maxlives: int16): Life
+proc initLife*(this: Life, lives: int16, maxlives: int16)
+proc createLife*(t: typedesc[Life]): Life {.discardable.}
+method get*(this: Life): int16 {.discardable.}
+method set*(this: Life, lives: int16)
+method reset*(this: Life)
+method add*(this: Life, lives: int16)
+method isAlive*(this: Life): bool {.discardable.}
+method getMaxlives*(this: Life): int16 {.discardable.}
+method reachedLimit*(this: Life): bool {.base, discardable.}
+method deaths*(this: Life, lives: int16)
+method getStartLives*(this: Life): int16 {.base, discardable.}
+method setStartLives*(this: Life, startLives: int16) {.base.}
 
-class Life(LifeInterface):
-    NO_LIFE: Life = None
+var Life_NO_LIFEValue: Life
+var Life_NO_LIFESet = false
+proc NO_LIFE*(t: typedesc[Life]): Life =
+    if not Life_NO_LIFESet:
+        Life_NO_LIFESet = true
+        Life_NO_LIFEValue = Life.createLife()
+    Life_NO_LIFEValue
 
-    def _init_fields(self) -> None:
-        self.lives: int = None
-        self.startLives: int = None
-        self.maxlives: int = None
+# Java field initializers run after the base initializer
+proc initFieldsLife(this: Life) =
     
+    
+    
+    discard
 
-    @staticmethod
-    def createLife() -> Life:
+proc createLife*(t: typedesc[Life]): Life {.discardable.} =
         try:
-            return Life(((int(0) + 32768) % 65536 - 32768), ((int(0) + 32768) % 65536 - 32768))
-        except Exception as e:
-            raise RuntimeError()
-    
+            return newLife(jToInt16(0), jToInt16(0))
+        except CatchableError as jcaught:
+            let e = jToException(jcaught)
+            raise newJException("RuntimeException", "")
 
-    def __init__(self, lives: int, maxlives: int) -> None:
-        self._init_fields()
-        self.maxlives = maxlives
-        if lives > self.maxlives:
-            raise Exception("To Many Lives")
-        self.lives = lives
-        self.startLives = lives
-    
+proc initLife*(this: Life, lives: int16, maxlives: int16) =
+        this.initFieldsLife()
+        this.maxlives = maxlives
+        if lives > this.maxlives:
+            raise newJException("Exception", "To Many Lives")
+        this.lives = lives
+        this.startLives = lives
 
-    def get(self) -> int:
-        return self.lives
-    
+proc newLife*(lives: int16, maxlives: int16): Life =
+    result = Life()
+    initLife(result, lives, maxlives)
 
-    def set(self, lives: int) -> None:
-        self.lives = lives
-    
+method get*(this: Life): int16 {.discardable.} =
+        return this.lives
 
-    def reset(self) -> None:
-        self.lives = self.startLives
-    
+method set*(this: Life, lives: int16) =
+        this.lives = lives
 
-    def add(self, lives: int) -> None:
-        if not self.reachedLimit():
-            if self.lives + lives <= self.getMaxlives():
-                self.lives = ((int((self.lives + lives)) + 32768) % 65536 - 32768)
+method reset*(this: Life) =
+        this.lives = this.startLives
+
+method add*(this: Life, lives: int16) =
+        if (not this.reachedLimit()):
+            if this.lives +% lives <= int32(this.getMaxlives()):
+                this.lives = jToInt16((this.lives +% lives))
             else:
-                self.lives = self.getMaxlives()
-    
+                this.lives = this.getMaxlives()
 
-    def isAlive(self) -> bool:
-        if self.lives <= 0:
-            return False
+method isAlive*(this: Life): bool {.discardable.} =
+        if int32(this.lives) <= 0:
+            return false
         else:
-            return True
-    
+            return true
 
-    def getMaxlives(self) -> int:
-        return self.maxlives
-    
+method getMaxlives*(this: Life): int16 {.discardable.} =
+        return this.maxlives
 
-    def reachedLimit(self) -> bool:
-        if self.lives > self.maxlives or self.lives < 0:
-            return True
+method reachedLimit*(this: Life): bool {.base, discardable.} =
+        if this.lives > this.maxlives or int32(this.lives) < 0:
+            return true
         else:
-            return False
-    
+            return false
 
-    def deaths(self, lives: int) -> None:
-        if not self.reachedLimit():
-            if self.lives - lives >= 0:
-                self.lives = ((int((self.lives - lives)) + 32768) % 65536 - 32768)
+method deaths*(this: Life, lives: int16) =
+        if (not this.reachedLimit()):
+            if this.lives -% lives >= 0:
+                this.lives = jToInt16((this.lives -% lives))
             else:
-                self.lives = 0
-    
+                this.lives = 0
 
-    def getStartLives(self) -> int:
-        return self.startLives
-    
+method getStartLives*(this: Life): int16 {.base, discardable.} =
+        return this.startLives
 
-    def setStartLives(self, startLives: int) -> None:
-        self.startLives = startLives
-
-
-def _Life_NO_LIFE() -> object:
-    return Life.createLife()
-
-lazy_static(Life, "NO_LIFE", _Life_NO_LIFE)
+method setStartLives*(this: Life, startLives: int16) {.base.} =
+        this.startLives = startLives
 

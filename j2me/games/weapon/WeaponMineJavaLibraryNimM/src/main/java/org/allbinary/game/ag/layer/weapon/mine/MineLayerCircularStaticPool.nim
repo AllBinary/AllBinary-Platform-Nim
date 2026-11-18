@@ -1,48 +1,60 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.ag.layer.weapon.mine
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/game/layer/weapon/WeaponLayerCircularPool as WeaponLayerCircularPoolModule
+export WeaponLayerCircularPoolModule
+import org/allbinary/view/ViewPositionFactoryInterface as ViewPositionFactoryInterfaceModule
+export ViewPositionFactoryInterfaceModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    MineLayerCircularStaticPool* = ref object of JObject
 
+proc newMineLayerCircularStaticPool*(): MineLayerCircularStaticPool
+proc init*(t: typedesc[MineLayerCircularStaticPool], viewPositionFactoryInterface: ViewPositionFactoryInterface)
+proc getInstance*(t: typedesc[MineLayerCircularStaticPool]): WeaponLayerCircularPool {.discardable.}
+import org/allbinary/game/ag/layer/weapon/mine/MineCountedPickedUpLayerInterfaceFactory as MineCountedPickedUpLayerInterfaceFactoryModule
+export MineCountedPickedUpLayerInterfaceFactoryModule
+import org/allbinary/game/ag/layer/weapon/mine/MineLayerFactory as MineLayerFactoryModule
+export MineLayerFactoryModule
 
-class MineLayerCircularStaticPool:
-    WEAPON_LAYER_CIRCULAR_STATIC_POOL: WeaponLayerCircularPool = None
-    
+var MineLayerCircularStaticPool_WEAPON_LAYER_CIRCULAR_STATIC_POOLValue: WeaponLayerCircularPool
+var MineLayerCircularStaticPool_WEAPON_LAYER_CIRCULAR_STATIC_POOLSet = false
+proc WEAPON_LAYER_CIRCULAR_STATIC_POOL*(t: typedesc[MineLayerCircularStaticPool]): WeaponLayerCircularPool =
+    if not MineLayerCircularStaticPool_WEAPON_LAYER_CIRCULAR_STATIC_POOLSet:
+        MineLayerCircularStaticPool_WEAPON_LAYER_CIRCULAR_STATIC_POOLSet = true
+        MineLayerCircularStaticPool_WEAPON_LAYER_CIRCULAR_STATIC_POOLValue = newWeaponLayerCircularPool()
+    MineLayerCircularStaticPool_WEAPON_LAYER_CIRCULAR_STATIC_POOLValue
+proc `WEAPON_LAYER_CIRCULAR_STATIC_POOL=`*(t: typedesc[MineLayerCircularStaticPool], value: WeaponLayerCircularPool) =
+    MineLayerCircularStaticPool_WEAPON_LAYER_CIRCULAR_STATIC_POOLSet = true
+    MineLayerCircularStaticPool_WEAPON_LAYER_CIRCULAR_STATIC_POOLValue = value
 
-    # throws Exception
-    @staticmethod
-    def init(viewPositionFactoryInterface: ViewPositionFactoryInterface) -> None:
-        from org.allbinary.game.ag.layer.weapon.mine.MineCountedPickedUpLayerInterfaceFactory import MineCountedPickedUpLayerInterfaceFactory
-        from org.allbinary.game.ag.layer.weapon.mine.MineLayerFactory import MineLayerFactory
-        from org.allbinary.view.ViewPositionFactoryInterface import ViewPositionFactoryInterface
+proc initMineLayerCircularStaticPool*(this: MineLayerCircularStaticPool) =
+    discard
+
+proc newMineLayerCircularStaticPool*(): MineLayerCircularStaticPool =
+    result = MineLayerCircularStaticPool()
+    initMineLayerCircularStaticPool(result)
+
+proc init*(t: typedesc[MineLayerCircularStaticPool], viewPositionFactoryInterface: ViewPositionFactoryInterface) =
         MineCountedPickedUpLayerInterfaceFactory.init()
-        MineLayerCircularStaticPool.WEAPON_LAYER_CIRCULAR_STATIC_POOL.initAllBinaryLayerCircularPool(MineLayerFactory(viewPositionFactoryInterface), 20)
-    
+        MineLayerCircularStaticPool.WEAPON_LAYER_CIRCULAR_STATIC_POOL.initAllBinaryLayerCircularPool(newMineLayerFactory(viewPositionFactoryInterface), 20)
 
-    @staticmethod
-    def getInstance() -> WeaponLayerCircularPool:
-        from org.allbinary.game.layer.weapon.WeaponLayerCircularPool import WeaponLayerCircularPool
+proc getInstance*(t: typedesc[MineLayerCircularStaticPool]): WeaponLayerCircularPool {.discardable.} =
         return MineLayerCircularStaticPool.WEAPON_LAYER_CIRCULAR_STATIC_POOL
-# from org.allbinary.game.layer.weapon.WeaponLayerCircularPool import WeaponLayerCircularPool
-# from org.allbinary.view.ViewPositionFactoryInterface import ViewPositionFactoryInterface
-
-
-def _MineLayerCircularStaticPool_WEAPON_LAYER_CIRCULAR_STATIC_POOL() -> object:
-    from org.allbinary.game.layer.weapon.WeaponLayerCircularPool import WeaponLayerCircularPool
-    return WeaponLayerCircularPool()
-
-lazy_static(MineLayerCircularStaticPool, "WEAPON_LAYER_CIRCULAR_STATIC_POOL", _MineLayerCircularStaticPool_WEAPON_LAYER_CIRCULAR_STATIC_POOL)
 

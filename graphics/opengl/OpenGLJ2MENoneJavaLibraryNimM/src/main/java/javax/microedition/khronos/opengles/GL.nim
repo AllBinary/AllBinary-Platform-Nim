@@ -1,12 +1,10 @@
 # Generated Code Do Not Modify
 # package javax.microedition.khronos.opengles
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
 
-
-
-# Java interface
-class GL:
-    pass
+type
+    GL* = ref object of JObject
 
 

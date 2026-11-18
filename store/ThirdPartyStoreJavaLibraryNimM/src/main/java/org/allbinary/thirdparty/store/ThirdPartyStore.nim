@@ -1,49 +1,61 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.thirdparty.store
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/logic/system/security/licensing/AbeClientInformationInterface as AbeClientInformationInterfaceModule
+export AbeClientInformationInterfaceModule
+
+type
+    ThirdPartyStore* = ref object of JObject
+        authorized*: bool
+        name*: string
+
+proc newThirdPartyStore*(name: string): ThirdPartyStore
+proc initThirdPartyStore*(this: ThirdPartyStore, name: string)
+method authorize*(this: ThirdPartyStore, clientInformationInterface: AbeClientInformationInterface) {.base.}
+method isAuthorized*(this: ThirdPartyStore): bool {.base, discardable.}
+method setAuthorized*(this: ThirdPartyStore, authorized: bool) {.base.}
+method getName*(this: ThirdPartyStore): string {.base, discardable.}
 
 
-
-class ThirdPartyStore:
-
-    def _init_fields(self) -> None:
-        self.authorized: bool = False
-        self.name: str = None
+# Java field initializers run after the base initializer
+proc initFieldsThirdPartyStore(this: ThirdPartyStore) =
+    this.authorized = false
     
+    discard
 
-    def __init__(self, name: str) -> None:
-        self._init_fields()
-        self.name = name
-    
+proc initThirdPartyStore*(this: ThirdPartyStore, name: string) =
+        this.initFieldsThirdPartyStore()
+        this.name = name
 
-    def authorize(self, clientInformationInterface: AbeClientInformationInterface) -> None:
-        from org.allbinary.logic.system.security.licensing.AbeClientInformationInterface import AbeClientInformationInterface
-        pass
-    
+proc newThirdPartyStore*(name: string): ThirdPartyStore =
+    result = ThirdPartyStore()
+    initThirdPartyStore(result, name)
 
-    def isAuthorized(self) -> bool:
-        return self.authorized
-    
+method authorize*(this: ThirdPartyStore, clientInformationInterface: AbeClientInformationInterface) {.base.} =
+        discard
 
-    def setAuthorized(self, authorized: bool) -> None:
-        self.authorized = authorized
-    
+method isAuthorized*(this: ThirdPartyStore): bool {.base, discardable.} =
+        return this.authorized
 
-    def getName(self) -> str:
-        return self.name
-# from org.allbinary.logic.system.security.licensing.AbeClientInformationInterface import AbeClientInformationInterface
+method setAuthorized*(this: ThirdPartyStore, authorized: bool) {.base.} =
+        this.authorized = authorized
 
+method getName*(this: ThirdPartyStore): string {.base, discardable.} =
+        return this.name
 

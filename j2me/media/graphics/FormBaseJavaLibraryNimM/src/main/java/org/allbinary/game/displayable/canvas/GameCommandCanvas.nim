@@ -1,324 +1,355 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.displayable.canvas
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import javax/microedition/lcdui/CommandListener as CommandListenerModule
+export CommandListenerModule
+import javax/microedition/lcdui/Graphics as GraphicsModule
+export GraphicsModule
+import org/allbinary/canvas/Processor as ProcessorModule
+export ProcessorModule
+import org/allbinary/game/displayable/RepaintBehavior as RepaintBehaviorModule
+export RepaintBehaviorModule
+import org/allbinary/game/input/GameInputStrings as GameInputStringsModule
+export GameInputStringsModule
+import org/allbinary/game/input/GameKeyFactory as GameKeyFactoryModule
+export GameKeyFactoryModule
+import org/allbinary/game/input/event/DownGameKeyEventHandler as DownGameKeyEventHandlerModule
+export DownGameKeyEventHandlerModule
+import org/allbinary/game/input/event/GameKeyEventFactory as GameKeyEventFactoryModule
+export GameKeyEventFactoryModule
+import org/allbinary/game/input/event/UpGameKeyEventHandler as UpGameKeyEventHandlerModule
+export UpGameKeyEventHandlerModule
+import org/allbinary/game/input/mapping/InputToGameKeyMapping as InputToGameKeyMappingModule
+export InputToGameKeyMappingModule
+import org/allbinary/graphics/Rectangle as RectangleModule
+export RectangleModule
+import org/allbinary/graphics/color/BasicColor as BasicColorModule
+export BasicColorModule
+import org/allbinary/graphics/displayable/MyCanvas as MyCanvasModule
+export MyCanvasModule
+import org/allbinary/graphics/displayable/event/DisplayChangeEvent as DisplayChangeEventModule
+export DisplayChangeEventModule
+import org/allbinary/graphics/displayable/event/DisplayChangeEventListener as DisplayChangeEventListenerModule
+export DisplayChangeEventListenerModule
+import org/allbinary/graphics/font/MyFontProcessor as MyFontProcessorModule
+export MyFontProcessorModule
+import org/allbinary/graphics/font/UpdateMyFontInterface as UpdateMyFontInterfaceModule
+export UpdateMyFontInterfaceModule
+import org/allbinary/graphics/form/PaintableForm as PaintableFormModule
+export PaintableFormModule
+import org/allbinary/graphics/form/ScrollSelectionForm as ScrollSelectionFormModule
+export ScrollSelectionFormModule
+import org/allbinary/graphics/paint/Paintable as PaintableModule
+export PaintableModule
+import org/allbinary/logic/util/event/AllBinaryEventObject as AllBinaryEventObjectModule
+export AllBinaryEventObjectModule
+import org/allbinary/game/displayable/canvas/MenuListener as MenuListenerModule
+export MenuListenerModule
+import org/allbinary/game/displayable/canvas/BasicMenuInputProcessor as BasicMenuInputProcessorModule
+export BasicMenuInputProcessorModule
 
-from org.allbinary.graphics.displayable.MyCanvas import MyCanvas
-from org.allbinary.graphics.displayable.event.DisplayChangeEventListener import DisplayChangeEventListener
-from org.allbinary.graphics.font.UpdateMyFontInterface import UpdateMyFontInterface
-from org.allbinary.game.displayable.canvas.MenuListener import MenuListener
+type
+    GameCommandCanvas* = ref object of MyCanvas
+        repaintProcessor*: Processor
+        gameInputStrings*: GameInputStrings
+        foregroundBasicColor*: BasicColor
+        backgroundBasicColor*: BasicColor
+        inputToGameKeyMapping*: InputToGameKeyMapping
+        gameKeyFactory*: GameKeyFactory
+        gameKeyEventFactory*: GameKeyEventFactory
+        downGameKeyEventHandler*: DownGameKeyEventHandler
+        upGameKeyEventHandler*: UpGameKeyEventHandler
+        repaintBehavior*: RepaintBehavior
+        updateMyFontProcessor*: MyFontProcessor
+        myFontProcessor*: MyFontProcessor
+        foregroundColor*: int32
+        backgroundColor*: int32
+        menuInputProcessor*: BasicMenuInputProcessor
+        menuPaintable*: Paintable
+        menuForm*: PaintableForm
+        isSingleKeyRepeatableProcessing*: bool
+        fontHeight*: int32
 
+converter jAsMenuListener*(value: GameCommandCanvas): MenuListener = cast[MenuListener](value)
+converter jAsDisplayChangeEventListener*(value: GameCommandCanvas): DisplayChangeEventListener = cast[DisplayChangeEventListener](value)
+converter jAsUpdateMyFontInterface*(value: GameCommandCanvas): UpdateMyFontInterface = cast[UpdateMyFontInterface](value)
+proc newGameCommandCanvas*(cmdListener: CommandListener, name: string, backgroundBasicColor: BasicColor, foregroundBasicColor: BasicColor): GameCommandCanvas
+proc initGameCommandCanvas*(this: GameCommandCanvas, cmdListener: CommandListener, name: string, backgroundBasicColor: BasicColor, foregroundBasicColor: BasicColor)
+method updateMeasurement*(this: GameCommandCanvas, graphics: Graphics)
+method onEvent*(this: GameCommandCanvas, eventObject: AllBinaryEventObject)
+method onDisplayChangeEvent*(this: GameCommandCanvas, displayChangeEvent: DisplayChangeEvent)
+method initCommands*(this: GameCommandCanvas, cmdListener: CommandListener) {.base.}
+method initMenu*(this: GameCommandCanvas) {.base.}
+method createForm*(this: GameCommandCanvas): ScrollSelectionForm {.base, discardable.}
+method createRectangle*(this: GameCommandCanvas, size: int32): Rectangle {.base, discardable.}
+method open*(this: GameCommandCanvas)
+method close*(this: GameCommandCanvas)
+method update*(this: GameCommandCanvas) {.base.}
+method getSourceId*(this: GameCommandCanvas): int32 {.discardable.}
+method keyPressed*(this: GameCommandCanvas, keyCode: int32)
+method keyReleased*(this: GameCommandCanvas, keyCode: int32)
+method keyRepeated*(this: GameCommandCanvas, keyCode: int32)
+method keyPressedByDevice*(this: GameCommandCanvas, keyCode: int32, deviceId: int32)
+method keyReleasedByDevice*(this: GameCommandCanvas, keyCode: int32, deviceId: int32)
+method keyRepeatedByDevice*(this: GameCommandCanvas, keyCode: int32, deviceId: int32)
+method addGameKeyEvent*(this: GameCommandCanvas, keyCode: int32, deviceId: int32, repeated: bool) {.base.}
+method removeGameKeyEvent*(this: GameCommandCanvas, keyCode: int32, deviceId: int32, repeated: bool) {.base.}
+method paint*(this: GameCommandCanvas, graphics: Graphics)
+method setMenuInputProcessor*(this: GameCommandCanvas, menuInputProcessor: BasicMenuInputProcessor) {.base.}
+method getMenuInputProcessor*(this: GameCommandCanvas): BasicMenuInputProcessor {.base, discardable.}
+import javax/microedition/lcdui/Font as FontModule
+export FontModule
+import javax/microedition/lcdui/NullCommandListener as NullCommandListenerModule
+export NullCommandListenerModule
+import org/allbinary/game/commands/GameCommandsFactory as GameCommandsFactoryModule
+export GameCommandsFactoryModule
+import org/allbinary/game/configuration/feature/Features as FeaturesModule
+export FeaturesModule
+import org/allbinary/game/configuration/feature/InputFeatureFactory as InputFeatureFactoryModule
+export InputFeatureFactoryModule
+import org/allbinary/game/input/GameKey as GameKeyModule
+export GameKeyModule
+import org/allbinary/game/input/PlatformInputMappingFactory as PlatformInputMappingFactoryModule
+export PlatformInputMappingFactoryModule
+import org/allbinary/game/input/event/GameKeyEvent as GameKeyEventModule
+export GameKeyEventModule
+import org/allbinary/game/input/event/GameKeyEventHandler as GameKeyEventHandlerModule
+export GameKeyEventHandlerModule
+import org/allbinary/graphics/PointFactory as PointFactoryModule
+export PointFactoryModule
+import org/allbinary/graphics/displayable/CanvasStrings as CanvasStringsModule
+export CanvasStringsModule
+import org/allbinary/graphics/displayable/DisplayInfoSingleton as DisplayInfoSingletonModule
+export DisplayInfoSingletonModule
+import org/allbinary/graphics/displayable/event/DisplayChangeEventHandler as DisplayChangeEventHandlerModule
+export DisplayChangeEventHandlerModule
+import org/allbinary/graphics/displayable/screen/ScreenRepaintProcessorFactory as ScreenRepaintProcessorFactoryModule
+export ScreenRepaintProcessorFactoryModule
+import org/allbinary/graphics/font/UpdateMyFontProcessor as UpdateMyFontProcessorModule
+export UpdateMyFontProcessorModule
+import org/allbinary/graphics/form/CommandCurrentSelectionFormFactory as CommandCurrentSelectionFormFactoryModule
+export CommandCurrentSelectionFormFactoryModule
+import org/allbinary/graphics/form/FormPaintable as FormPaintableModule
+export FormPaintableModule
+import org/allbinary/graphics/form/FormTypeFactory as FormTypeFactoryModule
+export FormTypeFactoryModule
+import org/allbinary/graphics/form/ScrollSelectionFormNoneFactory as ScrollSelectionFormNoneFactoryModule
+export ScrollSelectionFormNoneFactoryModule
+import org/allbinary/graphics/form/item/CommandTextItemArrayFactory as CommandTextItemArrayFactoryModule
+export CommandTextItemArrayFactoryModule
+import org/allbinary/graphics/form/item/ABCustomItem as ABCustomItemModule
+export ABCustomItemModule
+import org/allbinary/graphics/form/item/validation/AllCommandsVisitor as AllCommandsVisitorModule
+export AllCommandsVisitorModule
+import org/allbinary/graphics/paint/NullPaintable as NullPaintableModule
+export NullPaintableModule
+import org/allbinary/input/motion/gesture/observer/BasicMotionGesturesHandler as BasicMotionGesturesHandlerModule
+export BasicMotionGesturesHandlerModule
+import org/allbinary/logic/communication/log/ForcedLogUtil as ForcedLogUtilModule
+export ForcedLogUtilModule
+import org/allbinary/logic/string/StringMaker as StringMakerModule
+export StringMakerModule
+import org/allbinary/logic/string/StringUtil as StringUtilModule
+export StringUtilModule
+import org/allbinary/logic/util/event/EventStrings as EventStringsModule
+export EventStringsModule
+import org/allbinary/string/CommonSeps as CommonSepsModule
+export CommonSepsModule
+import org/allbinary/util/BasicArrayListD as BasicArrayListDModule
+export BasicArrayListDModule
+import org/allbinary/game/displayable/canvas/NoMenuInputProcessor as NoMenuInputProcessorModule
+export NoMenuInputProcessorModule
+import org/allbinary/game/displayable/canvas/ImmediateCommandFormInputProcessor as ImmediateCommandFormInputProcessorModule
+export ImmediateCommandFormInputProcessorModule
 
-class GameCommandCanvas(MyCanvas, MenuListener, DisplayChangeEventListener, UpdateMyFontInterface):
-    id: int = 0
+var GameCommandCanvas_idValue: int32
+var GameCommandCanvas_idSet = false
+proc id*(t: typedesc[GameCommandCanvas]): int32 =
+    if not GameCommandCanvas_idSet:
+        GameCommandCanvas_idSet = true
+        GameCommandCanvas_idValue = 0
+    GameCommandCanvas_idValue
 
-    def _init_fields(self) -> None:
-        from org.allbinary.canvas.Processor import Processor
-        from org.allbinary.game.configuration.feature.Features import Features
-        from org.allbinary.game.configuration.feature.InputFeatureFactory import InputFeatureFactory
-        from org.allbinary.game.displayable.RepaintBehavior import RepaintBehavior
-        from org.allbinary.game.input.GameInputStrings import GameInputStrings
-        from org.allbinary.game.input.GameKeyFactory import GameKeyFactory
-        from org.allbinary.game.input.PlatformInputMappingFactory import PlatformInputMappingFactory
-        from org.allbinary.game.input.event.DownGameKeyEventHandler import DownGameKeyEventHandler
-        from org.allbinary.game.input.event.GameKeyEventFactory import GameKeyEventFactory
-        from org.allbinary.game.input.event.UpGameKeyEventHandler import UpGameKeyEventHandler
-        from org.allbinary.game.input.mapping.InputToGameKeyMapping import InputToGameKeyMapping
-        from org.allbinary.graphics.color.BasicColor import BasicColor
-        from org.allbinary.graphics.displayable.screen.ScreenRepaintProcessorFactory import ScreenRepaintProcessorFactory
-        from org.allbinary.graphics.font.MyFontProcessor import MyFontProcessor
-        from org.allbinary.graphics.font.UpdateMyFontProcessor import UpdateMyFontProcessor
-        from org.allbinary.graphics.form.PaintableForm import PaintableForm
-        from org.allbinary.graphics.paint.NullPaintable import NullPaintable
-        from org.allbinary.graphics.paint.Paintable import Paintable
-        self.repaintProcessor: Processor = ScreenRepaintProcessorFactory.getInstance().create(self)
-        self.gameInputStrings: GameInputStrings = GameInputStrings.getInstance()
-        self.foregroundBasicColor: BasicColor = None
-        self.backgroundBasicColor: BasicColor = None
-        self.inputToGameKeyMapping: InputToGameKeyMapping = PlatformInputMappingFactory.getInstance().getPersistentInputMappingInstance().getInputMapping()
-        self.gameKeyFactory: GameKeyFactory = GameKeyFactory.getInstance()
-        self.gameKeyEventFactory: GameKeyEventFactory = GameKeyEventFactory.getInstance()
-        self.downGameKeyEventHandler: DownGameKeyEventHandler = DownGameKeyEventHandler.getInstance()
-        self.upGameKeyEventHandler: UpGameKeyEventHandler = UpGameKeyEventHandler.getInstance()
-        self.repaintBehavior: RepaintBehavior = None
-        self.updateMyFontProcessor: MyFontProcessor = UpdateMyFontProcessor(self)
-        self.myFontProcessor: MyFontProcessor = self.updateMyFontProcessor
-        self.foregroundColor: int = None
-        self.backgroundColor: int = None
-        self.menuInputProcessor: BasicMenuInputProcessor = NoMenuInputProcessor.getInstance()
-        self.menuPaintable: Paintable = NullPaintable.getInstance()
-        self.menuForm: PaintableForm = PaintableForm.getNullPaintableForm()
-        self.isSingleKeyRepeatableProcessing: bool = Features.getInstance().isFeature(InputFeatureFactory.getInstance().SINGLE_KEY_REPEAT_PRESS)
-        self.fontHeight: int = 0
+# Java field initializers run after the base initializer
+proc initFieldsGameCommandCanvas(this: GameCommandCanvas) =
+    this.repaintProcessor = ScreenRepaintProcessorFactory.getInstance().create(this)
+    this.gameInputStrings = GameInputStrings.getInstance()
     
+    
+    this.inputToGameKeyMapping = PlatformInputMappingFactory.getInstance().getPersistentInputMappingInstance().getInputMapping()
+    this.gameKeyFactory = GameKeyFactory.getInstance()
+    this.gameKeyEventFactory = GameKeyEventFactory.getInstance()
+    this.downGameKeyEventHandler = DownGameKeyEventHandler.getInstance()
+    this.upGameKeyEventHandler = UpGameKeyEventHandler.getInstance()
+    
+    this.updateMyFontProcessor = newUpdateMyFontProcessor(this)
+    this.myFontProcessor = this.updateMyFontProcessor
+    
+    
+    this.menuInputProcessor = NoMenuInputProcessor.getInstance()
+    this.menuPaintable = NullPaintable.getInstance()
+    this.menuForm = PaintableForm.getNullPaintableForm()
+    this.isSingleKeyRepeatableProcessing = Features.getInstance().isFeature(InputFeatureFactory.getInstance().SINGLE_KEY_REPEAT_PRESS)
+    this.fontHeight = 0
+    discard
 
-    def __init__(self, cmdListener: CommandListener, name: str, backgroundBasicColor: BasicColor, foregroundBasicColor: BasicColor) -> None:
-        from javax.microedition.lcdui.CommandListener import CommandListener
-        from javax.microedition.lcdui.NullCommandListener import NullCommandListener
-        from org.allbinary.game.displayable.RepaintBehavior import RepaintBehavior
-        from org.allbinary.graphics.color.BasicColor import BasicColor
-        from org.allbinary.graphics.displayable.CanvasStrings import CanvasStrings
-        super().__init__(name, CanvasStrings.getInstance().EMPTY_CHILD_NAME_LIST)
-        self._init_fields()
-        self.repaintBehavior = RepaintBehavior.getInstance()
-        self.foregroundBasicColor = foregroundBasicColor
-        self.backgroundBasicColor = backgroundBasicColor
-        self.foregroundColor = int(self.foregroundBasicColor)
-        self.backgroundColor = int(self.backgroundBasicColor)
-        self.initCommands(cmdListener)
-        if cmdListener != NullCommandListener.NULL_COMMAND_LISTENER:
+proc initGameCommandCanvas*(this: GameCommandCanvas, cmdListener: CommandListener, name: string, backgroundBasicColor: BasicColor, foregroundBasicColor: BasicColor) =
+        initMyCanvas(this, name, CanvasStrings.getInstance().EMPTY_CHILD_NAME_LIST)
+        this.initFieldsGameCommandCanvas()
+        this.repaintBehavior = RepaintBehavior.getInstance()
+        this.foregroundBasicColor = foregroundBasicColor
+        this.backgroundBasicColor = backgroundBasicColor
+        this.foregroundColor = this.foregroundBasicColor.intValue()
+        this.backgroundColor = this.backgroundBasicColor.intValue()
+        this.initCommands(cmdListener)
+        if cmdListener != NullCommandListener.NULL_COMMAND_LISTENERStatic:
             try:
-                self.initMenu()
-                self.repaintProcessor.process()
-            except Exception as e:
-                raise RuntimeError()
-    
+                this.initMenu()
+                this.repaintProcessor.process()
+            except CatchableError as jcaught:
+                let e = jToException(jcaught)
+                raise newJException("RuntimeException", "")
 
-    def updateMeasurement(self, graphics: Graphics) -> None:
-        from javax.microedition.lcdui.Font import Font
-        from javax.microedition.lcdui.Graphics import Graphics
-        from org.allbinary.graphics.Rectangle import Rectangle
-        from org.allbinary.graphics.font.MyFontProcessor import MyFontProcessor
-        from org.allbinary.graphics.form.FormTypeFactory import FormTypeFactory
-        from org.allbinary.logic.string.StringMaker import StringMaker
+proc newGameCommandCanvas*(cmdListener: CommandListener, name: string, backgroundBasicColor: BasicColor, foregroundBasicColor: BasicColor): GameCommandCanvas =
+    result = GameCommandCanvas()
+    initGameCommandCanvas(result, cmdListener, name, backgroundBasicColor, foregroundBasicColor)
+
+method updateMeasurement*(this: GameCommandCanvas, graphics: Graphics) =
         try:
-            font: Font = graphics.getFont()
-            self.logUtil.putF(str(StringMaker().append(self.commonStrings.START).append(self.canvasStrings.FD_WIDTH).appendint(int(MyFontProcessor.defaultCharWidth(font))).append(self.canvasStrings.FD_HEIGHT).appendint(int(font.getHeight()))), self, self.canvasStrings.UPDATE_MEASUREMENT)
-            self.fontHeight = font.getHeight()
-            rectangle: Rectangle = self.createRectangle(self.menuForm.size())
-            self.menuForm.init(rectangle, FormTypeFactory.getInstance().VERTICAL_CENTER_FORM)
-            self.update()
-        except Exception as e:
-            self.logUtil.put(self.commonStrings.EXCEPTION, self, self.canvasStrings.ON_DISPLAY_CHANGE_EVENT, e)
-        self.myFontProcessor = MyFontProcessor.getInstance()
-    
+            let font: Font = graphics.getFont()
+            this.logUtil.putF(newStringMaker().append(this.commonStrings.START).append(this.canvasStrings.FD_WIDTH).appendint(MyFontProcessor.defaultCharWidth(font)).append(this.canvasStrings.FD_HEIGHT).appendint(font.getHeight()).toString(), this, this.canvasStrings.UPDATE_MEASUREMENT)
+            this.fontHeight = font.getHeight()
+            let rectangle: Rectangle = this.createRectangle(this.menuForm.size())
+            this.menuForm.init(rectangle, FormTypeFactory.getInstance().VERTICAL_CENTER_FORM)
+            this.update()
+        except CatchableError as jcaught:
+            let e = jToException(jcaught)
+            this.logUtil.put(this.commonStrings.EXCEPTION, this, this.canvasStrings.ON_DISPLAY_CHANGE_EVENT, e)
+        this.myFontProcessor = MyFontProcessor.getInstance()
 
-    def onEvent(self, eventObject: AllBinaryEventObject) -> None:
-        from org.allbinary.logic.communication.log.ForcedLogUtil import ForcedLogUtil
-        from org.allbinary.logic.util.event.AllBinaryEventObject import AllBinaryEventObject
-        from org.allbinary.logic.util.event.EventStrings import EventStrings
-        ForcedLogUtil.log(EventStrings.getInstance().PERFORMANCE_MESSAGE, self)
-    
+method onEvent*(this: GameCommandCanvas, eventObject: AllBinaryEventObject) =
+        ForcedLogUtil.log(EventStrings.getInstance().PERFORMANCE_MESSAGE, this)
 
-    def onDisplayChangeEvent(self, displayChangeEvent: DisplayChangeEvent) -> None:
-        from org.allbinary.graphics.displayable.DisplayInfoSingleton import DisplayInfoSingleton
-        from org.allbinary.graphics.displayable.event.DisplayChangeEvent import DisplayChangeEvent
-        from org.allbinary.logic.string.StringMaker import StringMaker
-        self.logUtil.putF(str(StringMaker().append(self.commonStrings.START).append(str(DisplayInfoSingleton.getInstance()))), self, self.canvasStrings.ON_DISPLAY_CHANGE_EVENT)
-        self.myFontProcessor = self.updateMyFontProcessor
-    
+method onDisplayChangeEvent*(this: GameCommandCanvas, displayChangeEvent: DisplayChangeEvent) =
+        this.logUtil.putF(newStringMaker().append(this.commonStrings.START).append(DisplayInfoSingleton.getInstance().toString()).toString(), this, this.canvasStrings.ON_DISPLAY_CHANGE_EVENT)
+        this.myFontProcessor = this.updateMyFontProcessor
 
-    def initCommands(self, cmdListener: CommandListener) -> None:
-        from javax.microedition.lcdui.CommandListener import CommandListener
-        from org.allbinary.game.commands.GameCommandsFactory import GameCommandsFactory
-        self.removeAllCommands()
-        self.addCommand(GameCommandsFactory.getInstance().CLOSE_AND_SHOW_GAME_CANVAS)
-        self.setCommandListener(cmdListener)
-    
+method initCommands*(this: GameCommandCanvas, cmdListener: CommandListener) {.base.} =
+        this.removeAllCommands()
+        this.addCommand(GameCommandsFactory.getInstance().CLOSE_AND_SHOW_GAME_CANVAS)
+        this.setCommandListener(cmdListener)
 
-    # throws Exception
-    def initMenu(self) -> None:
-        from org.allbinary.game.displayable.canvas.ImmediateCommandFormInputProcessor import ImmediateCommandFormInputProcessor
-        from org.allbinary.graphics.form.FormPaintable import FormPaintable
-        from org.allbinary.graphics.form.ScrollSelectionForm import ScrollSelectionForm
-        from org.allbinary.graphics.form.ScrollSelectionFormNoneFactory import ScrollSelectionFormNoneFactory
-        from org.allbinary.util.BasicArrayListD import BasicArrayListD
-        form: ScrollSelectionForm = self.createForm()
-        self.menuForm = form
+method initMenu*(this: GameCommandCanvas) {.base.} =
+        let form: ScrollSelectionForm = this.createForm()
+        this.menuForm = form
         if form != ScrollSelectionFormNoneFactory.getInstance():
-            self.setMenuInputProcessor(ImmediateCommandFormInputProcessor(BasicArrayListD(), -1, self, form))
-            self.menuPaintable = FormPaintable(form)
-        self.repaintBehavior.onChangeRepaint(self)
-    
+            this.setMenuInputProcessor(newImmediateCommandFormInputProcessor(newBasicArrayListD(), -1, this, form))
+            this.menuPaintable = newFormPaintable(form)
+        this.repaintBehavior.onChangeRepaint(this)
 
-    # throws Exception
-    def createForm(self) -> ScrollSelectionForm:
-        from org.allbinary.graphics.Rectangle import Rectangle
-        from org.allbinary.graphics.form.CommandCurrentSelectionFormFactory import CommandCurrentSelectionFormFactory
-        from org.allbinary.graphics.form.FormTypeFactory import FormTypeFactory
-        from org.allbinary.graphics.form.ScrollSelectionForm import ScrollSelectionForm
-        from org.allbinary.graphics.form.item.CommandTextItemArrayFactory import CommandTextItemArrayFactory
-        from org.allbinary.graphics.form.item.ABCustomItem import ABCustomItem
-        from org.allbinary.graphics.form.item.validation.AllCommandsVisitor import AllCommandsVisitor
-        from org.allbinary.logic.string.StringUtil import StringUtil
-        items: list[ABCustomItem] = CommandTextItemArrayFactory(AllCommandsVisitor()).getInstance(self.getCommandStack(), self.backgroundBasicColor, self.foregroundBasicColor)
-        rectangle: Rectangle = self.createRectangle(len(items))
-        return CommandCurrentSelectionFormFactory.getInstance(StringUtil.getInstance().EMPTY_STRING, items, rectangle, FormTypeFactory.getInstance().VERTICAL_CENTER_FORM, 15, False, self.backgroundBasicColor, self.foregroundBasicColor)
-    
+method createForm*(this: GameCommandCanvas): ScrollSelectionForm {.base, discardable.} =
+        let items: JArray[ABCustomItem] = newCommandTextItemArrayFactory(newAllCommandsVisitor()).getInstance(this.getCommandStack(), this.backgroundBasicColor, this.foregroundBasicColor)
+        let rectangle: Rectangle = this.createRectangle(items.length)
+        return CommandCurrentSelectionFormFactory.getInstance(StringUtil.getInstance().EMPTY_STRING, items, rectangle, FormTypeFactory.getInstance().VERTICAL_CENTER_FORM, 15, false, this.backgroundBasicColor, this.foregroundBasicColor)
 
-    def createRectangle(self, size: int) -> Rectangle:
-        from org.allbinary.graphics.PointFactory import PointFactory
-        from org.allbinary.graphics.Rectangle import Rectangle
-        height: int = size * self.fontHeight
-        startY: int = (self.displayInfo.getLastHeight() * 2 / 3) - height
-        pointFactory: PointFactory = PointFactory.getInstance()
-        rectangle: Rectangle = Rectangle(pointFactory.createXY(30, startY), self.displayInfo.getLastWidth() - 30, startY)
+method createRectangle*(this: GameCommandCanvas, size: int32): Rectangle {.base, discardable.} =
+        let height: int32 = size *% this.fontHeight
+        let startY: int32 = (this.displayInfo.getLastHeight() *% 2 div 3) -% height
+        let pointFactory: PointFactory = PointFactory.getInstance()
+        let rectangle: Rectangle = newRectangle(pointFactory.createXY(30, startY), this.displayInfo.getLastWidth() -% 30, startY)
         return rectangle
-    
 
-    def open(self) -> None:
-        from org.allbinary.game.input.event.GameKeyEventHandler import GameKeyEventHandler
-        from org.allbinary.graphics.displayable.event.DisplayChangeEventHandler import DisplayChangeEventHandler
-        from org.allbinary.input.motion.gesture.observer.BasicMotionGesturesHandler import BasicMotionGesturesHandler
-        self.logUtil.putF(self.commonStrings.START, self, "open")
-        BasicMotionGesturesHandler.getInstance().addListenerInterface(self.getMenuInputProcessor())
-        GameKeyEventHandler.getInstance().addListener(self.getMenuInputProcessor())
-        DisplayChangeEventHandler.getInstance().addListenerInterface(self)
-    
+method open*(this: GameCommandCanvas) =
+        this.logUtil.putF(this.commonStrings.START, this, "open")
+        BasicMotionGesturesHandler.getInstance().addListenerInterface(this.getMenuInputProcessor())
+        GameKeyEventHandler.getInstance().addListener(this.getMenuInputProcessor())
+        DisplayChangeEventHandler.getInstance().addListenerInterface(this)
 
-    # throws Exception
-    def close(self) -> None:
-        from org.allbinary.game.input.event.GameKeyEventHandler import GameKeyEventHandler
-        from org.allbinary.graphics.displayable.event.DisplayChangeEventHandler import DisplayChangeEventHandler
-        from org.allbinary.input.motion.gesture.observer.BasicMotionGesturesHandler import BasicMotionGesturesHandler
-        self.logUtil.putF(self.commonStrings.START, self, self.commonStrings.CLOSE)
-        BasicMotionGesturesHandler.getInstance().removeListener(self.getMenuInputProcessor())
-        GameKeyEventHandler.getInstance().removeListener(self.getMenuInputProcessor())
-        DisplayChangeEventHandler.getInstance().removeListener(self)
-    
+method close*(this: GameCommandCanvas) =
+        this.logUtil.putF(this.commonStrings.START, this, this.commonStrings.CLOSE)
+        BasicMotionGesturesHandler.getInstance().removeListener(this.getMenuInputProcessor())
+        GameKeyEventHandler.getInstance().removeListener(this.getMenuInputProcessor())
+        DisplayChangeEventHandler.getInstance().removeListener(this)
 
-    # throws Exception
-    def update(self) -> None:
-        self.repaintProcessor.process()
-    
+method update*(this: GameCommandCanvas) {.base.} =
+        this.repaintProcessor.process()
 
-    def getSourceId(self) -> int:
+method getSourceId*(this: GameCommandCanvas): int32 {.discardable.} =
         return GameCommandCanvas.id
-    
 
-    def keyPressed(self, keyCode: int) -> None:
-        self.keyPressedByDevice(keyCode, 0)
-    
+method keyPressed*(this: GameCommandCanvas, keyCode: int32) =
+        this.keyPressedByDevice(keyCode, 0)
 
-    def keyReleased(self, keyCode: int) -> None:
-        self.keyReleasedByDevice(keyCode, 0)
-    
+method keyReleased*(this: GameCommandCanvas, keyCode: int32) =
+        this.keyReleasedByDevice(keyCode, 0)
 
-    def keyRepeated(self, keyCode: int) -> None:
-        self.keyRepeatedByDevice(keyCode, 0)
-    
+method keyRepeated*(this: GameCommandCanvas, keyCode: int32) =
+        this.keyRepeatedByDevice(keyCode, 0)
 
-    def keyPressedByDevice(self, keyCode: int, deviceId: int) -> None:
-        from org.allbinary.logic.string.StringMaker import StringMaker
-        from org.allbinary.string.CommonSeps import CommonSeps
-        self.logUtil.putF(str(StringMaker().append(CommonSeps.getInstance().SPACE).appendint(keyCode)), self, self.gameInputStrings.KEY_PRESSED)
-        self.addGameKeyEvent(keyCode, 0, False)
-    
+method keyPressedByDevice*(this: GameCommandCanvas, keyCode: int32, deviceId: int32) =
+        this.logUtil.putF(newStringMaker().append(CommonSeps.getInstance().SPACE).appendint(keyCode).toString(), this, this.gameInputStrings.KEY_PRESSED)
+        this.addGameKeyEvent(keyCode, 0, false)
 
-    def keyReleasedByDevice(self, keyCode: int, deviceId: int) -> None:
-        self.removeGameKeyEvent(keyCode, deviceId, False)
-    
+method keyReleasedByDevice*(this: GameCommandCanvas, keyCode: int32, deviceId: int32) =
+        this.removeGameKeyEvent(keyCode, deviceId, false)
 
-    def keyRepeatedByDevice(self, keyCode: int, deviceId: int) -> None:
-        if self.isSingleKeyRepeatableProcessing:
-            self.addGameKeyEvent(keyCode, deviceId, True)
-    
+method keyRepeatedByDevice*(this: GameCommandCanvas, keyCode: int32, deviceId: int32) =
+        if this.isSingleKeyRepeatableProcessing:
+            this.addGameKeyEvent(keyCode, deviceId, true)
 
-    def addGameKeyEvent(self, keyCode: int, deviceId: int, repeated: bool) -> None:
-        from org.allbinary.game.input.GameKey import GameKey
-        from org.allbinary.game.input.event.GameKeyEvent import GameKeyEvent
-        from org.allbinary.logic.string.StringMaker import StringMaker
+method addGameKeyEvent*(this: GameCommandCanvas, keyCode: int32, deviceId: int32, repeated: bool) {.base.} =
         try:
-            gameKey: GameKey = self.inputToGameKeyMapping.getInstanceForCanvas(self, keyCode)
-            if gameKey != self.gameKeyFactory.NONE:
-                gameKeyEvent: GameKeyEvent = self.gameKeyEventFactory.getInstanceForInput(self, gameKey)
-                self.downGameKeyEventHandler.fireEvent(gameKeyEvent)
-                self.downGameKeyEventHandler.getInstanceForDevice(deviceId).fireEvent(gameKeyEvent)
+            let gameKey: GameKey = this.inputToGameKeyMapping.getInstanceForCanvas(this, keyCode)
+            if gameKey != this.gameKeyFactory.NONE:
+                let gameKeyEvent: GameKeyEvent = this.gameKeyEventFactory.getInstanceForInput(this, gameKey)
+                this.downGameKeyEventHandler.fireEvent(gameKeyEvent)
+                this.downGameKeyEventHandler.getInstanceForDevice(deviceId).fireEvent(gameKeyEvent)
             else:
-                self.logUtil.putF(str(StringMaker().append(self.gameInputStrings.NO_KEY).appendint(keyCode)), self, self.gameInputStrings.ADD_KEY_EVENT)
-        except Exception as e:
-            self.logUtil.put("Key Event Error", self, self.gameInputStrings.ADD_KEY_EVENT, e)
-    
+                this.logUtil.putF(newStringMaker().append(this.gameInputStrings.NO_KEY).appendint(keyCode).toString(), this, this.gameInputStrings.ADD_KEY_EVENT)
+        except CatchableError as jcaught:
+            let e = jToException(jcaught)
+            this.logUtil.put("Key Event Error", this, this.gameInputStrings.ADD_KEY_EVENT, e)
 
-    def removeGameKeyEvent(self, keyCode: int, deviceId: int, repeated: bool) -> None:
-        from org.allbinary.game.input.GameKey import GameKey
-        from org.allbinary.game.input.event.GameKeyEvent import GameKeyEvent
-        from org.allbinary.logic.string.StringMaker import StringMaker
+method removeGameKeyEvent*(this: GameCommandCanvas, keyCode: int32, deviceId: int32, repeated: bool) {.base.} =
         try:
-            gameKey: GameKey = self.inputToGameKeyMapping.getInstanceForCanvas(self, keyCode)
-            if gameKey != self.gameKeyFactory.NONE:
-                gameKeyEvent: GameKeyEvent = self.gameKeyEventFactory.getInstanceForInput(self, gameKey)
-                self.upGameKeyEventHandler.fireEvent(gameKeyEvent)
-                self.upGameKeyEventHandler.getInstanceForDevice(deviceId).fireEvent(gameKeyEvent)
+            let gameKey: GameKey = this.inputToGameKeyMapping.getInstanceForCanvas(this, keyCode)
+            if gameKey != this.gameKeyFactory.NONE:
+                let gameKeyEvent: GameKeyEvent = this.gameKeyEventFactory.getInstanceForInput(this, gameKey)
+                this.upGameKeyEventHandler.fireEvent(gameKeyEvent)
+                this.upGameKeyEventHandler.getInstanceForDevice(deviceId).fireEvent(gameKeyEvent)
             else:
-                self.logUtil.putF(str(StringMaker().append(self.gameInputStrings.NO_KEY).appendint(keyCode)), self, self.gameInputStrings.REMOVE_KEY_EVENT)
-        except Exception as e:
-            self.logUtil.put("Key Event Error", self, self.gameInputStrings.REMOVE_KEY_EVENT, e)
-    
+                this.logUtil.putF(newStringMaker().append(this.gameInputStrings.NO_KEY).appendint(keyCode).toString(), this, this.gameInputStrings.REMOVE_KEY_EVENT)
+        except CatchableError as jcaught:
+            let e = jToException(jcaught)
+            this.logUtil.put("Key Event Error", this, this.gameInputStrings.REMOVE_KEY_EVENT, e)
 
-    def paint(self, graphics: Graphics) -> None:
-        from javax.microedition.lcdui.Graphics import Graphics
-        self.myFontProcessor.process(graphics)
-        self.menuPaintable.paint(graphics)
-        self.repaintBehavior.repaint(self)
-    
+method paint*(this: GameCommandCanvas, graphics: Graphics) =
+        this.myFontProcessor.process(graphics)
+        this.menuPaintable.paint(graphics)
+        this.repaintBehavior.repaint(this)
 
-    def setMenuInputProcessor(self, menuInputProcessor: BasicMenuInputProcessor) -> None:
-        self.menuInputProcessor = menuInputProcessor
-    
+method setMenuInputProcessor*(this: GameCommandCanvas, menuInputProcessor: BasicMenuInputProcessor) {.base.} =
+        this.menuInputProcessor = menuInputProcessor
 
-    def getMenuInputProcessor(self) -> BasicMenuInputProcessor:
-        return self.menuInputProcessor
-# from javax.microedition.lcdui.CommandListener import CommandListener
-# from javax.microedition.lcdui.Font import Font
-# from javax.microedition.lcdui.Graphics import Graphics
-# from javax.microedition.lcdui.NullCommandListener import NullCommandListener
-# from org.allbinary.canvas.Processor import Processor
-# from org.allbinary.game.commands.GameCommandsFactory import GameCommandsFactory
-# from org.allbinary.game.configuration.feature.Features import Features
-# from org.allbinary.game.configuration.feature.InputFeatureFactory import InputFeatureFactory
-# from org.allbinary.game.displayable.RepaintBehavior import RepaintBehavior
-# from org.allbinary.game.input.GameInputStrings import GameInputStrings
-# from org.allbinary.game.input.GameKey import GameKey
-# from org.allbinary.game.input.GameKeyFactory import GameKeyFactory
-# from org.allbinary.game.input.PlatformInputMappingFactory import PlatformInputMappingFactory
-# from org.allbinary.game.input.event.DownGameKeyEventHandler import DownGameKeyEventHandler
-# from org.allbinary.game.input.event.GameKeyEvent import GameKeyEvent
-# from org.allbinary.game.input.event.GameKeyEventFactory import GameKeyEventFactory
-# from org.allbinary.game.input.event.GameKeyEventHandler import GameKeyEventHandler
-# from org.allbinary.game.input.event.UpGameKeyEventHandler import UpGameKeyEventHandler
-# from org.allbinary.game.input.mapping.InputToGameKeyMapping import InputToGameKeyMapping
-# from org.allbinary.graphics.PointFactory import PointFactory
-# from org.allbinary.graphics.Rectangle import Rectangle
-# from org.allbinary.graphics.color.BasicColor import BasicColor
-# from org.allbinary.graphics.displayable.CanvasStrings import CanvasStrings
-# from org.allbinary.graphics.displayable.DisplayInfoSingleton import DisplayInfoSingleton
-# from org.allbinary.graphics.displayable.event.DisplayChangeEvent import DisplayChangeEvent
-# from org.allbinary.graphics.displayable.event.DisplayChangeEventHandler import DisplayChangeEventHandler
-# from org.allbinary.graphics.displayable.screen.ScreenRepaintProcessorFactory import ScreenRepaintProcessorFactory
-# from org.allbinary.graphics.font.MyFontProcessor import MyFontProcessor
-# from org.allbinary.graphics.font.UpdateMyFontProcessor import UpdateMyFontProcessor
-# from org.allbinary.graphics.form.CommandCurrentSelectionFormFactory import CommandCurrentSelectionFormFactory
-# from org.allbinary.graphics.form.FormPaintable import FormPaintable
-# from org.allbinary.graphics.form.FormTypeFactory import FormTypeFactory
-# from org.allbinary.graphics.form.PaintableForm import PaintableForm
-# from org.allbinary.graphics.form.ScrollSelectionForm import ScrollSelectionForm
-# from org.allbinary.graphics.form.ScrollSelectionFormNoneFactory import ScrollSelectionFormNoneFactory
-# from org.allbinary.graphics.form.item.CommandTextItemArrayFactory import CommandTextItemArrayFactory
-# from org.allbinary.graphics.form.item.ABCustomItem import ABCustomItem
-# from org.allbinary.graphics.form.item.validation.AllCommandsVisitor import AllCommandsVisitor
-# from org.allbinary.graphics.paint.NullPaintable import NullPaintable
-# from org.allbinary.graphics.paint.Paintable import Paintable
-# from org.allbinary.input.motion.gesture.observer.BasicMotionGesturesHandler import BasicMotionGesturesHandler
-# from org.allbinary.logic.communication.log.ForcedLogUtil import ForcedLogUtil
-# from org.allbinary.logic.string.StringMaker import StringMaker
-# from org.allbinary.logic.string.StringUtil import StringUtil
-# from org.allbinary.logic.util.event.AllBinaryEventObject import AllBinaryEventObject
-# from org.allbinary.logic.util.event.EventStrings import EventStrings
-# from org.allbinary.string.CommonSeps import CommonSeps
-# from org.allbinary.util.BasicArrayListD import BasicArrayListD
-from org.allbinary.game.displayable.canvas.NoMenuInputProcessor import NoMenuInputProcessor
+method getMenuInputProcessor*(this: GameCommandCanvas): BasicMenuInputProcessor {.base, discardable.} =
+        return this.menuInputProcessor
 
+when declared(newGameCommandCanvasHook4):
+    newGameCommandCanvasHook4 = proc (cmdListener: CommandListener, name: string, backgroundBasicColor: BasicColor, foregroundBasicColor: BasicColor): MyCanvas = newGameCommandCanvas(cmdListener, name, backgroundBasicColor, foregroundBasicColor)
 

@@ -1,73 +1,89 @@
-# 
-# AllBinary Open License Version 1 
-# Copyright (c) 2022 AllBinary 
-#  
-# By agreeing to this license you and any business entity you represent are 
-# legally bound to the AllBinary Open License Version 1 legal agreement. 
-#  
-# You may obtain the AllBinary Open License Version 1 legal agreement from 
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
-#  
-# Created By: Travis Berthelot 
-#   
+#[
+  
+  AllBinary Open License Version 1 
+  Copyright (c) 2022 AllBinary 
+   
+  By agreeing to this license you and any business entity you represent are 
+  legally bound to the AllBinary Open License Version 1 legal agreement. 
+   
+  You may obtain the AllBinary Open License Version 1 legal agreement from 
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
+   
+  Created By: Travis Berthelot 
+    
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.score
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/logic/communication/log/LogUtil as LogUtilModule
+export LogUtilModule
+import org/allbinary/game/score/HighScoresHelperBaseInterface as HighScoresHelperBaseInterfaceModule
+export HighScoresHelperBaseInterfaceModule
+import org/allbinary/game/score/HighScores as HighScoresModule
+export HighScoresModule
 
-from org.allbinary.game.score.HighScoresHelperBaseInterface import HighScoresHelperBaseInterface
+type
+    HighScoresHelperBase* = ref object of HighScoresHelperBaseInterface
+        logUtil*: LogUtil
+        highScoresArrayP*: JArray[HighScores]
+
+proc newHighScoresHelperBase*(): HighScoresHelperBase
+method setHighScoresArray*(this: HighScoresHelperBase, highScoresArrayP: JArray[HighScores])
+method getNextHighScores*(this: HighScoresHelperBase): HighScores {.base, discardable.}
+method isAnyHighScores*(this: HighScoresHelperBase): bool {.base, discardable.}
+method setSelectedHighScores*(this: HighScoresHelperBase, selectedHighScores: HighScores)
+method getSelectedHighScores*(this: HighScoresHelperBase): HighScores {.discardable.}
+method getHighScoresArray*(this: HighScoresHelperBase): JArray[HighScores] {.discardable.}
+method selectHighScores*(this: HighScoresHelperBase) {.base.}
+import org/allbinary/logic/string/StringMaker as StringMakerModule
+export StringMakerModule
+import org/allbinary/string/CommonStrings as CommonStringsModule
+export CommonStringsModule
+import org/allbinary/game/score/LastFetchHighScoresFactory as LastFetchHighScoresFactoryModule
+export LastFetchHighScoresFactoryModule
+import org/allbinary/game/score/NullHighScoresSingletonFactory as NullHighScoresSingletonFactoryModule
+export NullHighScoresSingletonFactoryModule
 
 
-class HighScoresHelperBase(HighScoresHelperBaseInterface):
+# Java field initializers run after the base initializer
+proc initFieldsHighScoresHelperBase(this: HighScoresHelperBase) =
+    this.logUtil = LogUtil.getInstance()
+    this.highScoresArrayP = LastFetchHighScoresFactory.getInstance().highScoresArray
+    discard
 
-    def _init_fields(self) -> None:
-        from org.allbinary.logic.communication.log.LogUtil import LogUtil
-        self.logUtil: LogUtil = LogUtil.getInstance()
-        self.highScoresArrayP: list[HighScores] = LastFetchHighScoresFactory.getInstance().highScoresArray
+proc initHighScoresHelperBase*(this: HighScoresHelperBase) =
+    this.initFieldsHighScoresHelperBase()
 
-    def __init__(self) -> None:
-        self._init_fields()
-    
+proc newHighScoresHelperBase*(): HighScoresHelperBase =
+    result = HighScoresHelperBase()
+    initHighScoresHelperBase(result)
 
-    def setHighScoresArray(self, highScoresArrayP: list[HighScores]) -> None:
-        from org.allbinary.logic.string.StringMaker import StringMaker
-        from org.allbinary.string.CommonStrings import CommonStrings
-        if highScoresArrayP is not None:
-            commonStrings: CommonStrings = CommonStrings.getInstance()
-            self.logUtil.putF(str(StringMaker().append(commonStrings.START).appendint(len(highScoresArrayP))), self, "setHighScoresArray")
+method setHighScoresArray*(this: HighScoresHelperBase, highScoresArrayP: JArray[HighScores]) =
+        if (not jIsNil(highScoresArrayP)):
+            let commonStrings: CommonStrings = CommonStrings.getInstance()
+            this.logUtil.putF(newStringMaker().append(commonStrings.START).appendint(highScoresArrayP.length).toString(), this, "setHighScoresArray")
         else:
-            commonStrings: CommonStrings = CommonStrings.getInstance()
-            self.logUtil.putF(commonStrings.START, self, "setHighScoresArray")
-        self.highScoresArrayP = highScoresArrayP
-    
+            let commonStrings: CommonStrings = CommonStrings.getInstance()
+            this.logUtil.putF(commonStrings.START, this, "setHighScoresArray")
+        this.highScoresArrayP = highScoresArrayP
 
-    def getNextHighScores(self) -> HighScores:
-        from org.allbinary.game.score.NullHighScoresSingletonFactory import NullHighScoresSingletonFactory
+method getNextHighScores*(this: HighScoresHelperBase): HighScores {.base, discardable.} =
         return NullHighScoresSingletonFactory.getInstance()
-    
 
-    def isAnyHighScores(self) -> bool:
-        raise RuntimeError()
-    
+method isAnyHighScores*(this: HighScoresHelperBase): bool {.base, discardable.} =
+        raise newJException("RuntimeException", "")
 
-    def setSelectedHighScores(self, selectedHighScores: HighScores) -> None:
-        pass
-    
+method setSelectedHighScores*(this: HighScoresHelperBase, selectedHighScores: HighScores) =
+        discard
 
-    def getSelectedHighScores(self) -> HighScores:
-        from org.allbinary.game.score.NullHighScoresSingletonFactory import NullHighScoresSingletonFactory
+method getSelectedHighScores*(this: HighScoresHelperBase): HighScores {.discardable.} =
         return NullHighScoresSingletonFactory.getInstance()
-    
 
-    def getHighScoresArray(self) -> list[HighScores]:
-        return self.highScoresArrayP
-    
+method getHighScoresArray*(this: HighScoresHelperBase): JArray[HighScores] {.discardable.} =
+        return this.highScoresArrayP
 
-    def selectHighScores(self) -> None:
-        pass
-# from org.allbinary.logic.communication.log.LogUtil import LogUtil
-# from org.allbinary.logic.string.StringMaker import StringMaker
-# from org.allbinary.string.CommonStrings import CommonStrings
-from org.allbinary.game.score.LastFetchHighScoresFactory import LastFetchHighScoresFactory
-
+method selectHighScores*(this: HighScoresHelperBase) {.base.} =
+        discard
 

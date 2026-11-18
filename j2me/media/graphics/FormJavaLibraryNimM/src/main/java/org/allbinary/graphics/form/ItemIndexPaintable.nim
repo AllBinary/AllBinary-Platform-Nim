@@ -1,43 +1,52 @@
-# 
-# AllBinary Open License Version 1 
-# Copyright (c) 2025 AllBinary 
-#  
-# By agreeing to this license you and any business entity you represent are 
-# legally bound to the AllBinary Open License Version 1 legal agreement. 
-#  
-# You may obtain the AllBinary Open License Version 1 legal agreement from 
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
-#  
-# Created By: Travis Berthelot 
-#   
+#[
+  
+  AllBinary Open License Version 1 
+  Copyright (c) 2025 AllBinary 
+   
+  By agreeing to this license you and any business entity you represent are 
+  legally bound to the AllBinary Open License Version 1 legal agreement. 
+   
+  You may obtain the AllBinary Open License Version 1 legal agreement from 
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
+   
+  Created By: Travis Berthelot 
+    
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.graphics.form
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import javax/microedition/lcdui/Graphics as GraphicsModule
+export GraphicsModule
+import org/allbinary/graphics/form/item/ABCustomItem as ABCustomItemModule
+export ABCustomItemModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    ItemIndexPaintable* = ref object of JObject
 
+proc newItemIndexPaintable*(): ItemIndexPaintable
+proc getInstance*(t: typedesc[ItemIndexPaintable]): ItemIndexPaintable {.discardable.}
+method paint*(this: ItemIndexPaintable, graphics: Graphics, index: int32, item: ABCustomItem, dx: int32, dy: int32): int32 {.base, discardable.}
 
-class ItemIndexPaintable:
-    instance: ItemIndexPaintable = None
-    
+var ItemIndexPaintable_instanceValue: ItemIndexPaintable
+var ItemIndexPaintable_instanceSet = false
+proc instance*(t: typedesc[ItemIndexPaintable]): ItemIndexPaintable =
+    if not ItemIndexPaintable_instanceSet:
+        ItemIndexPaintable_instanceSet = true
+        ItemIndexPaintable_instanceValue = newItemIndexPaintable()
+    ItemIndexPaintable_instanceValue
 
-    @staticmethod
-    def getInstance() -> ItemIndexPaintable:
+proc initItemIndexPaintable*(this: ItemIndexPaintable) =
+    discard
+
+proc newItemIndexPaintable*(): ItemIndexPaintable =
+    result = ItemIndexPaintable()
+    initItemIndexPaintable(result)
+
+proc getInstance*(t: typedesc[ItemIndexPaintable]): ItemIndexPaintable {.discardable.} =
         return ItemIndexPaintable.instance
-    
 
-    # throws Exception
-    def paint(self, graphics: Graphics, index: int, item: ABCustomItem, dx: int, dy: int) -> int:
-        from javax.microedition.lcdui.Graphics import Graphics
-        from org.allbinary.graphics.form.item.ABCustomItem import ABCustomItem
+method paint*(this: ItemIndexPaintable, graphics: Graphics, index: int32, item: ABCustomItem, dx: int32, dy: int32): int32 {.base, discardable.} =
         return 0
-# from javax.microedition.lcdui.Graphics import Graphics
-# from org.allbinary.graphics.form.item.ABCustomItem import ABCustomItem
-
-
-def _ItemIndexPaintable_instance() -> object:
-    return ItemIndexPaintable()
-
-lazy_static(ItemIndexPaintable, "instance", _ItemIndexPaintable_instance)
 

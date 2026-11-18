@@ -1,36 +1,48 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.paint
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import javax/microedition/lcdui/Graphics as GraphicsModule
+export GraphicsModule
+import org/allbinary/graphics/color/BasicColor as BasicColorModule
+export BasicColorModule
+import org/allbinary/game/paint/ColorFillPaintable as ColorFillPaintableModule
+export ColorFillPaintableModule
 
-from org.allbinary.game.paint.ColorFillPaintable import ColorFillPaintable
+type
+    OverScanColorFillPaintable* = ref object of ColorFillPaintable
+
+proc newOverScanColorFillPaintable*(basicColor: BasicColor): OverScanColorFillPaintable
+proc initOverScanColorFillPaintable*(this: OverScanColorFillPaintable, basicColor: BasicColor)
+method paint*(this: OverScanColorFillPaintable, graphics: Graphics)
 
 
-class OverScanColorFillPaintable(ColorFillPaintable):
-    
+proc initOverScanColorFillPaintable*(this: OverScanColorFillPaintable, basicColor: BasicColor) =
+        initColorFillPaintable(this, basicColor)
 
-    def __init__(self, basicColor: BasicColor) -> None:
-        from org.allbinary.graphics.color.BasicColor import BasicColor
-        super().__init__(basicColor)
-    
+proc newOverScanColorFillPaintable*(basicColor: BasicColor): OverScanColorFillPaintable =
+    result = OverScanColorFillPaintable()
+    initOverScanColorFillPaintable(result, basicColor)
 
-    def paint(self, graphics: Graphics) -> None:
-        from javax.microedition.lcdui.Graphics import Graphics
-        graphics.setColor(self.colorP)
-        graphics.fillRect(-graphics.getClipX(), -graphics.getClipY(), self.displayInfoSingleton.getLastWidth() + (graphics.getClipX() * 2), self.displayInfoSingleton.getLastHeight() + (graphics.getClipY() * 2))
-# from javax.microedition.lcdui.Graphics import Graphics
-# from org.allbinary.graphics.color.BasicColor import BasicColor
+method paint*(this: OverScanColorFillPaintable, graphics: Graphics) =
+        graphics.setColor(this.colorP)
+        graphics.fillRect(-graphics.getClipX(), -graphics.getClipY(), this.displayInfoSingleton.getLastWidth() +% (graphics.getClipX() *% 2), this.displayInfoSingleton.getLastHeight() +% (graphics.getClipY() *% 2))
 
+when declared(newOverScanColorFillPaintableHook1):
+    newOverScanColorFillPaintableHook1 = proc (basicColor: BasicColor): ColorFillPaintable = newOverScanColorFillPaintable(basicColor)
 

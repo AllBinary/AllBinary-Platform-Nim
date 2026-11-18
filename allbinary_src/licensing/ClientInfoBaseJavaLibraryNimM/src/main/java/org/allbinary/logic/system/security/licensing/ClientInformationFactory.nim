@@ -1,37 +1,49 @@
-# 
-# AllBinary Open License Version 1 
-# Copyright (c) 2022 AllBinary 
-#  
-# By agreeing to this license you and any business entity you represent are 
-# legally bound to the AllBinary Open License Version 1 legal agreement. 
-#  
-# You may obtain the AllBinary Open License Version 1 legal agreement from 
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
-#  
-# Created By: Travis Berthelot 
-#   
+#[
+  
+  AllBinary Open License Version 1 
+  Copyright (c) 2022 AllBinary 
+   
+  By agreeing to this license you and any business entity you represent are 
+  legally bound to the AllBinary Open License Version 1 legal agreement. 
+   
+  You may obtain the AllBinary Open License Version 1 legal agreement from 
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
+   
+  Created By: Travis Berthelot 
+    
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.logic.system.security.licensing
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/logic/system/security/licensing/ClientInformation as ClientInformationModule
+export ClientInformationModule
+
+type
+    ClientInformationFactory* = ref object of JObject
+
+proc newClientInformationFactory*(): ClientInformationFactory
+method getInstance*(this: ClientInformationFactory): ClientInformation {.base, discardable.}
+import org/allbinary/logic/communication/log/LogUtil as LogUtilModule
+export LogUtilModule
+import org/allbinary/logic/string/StringUtil as StringUtilModule
+export StringUtilModule
+import org/allbinary/string/CommonStrings as CommonStringsModule
+export CommonStringsModule
 
 
+proc initClientInformationFactory*(this: ClientInformationFactory) =
+    discard
 
-class ClientInformationFactory:
-    
+proc newClientInformationFactory*(): ClientInformationFactory =
+    result = ClientInformationFactory()
+    initClientInformationFactory(result)
 
-    def getInstance(self) -> ClientInformation:
-        from org.allbinary.logic.system.security.licensing.ClientInformation import ClientInformation
-        from org.allbinary.logic.communication.log.LogUtil import LogUtil
-        from org.allbinary.logic.string.StringUtil import StringUtil
-        from org.allbinary.string.CommonStrings import CommonStrings
-        logUtil: LogUtil = LogUtil.getInstance()
-        commonStrings: CommonStrings = CommonStrings.getInstance()
-        logUtil.putF(commonStrings.NOT_IMPLEMENTED, self, commonStrings.GET_INSTANCE)
-        stringUtil: StringUtil = StringUtil.getInstance()
-        return ClientInformation(stringUtil.NULL_STRING, stringUtil.NULL_STRING, stringUtil.NULL_STRING, stringUtil.NULL_STRING)
-# from org.allbinary.logic.communication.log.LogUtil import LogUtil
-# from org.allbinary.logic.string.StringUtil import StringUtil
-# from org.allbinary.string.CommonStrings import CommonStrings
-
+method getInstance*(this: ClientInformationFactory): ClientInformation {.base, discardable.} =
+        let logUtil: LogUtil = LogUtil.getInstance()
+        let commonStrings: CommonStrings = CommonStrings.getInstance()
+        logUtil.putF(commonStrings.NOT_IMPLEMENTED, this, commonStrings.GET_INSTANCE)
+        let stringUtil: StringUtil = StringUtil.getInstance()
+        return newClientInformation(stringUtil.NULL_STRING, stringUtil.NULL_STRING, stringUtil.NULL_STRING, stringUtil.NULL_STRING)
 

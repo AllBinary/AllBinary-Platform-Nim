@@ -1,73 +1,79 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.logic.system.security.licensing
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/game/layer/hud/event/GameNotificationEvent as GameNotificationEventModule
+export GameNotificationEventModule
+import org/allbinary/graphics/color/BasicColor as BasicColorModule
+export BasicColorModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    LockedFeatureNotificationUtil* = ref object of JObject
+        gameNotificationEvent*: GameNotificationEvent
 
+proc newLockedFeatureNotificationUtil*(): LockedFeatureNotificationUtil
+proc getInstance*(t: typedesc[LockedFeatureNotificationUtil]): LockedFeatureNotificationUtil {.discardable.}
+method fire*(this: LockedFeatureNotificationUtil) {.base.}
+method fireWithColor*(this: LockedFeatureNotificationUtil, basicColor: BasicColor) {.base.}
+import org/allbinary/game/layer/hud/event/GameNotificationEventHandler as GameNotificationEventHandlerModule
+export GameNotificationEventHandlerModule
+import org/allbinary/graphics/color/BasicColorFactory as BasicColorFactoryModule
+export BasicColorFactoryModule
+import org/allbinary/logic/java/bool/BooleanFactory as BooleanFactoryModule
+export BooleanFactoryModule
+import org/allbinary/logic/math/SmallIntegerSingletonFactory as SmallIntegerSingletonFactoryModule
+export SmallIntegerSingletonFactoryModule
+import org/allbinary/media/audio/ErrorSound as ErrorSoundModule
+export ErrorSoundModule
+import org/allbinary/media/audio/PrimaryPlayerQueueFactory as PrimaryPlayerQueueFactoryModule
+export PrimaryPlayerQueueFactoryModule
+import org/allbinary/logic/system/security/licensing/LicenseStrings as LicenseStringsModule
+export LicenseStringsModule
 
-class LockedFeatureNotificationUtil:
-    instance: LockedFeatureNotificationUtil = None
+var LockedFeatureNotificationUtil_instanceValue: LockedFeatureNotificationUtil
+var LockedFeatureNotificationUtil_instanceSet = false
+proc instance*(t: typedesc[LockedFeatureNotificationUtil]): LockedFeatureNotificationUtil =
+    if not LockedFeatureNotificationUtil_instanceSet:
+        LockedFeatureNotificationUtil_instanceSet = true
+        LockedFeatureNotificationUtil_instanceValue = newLockedFeatureNotificationUtil()
+    LockedFeatureNotificationUtil_instanceValue
 
-    def _init_fields(self) -> None:
-        from org.allbinary.game.layer.hud.event.GameNotificationEvent import GameNotificationEvent
-        from org.allbinary.graphics.color.BasicColorFactory import BasicColorFactory
-        from org.allbinary.logic.java.bool.BooleanFactory import BooleanFactory
-        from org.allbinary.logic.math.SmallIntegerSingletonFactory import SmallIntegerSingletonFactory
-        self.gameNotificationEvent: GameNotificationEvent = GameNotificationEvent(self, LicenseStrings.getInstance().LOCKED, SmallIntegerSingletonFactory.getInstance().getAt(3), BasicColorFactory.getInstance().RED, BooleanFactory.getInstance().FALSE)
+# Java field initializers run after the base initializer
+proc initFieldsLockedFeatureNotificationUtil(this: LockedFeatureNotificationUtil) =
+    this.gameNotificationEvent = newGameNotificationEvent(this, LicenseStrings.getInstance().LOCKED, SmallIntegerSingletonFactory.getInstance().getAt(3), BasicColorFactory.getInstance().RED, BooleanFactory.getInstance().FALSE)
+    discard
 
-    def __init__(self) -> None:
-        self._init_fields()
-    
+proc initLockedFeatureNotificationUtil*(this: LockedFeatureNotificationUtil) =
+    this.initFieldsLockedFeatureNotificationUtil()
 
-    @staticmethod
-    def getInstance() -> LockedFeatureNotificationUtil:
+proc newLockedFeatureNotificationUtil*(): LockedFeatureNotificationUtil =
+    result = LockedFeatureNotificationUtil()
+    initLockedFeatureNotificationUtil(result)
+
+proc getInstance*(t: typedesc[LockedFeatureNotificationUtil]): LockedFeatureNotificationUtil {.discardable.} =
         return LockedFeatureNotificationUtil.instance
-    
 
-    # throws Exception
-    def fire(self) -> None:
-        from org.allbinary.game.layer.hud.event.GameNotificationEventHandler import GameNotificationEventHandler
-        from org.allbinary.media.audio.ErrorSound import ErrorSound
-        from org.allbinary.media.audio.PrimaryPlayerQueueFactory import PrimaryPlayerQueueFactory
+method fire*(this: LockedFeatureNotificationUtil) {.base.} =
         PrimaryPlayerQueueFactory.getInstance().add(ErrorSound.getInstance())
-        GameNotificationEventHandler.getInstance().fireEvent(self.gameNotificationEvent)
-    
+        GameNotificationEventHandler.getInstance().fireEvent(this.gameNotificationEvent)
 
-    # throws Exception
-    def fireWithColor(self, basicColor: BasicColor) -> None:
-        from org.allbinary.game.layer.hud.event.GameNotificationEventHandler import GameNotificationEventHandler
-        from org.allbinary.graphics.color.BasicColor import BasicColor
-        from org.allbinary.media.audio.ErrorSound import ErrorSound
-        from org.allbinary.media.audio.PrimaryPlayerQueueFactory import PrimaryPlayerQueueFactory
+method fireWithColor*(this: LockedFeatureNotificationUtil, basicColor: BasicColor) {.base.} =
         PrimaryPlayerQueueFactory.getInstance().add(ErrorSound.getInstance())
-        self.gameNotificationEvent.setBasicColorP(basicColor)
-        GameNotificationEventHandler.getInstance().fireEvent(self.gameNotificationEvent)
-# from org.allbinary.game.layer.hud.event.GameNotificationEvent import GameNotificationEvent
-# from org.allbinary.game.layer.hud.event.GameNotificationEventHandler import GameNotificationEventHandler
-# from org.allbinary.graphics.color.BasicColor import BasicColor
-# from org.allbinary.graphics.color.BasicColorFactory import BasicColorFactory
-# from org.allbinary.logic.java.bool.BooleanFactory import BooleanFactory
-# from org.allbinary.logic.math.SmallIntegerSingletonFactory import SmallIntegerSingletonFactory
-# from org.allbinary.media.audio.ErrorSound import ErrorSound
-# from org.allbinary.media.audio.PrimaryPlayerQueueFactory import PrimaryPlayerQueueFactory
-from org.allbinary.logic.system.security.licensing.LicenseStrings import LicenseStrings
-
-
-def _LockedFeatureNotificationUtil_instance() -> object:
-    return LockedFeatureNotificationUtil()
-
-lazy_static(LockedFeatureNotificationUtil, "instance", _LockedFeatureNotificationUtil_instance)
+        this.gameNotificationEvent.setBasicColorP(basicColor)
+        GameNotificationEventHandler.getInstance().fireEvent(this.gameNotificationEvent)
 

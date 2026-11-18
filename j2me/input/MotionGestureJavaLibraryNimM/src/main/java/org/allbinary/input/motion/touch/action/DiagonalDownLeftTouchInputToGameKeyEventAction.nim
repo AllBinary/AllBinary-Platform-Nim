@@ -1,48 +1,61 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.input.motion.touch.action
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/game/input/motion/action/GameKeyCompleteMotionGestureInputEvent as GameKeyCompleteMotionGestureInputEventModule
+export GameKeyCompleteMotionGestureInputEventModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
-from org.allbinary.game.input.motion.action.GameKeyCompleteMotionGestureInputEvent import GameKeyCompleteMotionGestureInputEvent
+type
+    DiagonalDownLeftTouchInputToGameKeyEventAction* = ref object of GameKeyCompleteMotionGestureInputEvent
 
+proc newDiagonalDownLeftTouchInputToGameKeyEventAction*(): DiagonalDownLeftTouchInputToGameKeyEventAction
+proc initDiagonalDownLeftTouchInputToGameKeyEventAction*(this: DiagonalDownLeftTouchInputToGameKeyEventAction)
+proc getInstance*(t: typedesc[DiagonalDownLeftTouchInputToGameKeyEventAction]): GameKeyCompleteMotionGestureInputEvent {.discardable.}
+import org/allbinary/game/input/PlatformInputMappingFactory as PlatformInputMappingFactoryModule
+export PlatformInputMappingFactoryModule
+import org/allbinary/input/motion/gesture/TouchMotionGestureFactory as TouchMotionGestureFactoryModule
+export TouchMotionGestureFactoryModule
+import org/allbinary/logic/NullUtil as NullUtilModule
+export NullUtilModule
 
-class DiagonalDownLeftTouchInputToGameKeyEventAction(GameKeyCompleteMotionGestureInputEvent):
-    instance: object = None
-    
+var DiagonalDownLeftTouchInputToGameKeyEventAction_instanceValue: JObject
+var DiagonalDownLeftTouchInputToGameKeyEventAction_instanceSet = false
+proc instance*(t: typedesc[DiagonalDownLeftTouchInputToGameKeyEventAction]): JObject =
+    if not DiagonalDownLeftTouchInputToGameKeyEventAction_instanceSet:
+        DiagonalDownLeftTouchInputToGameKeyEventAction_instanceSet = true
+        DiagonalDownLeftTouchInputToGameKeyEventAction_instanceValue = NullUtil.getInstance().NULL_OBJECT
+    DiagonalDownLeftTouchInputToGameKeyEventAction_instanceValue
+proc `instance=`*(t: typedesc[DiagonalDownLeftTouchInputToGameKeyEventAction], value: JObject) =
+    DiagonalDownLeftTouchInputToGameKeyEventAction_instanceSet = true
+    DiagonalDownLeftTouchInputToGameKeyEventAction_instanceValue = value
 
-    @staticmethod
-    def getInstance() -> GameKeyCompleteMotionGestureInputEvent:
-        from org.allbinary.logic.NullUtil import NullUtil
+proc getInstance*(t: typedesc[DiagonalDownLeftTouchInputToGameKeyEventAction]): GameKeyCompleteMotionGestureInputEvent {.discardable.} =
         if DiagonalDownLeftTouchInputToGameKeyEventAction.instance == NullUtil.getInstance().NULL_OBJECT:
-            DiagonalDownLeftTouchInputToGameKeyEventAction.instance = DiagonalDownLeftTouchInputToGameKeyEventAction()
-        return DiagonalDownLeftTouchInputToGameKeyEventAction.instance
-    
+            DiagonalDownLeftTouchInputToGameKeyEventAction.instance = newDiagonalDownLeftTouchInputToGameKeyEventAction()
+        return GameKeyCompleteMotionGestureInputEvent(JObject(DiagonalDownLeftTouchInputToGameKeyEventAction.instance))
 
-    def __init__(self) -> None:
-        from org.allbinary.game.input.PlatformInputMappingFactory import PlatformInputMappingFactory
-        from org.allbinary.input.motion.gesture.TouchMotionGestureFactory import TouchMotionGestureFactory
-        super().__init__("Diagonal Down Left Action", TouchMotionGestureFactory.getInstance().DIAGONAL_DOWN_LEFT, PlatformInputMappingFactory.getInstance().getPersistentInputMappingInstance().getInputMapping())
-# from org.allbinary.game.input.PlatformInputMappingFactory import PlatformInputMappingFactory
-# from org.allbinary.input.motion.gesture.TouchMotionGestureFactory import TouchMotionGestureFactory
-# from org.allbinary.logic.NullUtil import NullUtil
+proc initDiagonalDownLeftTouchInputToGameKeyEventAction*(this: DiagonalDownLeftTouchInputToGameKeyEventAction) =
+        initGameKeyCompleteMotionGestureInputEvent(this, "Diagonal Down Left Action", TouchMotionGestureFactory.getInstance().DIAGONAL_DOWN_LEFT, PlatformInputMappingFactory.getInstance().getPersistentInputMappingInstance().getInputMapping())
 
+proc newDiagonalDownLeftTouchInputToGameKeyEventAction*(): DiagonalDownLeftTouchInputToGameKeyEventAction =
+    result = DiagonalDownLeftTouchInputToGameKeyEventAction()
+    initDiagonalDownLeftTouchInputToGameKeyEventAction(result)
 
-def _DiagonalDownLeftTouchInputToGameKeyEventAction_instance() -> object:
-    from org.allbinary.logic.NullUtil import NullUtil
-    return NullUtil.getInstance().NULL_OBJECT
-
-lazy_static(DiagonalDownLeftTouchInputToGameKeyEventAction, "instance", _DiagonalDownLeftTouchInputToGameKeyEventAction_instance)
+when declared(newDiagonalDownLeftTouchInputToGameKeyEventActionHook0):
+    newDiagonalDownLeftTouchInputToGameKeyEventActionHook0 = proc (): GameKeyCompleteMotionGestureInputEvent = newDiagonalDownLeftTouchInputToGameKeyEventAction()
 

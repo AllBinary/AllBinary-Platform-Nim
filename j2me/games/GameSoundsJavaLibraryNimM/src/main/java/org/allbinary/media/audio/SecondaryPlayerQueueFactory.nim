@@ -1,35 +1,46 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.media.audio
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/media/audio/PlayerQueue as PlayerQueueModule
+export PlayerQueueModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    SecondaryPlayerQueueFactory* = ref object of JObject
 
+proc newSecondaryPlayerQueueFactory*(): SecondaryPlayerQueueFactory
+proc getInstance*(t: typedesc[SecondaryPlayerQueueFactory]): PlayerQueue {.discardable.}
 
-class SecondaryPlayerQueueFactory:
-    SINGLETON: PlayerQueue = None
-    
+var SecondaryPlayerQueueFactory_SINGLETONValue: PlayerQueue
+var SecondaryPlayerQueueFactory_SINGLETONSet = false
+proc SINGLETON*(t: typedesc[SecondaryPlayerQueueFactory]): PlayerQueue =
+    if not SecondaryPlayerQueueFactory_SINGLETONSet:
+        SecondaryPlayerQueueFactory_SINGLETONSet = true
+        SecondaryPlayerQueueFactory_SINGLETONValue = newPlayerQueue(4)
+    SecondaryPlayerQueueFactory_SINGLETONValue
 
-    @staticmethod
-    def getInstance() -> PlayerQueue:
+proc initSecondaryPlayerQueueFactory*(this: SecondaryPlayerQueueFactory) =
+    discard
+
+proc newSecondaryPlayerQueueFactory*(): SecondaryPlayerQueueFactory =
+    result = SecondaryPlayerQueueFactory()
+    initSecondaryPlayerQueueFactory(result)
+
+proc getInstance*(t: typedesc[SecondaryPlayerQueueFactory]): PlayerQueue {.discardable.} =
         return SecondaryPlayerQueueFactory.SINGLETON
-
-
-def _SecondaryPlayerQueueFactory_SINGLETON() -> object:
-    from org.allbinary.media.audio.PlayerQueue import PlayerQueue
-    return PlayerQueue(4)
-
-lazy_static(SecondaryPlayerQueueFactory, "SINGLETON", _SecondaryPlayerQueueFactory_SINGLETON)
 

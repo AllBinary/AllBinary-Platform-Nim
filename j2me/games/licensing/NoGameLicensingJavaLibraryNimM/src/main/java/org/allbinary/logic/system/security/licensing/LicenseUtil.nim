@@ -1,62 +1,62 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.logic.system.security.licensing
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import javax/microedition/lcdui/CommandListener as CommandListenerModule
+export CommandListenerModule
 
-import threading
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    LicenseUtil* = ref object of JObject
 
+proc newLicenseUtil*(): LicenseUtil
+proc getInstance*(t: typedesc[LicenseUtil]): LicenseUtil {.discardable.}
+method init*(this: LicenseUtil) {.base.}
+method isRunning*(this: LicenseUtil): bool {.base, discardable.}
+method setRunning*(this: LicenseUtil, running: bool) {.base.}
+method shouldWait*(this: LicenseUtil, commandListener: CommandListener): bool {.base, discardable.}
 
-class LicenseUtil:
-    instance: LicenseUtil = None
-    _lock = threading.RLock()
-    
+var LicenseUtil_instanceValue: LicenseUtil
+var LicenseUtil_instanceSet = false
+proc instance*(t: typedesc[LicenseUtil]): LicenseUtil =
+    if not LicenseUtil_instanceSet:
+        LicenseUtil_instanceSet = true
+        LicenseUtil_instanceValue = newLicenseUtil()
+    LicenseUtil_instanceValue
 
-    @staticmethod
-    def getInstance() -> LicenseUtil:
+proc initLicenseUtil*(this: LicenseUtil) =
+    discard
+
+proc newLicenseUtil*(): LicenseUtil =
+    result = LicenseUtil()
+    initLicenseUtil(result)
+
+proc getInstance*(t: typedesc[LicenseUtil]): LicenseUtil {.discardable.} =
         return LicenseUtil.instance
-    
 
-    def init(self) -> None:
-        pass
-    
+method init*(this: LicenseUtil) {.base.} =
+        discard
 
-    def isRunning(self) -> bool:
-        with self._lock:
-            return self._isRunning_unlocked()
+method isRunning*(this: LicenseUtil): bool {.base, discardable.} =
+        return false
 
-    def _isRunning_unlocked(self) -> bool:
-        return False
-    
+method setRunning*(this: LicenseUtil, running: bool) {.base.} =
+        discard
 
-    def setRunning(self, running: bool) -> None:
-        with self._lock:
-            return self._setRunning_unlocked(running)
-
-    def _setRunning_unlocked(self, running: bool) -> None:
-        pass
-    
-
-    def shouldWait(self, commandListener: CommandListener) -> bool:
-        from javax.microedition.lcdui.CommandListener import CommandListener
-        return self.isRunning()
-# from javax.microedition.lcdui.CommandListener import CommandListener
-
-
-def _LicenseUtil_instance() -> object:
-    return LicenseUtil()
-
-lazy_static(LicenseUtil, "instance", _LicenseUtil_instance)
+method shouldWait*(this: LicenseUtil, commandListener: CommandListener): bool {.base, discardable.} =
+        return this.isRunning()
 

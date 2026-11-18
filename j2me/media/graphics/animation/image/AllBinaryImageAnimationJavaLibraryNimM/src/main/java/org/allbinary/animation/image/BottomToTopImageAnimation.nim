@@ -1,70 +1,87 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.animation.image
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import javax/microedition/lcdui/Graphics as GraphicsModule
+export GraphicsModule
+import javax/microedition/lcdui/Image as ImageModule
+export ImageModule
+import org/allbinary/animation/AnimationBehavior as AnimationBehaviorModule
+export AnimationBehaviorModule
+import org/allbinary/animation/image/ImageSegmentAnimation as ImageSegmentAnimationModule
+export ImageSegmentAnimationModule
 
-from org.allbinary.animation.image.ImageSegmentAnimation import ImageSegmentAnimation
+type
+    BottomToTopImageAnimation* = ref object of ImageSegmentAnimation
+        startHeight*: int32
+        currentHeight*: int32
+        anchorOfBottomToTopImageAnimation*: int32
+
+proc newBottomToTopImageAnimation*(image: Image, animationBehavior: AnimationBehavior): BottomToTopImageAnimation
+proc initBottomToTopImageAnimation*(this: BottomToTopImageAnimation, image: Image, animationBehavior: AnimationBehavior)
+method nextFrame*(this: BottomToTopImageAnimation)
+method previousFrame*(this: BottomToTopImageAnimation)
+method setFrame*(this: BottomToTopImageAnimation, index: int32)
+method update*(this: BottomToTopImageAnimation) {.base.}
+method paintXY*(this: BottomToTopImageAnimation, graphics: Graphics, x: int32, y: int32)
+import javax/microedition/lcdui/game/Sprite as SpriteModule
+export SpriteModule
+import org/allbinary/graphics/Anchor as AnchorModule
+export AnchorModule
+import org/allbinary/logic/math/PrimitiveIntUtil as PrimitiveIntUtilModule
+export PrimitiveIntUtilModule
 
 
-class BottomToTopImageAnimation(ImageSegmentAnimation):
+# Java field initializers run after the base initializer
+proc initFieldsBottomToTopImageAnimation(this: BottomToTopImageAnimation) =
+    this.startHeight = 0
+    this.currentHeight = 0
+    this.anchorOfBottomToTopImageAnimation = Anchor.TOP_LEFT
+    discard
 
-    def _init_fields(self) -> None:
-        from org.allbinary.graphics.Anchor import Anchor
-        self.startHeight: int = 0
-        self.currentHeight: int = 0
-        self.anchor: int = Anchor.TOP_LEFT
-    
+proc initBottomToTopImageAnimation*(this: BottomToTopImageAnimation, image: Image, animationBehavior: AnimationBehavior) =
+        initImageSegmentAnimation(this, image, PrimitiveIntUtil.getArrayInstance(), animationBehavior)
+        this.initFieldsBottomToTopImageAnimation()
+        this.setFrame(this.getSize() -% 1)
 
-    def __init__(self, image: Image, animationBehavior: AnimationBehavior) -> None:
-        from javax.microedition.lcdui.Image import Image
-        from org.allbinary.animation.AnimationBehavior import AnimationBehavior
-        from org.allbinary.logic.math.PrimitiveIntUtil import PrimitiveIntUtil
-        super().__init__(image, PrimitiveIntUtil.getArrayInstance(), animationBehavior)
-        self._init_fields()
-        self.setFrame(self.getSize() - 1)
-    
+proc newBottomToTopImageAnimation*(image: Image, animationBehavior: AnimationBehavior): BottomToTopImageAnimation =
+    result = BottomToTopImageAnimation()
+    initBottomToTopImageAnimation(result, image, animationBehavior)
 
-    def nextFrame(self) -> None:
-        super().previousFrame()
-        self.update()
-    
+method nextFrame*(this: BottomToTopImageAnimation) =
+        procCall ImageSegmentAnimation(this).previousFrame()
+        this.update()
 
-    def previousFrame(self) -> None:
-        super().nextFrame()
-        self.update()
-    
+method previousFrame*(this: BottomToTopImageAnimation) =
+        procCall ImageSegmentAnimation(this).nextFrame()
+        this.update()
 
-    def setFrame(self, index: int) -> None:
-        super().setFrame(index)
-        self.update()
-    
+method setFrame*(this: BottomToTopImageAnimation, index: int32) =
+        procCall ImageSegmentAnimation(this).setFrame(index)
+        this.update()
 
-    def update(self) -> None:
-        self.startHeight = self.getDrawHeight() * self.getFrame() / self.getSize()
-        self.currentHeight = self.getDrawHeight() - self.startHeight
-    
+method update*(this: BottomToTopImageAnimation) {.base.} =
+        this.startHeight = this.getDrawHeight() *% this.getFrame() div this.getSize()
+        this.currentHeight = this.getDrawHeight() -% this.startHeight
 
-    def paintXY(self, graphics: Graphics, x: int, y: int) -> None:
-        from javax.microedition.lcdui.Graphics import Graphics
-        from javax.microedition.lcdui.game.Sprite import Sprite
-        graphics.drawRegion(self.getImage(), self.getStartX(), self.startHeight, self.getDrawWidth(), self.currentHeight, Sprite.TRANS_NONE, x, y + self.startHeight, self.anchor)
-# from javax.microedition.lcdui.Graphics import Graphics
-# from javax.microedition.lcdui.Image import Image
-# from javax.microedition.lcdui.game.Sprite import Sprite
-# from org.allbinary.animation.AnimationBehavior import AnimationBehavior
-# from org.allbinary.graphics.Anchor import Anchor
-# from org.allbinary.logic.math.PrimitiveIntUtil import PrimitiveIntUtil
+method paintXY*(this: BottomToTopImageAnimation, graphics: Graphics, x: int32, y: int32) =
+        graphics.drawRegion(this.getImage(), this.getStartX(), this.startHeight, this.getDrawWidth(), this.currentHeight, Sprite.TRANS_NONE, x, y +% this.startHeight, this.anchorOfBottomToTopImageAnimation)
 
+when declared(newBottomToTopImageAnimationHook2):
+    newBottomToTopImageAnimationHook2 = proc (image: Image, animationBehavior: AnimationBehavior): ImageSegmentAnimation = newBottomToTopImageAnimation(image, animationBehavior)
 

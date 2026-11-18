@@ -1,192 +1,218 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.ag.layer.hud.basic
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import java/lang/Integer as IntegerModule
+export IntegerModule
+import java/lang/Boolean as BooleanModule
+export BooleanModule
+import javax/microedition/lcdui/Graphics as GraphicsModule
+export GraphicsModule
+import org/allbinary/canvas/Processor as ProcessorModule
+export ProcessorModule
+import org/allbinary/game/ag/layer/hud/basic/notification/GameNotification as GameNotificationModule
+export GameNotificationModule
+import org/allbinary/game/ag/layer/hud/basic/notification/GameNotificationHud as GameNotificationHudModule
+export GameNotificationHudModule
+import org/allbinary/graphics/CustomGPoint as CustomGPointModule
+export CustomGPointModule
+import org/allbinary/graphics/GPoint as GPointModule
+export GPointModule
+import org/allbinary/graphics/color/BasicColor as BasicColorModule
+export BasicColorModule
+import org/allbinary/graphics/displayable/DisplayInfoSingleton as DisplayInfoSingletonModule
+export DisplayInfoSingletonModule
+import org/allbinary/graphics/font/UpdateMyFontInterface as UpdateMyFontInterfaceModule
+export UpdateMyFontInterfaceModule
+import org/allbinary/time/GameTickTimeDelayHelper as GameTickTimeDelayHelperModule
+export GameTickTimeDelayHelperModule
+import org/allbinary/time/TimeDelayHelper as TimeDelayHelperModule
+export TimeDelayHelperModule
+import org/allbinary/util/CircularIndexUtil as CircularIndexUtilModule
+export CircularIndexUtilModule
 
-from org.allbinary.game.ag.layer.hud.basic.notification.GameNotificationHud import GameNotificationHud
-from org.allbinary.graphics.font.UpdateMyFontInterface import UpdateMyFontInterface
+type
+    PlayerGameNotificationHud* = ref object of GameNotificationHud
+        gameTickTimeDelayHelper*: GameTickTimeDelayHelper
+        EMPTY_STRING*: string
+        displayInfoOfPlayerGameNotificationHud*: DisplayInfoSingleton
+        timeDelayHelper*: TimeDelayHelper
+        circularIndexUtil*: CircularIndexUtil
+        gameNotification*: GameNotification
+        permanentGameNotification*: GameNotification
+        setAndRemoveProcessor*: Processor
+        nextUnremoveableProcessor*: Processor
+        processor*: Processor
+        PERMANENT_GAME_NOTIFICATION*: string
+        lastString*: string
+        string*: string
+        point*: CustomGPoint
+        width*: int32
+
+converter jAsUpdateMyFontInterface*(value: PlayerGameNotificationHud): UpdateMyFontInterface = cast[UpdateMyFontInterface](value)
+proc newPlayerGameNotificationHud*(location: int32, direction: int32, bufferZone: int32, basicColor: BasicColor): PlayerGameNotificationHud
+proc initPlayerGameNotificationHud*(this: PlayerGameNotificationHud, location: int32, direction: int32, bufferZone: int32, basicColor: BasicColor)
+method updateMeasurement*(this: PlayerGameNotificationHud, graphics: Graphics)
+method getPoint*(this: PlayerGameNotificationHud, x: int32, y: int32): GPoint {.discardable.}
+method add*(this: PlayerGameNotificationHud, string: string, seconds: int32, basicColor: BasicColor, permanent: bool)
+method processTick*(this: PlayerGameNotificationHud)
+method setAndRemove*(this: PlayerGameNotificationHud) {.base.}
+method setAndRemoveProcess*(this: PlayerGameNotificationHud) {.base.}
+method setNextUnremoveable*(this: PlayerGameNotificationHud) {.base.}
+method setNextUnremoveableProcess*(this: PlayerGameNotificationHud) {.base.}
+method clear*(this: PlayerGameNotificationHud)
+method paint*(this: PlayerGameNotificationHud, graphics: Graphics)
+import javax/microedition/lcdui/Font as FontModule
+export FontModule
+import org/allbinary/business/advertisement/GameAdStateFactory as GameAdStateFactoryModule
+export GameAdStateFactoryModule
+import org/allbinary/game/GameAdState as GameAdStateModule
+export GameAdStateModule
+import org/allbinary/game/layer/hud/event/GameNotificationEventHandler as GameNotificationEventHandlerModule
+export GameNotificationEventHandlerModule
+import org/allbinary/logic/communication/log/LogUtil as LogUtilModule
+export LogUtilModule
+import org/allbinary/logic/string/StringMaker as StringMakerModule
+export StringMakerModule
+import org/allbinary/logic/string/StringUtil as StringUtilModule
+export StringUtilModule
+import org/allbinary/string/CommonStrings as CommonStringsModule
+export CommonStringsModule
+import org/allbinary/time/GameTickTimeDelayHelperFactory as GameTickTimeDelayHelperFactoryModule
+export GameTickTimeDelayHelperFactoryModule
+import org/allbinary/game/ag/layer/hud/basic/SetAndRemoveProcessor as SetAndRemoveProcessorModule
+export SetAndRemoveProcessorModule
+import org/allbinary/game/ag/layer/hud/basic/NextUnremoveableProcessor as NextUnremoveableProcessorModule
+export NextUnremoveableProcessorModule
 
 
-class PlayerGameNotificationHud(GameNotificationHud, UpdateMyFontInterface):
-
-    def _init_fields(self) -> None:
-        from org.allbinary.canvas.Processor import Processor
-        from org.allbinary.game.ag.layer.hud.basic.notification.GameNotification import GameNotification
-        from org.allbinary.graphics.CustomGPoint import CustomGPoint
-        from org.allbinary.graphics.displayable.DisplayInfoSingleton import DisplayInfoSingleton
-        from org.allbinary.logic.string.StringUtil import StringUtil
-        from org.allbinary.time.GameTickTimeDelayHelper import GameTickTimeDelayHelper
-        from org.allbinary.time.GameTickTimeDelayHelperFactory import GameTickTimeDelayHelperFactory
-        from org.allbinary.time.TimeDelayHelper import TimeDelayHelper
-        from org.allbinary.util.CircularIndexUtil import CircularIndexUtil
-        self.gameTickTimeDelayHelper: GameTickTimeDelayHelper = GameTickTimeDelayHelperFactory.getInstance()
-        self.EMPTY_STRING: str = StringUtil.getInstance().EMPTY_STRING
-        self.displayInfo: DisplayInfoSingleton = DisplayInfoSingleton.getInstance()
-        self.timeDelayHelper: TimeDelayHelper = TimeDelayHelper(0)
-        self.circularIndexUtil: CircularIndexUtil = None
-        self.gameNotification: GameNotification = GameNotification()
-        self.permanentGameNotification: GameNotification = GameNotification()
-        self.setAndRemoveProcessor: Processor = SetAndRemoveProcessor(self)
-        self.nextUnremoveableProcessor: Processor = NextUnremoveableProcessor(self)
-        self.processor: Processor = Processor.getInstance()
-        self.PERMANENT_GAME_NOTIFICATION: str = "Permanent Game Notification: "
-        self.lastString: str = StringUtil.getInstance().EMPTY_STRING
-        self.string: str = self.EMPTY_STRING
-        self.point: CustomGPoint = CustomGPoint.NULL_CUSTOM_POINT
-        self.width: int = 0
+# Java field initializers run after the base initializer
+proc initFieldsPlayerGameNotificationHud(this: PlayerGameNotificationHud) =
+    this.gameTickTimeDelayHelper = GameTickTimeDelayHelperFactory.getInstance()
+    this.EMPTY_STRING = StringUtil.getInstance().EMPTY_STRING
+    this.displayInfoOfPlayerGameNotificationHud = DisplayInfoSingleton.getInstance()
+    this.timeDelayHelper = newTimeDelayHelper(0)
     
+    this.gameNotification = newGameNotification()
+    this.permanentGameNotification = newGameNotification()
+    this.setAndRemoveProcessor = newSetAndRemoveProcessor(this)
+    this.nextUnremoveableProcessor = newNextUnremoveableProcessor(this)
+    this.processor = Processor.getInstance()
+    this.PERMANENT_GAME_NOTIFICATION = "Permanent Game Notification: "
+    this.lastString = StringUtil.getInstance().EMPTY_STRING
+    this.string = this.EMPTY_STRING
+    this.point = CustomGPoint.NULL_CUSTOM_POINT
+    this.width = 0
+    discard
 
-    def __init__(self, location: int, direction: int, bufferZone: int, basicColor: BasicColor) -> None:
-        from org.allbinary.game.layer.hud.event.GameNotificationEventHandler import GameNotificationEventHandler
-        from org.allbinary.graphics.color.BasicColor import BasicColor
-        from org.allbinary.util.CircularIndexUtil import CircularIndexUtil
-        super().__init__(location, direction, bufferZone, basicColor)
-        self._init_fields()
-        self.circularIndexUtil = CircularIndexUtil.createInstance(0)
-        gameNotificationEventHandler: GameNotificationEventHandler = GameNotificationEventHandler.getInstance()
+proc initPlayerGameNotificationHud*(this: PlayerGameNotificationHud, location: int32, direction: int32, bufferZone: int32, basicColor: BasicColor) =
+        initGameNotificationHud(this, location, direction, bufferZone, basicColor)
+        this.initFieldsPlayerGameNotificationHud()
+        this.circularIndexUtil = CircularIndexUtil.createInstance(0)
+        let gameNotificationEventHandler: GameNotificationEventHandler = GameNotificationEventHandler.getInstance()
         gameNotificationEventHandler.removeAllListeners()
-        gameNotificationEventHandler.addListenerInterface(self)
-    
+        gameNotificationEventHandler.addListenerInterface(this)
 
-    def updateMeasurement(self, graphics: Graphics) -> None:
-        from javax.microedition.lcdui.Font import Font
-        from javax.microedition.lcdui.Graphics import Graphics
-        from org.allbinary.canvas.Processor import Processor
-        from org.allbinary.logic.communication.log.LogUtil import LogUtil
-        from org.allbinary.string.CommonStrings import CommonStrings
+proc newPlayerGameNotificationHud*(location: int32, direction: int32, bufferZone: int32, basicColor: BasicColor): PlayerGameNotificationHud =
+    result = PlayerGameNotificationHud()
+    initPlayerGameNotificationHud(result, location, direction, bufferZone, basicColor)
+
+method updateMeasurement*(this: PlayerGameNotificationHud, graphics: Graphics) =
         try:
-            super().updateMeasurement(graphics)
-            font: Font = graphics.getFont()
-            self.width = font.stringWidth(self.string)
-            self.processor.process()
-            self.processor = Processor.getInstance()
-        except Exception as e:
-            logUtil: LogUtil = LogUtil.getInstance()
-            commonStrings: CommonStrings = CommonStrings.getInstance()
-            logUtil.put(commonStrings.EXCEPTION, self, commonStrings.UPDATE, e)
-    
+            procCall GameNotificationHud(this).updateMeasurement(graphics)
+            let font: Font = graphics.getFont()
+            this.width = font.stringWidth(this.string)
+            this.processor.process()
+            this.processor = Processor.getInstance()
+        except CatchableError as jcaught:
+            let e = jToException(jcaught)
+            let logUtil: LogUtil = LogUtil.getInstance()
+            let commonStrings: CommonStrings = CommonStrings.getInstance()
+            logUtil.put(commonStrings.EXCEPTION, this, commonStrings.UPDATE, e)
 
-    def getPoint(self, x: int, y: int) -> GPoint:
-        from org.allbinary.graphics.CustomGPoint import CustomGPoint
-        from org.allbinary.graphics.GPoint import GPoint
-        self.point = CustomGPoint.getInstance3(0, 0)
-        self.point.setX(x)
-        self.point.setY(y)
-        return self.point
-    
+method getPoint*(this: PlayerGameNotificationHud, x: int32, y: int32): GPoint {.discardable.} =
+        this.point = CustomGPoint.getInstance3(0, 0)
+        this.point.setX(x)
+        this.point.setY(y)
+        return this.point
 
-    def add(self, string: str, seconds: int, basicColor: BasicColor, permanent: bool) -> None:
-        from org.allbinary.graphics.color.BasicColor import BasicColor
-        from org.allbinary.logic.string.StringMaker import StringMaker
-        if permanent:
-            if self.lastString != string:
-                self.lastString = string
-                self.logUtil.putF(str(StringMaker().append(self.PERMANENT_GAME_NOTIFICATION).append(string)), self, self.commonStrings.ADD)
-            self.permanentGameNotification.add(string, seconds, basicColor)
-            self.circularIndexUtil.setSize(self.permanentGameNotification.getSize())
+method add*(this: PlayerGameNotificationHud, string: string, seconds: int32, basicColor: BasicColor, permanent: bool) =
+        if permanent.booleanValue():
+            if this.lastString != string:
+                this.lastString = string
+                this.logUtil.putF(newStringMaker().append(this.PERMANENT_GAME_NOTIFICATION).append(string).toString(), this, this.commonStrings.ADD)
+            this.permanentGameNotification.add(string, seconds, basicColor)
+            this.circularIndexUtil.setSize(this.permanentGameNotification.getSize())
         else:
-            self.gameNotification.add(string, seconds, basicColor)
-    
+            this.gameNotification.add(string, seconds, basicColor)
 
-    # throws Exception
-    def processTick(self) -> None:
-        from org.allbinary.business.advertisement.GameAdStateFactory import GameAdStateFactory
-        from org.allbinary.game.GameAdState import GameAdState
-        if self.timeDelayHelper.isTime(self.gameTickTimeDelayHelper.startTime):
-            gameAdState: GameAdState = GameAdStateFactory.getInstance().getCurrentInstance()
-            if gameAdState.isShowingAtLocation(self.getLocation()):
-                self.offsetY = -54
+method processTick*(this: PlayerGameNotificationHud) =
+        if this.timeDelayHelper.isTime(this.gameTickTimeDelayHelper.startTime):
+            let gameAdState: GameAdState = GameAdStateFactory.getInstance().getCurrentInstance()
+            if gameAdState.isShowingAtLocation(this.getLocation()):
+                this.offsetY = -54
             else:
-                self.offsetY = 0
-            if self.gameNotification.getSize() > 0:
-                self.setAndRemove()
-            elif self.permanentGameNotification.getSize() > 0:
-                self.setNextUnremoveable()
+                this.offsetY = 0
+            if this.gameNotification.getSize() > 0:
+                this.setAndRemove()
+            elif this.permanentGameNotification.getSize() > 0:
+                this.setNextUnremoveable()
             else:
-                self.string = self.EMPTY_STRING
-    
+                this.string = this.EMPTY_STRING
 
-    # throws Exception
-    def setAndRemove(self) -> None:
-        self.string = self.gameNotification.stringList.removeAt(0)
-        self.processor = self.setAndRemoveProcessor
-    
+method setAndRemove*(this: PlayerGameNotificationHud) {.base.} =
+        this.string = jstr(this.gameNotification.stringList.removeAt(0))
+        this.processor = this.setAndRemoveProcessor
 
-    # throws Exception
-    def setAndRemoveProcess(self) -> None:
-        from org.allbinary.graphics.color.BasicColor import BasicColor
-        self.setX((self.displayInfo.getLastWidth() - self.width) >> 1)
-        self.point.setX(self.getX())
-        self.point.setY(self.getY())
-        time: int = self.gameNotification.timeList.removeAt(0)
-        iTime: int = int(time) * 1000
+method setAndRemoveProcess*(this: PlayerGameNotificationHud) {.base.} =
+        this.setX(ashr((this.displayInfoOfPlayerGameNotificationHud.getLastWidth() -% this.width), 1))
+        this.point.setX(this.getX())
+        this.point.setY(this.getY())
+        let time: int32 = jUnboxInteger(this.gameNotification.timeList.removeAt(0))
+        var iTime: int32 = time.intValue() *% 1000
         if iTime == 0:
             iTime = 500
-        self.timeDelayHelper.delay = iTime
-        self.setBasicColorP(self.gameNotification.colorList.removeAt(0))
-    
+        this.timeDelayHelper.delay = iTime
+        this.setBasicColorP(BasicColor(JObject(this.gameNotification.colorList.removeAt(0))))
 
-    # throws Exception
-    def setNextUnremoveable(self) -> None:
-        index: int = self.circularIndexUtil.getIndex()
-        self.string = self.permanentGameNotification.stringList.objectArray[index]
-        self.processor = self.nextUnremoveableProcessor
-    
+method setNextUnremoveable*(this: PlayerGameNotificationHud) {.base.} =
+        let index: int32 = this.circularIndexUtil.getIndex()
+        this.string = jstr(this.permanentGameNotification.stringList.objectArray[index])
+        this.processor = this.nextUnremoveableProcessor
 
-    # throws Exception
-    def setNextUnremoveableProcess(self) -> None:
-        from org.allbinary.graphics.color.BasicColor import BasicColor
-        index: int = self.circularIndexUtil.getIndex()
-        self.setX((self.displayInfo.getLastWidth() - self.width) >> 1)
-        self.point.setX(self.getX())
-        self.point.setY(self.getY())
-        time: int = self.permanentGameNotification.timeList.objectArray[index]
-        self.timeDelayHelper.delay = int(time) * 1000
-        self.setBasicColorP(self.permanentGameNotification.colorList.objectArray[index])
-        self.circularIndexUtil.next()
-    
+method setNextUnremoveableProcess*(this: PlayerGameNotificationHud) {.base.} =
+        let index: int32 = this.circularIndexUtil.getIndex()
+        this.setX(ashr((this.displayInfoOfPlayerGameNotificationHud.getLastWidth() -% this.width), 1))
+        this.point.setX(this.getX())
+        this.point.setY(this.getY())
+        var time: int32 = jUnboxInteger(this.permanentGameNotification.timeList.objectArray[index])
+        this.timeDelayHelper.delay = time.intValue() *% 1000
+        this.setBasicColorP(BasicColor(JObject(this.permanentGameNotification.colorList.objectArray[index])))
+        this.circularIndexUtil.next()
 
-    def clear(self) -> None:
-        self.gameNotification.clear()
-        self.permanentGameNotification.clear()
-    
+method clear*(this: PlayerGameNotificationHud) =
+        this.gameNotification.clear()
+        this.permanentGameNotification.clear()
 
-    def paint(self, graphics: Graphics) -> None:
-        from javax.microedition.lcdui.Graphics import Graphics
-        self.myFontProcessor.process(graphics)
-        super().paintString(graphics, self.string)
-# from javax.microedition.lcdui.Font import Font
-# from javax.microedition.lcdui.Graphics import Graphics
-# from org.allbinary.business.advertisement.GameAdStateFactory import GameAdStateFactory
-# from org.allbinary.canvas.Processor import Processor
-# from org.allbinary.game.GameAdState import GameAdState
-# from org.allbinary.game.ag.layer.hud.basic.notification.GameNotification import GameNotification
-# from org.allbinary.game.layer.hud.event.GameNotificationEventHandler import GameNotificationEventHandler
-# from org.allbinary.graphics.CustomGPoint import CustomGPoint
-# from org.allbinary.graphics.GPoint import GPoint
-# from org.allbinary.graphics.color.BasicColor import BasicColor
-# from org.allbinary.graphics.displayable.DisplayInfoSingleton import DisplayInfoSingleton
-# from org.allbinary.logic.communication.log.LogUtil import LogUtil
-# from org.allbinary.logic.string.StringMaker import StringMaker
-# from org.allbinary.logic.string.StringUtil import StringUtil
-# from org.allbinary.string.CommonStrings import CommonStrings
-# from org.allbinary.time.GameTickTimeDelayHelper import GameTickTimeDelayHelper
-# from org.allbinary.time.GameTickTimeDelayHelperFactory import GameTickTimeDelayHelperFactory
-# from org.allbinary.time.TimeDelayHelper import TimeDelayHelper
-# from org.allbinary.util.CircularIndexUtil import CircularIndexUtil
-from org.allbinary.game.ag.layer.hud.basic.SetAndRemoveProcessor import SetAndRemoveProcessor
-from org.allbinary.game.ag.layer.hud.basic.NextUnremoveableProcessor import NextUnremoveableProcessor
+method paint*(this: PlayerGameNotificationHud, graphics: Graphics) =
+        this.myFontProcessor.process(graphics)
+        procCall GameNotificationHud(this).paintString(graphics, this.string)
 
+when declared(newPlayerGameNotificationHudHook4):
+    newPlayerGameNotificationHudHook4 = proc (location: int32, direction: int32, bufferZone: int32, basicColor: BasicColor): GameNotificationHud = newPlayerGameNotificationHud(location, direction, bufferZone, basicColor)
 

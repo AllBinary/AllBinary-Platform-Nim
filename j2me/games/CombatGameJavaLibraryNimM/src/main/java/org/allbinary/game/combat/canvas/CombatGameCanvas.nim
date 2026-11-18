@@ -1,106 +1,125 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.combat.canvas
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import javax/microedition/lcdui/CommandListener as CommandListenerModule
+export CommandListenerModule
+import org/allbinary/game/displayable/canvas/AllBinaryGameCanvas as AllBinaryGameCanvasModule
+export AllBinaryGameCanvasModule
+import org/allbinary/game/init/BasicBuildGameInitializerFactory as BasicBuildGameInitializerFactoryModule
+export BasicBuildGameInitializerFactoryModule
+import org/allbinary/game/layer/AllBinaryGameLayerManager as AllBinaryGameLayerManagerModule
+export AllBinaryGameLayerManagerModule
+import org/allbinary/game/score/HighScoresFactoryInterface as HighScoresFactoryInterfaceModule
+export HighScoresFactoryInterfaceModule
+import org/allbinary/layer/BasicLayerProcessor as BasicLayerProcessorModule
+export BasicLayerProcessorModule
+import org/allbinary/logic/system/security/licensing/AbeClientInformationInterface as AbeClientInformationInterfaceModule
+export AbeClientInformationInterfaceModule
 
-from org.allbinary.game.displayable.canvas.AllBinaryGameCanvas import AllBinaryGameCanvas
-from org.allbinary.layer.BasicLayerProcessor import BasicLayerProcessor
+type
+    CombatGameCanvas* = ref object of AllBinaryGameCanvas
 
+proc newCombatGameCanvas*(cmdListener: CommandListener, gameLayerManager: AllBinaryGameLayerManager, highScoresFactoryInterface: HighScoresFactoryInterface, gameInitializationInterfaceFactoryInterface: BasicBuildGameInitializerFactory, buffered: bool): CombatGameCanvas
+proc initCombatGameCanvas*(this: CombatGameCanvas, cmdListener: CommandListener, gameLayerManager: AllBinaryGameLayerManager, highScoresFactoryInterface: HighScoresFactoryInterface, gameInitializationInterfaceFactoryInterface: BasicBuildGameInitializerFactory, buffered: bool)
+method CombatGameCanvas_init*(this: CombatGameCanvas) {.base.}
+method initApp*(this: CombatGameCanvas, abeClientInformation: AbeClientInformationInterface)
+method initConfigurablePortion*(this: CombatGameCanvas, portion: int32) {.base.}
+method processPlayingGame*(this: CombatGameCanvas)
+method cleanupGame*(this: CombatGameCanvas)
+method cleanupManager*(this: CombatGameCanvas) {.base.}
+import org/allbinary/game/combat/destroy/DestroyedLayerProcessor as DestroyedLayerProcessorModule
+export DestroyedLayerProcessorModule
+import org/allbinary/game/combat/destroy/event/DestroyEventCircularStaticPool as DestroyEventCircularStaticPoolModule
+export DestroyEventCircularStaticPoolModule
+import org/allbinary/game/combat/destroy/event/DestroyedEventHandler as DestroyedEventHandlerModule
+export DestroyedEventHandlerModule
+import org/allbinary/game/configuration/feature/Features as FeaturesModule
+export FeaturesModule
+import org/allbinary/game/configuration/feature/GameFeatureFactory as GameFeatureFactoryModule
+export GameFeatureFactoryModule
+import org/allbinary/game/layer/drop/DropLayerProcessor as DropLayerProcessorModule
+export DropLayerProcessorModule
+import org/allbinary/game/layer/identification/GroupLayerManagerListener as GroupLayerManagerListenerModule
+export GroupLayerManagerListenerModule
+import org/allbinary/graphics/canvas/transition/progress/ProgressCanvasFactory as ProgressCanvasFactoryModule
+export ProgressCanvasFactoryModule
 
-class CombatGameCanvas(AllBinaryGameCanvas):
-    basicLayerProcessor: list[BasicLayerProcessor] = [None] * (0)
-    
+var CombatGameCanvas_basicLayerProcessorValue: JArray[BasicLayerProcessor]
+var CombatGameCanvas_basicLayerProcessorSet = false
+proc basicLayerProcessor*(t: typedesc[CombatGameCanvas]): JArray[BasicLayerProcessor] =
+    if not CombatGameCanvas_basicLayerProcessorSet:
+        CombatGameCanvas_basicLayerProcessorSet = true
+        CombatGameCanvas_basicLayerProcessorValue = newJArray[BasicLayerProcessor](0, default(BasicLayerProcessor))
+    CombatGameCanvas_basicLayerProcessorValue
+proc `basicLayerProcessor=`*(t: typedesc[CombatGameCanvas], value: JArray[BasicLayerProcessor]) =
+    CombatGameCanvas_basicLayerProcessorSet = true
+    CombatGameCanvas_basicLayerProcessorValue = value
 
-    def __init__(self, cmdListener: CommandListener, gameLayerManager: AllBinaryGameLayerManager, highScoresFactoryInterface: HighScoresFactoryInterface, gameInitializationInterfaceFactoryInterface: BasicBuildGameInitializerFactory, buffered: bool) -> None:
-        from javax.microedition.lcdui.CommandListener import CommandListener
-        from org.allbinary.game.init.BasicBuildGameInitializerFactory import BasicBuildGameInitializerFactory
-        from org.allbinary.game.layer.AllBinaryGameLayerManager import AllBinaryGameLayerManager
-        from org.allbinary.game.score.HighScoresFactoryInterface import HighScoresFactoryInterface
-        super().__init__(cmdListener, gameLayerManager, highScoresFactoryInterface, gameInitializationInterfaceFactoryInterface, buffered)
-    
+proc initCombatGameCanvas*(this: CombatGameCanvas, cmdListener: CommandListener, gameLayerManager: AllBinaryGameLayerManager, highScoresFactoryInterface: HighScoresFactoryInterface, gameInitializationInterfaceFactoryInterface: BasicBuildGameInitializerFactory, buffered: bool) =
+        initAllBinaryGameCanvas(this, cmdListener, gameLayerManager, highScoresFactoryInterface, gameInitializationInterfaceFactoryInterface, buffered)
 
-    def CombatGameCanvas_init(self) -> None:
-        from org.allbinary.game.combat.destroy.event.DestroyEventCircularStaticPool import DestroyEventCircularStaticPool
-        from org.allbinary.graphics.canvas.transition.progress.ProgressCanvasFactory import ProgressCanvasFactory
-        DestroyEventCircularStaticPool.getInstance().init(self)
+proc newCombatGameCanvas*(cmdListener: CommandListener, gameLayerManager: AllBinaryGameLayerManager, highScoresFactoryInterface: HighScoresFactoryInterface, gameInitializationInterfaceFactoryInterface: BasicBuildGameInitializerFactory, buffered: bool): CombatGameCanvas =
+    result = CombatGameCanvas()
+    initCombatGameCanvas(result, cmdListener, gameLayerManager, highScoresFactoryInterface, gameInitializationInterfaceFactoryInterface, buffered)
+
+method CombatGameCanvas_init*(this: CombatGameCanvas) {.base.} =
+        DestroyEventCircularStaticPool.getInstance().init(this)
         ProgressCanvasFactory.getInstance().addNormalPortion(50, "Destroy Events")
-    
 
-    # throws Exception
-    def initApp(self, abeClientInformation: AbeClientInformationInterface) -> None:
-        from org.allbinary.logic.system.security.licensing.AbeClientInformationInterface import AbeClientInformationInterface
-        self.CombatGameCanvas_init()
-        super().initApp(abeClientInformation)
-    
+method initApp*(this: CombatGameCanvas, abeClientInformation: AbeClientInformationInterface) =
+        this.CombatGameCanvas_init()
+        procCall AllBinaryGameCanvas(this).initApp(abeClientInformation)
 
-    def initConfigurablePortion(self, portion: int) -> None:
-        from org.allbinary.game.combat.destroy.DestroyedLayerProcessor import DestroyedLayerProcessor
-        from org.allbinary.game.configuration.feature.Features import Features
-        from org.allbinary.game.configuration.feature.GameFeatureFactory import GameFeatureFactory
-        from org.allbinary.game.layer.drop.DropLayerProcessor import DropLayerProcessor
-        from org.allbinary.graphics.canvas.transition.progress.ProgressCanvasFactory import ProgressCanvasFactory
+method initConfigurablePortion*(this: CombatGameCanvas, portion: int32) {.base.} =
         DestroyedLayerProcessor.init()
         ProgressCanvasFactory.getInstance().addNormalPortion(portion, "Basic Processors")
-        features: Features = Features.getInstance()
-        gameFeatureFactory: GameFeatureFactory = GameFeatureFactory.getInstance()
+        let features: Features = Features.getInstance()
+        let gameFeatureFactory: GameFeatureFactory = GameFeatureFactory.getInstance()
         if features.isFeature(gameFeatureFactory.DROPPED_ITEMS) and features.isFeature(gameFeatureFactory.DROPPED_ITEMS_FROM_DEATH):
-            CombatGameCanvas.basicLayerProcessor = [None] * (2)
+            CombatGameCanvas.basicLayerProcessor = newJArray[BasicLayerProcessor](2, default(BasicLayerProcessor))
             CombatGameCanvas.basicLayerProcessor[0] = DestroyedLayerProcessor.getInstance()
             CombatGameCanvas.basicLayerProcessor[1] = DropLayerProcessor.getInstance()
         else:
-            CombatGameCanvas.basicLayerProcessor = [None] * (1)
+            CombatGameCanvas.basicLayerProcessor = newJArray[BasicLayerProcessor](1, default(BasicLayerProcessor))
             CombatGameCanvas.basicLayerProcessor[0] = DestroyedLayerProcessor.getInstance()
-    
 
-    # throws Exception
-    def processPlayingGame(self) -> None:
-        super().processPlayingGame()
-        index = len(CombatGameCanvas.basicLayerProcessor)
-        while (index := index - 1) >= 0:
-            CombatGameCanvas.basicLayerProcessor[index].process(self.gameLayerManager)
-    
+method processPlayingGame*(this: CombatGameCanvas) =
+        procCall AllBinaryGameCanvas(this).processPlayingGame()
+        block:
+            var index: int32 = CombatGameCanvas.basicLayerProcessor.length
+            while jPreDecrement(index) >= 0:
+                CombatGameCanvas.basicLayerProcessor[index].process(this.gameLayerManager)
 
-    # throws Exception
-    def cleanupGame(self) -> None:
-        from org.allbinary.game.combat.destroy.event.DestroyedEventHandler import DestroyedEventHandler
-        from org.allbinary.game.layer.identification.GroupLayerManagerListener import GroupLayerManagerListener
-        super().cleanupGame()
-        index = len(CombatGameCanvas.basicLayerProcessor)
-        while (index := index - 1) >= 0:
-            CombatGameCanvas.basicLayerProcessor[index].getList().clear()
+method cleanupGame*(this: CombatGameCanvas) =
+        procCall AllBinaryGameCanvas(this).cleanupGame()
+        block:
+            var index: int32 = CombatGameCanvas.basicLayerProcessor.length
+            while jPreDecrement(index) >= 0:
+                CombatGameCanvas.basicLayerProcessor[index].getList().clear()
         GroupLayerManagerListener.getInstance().clear()
         GroupLayerManagerListener.getInstance().log()
         DestroyedEventHandler.getInstance().removeAllListeners()
-        self.cleanupManager()
-    
+        this.cleanupManager()
 
-    # throws Exception
-    def cleanupManager(self) -> None:
-        self.gameLayerManager.cleanup()
-# from javax.microedition.lcdui.CommandListener import CommandListener
-# from org.allbinary.game.combat.destroy.DestroyedLayerProcessor import DestroyedLayerProcessor
-# from org.allbinary.game.combat.destroy.event.DestroyEventCircularStaticPool import DestroyEventCircularStaticPool
-# from org.allbinary.game.combat.destroy.event.DestroyedEventHandler import DestroyedEventHandler
-# from org.allbinary.game.configuration.feature.Features import Features
-# from org.allbinary.game.configuration.feature.GameFeatureFactory import GameFeatureFactory
-# from org.allbinary.game.init.BasicBuildGameInitializerFactory import BasicBuildGameInitializerFactory
-# from org.allbinary.game.layer.AllBinaryGameLayerManager import AllBinaryGameLayerManager
-# from org.allbinary.game.layer.drop.DropLayerProcessor import DropLayerProcessor
-# from org.allbinary.game.layer.identification.GroupLayerManagerListener import GroupLayerManagerListener
-# from org.allbinary.game.score.HighScoresFactoryInterface import HighScoresFactoryInterface
-# from org.allbinary.graphics.canvas.transition.progress.ProgressCanvasFactory import ProgressCanvasFactory
-# from org.allbinary.logic.system.security.licensing.AbeClientInformationInterface import AbeClientInformationInterface
+method cleanupManager*(this: CombatGameCanvas) {.base.} =
+        this.gameLayerManager.cleanup()
 
+when declared(newCombatGameCanvasHook5):
+    newCombatGameCanvasHook5 = proc (cmdListener: CommandListener, gameLayerManager: AllBinaryGameLayerManager, highScoresFactoryInterface: HighScoresFactoryInterface, gameInitializationInterfaceFactoryInterface: BasicBuildGameInitializerFactory, buffered: bool): AllBinaryGameCanvas = newCombatGameCanvas(cmdListener, gameLayerManager, highScoresFactoryInterface, gameInitializationInterfaceFactoryInterface, buffered)
 

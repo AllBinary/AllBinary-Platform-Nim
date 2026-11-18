@@ -1,30 +1,31 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.layer
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/util/ABHashtable as ABHashtableModule
+export ABHashtableModule
+import org/allbinary/layer/AllBinaryLayer as AllBinaryLayerModule
+export AllBinaryLayerModule
+
+type
+    LayerInterfaceFactoryInterface* = ref object of JObject
 
 
-
-# Java interface
-class LayerInterfaceFactoryInterface:
-    
-
-    # throws Exception
-    def getNextInstance(self, hashtable: ABHashtable[object, object], x: int, y: int, z: int) -> AllBinaryLayer:
-        from org.allbinary.util.ABHashtable import ABHashtable
-        raise NotImplementedError()
-# from org.allbinary.util.ABHashtable import ABHashtable
-
+method getNextInstance*(this: LayerInterfaceFactoryInterface, hashtable: ABHashtable, x: int32, y: int32, z: int32): AllBinaryLayer {.base, discardable.} =
+        raise newJException("AbstractMethodError", "getNextInstance")
 

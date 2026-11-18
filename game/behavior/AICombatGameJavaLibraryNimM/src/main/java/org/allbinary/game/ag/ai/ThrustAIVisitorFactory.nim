@@ -1,35 +1,46 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.ag.ai
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/game/ag/ai/ThrustAIVisitor as ThrustAIVisitorModule
+export ThrustAIVisitorModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    ThrustAIVisitorFactory* = ref object of JObject
 
+proc newThrustAIVisitorFactory*(): ThrustAIVisitorFactory
+proc getInstance*(t: typedesc[ThrustAIVisitorFactory]): ThrustAIVisitor {.discardable.}
 
-class ThrustAIVisitorFactory:
-    instance: ThrustAIVisitor = None
-    
+var ThrustAIVisitorFactory_instanceValue: ThrustAIVisitor
+var ThrustAIVisitorFactory_instanceSet = false
+proc instance*(t: typedesc[ThrustAIVisitorFactory]): ThrustAIVisitor =
+    if not ThrustAIVisitorFactory_instanceSet:
+        ThrustAIVisitorFactory_instanceSet = true
+        ThrustAIVisitorFactory_instanceValue = newThrustAIVisitor()
+    ThrustAIVisitorFactory_instanceValue
 
-    @staticmethod
-    def getInstance() -> ThrustAIVisitor:
+proc initThrustAIVisitorFactory*(this: ThrustAIVisitorFactory) =
+    discard
+
+proc newThrustAIVisitorFactory*(): ThrustAIVisitorFactory =
+    result = ThrustAIVisitorFactory()
+    initThrustAIVisitorFactory(result)
+
+proc getInstance*(t: typedesc[ThrustAIVisitorFactory]): ThrustAIVisitor {.discardable.} =
         return ThrustAIVisitorFactory.instance
-
-
-def _ThrustAIVisitorFactory_instance() -> object:
-    from org.allbinary.game.ag.ai.ThrustAIVisitor import ThrustAIVisitor
-    return ThrustAIVisitor()
-
-lazy_static(ThrustAIVisitorFactory, "instance", _ThrustAIVisitorFactory_instance)
 

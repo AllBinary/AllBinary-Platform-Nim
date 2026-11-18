@@ -1,69 +1,68 @@
-# 
-# AllBinary Open License Version 1 
-# Copyright (c) 2025 AllBinary 
-#  
-# By agreeing to this license you and any business entity you represent are 
-# legally bound to the AllBinary Open License Version 1 legal agreement. 
-#  
-# You may obtain the AllBinary Open License Version 1 legal agreement from 
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
-#  
-# Created By: Travis Berthelot 
-#   
+#[
+  
+  AllBinary Open License Version 1 
+  Copyright (c) 2025 AllBinary 
+   
+  By agreeing to this license you and any business entity you represent are 
+  legally bound to the AllBinary Open License Version 1 legal agreement. 
+   
+  You may obtain the AllBinary Open License Version 1 legal agreement from 
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
+   
+  Created By: Travis Berthelot 
+    
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.image
 
-from __future__ import annotations
-
-from java.lang.JavaRuntimeStatic import lazy_static
-
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import java/io/InputStream as InputStreamModule
+export InputStreamModule
+import javax/microedition/lcdui/Image as ImageModule
+export ImageModule
 
 #ImageCacheBaseJavaLibrary - J2ME
-class ImageFactory:
-    instance: ImageFactory = None
-    
+type
+    ImageFactory* = ref object of JObject
 
-    @staticmethod
-    def getInstance() -> ImageFactory:
+proc newImageFactory*(): ImageFactory
+proc getInstance*(t: typedesc[ImageFactory]): ImageFactory {.discardable.}
+method createImageUrl*(this: ImageFactory, url: string): Image {.base, discardable.}
+method createImage*(this: ImageFactory, caller: string, width: int32, height: int32): Image {.base, discardable.}
+method createImageFromInputStream*(this: ImageFactory, key: JObject, inputStream: InputStream): Image {.base, discardable.}
+method createImageFromInputStream*(this: ImageFactory, inputStream: InputStream): Image {.base, discardable.}
+import org/allbinary/MIDPUtil as MIDPUtilModule
+export MIDPUtilModule
+
+var ImageFactory_instanceValue: ImageFactory
+var ImageFactory_instanceSet = false
+proc instance*(t: typedesc[ImageFactory]): ImageFactory =
+    if not ImageFactory_instanceSet:
+        ImageFactory_instanceSet = true
+        ImageFactory_instanceValue = newImageFactory()
+    ImageFactory_instanceValue
+
+proc initImageFactory*(this: ImageFactory) =
+    discard
+
+proc newImageFactory*(): ImageFactory =
+    result = ImageFactory()
+    initImageFactory(result)
+
+proc getInstance*(t: typedesc[ImageFactory]): ImageFactory {.discardable.} =
         return ImageFactory.instance
-    
 
-    # throws Exception
-    def createImageUrl(self, url: str) -> Image:
-        from javax.microedition.lcdui.Image import Image
+method createImageUrl*(this: ImageFactory, url: string): Image {.base, discardable.} =
         return Image.createImage(url)
-    
 
-    # throws Exception
-    def createImage(self, caller: str, width: int, height: int) -> Image:
-        from javax.microedition.lcdui.Image import Image
-        from org.allbinary.MIDPUtil import MIDPUtil
+method createImage*(this: ImageFactory, caller: string, width: int32, height: int32): Image {.base, discardable.} =
         return MIDPUtil.getInstance().createImageWH(width, height)
-    
 
-    # throws Exception
-    def createImageFromInputStream(self, key: object, inputStream: InputStream) -> Image:
-        from java.io.InputStream import InputStream
-        from javax.microedition.lcdui.Image import Image
-        from org.allbinary.MIDPUtil import MIDPUtil
-        image: Image = MIDPUtil.getInstance().createImageFromInputStream(inputStream)
+method createImageFromInputStream*(this: ImageFactory, key: JObject, inputStream: InputStream): Image {.base, discardable.} =
+        let image: Image = MIDPUtil.getInstance().createImageFromInputStream(inputStream)
         return image
-    
 
-    # throws Exception
-    # Java overloaded method: Python keeps the last definition
-    def createImageFromInputStream(self, inputStream: InputStream) -> Image:
-        from java.io.InputStream import InputStream
-        from javax.microedition.lcdui.Image import Image
-        from org.allbinary.MIDPUtil import MIDPUtil
+method createImageFromInputStream*(this: ImageFactory, inputStream: InputStream): Image {.base, discardable.} =
         return MIDPUtil.getInstance().createImageFromInputStream(inputStream)
-# from java.io.InputStream import InputStream
-# from javax.microedition.lcdui.Image import Image
-# from org.allbinary.MIDPUtil import MIDPUtil
-
-
-def _ImageFactory_instance() -> object:
-    return ImageFactory()
-
-lazy_static(ImageFactory, "instance", _ImageFactory_instance)
 

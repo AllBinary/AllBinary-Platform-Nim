@@ -1,44 +1,61 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.midlet
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/logic/util/event/AllBinaryEventObject as AllBinaryEventObjectModule
+export AllBinaryEventObjectModule
+import org/allbinary/game/midlet/DemoGameMidletState as DemoGameMidletStateModule
+export DemoGameMidletStateModule
 
-from org.allbinary.logic.util.event.AllBinaryEventObject import AllBinaryEventObject
+type
+    DemoGameMidletEvent* = ref object of AllBinaryEventObject
+        demoGameMidletState*: DemoGameMidletState
+
+proc newDemoGameMidletEvent*(anyType: JObject, demoGameMidletState: DemoGameMidletState): DemoGameMidletEvent
+proc initDemoGameMidletEvent*(this: DemoGameMidletEvent, anyType: JObject, demoGameMidletState: DemoGameMidletState)
+method init*(this: DemoGameMidletEvent, anyType: JObject) {.base.}
+method setDemoGameMidletState*(this: DemoGameMidletEvent, demoGameMidletState: DemoGameMidletState) {.base.}
+method getDemoGameMidletState*(this: DemoGameMidletEvent): DemoGameMidletState {.base, discardable.}
 
 
-class DemoGameMidletEvent(AllBinaryEventObject):
-
-    def _init_fields(self) -> None:
-        self.demoGameMidletState: DemoGameMidletState = None
+# Java field initializers run after the base initializer
+proc initFieldsDemoGameMidletEvent(this: DemoGameMidletEvent) =
     
+    discard
 
-    def __init__(self, anyType: object, demoGameMidletState: DemoGameMidletState) -> None:
-        super().__init__(anyType)
-        self._init_fields()
-        self.demoGameMidletState = demoGameMidletState
-    
+proc initDemoGameMidletEvent*(this: DemoGameMidletEvent, anyType: JObject, demoGameMidletState: DemoGameMidletState) =
+        initAllBinaryEventObject(this, anyType)
+        this.initFieldsDemoGameMidletEvent()
+        this.demoGameMidletState = demoGameMidletState
 
-    def init(self, anyType: object) -> None:
-        self.setSource(anyType)
-    
+proc newDemoGameMidletEvent*(anyType: JObject, demoGameMidletState: DemoGameMidletState): DemoGameMidletEvent =
+    result = DemoGameMidletEvent()
+    initDemoGameMidletEvent(result, anyType, demoGameMidletState)
 
-    def setDemoGameMidletState(self, demoGameMidletState: DemoGameMidletState) -> None:
-        self.demoGameMidletState = demoGameMidletState
-    
+method init*(this: DemoGameMidletEvent, anyType: JObject) {.base.} =
+        this.setSource(anyType)
 
-    def getDemoGameMidletState(self) -> DemoGameMidletState:
-        return self.demoGameMidletState
+method setDemoGameMidletState*(this: DemoGameMidletEvent, demoGameMidletState: DemoGameMidletState) {.base.} =
+        this.demoGameMidletState = demoGameMidletState
 
+method getDemoGameMidletState*(this: DemoGameMidletEvent): DemoGameMidletState {.base, discardable.} =
+        return this.demoGameMidletState
+
+when declared(newDemoGameMidletEventHook2):
+    newDemoGameMidletEventHook2 = proc (anyType: JObject, demoGameMidletState: DemoGameMidletState): AllBinaryEventObject = newDemoGameMidletEvent(anyType, demoGameMidletState)
 

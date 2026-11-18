@@ -1,97 +1,133 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.paint
 
-from __future__ import annotations
-
-from org.allbinary.graphics.font.UpdateMyFontInterface import UpdateMyFontInterface
-from org.allbinary.graphics.paint.Paintable import Paintable
-
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import javax/microedition/lcdui/Graphics as GraphicsModule
+export GraphicsModule
+import org/allbinary/graphics/displayable/DisplayInfoSingleton as DisplayInfoSingletonModule
+export DisplayInfoSingletonModule
+import org/allbinary/graphics/font/MyFontProcessor as MyFontProcessorModule
+export MyFontProcessorModule
+import org/allbinary/graphics/font/UpdateMyFontInterface as UpdateMyFontInterfaceModule
+export UpdateMyFontInterfaceModule
+import org/allbinary/graphics/paint/Paintable as PaintableModule
+export PaintableModule
 
 #J2MEForJ2ME
-class AboutPaintable(Paintable, UpdateMyFontInterface):
+type
+    AboutPaintable* = ref object of Paintable
+        displayInfoSingleton*: DisplayInfoSingleton
+        ABOUT*: string
+        info*: JArray[string]
+        developers*: JArray[string]
+        paintableArray*: JArray[Paintable]
+        myFontProcessor*: MyFontProcessor
+        charHeight*: int32
+        aboutBeginWidth*: int32
+        infoBeginWidth*: JArray[int32]
+        developersBeginWidth*: JArray[int32]
+        anchor*: int32
 
-    def _init_fields(self) -> None:
-        from org.allbinary.graphics.Anchor import Anchor
-        from org.allbinary.graphics.displayable.CanvasStrings import CanvasStrings
-        from org.allbinary.graphics.displayable.DisplayInfoSingleton import DisplayInfoSingleton
-        from org.allbinary.graphics.font.MyFontProcessor import MyFontProcessor
-        from org.allbinary.graphics.font.UpdateMyFontProcessor import UpdateMyFontProcessor
-        self.displayInfoSingleton: DisplayInfoSingleton = DisplayInfoSingleton.getInstance()
-        self.ABOUT: str = CanvasStrings.getInstance().ABOUT
-        self.info: list[str] = None
-        self.developers: list[str] = None
-        self.paintableArray: list[Paintable] = [self]
-        self.myFontProcessor: MyFontProcessor = UpdateMyFontProcessor(self)
-        self.charHeight: int = 0
-        self.aboutBeginWidth: int = 0
-        self.infoBeginWidth: list[int] = None
-        self.developersBeginWidth: list[int] = None
-        self.anchor: int = Anchor.TOP_LEFT
+converter jAsUpdateMyFontInterface*(value: AboutPaintable): UpdateMyFontInterface = cast[UpdateMyFontInterface](value)
+proc newAboutPaintable*(info: JArray[string], developers: JArray[string]): AboutPaintable
+proc initAboutPaintable*(this: AboutPaintable, info: JArray[string], developers: JArray[string])
+proc getInstance*(t: typedesc[AboutPaintable], info: JArray[string], developers: JArray[string]): AboutPaintable {.discardable.}
+method updateMeasurement*(this: AboutPaintable, graphics: Graphics)
+method getPaintableArrayInstance*(this: AboutPaintable): JArray[Paintable] {.base, discardable.}
+method paint*(this: AboutPaintable, graphics: Graphics)
+import javax/microedition/lcdui/Font as FontModule
+export FontModule
+import org/allbinary/graphics/Anchor as AnchorModule
+export AnchorModule
+import org/allbinary/graphics/displayable/CanvasStrings as CanvasStringsModule
+export CanvasStringsModule
+import org/allbinary/graphics/font/UpdateMyFontProcessor as UpdateMyFontProcessorModule
+export UpdateMyFontProcessorModule
+
+
+# Java field initializers run after the base initializer
+proc initFieldsAboutPaintable(this: AboutPaintable) =
+    this.displayInfoSingleton = DisplayInfoSingleton.getInstance()
+    this.ABOUT = CanvasStrings.getInstance().ABOUT
     
-
-    @staticmethod
-    def getInstance(info: list[str], developers: list[str]) -> AboutPaintable:
-        return AboutPaintable(info, developers)
     
-
-    def __init__(self, info: list[str], developers: list[str]) -> None:
-        super().__init__()
-        self._init_fields()
-        self.info = info
-        self.infoBeginWidth = [0] * (len(self.info))
-        self.developers = developers
-        self.developersBeginWidth = [0] * (len(self.developers))
+    this.paintableArray = newJArrayFromRefs[Paintable](this)
+    this.myFontProcessor = newUpdateMyFontProcessor(this)
+    this.charHeight = 0
+    this.aboutBeginWidth = 0
     
-
-    def updateMeasurement(self, graphics: Graphics) -> None:
-        from javax.microedition.lcdui.Font import Font
-        from javax.microedition.lcdui.Graphics import Graphics
-        from org.allbinary.graphics.font.MyFontProcessor import MyFontProcessor
-        font: Font = graphics.getFont()
-        self.charHeight = font.getHeight()
-        self.aboutBeginWidth = (font.stringWidth(self.ABOUT) >> 1)
-        infoSize: int = len(self.info)
-        for index in range(0, infoSize):
-            self.infoBeginWidth[index] = (font.stringWidth(self.info[index]) >> 1)
-        size: int = len(self.developers)
-        for index in range(0, size):
-            self.developersBeginWidth[index] = (font.stringWidth(self.developers[index]) >> 1)
-        self.myFontProcessor = MyFontProcessor.getInstance()
     
+    this.anchor = Anchor.TOP_LEFT
+    discard
 
-    def getPaintableArrayInstance(self) -> list[Paintable]:
-        return self.paintableArray
-    
+proc getInstance*(t: typedesc[AboutPaintable], info: JArray[string], developers: JArray[string]): AboutPaintable {.discardable.} =
+        return newAboutPaintable(info, developers)
 
-    def paint(self, graphics: Graphics) -> None:
-        from javax.microedition.lcdui.Graphics import Graphics
-        self.myFontProcessor.process(graphics)
-        halfWidth: int = self.displayInfoSingleton.getLastHalfWidth()
-        graphics.drawString(self.ABOUT, halfWidth - self.aboutBeginWidth, 2 * self.charHeight, self.anchor)
-        infoSize: int = len(self.info)
-        for index in range(0, infoSize):
-            graphics.drawString(self.info[index], halfWidth - self.infoBeginWidth[index], (4 + index) * self.charHeight, self.anchor)
-        size: int = len(self.developers)
-        for index in range(0, size):
-            graphics.drawString(self.developers[index], halfWidth - self.developersBeginWidth[index], (5 + infoSize + index) * self.charHeight, self.anchor)
-# from javax.microedition.lcdui.Font import Font
-# from javax.microedition.lcdui.Graphics import Graphics
-# from org.allbinary.graphics.Anchor import Anchor
-# from org.allbinary.graphics.displayable.CanvasStrings import CanvasStrings
-# from org.allbinary.graphics.displayable.DisplayInfoSingleton import DisplayInfoSingleton
-# from org.allbinary.graphics.font.MyFontProcessor import MyFontProcessor
-# from org.allbinary.graphics.font.UpdateMyFontProcessor import UpdateMyFontProcessor
+proc initAboutPaintable*(this: AboutPaintable, info: JArray[string], developers: JArray[string]) =
+        initPaintable(this)
+        this.initFieldsAboutPaintable()
+        this.info = info
+        this.infoBeginWidth = newJArray[int32](this.info.length, default(int32))
+        this.developers = developers
+        this.developersBeginWidth = newJArray[int32](this.developers.length, default(int32))
 
+proc newAboutPaintable*(info: JArray[string], developers: JArray[string]): AboutPaintable =
+    result = AboutPaintable()
+    initAboutPaintable(result, info, developers)
+
+method updateMeasurement*(this: AboutPaintable, graphics: Graphics) =
+        let font: Font = graphics.getFont()
+        this.charHeight = font.getHeight()
+        this.aboutBeginWidth = (ashr(font.stringWidth(this.ABOUT), 1))
+        let infoSize: int32 = this.info.length
+        block:
+            var index: int32 = 0
+            while index < infoSize:
+                defer: index = index +% 1
+                this.infoBeginWidth[index] = (ashr(font.stringWidth(this.info[index]), 1))
+        let size: int32 = this.developers.length
+        block:
+            var index: int32 = 0
+            while index < size:
+                defer: index = index +% 1
+                this.developersBeginWidth[index] = (ashr(font.stringWidth(this.developers[index]), 1))
+        this.myFontProcessor = MyFontProcessor.getInstance()
+
+method getPaintableArrayInstance*(this: AboutPaintable): JArray[Paintable] {.base, discardable.} =
+        return this.paintableArray
+
+method paint*(this: AboutPaintable, graphics: Graphics) =
+        this.myFontProcessor.process(graphics)
+        let halfWidth: int32 = this.displayInfoSingleton.getLastHalfWidth()
+        graphics.drawString(this.ABOUT, halfWidth -% this.aboutBeginWidth, 2 *% this.charHeight, this.anchor)
+        let infoSize: int32 = this.info.length
+        block:
+            var index: int32 = 0
+            while index < infoSize:
+                defer: index = index +% 1
+                graphics.drawString(this.info[index], halfWidth -% this.infoBeginWidth[index], (4 +% index) *% this.charHeight, this.anchor)
+        let size: int32 = this.developers.length
+        block:
+            var index: int32 = 0
+            while index < size:
+                defer: index = index +% 1
+                graphics.drawString(this.developers[index], halfWidth -% this.developersBeginWidth[index], (5 +% infoSize +% index) *% this.charHeight, this.anchor)
+
+when declared(newAboutPaintableHook2):
+    newAboutPaintableHook2 = proc (info: JArray[string], developers: JArray[string]): Paintable = newAboutPaintable(info, developers)
 

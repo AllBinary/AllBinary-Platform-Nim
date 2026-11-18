@@ -1,46 +1,58 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.configuration
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    GameSpeed* = ref object of JObject
 
+proc newGameSpeed*(): GameSpeed
+method getSpeed*(this: GameSpeed): int32 {.base, discardable.}
+method getDelay*(this: GameSpeed): int32 {.base, discardable.}
+proc getInstance*(t: typedesc[GameSpeed]): GameSpeed {.discardable.}
+import org/allbinary/game/configuration/GameConfigurationCentral as GameConfigurationCentralModule
+export GameConfigurationCentralModule
+import org/allbinary/game/configuration/GameConfiguration as GameConfigurationModule
+export GameConfigurationModule
 
-class GameSpeed:
-    instance: GameSpeed = None
-    
+var GameSpeed_instanceValue: GameSpeed
+var GameSpeed_instanceSet = false
+proc instance*(t: typedesc[GameSpeed]): GameSpeed =
+    if not GameSpeed_instanceSet:
+        GameSpeed_instanceSet = true
+        GameSpeed_instanceValue = newGameSpeed()
+    GameSpeed_instanceValue
 
-    def getSpeed(self) -> int:
-        from org.allbinary.game.configuration.GameConfigurationCentral import GameConfigurationCentral
-        speedGameConfiguration: GameConfiguration = GameConfigurationCentral.getInstance().SPEED
-        return (int(speedGameConfiguration.getMaxValue()) - int(speedGameConfiguration.getValue()) + 1)
-    
+proc initGameSpeed*(this: GameSpeed) =
+    discard
 
-    def getDelay(self) -> int:
-        from org.allbinary.game.configuration.GameConfigurationCentral import GameConfigurationCentral
-        speedGameConfiguration: GameConfiguration = GameConfigurationCentral.getInstance().SPEED
-        return 19 * (int(speedGameConfiguration.getMaxValue()) - int(speedGameConfiguration.getValue()))
-    
+proc newGameSpeed*(): GameSpeed =
+    result = GameSpeed()
+    initGameSpeed(result)
 
-    @staticmethod
-    def getInstance() -> GameSpeed:
+method getSpeed*(this: GameSpeed): int32 {.base, discardable.} =
+        var speedGameConfiguration: GameConfiguration = GameConfigurationCentral.getInstance().SPEED
+        return (speedGameConfiguration.getMaxValue().intValue() - speedGameConfiguration.getValue().intValue() +% 1)
+
+method getDelay*(this: GameSpeed): int32 {.base, discardable.} =
+        var speedGameConfiguration: GameConfiguration = GameConfigurationCentral.getInstance().SPEED
+        return 19 *% (speedGameConfiguration.getMaxValue().intValue() - speedGameConfiguration.getValue().intValue())
+
+proc getInstance*(t: typedesc[GameSpeed]): GameSpeed {.discardable.} =
         return GameSpeed.instance
-
-
-def _GameSpeed_instance() -> object:
-    return GameSpeed()
-
-lazy_static(GameSpeed, "instance", _GameSpeed_instance)
 

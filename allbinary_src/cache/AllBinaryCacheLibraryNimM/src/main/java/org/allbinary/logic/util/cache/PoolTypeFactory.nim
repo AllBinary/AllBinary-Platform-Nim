@@ -1,30 +1,40 @@
 # Generated Code Do Not Modify
 # package org.allbinary.logic.util.cache
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/logic/util/cache/PoolType as PoolTypeModule
+export PoolTypeModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    PoolTypeFactory* = ref object of JObject
+        VECTOR_POOL*: PoolType
 
+proc newPoolTypeFactory*(): PoolTypeFactory
+proc getInstance*(t: typedesc[PoolTypeFactory]): PoolTypeFactory {.discardable.}
+import org/allbinary/logic/util/cache/CacheTypeFactory as CacheTypeFactoryModule
+export CacheTypeFactoryModule
 
-class PoolTypeFactory:
-    instance: PoolTypeFactory = None
+var PoolTypeFactory_instanceValue: PoolTypeFactory
+var PoolTypeFactory_instanceSet = false
+proc instance*(t: typedesc[PoolTypeFactory]): PoolTypeFactory =
+    if not PoolTypeFactory_instanceSet:
+        PoolTypeFactory_instanceSet = true
+        PoolTypeFactory_instanceValue = newPoolTypeFactory()
+    PoolTypeFactory_instanceValue
 
-    def _init_fields(self) -> None:
-        self.VECTOR_POOL: PoolType = PoolType(CacheTypeFactory.getInstance().NO_CACHE)
+# Java field initializers run after the base initializer
+proc initFieldsPoolTypeFactory(this: PoolTypeFactory) =
+    this.VECTOR_POOL = newPoolType(CacheTypeFactory.getInstance().NO_CACHE)
+    discard
 
-    def __init__(self) -> None:
-        self._init_fields()
-    
+proc initPoolTypeFactory*(this: PoolTypeFactory) =
+    this.initFieldsPoolTypeFactory()
 
-    @staticmethod
-    def getInstance() -> PoolTypeFactory:
+proc newPoolTypeFactory*(): PoolTypeFactory =
+    result = PoolTypeFactory()
+    initPoolTypeFactory(result)
+
+proc getInstance*(t: typedesc[PoolTypeFactory]): PoolTypeFactory {.discardable.} =
         return PoolTypeFactory.instance
-from org.allbinary.logic.util.cache.PoolType import PoolType
-from org.allbinary.logic.util.cache.CacheTypeFactory import CacheTypeFactory
-
-
-def _PoolTypeFactory_instance() -> object:
-    return PoolTypeFactory()
-
-lazy_static(PoolTypeFactory, "instance", _PoolTypeFactory_instance)
 

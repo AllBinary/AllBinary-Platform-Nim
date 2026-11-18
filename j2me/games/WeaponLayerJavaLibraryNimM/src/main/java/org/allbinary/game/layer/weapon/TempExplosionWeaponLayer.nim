@@ -1,48 +1,60 @@
 # Generated Code Do Not Modify
 # package org.allbinary.game.layer.weapon
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/animation/Animation as AnimationModule
+export AnimationModule
+import org/allbinary/game/combat/weapon/WeaponProperties as WeaponPropertiesModule
+export WeaponPropertiesModule
+import org/allbinary/graphics/Rectangle as RectangleModule
+export RectangleModule
+import org/allbinary/layer/AllBinaryLayerManager as AllBinaryLayerManagerModule
+export AllBinaryLayerManagerModule
+import org/allbinary/physics/movement/Movement as MovementModule
+export MovementModule
+import org/allbinary/time/TimeDelayHelper as TimeDelayHelperModule
+export TimeDelayHelperModule
+import org/allbinary/view/ViewPositionBase as ViewPositionBaseModule
+export ViewPositionBaseModule
+import org/allbinary/game/layer/weapon/SimpleWeaponLayer as SimpleWeaponLayerModule
+export SimpleWeaponLayerModule
 
-from org.allbinary.game.layer.weapon.SimpleWeaponLayer import SimpleWeaponLayer
+type
+    TempExplosionWeaponLayer* = ref object of SimpleWeaponLayer
+        weaponPropertiesOfTempExplosionWeaponLayer*: WeaponProperties
+        timeDelayHelper*: TimeDelayHelper
+
+proc newTempExplosionWeaponLayer*(name: string, movement: Movement, animationInterface: Animation, rectangle: Rectangle, viewPosition: ViewPositionBase, timeDelay: int32): TempExplosionWeaponLayer
+proc initTempExplosionWeaponLayer*(this: TempExplosionWeaponLayer, name: string, movement: Movement, animationInterface: Animation, rectangle: Rectangle, viewPosition: ViewPositionBase, timeDelay: int32)
+method processTick*(this: TempExplosionWeaponLayer, allBinaryLayerManager: AllBinaryLayerManager)
+import org/allbinary/game/multiplayer/layer/RemoteInfo as RemoteInfoModule
+export RemoteInfoModule
+import org/allbinary/time/GameTickTimeDelayHelperFactory as GameTickTimeDelayHelperFactoryModule
+export GameTickTimeDelayHelperFactoryModule
 
 
-class TempExplosionWeaponLayer(SimpleWeaponLayer):
+# Java field initializers run after the base initializer
+proc initFieldsTempExplosionWeaponLayer(this: TempExplosionWeaponLayer) =
+    this.weaponPropertiesOfTempExplosionWeaponLayer = newWeaponProperties(-1'i64, -1'i64, 0, 1000, jToInt16(0))
+    this.timeDelayHelper = newTimeDelayHelper(0)
+    discard
 
-    def _init_fields(self) -> None:
-        from org.allbinary.game.combat.weapon.WeaponProperties import WeaponProperties
-        from org.allbinary.time.TimeDelayHelper import TimeDelayHelper
-        self.weaponProperties: WeaponProperties = WeaponProperties(-1, -1, 0, 1000, ((int(0) + 32768) % 65536 - 32768))
-        self.timeDelayHelper: TimeDelayHelper = TimeDelayHelper(0)
-    
+proc initTempExplosionWeaponLayer*(this: TempExplosionWeaponLayer, name: string, movement: Movement, animationInterface: Animation, rectangle: Rectangle, viewPosition: ViewPositionBase, timeDelay: int32) =
+        initSimpleWeaponLayer(this, name, RemoteInfo.REMOTE_INFOStatic, -1, movement, animationInterface, SimpleWeaponLayer.createDestroyed(), rectangle, viewPosition)
+        this.initFieldsTempExplosionWeaponLayer()
+        this.timeDelayHelper.delay = timeDelay
 
-    def __init__(self, name: str, movement: Movement, animationInterface: Animation, rectangle: Rectangle, viewPosition: ViewPositionBase, timeDelay: int) -> None:
-        from org.allbinary.game.layer.weapon.SimpleWeaponLayer import SimpleWeaponLayer
-        from org.allbinary.animation.Animation import Animation
-        from org.allbinary.game.multiplayer.layer.RemoteInfo import RemoteInfo
-        from org.allbinary.graphics.Rectangle import Rectangle
-        from org.allbinary.physics.movement.Movement import Movement
-        from org.allbinary.view.ViewPositionBase import ViewPositionBase
-        super().__init__(name, RemoteInfo.REMOTE_INFO, -1, movement, animationInterface, SimpleWeaponLayer.createDestroyed(), rectangle, viewPosition)
-        self._init_fields()
-        self.timeDelayHelper.delay = timeDelay
-    
+proc newTempExplosionWeaponLayer*(name: string, movement: Movement, animationInterface: Animation, rectangle: Rectangle, viewPosition: ViewPositionBase, timeDelay: int32): TempExplosionWeaponLayer =
+    result = TempExplosionWeaponLayer()
+    initTempExplosionWeaponLayer(result, name, movement, animationInterface, rectangle, viewPosition, timeDelay)
 
-    # throws Exception
-    def processTick(self, allBinaryLayerManager: AllBinaryLayerManager) -> None:
-        from org.allbinary.layer.AllBinaryLayerManager import AllBinaryLayerManager
-        from org.allbinary.time.GameTickTimeDelayHelperFactory import GameTickTimeDelayHelperFactory
-        if self.timeDelayHelper.isTime(GameTickTimeDelayHelperFactory.getInstance().startTime):
-            self.getCollidableInferface().collide(self, self)
-            self.totalDamage = self.getInitDamage() + 1
-        super().processTick(allBinaryLayerManager)
-# from org.allbinary.animation.Animation import Animation
-# from org.allbinary.game.combat.weapon.WeaponProperties import WeaponProperties
-# from org.allbinary.game.multiplayer.layer.RemoteInfo import RemoteInfo
-# from org.allbinary.graphics.Rectangle import Rectangle
-# from org.allbinary.layer.AllBinaryLayerManager import AllBinaryLayerManager
-# from org.allbinary.physics.movement.Movement import Movement
-# from org.allbinary.time.GameTickTimeDelayHelperFactory import GameTickTimeDelayHelperFactory
-# from org.allbinary.time.TimeDelayHelper import TimeDelayHelper
-# from org.allbinary.view.ViewPositionBase import ViewPositionBase
+method processTick*(this: TempExplosionWeaponLayer, allBinaryLayerManager: AllBinaryLayerManager) =
+        if this.timeDelayHelper.isTime(GameTickTimeDelayHelperFactory.getInstance().startTime):
+            this.getCollidableInferface().collide(this, this)
+            this.totalDamage = this.getInitDamage() +% 1
+        procCall SimpleWeaponLayer(this).processTick(allBinaryLayerManager)
 
+when declared(newTempExplosionWeaponLayerHook6):
+    newTempExplosionWeaponLayerHook6 = proc (name: string, movement: Movement, animationInterface: Animation, rectangle: Rectangle, viewPosition: ViewPositionBase, timeDelay: int32): SimpleWeaponLayer = newTempExplosionWeaponLayer(name, movement, animationInterface, rectangle, viewPosition, timeDelay)
 

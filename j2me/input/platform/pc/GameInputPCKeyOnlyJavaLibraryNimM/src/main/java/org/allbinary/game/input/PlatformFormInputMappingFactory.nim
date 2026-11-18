@@ -1,73 +1,88 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.input
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/game/input/mapping/InputToGameKeyMapping as InputToGameKeyMappingModule
+export InputToGameKeyMappingModule
+import org/allbinary/logic/communication/log/LogUtil as LogUtilModule
+export LogUtilModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    PlatformFormInputMappingFactory* = ref object of JObject
+        logUtil*: LogUtil
+        inputToGameKeyMapping*: InputToGameKeyMapping
 
+proc newPlatformFormInputMappingFactory*(): PlatformFormInputMappingFactory
+proc getInstance*(t: typedesc[PlatformFormInputMappingFactory]): PlatformFormInputMappingFactory {.discardable.}
+method getOrCreate*(this: PlatformFormInputMappingFactory): InputToGameKeyMapping {.base, discardable.}
+import org/allbinary/logic/NullUtil as NullUtilModule
+export NullUtilModule
+import org/allbinary/string/CommonStrings as CommonStringsModule
+export CommonStringsModule
+import org/allbinary/game/input/PCKeyFactory as PCKeyFactoryModule
+export PCKeyFactoryModule
+import org/allbinary/game/input/GameKeyFactory as GameKeyFactoryModule
+export GameKeyFactoryModule
 
-class PlatformFormInputMappingFactory:
-    instance: object = None
+var PlatformFormInputMappingFactory_instanceValue: JObject
+var PlatformFormInputMappingFactory_instanceSet = false
+proc instance*(t: typedesc[PlatformFormInputMappingFactory]): JObject =
+    if not PlatformFormInputMappingFactory_instanceSet:
+        PlatformFormInputMappingFactory_instanceSet = true
+        PlatformFormInputMappingFactory_instanceValue = NullUtil.getInstance().NULL_OBJECT
+    PlatformFormInputMappingFactory_instanceValue
+proc `instance=`*(t: typedesc[PlatformFormInputMappingFactory], value: JObject) =
+    PlatformFormInputMappingFactory_instanceSet = true
+    PlatformFormInputMappingFactory_instanceValue = value
 
-    def _init_fields(self) -> None:
-        from org.allbinary.game.input.mapping.InputToGameKeyMapping import InputToGameKeyMapping
-        from org.allbinary.logic.communication.log.LogUtil import LogUtil
-        self.logUtil: LogUtil = LogUtil.getInstance()
-        self.inputToGameKeyMapping: InputToGameKeyMapping = InputToGameKeyMapping.getNullInstance()
+# Java field initializers run after the base initializer
+proc initFieldsPlatformFormInputMappingFactory(this: PlatformFormInputMappingFactory) =
+    this.logUtil = LogUtil.getInstance()
+    this.inputToGameKeyMapping = InputToGameKeyMapping.getNullInstance()
+    discard
 
-    def __init__(self) -> None:
-        self._init_fields()
-    
+proc initPlatformFormInputMappingFactory*(this: PlatformFormInputMappingFactory) =
+    this.initFieldsPlatformFormInputMappingFactory()
 
-    @staticmethod
-    def getInstance() -> PlatformFormInputMappingFactory:
-        from org.allbinary.logic.NullUtil import NullUtil
+proc newPlatformFormInputMappingFactory*(): PlatformFormInputMappingFactory =
+    result = PlatformFormInputMappingFactory()
+    initPlatformFormInputMappingFactory(result)
+
+proc getInstance*(t: typedesc[PlatformFormInputMappingFactory]): PlatformFormInputMappingFactory {.discardable.} =
         if PlatformFormInputMappingFactory.instance == NullUtil.getInstance().NULL_OBJECT:
-            PlatformFormInputMappingFactory.instance = PlatformFormInputMappingFactory()
-        return PlatformFormInputMappingFactory.instance
-    
+            PlatformFormInputMappingFactory.instance = newPlatformFormInputMappingFactory()
+        return PlatformFormInputMappingFactory(JObject(PlatformFormInputMappingFactory.instance))
 
-    def getOrCreate(self) -> InputToGameKeyMapping:
-        from org.allbinary.game.input.PCKeyFactory import PCKeyFactory
-        from org.allbinary.game.input.GameKeyFactory import GameKeyFactory
-        from org.allbinary.game.input.mapping.InputToGameKeyMapping import InputToGameKeyMapping
-        from org.allbinary.string.CommonStrings import CommonStrings
+method getOrCreate*(this: PlatformFormInputMappingFactory): InputToGameKeyMapping {.base, discardable.} =
         try:
-            if self.inputToGameKeyMapping == InputToGameKeyMapping.getNullInstance():
-                pcKeyFactory: PCKeyFactory = PCKeyFactory.getInstance()
-                inputToGameKeyMapping: InputToGameKeyMapping = InputToGameKeyMapping()
-                gameKeyFactory: GameKeyFactory = GameKeyFactory.getInstance()
+            if this.inputToGameKeyMapping == InputToGameKeyMapping.getNullInstance():
+                var pcKeyFactory: PCKeyFactory = PCKeyFactory.getInstance()
+                let inputToGameKeyMapping: InputToGameKeyMapping = newInputToGameKeyMapping()
+                let gameKeyFactory: GameKeyFactory = GameKeyFactory.getInstance()
                 inputToGameKeyMapping.add(gameKeyFactory.UP, pcKeyFactory.DPAD_UP)
                 inputToGameKeyMapping.add(gameKeyFactory.DOWN, pcKeyFactory.DPAD_DOWN)
                 inputToGameKeyMapping.add(gameKeyFactory.LEFT, pcKeyFactory.DPAD_LEFT)
                 inputToGameKeyMapping.add(gameKeyFactory.RIGHT, pcKeyFactory.DPAD_RIGHT)
                 inputToGameKeyMapping.add(gameKeyFactory.KEY_NUM1, pcKeyFactory.ENTER)
-                self.inputToGameKeyMapping = inputToGameKeyMapping
-        except Exception as e:
-            commonStrings: CommonStrings = CommonStrings.getInstance()
-            self.logUtil.put(commonStrings.EXCEPTION, self, commonStrings.GET_INSTANCE, e)
-        return self.inputToGameKeyMapping
-# from org.allbinary.game.input.mapping.InputToGameKeyMapping import InputToGameKeyMapping
-# from org.allbinary.logic.NullUtil import NullUtil
-# from org.allbinary.logic.communication.log.LogUtil import LogUtil
-# from org.allbinary.string.CommonStrings import CommonStrings
-
-
-def _PlatformFormInputMappingFactory_instance() -> object:
-    from org.allbinary.logic.NullUtil import NullUtil
-    return NullUtil.getInstance().NULL_OBJECT
-
-lazy_static(PlatformFormInputMappingFactory, "instance", _PlatformFormInputMappingFactory_instance)
+                this.inputToGameKeyMapping = inputToGameKeyMapping
+        except CatchableError as jcaught:
+            let e = jToException(jcaught)
+            let commonStrings: CommonStrings = CommonStrings.getInstance()
+            this.logUtil.put(commonStrings.EXCEPTION, this, commonStrings.GET_INSTANCE, e)
+        return this.inputToGameKeyMapping
 

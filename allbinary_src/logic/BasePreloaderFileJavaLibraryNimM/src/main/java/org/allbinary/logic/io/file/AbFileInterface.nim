@@ -1,128 +1,102 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.logic.io.file
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import java/io/FilenameFilter as FilenameFilterModule
+export FilenameFilterModule
+import java/io/IOException as IOExceptionModule
+export IOExceptionModule
+import java/net/URI as URIModule
+export URIModule
+
+type
+    AbFileInterface* = ref object of JObject
 
 
+method canRead*(this: AbFileInterface): bool {.base, discardable.} =
+        raise newJException("AbstractMethodError", "canRead")
 
-# Java interface
-class AbFileInterface:
-    
+method canWrite*(this: AbFileInterface): bool {.base, discardable.} =
+        raise newJException("AbstractMethodError", "canWrite")
 
-    def canRead(self) -> bool:
-        raise NotImplementedError()
-    
+method createNewFile*(this: AbFileInterface): bool {.base, discardable.} =
+        raise newJException("AbstractMethodError", "createNewFile")
 
-    def canWrite(self) -> bool:
-        raise NotImplementedError()
-    
+method delete*(this: AbFileInterface): bool {.base, discardable.} =
+        raise newJException("AbstractMethodError", "delete")
 
-    # throws IOException
-    def createNewFile(self) -> bool:
-        raise NotImplementedError()
-    
+method deleteOnExit*(this: AbFileInterface) {.base.} =
+        raise newJException("AbstractMethodError", "deleteOnExit")
 
-    # throws IOException
-    def delete(self) -> bool:
-        raise NotImplementedError()
-    
+method exists*(this: AbFileInterface): bool {.base, discardable.} =
+        raise newJException("AbstractMethodError", "exists")
 
-    def deleteOnExit(self) -> None:
-        raise NotImplementedError()
-    
+method getAbsolutePath*(this: AbFileInterface): string {.base, discardable.} =
+        raise newJException("AbstractMethodError", "getAbsolutePath")
 
-    def exists(self) -> bool:
-        raise NotImplementedError()
-    
+method getCanonicalPath*(this: AbFileInterface): string {.base, discardable.} =
+        raise newJException("AbstractMethodError", "getCanonicalPath")
 
-    def getAbsolutePath(self) -> str:
-        raise NotImplementedError()
-    
+method getParent*(this: AbFileInterface): string {.base, discardable.} =
+        raise newJException("AbstractMethodError", "getParent")
 
-    # throws IOException
-    def getCanonicalPath(self) -> str:
-        raise NotImplementedError()
-    
+method getPath*(this: AbFileInterface): string {.base, discardable.} =
+        raise newJException("AbstractMethodError", "getPath")
 
-    def getParent(self) -> str:
-        raise NotImplementedError()
-    
+method isAbsolute*(this: AbFileInterface): bool {.base, discardable.} =
+        raise newJException("AbstractMethodError", "isAbsolute")
 
-    def getPath(self) -> str:
-        raise NotImplementedError()
-    
+method isDirectory*(this: AbFileInterface): bool {.base, discardable.} =
+        raise newJException("AbstractMethodError", "isDirectory")
 
-    def isAbsolute(self) -> bool:
-        raise NotImplementedError()
-    
+method isFile*(this: AbFileInterface): bool {.base, discardable.} =
+        raise newJException("AbstractMethodError", "isFile")
 
-    def isDirectory(self) -> bool:
-        raise NotImplementedError()
-    
+method isHidden*(this: AbFileInterface): bool {.base, discardable.} =
+        raise newJException("AbstractMethodError", "isHidden")
 
-    def isFile(self) -> bool:
-        raise NotImplementedError()
-    
+method lastModified*(this: AbFileInterface): int64 {.base, discardable.} =
+        raise newJException("AbstractMethodError", "lastModified")
 
-    def isHidden(self) -> bool:
-        raise NotImplementedError()
-    
+method length*(this: AbFileInterface): int64 {.base, discardable.} =
+        raise newJException("AbstractMethodError", "length")
 
-    def lastModified(self) -> int:
-        raise NotImplementedError()
-    
+method list*(this: AbFileInterface): JArray[string] {.base, discardable.} =
+        raise newJException("AbstractMethodError", "list")
 
-    def length(self) -> int:
-        raise NotImplementedError()
-    
+method listWithFilter*(this: AbFileInterface, filter: FilenameFilter): JArray[string] {.base, discardable.} =
+        raise newJException("AbstractMethodError", "listWithFilter")
 
-    def list_(self) -> list[str]:
-        raise NotImplementedError()
-    
+method mkdir*(this: AbFileInterface): bool {.base, discardable.} =
+        raise newJException("AbstractMethodError", "mkdir")
 
-    def listWithFilter(self, filter: FilenameFilter) -> list[str]:
-        raise NotImplementedError()
-    
+method mkdirs*(this: AbFileInterface): bool {.base, discardable.} =
+        raise newJException("AbstractMethodError", "mkdirs")
 
-    def mkdir(self) -> bool:
-        raise NotImplementedError()
-    
+method setLastModified*(this: AbFileInterface, time: int64): bool {.base, discardable.} =
+        raise newJException("AbstractMethodError", "setLastModified")
 
-    def mkdirs(self) -> bool:
-        raise NotImplementedError()
-    
+method setReadOnly*(this: AbFileInterface): bool {.base, discardable.} =
+        raise newJException("AbstractMethodError", "setReadOnly")
 
-    def setLastModified(self, time: int) -> bool:
-        raise NotImplementedError()
-    
+method toString*(this: AbFileInterface): string {.discardable.} =
+        raise newJException("AbstractMethodError", "toString")
 
-    def setReadOnly(self) -> bool:
-        raise NotImplementedError()
-    
-
-    def toString(self) -> str:
-        raise NotImplementedError()
-
-    def __str__(self) -> str:
-        return self.toString()
-    
-
-    def toURI(self) -> URI:
-        raise NotImplementedError()
-# from java.io.FilenameFilter import FilenameFilter
-# from java.io.IOException import IOException
-# from java.net.URI import URI
-
+method toURI*(this: AbFileInterface): URI {.base, discardable.} =
+        raise newJException("AbstractMethodError", "toURI")
 

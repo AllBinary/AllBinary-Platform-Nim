@@ -1,30 +1,42 @@
 # Generated Code Do Not Modify
 # package org.allbinary.graphics.form.item
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import javax/microedition/lcdui/Image as ImageModule
+export ImageModule
+import org/allbinary/graphics/color/BasicColor as BasicColorModule
+export BasicColorModule
+import org/allbinary/graphics/form/item/ABCustomItem as ABCustomItemModule
+export ABCustomItemModule
 
-from org.allbinary.graphics.form.item.ABCustomItem import ABCustomItem
+type
+    ABCustomImageItem* = ref object of ABCustomItem
+        yOffset*: int32
+
+proc newABCustomImageItem*(label: string, image: Image, layout: int32, altText: string, basicColor: BasicColor, yOffset: int32): ABCustomImageItem
+proc initABCustomImageItem*(this: ABCustomImageItem, label: string, image: Image, layout: int32, altText: string, basicColor: BasicColor, yOffset: int32)
+method getImage*(this: ABCustomImageItem): Image {.base, discardable.}
+import javax/microedition/lcdui/NullImage as NullImageModule
+export NullImageModule
 
 
-class ABCustomImageItem(ABCustomItem):
+# Java field initializers run after the base initializer
+proc initFieldsABCustomImageItem(this: ABCustomImageItem) =
+    this.yOffset = 0
+    discard
 
-    def _init_fields(self) -> None:
-        self.yOffset: int = 0
-    
+proc initABCustomImageItem*(this: ABCustomImageItem, label: string, image: Image, layout: int32, altText: string, basicColor: BasicColor, yOffset: int32) =
+        initABCustomItem(this, label, basicColor, basicColor)
+        this.initFieldsABCustomImageItem()
 
-    def __init__(self, label: str, image: Image, layout: int, altText: str, basicColor: BasicColor, yOffset: int) -> None:
-        from javax.microedition.lcdui.Image import Image
-        from org.allbinary.graphics.color.BasicColor import BasicColor
-        super().__init__(label, basicColor, basicColor)
-        self._init_fields()
-    
+proc newABCustomImageItem*(label: string, image: Image, layout: int32, altText: string, basicColor: BasicColor, yOffset: int32): ABCustomImageItem =
+    result = ABCustomImageItem()
+    initABCustomImageItem(result, label, image, layout, altText, basicColor, yOffset)
 
-    def getImage(self) -> Image:
-        from javax.microedition.lcdui.Image import Image
-        from javax.microedition.lcdui.NullImage import NullImage
-        return NullImage.NULL_IMAGE
-# from javax.microedition.lcdui.Image import Image
-# from javax.microedition.lcdui.NullImage import NullImage
-# from org.allbinary.graphics.color.BasicColor import BasicColor
+method getImage*(this: ABCustomImageItem): Image {.base, discardable.} =
+        return NullImage.NULL_IMAGEStatic
 
+when declared(newABCustomImageItemHook6):
+    newABCustomImageItemHook6 = proc (label: string, image: Image, layout: int32, altText: string, basicColor: BasicColor, yOffset: int32): ABCustomItem = newABCustomImageItem(label, image, layout, altText, basicColor, yOffset)
 

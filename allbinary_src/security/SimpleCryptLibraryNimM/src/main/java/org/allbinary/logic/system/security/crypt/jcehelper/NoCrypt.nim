@@ -1,31 +1,43 @@
-# 
-# AllBinary Open License Version 1 
-# Copyright (c) 2022 AllBinary 
-#  
-# By agreeing to this license you and any business entity you represent are 
-# legally bound to the AllBinary Open License Version 1 legal agreement. 
-#  
-# You may obtain the AllBinary Open License Version 1 legal agreement from 
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
-#  
-# Created By: Travis Berthelot 
-#   
+#[
+  
+  AllBinary Open License Version 1 
+  Copyright (c) 2022 AllBinary 
+   
+  By agreeing to this license you and any business entity you represent are 
+  legally bound to the AllBinary Open License Version 1 legal agreement. 
+   
+  You may obtain the AllBinary Open License Version 1 legal agreement from 
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
+   
+  Created By: Travis Berthelot 
+    
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.logic.system.security.crypt.jcehelper
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/init/crypt/jcehelper/CryptInterface as CryptInterfaceModule
+export CryptInterfaceModule
 
-from org.allbinary.init.crypt.jcehelper.CryptInterface import CryptInterface
+type
+    NoCrypt* = ref object of CryptInterface
+
+proc newNoCrypt*(): NoCrypt
+method encrypt*(this: NoCrypt, array: JArray[int8]): JArray[int8] {.discardable.}
+method decrypt*(this: NoCrypt, array: JArray[int8]): JArray[int8] {.discardable.}
 
 
-class NoCrypt(CryptInterface):
-    
+proc initNoCrypt*(this: NoCrypt) =
+    discard
 
-    def encrypt(self, array: list[int]) -> list[int]:
+proc newNoCrypt*(): NoCrypt =
+    result = NoCrypt()
+    initNoCrypt(result)
+
+method encrypt*(this: NoCrypt, array: JArray[int8]): JArray[int8] {.discardable.} =
         return array
-    
 
-    def decrypt(self, array: list[int]) -> list[int]:
+method decrypt*(this: NoCrypt, array: JArray[int8]): JArray[int8] {.discardable.} =
         return array
-
 

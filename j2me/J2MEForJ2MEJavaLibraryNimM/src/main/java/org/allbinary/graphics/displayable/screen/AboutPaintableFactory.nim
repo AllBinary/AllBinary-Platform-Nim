@@ -1,52 +1,62 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2022 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-# 
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2022 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+  
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.graphics.displayable.screen
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/graphics/paint/Paintable as PaintableModule
+export PaintableModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    AboutPaintableFactory* = ref object of JObject
+        paintableArray*: JArray[Paintable]
 
+proc newAboutPaintableFactory*(): AboutPaintableFactory
+proc initAboutPaintableFactory*(this: AboutPaintableFactory)
+proc getInstance*(t: typedesc[AboutPaintableFactory]): AboutPaintableFactory {.discardable.}
+import org/allbinary/game/paint/AboutPaintable as AboutPaintableModule
+export AboutPaintableModule
+import org/allbinary/graphics/paint/NullPaintable as NullPaintableModule
+export NullPaintableModule
+import org/allbinary/logic/string/StringUtil as StringUtilModule
+export StringUtilModule
 
-class AboutPaintableFactory:
-    instance: AboutPaintableFactory = None
+var AboutPaintableFactory_instanceValue: AboutPaintableFactory
+var AboutPaintableFactory_instanceSet = false
+proc instance*(t: typedesc[AboutPaintableFactory]): AboutPaintableFactory =
+    if not AboutPaintableFactory_instanceSet:
+        AboutPaintableFactory_instanceSet = true
+        AboutPaintableFactory_instanceValue = newAboutPaintableFactory()
+    AboutPaintableFactory_instanceValue
 
-    def _init_fields(self) -> None:
-        from org.allbinary.graphics.paint.NullPaintable import NullPaintable
-        from org.allbinary.graphics.paint.Paintable import Paintable
-        self.paintableArray: list[Paintable] = [NullPaintable.getInstance()]
-    
+# Java field initializers run after the base initializer
+proc initFieldsAboutPaintableFactory(this: AboutPaintableFactory) =
+    this.paintableArray = newJArrayFromRefs[Paintable](NullPaintable.getInstance())
+    discard
 
-    @staticmethod
-    def getInstance() -> AboutPaintableFactory:
+proc getInstance*(t: typedesc[AboutPaintableFactory]): AboutPaintableFactory {.discardable.} =
         return AboutPaintableFactory.instance
-    
 
-    def __init__(self) -> None:
-        from org.allbinary.game.paint.AboutPaintable import AboutPaintable
-        from org.allbinary.logic.string.StringUtil import StringUtil
-        self._init_fields()
-        INFO: list[str] = ["Built with the", "AllBinary Platform", StringUtil.getInstance().EMPTY_STRING, "Comments or Questions:", "support@allbinary.com"]
-        DEVELOPERS: list[str] = ["Developed By:", "Travis Berthelot"]
-        self.paintableArray = AboutPaintable.getInstance(INFO, DEVELOPERS).getPaintableArrayInstance()
-# from org.allbinary.game.paint.AboutPaintable import AboutPaintable
-# from org.allbinary.graphics.paint.NullPaintable import NullPaintable
-# from org.allbinary.graphics.paint.Paintable import Paintable
-# from org.allbinary.logic.string.StringUtil import StringUtil
+proc initAboutPaintableFactory*(this: AboutPaintableFactory) =
+        this.initFieldsAboutPaintableFactory()
+        let INFO: JArray[string] = newJArrayFrom[string](["Built with the", "AllBinary Platform", StringUtil.getInstance().EMPTY_STRING, "Comments or Questions:", "support@allbinary.com"])
+        let DEVELOPERS: JArray[string] = newJArrayFrom[string](["Developed By:", "Travis Berthelot"])
+        this.paintableArray = AboutPaintable.getInstance(INFO, DEVELOPERS).getPaintableArrayInstance()
 
-
-def _AboutPaintableFactory_instance() -> object:
-    return AboutPaintableFactory()
-
-lazy_static(AboutPaintableFactory, "instance", _AboutPaintableFactory_instance)
+proc newAboutPaintableFactory*(): AboutPaintableFactory =
+    result = AboutPaintableFactory()
+    initAboutPaintableFactory(result)
 

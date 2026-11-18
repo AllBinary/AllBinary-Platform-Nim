@@ -1,39 +1,50 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.input.motion.button
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/input/motion/button/TouchButtonResource as TouchButtonResourceModule
+export TouchButtonResourceModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
-from org.allbinary.input.motion.button.TouchButtonResource import TouchButtonResource
+type
+    TouchButtonBlankResource* = ref object of TouchButtonResource
 
+proc newTouchButtonBlankResource*(): TouchButtonBlankResource
+proc initTouchButtonBlankResource*(this: TouchButtonBlankResource)
+proc getInstance*(t: typedesc[TouchButtonBlankResource]): TouchButtonResource {.discardable.}
 
-class TouchButtonBlankResource(TouchButtonResource):
-    instance: TouchButtonResource = None
-    
+var TouchButtonBlankResource_instanceValue: TouchButtonResource
+var TouchButtonBlankResource_instanceSet = false
+proc instance*(t: typedesc[TouchButtonBlankResource]): TouchButtonResource =
+    if not TouchButtonBlankResource_instanceSet:
+        TouchButtonBlankResource_instanceSet = true
+        TouchButtonBlankResource_instanceValue = newTouchButtonBlankResource()
+    TouchButtonBlankResource_instanceValue
 
-    @staticmethod
-    def getInstance() -> TouchButtonResource:
+proc getInstance*(t: typedesc[TouchButtonBlankResource]): TouchButtonResource {.discardable.} =
         return TouchButtonBlankResource.instance
-    
 
-    def __init__(self) -> None:
-        super().__init__("/touch_button_64_by_64.png", "/touch_button_hint_64_by_64.png")
+proc initTouchButtonBlankResource*(this: TouchButtonBlankResource) =
+        initTouchButtonResource(this, "/touch_button_64_by_64.png", "/touch_button_hint_64_by_64.png")
 
+proc newTouchButtonBlankResource*(): TouchButtonBlankResource =
+    result = TouchButtonBlankResource()
+    initTouchButtonBlankResource(result)
 
-def _TouchButtonBlankResource_instance() -> object:
-    return TouchButtonBlankResource()
-
-lazy_static(TouchButtonBlankResource, "instance", _TouchButtonBlankResource_instance)
+when declared(newTouchButtonBlankResourceHook0):
+    newTouchButtonBlankResourceHook0 = proc (): TouchButtonResource = newTouchButtonBlankResource()
 

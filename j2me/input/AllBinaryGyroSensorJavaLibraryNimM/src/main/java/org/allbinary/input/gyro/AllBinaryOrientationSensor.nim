@@ -1,57 +1,72 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.input.gyro
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/game/input/CompleteMotionGestureInputEventListenerInterface as CompleteMotionGestureInputEventListenerInterfaceModule
+export CompleteMotionGestureInputEventListenerInterfaceModule
+import org/allbinary/input/AllBinarySensor as AllBinarySensorModule
+export AllBinarySensorModule
+import org/allbinary/logic/math/Orientation as OrientationModule
+export OrientationModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
-from org.allbinary.input.AllBinarySensor import AllBinarySensor
+type
+    AllBinaryOrientationSensor* = ref object of AllBinarySensor
+        sensorDataFloatArray*: JArray[float32]
+        listener*: CompleteMotionGestureInputEventListenerInterface
 
+proc newAllBinaryOrientationSensor*(): AllBinaryOrientationSensor
+proc initAllBinaryOrientationSensor*(this: AllBinaryOrientationSensor)
+method setCompleteMotionGestureInputEventListener*(this: AllBinaryOrientationSensor, completeMotionGestureInputEventListenerInterface: CompleteMotionGestureInputEventListenerInterface) {.base.}
+method getOrientation*(this: AllBinaryOrientationSensor): Orientation {.base, discardable.}
+import org/allbinary/game/input/motion/action/NoCompleteMotionGestureInputEventListener as NoCompleteMotionGestureInputEventListenerModule
+export NoCompleteMotionGestureInputEventListenerModule
+import org/allbinary/logic/math/PrimitiveFloatUtil as PrimitiveFloatUtilModule
+export PrimitiveFloatUtilModule
 
-class AllBinaryOrientationSensor(AllBinarySensor):
-    NULL_ALLBINARY_ORIENTATION_SENSOR: AllBinaryOrientationSensor = None
+var AllBinaryOrientationSensor_NULL_ALLBINARY_ORIENTATION_SENSORValue: AllBinaryOrientationSensor
+var AllBinaryOrientationSensor_NULL_ALLBINARY_ORIENTATION_SENSORSet = false
+proc NULL_ALLBINARY_ORIENTATION_SENSOR*(t: typedesc[AllBinaryOrientationSensor]): AllBinaryOrientationSensor =
+    if not AllBinaryOrientationSensor_NULL_ALLBINARY_ORIENTATION_SENSORSet:
+        AllBinaryOrientationSensor_NULL_ALLBINARY_ORIENTATION_SENSORSet = true
+        AllBinaryOrientationSensor_NULL_ALLBINARY_ORIENTATION_SENSORValue = newAllBinaryOrientationSensor()
+    AllBinaryOrientationSensor_NULL_ALLBINARY_ORIENTATION_SENSORValue
 
-    def _init_fields(self) -> None:
-        from org.allbinary.game.input.CompleteMotionGestureInputEventListenerInterface import CompleteMotionGestureInputEventListenerInterface
-        from org.allbinary.game.input.motion.action.NoCompleteMotionGestureInputEventListener import NoCompleteMotionGestureInputEventListener
-        from org.allbinary.logic.math.PrimitiveFloatUtil import PrimitiveFloatUtil
-        self.sensorDataFloatArray: list[float] = PrimitiveFloatUtil.getArrayInstance()
-        self.listener: CompleteMotionGestureInputEventListenerInterface = NoCompleteMotionGestureInputEventListener.getInstance()
-    
+# Java field initializers run after the base initializer
+proc initFieldsAllBinaryOrientationSensor(this: AllBinaryOrientationSensor) =
+    this.sensorDataFloatArray = PrimitiveFloatUtil.getArrayInstance()
+    this.listener = NoCompleteMotionGestureInputEventListener.getInstance()
+    discard
 
-    def setCompleteMotionGestureInputEventListener(self, completeMotionGestureInputEventListenerInterface: CompleteMotionGestureInputEventListenerInterface) -> None:
-        from org.allbinary.game.input.CompleteMotionGestureInputEventListenerInterface import CompleteMotionGestureInputEventListenerInterface
-        self.listener = completeMotionGestureInputEventListenerInterface
-    
+method setCompleteMotionGestureInputEventListener*(this: AllBinaryOrientationSensor, completeMotionGestureInputEventListenerInterface: CompleteMotionGestureInputEventListenerInterface) {.base.} =
+        this.listener = completeMotionGestureInputEventListenerInterface
 
-    def __init__(self) -> None:
-        super().__init__()
-        self._init_fields()
-    
+proc initAllBinaryOrientationSensor*(this: AllBinaryOrientationSensor) =
+        initAllBinarySensor(this)
+        this.initFieldsAllBinaryOrientationSensor()
+        discard
 
-    # throws Exception
-    def getOrientation(self) -> Orientation:
-        from org.allbinary.logic.math.Orientation import Orientation
-        raise Exception(self.commonStrings.NOT_IMPLEMENTED)
-# from org.allbinary.game.input.CompleteMotionGestureInputEventListenerInterface import CompleteMotionGestureInputEventListenerInterface
-# from org.allbinary.game.input.motion.action.NoCompleteMotionGestureInputEventListener import NoCompleteMotionGestureInputEventListener
-# from org.allbinary.logic.math.Orientation import Orientation
-# from org.allbinary.logic.math.PrimitiveFloatUtil import PrimitiveFloatUtil
+proc newAllBinaryOrientationSensor*(): AllBinaryOrientationSensor =
+    result = AllBinaryOrientationSensor()
+    initAllBinaryOrientationSensor(result)
 
+method getOrientation*(this: AllBinaryOrientationSensor): Orientation {.base, discardable.} =
+        raise newJException("Exception", this.commonStrings.NOT_IMPLEMENTED)
 
-def _AllBinaryOrientationSensor_NULL_ALLBINARY_ORIENTATION_SENSOR() -> object:
-    return AllBinaryOrientationSensor()
-
-lazy_static(AllBinaryOrientationSensor, "NULL_ALLBINARY_ORIENTATION_SENSOR", _AllBinaryOrientationSensor_NULL_ALLBINARY_ORIENTATION_SENSOR)
+when declared(newAllBinaryOrientationSensorHook0):
+    newAllBinaryOrientationSensorHook0 = proc (): AllBinarySensor = newAllBinaryOrientationSensor()
 

@@ -1,53 +1,69 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.layer.event
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/logic/util/event/AllBinaryEventObject as AllBinaryEventObjectModule
+export AllBinaryEventObjectModule
 
-from org.allbinary.logic.util.event.AllBinaryEventObject import AllBinaryEventObject
+type
+    ScrollMapEvent* = ref object of AllBinaryEventObject
+        dx*: int32
+        dy*: int32
+
+proc newScrollMapEvent*(anyType: JObject): ScrollMapEvent
+proc initScrollMapEvent*(this: ScrollMapEvent, anyType: JObject)
+method setDx*(this: ScrollMapEvent, dx: int32) {.base.}
+method getDx*(this: ScrollMapEvent): int32 {.base, discardable.}
+method setDy*(this: ScrollMapEvent, dy: int32) {.base.}
+method getDy*(this: ScrollMapEvent): int32 {.base, discardable.}
+method setDxDy*(this: ScrollMapEvent, dx: int32, dy: int32) {.base.}
 
 
-class ScrollMapEvent(AllBinaryEventObject):
+# Java field initializers run after the base initializer
+proc initFieldsScrollMapEvent(this: ScrollMapEvent) =
+    this.dx = 0
+    this.dy = 0
+    discard
 
-    def _init_fields(self) -> None:
-        self.dx: int = 0
-        self.dy: int = 0
-    
+proc initScrollMapEvent*(this: ScrollMapEvent, anyType: JObject) =
+        initAllBinaryEventObject(this, anyType)
+        this.initFieldsScrollMapEvent()
 
-    def __init__(self, anyType: object) -> None:
-        super().__init__(anyType)
-        self._init_fields()
-    
+proc newScrollMapEvent*(anyType: JObject): ScrollMapEvent =
+    result = ScrollMapEvent()
+    initScrollMapEvent(result, anyType)
 
-    def setDx(self, dx: int) -> None:
-        self.dx = dx
-    
+method setDx*(this: ScrollMapEvent, dx: int32) {.base.} =
+        this.dx = dx
 
-    def getDx(self) -> int:
-        return self.dx
-    
+method getDx*(this: ScrollMapEvent): int32 {.base, discardable.} =
+        return this.dx
 
-    def setDy(self, dy: int) -> None:
-        self.dy = dy
-    
+method setDy*(this: ScrollMapEvent, dy: int32) {.base.} =
+        this.dy = dy
 
-    def getDy(self) -> int:
-        return self.dy
-    
+method getDy*(this: ScrollMapEvent): int32 {.base, discardable.} =
+        return this.dy
 
-    def setDxDy(self, dx: int, dy: int) -> None:
-        self.dx = dx
-        self.dy = dy
+method setDxDy*(this: ScrollMapEvent, dx: int32, dy: int32) {.base.} =
+        this.dx = dx
+        this.dy = dy
 
+when declared(newScrollMapEventHook1):
+    newScrollMapEventHook1 = proc (anyType: JObject): AllBinaryEventObject = newScrollMapEvent(anyType)
 

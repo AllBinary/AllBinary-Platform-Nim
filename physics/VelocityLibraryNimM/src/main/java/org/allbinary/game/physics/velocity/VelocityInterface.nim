@@ -1,56 +1,50 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.physics.velocity
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/game/physics/velocity/BasicVelocityInterface as BasicVelocityInterfaceModule
+export BasicVelocityInterfaceModule
 
-from org.allbinary.game.physics.velocity.BasicVelocityInterface import BasicVelocityInterface
+type
+    VelocityInterface* = ref object of BasicVelocityInterface
 
 
-# Java interface
-class VelocityInterface(BasicVelocityInterface):
-    
+method getMaxForwardVelocity*(this: VelocityInterface): int32 {.base, discardable.} =
+        raise newJException("AbstractMethodError", "getMaxForwardVelocity")
 
-    def getMaxForwardVelocity(self) -> int:
-        raise NotImplementedError()
-    
+method getMaxReverseVelocity*(this: VelocityInterface): int32 {.base, discardable.} =
+        raise newJException("AbstractMethodError", "getMaxReverseVelocity")
 
-    def getMaxReverseVelocity(self) -> int:
-        raise NotImplementedError()
-    
+method limitMaxXYForwardVelocity*(this: VelocityInterface) {.base.} =
+        raise newJException("AbstractMethodError", "limitMaxXYForwardVelocity")
 
-    def limitMaxXYForwardVelocity(self) -> None:
-        raise NotImplementedError()
-    
+method limitMaxXYReverseVelocity*(this: VelocityInterface) {.base.} =
+        raise newJException("AbstractMethodError", "limitMaxXYReverseVelocity")
 
-    def limitMaxXYReverseVelocity(self) -> None:
-        raise NotImplementedError()
-    
+method limitXYToForwardAndReverseMaxVelocity*(this: VelocityInterface) {.base.} =
+        raise newJException("AbstractMethodError", "limitXYToForwardAndReverseMaxVelocity")
 
-    def limitXYToForwardAndReverseMaxVelocity(self) -> None:
-        raise NotImplementedError()
-    
+method limitMaxXYVelocity*(this: VelocityInterface, maxVelocity: int32) {.base.} =
+        raise newJException("AbstractMethodError", "limitMaxXYVelocity")
 
-    def limitMaxXYVelocity(self, maxVelocity: int) -> None:
-        raise NotImplementedError()
-    
+method setMaxForwardVelocity*(this: VelocityInterface, maxForwardVelocity: int32) {.base.} =
+        raise newJException("AbstractMethodError", "setMaxForwardVelocity")
 
-    def setMaxForwardVelocity(self, maxForwardVelocity: int) -> None:
-        raise NotImplementedError()
-    
-
-    def setMaxReverseVelocity(self, maxReverseVelocity: int) -> None:
-        raise NotImplementedError()
-
+method setMaxReverseVelocity*(this: VelocityInterface, maxReverseVelocity: int32) {.base.} =
+        raise newJException("AbstractMethodError", "setMaxReverseVelocity")
 

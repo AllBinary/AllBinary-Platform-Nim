@@ -1,46 +1,62 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    GameInfoData* = ref object of JObject
+        GAME_TYPE*: string
+        GAME_MODE*: string
+        PLAYER_TYPE*: string
+        HIGHEST_LEVEL*: string
+        CURRENT_LEVEL*: string
+        SOFTWARE_INFORMATION*: string
 
+proc newGameInfoData*(): GameInfoData
+proc initGameInfoData*(this: GameInfoData)
+proc getInstance*(t: typedesc[GameInfoData]): GameInfoData {.discardable.}
 
-class GameInfoData:
-    instance: GameInfoData = None
+var GameInfoData_instanceValue: GameInfoData
+var GameInfoData_instanceSet = false
+proc instance*(t: typedesc[GameInfoData]): GameInfoData =
+    if not GameInfoData_instanceSet:
+        GameInfoData_instanceSet = true
+        GameInfoData_instanceValue = newGameInfoData()
+    GameInfoData_instanceValue
 
-    def _init_fields(self) -> None:
-        self.GAME_TYPE: str = "GAME_TYPE"
-        self.GAME_MODE: str = "GAME_MODE"
-        self.PLAYER_TYPE: str = "PLAYER_TYPE"
-        self.HIGHEST_LEVEL: str = "HIGHEST_LEVEL"
-        self.CURRENT_LEVEL: str = "CURRENT_LEVEL"
-        self.SOFTWARE_INFORMATION: str = "SOFTWARE_INFORMATION"
-    
+# Java field initializers run after the base initializer
+proc initFieldsGameInfoData(this: GameInfoData) =
+    this.GAME_TYPE = "GAME_TYPE"
+    this.GAME_MODE = "GAME_MODE"
+    this.PLAYER_TYPE = "PLAYER_TYPE"
+    this.HIGHEST_LEVEL = "HIGHEST_LEVEL"
+    this.CURRENT_LEVEL = "CURRENT_LEVEL"
+    this.SOFTWARE_INFORMATION = "SOFTWARE_INFORMATION"
+    discard
 
-    @staticmethod
-    def getInstance() -> GameInfoData:
+proc getInstance*(t: typedesc[GameInfoData]): GameInfoData {.discardable.} =
         return GameInfoData.instance
-    
 
-    def __init__(self) -> None:
-        self._init_fields()
+proc initGameInfoData*(this: GameInfoData) =
+        this.initFieldsGameInfoData()
+        discard
 
-
-def _GameInfoData_instance() -> object:
-    return GameInfoData()
-
-lazy_static(GameInfoData, "instance", _GameInfoData_instance)
+proc newGameInfoData*(): GameInfoData =
+    result = GameInfoData()
+    initGameInfoData(result)
 

@@ -1,39 +1,51 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.view
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/view/ViewPosition as ViewPositionModule
+export ViewPositionModule
 
-from org.allbinary.view.ViewPosition import ViewPosition
+type
+    StaticViewPosition* = ref object of ViewPosition
+
+proc newStaticViewPosition*(x: int32, y: int32, z: int32): StaticViewPosition
+proc initStaticViewPosition*(this: StaticViewPosition, x: int32, y: int32, z: int32)
+method getX*(this: StaticViewPosition): int32 {.discardable.}
+method getY*(this: StaticViewPosition): int32 {.discardable.}
+method getZ*(this: StaticViewPosition): int32 {.discardable.}
 
 
-class StaticViewPosition(ViewPosition):
-    
+proc initStaticViewPosition*(this: StaticViewPosition, x: int32, y: int32, z: int32) =
+        initViewPosition(this, x, y, z)
 
-    def __init__(self, x: int, y: int, z: int) -> None:
-        super().__init__(x, y, z)
-    
+proc newStaticViewPosition*(x: int32, y: int32, z: int32): StaticViewPosition =
+    result = StaticViewPosition()
+    initStaticViewPosition(result, x, y, z)
 
-    def getX(self) -> int:
-        return self.getRawX()
-    
+method getX*(this: StaticViewPosition): int32 {.discardable.} =
+        return this.getRawX()
 
-    def getY(self) -> int:
-        return self.getRawY()
-    
+method getY*(this: StaticViewPosition): int32 {.discardable.} =
+        return this.getRawY()
 
-    def getZ(self) -> int:
-        return self.getRawZ()
+method getZ*(this: StaticViewPosition): int32 {.discardable.} =
+        return this.getRawZ()
 
+when declared(newStaticViewPositionHook3):
+    newStaticViewPositionHook3 = proc (x: int32, y: int32, z: int32): ViewPosition = newStaticViewPosition(x, y, z)
 

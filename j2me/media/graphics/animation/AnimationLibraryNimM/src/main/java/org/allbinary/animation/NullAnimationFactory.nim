@@ -1,74 +1,93 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.animation
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/media/ScaleProperties as ScalePropertiesModule
+export ScalePropertiesModule
+import org/allbinary/animation/AnimationInterfaceFactoryInterface as AnimationInterfaceFactoryInterfaceModule
+export AnimationInterfaceFactoryInterfaceModule
+import org/allbinary/animation/ProceduralAnimationInterfaceFactoryInterface as ProceduralAnimationInterfaceFactoryInterfaceModule
+export ProceduralAnimationInterfaceFactoryInterfaceModule
+import org/allbinary/animation/Animation as AnimationModule
+export AnimationModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
-from org.allbinary.animation.AnimationInterfaceFactoryInterface import AnimationInterfaceFactoryInterface
-from org.allbinary.animation.ProceduralAnimationInterfaceFactoryInterface import ProceduralAnimationInterfaceFactoryInterface
+type
+    NullAnimationFactory* = ref object of AnimationInterfaceFactoryInterface
+        NULL_ANIMATION*: Animation
+        EMPTY_ARRAY*: JArray[Animation]
 
+converter jAsProceduralAnimationInterfaceFactoryInterface*(value: NullAnimationFactory): ProceduralAnimationInterfaceFactoryInterface = cast[ProceduralAnimationInterfaceFactoryInterface](value)
+proc newNullAnimationFactory*(): NullAnimationFactory
+proc initNullAnimationFactory*(this: NullAnimationFactory)
+proc getFactoryInstance*(t: typedesc[NullAnimationFactory]): NullAnimationFactory {.discardable.}
+method getInstance*(this: NullAnimationFactory, instanceId: int32): Animation {.discardable.}
+method getInstanceAnimation*(this: NullAnimationFactory, animationInterface: Animation): Animation {.discardable.}
+method setInitialScale*(this: NullAnimationFactory, scaleProperties: ScaleProperties)
+import javax/microedition/lcdui/Graphics as GraphicsModule
+export GraphicsModule
 
-class NullAnimationFactory(AnimationInterfaceFactoryInterface, ProceduralAnimationInterfaceFactoryInterface):
-    NULL_NOT_FOR_USE_ANIMATION_FACTORY: NullAnimationFactory = None
-    NULL_ANIMATION_FACTORY: NullAnimationFactory = None
+var NullAnimationFactory_NULL_NOT_FOR_USE_ANIMATION_FACTORYValue: NullAnimationFactory
+var NullAnimationFactory_NULL_NOT_FOR_USE_ANIMATION_FACTORYSet = false
+proc NULL_NOT_FOR_USE_ANIMATION_FACTORY*(t: typedesc[NullAnimationFactory]): NullAnimationFactory =
+    if not NullAnimationFactory_NULL_NOT_FOR_USE_ANIMATION_FACTORYSet:
+        NullAnimationFactory_NULL_NOT_FOR_USE_ANIMATION_FACTORYSet = true
+        NullAnimationFactory_NULL_NOT_FOR_USE_ANIMATION_FACTORYValue = newNullAnimationFactory()
+    NullAnimationFactory_NULL_NOT_FOR_USE_ANIMATION_FACTORYValue
+proc `NULL_NOT_FOR_USE_ANIMATION_FACTORY=`*(t: typedesc[NullAnimationFactory], value: NullAnimationFactory) =
+    NullAnimationFactory_NULL_NOT_FOR_USE_ANIMATION_FACTORYSet = true
+    NullAnimationFactory_NULL_NOT_FOR_USE_ANIMATION_FACTORYValue = value
+var NullAnimationFactory_NULL_ANIMATION_FACTORYValue: NullAnimationFactory
+var NullAnimationFactory_NULL_ANIMATION_FACTORYSet = false
+proc NULL_ANIMATION_FACTORYStatic*(t: typedesc[NullAnimationFactory]): NullAnimationFactory =
+    if not NullAnimationFactory_NULL_ANIMATION_FACTORYSet:
+        NullAnimationFactory_NULL_ANIMATION_FACTORYSet = true
+        NullAnimationFactory_NULL_ANIMATION_FACTORYValue = newNullAnimationFactory()
+    NullAnimationFactory_NULL_ANIMATION_FACTORYValue
+proc `NULL_ANIMATION_FACTORYStatic=`*(t: typedesc[NullAnimationFactory], value: NullAnimationFactory) =
+    NullAnimationFactory_NULL_ANIMATION_FACTORYSet = true
+    NullAnimationFactory_NULL_ANIMATION_FACTORYValue = value
 
-    def _init_fields(self) -> None:
-        from javax.microedition.lcdui.Graphics import Graphics
-        self.NULL_ANIMATION: Animation = (Animation()  # Java anonymous class body:
-#         
-# 
-#         def paintXY(self, graphics: Graphics, x: int, y: int) -> None:
-#             from javax.microedition.lcdui.Graphics import Graphics
-#             pass
-)
-        self.EMPTY_ARRAY: list[Animation] = [None] * (0)
-    
+# Java field initializers run after the base initializer
+proc initFieldsNullAnimationFactory(this: NullAnimationFactory) =
+    this.NULL_ANIMATION = newAnimation() #[ Java anonymous class body: implement it as a named subclass
+        
+method paintXY*(this: NullAnimationFactory, graphics: Graphics, x: int32, y: int32) {.base.} =
+            discard ]#
+    this.EMPTY_ARRAY = newJArray[Animation](0, default(Animation))
+    discard
 
-    def __init__(self) -> None:
-        self._init_fields()
-    
+proc initNullAnimationFactory*(this: NullAnimationFactory) =
+        this.initFieldsNullAnimationFactory()
+        discard
 
-    @staticmethod
-    def getFactoryInstance() -> NullAnimationFactory:
-        return NullAnimationFactory.NULL_ANIMATION_FACTORY
-    
+proc newNullAnimationFactory*(): NullAnimationFactory =
+    result = NullAnimationFactory()
+    initNullAnimationFactory(result)
 
-    def getInstance(self, instanceId: int) -> Animation:
-        return self.NULL_ANIMATION
-    
+proc getFactoryInstance*(t: typedesc[NullAnimationFactory]): NullAnimationFactory {.discardable.} =
+        return NullAnimationFactory.NULL_ANIMATION_FACTORYStatic
 
-    # throws Exception
-    def getInstanceAnimation(self, animationInterface: Animation) -> Animation:
-        return self.NULL_ANIMATION
-    
+method getInstance*(this: NullAnimationFactory, instanceId: int32): Animation {.discardable.} =
+        return this.NULL_ANIMATION
 
-    def setInitialScale(self, scaleProperties: ScaleProperties) -> None:
-        from org.allbinary.media.ScaleProperties import ScaleProperties
-        pass
-# from javax.microedition.lcdui.Graphics import Graphics
-# from org.allbinary.media.ScaleProperties import ScaleProperties
-from org.allbinary.animation.Animation import Animation
+method getInstanceAnimation*(this: NullAnimationFactory, animationInterface: Animation): Animation {.discardable.} =
+        return this.NULL_ANIMATION
 
-
-def _NullAnimationFactory_NULL_NOT_FOR_USE_ANIMATION_FACTORY() -> object:
-    return NullAnimationFactory()
-
-lazy_static(NullAnimationFactory, "NULL_NOT_FOR_USE_ANIMATION_FACTORY", _NullAnimationFactory_NULL_NOT_FOR_USE_ANIMATION_FACTORY)
-
-def _NullAnimationFactory_NULL_ANIMATION_FACTORY() -> object:
-    return NullAnimationFactory()
-
-lazy_static(NullAnimationFactory, "NULL_ANIMATION_FACTORY", _NullAnimationFactory_NULL_ANIMATION_FACTORY)
+method setInitialScale*(this: NullAnimationFactory, scaleProperties: ScaleProperties) =
+        discard
 

@@ -1,174 +1,195 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.logic.system.security.licensing
 
-from __future__ import annotations
-
-from org.allbinary.logic.system.security.licensing.AbeClientInformationInterface import AbeClientInformationInterface
-
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/TsUtil as TsUtilModule
+export TsUtilModule
+import org/allbinary/logic/system/os/GenericOperatingSystem as GenericOperatingSystemModule
+export GenericOperatingSystemModule
+import org/allbinary/util/BasicArrayList as BasicArrayListModule
+export BasicArrayListModule
+import org/allbinary/util/ABHashtable as ABHashtableModule
+export ABHashtableModule
+import org/allbinary/logic/system/security/licensing/AbeClientInformationInterface as AbeClientInformationInterfaceModule
+export AbeClientInformationInterfaceModule
 
 # This is the information sent to the license server
-class ClientInformation(AbeClientInformationInterface):
+type
+    ClientInformation* = ref object of AbeClientInformationInterface
+        operatingSystemInterface*: GenericOperatingSystem
+        tsUtil*: TsUtil
+        name*: string
+        shortName*: string
+        version*: string
+        specialName*: string
+        hardSale*: bool
+        licenseId*: string
+        licenseServers*: BasicArrayList
 
-    def _init_fields(self) -> None:
-        from org.allbinary.TsUtil import TsUtil
-        from org.allbinary.logic.string.StringUtil import StringUtil
-        from org.allbinary.logic.system.os.GenericOperatingSystem import GenericOperatingSystem
-        from org.allbinary.logic.system.os.NoOperatingSystem import NoOperatingSystem
-        from org.allbinary.util.BasicArrayList import BasicArrayList
-        from org.allbinary.util.BasicArrayListUtil import BasicArrayListUtil
-        self.operatingSystemInterface: GenericOperatingSystem = NoOperatingSystem.NO_OPERATING_SYSTEM
-        self.tsUtil: TsUtil = TsUtil.getInstance()
-        self.name: str = None
-        self.shortName: str = None
-        self.version: str = None
-        self.specialName: str = None
-        self.hardSale: bool = True
-        self.licenseId: str = StringUtil.getInstance().EMPTY_STRING
-        self.licenseServers: BasicArrayList = BasicArrayListUtil.getInstance().getImmutableInstance()
+proc newClientInformation*(name: string, version: string, specialName: string, shortName: string): ClientInformation
+proc initClientInformation*(this: ClientInformation, name: string, version: string, specialName: string, shortName: string)
+method init*(this: ClientInformation)
+method getOperatingSystemInterface*(this: ClientInformation): GenericOperatingSystem {.discardable.}
+method getName*(this: ClientInformation): string {.discardable.}
+method getSpecialName*(this: ClientInformation): string {.discardable.}
+method getVersion*(this: ClientInformation): string {.discardable.}
+method getLicenseId*(this: ClientInformation): string {.discardable.}
+method getLicenseServers*(this: ClientInformation): BasicArrayList {.discardable.}
+method getLicenseServer*(this: ClientInformation, index: int32): string {.discardable.}
+method getNumberOfLicenseServers*(this: ClientInformation): int32 {.discardable.}
+method toHashtable*(this: ClientInformation): ABHashtable {.discardable.}
+method isSameId*(this: ClientInformation, alicenseId: string): bool {.discardable.}
+method isLargerOrDifferentServerList*(this: ClientInformation, list: BasicArrayList): bool {.discardable.}
+method setHardSale*(this: ClientInformation, hardSale: bool) {.base.}
+method isHardSale*(this: ClientInformation): bool {.discardable.}
+method setOperatingSystemInterface*(this: ClientInformation, operatingSystemInterface: GenericOperatingSystem) {.base.}
+method setLicenseId*(this: ClientInformation, licenseId: string) {.base.}
+method setLicenseServers*(this: ClientInformation, licenseServers: BasicArrayList) {.base.}
+method toShortString*(this: ClientInformation): string {.discardable.}
+import org/allbinary/logic/string/StringMaker as StringMakerModule
+export StringMakerModule
+import org/allbinary/logic/string/StringUtil as StringUtilModule
+export StringUtilModule
+import org/allbinary/logic/system/hardware/HardwareInterface as HardwareInterfaceModule
+export HardwareInterfaceModule
+import org/allbinary/logic/system/hardware/SystemHardwareFactory as SystemHardwareFactoryModule
+export SystemHardwareFactoryModule
+import org/allbinary/logic/system/os/NoOperatingSystem as NoOperatingSystemModule
+export NoOperatingSystemModule
+import org/allbinary/string/CommonSeps as CommonSepsModule
+export CommonSepsModule
+import org/allbinary/util/BasicArrayListUtil as BasicArrayListUtilModule
+export BasicArrayListUtilModule
+import org/allbinary/logic/StdUtil as StdUtilModule
+export StdUtilModule
+import org/allbinary/logic/system/security/licensing/AbeClientInformationData as AbeClientInformationDataModule
+export AbeClientInformationDataModule
+
+
+# Java field initializers run after the base initializer
+proc initFieldsClientInformation(this: ClientInformation) =
+    this.operatingSystemInterface = NoOperatingSystem.NO_OPERATING_SYSTEMStatic
+    this.tsUtil = TsUtil.getInstance()
     
-
-    def __init__(self, name: str, version: str, specialName: str, shortName: str) -> None:
-        from org.allbinary.logic.string.StringMaker import StringMaker
-        from org.allbinary.string.CommonSeps import CommonSeps
-        self._init_fields()
-        self.name = name
-        self.version = version
-        self.specialName = specialName
-        self.shortName = str(StringMaker().append(shortName).append(CommonSeps.getInstance().UNDERSCORE).append(version))
-        self.init()
     
-
-    def init(self) -> None:
-        pass
     
-
-    def getOperatingSystemInterface(self) -> GenericOperatingSystem:
-        from org.allbinary.logic.system.os.GenericOperatingSystem import GenericOperatingSystem
-        return self.operatingSystemInterface
     
+    this.hardSale = true
+    this.licenseId = StringUtil.getInstance().EMPTY_STRING
+    this.licenseServers = BasicArrayListUtil.getInstance().getImmutableInstance()
+    discard
 
-    def getName(self) -> str:
-        return self.name
-    
+proc initClientInformation*(this: ClientInformation, name: string, version: string, specialName: string, shortName: string) =
+        this.initFieldsClientInformation()
+        this.name = name
+        this.version = version
+        this.specialName = specialName
+        this.shortName = newStringMaker().append(shortName).append(CommonSeps.getInstance().UNDERSCORE).append(version).toString()
+        this.init()
 
-    def getSpecialName(self) -> str:
-        return self.specialName
-    
+proc newClientInformation*(name: string, version: string, specialName: string, shortName: string): ClientInformation =
+    result = ClientInformation()
+    initClientInformation(result, name, version, specialName, shortName)
 
-    def getVersion(self) -> str:
-        return self.version
-    
+method init*(this: ClientInformation) =
+        discard
 
-    def getLicenseId(self) -> str:
-        return self.licenseId
-    
+method getOperatingSystemInterface*(this: ClientInformation): GenericOperatingSystem {.discardable.} =
+        return this.operatingSystemInterface
 
-    def getLicenseServers(self) -> BasicArrayList:
-        from org.allbinary.util.BasicArrayList import BasicArrayList
-        return self.licenseServers
-    
+method getName*(this: ClientInformation): string {.discardable.} =
+        return this.name
 
-    def getLicenseServer(self, index: int) -> str:
-        return self.licenseServers.objectArray[index]
-    
+method getSpecialName*(this: ClientInformation): string {.discardable.} =
+        return this.specialName
 
-    def getNumberOfLicenseServers(self) -> int:
-        return self.licenseServers.size()
-    
+method getVersion*(this: ClientInformation): string {.discardable.} =
+        return this.version
 
-    def toHashtable(self) -> ABHashtable[object, object]:
-        from org.allbinary.logic.system.security.licensing.AbeClientInformationData import AbeClientInformationData
-        from org.allbinary.logic.system.hardware.HardwareInterface import HardwareInterface
-        from org.allbinary.logic.system.hardware.SystemHardwareFactory import SystemHardwareFactory
-        from org.allbinary.logic.system.os.GenericOperatingSystem import GenericOperatingSystem
-        from org.allbinary.logic.StdUtil import StdUtil
-        from org.allbinary.util.ABHashtable import ABHashtable
-        abeClientInformationData: AbeClientInformationData = AbeClientInformationData.getInstance()
-        genericOperatingSystem: GenericOperatingSystem = self.getOperatingSystemInterface()
-        clientInfoHashtable: ABHashtable[object, object] = StdUtil.getInstance().createHashtable()
-        clientInfoHashtable.put(abeClientInformationData.NAME, self.name)
-        clientInfoHashtable.put(abeClientInformationData.VERSION, self.version)
-        clientInfoHashtable.put(abeClientInformationData.SPECIALNAME, self.specialName)
-        clientInfoHashtable.put(abeClientInformationData.LICENSEID, self.getLicenseId())
+method getLicenseId*(this: ClientInformation): string {.discardable.} =
+        return this.licenseId
+
+method getLicenseServers*(this: ClientInformation): BasicArrayList {.discardable.} =
+        return this.licenseServers
+
+method getLicenseServer*(this: ClientInformation, index: int32): string {.discardable.} =
+        return jstr(this.licenseServers.objectArray[index])
+
+method getNumberOfLicenseServers*(this: ClientInformation): int32 {.discardable.} =
+        return this.licenseServers.size()
+
+method toHashtable*(this: ClientInformation): ABHashtable {.discardable.} =
+        let abeClientInformationData: AbeClientInformationData = AbeClientInformationData.getInstance()
+        let genericOperatingSystem: GenericOperatingSystem = this.getOperatingSystemInterface()
+        let clientInfoHashtable: ABHashtable = StdUtil.getInstance().createHashtable()
+        clientInfoHashtable.put(abeClientInformationData.NAME, this.name)
+        clientInfoHashtable.put(abeClientInformationData.VERSION, this.version)
+        clientInfoHashtable.put(abeClientInformationData.SPECIALNAME, this.specialName)
+        clientInfoHashtable.put(abeClientInformationData.LICENSEID, this.getLicenseId())
         clientInfoHashtable.put(abeClientInformationData.OSNAME, genericOperatingSystem.getName())
         clientInfoHashtable.put(abeClientInformationData.OSARCH, genericOperatingSystem.getArch())
         clientInfoHashtable.put(abeClientInformationData.OSVERSION, genericOperatingSystem.getVersion())
-        clientInfoHashtable.put(abeClientInformationData.OS, str(genericOperatingSystem))
-        hardwareInterface: HardwareInterface = SystemHardwareFactory.getInstance().getInstance(genericOperatingSystem)
-        hardwareString: str = str(hardwareInterface)
+        clientInfoHashtable.put(abeClientInformationData.OS, genericOperatingSystem.toString())
+        let hardwareInterface: HardwareInterface = SystemHardwareFactory.getInstance().getInstance(genericOperatingSystem)
+        var hardwareString: string = hardwareInterface.toString()
         clientInfoHashtable.put(abeClientInformationData.HARDWARE, hardwareString)
         return clientInfoHashtable
-    
 
-    def isSameId(self, alicenseId: str) -> bool:
-        if ((self.getLicenseId() > alicenseId) - (self.getLicenseId() < alicenseId)) == 0:
-            return True
+method isSameId*(this: ClientInformation, alicenseId: string): bool {.discardable.} =
+        if this.tsUtil.compareTo(this.getLicenseId(), alicenseId) == 0:
+            return true
         else:
-            return False
-    
+            return false
 
-    def isLargerOrDifferentServerList(self, list_: BasicArrayList) -> bool:
-        from org.allbinary.util.BasicArrayList import BasicArrayList
-        size: int = list_.size() - 1
-        currentSize: int = self.licenseServers.size() - 1
+method isLargerOrDifferentServerList*(this: ClientInformation, list: BasicArrayList): bool {.discardable.} =
+        let size: int32 = list.size() -% 1
+        let currentSize: int32 = this.licenseServers.size() -% 1
         if size > currentSize:
-            return True
-        for index in range(size, 0 - 1, -1):
-            newServerName: str = list_.objectArray[index]
-            for index2 in range(currentSize, 0 - 1, -1):
-                nextOldServerName: str = self.licenseServers.objectArray[index]
-                if ((newServerName > nextOldServerName) - (newServerName < nextOldServerName)) != 0:
-                    return True
-        return False
-    
+            return true
+        block:
+            var index: int32 = size
+            while index >= 0:
+                defer: index = index -% 1
+                let newServerName: string = jstr(list.objectArray[index])
+                block:
+                    var index2: int32 = currentSize
+                    while index2 >= 0:
+                        defer: index2 = index2 -% 1
+                        let nextOldServerName: string = jstr(this.licenseServers.objectArray[index])
+                        if this.tsUtil.compareTo(newServerName, nextOldServerName) != 0:
+                            return true
+        return false
 
-    def setHardSale(self, hardSale: bool) -> None:
-        self.hardSale = hardSale
-    
+method setHardSale*(this: ClientInformation, hardSale: bool) {.base.} =
+        this.hardSale = hardSale
 
-    def isHardSale(self) -> bool:
-        return self.hardSale
-    
+method isHardSale*(this: ClientInformation): bool {.discardable.} =
+        return this.hardSale
 
-    def setOperatingSystemInterface(self, operatingSystemInterface: GenericOperatingSystem) -> None:
-        from org.allbinary.logic.system.os.GenericOperatingSystem import GenericOperatingSystem
-        self.operatingSystemInterface = operatingSystemInterface
-    
+method setOperatingSystemInterface*(this: ClientInformation, operatingSystemInterface: GenericOperatingSystem) {.base.} =
+        this.operatingSystemInterface = operatingSystemInterface
 
-    def setLicenseId(self, licenseId: str) -> None:
-        self.licenseId = licenseId
-    
+method setLicenseId*(this: ClientInformation, licenseId: string) {.base.} =
+        this.licenseId = licenseId
 
-    def setLicenseServers(self, licenseServers: BasicArrayList) -> None:
-        from org.allbinary.util.BasicArrayList import BasicArrayList
-        self.licenseServers = licenseServers
-    
+method setLicenseServers*(this: ClientInformation, licenseServers: BasicArrayList) {.base.} =
+        this.licenseServers = licenseServers
 
-    def toShortString(self) -> str:
-        return self.shortName
-# from org.allbinary.TsUtil import TsUtil
-# from org.allbinary.logic.string.StringMaker import StringMaker
-# from org.allbinary.logic.string.StringUtil import StringUtil
-# from org.allbinary.logic.system.hardware.HardwareInterface import HardwareInterface
-# from org.allbinary.logic.system.hardware.SystemHardwareFactory import SystemHardwareFactory
-# from org.allbinary.logic.system.os.GenericOperatingSystem import GenericOperatingSystem
-# from org.allbinary.logic.system.os.NoOperatingSystem import NoOperatingSystem
-# from org.allbinary.string.CommonSeps import CommonSeps
-# from org.allbinary.util.BasicArrayList import BasicArrayList
-# from org.allbinary.util.BasicArrayListUtil import BasicArrayListUtil
-# from org.allbinary.logic.StdUtil import StdUtil
-# from org.allbinary.util.ABHashtable import ABHashtable
-
+method toShortString*(this: ClientInformation): string {.discardable.} =
+        return this.shortName
 

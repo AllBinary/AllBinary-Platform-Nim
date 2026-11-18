@@ -1,56 +1,67 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.globals
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/globals/UrlGlobalsInterface as UrlGlobalsInterfaceModule
+export UrlGlobalsInterfaceModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    URLGLOBALS* = ref object of JObject
 
+proc newURLGLOBALS*(): URLGLOBALS
+proc init*(t: typedesc[URLGLOBALS], urlGlobalsInterface: UrlGlobalsInterface)
+proc isTestingMode*(t: typedesc[URLGLOBALS]): bool {.discardable.}
+proc getWebappPath*(t: typedesc[URLGLOBALS]): string {.discardable.}
+proc getTestHtmlPath*(t: typedesc[URLGLOBALS]): string {.discardable.}
+proc getMainPath*(t: typedesc[URLGLOBALS]): string {.discardable.}
+import org/allbinary/globals/AppUrlGlobals as AppUrlGlobalsModule
+export AppUrlGlobalsModule
 
-class URLGLOBALS:
-    urlGlobalsInterface: UrlGlobalsInterface = None
-    
+var URLGLOBALS_urlGlobalsInterfaceValue: UrlGlobalsInterface
+var URLGLOBALS_urlGlobalsInterfaceSet = false
+proc urlGlobalsInterface*(t: typedesc[URLGLOBALS]): UrlGlobalsInterface =
+    if not URLGLOBALS_urlGlobalsInterfaceSet:
+        URLGLOBALS_urlGlobalsInterfaceSet = true
+        URLGLOBALS_urlGlobalsInterfaceValue = AppUrlGlobals.NULL_APP_URL_GLOBALS
+    URLGLOBALS_urlGlobalsInterfaceValue
+proc `urlGlobalsInterface=`*(t: typedesc[URLGLOBALS], value: UrlGlobalsInterface) =
+    URLGLOBALS_urlGlobalsInterfaceSet = true
+    URLGLOBALS_urlGlobalsInterfaceValue = value
 
-    @staticmethod
-    def init(urlGlobalsInterface: UrlGlobalsInterface) -> None:
-        self.URLGLOBALS.urlGlobalsInterface = urlGlobalsInterface
-    
+proc initURLGLOBALS*(this: URLGLOBALS) =
+    discard
 
-    @staticmethod
-    def isTestingMode() -> bool:
-        return self.URLGLOBALS.urlGlobalsInterface.isTestingMode()
-    
+proc newURLGLOBALS*(): URLGLOBALS =
+    result = URLGLOBALS()
+    initURLGLOBALS(result)
 
-    @staticmethod
-    def getWebappPath() -> str:
-        return self.URLGLOBALS.urlGlobalsInterface.getWebappPath()
-    
+proc init*(t: typedesc[URLGLOBALS], urlGlobalsInterface: UrlGlobalsInterface) =
+        URLGLOBALS.urlGlobalsInterface = urlGlobalsInterface
 
-    @staticmethod
-    def getTestHtmlPath() -> str:
-        return self.URLGLOBALS.urlGlobalsInterface.getTestHtmlPath()
-    
+proc isTestingMode*(t: typedesc[URLGLOBALS]): bool {.discardable.} =
+        return URLGLOBALS.urlGlobalsInterface.isTestingMode()
 
-    # throws Exception
-    @staticmethod
-    def getMainPath() -> str:
-        return self.URLGLOBALS.urlGlobalsInterface.getMainPath()
+proc getWebappPath*(t: typedesc[URLGLOBALS]): string {.discardable.} =
+        return URLGLOBALS.urlGlobalsInterface.getWebappPath()
 
+proc getTestHtmlPath*(t: typedesc[URLGLOBALS]): string {.discardable.} =
+        return URLGLOBALS.urlGlobalsInterface.getTestHtmlPath()
 
-def _URLGLOBALS_urlGlobalsInterface() -> object:
-    from org.allbinary.globals.AppUrlGlobals import AppUrlGlobals
-    return AppUrlGlobals.NULL_APP_URL_GLOBALS
-
-lazy_static(URLGLOBALS, "urlGlobalsInterface", _URLGLOBALS_urlGlobalsInterface)
+proc getMainPath*(t: typedesc[URLGLOBALS]): string {.discardable.} =
+        return URLGLOBALS.urlGlobalsInterface.getMainPath()
 

@@ -1,58 +1,69 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.logic.io
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import java/io/BufferedReader as BufferedReaderModule
+export BufferedReaderModule
+import java/io/FileReader as FileReaderModule
+export FileReaderModule
+import org/allbinary/logic/io/file/AbFile as AbFileModule
+export AbFileModule
+
+type
+    BufferedLineReader* = ref object of JObject
+        tmpIn*: BufferedReader
+
+proc newBufferedLineReader*(file: AbFile): BufferedLineReader
+proc initBufferedLineReader*(this: BufferedLineReader, file: AbFile)
+method readUpToLines*(this: BufferedLineReader, readAheadIndex: int64) {.base.}
+method readLine*(this: BufferedLineReader): string {.base, discardable.}
+method ready*(this: BufferedLineReader): bool {.base, discardable.}
+method getSize*(this: BufferedLineReader): int64 {.base, discardable.}
+method getCurrent*(this: BufferedLineReader): int32 {.base, discardable.}
+import org/allbinary/logic/io/file/AbFileNativeUtil as AbFileNativeUtilModule
+export AbFileNativeUtilModule
 
 
-
-class BufferedLineReader:
-
-    def _init_fields(self) -> None:
-        self.tmpIn: BufferedReader = None
+# Java field initializers run after the base initializer
+proc initFieldsBufferedLineReader(this: BufferedLineReader) =
     
+    discard
 
-    def __init__(self, file: AbFile) -> None:
-        from org.allbinary.logic.io.file.AbFile import AbFile
-        from org.allbinary.logic.io.file.AbFileNativeUtil import AbFileNativeUtil
-        self._init_fields()
-        self.tmpIn = BufferedReader(FileReader(AbFileNativeUtil.get(file)))
-    
+proc initBufferedLineReader*(this: BufferedLineReader, file: AbFile) =
+        this.initFieldsBufferedLineReader()
+        this.tmpIn = newBufferedReader(newFileReader(AbFileNativeUtil.get(file)))
 
-    def readUpToLines(self, readAheadIndex: int) -> None:
-        pass
-    
+proc newBufferedLineReader*(file: AbFile): BufferedLineReader =
+    result = BufferedLineReader()
+    initBufferedLineReader(result, file)
 
-    # throws Exception
-    def readLine(self) -> str:
-        return self.tmpIn.readLine()
-    
+method readUpToLines*(this: BufferedLineReader, readAheadIndex: int64) {.base.} =
+        discard
 
-    # throws Exception
-    def ready(self) -> bool:
-        return self.tmpIn.ready()
-    
+method readLine*(this: BufferedLineReader): string {.base, discardable.} =
+        return this.tmpIn.readLine()
 
-    def getSize(self) -> int:
+method ready*(this: BufferedLineReader): bool {.base, discardable.} =
+        return this.tmpIn.ready()
+
+method getSize*(this: BufferedLineReader): int64 {.base, discardable.} =
+        return 0'i64
+
+method getCurrent*(this: BufferedLineReader): int32 {.base, discardable.} =
         return 0
-    
-
-    def getCurrent(self) -> int:
-        return 0
-# from java.io.BufferedReader import BufferedReader
-# from java.io.FileReader import FileReader
-# from org.allbinary.logic.io.file.AbFile import AbFile
-# from org.allbinary.logic.io.file.AbFileNativeUtil import AbFileNativeUtil
-
 

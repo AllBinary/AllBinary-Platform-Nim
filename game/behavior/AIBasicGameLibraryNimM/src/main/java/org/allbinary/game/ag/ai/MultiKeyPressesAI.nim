@@ -1,91 +1,109 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.ag.ai
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import java/lang/Integer as IntegerModule
+export IntegerModule
+import org/allbinary/game/input/GameInput as GameInputModule
+export GameInputModule
+import org/allbinary/layer/AllBinaryLayer as AllBinaryLayerModule
+export AllBinaryLayerModule
+import org/allbinary/layer/AllBinaryLayerManager as AllBinaryLayerManagerModule
+export AllBinaryLayerManagerModule
+import org/allbinary/time/GameTickTimeDelayHelper as GameTickTimeDelayHelperModule
+export GameTickTimeDelayHelperModule
+import org/allbinary/time/TimeDelayHelper as TimeDelayHelperModule
+export TimeDelayHelperModule
+import org/allbinary/util/ABHashtable as ABHashtableModule
+export ABHashtableModule
+import org/allbinary/game/ag/ai/KeyPressesAI as KeyPressesAIModule
+export KeyPressesAIModule
 
-from org.allbinary.game.ag.ai.KeyPressesAI import KeyPressesAI
+type
+    MultiKeyPressesAI* = ref object of KeyPressesAI
+        toggleTimeHelper*: TimeDelayHelper
+        gameTickTimeDelayHelper*: GameTickTimeDelayHelper
+
+proc newMultiKeyPressesAI*(hashtable: ABHashtable, ownerLayerInterface: AllBinaryLayer, gameInput: GameInput): MultiKeyPressesAI
+proc initMultiKeyPressesAI*(this: MultiKeyPressesAI, hashtable: ABHashtable, ownerLayerInterface: AllBinaryLayer, gameInput: GameInput)
+method processAI*(this: MultiKeyPressesAI, allBinaryLayerManager: AllBinaryLayerManager)
+method update*(this: MultiKeyPressesAI) {.base.}
+method toggle*(this: MultiKeyPressesAI)
+method disable*(this: MultiKeyPressesAI)
+method enable*(this: MultiKeyPressesAI)
+import org/allbinary/time/GameTickTimeDelayHelperFactory as GameTickTimeDelayHelperFactoryModule
+export GameTickTimeDelayHelperFactoryModule
 
 
-class MultiKeyPressesAI(KeyPressesAI):
+# Java field initializers run after the base initializer
+proc initFieldsMultiKeyPressesAI(this: MultiKeyPressesAI) =
+    this.toggleTimeHelper = newTimeDelayHelper(600)
+    this.gameTickTimeDelayHelper = GameTickTimeDelayHelperFactory.getInstance()
+    discard
 
-    def _init_fields(self) -> None:
-        from org.allbinary.time.GameTickTimeDelayHelper import GameTickTimeDelayHelper
-        from org.allbinary.time.GameTickTimeDelayHelperFactory import GameTickTimeDelayHelperFactory
-        from org.allbinary.time.TimeDelayHelper import TimeDelayHelper
-        self.toggleTimeHelper: TimeDelayHelper = TimeDelayHelper(600)
-        self.gameTickTimeDelayHelper: GameTickTimeDelayHelper = GameTickTimeDelayHelperFactory.getInstance()
-    
+proc initMultiKeyPressesAI*(this: MultiKeyPressesAI, hashtable: ABHashtable, ownerLayerInterface: AllBinaryLayer, gameInput: GameInput) =
+        initKeyPressesAI(this, hashtable, ownerLayerInterface, gameInput)
+        this.initFieldsMultiKeyPressesAI()
+        this.update()
 
-    def __init__(self, hashtable: ABHashtable[object, object], ownerLayerInterface: AllBinaryLayer, gameInput: GameInput) -> None:
-        from org.allbinary.game.input.GameInput import GameInput
-        from org.allbinary.layer.AllBinaryLayer import AllBinaryLayer
-        from org.allbinary.util.ABHashtable import ABHashtable
-        super().__init__(hashtable, ownerLayerInterface, gameInput)
-        self._init_fields()
-        self.update()
-    
+proc newMultiKeyPressesAI*(hashtable: ABHashtable, ownerLayerInterface: AllBinaryLayer, gameInput: GameInput): MultiKeyPressesAI =
+    result = MultiKeyPressesAI()
+    initMultiKeyPressesAI(result, hashtable, ownerLayerInterface, gameInput)
 
-    # throws Exception
-    def processAI(self, allBinaryLayerManager: AllBinaryLayerManager) -> None:
-        from org.allbinary.layer.AllBinaryLayerManager import AllBinaryLayerManager
-        pass
-    
+method processAI*(this: MultiKeyPressesAI, allBinaryLayerManager: AllBinaryLayerManager) =
+        discard
 
-    # throws Exception
-    def update(self) -> None:
-        from org.allbinary.game.input.GameInput import GameInput
-        gameInput: GameInput = self.getGameInput()
-        keys: list[int] = self.keys
-        size: int = len(keys)
-        if self.isOn():
-            for index in range(0, size):
-                key: int = int(keys[index])
-                if key != -1:
-                    gameInput.add(self.gameKeyEventFactory.getInstanceForKey(self, key))
+method update*(this: MultiKeyPressesAI) {.base.} =
+        var gameInput: GameInput = this.getGameInput()
+        let keys: JArray[int32] = this.keys
+        let size: int32 = keys.length
+        if this.isOn():
+            block:
+                var index: int32 = 0
+                while index < size:
+                    defer: index = index +% 1
+                    var key: int32 = keys[index].intValue()
+                    if key != -1:
+                        gameInput.add(this.gameKeyEventFactory.getInstanceForKey(this, key))
         else:
-            for index in range(0, size):
-                key: int = int(keys[index])
-                if key != -1:
-                    gameInput.addForRemoval(self.gameKeyEventFactory.getInstanceForKey(self, key))
-    
+            block:
+                var index: int32 = 0
+                while index < size:
+                    defer: index = index +% 1
+                    var key: int32 = keys[index].intValue()
+                    if key != -1:
+                        gameInput.addForRemoval(this.gameKeyEventFactory.getInstanceForKey(this, key))
 
-    # throws Exception
-    def toggle(self) -> None:
-        if self.toggleTimeHelper.isTime(self.gameTickTimeDelayHelper.startTime):
-            super().toggle()
-            self.update()
-    
+method toggle*(this: MultiKeyPressesAI) =
+        if this.toggleTimeHelper.isTime(this.gameTickTimeDelayHelper.startTime):
+            procCall KeyPressesAI(this).toggle()
+            this.update()
 
-    # throws Exception
-    def disable(self) -> None:
-        if self.toggleTimeHelper.isTime(self.gameTickTimeDelayHelper.startTime):
-            super().disable()
-            self.update()
-    
+method disable*(this: MultiKeyPressesAI) =
+        if this.toggleTimeHelper.isTime(this.gameTickTimeDelayHelper.startTime):
+            procCall KeyPressesAI(this).disable()
+            this.update()
 
-    # throws Exception
-    def enable(self) -> None:
-        if self.toggleTimeHelper.isTime(self.gameTickTimeDelayHelper.startTime):
-            super().enable()
-            self.update()
-# from org.allbinary.game.input.GameInput import GameInput
-# from org.allbinary.layer.AllBinaryLayer import AllBinaryLayer
-# from org.allbinary.layer.AllBinaryLayerManager import AllBinaryLayerManager
-# from org.allbinary.time.GameTickTimeDelayHelper import GameTickTimeDelayHelper
-# from org.allbinary.time.GameTickTimeDelayHelperFactory import GameTickTimeDelayHelperFactory
-# from org.allbinary.time.TimeDelayHelper import TimeDelayHelper
-# from org.allbinary.util.ABHashtable import ABHashtable
+method enable*(this: MultiKeyPressesAI) =
+        if this.toggleTimeHelper.isTime(this.gameTickTimeDelayHelper.startTime):
+            procCall KeyPressesAI(this).enable()
+            this.update()
 
+when declared(newMultiKeyPressesAIHook3):
+    newMultiKeyPressesAIHook3 = proc (hashtable: ABHashtable, ownerLayerInterface: AllBinaryLayer, gameInput: GameInput): KeyPressesAI = newMultiKeyPressesAI(hashtable, ownerLayerInterface, gameInput)
 

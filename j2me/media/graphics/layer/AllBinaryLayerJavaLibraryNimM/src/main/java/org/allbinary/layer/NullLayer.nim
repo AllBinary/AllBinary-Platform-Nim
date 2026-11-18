@@ -1,45 +1,56 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.layer
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import javax/microedition/lcdui/Graphics as GraphicsModule
+export GraphicsModule
+import org/allbinary/layer/Layer as LayerModule
+export LayerModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
-from org.allbinary.layer.Layer import Layer
+type
+    NullLayer* = ref object of Layer
 
+proc newNullLayer*(): NullLayer
+proc initNullLayer*(this: NullLayer)
+proc getInstance*(t: typedesc[NullLayer]): NullLayer {.discardable.}
+method paint*(this: NullLayer, graphics: Graphics)
 
-class NullLayer(Layer):
-    instance: NullLayer = None
-    
+var NullLayer_instanceValue: NullLayer
+var NullLayer_instanceSet = false
+proc instance*(t: typedesc[NullLayer]): NullLayer =
+    if not NullLayer_instanceSet:
+        NullLayer_instanceSet = true
+        NullLayer_instanceValue = newNullLayer()
+    NullLayer_instanceValue
 
-    @staticmethod
-    def getInstance() -> NullLayer:
+proc getInstance*(t: typedesc[NullLayer]): NullLayer {.discardable.} =
         return NullLayer.instance
-    
 
-    def __init__(self) -> None:
-        super().__init__(0, 0)
-    
+proc initNullLayer*(this: NullLayer) =
+        initLayer(this, 0, 0)
 
-    def paint(self, graphics: Graphics) -> None:
-        from javax.microedition.lcdui.Graphics import Graphics
-        pass
-# from javax.microedition.lcdui.Graphics import Graphics
+proc newNullLayer*(): NullLayer =
+    result = NullLayer()
+    initNullLayer(result)
 
+method paint*(this: NullLayer, graphics: Graphics) =
+        discard
 
-def _NullLayer_instance() -> object:
-    return NullLayer()
-
-lazy_static(NullLayer, "instance", _NullLayer_instance)
+when declared(newNullLayerHook0):
+    newNullLayerHook0 = proc (): Layer = newNullLayer()
 

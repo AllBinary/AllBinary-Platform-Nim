@@ -1,40 +1,56 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.media.audio
 
-from __future__ import annotations
-
-from java.lang.JavaRuntimeStatic import lazy_static
-from org.allbinary.media.audio.CompositeSound import CompositeSound
-
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/media/audio/CompositeSound as CompositeSoundModule
+export CompositeSoundModule
+import org/allbinary/media/audio/Sound as SoundModule
+export SoundModule
 
 #Use 8hz16bitmono for most J2ME
-class GameYouWinSound(CompositeSound):
-    soundInterface: Sound = None
-    
+type
+    GameYouWinSound* = ref object of CompositeSound
 
-    def __init__(self) -> None:
-        super().__init__("resource:/wav/youwin.wav")
-    
+proc newGameYouWinSound*(): GameYouWinSound
+proc initGameYouWinSound*(this: GameYouWinSound)
+proc getInstance*(t: typedesc[GameYouWinSound]): Sound {.discardable.}
 
-    @staticmethod
-    def getInstance() -> Sound:
+var GameYouWinSound_soundInterfaceValue: Sound
+var GameYouWinSound_soundInterfaceSet = false
+proc soundInterface*(t: typedesc[GameYouWinSound]): Sound =
+    if not GameYouWinSound_soundInterfaceSet:
+        GameYouWinSound_soundInterfaceSet = true
+        GameYouWinSound_soundInterfaceValue = newGameYouWinSound()
+    GameYouWinSound_soundInterfaceValue
+proc `soundInterface=`*(t: typedesc[GameYouWinSound], value: Sound) =
+    GameYouWinSound_soundInterfaceSet = true
+    GameYouWinSound_soundInterfaceValue = value
+
+proc initGameYouWinSound*(this: GameYouWinSound) =
+        initCompositeSound(this, "resource:/wav/youwin.wav")
+
+proc newGameYouWinSound*(): GameYouWinSound =
+    result = GameYouWinSound()
+    initGameYouWinSound(result)
+
+proc getInstance*(t: typedesc[GameYouWinSound]): Sound {.discardable.} =
         return GameYouWinSound.soundInterface
 
-
-def _GameYouWinSound_soundInterface() -> object:
-    return GameYouWinSound()
-
-lazy_static(GameYouWinSound, "soundInterface", _GameYouWinSound_soundInterface)
+when declared(newGameYouWinSoundHook0):
+    newGameYouWinSoundHook0 = proc (): CompositeSound = newGameYouWinSound()
 

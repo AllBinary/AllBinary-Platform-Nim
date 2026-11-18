@@ -1,61 +1,72 @@
-# 
-# AllBinary Open License Version 1 
-# Copyright (c) 2025 AllBinary 
-#  
-# By agreeing to this license you and any business entity you represent are 
-# legally bound to the AllBinary Open License Version 1 legal agreement. 
-#  
-# You may obtain the AllBinary Open License Version 1 legal agreement from 
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
-#  
-# Created By: Travis Berthelot 
-#   
+#[
+  
+  AllBinary Open License Version 1 
+  Copyright (c) 2025 AllBinary 
+   
+  By agreeing to this license you and any business entity you represent are 
+  legally bound to the AllBinary Open License Version 1 legal agreement. 
+   
+  You may obtain the AllBinary Open License Version 1 legal agreement from 
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
+   
+  Created By: Travis Berthelot 
+    
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.displayable.canvas
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import javax/microedition/lcdui/Command as CommandModule
+export CommandModule
+import javax/microedition/lcdui/CommandListener as CommandListenerModule
+export CommandListenerModule
+import org/allbinary/game/layer/AllBinaryGameLayerManager as AllBinaryGameLayerManagerModule
+export AllBinaryGameLayerManagerModule
+import org/allbinary/game/displayable/canvas/AllBinaryGameCanvasInterface as AllBinaryGameCanvasInterfaceModule
+export AllBinaryGameCanvasInterfaceModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
-from org.allbinary.game.displayable.canvas.AllBinaryGameCanvasInterface import AllBinaryGameCanvasInterface
+type
+    NullAllBinaryGameCanvas* = ref object of AllBinaryGameCanvasInterface
 
+proc newNullAllBinaryGameCanvas*(): NullAllBinaryGameCanvas
+method getLayerManager*(this: NullAllBinaryGameCanvas): AllBinaryGameLayerManager {.discardable.}
+method addCommand*(this: NullAllBinaryGameCanvas, cmd: Command)
+method getHeight*(this: NullAllBinaryGameCanvas): int32 {.discardable.}
+method getWidth*(this: NullAllBinaryGameCanvas): int32 {.discardable.}
+method removeCommand*(this: NullAllBinaryGameCanvas, cmd: Command)
+method setCommandListener*(this: NullAllBinaryGameCanvas, l: CommandListener)
 
-class NullAllBinaryGameCanvas(AllBinaryGameCanvasInterface):
-    NULL_ALLBINARY_GAME_CANVAS: NullAllBinaryGameCanvas = None
-    
+var NullAllBinaryGameCanvas_NULL_ALLBINARY_GAME_CANVASValue: NullAllBinaryGameCanvas
+var NullAllBinaryGameCanvas_NULL_ALLBINARY_GAME_CANVASSet = false
+proc NULL_ALLBINARY_GAME_CANVASStatic*(t: typedesc[NullAllBinaryGameCanvas]): NullAllBinaryGameCanvas =
+    if not NullAllBinaryGameCanvas_NULL_ALLBINARY_GAME_CANVASSet:
+        NullAllBinaryGameCanvas_NULL_ALLBINARY_GAME_CANVASSet = true
+        NullAllBinaryGameCanvas_NULL_ALLBINARY_GAME_CANVASValue = newNullAllBinaryGameCanvas()
+    NullAllBinaryGameCanvas_NULL_ALLBINARY_GAME_CANVASValue
 
-    def getLayerManager(self) -> AllBinaryGameLayerManager:
-        from org.allbinary.game.layer.AllBinaryGameLayerManager import AllBinaryGameLayerManager
-        raise RuntimeError()
-    
+proc initNullAllBinaryGameCanvas*(this: NullAllBinaryGameCanvas) =
+    discard
 
-    def addCommand(self, cmd: Command) -> None:
-        from javax.microedition.lcdui.Command import Command
-        raise RuntimeError()
-    
+proc newNullAllBinaryGameCanvas*(): NullAllBinaryGameCanvas =
+    result = NullAllBinaryGameCanvas()
+    initNullAllBinaryGameCanvas(result)
 
-    def getHeight(self) -> int:
-        raise RuntimeError()
-    
+method getLayerManager*(this: NullAllBinaryGameCanvas): AllBinaryGameLayerManager {.discardable.} =
+        raise newJException("RuntimeException", "")
 
-    def getWidth(self) -> int:
-        raise RuntimeError()
-    
+method addCommand*(this: NullAllBinaryGameCanvas, cmd: Command) =
+        raise newJException("RuntimeException", "")
 
-    def removeCommand(self, cmd: Command) -> None:
-        from javax.microedition.lcdui.Command import Command
-        raise RuntimeError()
-    
+method getHeight*(this: NullAllBinaryGameCanvas): int32 {.discardable.} =
+        raise newJException("RuntimeException", "")
 
-    def setCommandListener(self, l: CommandListener) -> None:
-        from javax.microedition.lcdui.CommandListener import CommandListener
-        raise RuntimeError()
-# from javax.microedition.lcdui.Command import Command
-# from javax.microedition.lcdui.CommandListener import CommandListener
-# from org.allbinary.game.layer.AllBinaryGameLayerManager import AllBinaryGameLayerManager
+method getWidth*(this: NullAllBinaryGameCanvas): int32 {.discardable.} =
+        raise newJException("RuntimeException", "")
 
+method removeCommand*(this: NullAllBinaryGameCanvas, cmd: Command) =
+        raise newJException("RuntimeException", "")
 
-def _NullAllBinaryGameCanvas_NULL_ALLBINARY_GAME_CANVAS() -> object:
-    return NullAllBinaryGameCanvas()
-
-lazy_static(NullAllBinaryGameCanvas, "NULL_ALLBINARY_GAME_CANVAS", _NullAllBinaryGameCanvas_NULL_ALLBINARY_GAME_CANVAS)
+method setCommandListener*(this: NullAllBinaryGameCanvas, l: CommandListener) =
+        raise newJException("RuntimeException", "")
 

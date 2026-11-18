@@ -1,78 +1,91 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.configuration
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import java/lang/Long as LongModule
+export LongModule
+import javax/microedition/lcdui/CommandListener as CommandListenerModule
+export CommandListenerModule
+import org/allbinary/MIDPUtil as MIDPUtilModule
+export MIDPUtilModule
+import org/allbinary/graphics/color/BasicColor as BasicColorModule
+export BasicColorModule
+import org/allbinary/graphics/displayable/screen/CommandForm as CommandFormModule
+export CommandFormModule
 
-import time
-from java.lang.JavaRuntimeStatic import lazy_static
-from org.allbinary.graphics.displayable.screen.CommandForm import CommandForm
+type
+    SaveGameForm* = ref object of CommandForm
+        meUtil*: MIDPUtil
 
+proc newSaveGameForm*(commandListener: CommandListener, title: string, backgrounBasicColor: BasicColor, foregroundBasicColor: BasicColor): SaveGameForm
+proc initSaveGameForm*(this: SaveGameForm, commandListener: CommandListener, title: string, backgrounBasicColor: BasicColor, foregroundBasicColor: BasicColor)
+proc createForm*(t: typedesc[SaveGameForm], commandListener: CommandListener, title: string, backgrounBasicColor: BasicColor, foregroundBasicColor: BasicColor): CommandForm {.discardable.}
+proc getInstance*(t: typedesc[SaveGameForm]): CommandForm {.discardable.}
+method initCommands*(this: SaveGameForm, cmdListener: CommandListener)
+import javax/microedition/lcdui/TextField as TextFieldModule
+export TextFieldModule
+import org/allbinary/game/commands/GameCommandsFactory as GameCommandsFactoryModule
+export GameCommandsFactoryModule
+import org/allbinary/logic/ABSystemWrapper as ABSystemWrapperModule
+export ABSystemWrapperModule
 
-class SaveGameForm(CommandForm):
-    FORM: CommandForm = None
+var SaveGameForm_FORMValue: CommandForm
+var SaveGameForm_FORMSet = false
+proc FORMStatic*(t: typedesc[SaveGameForm]): CommandForm =
+    if not SaveGameForm_FORMSet:
+        SaveGameForm_FORMSet = true
+        SaveGameForm_FORMValue = CommandForm.getNullCommandForm()
+    SaveGameForm_FORMValue
+proc `FORMStatic=`*(t: typedesc[SaveGameForm], value: CommandForm) =
+    SaveGameForm_FORMSet = true
+    SaveGameForm_FORMValue = value
 
-    def _init_fields(self) -> None:
-        from org.allbinary.MIDPUtil import MIDPUtil
-        self.meUtil: MIDPUtil = MIDPUtil.getInstance()
-    
+# Java field initializers run after the base initializer
+proc initFieldsSaveGameForm(this: SaveGameForm) =
+    this.meUtil = MIDPUtil.getInstance()
+    discard
 
-    # throws Exception
-    @staticmethod
-    def createForm(commandListener: CommandListener, title: str, backgrounBasicColor: BasicColor, foregroundBasicColor: BasicColor) -> CommandForm:
-        from javax.microedition.lcdui.CommandListener import CommandListener
-        from org.allbinary.graphics.color.BasicColor import BasicColor
-        SaveGameForm.FORM = SaveGameForm(commandListener, title, backgrounBasicColor, foregroundBasicColor)
-        return SaveGameForm.FORM
-    
+proc createForm*(t: typedesc[SaveGameForm], commandListener: CommandListener, title: string, backgrounBasicColor: BasicColor, foregroundBasicColor: BasicColor): CommandForm {.discardable.} =
+        SaveGameForm.FORMStatic = newSaveGameForm(commandListener, title, backgrounBasicColor, foregroundBasicColor)
+        return SaveGameForm.FORMStatic
 
-    @staticmethod
-    def getInstance() -> CommandForm:
-        return SaveGameForm.FORM
-    
+proc getInstance*(t: typedesc[SaveGameForm]): CommandForm {.discardable.} =
+        return SaveGameForm.FORMStatic
 
-    def __init__(self, commandListener: CommandListener, title: str, backgrounBasicColor: BasicColor, foregroundBasicColor: BasicColor) -> None:
-        from javax.microedition.lcdui.CommandListener import CommandListener
-        from javax.microedition.lcdui.TextField import TextField
-        from org.allbinary.graphics.color.BasicColor import BasicColor
-        from org.allbinary.logic.ABSystemWrapper import ABSystemWrapper
-        super().__init__(commandListener, title, backgrounBasicColor, foregroundBasicColor)
-        self._init_fields()
-        self.logUtil.putF(self.commonStrings.START, self, self.commonStrings.CONSTRUCTOR)
-        timeString: str = str(ABSystemWrapper.getInstance().currentTimeMillis())
-        self.meUtil.appendItem(self, TextField("Name: ", timeString, 30, TextField.ANY))
-        self.initCommands(commandListener)
-    
+proc initSaveGameForm*(this: SaveGameForm, commandListener: CommandListener, title: string, backgrounBasicColor: BasicColor, foregroundBasicColor: BasicColor) =
+        initCommandForm(this, commandListener, title, backgrounBasicColor, foregroundBasicColor)
+        this.initFieldsSaveGameForm()
+        this.logUtil.putF(this.commonStrings.START, this, this.commonStrings.CONSTRUCTOR)
+        var timeString: string = jstr(ABSystemWrapper.getInstance().currentTimeMillis())
+        this.meUtil.appendItem(this, newTextField("Name: ", timeString, 30, TextField.ANY))
+        this.initCommands(commandListener)
 
-    def initCommands(self, cmdListener: CommandListener) -> None:
-        from javax.microedition.lcdui.CommandListener import CommandListener
-        from org.allbinary.game.commands.GameCommandsFactory import GameCommandsFactory
-        gameCommandsFactory: GameCommandsFactory = GameCommandsFactory.getInstance()
-        self.removeAllCommands()
-        self.addCommand(gameCommandsFactory.SAVE)
-        self.addCommand(gameCommandsFactory.CLOSE_AND_SHOW_GAME_CANVAS)
-        self.setCommandListener(cmdListener)
-# from javax.microedition.lcdui.CommandListener import CommandListener
-# from javax.microedition.lcdui.TextField import TextField
-# from org.allbinary.MIDPUtil import MIDPUtil
-# from org.allbinary.game.commands.GameCommandsFactory import GameCommandsFactory
-# from org.allbinary.graphics.color.BasicColor import BasicColor
-# from org.allbinary.logic.ABSystemWrapper import ABSystemWrapper
+proc newSaveGameForm*(commandListener: CommandListener, title: string, backgrounBasicColor: BasicColor, foregroundBasicColor: BasicColor): SaveGameForm =
+    result = SaveGameForm()
+    initSaveGameForm(result, commandListener, title, backgrounBasicColor, foregroundBasicColor)
 
+method initCommands*(this: SaveGameForm, cmdListener: CommandListener) =
+        let gameCommandsFactory: GameCommandsFactory = GameCommandsFactory.getInstance()
+        this.removeAllCommands()
+        this.addCommand(gameCommandsFactory.SAVE)
+        this.addCommand(gameCommandsFactory.CLOSE_AND_SHOW_GAME_CANVAS)
+        this.setCommandListener(cmdListener)
 
-def _SaveGameForm_FORM() -> object:
-    return CommandForm.getNullCommandForm()
-
-lazy_static(SaveGameForm, "FORM", _SaveGameForm_FORM)
+when declared(newSaveGameFormHook4):
+    newSaveGameFormHook4 = proc (commandListener: CommandListener, title: string, backgrounBasicColor: BasicColor, foregroundBasicColor: BasicColor): CommandForm = newSaveGameForm(commandListener, title, backgrounBasicColor, foregroundBasicColor)
 

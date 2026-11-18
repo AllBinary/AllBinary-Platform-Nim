@@ -1,47 +1,62 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/game/GameType as GameTypeModule
+export GameTypeModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    GameTypeFactory* = ref object of JObject
+        NULL_GAME_TYPE_ARRAY*: JArray[GameType]
+        NONE*: GameType
+        SINGLE_PLAYER*: GameType
+        MULTI_PLAYER*: GameType
+        BOT*: GameType
 
+proc newGameTypeFactory*(): GameTypeFactory
+proc getInstance*(t: typedesc[GameTypeFactory]): GameTypeFactory {.discardable.}
+import org/allbinary/logic/string/StringUtil as StringUtilModule
+export StringUtilModule
 
-class GameTypeFactory:
-    instance: GameTypeFactory = None
+var GameTypeFactory_instanceValue: GameTypeFactory
+var GameTypeFactory_instanceSet = false
+proc instance*(t: typedesc[GameTypeFactory]): GameTypeFactory =
+    if not GameTypeFactory_instanceSet:
+        GameTypeFactory_instanceSet = true
+        GameTypeFactory_instanceValue = newGameTypeFactory()
+    GameTypeFactory_instanceValue
 
-    def _init_fields(self) -> None:
-        from org.allbinary.logic.string.StringUtil import StringUtil
-        self.NULL_GAME_TYPE_ARRAY: list[GameType] = [None] * (0)
-        self.NONE: GameType = GameType(StringUtil.getInstance().NULL_STRING)
-        self.SINGLE_PLAYER: GameType = GameType("Single Player")
-        self.MULTI_PLAYER: GameType = GameType("Multi Player")
-        self.BOT: GameType = GameType("Artificial Player")
+# Java field initializers run after the base initializer
+proc initFieldsGameTypeFactory(this: GameTypeFactory) =
+    this.NULL_GAME_TYPE_ARRAY = newJArray[GameType](0, default(GameType))
+    this.NONE = newGameType(StringUtil.getInstance().NULL_STRING)
+    this.SINGLE_PLAYER = newGameType("Single Player")
+    this.MULTI_PLAYER = newGameType("Multi Player")
+    this.BOT = newGameType("Artificial Player")
+    discard
 
-    def __init__(self) -> None:
-        self._init_fields()
-    
+proc initGameTypeFactory*(this: GameTypeFactory) =
+    this.initFieldsGameTypeFactory()
 
-    @staticmethod
-    def getInstance() -> GameTypeFactory:
+proc newGameTypeFactory*(): GameTypeFactory =
+    result = GameTypeFactory()
+    initGameTypeFactory(result)
+
+proc getInstance*(t: typedesc[GameTypeFactory]): GameTypeFactory {.discardable.} =
         return GameTypeFactory.instance
-# from org.allbinary.logic.string.StringUtil import StringUtil
-from org.allbinary.game.GameType import GameType
-
-
-def _GameTypeFactory_instance() -> object:
-    return GameTypeFactory()
-
-lazy_static(GameTypeFactory, "instance", _GameTypeFactory_instance)
 

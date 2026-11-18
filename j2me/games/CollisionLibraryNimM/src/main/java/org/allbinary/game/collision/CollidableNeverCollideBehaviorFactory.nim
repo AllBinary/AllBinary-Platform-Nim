@@ -1,47 +1,64 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.collision
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/game/collision/CollidableBaseBehaviorFactory as CollidableBaseBehaviorFactoryModule
+export CollidableBaseBehaviorFactoryModule
+import org/allbinary/game/collision/CollidableNeverCollideBehavior as CollidableNeverCollideBehaviorModule
+export CollidableNeverCollideBehaviorModule
+import org/allbinary/game/collision/CollidableBaseBehavior as CollidableBaseBehaviorModule
+export CollidableBaseBehaviorModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
-from org.allbinary.game.collision.CollidableBaseBehaviorFactory import CollidableBaseBehaviorFactory
+type
+    CollidableNeverCollideBehaviorFactory* = ref object of CollidableBaseBehaviorFactory
+        instance*: CollidableNeverCollideBehavior
 
+proc newCollidableNeverCollideBehaviorFactory*(): CollidableNeverCollideBehaviorFactory
+proc getInstance*(t: typedesc[CollidableNeverCollideBehaviorFactory]): CollidableNeverCollideBehaviorFactory {.discardable.}
+method createBehavior*(this: CollidableNeverCollideBehaviorFactory): CollidableBaseBehavior {.discardable.}
 
-class CollidableNeverCollideBehaviorFactory(CollidableBaseBehaviorFactory):
-    instanceC: CollidableNeverCollideBehaviorFactory = None
+var CollidableNeverCollideBehaviorFactory_instanceCValue: CollidableNeverCollideBehaviorFactory
+var CollidableNeverCollideBehaviorFactory_instanceCSet = false
+proc instanceC*(t: typedesc[CollidableNeverCollideBehaviorFactory]): CollidableNeverCollideBehaviorFactory =
+    if not CollidableNeverCollideBehaviorFactory_instanceCSet:
+        CollidableNeverCollideBehaviorFactory_instanceCSet = true
+        CollidableNeverCollideBehaviorFactory_instanceCValue = newCollidableNeverCollideBehaviorFactory()
+    CollidableNeverCollideBehaviorFactory_instanceCValue
 
-    def _init_fields(self) -> None:
-        self.instance: CollidableNeverCollideBehavior = CollidableNeverCollideBehavior(False)
+# Java field initializers run after the base initializer
+proc initFieldsCollidableNeverCollideBehaviorFactory(this: CollidableNeverCollideBehaviorFactory) =
+    this.instance = newCollidableNeverCollideBehavior(false)
+    discard
 
-    def __init__(self) -> None:
-        super().__init__()
-        self._init_fields()
-    
+proc initCollidableNeverCollideBehaviorFactory*(this: CollidableNeverCollideBehaviorFactory) =
+    initCollidableBaseBehaviorFactory(this)
+    this.initFieldsCollidableNeverCollideBehaviorFactory()
 
-    @staticmethod
-    def getInstance() -> CollidableNeverCollideBehaviorFactory:
+proc newCollidableNeverCollideBehaviorFactory*(): CollidableNeverCollideBehaviorFactory =
+    result = CollidableNeverCollideBehaviorFactory()
+    initCollidableNeverCollideBehaviorFactory(result)
+
+proc getInstance*(t: typedesc[CollidableNeverCollideBehaviorFactory]): CollidableNeverCollideBehaviorFactory {.discardable.} =
         return CollidableNeverCollideBehaviorFactory.instanceC
-    
 
-    def createBehavior(self) -> CollidableBaseBehavior:
-        return self.instance
-from org.allbinary.game.collision.CollidableNeverCollideBehavior import CollidableNeverCollideBehavior
+method createBehavior*(this: CollidableNeverCollideBehaviorFactory): CollidableBaseBehavior {.discardable.} =
+        return this.instance
 
-
-def _CollidableNeverCollideBehaviorFactory_instanceC() -> object:
-    return CollidableNeverCollideBehaviorFactory()
-
-lazy_static(CollidableNeverCollideBehaviorFactory, "instanceC", _CollidableNeverCollideBehaviorFactory_instanceC)
+when declared(newCollidableNeverCollideBehaviorFactoryHook0):
+    newCollidableNeverCollideBehaviorFactoryHook0 = proc (): CollidableBaseBehaviorFactory = newCollidableNeverCollideBehaviorFactory()
 

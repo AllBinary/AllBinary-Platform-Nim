@@ -1,90 +1,119 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.paint.help
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import javax/microedition/lcdui/Graphics as GraphicsModule
+export GraphicsModule
+import org/allbinary/graphics/color/BasicColor as BasicColorModule
+export BasicColorModule
+import org/allbinary/graphics/displayable/DisplayInfoSingleton as DisplayInfoSingletonModule
+export DisplayInfoSingletonModule
+import org/allbinary/graphics/font/MyFontProcessor as MyFontProcessorModule
+export MyFontProcessorModule
+import org/allbinary/graphics/font/UpdateMyFontInterface as UpdateMyFontInterfaceModule
+export UpdateMyFontInterfaceModule
+import org/allbinary/graphics/paint/Paintable as PaintableModule
+export PaintableModule
 
-from org.allbinary.graphics.font.UpdateMyFontInterface import UpdateMyFontInterface
-from org.allbinary.graphics.paint.Paintable import Paintable
+type
+    HelpPaintable* = ref object of Paintable
+        displayInfo*: DisplayInfoSingleton
+        updateMyFontProcessor*: MyFontProcessor
+        myFontProcessor*: MyFontProcessor
+        anchor*: int32
+        title*: string
+        inputInfo*: JArray[string]
+        basicColor*: BasicColor
+        titleBeginWidth*: int32
+        beginWidthArray*: JArray[int32]
+        charHeight*: int32
+
+converter jAsUpdateMyFontInterface*(value: HelpPaintable): UpdateMyFontInterface = cast[UpdateMyFontInterface](value)
+proc newHelpPaintable*(title: string, backgroundBasicColor: BasicColor, basicColor: BasicColor): HelpPaintable
+proc initHelpPaintable*(this: HelpPaintable, title: string, backgroundBasicColor: BasicColor, basicColor: BasicColor)
+method updateMeasurement*(this: HelpPaintable, graphics: Graphics)
+method setInputInfoP*(this: HelpPaintable, inputInfo: JArray[string]) {.base.}
+method paint*(this: HelpPaintable, graphics: Graphics)
+import javax/microedition/lcdui/Font as FontModule
+export FontModule
+import org/allbinary/graphics/Anchor as AnchorModule
+export AnchorModule
+import org/allbinary/graphics/font/UpdateMyFontProcessor as UpdateMyFontProcessorModule
+export UpdateMyFontProcessorModule
+import org/allbinary/logic/NullUtil as NullUtilModule
+export NullUtilModule
+import org/allbinary/logic/string/StringUtil as StringUtilModule
+export StringUtilModule
 
 
-class HelpPaintable(Paintable, UpdateMyFontInterface):
-
-    def _init_fields(self) -> None:
-        from org.allbinary.graphics.Anchor import Anchor
-        from org.allbinary.graphics.color.BasicColor import BasicColor
-        from org.allbinary.graphics.displayable.DisplayInfoSingleton import DisplayInfoSingleton
-        from org.allbinary.graphics.font.MyFontProcessor import MyFontProcessor
-        from org.allbinary.graphics.font.UpdateMyFontProcessor import UpdateMyFontProcessor
-        from org.allbinary.logic.NullUtil import NullUtil
-        from org.allbinary.logic.string.StringUtil import StringUtil
-        self.displayInfo: DisplayInfoSingleton = DisplayInfoSingleton.getInstance()
-        self.updateMyFontProcessor: MyFontProcessor = UpdateMyFontProcessor(self)
-        self.myFontProcessor: MyFontProcessor = self.updateMyFontProcessor
-        self.anchor: int = Anchor.TOP_LEFT
-        self.title: str = None
-        self.inputInfo: list[str] = StringUtil.getInstance().getArrayInstance()
-        self.basicColor: BasicColor = None
-        self.titleBeginWidth: int = 0
-        self.beginWidthArray: list[int] = NullUtil.getInstance().NULL_INT_ARRAY
-        self.charHeight: int = 0
+# Java field initializers run after the base initializer
+proc initFieldsHelpPaintable(this: HelpPaintable) =
+    this.displayInfo = DisplayInfoSingleton.getInstance()
+    this.updateMyFontProcessor = newUpdateMyFontProcessor(this)
+    this.myFontProcessor = this.updateMyFontProcessor
+    this.anchor = Anchor.TOP_LEFT
     
-
-    def __init__(self, title: str, backgroundBasicColor: BasicColor, basicColor: BasicColor) -> None:
-        from org.allbinary.graphics.color.BasicColor import BasicColor
-        super().__init__()
-        self._init_fields()
-        self.title = title
-        self.basicColor = basicColor
+    this.inputInfo = StringUtil.getInstance().getArrayInstance()
     
+    this.titleBeginWidth = 0
+    this.beginWidthArray = NullUtil.getInstance().NULL_INT_ARRAY
+    this.charHeight = 0
+    discard
 
-    def updateMeasurement(self, graphics: Graphics) -> None:
-        from javax.microedition.lcdui.Font import Font
-        from javax.microedition.lcdui.Graphics import Graphics
-        from org.allbinary.graphics.font.MyFontProcessor import MyFontProcessor
-        font: Font = graphics.getFont()
-        self.titleBeginWidth = (font.stringWidth(self.title) >> 1)
-        self.charHeight = font.getHeight()
-        size: int = len(self.inputInfo)
-        for index in range(0, size):
-            self.beginWidthArray[index] = (font.stringWidth(self.inputInfo[index]) >> 1)
-        self.myFontProcessor = MyFontProcessor.getInstance()
-    
+proc initHelpPaintable*(this: HelpPaintable, title: string, backgroundBasicColor: BasicColor, basicColor: BasicColor) =
+        initPaintable(this)
+        this.initFieldsHelpPaintable()
+        this.title = title
+        this.basicColor = basicColor
 
-    def setInputInfoP(self, inputInfo: list[str]) -> None:
-        self.inputInfo = inputInfo
-        self.beginWidthArray = [0] * (len(self.inputInfo))
-        self.myFontProcessor = self.updateMyFontProcessor
-    
+proc newHelpPaintable*(title: string, backgroundBasicColor: BasicColor, basicColor: BasicColor): HelpPaintable =
+    result = HelpPaintable()
+    initHelpPaintable(result, title, backgroundBasicColor, basicColor)
 
-    def paint(self, graphics: Graphics) -> None:
-        from javax.microedition.lcdui.Graphics import Graphics
-        self.myFontProcessor.process(graphics)
-        halfWidth: int = self.displayInfo.getLastHalfWidth()
-        graphics.setColor(int(self.basicColor))
-        graphics.drawString(self.title, halfWidth - self.titleBeginWidth, self.charHeight, self.anchor)
-        size: int = len(self.inputInfo)
-        for index in range(0, size):
-            graphics.drawString(self.inputInfo[index], halfWidth - self.beginWidthArray[index], (index + 3) * self.charHeight, self.anchor)
-# from javax.microedition.lcdui.Font import Font
-# from javax.microedition.lcdui.Graphics import Graphics
-# from org.allbinary.graphics.Anchor import Anchor
-# from org.allbinary.graphics.color.BasicColor import BasicColor
-# from org.allbinary.graphics.displayable.DisplayInfoSingleton import DisplayInfoSingleton
-# from org.allbinary.graphics.font.MyFontProcessor import MyFontProcessor
-# from org.allbinary.graphics.font.UpdateMyFontProcessor import UpdateMyFontProcessor
-# from org.allbinary.logic.NullUtil import NullUtil
-# from org.allbinary.logic.string.StringUtil import StringUtil
+method updateMeasurement*(this: HelpPaintable, graphics: Graphics) =
+        let font: Font = graphics.getFont()
+        this.titleBeginWidth = (ashr(font.stringWidth(this.title), 1))
+        this.charHeight = font.getHeight()
+        let size: int32 = this.inputInfo.length
+        block:
+            var index: int32 = 0
+            while index < size:
+                defer: index = index +% 1
+                this.beginWidthArray[index] = (ashr(font.stringWidth(this.inputInfo[index]), 1))
+        this.myFontProcessor = MyFontProcessor.getInstance()
 
+method setInputInfoP*(this: HelpPaintable, inputInfo: JArray[string]) {.base.} =
+        this.inputInfo = inputInfo
+        this.beginWidthArray = newJArray[int32](this.inputInfo.length, default(int32))
+        this.myFontProcessor = this.updateMyFontProcessor
+
+method paint*(this: HelpPaintable, graphics: Graphics) =
+        this.myFontProcessor.process(graphics)
+        let halfWidth: int32 = this.displayInfo.getLastHalfWidth()
+        graphics.setColor(this.basicColor.intValue())
+        graphics.drawString(this.title, halfWidth -% this.titleBeginWidth, this.charHeight, this.anchor)
+        let size: int32 = this.inputInfo.length
+        block:
+            var index: int32 = 0
+            while index < size:
+                defer: index = index +% 1
+                graphics.drawString(this.inputInfo[index], halfWidth -% this.beginWidthArray[index], (index +% 3) *% this.charHeight, this.anchor)
+
+when declared(newHelpPaintableHook3):
+    newHelpPaintableHook3 = proc (title: string, backgroundBasicColor: BasicColor, basicColor: BasicColor): Paintable = newHelpPaintable(title, backgroundBasicColor, basicColor)
 

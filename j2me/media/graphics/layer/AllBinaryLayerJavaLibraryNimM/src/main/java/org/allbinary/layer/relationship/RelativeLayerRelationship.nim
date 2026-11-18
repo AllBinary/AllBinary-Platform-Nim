@@ -1,51 +1,65 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.layer.relationship
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/graphics/GPoint as GPointModule
+export GPointModule
+import org/allbinary/graphics/RelativeRelationship as RelativeRelationshipModule
+export RelativeRelationshipModule
+import org/allbinary/layer/AllBinaryLayer as AllBinaryLayerModule
+export AllBinaryLayerModule
+import org/allbinary/util/BasicArrayList as BasicArrayListModule
+export BasicArrayListModule
 
-from org.allbinary.graphics.RelativeRelationship import RelativeRelationship
+type
+    RelativeLayerRelationship* = ref object of RelativeRelationship
+        layer*: AllBinaryLayer
+
+proc newRelativeLayerRelationship*(layer: AllBinaryLayer, point: GPoint, typesAllowedList: BasicArrayList): RelativeLayerRelationship
+proc initRelativeLayerRelationship*(this: RelativeLayerRelationship, layer: AllBinaryLayer, point: GPoint, typesAllowedList: BasicArrayList)
+method getX*(this: RelativeLayerRelationship): int32 {.discardable.}
+method getY*(this: RelativeLayerRelationship): int32 {.discardable.}
+method getZ*(this: RelativeLayerRelationship): int32 {.discardable.}
 
 
-class RelativeLayerRelationship(RelativeRelationship):
+# Java field initializers run after the base initializer
+proc initFieldsRelativeLayerRelationship(this: RelativeLayerRelationship) =
+    this.layer = AllBinaryLayer.NULL_ALLBINARY_LAYER
+    discard
 
-    def _init_fields(self) -> None:
-        from org.allbinary.layer.AllBinaryLayer import AllBinaryLayer
-        self.layer: AllBinaryLayer = AllBinaryLayer.NULL_ALLBINARY_LAYER
-    
+proc initRelativeLayerRelationship*(this: RelativeLayerRelationship, layer: AllBinaryLayer, point: GPoint, typesAllowedList: BasicArrayList) =
+        initRelativeRelationship(this, point, typesAllowedList)
+        this.initFieldsRelativeLayerRelationship()
+        this.layer = layer
 
-    def __init__(self, layer: AllBinaryLayer, point: GPoint, typesAllowedList: BasicArrayList) -> None:
-        from org.allbinary.graphics.GPoint import GPoint
-        from org.allbinary.layer.AllBinaryLayer import AllBinaryLayer
-        from org.allbinary.util.BasicArrayList import BasicArrayList
-        super().__init__(point, typesAllowedList)
-        self._init_fields()
-        self.layer = layer
-    
+proc newRelativeLayerRelationship*(layer: AllBinaryLayer, point: GPoint, typesAllowedList: BasicArrayList): RelativeLayerRelationship =
+    result = RelativeLayerRelationship()
+    initRelativeLayerRelationship(result, layer, point, typesAllowedList)
 
-    def getX(self) -> int:
-        return self.layer.getXP() + super().getX()
-    
+method getX*(this: RelativeLayerRelationship): int32 {.discardable.} =
+        return this.layer.getXP() +% procCall RelativeRelationship(this).getX()
 
-    def getY(self) -> int:
-        return self.layer.getYP() + super().getY()
-    
+method getY*(this: RelativeLayerRelationship): int32 {.discardable.} =
+        return this.layer.getYP() +% procCall RelativeRelationship(this).getY()
 
-    def getZ(self) -> int:
-        return self.layer.getZP() + super().getZ()
-# from org.allbinary.graphics.GPoint import GPoint
-# from org.allbinary.layer.AllBinaryLayer import AllBinaryLayer
-# from org.allbinary.util.BasicArrayList import BasicArrayList
+method getZ*(this: RelativeLayerRelationship): int32 {.discardable.} =
+        return this.layer.getZP() +% procCall RelativeRelationship(this).getZ()
 
+when declared(newRelativeLayerRelationshipHook3):
+    newRelativeLayerRelationshipHook3 = proc (layer: AllBinaryLayer, point: GPoint, typesAllowedList: BasicArrayList): RelativeRelationship = newRelativeLayerRelationship(layer, point, typesAllowedList)
 

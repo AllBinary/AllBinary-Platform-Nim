@@ -1,67 +1,76 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.displayable
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/graphics/displayable/event/DisplayChangeEventListener as DisplayChangeEventListenerModule
+export DisplayChangeEventListenerModule
+import org/allbinary/util/BasicArrayList as BasicArrayListModule
+export BasicArrayListModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    GameLevelDisplayChangeEventListenersFactory* = ref object of JObject
+        list*: BasicArrayList
 
+proc newGameLevelDisplayChangeEventListenersFactory*(): GameLevelDisplayChangeEventListenersFactory
+proc getInstance*(t: typedesc[GameLevelDisplayChangeEventListenersFactory]): GameLevelDisplayChangeEventListenersFactory {.discardable.}
+method add*(this: GameLevelDisplayChangeEventListenersFactory, displayChangeEventListener: DisplayChangeEventListener) {.base.}
+method clear*(this: GameLevelDisplayChangeEventListenersFactory) {.base.}
+import org/allbinary/graphics/displayable/event/DisplayChangeEventHandler as DisplayChangeEventHandlerModule
+export DisplayChangeEventHandlerModule
+import org/allbinary/logic/util/event/handler/BasicEventHandler as BasicEventHandlerModule
+export BasicEventHandlerModule
+import org/allbinary/util/BasicArrayListD as BasicArrayListDModule
+export BasicArrayListDModule
 
-class GameLevelDisplayChangeEventListenersFactory:
-    instance: GameLevelDisplayChangeEventListenersFactory = None
+var GameLevelDisplayChangeEventListenersFactory_instanceValue: GameLevelDisplayChangeEventListenersFactory
+var GameLevelDisplayChangeEventListenersFactory_instanceSet = false
+proc instance*(t: typedesc[GameLevelDisplayChangeEventListenersFactory]): GameLevelDisplayChangeEventListenersFactory =
+    if not GameLevelDisplayChangeEventListenersFactory_instanceSet:
+        GameLevelDisplayChangeEventListenersFactory_instanceSet = true
+        GameLevelDisplayChangeEventListenersFactory_instanceValue = newGameLevelDisplayChangeEventListenersFactory()
+    GameLevelDisplayChangeEventListenersFactory_instanceValue
 
-    def _init_fields(self) -> None:
-        from org.allbinary.util.BasicArrayList import BasicArrayList
-        from org.allbinary.util.BasicArrayListD import BasicArrayListD
-        self.list_: BasicArrayList = BasicArrayListD()
+# Java field initializers run after the base initializer
+proc initFieldsGameLevelDisplayChangeEventListenersFactory(this: GameLevelDisplayChangeEventListenersFactory) =
+    this.list = newBasicArrayListD()
+    discard
 
-    def __init__(self) -> None:
-        self._init_fields()
-    
+proc initGameLevelDisplayChangeEventListenersFactory*(this: GameLevelDisplayChangeEventListenersFactory) =
+    this.initFieldsGameLevelDisplayChangeEventListenersFactory()
 
-    @staticmethod
-    def getInstance() -> GameLevelDisplayChangeEventListenersFactory:
+proc newGameLevelDisplayChangeEventListenersFactory*(): GameLevelDisplayChangeEventListenersFactory =
+    result = GameLevelDisplayChangeEventListenersFactory()
+    initGameLevelDisplayChangeEventListenersFactory(result)
+
+proc getInstance*(t: typedesc[GameLevelDisplayChangeEventListenersFactory]): GameLevelDisplayChangeEventListenersFactory {.discardable.} =
         return GameLevelDisplayChangeEventListenersFactory.instance
-    
 
-    def add(self, displayChangeEventListener: DisplayChangeEventListener) -> None:
-        from org.allbinary.graphics.displayable.event.DisplayChangeEventHandler import DisplayChangeEventHandler
-        from org.allbinary.graphics.displayable.event.DisplayChangeEventListener import DisplayChangeEventListener
-        self.list_.add(displayChangeEventListener)
+method add*(this: GameLevelDisplayChangeEventListenersFactory, displayChangeEventListener: DisplayChangeEventListener) {.base.} =
+        this.list.add(displayChangeEventListener)
         DisplayChangeEventHandler.getInstance().addListenerInterface(displayChangeEventListener)
-    
 
-    def clear(self) -> None:
-        from org.allbinary.graphics.displayable.event.DisplayChangeEventHandler import DisplayChangeEventHandler
-        from org.allbinary.graphics.displayable.event.DisplayChangeEventListener import DisplayChangeEventListener
-        from org.allbinary.logic.util.event.handler.BasicEventHandler import BasicEventHandler
-        displayChangeEventHandler: BasicEventHandler = DisplayChangeEventHandler.getInstance()
-        displayChangeEventListener: DisplayChangeEventListener = None
-        index = self.list_.size()
-        while (index := index - 1) >= 0:
-            displayChangeEventListener = self.list_.objectArray[index]
-            displayChangeEventHandler.removeListener(displayChangeEventListener)
-        self.list_.clear()
-# from org.allbinary.graphics.displayable.event.DisplayChangeEventHandler import DisplayChangeEventHandler
-# from org.allbinary.graphics.displayable.event.DisplayChangeEventListener import DisplayChangeEventListener
-# from org.allbinary.logic.util.event.handler.BasicEventHandler import BasicEventHandler
-# from org.allbinary.util.BasicArrayList import BasicArrayList
-# from org.allbinary.util.BasicArrayListD import BasicArrayListD
-
-
-def _GameLevelDisplayChangeEventListenersFactory_instance() -> object:
-    return GameLevelDisplayChangeEventListenersFactory()
-
-lazy_static(GameLevelDisplayChangeEventListenersFactory, "instance", _GameLevelDisplayChangeEventListenersFactory_instance)
+method clear*(this: GameLevelDisplayChangeEventListenersFactory) {.base.} =
+        var displayChangeEventHandler: BasicEventHandler = DisplayChangeEventHandler.getInstance()
+        var displayChangeEventListener: DisplayChangeEventListener = nil
+        block:
+            var index: int32 = this.list.size()
+            while jPreDecrement(index) >= 0:
+                displayChangeEventListener = DisplayChangeEventListener(JObject(this.list.objectArray[index]))
+                displayChangeEventHandler.removeListener(displayChangeEventListener)
+        this.list.clear()
 

@@ -1,48 +1,62 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.animation.transition.shake
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/animation/transition/shake/ShakeEvent as ShakeEventModule
+export ShakeEventModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    ShakeEventFactory* = ref object of JObject
+        MICRO*: ShakeEvent
+        SMALL*: ShakeEvent
+        MEDIUM*: ShakeEvent
+        LARGE*: ShakeEvent
 
+proc newShakeEventFactory*(): ShakeEventFactory
+proc getInstance*(t: typedesc[ShakeEventFactory]): ShakeEventFactory {.discardable.}
+method init*(this: ShakeEventFactory) {.base.}
 
-class ShakeEventFactory:
-    instance: ShakeEventFactory = None
+var ShakeEventFactory_instanceValue: ShakeEventFactory
+var ShakeEventFactory_instanceSet = false
+proc instance*(t: typedesc[ShakeEventFactory]): ShakeEventFactory =
+    if not ShakeEventFactory_instanceSet:
+        ShakeEventFactory_instanceSet = true
+        ShakeEventFactory_instanceValue = newShakeEventFactory()
+    ShakeEventFactory_instanceValue
 
-    def _init_fields(self) -> None:
-        self.MICRO: ShakeEvent = ShakeEvent()
-        self.SMALL: ShakeEvent = ShakeEvent()
-        self.MEDIUM: ShakeEvent = ShakeEvent()
-        self.LARGE: ShakeEvent = ShakeEvent()
+# Java field initializers run after the base initializer
+proc initFieldsShakeEventFactory(this: ShakeEventFactory) =
+    this.MICRO = newShakeEvent()
+    this.SMALL = newShakeEvent()
+    this.MEDIUM = newShakeEvent()
+    this.LARGE = newShakeEvent()
+    discard
 
-    def __init__(self) -> None:
-        self._init_fields()
-    
+proc initShakeEventFactory*(this: ShakeEventFactory) =
+    this.initFieldsShakeEventFactory()
 
-    @staticmethod
-    def getInstance() -> ShakeEventFactory:
+proc newShakeEventFactory*(): ShakeEventFactory =
+    result = ShakeEventFactory()
+    initShakeEventFactory(result)
+
+proc getInstance*(t: typedesc[ShakeEventFactory]): ShakeEventFactory {.discardable.} =
         return ShakeEventFactory.instance
-    
 
-    def init(self) -> None:
-        pass
-from org.allbinary.animation.transition.shake.ShakeEvent import ShakeEvent
-
-
-def _ShakeEventFactory_instance() -> object:
-    return ShakeEventFactory()
-
-lazy_static(ShakeEventFactory, "instance", _ShakeEventFactory_instance)
+method init*(this: ShakeEventFactory) {.base.} =
+        discard
 

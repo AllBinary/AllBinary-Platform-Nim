@@ -1,105 +1,121 @@
 # Generated Code Do Not Modify
 # package javax.microedition.lcdui
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import java/util/Stack as StackModule
+export StackModule
+import javax/microedition/lcdui/Canvas as CanvasModule
+export CanvasModule
+import javax/microedition/lcdui/Command as CommandModule
+export CommandModule
+import javax/microedition/lcdui/CommandListener as CommandListenerModule
+export CommandListenerModule
+import javax/microedition/lcdui/Graphics as GraphicsModule
+export GraphicsModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
-from javax.microedition.lcdui.Canvas import Canvas
+type
+    NullCanvas* = ref object of Canvas
 
+proc newNullCanvas*(): NullCanvas
+proc initNullCanvas*(this: NullCanvas)
+method setFullScreenMode*(this: NullCanvas, mode: bool)
+method sizeChanged*(this: NullCanvas, w: int32, h: int32)
+method getCommandStack*(this: NullCanvas): Stack {.base, discardable.}
+method isCommand*(this: NullCanvas, command: Command): bool {.base, discardable.}
+method addCommand*(this: NullCanvas, command: Command)
+method removeCommand*(this: NullCanvas, command: Command)
+method removeAllCommands*(this: NullCanvas) {.base.}
+method setCommandListener*(this: NullCanvas, l: CommandListener)
+method getCustomCommandListener*(this: NullCanvas): CommandListener {.base, discardable.}
+method isPaused*(this: NullCanvas): bool {.base, discardable.}
+method removePauseCommand*(this: NullCanvas) {.base.}
+method pause*(this: NullCanvas) {.base.}
+method unPause*(this: NullCanvas) {.base.}
+method process*(this: NullCanvas) {.base.}
+method paint*(this: NullCanvas, graphics: Graphics)
+method destroy*(this: NullCanvas) {.base.}
+method setPaused*(this: NullCanvas, isPaused: bool) {.base.}
+method pointerDragged*(this: NullCanvas, x: int32, y: int32)
+method pointerPressed*(this: NullCanvas, x: int32, y: int32)
+method pointerReleased*(this: NullCanvas, x: int32, y: int32)
 
-class NullCanvas(Canvas):
-    NULL_CANVAS: NullCanvas = None
-    
+var NullCanvas_NULL_CANVASValue: NullCanvas
+var NullCanvas_NULL_CANVASSet = false
+proc NULL_CANVASStatic*(t: typedesc[NullCanvas]): NullCanvas =
+    if not NullCanvas_NULL_CANVASSet:
+        NullCanvas_NULL_CANVASSet = true
+        NullCanvas_NULL_CANVASValue = newNullCanvas()
+    NullCanvas_NULL_CANVASValue
 
-    def __init__(self) -> None:
-        super().__init__()
-    
+proc initNullCanvas*(this: NullCanvas) =
+        initCanvas(this)
+        discard
 
-    def setFullScreenMode(self, mode: bool) -> None:
-        pass
-    
+proc newNullCanvas*(): NullCanvas =
+    result = NullCanvas()
+    initNullCanvas(result)
 
-    def sizeChanged(self, w: int, h: int) -> None:
-        pass
-    
+method setFullScreenMode*(this: NullCanvas, mode: bool) =
+        discard
 
-    def getCommandStack(self) -> Stack[object]:
-        from java.util.Stack import Stack
-        raise RuntimeError()
-    
+method sizeChanged*(this: NullCanvas, w: int32, h: int32) =
+        discard
 
-    def isCommand(self, command: Command) -> bool:
-        raise RuntimeError()
-    
+method getCommandStack*(this: NullCanvas): Stack {.base, discardable.} =
+        raise newJException("RuntimeException", "")
 
-    def addCommand(self, command: Command) -> None:
-        pass
-    
+method isCommand*(this: NullCanvas, command: Command): bool {.base, discardable.} =
+        raise newJException("RuntimeException", "")
 
-    def removeCommand(self, command: Command) -> None:
-        pass
-    
+method addCommand*(this: NullCanvas, command: Command) =
+        discard
 
-    def removeAllCommands(self) -> None:
-        pass
-    
+method removeCommand*(this: NullCanvas, command: Command) =
+        discard
 
-    def setCommandListener(self, l: CommandListener) -> None:
-        pass
-    
+method removeAllCommands*(this: NullCanvas) {.base.} =
+        discard
 
-    def getCustomCommandListener(self) -> CommandListener:
-        raise RuntimeError()
-    
+method setCommandListener*(this: NullCanvas, l: CommandListener) =
+        discard
 
-    def isPaused(self) -> bool:
-        raise RuntimeError()
-    
+method getCustomCommandListener*(this: NullCanvas): CommandListener {.base, discardable.} =
+        raise newJException("RuntimeException", "")
 
-    def removePauseCommand(self) -> None:
-        pass
-    
+method isPaused*(this: NullCanvas): bool {.base, discardable.} =
+        raise newJException("RuntimeException", "")
 
-    def pause(self) -> None:
-        pass
-    
+method removePauseCommand*(this: NullCanvas) {.base.} =
+        discard
 
-    def unPause(self) -> None:
-        pass
-    
+method pause*(this: NullCanvas) {.base.} =
+        discard
 
-    # throws Exception
-    def process(self) -> None:
-        pass
-    
+method unPause*(this: NullCanvas) {.base.} =
+        discard
 
-    def paint(self, graphics: Graphics) -> None:
-        pass
-    
+method process*(this: NullCanvas) {.base.} =
+        discard
 
-    def destroy(self) -> None:
-        pass
-    
+method paint*(this: NullCanvas, graphics: Graphics) =
+        discard
 
-    def setPaused(self, isPaused: bool) -> None:
-        raise RuntimeError()
-    
+method destroy*(this: NullCanvas) {.base.} =
+        discard
 
-    def pointerDragged(self, x: int, y: int) -> None:
-        pass
-    
+method setPaused*(this: NullCanvas, isPaused: bool) {.base.} =
+        raise newJException("RuntimeException", "")
 
-    def pointerPressed(self, x: int, y: int) -> None:
-        pass
-    
+method pointerDragged*(this: NullCanvas, x: int32, y: int32) =
+        discard
 
-    def pointerReleased(self, x: int, y: int) -> None:
-        pass
-# from java.util.Stack import Stack
+method pointerPressed*(this: NullCanvas, x: int32, y: int32) =
+        discard
 
+method pointerReleased*(this: NullCanvas, x: int32, y: int32) =
+        discard
 
-def _NullCanvas_NULL_CANVAS() -> object:
-    return NullCanvas()
-
-lazy_static(NullCanvas, "NULL_CANVAS", _NullCanvas_NULL_CANVAS)
+when declared(newNullCanvasHook0):
+    newNullCanvasHook0 = proc (): Canvas = newNullCanvas()
 

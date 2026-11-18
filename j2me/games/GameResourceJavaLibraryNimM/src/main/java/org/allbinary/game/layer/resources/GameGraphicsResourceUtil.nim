@@ -1,61 +1,98 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.layer.resources
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/game/configuration/feature/GraphicsFeature as GraphicsFeatureModule
+export GraphicsFeatureModule
+import org/allbinary/logic/communication/log/LogUtil as LogUtilModule
+export LogUtilModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    GameGraphicsResourceUtil* = ref object of JObject
+        logUtil*: LogUtil
+        SPRITE*: string
+        QUARTER*: string
+        name*: string
 
+proc newGameGraphicsResourceUtil*(): GameGraphicsResourceUtil
+proc initGameGraphicsResourceUtil*(this: GameGraphicsResourceUtil)
+proc getInstance*(t: typedesc[GameGraphicsResourceUtil]): GameGraphicsResourceUtil {.discardable.}
+method getString*(this: GameGraphicsResourceUtil): string {.base, discardable.}
+method getStringForFeature*(this: GameGraphicsResourceUtil, graphicsFeature: GraphicsFeature): string {.base, discardable.}
+method getName*(this: GameGraphicsResourceUtil): string {.base, discardable.}
+import org/allbinary/game/configuration/feature/Features as FeaturesModule
+export FeaturesModule
+import org/allbinary/game/configuration/feature/GraphicsFeatureFactory as GraphicsFeatureFactoryModule
+export GraphicsFeatureFactoryModule
+import org/allbinary/graphics/displayable/CanvasStrings as CanvasStringsModule
+export CanvasStringsModule
+import org/allbinary/graphics/opengles/OpenGLFeatureUtil as OpenGLFeatureUtilModule
+export OpenGLFeatureUtilModule
+import org/allbinary/logic/NullUtil as NullUtilModule
+export NullUtilModule
+import org/allbinary/logic/string/StringMaker as StringMakerModule
+export StringMakerModule
+import org/allbinary/logic/string/StringUtil as StringUtilModule
+export StringUtilModule
+import org/allbinary/string/CommonStrings as CommonStringsModule
+export CommonStringsModule
 
-class GameGraphicsResourceUtil:
-    instance: object = None
+var GameGraphicsResourceUtil_instanceValue: JObject
+var GameGraphicsResourceUtil_instanceSet = false
+proc instance*(t: typedesc[GameGraphicsResourceUtil]): JObject =
+    if not GameGraphicsResourceUtil_instanceSet:
+        GameGraphicsResourceUtil_instanceSet = true
+        GameGraphicsResourceUtil_instanceValue = NullUtil.getInstance().NULL_OBJECT
+    GameGraphicsResourceUtil_instanceValue
+proc `instance=`*(t: typedesc[GameGraphicsResourceUtil], value: JObject) =
+    GameGraphicsResourceUtil_instanceSet = true
+    GameGraphicsResourceUtil_instanceValue = value
 
-    def _init_fields(self) -> None:
-        from org.allbinary.logic.communication.log.LogUtil import LogUtil
-        from org.allbinary.logic.string.StringUtil import StringUtil
-        self.logUtil: LogUtil = LogUtil.getInstance()
-        self.SPRITE: str = "_sprite"
-        self.QUARTER: str = "_quarter"
-        self.name: str = StringUtil.getInstance().EMPTY_STRING
-    
+# Java field initializers run after the base initializer
+proc initFieldsGameGraphicsResourceUtil(this: GameGraphicsResourceUtil) =
+    this.logUtil = LogUtil.getInstance()
+    this.SPRITE = "_sprite"
+    this.QUARTER = "_quarter"
+    this.name = StringUtil.getInstance().EMPTY_STRING
+    discard
 
-    @staticmethod
-    def getInstance() -> GameGraphicsResourceUtil:
-        from org.allbinary.logic.NullUtil import NullUtil
+proc getInstance*(t: typedesc[GameGraphicsResourceUtil]): GameGraphicsResourceUtil {.discardable.} =
         if GameGraphicsResourceUtil.instance == NullUtil.getInstance().NULL_OBJECT:
-            GameGraphicsResourceUtil.instance = GameGraphicsResourceUtil()
-        return GameGraphicsResourceUtil.instance
-    
+            GameGraphicsResourceUtil.instance = newGameGraphicsResourceUtil()
+        return GameGraphicsResourceUtil(JObject(GameGraphicsResourceUtil.instance))
 
-    def __init__(self) -> None:
-        from org.allbinary.string.CommonStrings import CommonStrings
-        self._init_fields()
+proc initGameGraphicsResourceUtil*(this: GameGraphicsResourceUtil) =
+        this.initFieldsGameGraphicsResourceUtil()
         try:
-            self.name = self.getString()
-        except Exception as e:
-            commonStrings: CommonStrings = CommonStrings.getInstance()
-            self.logUtil.put(commonStrings.EXCEPTION, self, commonStrings.CONSTRUCTOR, e)
-    
+            this.name = this.getString()
+        except CatchableError as jcaught:
+            let e = jToException(jcaught)
+            let commonStrings: CommonStrings = CommonStrings.getInstance()
+            this.logUtil.put(commonStrings.EXCEPTION, this, commonStrings.CONSTRUCTOR, e)
 
-    # throws Exception
-    def getString(self) -> str:
-        from org.allbinary.game.configuration.feature.Features import Features
-        from org.allbinary.game.configuration.feature.GraphicsFeature import GraphicsFeature
-        from org.allbinary.game.configuration.feature.GraphicsFeatureFactory import GraphicsFeatureFactory
-        graphicsFeatureFactory: GraphicsFeatureFactory = GraphicsFeatureFactory.getInstance()
-        graphicsFeature: GraphicsFeature = graphicsFeatureFactory.NONE
-        features: Features = Features.getInstance()
+proc newGameGraphicsResourceUtil*(): GameGraphicsResourceUtil =
+    result = GameGraphicsResourceUtil()
+    initGameGraphicsResourceUtil(result)
+
+method getString*(this: GameGraphicsResourceUtil): string {.base, discardable.} =
+        let graphicsFeatureFactory: GraphicsFeatureFactory = GraphicsFeatureFactory.getInstance()
+        var graphicsFeature: GraphicsFeature = graphicsFeatureFactory.NONE
+        let features: Features = Features.getInstance()
         if features.isFeature(graphicsFeatureFactory.IMAGE_TO_ARRAY_GRAPHICS):
             graphicsFeature = graphicsFeatureFactory.IMAGE_TO_ARRAY_GRAPHICS
         elif features.isFeature(graphicsFeatureFactory.SPRITE_FULL_GRAPHICS):
@@ -64,57 +101,31 @@ class GameGraphicsResourceUtil:
             graphicsFeature = graphicsFeatureFactory.SPRITE_QUARTER_ROTATION_GRAPHICS
         elif features.isFeature(graphicsFeatureFactory.IMAGE_ROTATION_ON_THE_FLY):
             graphicsFeature = graphicsFeatureFactory.IMAGE_ROTATION_ON_THE_FLY
-        return self.getStringForFeature(graphicsFeature)
-    
+        return this.getStringForFeature(graphicsFeature)
 
-    # throws Exception
-    def getStringForFeature(self, graphicsFeature: GraphicsFeature) -> str:
-        from org.allbinary.game.configuration.feature.Features import Features
-        from org.allbinary.game.configuration.feature.GraphicsFeature import GraphicsFeature
-        from org.allbinary.game.configuration.feature.GraphicsFeatureFactory import GraphicsFeatureFactory
-        from org.allbinary.graphics.displayable.CanvasStrings import CanvasStrings
-        from org.allbinary.graphics.opengles.OpenGLFeatureUtil import OpenGLFeatureUtil
-        from org.allbinary.logic.string.StringMaker import StringMaker
-        stringBuffer: StringMaker = StringMaker()
-        graphicsFeatureFactory: GraphicsFeatureFactory = GraphicsFeatureFactory.getInstance()
+method getStringForFeature*(this: GameGraphicsResourceUtil, graphicsFeature: GraphicsFeature): string {.base, discardable.} =
+        let stringBuffer: StringMaker = newStringMaker()
+        let graphicsFeatureFactory: GraphicsFeatureFactory = GraphicsFeatureFactory.getInstance()
         stringBuffer.delete(0, stringBuffer.length())
-        features: Features = Features.getInstance()
+        let features: Features = Features.getInstance()
         if features.isFeature(graphicsFeatureFactory.VECTOR_GRAPHICS):
-            pass
+            discard
         elif features.isFeature(graphicsFeatureFactory.IMAGE_GRAPHICS):
             if graphicsFeature == graphicsFeatureFactory.IMAGE_TO_ARRAY_GRAPHICS or graphicsFeature == graphicsFeatureFactory.IMAGE_ROTATION_ON_THE_FLY:
-                pass
+                discard
             elif graphicsFeature == graphicsFeatureFactory.SPRITE_FULL_GRAPHICS:
-                stringBuffer.append(self.SPRITE)
+                stringBuffer.append(this.SPRITE)
             elif graphicsFeature == graphicsFeatureFactory.SPRITE_QUARTER_ROTATION_GRAPHICS:
-                stringBuffer.append(self.QUARTER)
-                stringBuffer.append(self.SPRITE)
+                stringBuffer.append(this.QUARTER)
+                stringBuffer.append(this.SPRITE)
             else:
-                raise Exception("None/Unknown Sub Image Resource Type Specified")
+                raise newJException("Exception", "None/Unknown Sub Image Resource Type Specified")
         elif OpenGLFeatureUtil.getInstance().isAnyThreed():
             stringBuffer.append(CanvasStrings.getInstance().OBJ_MODEL)
         else:
-            raise Exception("None/Unknown Main Image Resource Type Specified")
-        return str(stringBuffer)
-    
+            raise newJException("Exception", "None/Unknown Main Image Resource Type Specified")
+        return stringBuffer.toString()
 
-    def getName(self) -> str:
-        return self.name
-# from org.allbinary.game.configuration.feature.Features import Features
-# from org.allbinary.game.configuration.feature.GraphicsFeature import GraphicsFeature
-# from org.allbinary.game.configuration.feature.GraphicsFeatureFactory import GraphicsFeatureFactory
-# from org.allbinary.graphics.displayable.CanvasStrings import CanvasStrings
-# from org.allbinary.graphics.opengles.OpenGLFeatureUtil import OpenGLFeatureUtil
-# from org.allbinary.logic.NullUtil import NullUtil
-# from org.allbinary.logic.communication.log.LogUtil import LogUtil
-# from org.allbinary.logic.string.StringMaker import StringMaker
-# from org.allbinary.logic.string.StringUtil import StringUtil
-# from org.allbinary.string.CommonStrings import CommonStrings
-
-
-def _GameGraphicsResourceUtil_instance() -> object:
-    from org.allbinary.logic.NullUtil import NullUtil
-    return NullUtil.getInstance().NULL_OBJECT
-
-lazy_static(GameGraphicsResourceUtil, "instance", _GameGraphicsResourceUtil_instance)
+method getName*(this: GameGraphicsResourceUtil): string {.base, discardable.} =
+        return this.name
 

@@ -1,51 +1,57 @@
-# 
-# AllBinary Open License Version 1 
-# Copyright (c) 2025 AllBinary 
-#  
-# By agreeing to this license you and any business entity you represent are 
-# legally bound to the AllBinary Open License Version 1 legal agreement. 
-#  
-# You may obtain the AllBinary Open License Version 1 legal agreement from 
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
-#  
-# Created By: Travis Berthelot 
-#   
+#[
+  
+  AllBinary Open License Version 1 
+  Copyright (c) 2025 AllBinary 
+   
+  By agreeing to this license you and any business entity you represent are 
+  legally bound to the AllBinary Open License Version 1 legal agreement. 
+   
+  You may obtain the AllBinary Open License Version 1 legal agreement from 
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
+   
+  Created By: Travis Berthelot 
+    
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.image.opengles
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import java/io/IOException as IOExceptionModule
+export IOExceptionModule
+import java/io/InputStream as InputStreamModule
+export InputStreamModule
+import org/allbinary/graphics/OpenGLBitmap as OpenGLBitmapModule
+export OpenGLBitmapModule
+import org/allbinary/graphics/color/BasicColor as BasicColorModule
+export BasicColorModule
+
+type
+    OpenGLImageUtilBase* = ref object of JObject
+
+proc newOpenGLImageUtilBase*(): OpenGLImageUtilBase
+method paint*(this: OpenGLImageUtilBase, alphaBitmap: OpenGLBitmap, originalBitmap: OpenGLBitmap, index: int32): OpenGLBitmap {.base, discardable.}
+method paint*(this: OpenGLImageUtilBase, colorBitmap: OpenGLBitmap, originalBitmap: OpenGLBitmap, alpha: int32, basicColor: BasicColor): OpenGLBitmap {.base, discardable.}
+method createImage*(this: OpenGLImageUtilBase, name: string): OpenGLBitmap {.base, discardable.}
+method createImageFromInputStream*(this: OpenGLImageUtilBase, inputStream: InputStream): OpenGLBitmap {.base, discardable.}
 
 
+proc initOpenGLImageUtilBase*(this: OpenGLImageUtilBase) =
+    discard
 
-class OpenGLImageUtilBase:
-    
+proc newOpenGLImageUtilBase*(): OpenGLImageUtilBase =
+    result = OpenGLImageUtilBase()
+    initOpenGLImageUtilBase(result)
 
-    def paint(self, alphaBitmap: OpenGLBitmap, originalBitmap: OpenGLBitmap, index: int) -> OpenGLBitmap:
-        from org.allbinary.graphics.OpenGLBitmap import OpenGLBitmap
-        raise RuntimeError()
-    
+method paint*(this: OpenGLImageUtilBase, alphaBitmap: OpenGLBitmap, originalBitmap: OpenGLBitmap, index: int32): OpenGLBitmap {.base, discardable.} =
+        raise newJException("RuntimeException", "")
 
-    # Java overloaded method: Python keeps the last definition
-    def paint(self, colorBitmap: OpenGLBitmap, originalBitmap: OpenGLBitmap, alpha: int, basicColor: BasicColor) -> OpenGLBitmap:
-        from org.allbinary.graphics.OpenGLBitmap import OpenGLBitmap
-        from org.allbinary.graphics.color.BasicColor import BasicColor
-        raise RuntimeError()
-    
+method paint*(this: OpenGLImageUtilBase, colorBitmap: OpenGLBitmap, originalBitmap: OpenGLBitmap, alpha: int32, basicColor: BasicColor): OpenGLBitmap {.base, discardable.} =
+        raise newJException("RuntimeException", "")
 
-    # throws IOException
-    def createImage(self, name: str) -> OpenGLBitmap:
-        from org.allbinary.graphics.OpenGLBitmap import OpenGLBitmap
-        raise RuntimeError()
-    
+method createImage*(this: OpenGLImageUtilBase, name: string): OpenGLBitmap {.base, discardable.} =
+        raise newJException("RuntimeException", "")
 
-    # throws IOException
-    def createImageFromInputStream(self, inputStream: InputStream) -> OpenGLBitmap:
-        from java.io.InputStream import InputStream
-        from org.allbinary.graphics.OpenGLBitmap import OpenGLBitmap
-        raise RuntimeError()
-# from java.io.IOException import IOException
-# from java.io.InputStream import InputStream
-# from org.allbinary.graphics.OpenGLBitmap import OpenGLBitmap
-# from org.allbinary.graphics.color.BasicColor import BasicColor
-
+method createImageFromInputStream*(this: OpenGLImageUtilBase, inputStream: InputStream): OpenGLBitmap {.base, discardable.} =
+        raise newJException("RuntimeException", "")
 

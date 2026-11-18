@@ -1,174 +1,181 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.midlet
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import javax/microedition/lcdui/Command as CommandModule
+export CommandModule
+import javax/microedition/lcdui/CommandListener as CommandListenerModule
+export CommandListenerModule
+import javax/microedition/lcdui/Display as DisplayModule
+export DisplayModule
+import javax/microedition/lcdui/Displayable as DisplayableModule
+export DisplayableModule
+import javax/microedition/midlet/MIDlet as MIDletModule
+export MIDletModule
+import org/allbinary/logic/communication/log/LogUtil as LogUtilModule
+export LogUtilModule
+import org/allbinary/string/CommonStrings as CommonStringsModule
+export CommonStringsModule
+import org/allbinary/util/ABHashtable as ABHashtableModule
+export ABHashtableModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
-from javax.microedition.lcdui.CommandListener import CommandListener
-from javax.microedition.midlet.MIDlet import MIDlet
+type
+    AllBinaryMidlet* = ref object of MIDlet
+        logUtil*: LogUtil
+        commonStrings*: CommonStrings
+        SET_DISPLAY*: string
+        SETTING_U*: string
+        U_DISPLAY_U*: string
+        SETTING_NO_TITLE*: string
+        hashtable*: ABHashtable
+        midletDestroyed*: bool
 
+converter jAsCommandListener*(value: AllBinaryMidlet): CommandListener = cast[CommandListener](value)
+proc newAllBinaryMidlet*(): AllBinaryMidlet
+proc initAllBinaryMidlet*(this: AllBinaryMidlet)
+proc getNullInstance*(t: typedesc[AllBinaryMidlet]): AllBinaryMidlet {.discardable.}
+method setDisplay*(this: AllBinaryMidlet, newDisplay: Displayable) {.base.}
+method getDisplay*(this: AllBinaryMidlet): Display {.base, discardable.}
+method getCurrentDisplayable*(this: AllBinaryMidlet): Displayable {.base, discardable.}
+method setDestroyed*(this: AllBinaryMidlet, destroyed: bool) {.base.}
+method isDestroyed*(this: AllBinaryMidlet): bool {.base, discardable.}
+method startApp*(this: AllBinaryMidlet)
+method pauseApp*(this: AllBinaryMidlet)
+method destroyAppInRunnable*(this: AllBinaryMidlet, unconditional: bool, isProgress: bool) {.base.}
+method destroyApp*(this: AllBinaryMidlet, unconditional: bool)
+method setStartStateHashtable*(this: AllBinaryMidlet, hashtable: ABHashtable) {.base.}
+method getStartStateHashtable*(this: AllBinaryMidlet): ABHashtable {.base, discardable.}
+method getCurrentStateHashtable*(this: AllBinaryMidlet): ABHashtable {.base, discardable.}
+method commandAction*(this: AllBinaryMidlet, command: Command, displayable: Displayable)
+import javax/microedition/lcdui/NullCanvas as NullCanvasModule
+export NullCanvasModule
+import javax/microedition/midlet/MIDletStateChangeException as MIDletStateChangeExceptionModule
+export MIDletStateChangeExceptionModule
+import org/allbinary/logic/StdUtil as StdUtilModule
+export StdUtilModule
+import org/allbinary/logic/communication/log/ForcedLogUtil as ForcedLogUtilModule
+export ForcedLogUtilModule
+import org/allbinary/logic/communication/log/PreLogUtil as PreLogUtilModule
+export PreLogUtilModule
+import org/allbinary/logic/string/StringMaker as StringMakerModule
+export StringMakerModule
+import org/allbinary/logic/string/StringUtil as StringUtilModule
+export StringUtilModule
+import org/allbinary/logic/util/event/EventStrings as EventStringsModule
+export EventStringsModule
+import org/allbinary/string/CommonLabels as CommonLabelsModule
+export CommonLabelsModule
+import org/allbinary/system/Memory as MemoryModule
+export MemoryModule
+import org/allbinary/logic/NullUtil as NullUtilModule
+export NullUtilModule
 
-class AllBinaryMidlet(MIDlet, CommandListener):
-    NULL_ALLBINARY_MIDLET: object = None
+var AllBinaryMidlet_NULL_ALLBINARY_MIDLETValue: JObject
+var AllBinaryMidlet_NULL_ALLBINARY_MIDLETSet = false
+proc NULL_ALLBINARY_MIDLET*(t: typedesc[AllBinaryMidlet]): JObject =
+    if not AllBinaryMidlet_NULL_ALLBINARY_MIDLETSet:
+        AllBinaryMidlet_NULL_ALLBINARY_MIDLETSet = true
+        AllBinaryMidlet_NULL_ALLBINARY_MIDLETValue = NullUtil.getInstance().NULL_OBJECT
+    AllBinaryMidlet_NULL_ALLBINARY_MIDLETValue
+proc `NULL_ALLBINARY_MIDLET=`*(t: typedesc[AllBinaryMidlet], value: JObject) =
+    AllBinaryMidlet_NULL_ALLBINARY_MIDLETSet = true
+    AllBinaryMidlet_NULL_ALLBINARY_MIDLETValue = value
 
-    def _init_fields(self) -> None:
-        from org.allbinary.logic.StdUtil import StdUtil
-        from org.allbinary.logic.communication.log.LogUtil import LogUtil
-        from org.allbinary.string.CommonStrings import CommonStrings
-        from org.allbinary.util.ABHashtable import ABHashtable
-        self.logUtil: LogUtil = LogUtil.getInstance()
-        self.commonStrings: CommonStrings = CommonStrings.getInstance()
-        self.SET_DISPLAY: str = "setDisplay"
-        self.SETTING_: str = "Setting: "
-        self._DISPLAY_: str = " Display: "
-        self.SETTING_NO_TITLE: str = "Setting: No Title, Display: "
-        self.hashtable: ABHashtable[object, object] = StdUtil.getInstance().createHashtable()
-        self.midletDestroyed: bool = False
-    
+# Java field initializers run after the base initializer
+proc initFieldsAllBinaryMidlet(this: AllBinaryMidlet) =
+    this.logUtil = LogUtil.getInstance()
+    this.commonStrings = CommonStrings.getInstance()
+    this.SET_DISPLAY = "setDisplay"
+    this.SETTING_U = "Setting: "
+    this.U_DISPLAY_U = " Display: "
+    this.SETTING_NO_TITLE = "Setting: No Title, Display: "
+    this.hashtable = StdUtil.getInstance().createHashtable()
+    this.midletDestroyed = false
+    discard
 
-    @staticmethod
-    def getNullInstance() -> AllBinaryMidlet:
-        from org.allbinary.logic.NullUtil import NullUtil
+proc getNullInstance*(t: typedesc[AllBinaryMidlet]): AllBinaryMidlet {.discardable.} =
         if AllBinaryMidlet.NULL_ALLBINARY_MIDLET == NullUtil.getInstance().NULL_OBJECT:
-            AllBinaryMidlet.NULL_ALLBINARY_MIDLET = AllBinaryMidlet()
-        return AllBinaryMidlet.NULL_ALLBINARY_MIDLET
-    
+            AllBinaryMidlet.NULL_ALLBINARY_MIDLET = newAllBinaryMidlet()
+        return AllBinaryMidlet(JObject(AllBinaryMidlet.NULL_ALLBINARY_MIDLET))
 
-    def __init__(self) -> None:
-        super().__init__()
-        self._init_fields()
-        self.logUtil.putF(self.commonStrings.CONSTRUCTOR, self, "AllBinaryMidlet::AllBinaryMidlet")
-    
+proc initAllBinaryMidlet*(this: AllBinaryMidlet) =
+        initMIDlet(this)
+        this.initFieldsAllBinaryMidlet()
+        this.logUtil.putF(this.commonStrings.CONSTRUCTOR, this, "AllBinaryMidlet::AllBinaryMidlet")
 
-    def setDisplay(self, newDisplay: Displayable) -> None:
-        from javax.microedition.lcdui.Display import Display
-        from javax.microedition.lcdui.Displayable import Displayable
-        from javax.microedition.lcdui.NullCanvas import NullCanvas
-        from org.allbinary.logic.string.StringMaker import StringMaker
-        from org.allbinary.logic.string.StringUtil import StringUtil
-        title: str = StringUtil.getInstance().EMPTY_STRING
-        if newDisplay != NullCanvas.NULL_CANVAS:
+proc newAllBinaryMidlet*(): AllBinaryMidlet =
+    result = AllBinaryMidlet()
+    initAllBinaryMidlet(result)
+
+method setDisplay*(this: AllBinaryMidlet, newDisplay: Displayable) {.base.} =
+        var title: string = StringUtil.getInstance().EMPTY_STRING
+        if newDisplay != NullCanvas.NULL_CANVASStatic:
             title = newDisplay.getTitle()
-            self.logUtil.putF(str(StringMaker().append(self.SETTING_).append(title).append(self._DISPLAY_).append(StringUtil.getInstance().toString(newDisplay))), self, self.SET_DISPLAY)
-        display: Display = self.getDisplay()
+            this.logUtil.putF(newStringMaker().append(this.SETTING_U).append(title).append(this.U_DISPLAY_U).append(StringUtil.getInstance().toString(newDisplay)).toString(), this, this.SET_DISPLAY)
+        let display: Display = this.getDisplay()
         display.setCurrent(newDisplay)
-    
 
-    def getDisplay(self) -> Display:
-        from javax.microedition.lcdui.Display import Display
-        return Display.getDisplay(self)
-    
+method getDisplay*(this: AllBinaryMidlet): Display {.base, discardable.} =
+        return Display.getDisplay(this)
 
-    def getCurrentDisplayable(self) -> Displayable:
-        from javax.microedition.lcdui.Display import Display
-        from javax.microedition.lcdui.Displayable import Displayable
-        return Display.getDisplay(self).getCurrent()
-    
+method getCurrentDisplayable*(this: AllBinaryMidlet): Displayable {.base, discardable.} =
+        return Display.getDisplay(this).getCurrent()
 
-    def setDestroyed(self, destroyed: bool) -> None:
-        self.midletDestroyed = destroyed
-    
+method setDestroyed*(this: AllBinaryMidlet, destroyed: bool) {.base.} =
+        this.midletDestroyed = destroyed
 
-    def isDestroyed(self) -> bool:
-        return self.midletDestroyed
-    
+method isDestroyed*(this: AllBinaryMidlet): bool {.base, discardable.} =
+        return this.midletDestroyed
 
-    # throws MIDletStateChangeException
-    def startApp(self) -> None:
-        from javax.microedition.midlet.MIDletStateChangeException import MIDletStateChangeException
-        from org.allbinary.logic.communication.log.ForcedLogUtil import ForcedLogUtil
-        from org.allbinary.logic.util.event.EventStrings import EventStrings
-        ForcedLogUtil.log(EventStrings.getInstance().PERFORMANCE_MESSAGE, self)
-    
+method startApp*(this: AllBinaryMidlet) =
+        ForcedLogUtil.log(EventStrings.getInstance().PERFORMANCE_MESSAGE, this)
 
-    def pauseApp(self) -> None:
-        from org.allbinary.logic.communication.log.ForcedLogUtil import ForcedLogUtil
-        from org.allbinary.logic.util.event.EventStrings import EventStrings
-        ForcedLogUtil.log(EventStrings.getInstance().PERFORMANCE_MESSAGE, self)
-    
+method pauseApp*(this: AllBinaryMidlet) =
+        ForcedLogUtil.log(EventStrings.getInstance().PERFORMANCE_MESSAGE, this)
 
-    def destroyAppInRunnable(self, unconditional: bool, isProgress: bool) -> None:
-        pass
-    
+method destroyAppInRunnable*(this: AllBinaryMidlet, unconditional: bool, isProgress: bool) {.base.} =
+        discard
 
-    def destroyApp(self, unconditional: bool) -> None:
-        from org.allbinary.logic.communication.log.PreLogUtil import PreLogUtil
-        from org.allbinary.system.Memory import Memory
-        METHOD_NAME: str = "AllBinaryMidlet::destroyApp"
+method destroyApp*(this: AllBinaryMidlet, unconditional: bool) =
+        let METHOD_NAME: string = "AllBinaryMidlet::destroyApp"
         try:
-            self.logUtil.putF(self.commonStrings.START, self, METHOD_NAME)
-            PreLogUtil.put(Memory.getInfo(), self, METHOD_NAME)
-            self.setDestroyed(True)
-        except Exception as e:
-            self.logUtil.put(self.commonStrings.EXCEPTION, self, METHOD_NAME, e)
-    
+            this.logUtil.putF(this.commonStrings.START, this, METHOD_NAME)
+            PreLogUtil.put(Memory.getInfo(), this, METHOD_NAME)
+            this.setDestroyed(true)
+        except CatchableError as jcaught:
+            let e = jToException(jcaught)
+            this.logUtil.put(this.commonStrings.EXCEPTION, this, METHOD_NAME, e)
 
-    # throws Exception
-    def setStartStateHashtable(self, hashtable: ABHashtable[object, object]) -> None:
-        from org.allbinary.logic.string.StringMaker import StringMaker
-        from org.allbinary.logic.string.StringUtil import StringUtil
-        from org.allbinary.string.CommonLabels import CommonLabels
-        from org.allbinary.util.ABHashtable import ABHashtable
-        self.logUtil.putF(str(StringMaker().append(CommonLabels.getInstance().START_LABEL).append(StringUtil.getInstance().toString(hashtable))), self, "setStartStateHashtable")
-        self.hashtable = hashtable
-    
+method setStartStateHashtable*(this: AllBinaryMidlet, hashtable: ABHashtable) {.base.} =
+        this.logUtil.putF(newStringMaker().append(CommonLabels.getInstance().START_LABEL).append(StringUtil.getInstance().toString(hashtable)).toString(), this, "setStartStateHashtable")
+        this.hashtable = hashtable
 
-    # throws Exception
-    def getStartStateHashtable(self) -> ABHashtable[object, object]:
-        from org.allbinary.logic.string.StringMaker import StringMaker
-        from org.allbinary.logic.string.StringUtil import StringUtil
-        from org.allbinary.string.CommonLabels import CommonLabels
-        from org.allbinary.util.ABHashtable import ABHashtable
-        self.logUtil.putF(str(StringMaker().append(CommonLabels.getInstance().START_LABEL).append(StringUtil.getInstance().toString(self.hashtable))), self, "getStartStateHashtable")
-        return self.hashtable
-    
+method getStartStateHashtable*(this: AllBinaryMidlet): ABHashtable {.base, discardable.} =
+        this.logUtil.putF(newStringMaker().append(CommonLabels.getInstance().START_LABEL).append(StringUtil.getInstance().toString(this.hashtable)).toString(), this, "getStartStateHashtable")
+        return this.hashtable
 
-    # throws Exception
-    def getCurrentStateHashtable(self) -> ABHashtable[object, object]:
-        from org.allbinary.logic.StdUtil import StdUtil
-        from org.allbinary.util.ABHashtable import ABHashtable
-        self.logUtil.putF(self.commonStrings.START, self, "getStateHashtable")
+method getCurrentStateHashtable*(this: AllBinaryMidlet): ABHashtable {.base, discardable.} =
+        this.logUtil.putF(this.commonStrings.START, this, "getStateHashtable")
         return StdUtil.getInstance().NULL_TABLE
-    
 
-    def commandAction(self, command: Command, displayable: Displayable) -> None:
-        from javax.microedition.lcdui.Command import Command
-        from javax.microedition.lcdui.Displayable import Displayable
-        pass
-# from javax.microedition.lcdui.Command import Command
-# from javax.microedition.lcdui.Display import Display
-# from javax.microedition.lcdui.Displayable import Displayable
-# from javax.microedition.lcdui.NullCanvas import NullCanvas
-# from javax.microedition.midlet.MIDletStateChangeException import MIDletStateChangeException
-# from org.allbinary.logic.StdUtil import StdUtil
-# from org.allbinary.logic.communication.log.ForcedLogUtil import ForcedLogUtil
-# from org.allbinary.logic.communication.log.LogUtil import LogUtil
-# from org.allbinary.logic.communication.log.PreLogUtil import PreLogUtil
-# from org.allbinary.logic.string.StringMaker import StringMaker
-# from org.allbinary.logic.string.StringUtil import StringUtil
-# from org.allbinary.logic.util.event.EventStrings import EventStrings
-# from org.allbinary.string.CommonLabels import CommonLabels
-# from org.allbinary.string.CommonStrings import CommonStrings
-# from org.allbinary.system.Memory import Memory
-# from org.allbinary.logic.NullUtil import NullUtil
-# from org.allbinary.util.ABHashtable import ABHashtable
+method commandAction*(this: AllBinaryMidlet, command: Command, displayable: Displayable) =
+        discard
 
-
-def _AllBinaryMidlet_NULL_ALLBINARY_MIDLET() -> object:
-    from org.allbinary.logic.NullUtil import NullUtil
-    return NullUtil.getInstance().NULL_OBJECT
-
-lazy_static(AllBinaryMidlet, "NULL_ALLBINARY_MIDLET", _AllBinaryMidlet_NULL_ALLBINARY_MIDLET)
+when declared(newAllBinaryMidletHook0):
+    newAllBinaryMidletHook0 = proc (): MIDlet = newAllBinaryMidlet()
 

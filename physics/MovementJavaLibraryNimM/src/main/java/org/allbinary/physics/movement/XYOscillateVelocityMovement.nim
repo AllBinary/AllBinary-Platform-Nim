@@ -1,59 +1,76 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.physics.movement
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/game/layer/AllBinaryGameLayer as AllBinaryGameLayerModule
+export AllBinaryGameLayerModule
+import org/allbinary/logic/math/BasicDecimal as BasicDecimalModule
+export BasicDecimalModule
+import org/allbinary/physics/movement/BasicConstantVelocityMovement as BasicConstantVelocityMovementModule
+export BasicConstantVelocityMovementModule
 
-from org.allbinary.physics.movement.BasicConstantVelocityMovement import BasicConstantVelocityMovement
+type
+    XYOscillateVelocityMovement* = ref object of BasicConstantVelocityMovement
+        oscillateMin*: int32
+        oscillateMax*: int32
+        oscillate*: int32
+        oscillatePositive*: bool
+
+proc newXYOscillateVelocityMovement*(speedBasicDecimal: BasicDecimal, oscillateMin: int32, oscillateMax: int32): XYOscillateVelocityMovement
+proc initXYOscillateVelocityMovement*(this: XYOscillateVelocityMovement, speedBasicDecimal: BasicDecimal, oscillateMin: int32, oscillateMax: int32)
+method process*(this: XYOscillateVelocityMovement, layer: AllBinaryGameLayer)
+import org/allbinary/game/physics/velocity/VelocityProperties as VelocityPropertiesModule
+export VelocityPropertiesModule
 
 
-class XYOscillateVelocityMovement(BasicConstantVelocityMovement):
-
-    def _init_fields(self) -> None:
-        self.oscillateMin: int = None
-        self.oscillateMax: int = None
-        self.oscillate: int = 0
-        self.oscillatePositive: bool = False
+# Java field initializers run after the base initializer
+proc initFieldsXYOscillateVelocityMovement(this: XYOscillateVelocityMovement) =
     
-
-    def __init__(self, speedBasicDecimal: BasicDecimal, oscillateMin: int, oscillateMax: int) -> None:
-        from org.allbinary.game.physics.velocity.VelocityProperties import VelocityProperties
-        from org.allbinary.logic.math.BasicDecimal import BasicDecimal
-        super().__init__(speedBasicDecimal, VelocityProperties(int(speedBasicDecimal.getUnscaled()), int(speedBasicDecimal.getUnscaled())))
-        self._init_fields()
-        self.oscillateMin = oscillateMin
-        self.oscillateMax = oscillateMax
     
+    this.oscillate = 0
+    this.oscillatePositive = false
+    discard
 
-    # throws Exception
-    def process(self, layer: AllBinaryGameLayer) -> None:
-        from org.allbinary.game.layer.AllBinaryGameLayer import AllBinaryGameLayer
-        super().process(layer)
-        if self.oscillate < self.oscillateMin:
-            self.oscillatePositive = True
-            self.getVelocityProperties().getVelocityYBasicDecimalP().addint(3000)
-        elif self.oscillate > self.oscillateMax:
-            self.oscillatePositive = False
-            self.getVelocityProperties().getVelocityYBasicDecimalP().subtractint(3000)
-        if self.oscillatePositive:
-            self.oscillate += 1
-            self.getVelocityProperties().getVelocityXBasicDecimalP().addint(5000)
+proc initXYOscillateVelocityMovement*(this: XYOscillateVelocityMovement, speedBasicDecimal: BasicDecimal, oscillateMin: int32, oscillateMax: int32) =
+        initBasicConstantVelocityMovement(this, speedBasicDecimal, newVelocityProperties(jToInt32(speedBasicDecimal.getUnscaled()), jToInt32(speedBasicDecimal.getUnscaled())))
+        this.initFieldsXYOscillateVelocityMovement()
+        this.oscillateMin = oscillateMin
+        this.oscillateMax = oscillateMax
+
+proc newXYOscillateVelocityMovement*(speedBasicDecimal: BasicDecimal, oscillateMin: int32, oscillateMax: int32): XYOscillateVelocityMovement =
+    result = XYOscillateVelocityMovement()
+    initXYOscillateVelocityMovement(result, speedBasicDecimal, oscillateMin, oscillateMax)
+
+method process*(this: XYOscillateVelocityMovement, layer: AllBinaryGameLayer) =
+        procCall BasicConstantVelocityMovement(this).process(layer)
+        if this.oscillate < this.oscillateMin:
+            this.oscillatePositive = true
+            this.getVelocityProperties().getVelocityYBasicDecimalP().addint(3000)
+        elif this.oscillate > this.oscillateMax:
+            this.oscillatePositive = false
+            this.getVelocityProperties().getVelocityYBasicDecimalP().subtractint(3000)
+        if this.oscillatePositive:
+            this.oscillate = this.oscillate +% 1
+            this.getVelocityProperties().getVelocityXBasicDecimalP().addint(5000)
         else:
-            self.oscillate -= 1
-            self.getVelocityProperties().getVelocityXBasicDecimalP().subtractint(5000)
-# from org.allbinary.game.layer.AllBinaryGameLayer import AllBinaryGameLayer
-# from org.allbinary.game.physics.velocity.VelocityProperties import VelocityProperties
-# from org.allbinary.logic.math.BasicDecimal import BasicDecimal
+            this.oscillate = this.oscillate -% 1
+            this.getVelocityProperties().getVelocityXBasicDecimalP().subtractint(5000)
 
+when declared(newXYOscillateVelocityMovementHook3):
+    newXYOscillateVelocityMovementHook3 = proc (speedBasicDecimal: BasicDecimal, oscillateMin: int32, oscillateMax: int32): BasicConstantVelocityMovement = newXYOscillateVelocityMovement(speedBasicDecimal, oscillateMin, oscillateMax)
 

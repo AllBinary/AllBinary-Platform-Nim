@@ -1,32 +1,46 @@
 # Generated Code Do Not Modify
 # package org.allbinary.animation.vector
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import javax/microedition/lcdui/Graphics as GraphicsModule
+export GraphicsModule
+import org/allbinary/animation/vector/RectangleFilledAnimation as RectangleFilledAnimationModule
+export RectangleFilledAnimationModule
 
-from org.allbinary.animation.vector.RectangleFilledAnimation import RectangleFilledAnimation
+type
+    ARectangleFilledAnimation* = ref object of RectangleFilledAnimation
+        x*: int32
+        y*: int32
+
+proc newARectangleFilledAnimation*(): ARectangleFilledAnimation
+proc initARectangleFilledAnimation*(this: ARectangleFilledAnimation)
+method nextFrame*(this: ARectangleFilledAnimation)
+method paintXY*(this: ARectangleFilledAnimation, graphics: Graphics, unusedX: int32, unusedY: int32)
+import org/allbinary/graphics/color/BasicColorFactory as BasicColorFactoryModule
+export BasicColorFactoryModule
 
 
-class ARectangleFilledAnimation(RectangleFilledAnimation):
+# Java field initializers run after the base initializer
+proc initFieldsARectangleFilledAnimation(this: ARectangleFilledAnimation) =
+    this.x = 0
+    this.y = 0
+    discard
 
-    def _init_fields(self) -> None:
-        self.x: int = 0
-        self.y: int = 0
-    
+proc initARectangleFilledAnimation*(this: ARectangleFilledAnimation) =
+        initRectangleFilledAnimation(this, 0, 0, BasicColorFactory.getInstance().BLACK)
+        this.initFieldsARectangleFilledAnimation()
 
-    def __init__(self) -> None:
-        from org.allbinary.graphics.color.BasicColorFactory import BasicColorFactory
-        super().__init__(0, 0, BasicColorFactory.getInstance().BLACK)
-        self._init_fields()
-    
+proc newARectangleFilledAnimation*(): ARectangleFilledAnimation =
+    result = ARectangleFilledAnimation()
+    initARectangleFilledAnimation(result)
 
-    def nextFrame(self) -> None:
-        pass
-    
+method nextFrame*(this: ARectangleFilledAnimation) =
+        discard
 
-    def paintXY(self, graphics: Graphics, unusedX: int, unusedY: int) -> None:
-        from javax.microedition.lcdui.Graphics import Graphics
-        super().paintXY(graphics, self.x, self.y)
-# from javax.microedition.lcdui.Graphics import Graphics
-# from org.allbinary.graphics.color.BasicColorFactory import BasicColorFactory
+method paintXY*(this: ARectangleFilledAnimation, graphics: Graphics, unusedX: int32, unusedY: int32) =
+        procCall RectangleFilledAnimation(this).paintXY(graphics, this.x, this.y)
 
+when declared(newARectangleFilledAnimationHook0):
+    newARectangleFilledAnimationHook0 = proc (): RectangleFilledAnimation = newARectangleFilledAnimation()
 

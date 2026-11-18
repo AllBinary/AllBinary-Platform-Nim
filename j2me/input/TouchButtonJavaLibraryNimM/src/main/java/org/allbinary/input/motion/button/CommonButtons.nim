@@ -1,64 +1,75 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.input.motion.button
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/graphics/Rectangle as RectangleModule
+export RectangleModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    CommonButtons* = ref object of JObject
+        STANDARD_BUTTON_SIZE*: int32
+        NORMAL_BUTTON*: Rectangle
+        LARGE_BUTTON*: Rectangle
 
+proc newCommonButtons*(): CommonButtons
+proc initCommonButtons*(this: CommonButtons)
+proc getInstance*(t: typedesc[CommonButtons]): CommonButtons {.discardable.}
+import org/allbinary/graphics/PointFactory as PointFactoryModule
+export PointFactoryModule
+import org/allbinary/graphics/displayable/DisplayInfoSingleton as DisplayInfoSingletonModule
+export DisplayInfoSingletonModule
 
-class CommonButtons:
-    instance: CommonButtons = None
+var CommonButtons_instanceValue: CommonButtons
+var CommonButtons_instanceSet = false
+proc instance*(t: typedesc[CommonButtons]): CommonButtons =
+    if not CommonButtons_instanceSet:
+        CommonButtons_instanceSet = true
+        CommonButtons_instanceValue = newCommonButtons()
+    CommonButtons_instanceValue
 
-    def _init_fields(self) -> None:
-        from org.allbinary.graphics.Rectangle import Rectangle
-        self.STANDARD_BUTTON_SIZE: int = None
-        self.NORMAL_BUTTON: Rectangle = None
-        self.LARGE_BUTTON: Rectangle = None
+# Java field initializers run after the base initializer
+proc initFieldsCommonButtons(this: CommonButtons) =
     
+    
+    
+    discard
 
-    @staticmethod
-    def getInstance() -> CommonButtons:
+proc getInstance*(t: typedesc[CommonButtons]): CommonButtons {.discardable.} =
         return CommonButtons.instance
-    
 
-    def __init__(self) -> None:
-        from org.allbinary.graphics.PointFactory import PointFactory
-        from org.allbinary.graphics.Rectangle import Rectangle
-        from org.allbinary.graphics.displayable.DisplayInfoSingleton import DisplayInfoSingleton
-        self._init_fields()
-        displayInfo: DisplayInfoSingleton = DisplayInfoSingleton.getInstance()
-        commonButtonSize: int = 128
+proc initCommonButtons*(this: CommonButtons) =
+        this.initFieldsCommonButtons()
+        var displayInfo: DisplayInfoSingleton = DisplayInfoSingleton.getInstance()
+        var commonButtonSize: int32 = 128
         while commonButtonSize > 64:
-            totalColumns: int = displayInfo.getLastWidth() / commonButtonSize
-            totalRows: int = displayInfo.getLastHeight() / commonButtonSize
-            max: int = totalColumns
+            var totalColumns: int32 = displayInfo.getLastWidth() div commonButtonSize
+            var totalRows: int32 = displayInfo.getLastHeight() div commonButtonSize
+            var max: int32 = totalColumns
             if totalRows > max:
                 max = totalRows
             if max > 9:
                 break
-            commonButtonSize = commonButtonSize >> 1
-        self.STANDARD_BUTTON_SIZE = commonButtonSize
-        self.NORMAL_BUTTON = Rectangle(PointFactory.getInstance().ZERO_ZERO, self.STANDARD_BUTTON_SIZE, self.STANDARD_BUTTON_SIZE)
-        self.LARGE_BUTTON = Rectangle(PointFactory.getInstance().ZERO_ZERO, self.STANDARD_BUTTON_SIZE << 1, self.STANDARD_BUTTON_SIZE << 1)
-# from org.allbinary.graphics.PointFactory import PointFactory
-# from org.allbinary.graphics.Rectangle import Rectangle
-# from org.allbinary.graphics.displayable.DisplayInfoSingleton import DisplayInfoSingleton
+            commonButtonSize = ashr(commonButtonSize, 1)
+        this.STANDARD_BUTTON_SIZE = commonButtonSize
+        this.NORMAL_BUTTON = newRectangle(PointFactory.getInstance().ZERO_ZERO, this.STANDARD_BUTTON_SIZE, this.STANDARD_BUTTON_SIZE)
+        this.LARGE_BUTTON = newRectangle(PointFactory.getInstance().ZERO_ZERO, this.STANDARD_BUTTON_SIZE shl 1, this.STANDARD_BUTTON_SIZE shl 1)
 
-
-def _CommonButtons_instance() -> object:
-    return CommonButtons()
-
-lazy_static(CommonButtons, "instance", _CommonButtons_instance)
+proc newCommonButtons*(): CommonButtons =
+    result = CommonButtons()
+    initCommonButtons(result)
 

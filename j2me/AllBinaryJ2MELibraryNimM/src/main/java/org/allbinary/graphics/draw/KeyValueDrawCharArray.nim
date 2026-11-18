@@ -1,64 +1,79 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.graphics.draw
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import javax/microedition/lcdui/Graphics as GraphicsModule
+export GraphicsModule
+import org/allbinary/graphics/font/MyFontProcessor as MyFontProcessorModule
+export MyFontProcessorModule
+import org/allbinary/graphics/font/UpdateMyFontInterface as UpdateMyFontInterfaceModule
+export UpdateMyFontInterfaceModule
 
-from org.allbinary.graphics.font.UpdateMyFontInterface import UpdateMyFontInterface
+type
+    KeyValueDrawCharArray* = ref object of UpdateMyFontInterface
+        myFontProcessor*: MyFontProcessor
+        LABEL*: string
+        labelX*: int32
+        valueX*: int32
+        value*: JArray[uint16]
+        len*: int32
+
+proc newKeyValueDrawCharArray*(label: string, x: int32): KeyValueDrawCharArray
+proc initKeyValueDrawCharArray*(this: KeyValueDrawCharArray, label: string, x: int32)
+method updateMeasurement*(this: KeyValueDrawCharArray, graphics: Graphics)
+method paint*(this: KeyValueDrawCharArray, graphics: Graphics, y: int32) {.base.}
+method update*(this: KeyValueDrawCharArray, value: JArray[uint16], len: int32) {.base.}
+import org/allbinary/logic/java/character/CharArrayFactory as CharArrayFactoryModule
+export CharArrayFactoryModule
+import org/allbinary/graphics/font/UpdateMyFontProcessor as UpdateMyFontProcessorModule
+export UpdateMyFontProcessorModule
 
 
-class KeyValueDrawCharArray(UpdateMyFontInterface):
-
-    def _init_fields(self) -> None:
-        from org.allbinary.logic.java.character.CharArrayFactory import CharArrayFactory
-        from org.allbinary.graphics.font.MyFontProcessor import MyFontProcessor
-        from org.allbinary.graphics.font.UpdateMyFontProcessor import UpdateMyFontProcessor
-        self.myFontProcessor: MyFontProcessor = UpdateMyFontProcessor(self)
-        self.LABEL: str = None
-        self.labelX: int = None
-        self.valueX: int = 0
-        self.value: list[str] = CharArrayFactory.getInstance().getZeroCharArray()
-        self.len_: int = 0
+# Java field initializers run after the base initializer
+proc initFieldsKeyValueDrawCharArray(this: KeyValueDrawCharArray) =
+    this.myFontProcessor = newUpdateMyFontProcessor(this)
     
-
-    def __init__(self, label: str, x: int) -> None:
-        self._init_fields()
-        self.LABEL = label
-        self.labelX = x
     
+    this.valueX = 0
+    this.value = CharArrayFactory.getInstance().getZeroCharArray()
+    this.len = 0
+    discard
 
-    def updateMeasurement(self, graphics: Graphics) -> None:
-        from javax.microedition.lcdui.Graphics import Graphics
-        from org.allbinary.graphics.font.MyFontProcessor import MyFontProcessor
-        labelWidth: int = graphics.getFont().stringWidth(self.LABEL) - len(self.LABEL)
-        self.valueX = labelWidth + self.labelX
-        self.myFontProcessor = MyFontProcessor.getInstance()
-    
+proc initKeyValueDrawCharArray*(this: KeyValueDrawCharArray, label: string, x: int32) =
+        this.initFieldsKeyValueDrawCharArray()
+        this.LABEL = label
+        this.labelX = x
 
-    def paint(self, graphics: Graphics, y: int) -> None:
-        from javax.microedition.lcdui.Graphics import Graphics
-        self.myFontProcessor.process(graphics)
-        graphics.drawString(self.LABEL, self.labelX, y, 0)
-        graphics.drawChars(self.value, 0, self.len_, self.valueX, y, 0)
-    
+proc newKeyValueDrawCharArray*(label: string, x: int32): KeyValueDrawCharArray =
+    result = KeyValueDrawCharArray()
+    initKeyValueDrawCharArray(result, label, x)
 
-    def update(self, value: list[str], len_: int) -> None:
-        self.value = value
-        self.len_ = len_
-# from javax.microedition.lcdui.Graphics import Graphics
-# from org.allbinary.logic.java.character.CharArrayFactory import CharArrayFactory
-# from org.allbinary.graphics.font.MyFontProcessor import MyFontProcessor
-# from org.allbinary.graphics.font.UpdateMyFontProcessor import UpdateMyFontProcessor
+method updateMeasurement*(this: KeyValueDrawCharArray, graphics: Graphics) =
+        var labelWidth: int32 = graphics.getFont().stringWidth(this.LABEL) -% jLength(this.LABEL)
+        this.valueX = labelWidth +% this.labelX
+        this.myFontProcessor = MyFontProcessor.getInstance()
 
+method paint*(this: KeyValueDrawCharArray, graphics: Graphics, y: int32) {.base.} =
+        this.myFontProcessor.process(graphics)
+        graphics.drawString(this.LABEL, this.labelX, y, 0)
+        graphics.drawChars(this.value, 0, this.len, this.valueX, y, 0)
+
+method update*(this: KeyValueDrawCharArray, value: JArray[uint16], len: int32) {.base.} =
+        this.value = value
+        this.len = len
 

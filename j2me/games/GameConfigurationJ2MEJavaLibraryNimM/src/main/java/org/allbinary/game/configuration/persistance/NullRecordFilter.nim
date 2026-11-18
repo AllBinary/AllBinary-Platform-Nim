@@ -1,34 +1,49 @@
-# 
-# AllBinary Open License Version 1 
-# Copyright (c) 2025 AllBinary 
-#  
-# By agreeing to this license you and any business entity you represent are 
-# legally bound to the AllBinary Open License Version 1 legal agreement. 
-#  
-# You may obtain the AllBinary Open License Version 1 legal agreement from 
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
-#  
-# Created By: Travis Berthelot 
-#   
+#[
+  
+  AllBinary Open License Version 1 
+  Copyright (c) 2025 AllBinary 
+   
+  By agreeing to this license you and any business entity you represent are 
+  legally bound to the AllBinary Open License Version 1 legal agreement. 
+   
+  You may obtain the AllBinary Open License Version 1 legal agreement from 
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
+   
+  Created By: Travis Berthelot 
+    
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.configuration.persistance
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import javax/microedition/rms/RecordFilter as RecordFilterModule
+export RecordFilterModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
-from javax.microedition.rms.RecordFilter import RecordFilter
+type
+    NullRecordFilter* = ref object of RecordFilter
 
+proc newNullRecordFilter*(): NullRecordFilter
+method matches*(this: NullRecordFilter, candidate: JArray[int8]): bool {.discardable.}
 
-class NullRecordFilter(RecordFilter):
-    NULL_RECORD_FILTER: NullRecordFilter = None
-    
+var NullRecordFilter_NULL_RECORD_FILTERValue: NullRecordFilter
+var NullRecordFilter_NULL_RECORD_FILTERSet = false
+proc NULL_RECORD_FILTERStatic*(t: typedesc[NullRecordFilter]): NullRecordFilter =
+    if not NullRecordFilter_NULL_RECORD_FILTERSet:
+        NullRecordFilter_NULL_RECORD_FILTERSet = true
+        NullRecordFilter_NULL_RECORD_FILTERValue = newNullRecordFilter()
+    NullRecordFilter_NULL_RECORD_FILTERValue
+proc `NULL_RECORD_FILTERStatic=`*(t: typedesc[NullRecordFilter], value: NullRecordFilter) =
+    NullRecordFilter_NULL_RECORD_FILTERSet = true
+    NullRecordFilter_NULL_RECORD_FILTERValue = value
 
-    def matches(self, candidate: list[int]) -> bool:
-        return True
+proc initNullRecordFilter*(this: NullRecordFilter) =
+    discard
 
+proc newNullRecordFilter*(): NullRecordFilter =
+    result = NullRecordFilter()
+    initNullRecordFilter(result)
 
-def _NullRecordFilter_NULL_RECORD_FILTER() -> object:
-    return NullRecordFilter()
-
-lazy_static(NullRecordFilter, "NULL_RECORD_FILTER", _NullRecordFilter_NULL_RECORD_FILTER)
+method matches*(this: NullRecordFilter, candidate: JArray[int8]): bool {.discardable.} =
+        return true
 

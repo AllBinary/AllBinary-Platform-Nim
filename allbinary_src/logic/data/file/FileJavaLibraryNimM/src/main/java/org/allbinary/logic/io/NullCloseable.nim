@@ -1,36 +1,48 @@
-# 
-# AllBinary Open License Version 1 
-# Copyright (c) 2025 AllBinary 
-#  
-# By agreeing to this license you and any business entity you represent are 
-# legally bound to the AllBinary Open License Version 1 legal agreement. 
-#  
-# You may obtain the AllBinary Open License Version 1 legal agreement from 
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
-#  
-# Created By: Travis Berthelot 
-#   
+#[
+  
+  AllBinary Open License Version 1 
+  Copyright (c) 2025 AllBinary 
+   
+  By agreeing to this license you and any business entity you represent are 
+  legally bound to the AllBinary Open License Version 1 legal agreement. 
+   
+  You may obtain the AllBinary Open License Version 1 legal agreement from 
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
+   
+  Created By: Travis Berthelot 
+    
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.logic.io
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import java/io/Closeable as CloseableModule
+export CloseableModule
+import java/io/IOException as IOExceptionModule
+export IOExceptionModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
-from java.io.Closeable import Closeable
+type
+    NullCloseable* = ref object of Closeable
 
+proc newNullCloseable*(): NullCloseable
+method close*(this: NullCloseable)
 
-class NullCloseable(Closeable):
-    NULL_CLOSEABLE: NullCloseable = None
-    
+var NullCloseable_NULL_CLOSEABLEValue: NullCloseable
+var NullCloseable_NULL_CLOSEABLESet = false
+proc NULL_CLOSEABLEStatic*(t: typedesc[NullCloseable]): NullCloseable =
+    if not NullCloseable_NULL_CLOSEABLESet:
+        NullCloseable_NULL_CLOSEABLESet = true
+        NullCloseable_NULL_CLOSEABLEValue = newNullCloseable()
+    NullCloseable_NULL_CLOSEABLEValue
 
-    # throws IOException
-    def close(self) -> None:
-        pass
-# from java.io.IOException import IOException
+proc initNullCloseable*(this: NullCloseable) =
+    discard
 
+proc newNullCloseable*(): NullCloseable =
+    result = NullCloseable()
+    initNullCloseable(result)
 
-def _NullCloseable_NULL_CLOSEABLE() -> object:
-    return NullCloseable()
-
-lazy_static(NullCloseable, "NULL_CLOSEABLE", _NullCloseable_NULL_CLOSEABLE)
+method close*(this: NullCloseable) =
+        discard
 

@@ -1,109 +1,126 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.ag.layer.hud.basic.level
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import javax/microedition/lcdui/Graphics as GraphicsModule
+export GraphicsModule
+import org/allbinary/game/graphics/hud/BasicHud as BasicHudModule
+export BasicHudModule
+import org/allbinary/graphics/paint/PaintableInterface as PaintableInterfaceModule
+export PaintableInterfaceModule
+import org/allbinary/logic/math/PrimitiveLongUtil as PrimitiveLongUtilModule
+export PrimitiveLongUtilModule
 
-from org.allbinary.game.graphics.hud.BasicHud import BasicHud
-from org.allbinary.graphics.paint.PaintableInterface import PaintableInterface
+type
+    LevelHudWidget* = ref object of BasicHud
+        level*: int32
+        maxlevel*: int32
+        levelString*: JArray[uint16]
+        levelNumberCharArray*: JArray[uint16]
+        levelNumberTotalDigits*: int32
+        offset*: int32
+        primitiveLongUtil*: PrimitiveLongUtil
+
+converter jAsPaintableInterface*(value: LevelHudWidget): PaintableInterface = cast[PaintableInterface](value)
+proc newLevelHudWidget*(maxlevel: int32, location: int32, direction: int32): LevelHudWidget
+proc initLevelHudWidget*(this: LevelHudWidget, maxlevel: int32, location: int32, direction: int32)
+proc createHud*(t: typedesc[LevelHudWidget], maxlevel: int32, location: int32, direction: int32): LevelHudWidget {.discardable.}
+method updateMeasurement*(this: LevelHudWidget, graphics: Graphics)
+method update*(this: LevelHudWidget) {.base.}
+method setLevel*(this: LevelHudWidget, level: int32) {.base.}
+method nextLevel*(this: LevelHudWidget) {.base.}
+method previousLevel*(this: LevelHudWidget) {.base.}
+method isComplete*(this: LevelHudWidget): bool {.base, discardable.}
+method paint*(this: LevelHudWidget, graphics: Graphics)
+method paintThreed*(this: LevelHudWidget, graphics: Graphics)
+import javax/microedition/lcdui/Font as FontModule
+export FontModule
+import org/allbinary/graphics/color/BasicColorFactory as BasicColorFactoryModule
+export BasicColorFactoryModule
+import org/allbinary/logic/NullUtil as NullUtilModule
+export NullUtilModule
 
 
-class LevelHudWidget(BasicHud, PaintableInterface):
-
-    def _init_fields(self) -> None:
-        from org.allbinary.logic.NullUtil import NullUtil
-        from org.allbinary.logic.math.PrimitiveLongUtil import PrimitiveLongUtil
-        self.level: int = None
-        self.maxlevel: int = None
-        self.levelString: list[str] = None
-        self.levelNumberCharArray: list[str] = NullUtil.getInstance().NULL_CHAR_ARRAY
-        self.levelNumberTotalDigits: int = 0
-        self.offset: int = 0
-        self.primitiveLongUtil: PrimitiveLongUtil = None
+# Java field initializers run after the base initializer
+proc initFieldsLevelHudWidget(this: LevelHudWidget) =
     
-
-    # throws Exception
-    @staticmethod
-    def createHud(maxlevel: int, location: int, direction: int) -> LevelHudWidget:
-        return LevelHudWidget(maxlevel, location, direction)
     
-
-    def __init__(self, maxlevel: int, location: int, direction: int) -> None:
-        from org.allbinary.game.ag.layer.hud.basic.level.LEVEL import LEVEL
-        from org.allbinary.graphics.color.BasicColorFactory import BasicColorFactory
-        from org.allbinary.logic.math.PrimitiveLongUtil import PrimitiveLongUtil
-        super().__init__(location, direction, 2, BasicColorFactory.getInstance().GREY)
-        self._init_fields()
-        self.primitiveLongUtil = PrimitiveLongUtil.createPowerOfTen(1000)
-        LEVEL: str = "Lv "
-        self.levelString = list(LEVEL)
-        self.maxlevel = maxlevel
-        self.level = maxlevel
-        self.update()
-        self.updateMaxHeight = 14
     
-
-    def updateMeasurement(self, graphics: Graphics) -> None:
-        from javax.microedition.lcdui.Font import Font
-        from javax.microedition.lcdui.Graphics import Graphics
-        font: Font = graphics.getFont()
-        self.updateMaxWidth = font.getSize() * 4
-        self.offset = font.charsWidth(self.levelString, 0, len(self.levelString)) + font.getSize()
-        super().updateMeasurement(graphics)
+    this.levelNumberCharArray = NullUtil.getInstance().NULL_CHAR_ARRAY
+    this.levelNumberTotalDigits = 0
+    this.offset = 0
     
+    discard
 
-    def update(self) -> None:
-        self.levelNumberCharArray = self.primitiveLongUtil.getCharArray(self.level)
-        self.levelNumberTotalDigits = self.primitiveLongUtil.getCurrentTotalDigits()
-    
+proc createHud*(t: typedesc[LevelHudWidget], maxlevel: int32, location: int32, direction: int32): LevelHudWidget {.discardable.} =
+        return newLevelHudWidget(maxlevel, location, direction)
 
-    def setLevel(self, level: int) -> None:
-        self.level = level
-        self.update()
-    
+proc initLevelHudWidget*(this: LevelHudWidget, maxlevel: int32, location: int32, direction: int32) =
+        initBasicHud(this, location, direction, 2, BasicColorFactory.getInstance().GREY)
+        this.initFieldsLevelHudWidget()
+        this.primitiveLongUtil = PrimitiveLongUtil.createPowerOfTen(1000)
+        let LEVEL: string = "Lv "
+        this.levelString = jToCharArray(LEVEL)
+        this.maxlevel = maxlevel
+        this.level = maxlevel
+        this.update()
+        this.updateMaxHeight = 14
 
-    def nextLevel(self) -> None:
-        self.level += 1
-        self.update()
-    
+proc newLevelHudWidget*(maxlevel: int32, location: int32, direction: int32): LevelHudWidget =
+    result = LevelHudWidget()
+    initLevelHudWidget(result, maxlevel, location, direction)
 
-    def previousLevel(self) -> None:
-        self.level -= 1
-        if self.level < 0:
-            self.level = 0
-        self.update()
-    
+method updateMeasurement*(this: LevelHudWidget, graphics: Graphics) =
+        let font: Font = graphics.getFont()
+        this.updateMaxWidth = font.getSize() *% 4
+        this.offset = font.charsWidth(this.levelString, 0, this.levelString.length) +% font.getSize()
+        procCall BasicHud(this).updateMeasurement(graphics)
 
-    def isComplete(self) -> bool:
-        if self.level <= self.maxlevel:
-            return False
+method update*(this: LevelHudWidget) {.base.} =
+        this.levelNumberCharArray = this.primitiveLongUtil.getCharArray(this.level)
+        this.levelNumberTotalDigits = this.primitiveLongUtil.getCurrentTotalDigits()
+
+method setLevel*(this: LevelHudWidget, level: int32) {.base.} =
+        this.level = level
+        this.update()
+
+method nextLevel*(this: LevelHudWidget) {.base.} =
+        this.level = this.level +% 1
+        this.update()
+
+method previousLevel*(this: LevelHudWidget) {.base.} =
+        this.level = this.level -% 1
+        if this.level < 0:
+            this.level = 0
+        this.update()
+
+method isComplete*(this: LevelHudWidget): bool {.base, discardable.} =
+        if this.level <= this.maxlevel:
+            return false
         else:
-            return True
-    
+            return true
 
-    def paint(self, graphics: Graphics) -> None:
-        from javax.microedition.lcdui.Graphics import Graphics
-        super().paintDX(graphics, self.levelString, 0, len(self.levelString), self.levelNumberCharArray, 0, self.levelNumberTotalDigits, self.offset)
-    
+method paint*(this: LevelHudWidget, graphics: Graphics) =
+        procCall BasicHud(this).paintDX(graphics, this.levelString, 0, this.levelString.length, this.levelNumberCharArray, 0, this.levelNumberTotalDigits, this.offset)
 
-    def paintThreed(self, graphics: Graphics) -> None:
-        from javax.microedition.lcdui.Graphics import Graphics
-        pass
-# from javax.microedition.lcdui.Font import Font
-# from javax.microedition.lcdui.Graphics import Graphics
-# from org.allbinary.graphics.color.BasicColorFactory import BasicColorFactory
-# from org.allbinary.logic.NullUtil import NullUtil
-# from org.allbinary.logic.math.PrimitiveLongUtil import PrimitiveLongUtil
+method paintThreed*(this: LevelHudWidget, graphics: Graphics) =
+        discard
 
+when declared(newLevelHudWidgetHook3):
+    newLevelHudWidgetHook3 = proc (maxlevel: int32, location: int32, direction: int32): BasicHud = newLevelHudWidget(maxlevel, location, direction)
 

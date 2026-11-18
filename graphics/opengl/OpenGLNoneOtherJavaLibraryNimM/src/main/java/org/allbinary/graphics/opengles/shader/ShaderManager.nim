@@ -1,61 +1,73 @@
-# 
-# AllBinary Open License Version 1 
-# Copyright (c) 2025 AllBinary 
-#  
-# By agreeing to this license you and any business entity you represent are 
-# legally bound to the AllBinary Open License Version 1 legal agreement. 
-#  
-# You may obtain the AllBinary Open License Version 1 legal agreement from 
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
-#  
-# Created By: Travis Berthelot 
-#   
+#[
+  
+  AllBinary Open License Version 1 
+  Copyright (c) 2025 AllBinary 
+   
+  By agreeing to this license you and any business entity you represent are 
+  legally bound to the AllBinary Open License Version 1 legal agreement. 
+   
+  You may obtain the AllBinary Open License Version 1 legal agreement from 
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
+   
+  Created By: Travis Berthelot 
+    
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.graphics.opengles.shader
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import javax/microedition/khronos/opengles/GL10 as GL10Module
+export GL10Module
+import org/allbinary/string/CommonStrings as CommonStringsModule
+export CommonStringsModule
+import org/allbinary/util/BasicArrayList as BasicArrayListModule
+export BasicArrayListModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    ShaderManager* = ref object of JObject
+        LOAD_SHADER*: string
+        commonStrings*: CommonStrings
+        GL_VERTEX_SHADER*: int32
+        GL_FRAGMENT_SHADER*: int32
 
+proc newShaderManager*(GL_VERTEX_SHADER: int32, GL_FRAGMENT_SHADER: int32): ShaderManager
+proc initShaderManager*(this: ShaderManager, GL_VERTEX_SHADER: int32, GL_FRAGMENT_SHADER: int32)
+proc getInstance*(t: typedesc[ShaderManager]): ShaderManager {.discardable.}
+method load*(this: ShaderManager, gl: GL10, resource: string, shaderAsStringArray: JArray[string], shaderType: int32): int32 {.base, discardable.}
+method loadShader*(this: ShaderManager, gl: GL10, resource: string, stringList: BasicArrayList, shaderType: int32): int32 {.base, discardable.}
 
-class ShaderManager:
-    instance: ShaderManager = None
+var ShaderManager_instanceValue: ShaderManager
+var ShaderManager_instanceSet = false
+proc instance*(t: typedesc[ShaderManager]): ShaderManager =
+    if not ShaderManager_instanceSet:
+        ShaderManager_instanceSet = true
+        ShaderManager_instanceValue = newShaderManager(-1, -1)
+    ShaderManager_instanceValue
 
-    def _init_fields(self) -> None:
-        from org.allbinary.string.CommonStrings import CommonStrings
-        self.LOAD_SHADER: str = "loadShader"
-        self.commonStrings: CommonStrings = CommonStrings.getInstance()
-        self.GL_VERTEX_SHADER: int = None
-        self.GL_FRAGMENT_SHADER: int = None
+# Java field initializers run after the base initializer
+proc initFieldsShaderManager(this: ShaderManager) =
+    this.LOAD_SHADER = "loadShader"
+    this.commonStrings = CommonStrings.getInstance()
     
+    
+    discard
 
-    @staticmethod
-    def getInstance() -> ShaderManager:
+proc getInstance*(t: typedesc[ShaderManager]): ShaderManager {.discardable.} =
         return ShaderManager.instance
-    
 
-    def __init__(self, GL_VERTEX_SHADER: int, GL_FRAGMENT_SHADER: int) -> None:
-        self._init_fields()
-        self.GL_VERTEX_SHADER = GL_VERTEX_SHADER
-        self.GL_FRAGMENT_SHADER = GL_FRAGMENT_SHADER
-    
+proc initShaderManager*(this: ShaderManager, GL_VERTEX_SHADER: int32, GL_FRAGMENT_SHADER: int32) =
+        this.initFieldsShaderManager()
+        this.GL_VERTEX_SHADER = GL_VERTEX_SHADER
+        this.GL_FRAGMENT_SHADER = GL_FRAGMENT_SHADER
 
-    def load(self, gl: GL10, resource: str, shaderAsStringArray: list[str], shaderType: int) -> int:
-        from javax.microedition.khronos.opengles.GL10 import GL10
+proc newShaderManager*(GL_VERTEX_SHADER: int32, GL_FRAGMENT_SHADER: int32): ShaderManager =
+    result = ShaderManager()
+    initShaderManager(result, GL_VERTEX_SHADER, GL_FRAGMENT_SHADER)
+
+method load*(this: ShaderManager, gl: GL10, resource: string, shaderAsStringArray: JArray[string], shaderType: int32): int32 {.base, discardable.} =
         return -1
-    
 
-    def loadShader(self, gl: GL10, resource: str, stringList: BasicArrayList, shaderType: int) -> int:
-        from javax.microedition.khronos.opengles.GL10 import GL10
-        from org.allbinary.util.BasicArrayList import BasicArrayList
+method loadShader*(this: ShaderManager, gl: GL10, resource: string, stringList: BasicArrayList, shaderType: int32): int32 {.base, discardable.} =
         return -1
-# from javax.microedition.khronos.opengles.GL10 import GL10
-# from org.allbinary.string.CommonStrings import CommonStrings
-# from org.allbinary.util.BasicArrayList import BasicArrayList
-
-
-def _ShaderManager_instance() -> object:
-    return ShaderManager(-1, -1)
-
-lazy_static(ShaderManager, "instance", _ShaderManager_instance)
 

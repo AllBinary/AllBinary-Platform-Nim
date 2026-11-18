@@ -1,59 +1,72 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.input.gyro
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/logic/math/Orientation as OrientationModule
+export OrientationModule
+import org/allbinary/input/gyro/AllBinaryOrientationSensor as AllBinaryOrientationSensorModule
+export AllBinaryOrientationSensorModule
+
+type
+    OrientationToGameKeyEvent* = ref object of JObject
+        allBinaryGyroSensor*: AllBinaryOrientationSensor
+        MIN*: int32
+
+proc newOrientationToGameKeyEvent*(): OrientationToGameKeyEvent
+proc initOrientationToGameKeyEvent*(this: OrientationToGameKeyEvent)
+method setAllBinaryGyroSensor*(this: OrientationToGameKeyEvent, allBinaryGyroSensor: AllBinaryOrientationSensor) {.base.}
+method getAllBinaryGyroSensor*(this: OrientationToGameKeyEvent): AllBinaryOrientationSensor {.base, discardable.}
+method process*(this: OrientationToGameKeyEvent) {.base.}
+method updateGameKeyEvents*(this: OrientationToGameKeyEvent, orientation: Orientation, yaw: int32, pitch: int32, roll: int32) {.base.}
+import org/allbinary/game/configuration/feature/Features as FeaturesModule
+export FeaturesModule
+import org/allbinary/game/configuration/feature/SensorFeatureFactory as SensorFeatureFactoryModule
+export SensorFeatureFactoryModule
+import org/allbinary/input/gyro/NoGyroSensor as NoGyroSensorModule
+export NoGyroSensorModule
 
 
-
-class OrientationToGameKeyEvent:
-
-    def _init_fields(self) -> None:
-        self.allBinaryGyroSensor: AllBinaryOrientationSensor = None
-        self.MIN: int = 15
+# Java field initializers run after the base initializer
+proc initFieldsOrientationToGameKeyEvent(this: OrientationToGameKeyEvent) =
     
+    this.MIN = 15
+    discard
 
-    def __init__(self) -> None:
-        from org.allbinary.input.gyro.NoGyroSensor import NoGyroSensor
-        from org.allbinary.game.configuration.feature.Features import Features
-        from org.allbinary.game.configuration.feature.SensorFeatureFactory import SensorFeatureFactory
-        self._init_fields()
+proc initOrientationToGameKeyEvent*(this: OrientationToGameKeyEvent) =
+        this.initFieldsOrientationToGameKeyEvent()
         if Features.getInstance().isFeature(SensorFeatureFactory.getInstance().NO_ORIENTATION):
-            self.allBinaryGyroSensor = NoGyroSensor()
+            this.allBinaryGyroSensor = newNoGyroSensor()
         else:
-            raise Exception("Not Such Feature")
-    
+            raise newJException("Exception", "Not Such Feature")
 
-    def setAllBinaryGyroSensor(self, allBinaryGyroSensor: AllBinaryOrientationSensor) -> None:
-        self.allBinaryGyroSensor = allBinaryGyroSensor
-    
+proc newOrientationToGameKeyEvent*(): OrientationToGameKeyEvent =
+    result = OrientationToGameKeyEvent()
+    initOrientationToGameKeyEvent(result)
 
-    def getAllBinaryGyroSensor(self) -> AllBinaryOrientationSensor:
-        return self.allBinaryGyroSensor
-    
+method setAllBinaryGyroSensor*(this: OrientationToGameKeyEvent, allBinaryGyroSensor: AllBinaryOrientationSensor) {.base.} =
+        this.allBinaryGyroSensor = allBinaryGyroSensor
 
-    # throws Exception
-    def process(self) -> None:
-        pass
-    
+method getAllBinaryGyroSensor*(this: OrientationToGameKeyEvent): AllBinaryOrientationSensor {.base, discardable.} =
+        return this.allBinaryGyroSensor
 
-    # throws Exception
-    def updateGameKeyEvents(self, orientation: Orientation, yaw: int, pitch: int, roll: int) -> None:
-        from org.allbinary.logic.math.Orientation import Orientation
-        pass
-# from org.allbinary.game.configuration.feature.Features import Features
-# from org.allbinary.game.configuration.feature.SensorFeatureFactory import SensorFeatureFactory
-# from org.allbinary.logic.math.Orientation import Orientation
+method process*(this: OrientationToGameKeyEvent) {.base.} =
+        discard
 
+method updateGameKeyEvents*(this: OrientationToGameKeyEvent, orientation: Orientation, yaw: int32, pitch: int32, roll: int32) {.base.} =
+        discard
 

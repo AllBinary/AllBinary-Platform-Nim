@@ -1,58 +1,81 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.score
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/game/GameInfo as GameInfoModule
+export GameInfoModule
+import org/allbinary/logic/communication/log/LogUtil as LogUtilModule
+export LogUtilModule
+import org/allbinary/game/score/HighScoresBase as HighScoresBaseModule
+export HighScoresBaseModule
+import org/allbinary/game/score/HighScores as HighScoresModule
+export HighScoresModule
+import org/allbinary/game/score/HighScoresResultsListener as HighScoresResultsListenerModule
+export HighScoresResultsListenerModule
+import org/allbinary/game/score/HighScoresHelperBaseInterface as HighScoresHelperBaseInterfaceModule
+export HighScoresHelperBaseInterfaceModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
-from org.allbinary.game.score.HighScoresBase import HighScoresBase
+type
+    NoHighScoresFactory* = ref object of HighScoresBase
+        logUtil*: LogUtil
+        NO_HIGH_SCORES*: JArray[HighScores]
 
+proc newNoHighScoresFactory*(): NoHighScoresFactory
+proc initNoHighScoresFactory*(this: NoHighScoresFactory)
+proc getInstance*(t: typedesc[NoHighScoresFactory]): NoHighScoresFactory {.discardable.}
+method fetchHighScores*(this: NoHighScoresFactory, gameInfo: GameInfo, highScoresResultsListener: HighScoresResultsListener)
+method createHighScoresHelper*(this: NoHighScoresFactory): HighScoresHelperBaseInterface {.discardable.}
+import org/allbinary/game/score/HighScoresHelperBase as HighScoresHelperBaseModule
+export HighScoresHelperBaseModule
 
-class NoHighScoresFactory(HighScoresBase):
-    instance: NoHighScoresFactory = None
+var NoHighScoresFactory_instanceValue: NoHighScoresFactory
+var NoHighScoresFactory_instanceSet = false
+proc instance*(t: typedesc[NoHighScoresFactory]): NoHighScoresFactory =
+    if not NoHighScoresFactory_instanceSet:
+        NoHighScoresFactory_instanceSet = true
+        NoHighScoresFactory_instanceValue = newNoHighScoresFactory()
+    NoHighScoresFactory_instanceValue
 
-    def _init_fields(self) -> None:
-        from org.allbinary.logic.communication.log.LogUtil import LogUtil
-        self.logUtil: LogUtil = LogUtil.getInstance()
-        self.NO_HIGH_SCORES: list[HighScores] = [None] * (0)
-    
+# Java field initializers run after the base initializer
+proc initFieldsNoHighScoresFactory(this: NoHighScoresFactory) =
+    this.logUtil = LogUtil.getInstance()
+    this.NO_HIGH_SCORES = newJArray[HighScores](0, default(HighScores))
+    discard
 
-    @staticmethod
-    def getInstance() -> NoHighScoresFactory:
+proc getInstance*(t: typedesc[NoHighScoresFactory]): NoHighScoresFactory {.discardable.} =
         return NoHighScoresFactory.instance
-    
 
-    def __init__(self) -> None:
-        super().__init__()
-        self._init_fields()
-    
+proc initNoHighScoresFactory*(this: NoHighScoresFactory) =
+        initHighScoresBase(this)
+        this.initFieldsNoHighScoresFactory()
+        discard
 
-    def fetchHighScores(self, gameInfo: GameInfo, highScoresResultsListener: HighScoresResultsListener) -> None:
-        from org.allbinary.game.GameInfo import GameInfo
-        self.logUtil.putF("Getting No HighScores", self, "fetchHighScores")
-        highScoresResultsListener.setHighScoresArray(self.NO_HIGH_SCORES)
-    
+proc newNoHighScoresFactory*(): NoHighScoresFactory =
+    result = NoHighScoresFactory()
+    initNoHighScoresFactory(result)
 
-    def createHighScoresHelper(self) -> HighScoresHelperBaseInterface:
-        from org.allbinary.game.score.HighScoresHelperBase import HighScoresHelperBase
-        return HighScoresHelperBase()
-# from org.allbinary.game.GameInfo import GameInfo
-# from org.allbinary.logic.communication.log.LogUtil import LogUtil
+method fetchHighScores*(this: NoHighScoresFactory, gameInfo: GameInfo, highScoresResultsListener: HighScoresResultsListener) =
+        this.logUtil.putF("Getting No HighScores", this, "fetchHighScores")
+        highScoresResultsListener.setHighScoresArray(this.NO_HIGH_SCORES)
 
+method createHighScoresHelper*(this: NoHighScoresFactory): HighScoresHelperBaseInterface {.discardable.} =
+        return newHighScoresHelperBase()
 
-def _NoHighScoresFactory_instance() -> object:
-    return NoHighScoresFactory()
-
-lazy_static(NoHighScoresFactory, "instance", _NoHighScoresFactory_instance)
+when declared(newNoHighScoresFactoryHook0):
+    newNoHighScoresFactoryHook0 = proc (): HighScoresBase = newNoHighScoresFactory()
 

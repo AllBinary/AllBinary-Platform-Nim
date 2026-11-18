@@ -1,40 +1,58 @@
-# 
-# AllBinary Open License Version 1 
-# Copyright (c) 2022 AllBinary 
-#  
-# By agreeing to this license you and any business entity you represent are 
-# legally bound to the AllBinary Open License Version 1 legal agreement. 
-#  
-# You may obtain the AllBinary Open License Version 1 legal agreement from 
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
-#  
-# Created By: Travis Berthelot 
-#   
+#[
+  
+  AllBinary Open License Version 1 
+  Copyright (c) 2022 AllBinary 
+   
+  By agreeing to this license you and any business entity you represent are 
+  legally bound to the AllBinary Open License Version 1 legal agreement. 
+   
+  You may obtain the AllBinary Open License Version 1 legal agreement from 
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
+   
+  Created By: Travis Berthelot 
+    
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.animation
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/animation/AnimationBehavior as AnimationBehaviorModule
+export AnimationBehaviorModule
 
-from org.allbinary.animation.AnimationBehavior import AnimationBehavior
+type
+    IndexedAnimationBehavior* = ref object of AnimationBehavior
+        frameDelayTime*: int64
+        loopTotal*: int32
+        elapsedTime*: int64
+        loopIndex*: int32
+
+proc newIndexedAnimationBehavior*(loopTotal: int32, frameDelayTime: int64): IndexedAnimationBehavior
+proc initIndexedAnimationBehavior*(this: IndexedAnimationBehavior, loopTotal: int32, frameDelayTime: int64)
+method reset*(this: IndexedAnimationBehavior)
 
 
-class IndexedAnimationBehavior(AnimationBehavior):
-
-    def _init_fields(self) -> None:
-        self.frameDelayTime: int = None
-        self.loopTotal: int = None
-        self.elapsedTime: int = 0
-        self.loopIndex: int = 0
+# Java field initializers run after the base initializer
+proc initFieldsIndexedAnimationBehavior(this: IndexedAnimationBehavior) =
     
-
-    def __init__(self, loopTotal: int, frameDelayTime: int) -> None:
-        super().__init__()
-        self._init_fields()
-        self.loopTotal = loopTotal
-        self.frameDelayTime = frameDelayTime
     
+    this.elapsedTime = 0
+    this.loopIndex = 0
+    discard
 
-    def reset(self) -> None:
-        self.loopIndex = 0
+proc initIndexedAnimationBehavior*(this: IndexedAnimationBehavior, loopTotal: int32, frameDelayTime: int64) =
+        initAnimationBehavior(this)
+        this.initFieldsIndexedAnimationBehavior()
+        this.loopTotal = loopTotal
+        this.frameDelayTime = frameDelayTime
 
+proc newIndexedAnimationBehavior*(loopTotal: int32, frameDelayTime: int64): IndexedAnimationBehavior =
+    result = IndexedAnimationBehavior()
+    initIndexedAnimationBehavior(result, loopTotal, frameDelayTime)
+
+method reset*(this: IndexedAnimationBehavior) =
+        this.loopIndex = 0
+
+when declared(newIndexedAnimationBehaviorHook2):
+    newIndexedAnimationBehaviorHook2 = proc (loopTotal: int32, frameDelayTime: int64): AnimationBehavior = newIndexedAnimationBehavior(loopTotal, frameDelayTime)
 

@@ -1,50 +1,62 @@
-# 
-# AllBinary Open License Version 1 
-# Copyright (c) 2022 AllBinary 
-#  
-# By agreeing to this license you and any business entity you represent are 
-# legally bound to the AllBinary Open License Version 1 legal agreement. 
-#  
-# You may obtain the AllBinary Open License Version 1 legal agreement from 
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
-#  
-# Created By: Travis Berthelot 
-#   
+#[
+  
+  AllBinary Open License Version 1 
+  Copyright (c) 2022 AllBinary 
+   
+  By agreeing to this license you and any business entity you represent are 
+  legally bound to the AllBinary Open License Version 1 legal agreement. 
+   
+  You may obtain the AllBinary Open License Version 1 legal agreement from 
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
+   
+  Created By: Travis Berthelot 
+    
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.media
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    ScaleProperties* = ref object of JObject
+        scaleX*: float32
+        scaleY*: float32
+        scaleWidth*: int32
+        scaleHeight*: int32
+        shouldScale*: bool
 
+proc newScaleProperties*(): ScaleProperties
+method toString*(this: ScaleProperties): string {.discardable.}
+import org/allbinary/logic/string/StringMaker as StringMakerModule
+export StringMakerModule
+import org/allbinary/string/CommonLabels as CommonLabelsModule
+export CommonLabelsModule
 
-class ScaleProperties:
-    instance: ScaleProperties = None
+var ScaleProperties_instanceValue: ScaleProperties
+var ScaleProperties_instanceSet = false
+proc instance*(t: typedesc[ScaleProperties]): ScaleProperties =
+    if not ScaleProperties_instanceSet:
+        ScaleProperties_instanceSet = true
+        ScaleProperties_instanceValue = newScaleProperties()
+    ScaleProperties_instanceValue
 
-    def _init_fields(self) -> None:
-        self.scaleX: float = 0.0
-        self.scaleY: float = 0.0
-        self.scaleWidth: int = 0
-        self.scaleHeight: int = 0
-        self.shouldScale: bool = False
+# Java field initializers run after the base initializer
+proc initFieldsScaleProperties(this: ScaleProperties) =
+    this.scaleX = 0.0'f32
+    this.scaleY = 0.0'f32
+    this.scaleWidth = 0
+    this.scaleHeight = 0
+    this.shouldScale = false
+    discard
 
-    def __init__(self) -> None:
-        self._init_fields()
-    
+proc initScaleProperties*(this: ScaleProperties) =
+    this.initFieldsScaleProperties()
 
-    def toString(self) -> str:
-        from org.allbinary.logic.string.StringMaker import StringMaker
-        from org.allbinary.string.CommonLabels import CommonLabels
-        return str(StringMaker().append(CommonLabels.getInstance().COLON_SEP).appendboolean(self.shouldScale).append("scaleX: ").appendfloat(self.scaleX).append("scaleY: ").appendfloat(self.scaleY).append("scaleWidth: ").appendint(self.scaleWidth).append("scaleHeight: ").appendint(self.scaleHeight))
+proc newScaleProperties*(): ScaleProperties =
+    result = ScaleProperties()
+    initScaleProperties(result)
 
-    def __str__(self) -> str:
-        return self.toString()
-# from org.allbinary.logic.string.StringMaker import StringMaker
-# from org.allbinary.string.CommonLabels import CommonLabels
-
-
-def _ScaleProperties_instance() -> object:
-    return ScaleProperties()
-
-lazy_static(ScaleProperties, "instance", _ScaleProperties_instance)
+method toString*(this: ScaleProperties): string {.discardable.} =
+        return newStringMaker().append(CommonLabels.getInstance().COLON_SEP).appendboolean(this.shouldScale).append("scaleX: ").appendfloat(this.scaleX).append("scaleY: ").appendfloat(this.scaleY).append("scaleWidth: ").appendint(this.scaleWidth).append("scaleHeight: ").appendint(this.scaleHeight).toString()
 

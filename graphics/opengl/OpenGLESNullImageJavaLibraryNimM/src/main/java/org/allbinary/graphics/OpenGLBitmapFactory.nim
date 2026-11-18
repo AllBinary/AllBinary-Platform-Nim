@@ -1,60 +1,68 @@
 # Generated Code Do Not Modify
 # package org.allbinary.graphics
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import java/io/IOException as IOExceptionModule
+export IOExceptionModule
+import java/io/InputStream as InputStreamModule
+export InputStreamModule
+import javax/microedition/lcdui/Image as ImageModule
+export ImageModule
+import org/allbinary/platform/graphics/PlatformBitmapBase as PlatformBitmapBaseModule
+export PlatformBitmapBaseModule
+import org/allbinary/platform/graphics/PlatformBitmapBaseFactory as PlatformBitmapBaseFactoryModule
+export PlatformBitmapBaseFactoryModule
+import org/allbinary/graphics/OpenGLBitmapConfig as OpenGLBitmapConfigModule
+export OpenGLBitmapConfigModule
+import org/allbinary/graphics/OpenGLBitmap as OpenGLBitmapModule
+export OpenGLBitmapModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
-from org.allbinary.platform.graphics.PlatformBitmapBaseFactory import PlatformBitmapBaseFactory
+type
+    OpenGLBitmapFactory* = ref object of PlatformBitmapBaseFactory
+        ARGB_8888*: OpenGLBitmapConfig
 
+proc newOpenGLBitmapFactory*(): OpenGLBitmapFactory
+proc getInstance*(t: typedesc[OpenGLBitmapFactory]): OpenGLBitmapFactory {.discardable.}
+method createBitmap*(this: OpenGLBitmapFactory, width: int32, height: int32, config: OpenGLBitmapConfig): OpenGLBitmap {.base, discardable.}
+method decodeStream*(this: OpenGLBitmapFactory, inputStream: InputStream): OpenGLBitmap {.base, discardable.}
+method createBitmap*(this: OpenGLBitmapFactory, image: Image): PlatformBitmapBase {.discardable.}
+import org/allbinary/logic/NullUtil as NullUtilModule
+export NullUtilModule
 
-class OpenGLBitmapFactory(PlatformBitmapBaseFactory):
-    instance: OpenGLBitmapFactory = None
+var OpenGLBitmapFactory_instanceValue: OpenGLBitmapFactory
+var OpenGLBitmapFactory_instanceSet = false
+proc instance*(t: typedesc[OpenGLBitmapFactory]): OpenGLBitmapFactory =
+    if not OpenGLBitmapFactory_instanceSet:
+        OpenGLBitmapFactory_instanceSet = true
+        OpenGLBitmapFactory_instanceValue = newOpenGLBitmapFactory()
+    OpenGLBitmapFactory_instanceValue
 
-    def _init_fields(self) -> None:
-        from org.allbinary.logic.NullUtil import NullUtil
-        self.ARGB_8888: OpenGLBitmapConfig = OpenGLBitmapConfig(NullUtil.getInstance().NULL_OBJECT)
+# Java field initializers run after the base initializer
+proc initFieldsOpenGLBitmapFactory(this: OpenGLBitmapFactory) =
+    this.ARGB_8888 = newOpenGLBitmapConfig(NullUtil.getInstance().NULL_OBJECT)
+    discard
 
-    def __init__(self) -> None:
-        super().__init__()
-        self._init_fields()
-    
+proc initOpenGLBitmapFactory*(this: OpenGLBitmapFactory) =
+    initPlatformBitmapBaseFactory(this)
+    this.initFieldsOpenGLBitmapFactory()
 
-    @staticmethod
-    def getInstance() -> OpenGLBitmapFactory:
+proc newOpenGLBitmapFactory*(): OpenGLBitmapFactory =
+    result = OpenGLBitmapFactory()
+    initOpenGLBitmapFactory(result)
+
+proc getInstance*(t: typedesc[OpenGLBitmapFactory]): OpenGLBitmapFactory {.discardable.} =
         return OpenGLBitmapFactory.instance
-    
 
-    def createBitmap(self, width: int, height: int, config: OpenGLBitmapConfig) -> OpenGLBitmap:
-        from org.allbinary.graphics.OpenGLBitmap import OpenGLBitmap
-        from org.allbinary.logic.NullUtil import NullUtil
-        return OpenGLBitmap(NullUtil.getInstance().NULL_OBJECT)
-    
+method createBitmap*(this: OpenGLBitmapFactory, width: int32, height: int32, config: OpenGLBitmapConfig): OpenGLBitmap {.base, discardable.} =
+        return newOpenGLBitmap(NullUtil.getInstance().NULL_OBJECT)
 
-    # throws IOException
-    def decodeStream(self, inputStream: InputStream) -> OpenGLBitmap:
-        from org.allbinary.graphics.OpenGLBitmap import OpenGLBitmap
-        from java.io.InputStream import InputStream
-        from org.allbinary.logic.NullUtil import NullUtil
-        return OpenGLBitmap(NullUtil.getInstance().NULL_OBJECT)
-    
+method decodeStream*(this: OpenGLBitmapFactory, inputStream: InputStream): OpenGLBitmap {.base, discardable.} =
+        return newOpenGLBitmap(NullUtil.getInstance().NULL_OBJECT)
 
-    # Java overloaded method: Python keeps the last definition
-    def createBitmap(self, image: Image) -> PlatformBitmapBase:
-        from org.allbinary.graphics.OpenGLBitmap import OpenGLBitmap
-        from javax.microedition.lcdui.Image import Image
-        from org.allbinary.logic.NullUtil import NullUtil
-        from org.allbinary.platform.graphics.PlatformBitmapBase import PlatformBitmapBase
-        return OpenGLBitmap(NullUtil.getInstance().NULL_OBJECT)
-# from java.io.IOException import IOException
-# from java.io.InputStream import InputStream
-# from javax.microedition.lcdui.Image import Image
-# from org.allbinary.logic.NullUtil import NullUtil
-# from org.allbinary.platform.graphics.PlatformBitmapBase import PlatformBitmapBase
-from org.allbinary.graphics.OpenGLBitmapConfig import OpenGLBitmapConfig
+method createBitmap*(this: OpenGLBitmapFactory, image: Image): PlatformBitmapBase {.discardable.} =
+        return newOpenGLBitmap(NullUtil.getInstance().NULL_OBJECT)
 
-
-def _OpenGLBitmapFactory_instance() -> object:
-    return OpenGLBitmapFactory()
-
-lazy_static(OpenGLBitmapFactory, "instance", _OpenGLBitmapFactory_instance)
+when declared(newOpenGLBitmapFactoryHook0):
+    newOpenGLBitmapFactoryHook0 = proc (): PlatformBitmapBaseFactory = newOpenGLBitmapFactory()
 

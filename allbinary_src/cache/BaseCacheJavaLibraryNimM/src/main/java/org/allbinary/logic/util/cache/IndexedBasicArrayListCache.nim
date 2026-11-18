@@ -32,6 +32,7 @@ type
         size*: int32
         index*: int32
 
+converter jAsCacheInterface*(value: IndexedBasicArrayListCache): CacheInterface = cast[CacheInterface](value)
 proc newIndexedBasicArrayListCache*(): IndexedBasicArrayListCache
 proc initIndexedBasicArrayListCache*(this: IndexedBasicArrayListCache)
 proc createCache*(t: typedesc[IndexedBasicArrayListCache], size: int32): IndexedBasicArrayListCache {.discardable.}

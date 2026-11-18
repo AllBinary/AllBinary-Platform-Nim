@@ -1,69 +1,86 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.input
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/input/motion/gesture/MotionGestureInput as MotionGestureInputModule
+export MotionGestureInputModule
+import org/allbinary/logic/communication/log/LogUtil as LogUtilModule
+export LogUtilModule
+import org/allbinary/logic/util/event/AllBinaryEventObject as AllBinaryEventObjectModule
+export AllBinaryEventObjectModule
+import org/allbinary/game/input/CompleteMotionGestureInputInterface as CompleteMotionGestureInputInterfaceModule
+export CompleteMotionGestureInputInterfaceModule
 
-from org.allbinary.logic.util.event.AllBinaryEventObject import AllBinaryEventObject
-from org.allbinary.game.input.CompleteMotionGestureInputInterface import CompleteMotionGestureInputInterface
+type
+    CompleteMotionGestureInputEvent* = ref object of AllBinaryEventObject
+        logUtil*: LogUtil
+        name*: string
+        motionGestureInput*: MotionGestureInput
+
+converter jAsCompleteMotionGestureInputInterface*(value: CompleteMotionGestureInputEvent): CompleteMotionGestureInputInterface = cast[CompleteMotionGestureInputInterface](value)
+proc newCompleteMotionGestureInputEvent*(name: string, motionGestureInput: MotionGestureInput): CompleteMotionGestureInputEvent
+proc initCompleteMotionGestureInputEvent*(this: CompleteMotionGestureInputEvent, name: string, motionGestureInput: MotionGestureInput)
+method setName*(this: CompleteMotionGestureInputEvent, name: string) {.base.}
+method getName*(this: CompleteMotionGestureInputEvent): string {.discardable.}
+method setMotionGestureInput*(this: CompleteMotionGestureInputEvent, motionGestureInput: MotionGestureInput) {.base.}
+method getMotionGestureInput*(this: CompleteMotionGestureInputEvent): MotionGestureInput {.base, discardable.}
+import org/allbinary/input/motion/gesture/TouchMotionGestureFactory as TouchMotionGestureFactoryModule
+export TouchMotionGestureFactoryModule
+import org/allbinary/logic/string/StringUtil as StringUtilModule
+export StringUtilModule
+import org/allbinary/string/CommonStrings as CommonStringsModule
+export CommonStringsModule
 
 
-class CompleteMotionGestureInputEvent(AllBinaryEventObject, CompleteMotionGestureInputInterface):
+# Java field initializers run after the base initializer
+proc initFieldsCompleteMotionGestureInputEvent(this: CompleteMotionGestureInputEvent) =
+    this.logUtil = LogUtil.getInstance()
+    this.name = StringUtil.getInstance().EMPTY_STRING
+    this.motionGestureInput = TouchMotionGestureFactory.getInstance().NO_MOTION
+    discard
 
-    def _init_fields(self) -> None:
-        from org.allbinary.input.motion.gesture.MotionGestureInput import MotionGestureInput
-        from org.allbinary.input.motion.gesture.TouchMotionGestureFactory import TouchMotionGestureFactory
-        from org.allbinary.logic.communication.log.LogUtil import LogUtil
-        from org.allbinary.logic.string.StringUtil import StringUtil
-        self.logUtil: LogUtil = LogUtil.getInstance()
-        self.name: str = StringUtil.getInstance().EMPTY_STRING
-        self.motionGestureInput: MotionGestureInput = TouchMotionGestureFactory.getInstance().NO_MOTION
-    
-
-    def __init__(self, name: str, motionGestureInput: MotionGestureInput) -> None:
-        from org.allbinary.input.motion.gesture.MotionGestureInput import MotionGestureInput
-        from org.allbinary.string.CommonStrings import CommonStrings
-        super().__init__(motionGestureInput)
-        self._init_fields()
-        self.setName(name)
+proc initCompleteMotionGestureInputEvent*(this: CompleteMotionGestureInputEvent, name: string, motionGestureInput: MotionGestureInput) =
+        initAllBinaryEventObject(this, motionGestureInput)
+        this.initFieldsCompleteMotionGestureInputEvent()
+        this.setName(name)
         try:
-            self.setMotionGestureInput(motionGestureInput)
-        except Exception as e:
-            commonStrings: CommonStrings = CommonStrings.getInstance()
-            self.logUtil.put(commonStrings.EXCEPTION, self, "InputToGameKeyEventAction", e)
-    
+            this.setMotionGestureInput(motionGestureInput)
+        except CatchableError as jcaught:
+            let e = jToException(jcaught)
+            let commonStrings: CommonStrings = CommonStrings.getInstance()
+            this.logUtil.put(commonStrings.EXCEPTION, this, "InputToGameKeyEventAction", e)
 
-    def setName(self, name: str) -> None:
-        self.name = name
-    
+proc newCompleteMotionGestureInputEvent*(name: string, motionGestureInput: MotionGestureInput): CompleteMotionGestureInputEvent =
+    result = CompleteMotionGestureInputEvent()
+    initCompleteMotionGestureInputEvent(result, name, motionGestureInput)
 
-    def getName(self) -> str:
-        return self.name
-    
+method setName*(this: CompleteMotionGestureInputEvent, name: string) {.base.} =
+        this.name = name
 
-    def setMotionGestureInput(self, motionGestureInput: MotionGestureInput) -> None:
-        from org.allbinary.input.motion.gesture.MotionGestureInput import MotionGestureInput
-        self.motionGestureInput = motionGestureInput
-    
+method getName*(this: CompleteMotionGestureInputEvent): string {.discardable.} =
+        return this.name
 
-    def getMotionGestureInput(self) -> MotionGestureInput:
-        from org.allbinary.input.motion.gesture.MotionGestureInput import MotionGestureInput
-        return self.motionGestureInput
-# from org.allbinary.input.motion.gesture.MotionGestureInput import MotionGestureInput
-# from org.allbinary.input.motion.gesture.TouchMotionGestureFactory import TouchMotionGestureFactory
-# from org.allbinary.logic.communication.log.LogUtil import LogUtil
-# from org.allbinary.logic.string.StringUtil import StringUtil
-# from org.allbinary.string.CommonStrings import CommonStrings
+method setMotionGestureInput*(this: CompleteMotionGestureInputEvent, motionGestureInput: MotionGestureInput) {.base.} =
+        this.motionGestureInput = motionGestureInput
 
+method getMotionGestureInput*(this: CompleteMotionGestureInputEvent): MotionGestureInput {.base, discardable.} =
+        return this.motionGestureInput
+
+when declared(newCompleteMotionGestureInputEventHook2):
+    newCompleteMotionGestureInputEventHook2 = proc (name: string, motionGestureInput: MotionGestureInput): AllBinaryEventObject = newCompleteMotionGestureInputEvent(name, motionGestureInput)
 

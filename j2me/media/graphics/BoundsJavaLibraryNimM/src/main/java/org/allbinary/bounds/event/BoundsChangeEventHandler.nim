@@ -1,49 +1,67 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.bounds.event
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/logic/util/event/AllBinaryEventObject as AllBinaryEventObjectModule
+export AllBinaryEventObjectModule
+import org/allbinary/logic/util/event/EventListenerInterface as EventListenerInterfaceModule
+export EventListenerInterfaceModule
+import org/allbinary/logic/util/event/handler/BasicEventHandler as BasicEventHandlerModule
+export BasicEventHandlerModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
-from org.allbinary.logic.util.event.handler.BasicEventHandler import BasicEventHandler
+type
+    BoundsChangeEventHandler* = ref object of BasicEventHandler
 
+proc newBoundsChangeEventHandler*(): BoundsChangeEventHandler
+proc initBoundsChangeEventHandler*(this: BoundsChangeEventHandler)
+proc getInstance*(t: typedesc[BoundsChangeEventHandler]): BasicEventHandler {.discardable.}
+method process*(this: BoundsChangeEventHandler, eventObject: AllBinaryEventObject, eventListenerInterface: EventListenerInterface)
+import org/allbinary/bounds/event/BoundsChangeEventListener as BoundsChangeEventListenerModule
+export BoundsChangeEventListenerModule
+import org/allbinary/bounds/event/BoundsChangeEvent as BoundsChangeEventModule
+export BoundsChangeEventModule
 
-class BoundsChangeEventHandler(BasicEventHandler):
-    SINGLETON: BasicEventHandler = None
-    
+var BoundsChangeEventHandler_SINGLETONValue: BasicEventHandler
+var BoundsChangeEventHandler_SINGLETONSet = false
+proc SINGLETON*(t: typedesc[BoundsChangeEventHandler]): BasicEventHandler =
+    if not BoundsChangeEventHandler_SINGLETONSet:
+        BoundsChangeEventHandler_SINGLETONSet = true
+        BoundsChangeEventHandler_SINGLETONValue = newBoundsChangeEventHandler()
+    BoundsChangeEventHandler_SINGLETONValue
+proc `SINGLETON=`*(t: typedesc[BoundsChangeEventHandler], value: BasicEventHandler) =
+    BoundsChangeEventHandler_SINGLETONSet = true
+    BoundsChangeEventHandler_SINGLETONValue = value
 
-    def __init__(self) -> None:
-        super().__init__()
-    
+proc initBoundsChangeEventHandler*(this: BoundsChangeEventHandler) =
+        initBasicEventHandler(this)
+        discard
 
-    @staticmethod
-    def getInstance() -> BasicEventHandler:
+proc newBoundsChangeEventHandler*(): BoundsChangeEventHandler =
+    result = BoundsChangeEventHandler()
+    initBoundsChangeEventHandler(result)
+
+proc getInstance*(t: typedesc[BoundsChangeEventHandler]): BasicEventHandler {.discardable.} =
         return BoundsChangeEventHandler.SINGLETON
-    
 
-    # throws Exception
-    def process(self, eventObject: AllBinaryEventObject, eventListenerInterface: EventListenerInterface) -> None:
-        from org.allbinary.logic.util.event.AllBinaryEventObject import AllBinaryEventObject
-        from org.allbinary.logic.util.event.EventListenerInterface import EventListenerInterface
-        boundsChangeEventListener: BoundsChangeEventListener = eventListenerInterface
-        boundsChangeEventListener.onBoundsChangeEvent(eventObject)
-# from org.allbinary.logic.util.event.AllBinaryEventObject import AllBinaryEventObject
-# from org.allbinary.logic.util.event.EventListenerInterface import EventListenerInterface
+method process*(this: BoundsChangeEventHandler, eventObject: AllBinaryEventObject, eventListenerInterface: EventListenerInterface) =
+        let boundsChangeEventListener: BoundsChangeEventListener = BoundsChangeEventListener(JObject(eventListenerInterface))
+        boundsChangeEventListener.onBoundsChangeEvent(BoundsChangeEvent(JObject(eventObject)))
 
-
-def _BoundsChangeEventHandler_SINGLETON() -> object:
-    return BoundsChangeEventHandler()
-
-lazy_static(BoundsChangeEventHandler, "SINGLETON", _BoundsChangeEventHandler_SINGLETON)
+when declared(newBoundsChangeEventHandlerHook0):
+    newBoundsChangeEventHandlerHook0 = proc (): BasicEventHandler = newBoundsChangeEventHandler()
 

@@ -1,69 +1,82 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.input.motion.button
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/util/BasicArrayList as BasicArrayListModule
+export BasicArrayListModule
+import org/allbinary/input/motion/button/TouchButtonInput as TouchButtonInputModule
+export TouchButtonInputModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    CurrentlyPressedTouchButtonSingleton* = ref object of JObject
+        list*: BasicArrayList
 
+proc newCurrentlyPressedTouchButtonSingleton*(): CurrentlyPressedTouchButtonSingleton
+proc initCurrentlyPressedTouchButtonSingleton*(this: CurrentlyPressedTouchButtonSingleton)
+proc getInstance*(t: typedesc[CurrentlyPressedTouchButtonSingleton]): CurrentlyPressedTouchButtonSingleton {.discardable.}
+method size*(this: CurrentlyPressedTouchButtonSingleton): int32 {.base, discardable.}
+method removeAt*(this: CurrentlyPressedTouchButtonSingleton, index: int32): TouchButtonInput {.base, discardable.}
+method remove*(this: CurrentlyPressedTouchButtonSingleton, touchButtonInput: TouchButtonInput): bool {.base, discardable.}
+method get*(this: CurrentlyPressedTouchButtonSingleton, index: int32): TouchButtonInput {.base, discardable.}
+method contains*(this: CurrentlyPressedTouchButtonSingleton, touchButtonInput: TouchButtonInput): bool {.base, discardable.}
+method add*(this: CurrentlyPressedTouchButtonSingleton, touchButtonInput: TouchButtonInput) {.base.}
+import org/allbinary/util/BasicArrayListD as BasicArrayListDModule
+export BasicArrayListDModule
 
-class CurrentlyPressedTouchButtonSingleton:
-    instance: CurrentlyPressedTouchButtonSingleton = None
+var CurrentlyPressedTouchButtonSingleton_instanceValue: CurrentlyPressedTouchButtonSingleton
+var CurrentlyPressedTouchButtonSingleton_instanceSet = false
+proc instance*(t: typedesc[CurrentlyPressedTouchButtonSingleton]): CurrentlyPressedTouchButtonSingleton =
+    if not CurrentlyPressedTouchButtonSingleton_instanceSet:
+        CurrentlyPressedTouchButtonSingleton_instanceSet = true
+        CurrentlyPressedTouchButtonSingleton_instanceValue = newCurrentlyPressedTouchButtonSingleton()
+    CurrentlyPressedTouchButtonSingleton_instanceValue
 
-    def _init_fields(self) -> None:
-        from org.allbinary.util.BasicArrayList import BasicArrayList
-        from org.allbinary.util.BasicArrayListD import BasicArrayListD
-        self.list_: BasicArrayList = BasicArrayListD()
-    
+# Java field initializers run after the base initializer
+proc initFieldsCurrentlyPressedTouchButtonSingleton(this: CurrentlyPressedTouchButtonSingleton) =
+    this.list = newBasicArrayListD()
+    discard
 
-    @staticmethod
-    def getInstance() -> CurrentlyPressedTouchButtonSingleton:
+proc getInstance*(t: typedesc[CurrentlyPressedTouchButtonSingleton]): CurrentlyPressedTouchButtonSingleton {.discardable.} =
         return CurrentlyPressedTouchButtonSingleton.instance
-    
 
-    def __init__(self) -> None:
-        self._init_fields()
-    
+proc initCurrentlyPressedTouchButtonSingleton*(this: CurrentlyPressedTouchButtonSingleton) =
+        this.initFieldsCurrentlyPressedTouchButtonSingleton()
+        discard
 
-    def size(self) -> int:
-        return self.list_.size()
-    
+proc newCurrentlyPressedTouchButtonSingleton*(): CurrentlyPressedTouchButtonSingleton =
+    result = CurrentlyPressedTouchButtonSingleton()
+    initCurrentlyPressedTouchButtonSingleton(result)
 
-    def removeAt(self, index: int) -> TouchButtonInput:
-        return self.list_.removeAt(index)
-    
+method size*(this: CurrentlyPressedTouchButtonSingleton): int32 {.base, discardable.} =
+        return this.list.size()
 
-    def remove(self, touchButtonInput: TouchButtonInput) -> bool:
-        return self.list_.remove(touchButtonInput)
-    
+method removeAt*(this: CurrentlyPressedTouchButtonSingleton, index: int32): TouchButtonInput {.base, discardable.} =
+        return TouchButtonInput(JObject(this.list.removeAt(index)))
 
-    def get(self, index: int) -> TouchButtonInput:
-        return self.list_.objectArray[index]
-    
+method remove*(this: CurrentlyPressedTouchButtonSingleton, touchButtonInput: TouchButtonInput): bool {.base, discardable.} =
+        return this.list.remove(touchButtonInput)
 
-    def contains(self, touchButtonInput: TouchButtonInput) -> bool:
-        return self.list_.contains(touchButtonInput)
-    
+method get*(this: CurrentlyPressedTouchButtonSingleton, index: int32): TouchButtonInput {.base, discardable.} =
+        return TouchButtonInput(JObject(this.list.objectArray[index]))
 
-    def add(self, touchButtonInput: TouchButtonInput) -> None:
-        self.list_.add(touchButtonInput)
-# from org.allbinary.util.BasicArrayList import BasicArrayList
-# from org.allbinary.util.BasicArrayListD import BasicArrayListD
+method contains*(this: CurrentlyPressedTouchButtonSingleton, touchButtonInput: TouchButtonInput): bool {.base, discardable.} =
+        return this.list.contains(touchButtonInput)
 
-
-def _CurrentlyPressedTouchButtonSingleton_instance() -> object:
-    return CurrentlyPressedTouchButtonSingleton()
-
-lazy_static(CurrentlyPressedTouchButtonSingleton, "instance", _CurrentlyPressedTouchButtonSingleton_instance)
+method add*(this: CurrentlyPressedTouchButtonSingleton, touchButtonInput: TouchButtonInput) {.base.} =
+        this.list.add(touchButtonInput)
 

@@ -1,60 +1,77 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.logic.util.cache
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/string/CommonStrings as CommonStringsModule
+export CommonStringsModule
+import org/allbinary/util/BasicArrayList as BasicArrayListModule
+export BasicArrayListModule
+import org/allbinary/logic/util/cache/PoolInterface as PoolInterfaceModule
+export PoolInterfaceModule
+import org/allbinary/logic/util/cache/CacheableInterfaceFactoryInterface as CacheableInterfaceFactoryInterfaceModule
+export CacheableInterfaceFactoryInterfaceModule
+import org/allbinary/logic/util/cache/CacheableInterface as CacheableInterfaceModule
+export CacheableInterfaceModule
 
-from org.allbinary.logic.util.cache.PoolInterface import PoolInterface
+type
+    AbstractArrayListPool* = ref object of PoolInterface
+        commonStrings*: CommonStrings
+        buffers*: BasicArrayList
+        cacheableInterfaceFactoryInterface*: CacheableInterfaceFactoryInterface
+
+proc newAbstractArrayListPool*(cacheableInterfaceFactoryInterface: CacheableInterfaceFactoryInterface): AbstractArrayListPool
+proc initAbstractArrayListPool*(this: AbstractArrayListPool, cacheableInterfaceFactoryInterface: CacheableInterfaceFactoryInterface)
+method clear*(this: AbstractArrayListPool)
+method remove*(this: AbstractArrayListPool, key: JObject): CacheableInterface {.discardable.}
+method add*(this: AbstractArrayListPool, cacheableInterface: CacheableInterface)
+method addArray*(this: AbstractArrayListPool, cacheableInterfaces: JArray[CacheableInterface])
+import org/allbinary/util/BasicArrayListD as BasicArrayListDModule
+export BasicArrayListDModule
 
 
-class AbstractArrayListPool(PoolInterface):
-
-    def _init_fields(self) -> None:
-        from org.allbinary.string.CommonStrings import CommonStrings
-        from org.allbinary.util.BasicArrayList import BasicArrayList
-        from org.allbinary.util.BasicArrayListD import BasicArrayListD
-        self.commonStrings: CommonStrings = CommonStrings.getInstance()
-        self.buffers: BasicArrayList = BasicArrayListD()
-        self.cacheableInterfaceFactoryInterface: CacheableInterfaceFactoryInterface = None
+# Java field initializers run after the base initializer
+proc initFieldsAbstractArrayListPool(this: AbstractArrayListPool) =
+    this.commonStrings = CommonStrings.getInstance()
+    this.buffers = newBasicArrayListD()
     
+    discard
 
-    def __init__(self, cacheableInterfaceFactoryInterface: CacheableInterfaceFactoryInterface) -> None:
-        self._init_fields()
-        self.cacheableInterfaceFactoryInterface = cacheableInterfaceFactoryInterface
-    
+proc initAbstractArrayListPool*(this: AbstractArrayListPool, cacheableInterfaceFactoryInterface: CacheableInterfaceFactoryInterface) =
+        this.initFieldsAbstractArrayListPool()
+        this.cacheableInterfaceFactoryInterface = cacheableInterfaceFactoryInterface
 
-    # throws Exception
-    def clear(self) -> None:
-        raise Exception(self.commonStrings.NOT_IMPLEMENTED)
-    
+proc newAbstractArrayListPool*(cacheableInterfaceFactoryInterface: CacheableInterfaceFactoryInterface): AbstractArrayListPool =
+    result = AbstractArrayListPool()
+    initAbstractArrayListPool(result, cacheableInterfaceFactoryInterface)
 
-    # throws Exception
-    def remove(self, key: object) -> CacheableInterface:
-        raise Exception(self.commonStrings.NOT_IMPLEMENTED)
-    
+method clear*(this: AbstractArrayListPool) =
+        raise newJException("Exception", this.commonStrings.NOT_IMPLEMENTED)
 
-    # throws Exception
-    def add(self, cacheableInterface: CacheableInterface) -> None:
-        self.buffers.add(cacheableInterface)
-    
+method remove*(this: AbstractArrayListPool, key: JObject): CacheableInterface {.discardable.} =
+        raise newJException("Exception", this.commonStrings.NOT_IMPLEMENTED)
 
-    # throws Exception
-    def addArray(self, cacheableInterfaces: list[CacheableInterface]) -> None:
-        for index in range(0, len(cacheableInterfaces)):
-            self.buffers.add(cacheableInterfaces[index])
-# from org.allbinary.string.CommonStrings import CommonStrings
-# from org.allbinary.util.BasicArrayList import BasicArrayList
-# from org.allbinary.util.BasicArrayListD import BasicArrayListD
+method add*(this: AbstractArrayListPool, cacheableInterface: CacheableInterface) =
+        this.buffers.add(cacheableInterface)
 
+method addArray*(this: AbstractArrayListPool, cacheableInterfaces: JArray[CacheableInterface]) =
+        block:
+            var index: int32 = 0
+            while index < cacheableInterfaces.length:
+                defer: index = index +% 1
+                this.buffers.add(cacheableInterfaces[index])
 

@@ -83,7 +83,7 @@ method putL*(this: LogUtil, log: Log) {.base.} =
 method putF*(this: LogUtil, specialMessage: string, anyType: JObject, functionName: string) {.base.} =
         var className: string = CommonStrings.getInstance().EMPTY
         if (not jIsNil(jClassName(anyType))):
-            className = newStringMaker().append(jClassName(anyType)).append(CommonSeps.getInstance().COLON).append(Integer.toHexString(TsUtil.getInstance().hashCode(anyType))).toString()
+            className = jNewString(newStringMaker().append(jClassName(anyType)).append(CommonSeps.getInstance().COLON).append(Integer.toHexString(TsUtil.getInstance().hashCode(anyType))).toString())
         let message: string = this.logFormatUtil.getS(className, functionName, specialMessage)
         echo jstr(this.LOG_SUCCESS)
         echo jstr(message)
@@ -98,7 +98,7 @@ method put*(this: LogUtil, specialMessage: string, anyType: JObject, functionNam
         if (not jIsNil(jClassName(anyType))):
             let hashCodeValue: int32 = TsUtil.getInstance().hashCode(anyType)
             let hexString: string = Integer.toHexString(hashCodeValue)
-            className = newStringMaker().append(jClassName(anyType)).append(CommonSeps.getInstance().COLON).append(hexString).toString()
+            className = jNewString(newStringMaker().append(jClassName(anyType)).append(CommonSeps.getInstance().COLON).append(hexString).toString())
         let message: string = this.logFormatUtil.get(className, functionName, specialMessage, exception)
         echo jstr(this.LOG_SUCCESS)
         echo jstr(message)

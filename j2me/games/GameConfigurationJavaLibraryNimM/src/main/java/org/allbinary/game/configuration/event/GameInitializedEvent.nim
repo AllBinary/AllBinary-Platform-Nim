@@ -1,57 +1,70 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.configuration.event
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/game/resource/ResourceLoadingLevel as ResourceLoadingLevelModule
+export ResourceLoadingLevelModule
+import org/allbinary/logic/util/event/AllBinaryEventObject as AllBinaryEventObjectModule
+export AllBinaryEventObjectModule
 
-from org.allbinary.logic.util.event.AllBinaryEventObject import AllBinaryEventObject
+type
+    GameInitializedEvent* = ref object of AllBinaryEventObject
+        resourceLoadingLevel*: ResourceLoadingLevel
+        level*: int32
+
+proc newGameInitializedEvent*(anyType: JObject): GameInitializedEvent
+proc initGameInitializedEvent*(this: GameInitializedEvent, anyType: JObject)
+method setLevel*(this: GameInitializedEvent, level: int32) {.base.}
+method getLevel*(this: GameInitializedEvent): int32 {.base, discardable.}
+method setResourceLoadingLevel*(this: GameInitializedEvent, resourceLoadingLevel: ResourceLoadingLevel) {.base.}
+method getResourceLoadingLevel*(this: GameInitializedEvent): ResourceLoadingLevel {.base, discardable.}
+import org/allbinary/game/resource/ResourceLoadingLevelFactory as ResourceLoadingLevelFactoryModule
+export ResourceLoadingLevelFactoryModule
 
 
-class GameInitializedEvent(AllBinaryEventObject):
+# Java field initializers run after the base initializer
+proc initFieldsGameInitializedEvent(this: GameInitializedEvent) =
+    this.resourceLoadingLevel = ResourceLoadingLevelFactory.getInstance().LEVEL
+    this.level = 0
+    discard
 
-    def _init_fields(self) -> None:
-        from org.allbinary.game.resource.ResourceLoadingLevel import ResourceLoadingLevel
-        from org.allbinary.game.resource.ResourceLoadingLevelFactory import ResourceLoadingLevelFactory
-        self.resourceLoadingLevel: ResourceLoadingLevel = ResourceLoadingLevelFactory.getInstance().LEVEL
-        self.level: int = 0
-    
+proc initGameInitializedEvent*(this: GameInitializedEvent, anyType: JObject) =
+        initAllBinaryEventObject(this, anyType)
+        this.initFieldsGameInitializedEvent()
 
-    def __init__(self, anyType: object) -> None:
-        super().__init__(anyType)
-        self._init_fields()
-    
+proc newGameInitializedEvent*(anyType: JObject): GameInitializedEvent =
+    result = GameInitializedEvent()
+    initGameInitializedEvent(result, anyType)
 
-    def setLevel(self, level: int) -> None:
-        from org.allbinary.game.resource.ResourceLoadingLevelFactory import ResourceLoadingLevelFactory
-        self.level = level
-        self.resourceLoadingLevel = ResourceLoadingLevelFactory.getInstance().LEVEL
-    
+method setLevel*(this: GameInitializedEvent, level: int32) {.base.} =
+        this.level = level
+        this.resourceLoadingLevel = ResourceLoadingLevelFactory.getInstance().LEVEL
 
-    def getLevel(self) -> int:
-        return self.level
-    
+method getLevel*(this: GameInitializedEvent): int32 {.base, discardable.} =
+        return this.level
 
-    def setResourceLoadingLevel(self, resourceLoadingLevel: ResourceLoadingLevel) -> None:
-        from org.allbinary.game.resource.ResourceLoadingLevel import ResourceLoadingLevel
-        self.resourceLoadingLevel = resourceLoadingLevel
-        self.level = self.resourceLoadingLevel.getLevel()
-    
+method setResourceLoadingLevel*(this: GameInitializedEvent, resourceLoadingLevel: ResourceLoadingLevel) {.base.} =
+        this.resourceLoadingLevel = resourceLoadingLevel
+        this.level = this.resourceLoadingLevel.getLevel()
 
-    def getResourceLoadingLevel(self) -> ResourceLoadingLevel:
-        from org.allbinary.game.resource.ResourceLoadingLevel import ResourceLoadingLevel
-        return self.resourceLoadingLevel
-# from org.allbinary.game.resource.ResourceLoadingLevel import ResourceLoadingLevel
-# from org.allbinary.game.resource.ResourceLoadingLevelFactory import ResourceLoadingLevelFactory
+method getResourceLoadingLevel*(this: GameInitializedEvent): ResourceLoadingLevel {.base, discardable.} =
+        return this.resourceLoadingLevel
 
+when declared(newGameInitializedEventHook1):
+    newGameInitializedEventHook1 = proc (anyType: JObject): AllBinaryEventObject = newGameInitializedEvent(anyType)
 

@@ -1,73 +1,86 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#   
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+    
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.animation.compound
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/animation/Animation as AnimationModule
+export AnimationModule
+import org/allbinary/animation/AnimationBehaviorFactory as AnimationBehaviorFactoryModule
+export AnimationBehaviorFactoryModule
+import org/allbinary/animation/AnimationInterfaceFactoryInterface as AnimationInterfaceFactoryInterfaceModule
+export AnimationInterfaceFactoryInterfaceModule
+import org/allbinary/media/ScaleProperties as ScalePropertiesModule
+export ScalePropertiesModule
 
-from org.allbinary.animation.AnimationInterfaceFactoryInterface import AnimationInterfaceFactoryInterface
+type
+    CompoundAnimationInterfaceFactory* = ref object of AnimationInterfaceFactoryInterface
+        basicAnimationInterfaceFactoryInterfaceArrayP*: JArray[AnimationInterfaceFactoryInterface]
+        animationBehaviorFactory*: AnimationBehaviorFactory
+
+proc newCompoundAnimationInterfaceFactory*(basicAnimationInterfaceFactoryInterfaceArray: JArray[AnimationInterfaceFactoryInterface], animationBehaviorFactory: AnimationBehaviorFactory): CompoundAnimationInterfaceFactory
+proc initCompoundAnimationInterfaceFactory*(this: CompoundAnimationInterfaceFactory, basicAnimationInterfaceFactoryInterfaceArray: JArray[AnimationInterfaceFactoryInterface], animationBehaviorFactory: AnimationBehaviorFactory)
+method getInstance*(this: CompoundAnimationInterfaceFactory, instanceId: int32): Animation {.discardable.}
+method createArray*(this: CompoundAnimationInterfaceFactory, size: int32): JArray[Animation] {.base, discardable.}
+method createAnimation*(this: CompoundAnimationInterfaceFactory, animationInterfaceArray: JArray[Animation]): Animation {.base, discardable.}
+method getBasicAnimationInterfaceFactoryInterfaceArray*(this: CompoundAnimationInterfaceFactory): JArray[AnimationInterfaceFactoryInterface] {.base, discardable.}
+method setInitialScale*(this: CompoundAnimationInterfaceFactory, scaleProperties: ScaleProperties)
+import org/allbinary/animation/NullAnimationFactory as NullAnimationFactoryModule
+export NullAnimationFactoryModule
 
 
-class CompoundAnimationInterfaceFactory(AnimationInterfaceFactoryInterface):
-
-    def _init_fields(self) -> None:
-        from org.allbinary.animation.AnimationBehaviorFactory import AnimationBehaviorFactory
-        self.basicAnimationInterfaceFactoryInterfaceArrayP: list[AnimationInterfaceFactoryInterface] = None
-        self.animationBehaviorFactory: AnimationBehaviorFactory = None
+# Java field initializers run after the base initializer
+proc initFieldsCompoundAnimationInterfaceFactory(this: CompoundAnimationInterfaceFactory) =
     
-
-    def __init__(self, basicAnimationInterfaceFactoryInterfaceArray: list[AnimationInterfaceFactoryInterface], animationBehaviorFactory: AnimationBehaviorFactory) -> None:
-        from org.allbinary.animation.AnimationBehaviorFactory import AnimationBehaviorFactory
-        self._init_fields()
-        self.basicAnimationInterfaceFactoryInterfaceArrayP = basicAnimationInterfaceFactoryInterfaceArray
-        self.animationBehaviorFactory = animationBehaviorFactory
     
+    discard
 
-    # throws Exception
-    def getInstance(self, instanceId: int) -> Animation:
-        from org.allbinary.animation.Animation import Animation
-        size: int = len(self.basicAnimationInterfaceFactoryInterfaceArrayP)
-        animationInterfaceArray: list[Animation] = self.createArray(size)
-        for index in range(0, size):
-            animationInterfaceArray[index] = self.basicAnimationInterfaceFactoryInterfaceArrayP[index].getInstance(instanceId)
-        return self.createAnimation(animationInterfaceArray)
-    
+proc initCompoundAnimationInterfaceFactory*(this: CompoundAnimationInterfaceFactory, basicAnimationInterfaceFactoryInterfaceArray: JArray[AnimationInterfaceFactoryInterface], animationBehaviorFactory: AnimationBehaviorFactory) =
+        this.initFieldsCompoundAnimationInterfaceFactory()
+        this.basicAnimationInterfaceFactoryInterfaceArrayP = basicAnimationInterfaceFactoryInterfaceArray
+        this.animationBehaviorFactory = animationBehaviorFactory
 
-    def createArray(self, size: int) -> list[Animation]:
-        from org.allbinary.animation.Animation import Animation
-        from org.allbinary.animation.NullAnimationFactory import NullAnimationFactory
+proc newCompoundAnimationInterfaceFactory*(basicAnimationInterfaceFactoryInterfaceArray: JArray[AnimationInterfaceFactoryInterface], animationBehaviorFactory: AnimationBehaviorFactory): CompoundAnimationInterfaceFactory =
+    result = CompoundAnimationInterfaceFactory()
+    initCompoundAnimationInterfaceFactory(result, basicAnimationInterfaceFactoryInterfaceArray, animationBehaviorFactory)
+
+method getInstance*(this: CompoundAnimationInterfaceFactory, instanceId: int32): Animation {.discardable.} =
+        let size: int32 = this.basicAnimationInterfaceFactoryInterfaceArrayP.length
+        let animationInterfaceArray: JArray[Animation] = this.createArray(size)
+        block:
+            var index: int32 = 0
+            while index < size:
+                defer: index = index +% 1
+                animationInterfaceArray[index] = this.basicAnimationInterfaceFactoryInterfaceArrayP[index].getInstance(instanceId)
+        return this.createAnimation(animationInterfaceArray)
+
+method createArray*(this: CompoundAnimationInterfaceFactory, size: int32): JArray[Animation] {.base, discardable.} =
         return NullAnimationFactory.getFactoryInstance().EMPTY_ARRAY
-    
 
-    def createAnimation(self, animationInterfaceArray: list[Animation]) -> Animation:
-        from org.allbinary.animation.Animation import Animation
-        from org.allbinary.animation.NullAnimationFactory import NullAnimationFactory
+method createAnimation*(this: CompoundAnimationInterfaceFactory, animationInterfaceArray: JArray[Animation]): Animation {.base, discardable.} =
         return NullAnimationFactory.getFactoryInstance().getInstance(0)
-    
 
-    def getBasicAnimationInterfaceFactoryInterfaceArray(self) -> list[AnimationInterfaceFactoryInterface]:
-        return self.basicAnimationInterfaceFactoryInterfaceArrayP
-    
+method getBasicAnimationInterfaceFactoryInterfaceArray*(this: CompoundAnimationInterfaceFactory): JArray[AnimationInterfaceFactoryInterface] {.base, discardable.} =
+        return this.basicAnimationInterfaceFactoryInterfaceArrayP
 
-    def setInitialScale(self, scaleProperties: ScaleProperties) -> None:
-        from org.allbinary.media.ScaleProperties import ScaleProperties
-        size: int = len(self.basicAnimationInterfaceFactoryInterfaceArrayP)
-        for index in range(0, size):
-            self.basicAnimationInterfaceFactoryInterfaceArrayP[index].setInitialScale(scaleProperties)
-# from org.allbinary.animation.Animation import Animation
-# from org.allbinary.animation.AnimationBehaviorFactory import AnimationBehaviorFactory
-# from org.allbinary.animation.NullAnimationFactory import NullAnimationFactory
-# from org.allbinary.logic.communication.log.ForcedLogUtil import ForcedLogUtil
-# from org.allbinary.media.ScaleProperties import ScaleProperties
-
+method setInitialScale*(this: CompoundAnimationInterfaceFactory, scaleProperties: ScaleProperties) =
+        let size: int32 = this.basicAnimationInterfaceFactoryInterfaceArrayP.length
+        block:
+            var index: int32 = 0
+            while index < size:
+                defer: index = index +% 1
+                this.basicAnimationInterfaceFactoryInterfaceArrayP[index].setInitialScale(scaleProperties)
 

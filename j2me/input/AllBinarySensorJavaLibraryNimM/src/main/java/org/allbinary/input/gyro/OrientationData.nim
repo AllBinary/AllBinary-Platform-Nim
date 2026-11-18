@@ -1,42 +1,54 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.input.gyro
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    OrientationData* = ref object of JObject
+        ORIENTATION_SENSOR_INPUT*: string
+        ORIENTATION_TYPE*: string
 
+proc newOrientationData*(): OrientationData
+proc initOrientationData*(this: OrientationData)
+proc getInstance*(t: typedesc[OrientationData]): OrientationData {.discardable.}
 
-class OrientationData:
-    SINGLETON: OrientationData = None
+var OrientationData_SINGLETONValue: OrientationData
+var OrientationData_SINGLETONSet = false
+proc SINGLETON*(t: typedesc[OrientationData]): OrientationData =
+    if not OrientationData_SINGLETONSet:
+        OrientationData_SINGLETONSet = true
+        OrientationData_SINGLETONValue = newOrientationData()
+    OrientationData_SINGLETONValue
 
-    def _init_fields(self) -> None:
-        self.ORIENTATION_SENSOR_INPUT: str = "Orientation Sensor Input"
-        self.ORIENTATION_TYPE: str = "Orientation Type"
-    
+# Java field initializers run after the base initializer
+proc initFieldsOrientationData(this: OrientationData) =
+    this.ORIENTATION_SENSOR_INPUT = "Orientation Sensor Input"
+    this.ORIENTATION_TYPE = "Orientation Type"
+    discard
 
-    def __init__(self) -> None:
-        self._init_fields()
-    
+proc initOrientationData*(this: OrientationData) =
+        this.initFieldsOrientationData()
+        discard
 
-    @staticmethod
-    def getInstance() -> OrientationData:
+proc newOrientationData*(): OrientationData =
+    result = OrientationData()
+    initOrientationData(result)
+
+proc getInstance*(t: typedesc[OrientationData]): OrientationData {.discardable.} =
         return OrientationData.SINGLETON
-
-
-def _OrientationData_SINGLETON() -> object:
-    return OrientationData()
-
-lazy_static(OrientationData, "SINGLETON", _OrientationData_SINGLETON)
 

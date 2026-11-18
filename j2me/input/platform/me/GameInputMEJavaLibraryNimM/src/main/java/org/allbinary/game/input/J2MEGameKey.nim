@@ -1,53 +1,61 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.input
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/game/input/Input as InputModule
+export InputModule
 
-from org.allbinary.game.input.Input import Input
+type
+    J2MEGameKey* = ref object of Input
+
+proc newJ2MEGameKey*(key: int32, keyName: string): J2MEGameKey
+proc initJ2MEGameKey*(this: J2MEGameKey, key: int32, keyName: string)
+method toString*(this: J2MEGameKey): string {.discardable.}
+proc getString*(t: typedesc[J2MEGameKey], keyCode: int32): string {.discardable.}
+import org/allbinary/logic/string/StringMaker as StringMakerModule
+export StringMakerModule
+import org/allbinary/logic/string/StringUtil as StringUtilModule
+export StringUtilModule
+import org/allbinary/game/input/InputFactory as InputFactoryModule
+export InputFactoryModule
 
 
-class J2MEGameKey(Input):
-    
-
-    def __init__(self, key: int, keyName: str) -> None:
-        from org.allbinary.game.input.InputFactory import InputFactory
-        super().__init__(key, keyName)
-        id: int = self.getId()
+proc initJ2MEGameKey*(this: J2MEGameKey, key: int32, keyName: string) =
+        initInput(this, key, keyName)
+        var id: int32 = this.getId()
         if id >= 0:
-            inputFactory: InputFactory = InputFactory.getInstance()
-            inputFactory.add(id, self)
-    
+            let inputFactory: InputFactory = InputFactory.getInstance()
+            inputFactory.add(id, this)
 
-    def toString(self) -> str:
-        from org.allbinary.logic.string.StringMaker import StringMaker
-        return str(StringMaker().append("J2MEGameKey: ").append(str(super())))
+proc newJ2MEGameKey*(key: int32, keyName: string): J2MEGameKey =
+    result = J2MEGameKey()
+    initJ2MEGameKey(result, key, keyName)
 
-    def __str__(self) -> str:
-        return self.toString()
-    
+method toString*(this: J2MEGameKey): string {.discardable.} =
+        return newStringMaker().append("J2MEGameKey: ").append(procCall Input(this).toString()).toString()
 
-    @staticmethod
-    def getString(keyCode: int) -> str:
-        from org.allbinary.game.input.InputFactory import InputFactory
-        from org.allbinary.logic.string.StringUtil import StringUtil
-        input: Input = InputFactory.getInstance().getInstanceById(keyCode)
-        if input is not None:
+proc getString*(t: typedesc[J2MEGameKey], keyCode: int32): string {.discardable.} =
+        var input: Input = InputFactory.getInstance().getInstanceById(keyCode)
+        if (not jIsNil(input)):
             return input.getName()
         else:
             return StringUtil.getInstance().EMPTY_STRING
-# from org.allbinary.logic.string.StringMaker import StringMaker
-# from org.allbinary.logic.string.StringUtil import StringUtil
 
+when declared(newJ2MEGameKeyHook2):
+    newJ2MEGameKeyHook2 = proc (key: int32, keyName: string): Input = newJ2MEGameKey(key, keyName)
 

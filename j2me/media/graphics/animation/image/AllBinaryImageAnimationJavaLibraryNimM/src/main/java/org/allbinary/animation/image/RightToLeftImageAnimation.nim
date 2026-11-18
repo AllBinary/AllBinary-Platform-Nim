@@ -1,70 +1,87 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.animation.image
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import javax/microedition/lcdui/Graphics as GraphicsModule
+export GraphicsModule
+import javax/microedition/lcdui/Image as ImageModule
+export ImageModule
+import org/allbinary/animation/AnimationBehavior as AnimationBehaviorModule
+export AnimationBehaviorModule
+import org/allbinary/animation/image/ImageSegmentAnimation as ImageSegmentAnimationModule
+export ImageSegmentAnimationModule
 
-from org.allbinary.animation.image.ImageSegmentAnimation import ImageSegmentAnimation
+type
+    RightToLeftImageAnimation* = ref object of ImageSegmentAnimation
+        startWidth*: int32
+        currentWidth*: int32
+        anchorOfRightToLeftImageAnimation*: int32
+
+proc newRightToLeftImageAnimation*(image: Image, animationBehavior: AnimationBehavior): RightToLeftImageAnimation
+proc initRightToLeftImageAnimation*(this: RightToLeftImageAnimation, image: Image, animationBehavior: AnimationBehavior)
+method nextFrame*(this: RightToLeftImageAnimation)
+method previousFrame*(this: RightToLeftImageAnimation)
+method setFrame*(this: RightToLeftImageAnimation, index: int32)
+method update*(this: RightToLeftImageAnimation) {.base.}
+method paintXY*(this: RightToLeftImageAnimation, graphics: Graphics, x: int32, y: int32)
+import javax/microedition/lcdui/game/Sprite as SpriteModule
+export SpriteModule
+import org/allbinary/graphics/Anchor as AnchorModule
+export AnchorModule
+import org/allbinary/logic/math/PrimitiveIntUtil as PrimitiveIntUtilModule
+export PrimitiveIntUtilModule
 
 
-class RightToLeftImageAnimation(ImageSegmentAnimation):
+# Java field initializers run after the base initializer
+proc initFieldsRightToLeftImageAnimation(this: RightToLeftImageAnimation) =
+    this.startWidth = 0
+    this.currentWidth = 0
+    this.anchorOfRightToLeftImageAnimation = Anchor.TOP_LEFT
+    discard
 
-    def _init_fields(self) -> None:
-        from org.allbinary.graphics.Anchor import Anchor
-        self.startWidth: int = 0
-        self.currentWidth: int = 0
-        self.anchor: int = Anchor.TOP_LEFT
-    
+proc initRightToLeftImageAnimation*(this: RightToLeftImageAnimation, image: Image, animationBehavior: AnimationBehavior) =
+        initImageSegmentAnimation(this, image, PrimitiveIntUtil.getArrayInstance(), animationBehavior)
+        this.initFieldsRightToLeftImageAnimation()
+        this.setFrame(this.getSize() -% 1)
 
-    def __init__(self, image: Image, animationBehavior: AnimationBehavior) -> None:
-        from javax.microedition.lcdui.Image import Image
-        from org.allbinary.animation.AnimationBehavior import AnimationBehavior
-        from org.allbinary.logic.math.PrimitiveIntUtil import PrimitiveIntUtil
-        super().__init__(image, PrimitiveIntUtil.getArrayInstance(), animationBehavior)
-        self._init_fields()
-        self.setFrame(self.getSize() - 1)
-    
+proc newRightToLeftImageAnimation*(image: Image, animationBehavior: AnimationBehavior): RightToLeftImageAnimation =
+    result = RightToLeftImageAnimation()
+    initRightToLeftImageAnimation(result, image, animationBehavior)
 
-    def nextFrame(self) -> None:
-        super().previousFrame()
-        self.update()
-    
+method nextFrame*(this: RightToLeftImageAnimation) =
+        procCall ImageSegmentAnimation(this).previousFrame()
+        this.update()
 
-    def previousFrame(self) -> None:
-        super().nextFrame()
-        self.update()
-    
+method previousFrame*(this: RightToLeftImageAnimation) =
+        procCall ImageSegmentAnimation(this).nextFrame()
+        this.update()
 
-    def setFrame(self, index: int) -> None:
-        super().setFrame(index)
-        self.update()
-    
+method setFrame*(this: RightToLeftImageAnimation, index: int32) =
+        procCall ImageSegmentAnimation(this).setFrame(index)
+        this.update()
 
-    def update(self) -> None:
-        self.startWidth = self.getDrawWidth() * self.getFrame() / self.getSize()
-        self.currentWidth = self.getDrawWidth() - self.startWidth
-    
+method update*(this: RightToLeftImageAnimation) {.base.} =
+        this.startWidth = this.getDrawWidth() *% this.getFrame() div this.getSize()
+        this.currentWidth = this.getDrawWidth() -% this.startWidth
 
-    def paintXY(self, graphics: Graphics, x: int, y: int) -> None:
-        from javax.microedition.lcdui.Graphics import Graphics
-        from javax.microedition.lcdui.game.Sprite import Sprite
-        graphics.drawRegion(self.getImage(), self.startWidth, self.getStartY(), self.currentWidth, self.getDrawHeight(), Sprite.TRANS_NONE, x + self.startWidth, y, self.anchor)
-# from javax.microedition.lcdui.Graphics import Graphics
-# from javax.microedition.lcdui.Image import Image
-# from javax.microedition.lcdui.game.Sprite import Sprite
-# from org.allbinary.animation.AnimationBehavior import AnimationBehavior
-# from org.allbinary.graphics.Anchor import Anchor
-# from org.allbinary.logic.math.PrimitiveIntUtil import PrimitiveIntUtil
+method paintXY*(this: RightToLeftImageAnimation, graphics: Graphics, x: int32, y: int32) =
+        graphics.drawRegion(this.getImage(), this.startWidth, this.getStartY(), this.currentWidth, this.getDrawHeight(), Sprite.TRANS_NONE, x +% this.startWidth, y, this.anchorOfRightToLeftImageAnimation)
 
+when declared(newRightToLeftImageAnimationHook2):
+    newRightToLeftImageAnimationHook2 = proc (image: Image, animationBehavior: AnimationBehavior): ImageSegmentAnimation = newRightToLeftImageAnimation(image, animationBehavior)
 

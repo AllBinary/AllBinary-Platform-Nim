@@ -1,70 +1,77 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.globals
 
-from __future__ import annotations
-
-import threading
-from java.lang.JavaRuntimeStatic import lazy_static
-from org.allbinary.globals.UrlGlobalsInterface import UrlGlobalsInterface
-
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/globals/UrlGlobalsInterface as UrlGlobalsInterfaceModule
+export UrlGlobalsInterfaceModule
 
 #implements
-class AppUrlGlobals(UrlGlobalsInterface):
-    NULL_APP_URL_GLOBALS: AppUrlGlobals = None
-    _lock = threading.RLock()
+type
+    AppUrlGlobals* = ref object of UrlGlobalsInterface
+        path*: string
 
-    def _init_fields(self) -> None:
-        from org.allbinary.logic.string.StringUtil import StringUtil
-        self.path: str = StringUtil.getInstance().EMPTY_STRING
+proc newAppUrlGlobals*(): AppUrlGlobals
+method isTestingMode*(this: AppUrlGlobals): bool {.discardable.}
+method getWebappPath*(this: AppUrlGlobals): string {.discardable.}
+method setWebappPath*(this: AppUrlGlobals, path: string) {.base.}
+method getTestHtmlPath*(this: AppUrlGlobals): string {.discardable.}
+method getMainPath*(this: AppUrlGlobals): string {.discardable.}
+import org/allbinary/logic/string/StringUtil as StringUtilModule
+export StringUtilModule
 
-    def __init__(self) -> None:
-        super().__init__()
-        self._init_fields()
-    
+var AppUrlGlobals_NULL_APP_URL_GLOBALSValue: AppUrlGlobals
+var AppUrlGlobals_NULL_APP_URL_GLOBALSSet = false
+proc NULL_APP_URL_GLOBALS*(t: typedesc[AppUrlGlobals]): AppUrlGlobals =
+    if not AppUrlGlobals_NULL_APP_URL_GLOBALSSet:
+        AppUrlGlobals_NULL_APP_URL_GLOBALSSet = true
+        AppUrlGlobals_NULL_APP_URL_GLOBALSValue = newAppUrlGlobals()
+    AppUrlGlobals_NULL_APP_URL_GLOBALSValue
 
-    def isTestingMode(self) -> bool:
-        return False
-    
+# Java field initializers run after the base initializer
+proc initFieldsAppUrlGlobals(this: AppUrlGlobals) =
+    this.path = StringUtil.getInstance().EMPTY_STRING
+    discard
 
-    def getWebappPath(self) -> str:
-        return self.path
-    
+proc initAppUrlGlobals*(this: AppUrlGlobals) =
+    initUrlGlobalsInterface(this)
+    this.initFieldsAppUrlGlobals()
 
-    def setWebappPath(self, path: str) -> None:
-        with self._lock:
-            return self._setWebappPath_unlocked(path)
+proc newAppUrlGlobals*(): AppUrlGlobals =
+    result = AppUrlGlobals()
+    initAppUrlGlobals(result)
 
-    def _setWebappPath_unlocked(self, path: str) -> None:
-        self.path = path
-        if not (self.path.endswith("\\") or self.path.endswith("/")):
-            self.path = self.path + "\\"
-    
+method isTestingMode*(this: AppUrlGlobals): bool {.discardable.} =
+        return false
 
-    def getTestHtmlPath(self) -> str:
-        from org.allbinary.logic.string.StringUtil import StringUtil
+method getWebappPath*(this: AppUrlGlobals): string {.discardable.} =
+        return this.path
+
+method setWebappPath*(this: AppUrlGlobals, path: string) {.base.} =
+        this.path = path
+        if (not (jEndsWith(this.path, "\\") or jEndsWith(this.path, "/"))):
+            this.path = jstr(this.path) & jstr("\\")
+
+method getTestHtmlPath*(this: AppUrlGlobals): string {.discardable.} =
         return StringUtil.getInstance().EMPTY_STRING
-    
 
-    # throws Exception
-    def getMainPath(self) -> str:
-        return self.path
-# from org.allbinary.logic.string.StringUtil import StringUtil
+method getMainPath*(this: AppUrlGlobals): string {.discardable.} =
+        return this.path
 
-
-def _AppUrlGlobals_NULL_APP_URL_GLOBALS() -> object:
-    return AppUrlGlobals()
-
-lazy_static(AppUrlGlobals, "NULL_APP_URL_GLOBALS", _AppUrlGlobals_NULL_APP_URL_GLOBALS)
+when declared(newAppUrlGlobalsHook0):
+    newAppUrlGlobalsHook0 = proc (): UrlGlobalsInterface = newAppUrlGlobals()
 

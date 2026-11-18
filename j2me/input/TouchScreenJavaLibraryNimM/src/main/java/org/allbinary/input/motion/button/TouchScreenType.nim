@@ -1,41 +1,49 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.input.motion.button
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+
+type
+    TouchScreenType* = ref object of JObject
+        name*: string
+
+proc newTouchScreenType*(name: string): TouchScreenType
+proc initTouchScreenType*(this: TouchScreenType, name: string)
+method getName*(this: TouchScreenType): string {.base, discardable.}
+method toString*(this: TouchScreenType): string {.discardable.}
 
 
-
-class TouchScreenType:
-
-    def _init_fields(self) -> None:
-        self.name: str = None
+# Java field initializers run after the base initializer
+proc initFieldsTouchScreenType(this: TouchScreenType) =
     
+    discard
 
-    def __init__(self, name: str) -> None:
-        self._init_fields()
-        self.name = name
-    
+proc initTouchScreenType*(this: TouchScreenType, name: string) =
+        this.initFieldsTouchScreenType()
+        this.name = name
 
-    def getName(self) -> str:
-        return self.name
-    
+proc newTouchScreenType*(name: string): TouchScreenType =
+    result = TouchScreenType()
+    initTouchScreenType(result, name)
 
-    def toString(self) -> str:
-        return self.getName()
+method getName*(this: TouchScreenType): string {.base, discardable.} =
+        return this.name
 
-    def __str__(self) -> str:
-        return self.toString()
-
+method toString*(this: TouchScreenType): string {.discardable.} =
+        return this.getName()
 

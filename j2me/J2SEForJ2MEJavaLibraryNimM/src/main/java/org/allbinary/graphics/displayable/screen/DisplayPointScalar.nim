@@ -1,52 +1,60 @@
-# 
-# AllBinary Open License Version 1 
-# Copyright (c) 2022 AllBinary 
-#  
-# By agreeing to this license you and any business entity you represent are 
-# legally bound to the AllBinary Open License Version 1 legal agreement. 
-#  
-# You may obtain the AllBinary Open License Version 1 legal agreement from 
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
-#  
-# Created By: Travis Berthelot 
-#   
+#[
+  
+  AllBinary Open License Version 1 
+  Copyright (c) 2022 AllBinary 
+   
+  By agreeing to this license you and any business entity you represent are 
+  legally bound to the AllBinary Open License Version 1 legal agreement. 
+   
+  You may obtain the AllBinary Open License Version 1 legal agreement from 
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
+   
+  Created By: Travis Berthelot 
+    
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.graphics.displayable.screen
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/graphics/GPoint as GPointModule
+export GPointModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    DisplayPointScalar* = ref object of JObject
 
+proc newDisplayPointScalar*(): DisplayPointScalar
+proc initDisplayPointScalar*(this: DisplayPointScalar)
+proc getInstance*(t: typedesc[DisplayPointScalar]): DisplayPointScalar {.discardable.}
+method processX*(this: DisplayPointScalar, value: int32): int32 {.base, discardable.}
+method processY*(this: DisplayPointScalar, value: int32): int32 {.base, discardable.}
+method process*(this: DisplayPointScalar, point: GPoint): GPoint {.base, discardable.}
 
-class DisplayPointScalar:
-    instance: DisplayPointScalar = None
-    
+var DisplayPointScalar_instanceValue: DisplayPointScalar
+var DisplayPointScalar_instanceSet = false
+proc instance*(t: typedesc[DisplayPointScalar]): DisplayPointScalar =
+    if not DisplayPointScalar_instanceSet:
+        DisplayPointScalar_instanceSet = true
+        DisplayPointScalar_instanceValue = newDisplayPointScalar()
+    DisplayPointScalar_instanceValue
 
-    @staticmethod
-    def getInstance() -> DisplayPointScalar:
+proc getInstance*(t: typedesc[DisplayPointScalar]): DisplayPointScalar {.discardable.} =
         return DisplayPointScalar.instance
-    
 
-    def __init__(self) -> None:
-        pass
-    
+proc initDisplayPointScalar*(this: DisplayPointScalar) =
+        discard
+        discard
 
-    def processX(self, value: int) -> int:
+proc newDisplayPointScalar*(): DisplayPointScalar =
+    result = DisplayPointScalar()
+    initDisplayPointScalar(result)
+
+method processX*(this: DisplayPointScalar, value: int32): int32 {.base, discardable.} =
         return value
-    
 
-    def processY(self, value: int) -> int:
+method processY*(this: DisplayPointScalar, value: int32): int32 {.base, discardable.} =
         return value
-    
 
-    def process(self, point: GPoint) -> GPoint:
-        from org.allbinary.graphics.GPoint import GPoint
+method process*(this: DisplayPointScalar, point: GPoint): GPoint {.base, discardable.} =
         return point
-# from org.allbinary.graphics.GPoint import GPoint
-
-
-def _DisplayPointScalar_instance() -> object:
-    return DisplayPointScalar()
-
-lazy_static(DisplayPointScalar, "instance", _DisplayPointScalar_instance)
 

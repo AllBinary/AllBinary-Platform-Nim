@@ -1,45 +1,61 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.input.gyro
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/canvas/Processor as ProcessorModule
+export ProcessorModule
+import org/allbinary/input/gyro/SensorGameUpdateProcessor as SensorGameUpdateProcessorModule
+export SensorGameUpdateProcessorModule
 
-from org.allbinary.input.gyro.SensorGameUpdateProcessor import SensorGameUpdateProcessor
+type
+    SingleSensorGameUpdateProcessor* = ref object of SensorGameUpdateProcessor
+        accelerometerSensorUpdateProcessor*: Processor
+        gyroSensorUpdateProcessor*: Processor
+
+proc newSingleSensorGameUpdateProcessor*(): SingleSensorGameUpdateProcessor
+method process*(this: SingleSensorGameUpdateProcessor, anyType: JObject)
+method sendNotifications*(this: SingleSensorGameUpdateProcessor, anyType: JObject)
+import org/allbinary/input/gyro/AccelerometerSensorUpdateProcessor as AccelerometerSensorUpdateProcessorModule
+export AccelerometerSensorUpdateProcessorModule
+import org/allbinary/input/gyro/GyroSensorUpdateProcessor as GyroSensorUpdateProcessorModule
+export GyroSensorUpdateProcessorModule
 
 
-class SingleSensorGameUpdateProcessor(SensorGameUpdateProcessor):
+# Java field initializers run after the base initializer
+proc initFieldsSingleSensorGameUpdateProcessor(this: SingleSensorGameUpdateProcessor) =
+    this.accelerometerSensorUpdateProcessor = newAccelerometerSensorUpdateProcessor()
+    this.gyroSensorUpdateProcessor = newGyroSensorUpdateProcessor()
+    discard
 
-    def _init_fields(self) -> None:
-        from org.allbinary.canvas.Processor import Processor
-        self.accelerometerSensorUpdateProcessor: Processor = AccelerometerSensorUpdateProcessor()
-        self.gyroSensorUpdateProcessor: Processor = GyroSensorUpdateProcessor()
+proc initSingleSensorGameUpdateProcessor*(this: SingleSensorGameUpdateProcessor) =
+    initSensorGameUpdateProcessor(this)
+    this.initFieldsSingleSensorGameUpdateProcessor()
 
-    def __init__(self) -> None:
-        super().__init__()
-        self._init_fields()
-    
+proc newSingleSensorGameUpdateProcessor*(): SingleSensorGameUpdateProcessor =
+    result = SingleSensorGameUpdateProcessor()
+    initSingleSensorGameUpdateProcessor(result)
 
-    # throws Exception
-    def process(self, anyType: object) -> None:
-        self.setNoSensors()
-    
+method process*(this: SingleSensorGameUpdateProcessor, anyType: JObject) =
+        this.setNoSensors()
 
-    # throws Exception
-    def sendNotifications(self, anyType: object) -> None:
-        pass
-# from org.allbinary.canvas.Processor import Processor
-from org.allbinary.input.gyro.AccelerometerSensorUpdateProcessor import AccelerometerSensorUpdateProcessor
-from org.allbinary.input.gyro.GyroSensorUpdateProcessor import GyroSensorUpdateProcessor
+method sendNotifications*(this: SingleSensorGameUpdateProcessor, anyType: JObject) =
+        discard
 
+when declared(newSingleSensorGameUpdateProcessorHook0):
+    newSingleSensorGameUpdateProcessorHook0 = proc (): SensorGameUpdateProcessor = newSingleSensorGameUpdateProcessor()
 

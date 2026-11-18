@@ -1,62 +1,80 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.score
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/util/CircularIndexUtil as CircularIndexUtilModule
+export CircularIndexUtilModule
+import org/allbinary/game/score/HighScoresHelperBase as HighScoresHelperBaseModule
+export HighScoresHelperBaseModule
+import org/allbinary/game/score/HighScores as HighScoresModule
+export HighScoresModule
 
-from org.allbinary.game.score.HighScoresHelperBase import HighScoresHelperBase
+type
+    HighScoresHelper2* = ref object of HighScoresHelperBase
+        circularIndexUtil*: CircularIndexUtil
+        selectedHighScores*: HighScores
+
+proc newHighScoresHelper2*(): HighScoresHelper2
+method setSelectedHighScores*(this: HighScoresHelper2, selectedHighScores: HighScores)
+method getSelectedHighScores*(this: HighScoresHelper2): HighScores {.discardable.}
+method setHighScoresArray*(this: HighScoresHelper2, highScoresArrayP: JArray[HighScores])
+method selectHighScores*(this: HighScoresHelper2)
+import org/allbinary/game/score/NullHighScoresSingletonFactory as NullHighScoresSingletonFactoryModule
+export NullHighScoresSingletonFactoryModule
 
 
-class HighScoresHelper2(HighScoresHelperBase):
+# Java field initializers run after the base initializer
+proc initFieldsHighScoresHelper2(this: HighScoresHelper2) =
+    this.circularIndexUtil = CircularIndexUtil.createInstanceAt(0, 0)
+    this.selectedHighScores = NullHighScoresSingletonFactory.getInstance()
+    discard
 
-    def _init_fields(self) -> None:
-        from org.allbinary.util.CircularIndexUtil import CircularIndexUtil
-        self.circularIndexUtil: CircularIndexUtil = CircularIndexUtil.createInstanceAt(0, 0)
-        self.selectedHighScores: HighScores = NullHighScoresSingletonFactory.getInstance()
+proc initHighScoresHelper2*(this: HighScoresHelper2) =
+    initHighScoresHelperBase(this)
+    this.initFieldsHighScoresHelper2()
 
-    def __init__(self) -> None:
-        super().__init__()
-        self._init_fields()
-    
+proc newHighScoresHelper2*(): HighScoresHelper2 =
+    result = HighScoresHelper2()
+    initHighScoresHelper2(result)
 
-    def setSelectedHighScores(self, selectedHighScores: HighScores) -> None:
-        self.selectedHighScores = selectedHighScores
-    
+method setSelectedHighScores*(this: HighScoresHelper2, selectedHighScores: HighScores) =
+        this.selectedHighScores = selectedHighScores
 
-    def getSelectedHighScores(self) -> HighScores:
-        return self.selectedHighScores
-    
+method getSelectedHighScores*(this: HighScoresHelper2): HighScores {.discardable.} =
+        return this.selectedHighScores
 
-    def setHighScoresArray(self, highScoresArrayP: list[HighScores]) -> None:
-        super().setHighScoresArray(highScoresArrayP)
-        self.circularIndexUtil.setSize(len(self.highScoresArrayP))
-        self.selectHighScores()
-    
+method setHighScoresArray*(this: HighScoresHelper2, highScoresArrayP: JArray[HighScores]) =
+        procCall HighScoresHelperBase(this).setHighScoresArray(highScoresArrayP)
+        this.circularIndexUtil.setSize(this.highScoresArrayP.length)
+        this.selectHighScores()
 
-    def selectHighScores(self) -> None:
-        from org.allbinary.game.score.NullHighScoresSingletonFactory import NullHighScoresSingletonFactory
-        if len(self.highScoresArrayP) == 0:
-            self.setSelectedHighScores(NullHighScoresSingletonFactory.getInstance())
+method selectHighScores*(this: HighScoresHelper2) =
+        if this.highScoresArrayP.length == 0:
+            this.setSelectedHighScores(NullHighScoresSingletonFactory.getInstance())
             return
-        self.circularIndexUtil.next()
-        highScores: HighScores = self.highScoresArrayP[self.circularIndexUtil.getIndex()]
-        index: int = 0
-        while highScores.getTotal() < 1 and index < len(self.highScoresArrayP):
-            highScores = self.highScoresArrayP[self.circularIndexUtil.next()]
-            index += 1
-        self.setSelectedHighScores(highScores)
-# from org.allbinary.util.CircularIndexUtil import CircularIndexUtil
-from org.allbinary.game.score.NullHighScoresSingletonFactory import NullHighScoresSingletonFactory
+        this.circularIndexUtil.next()
+        var highScores: HighScores = this.highScoresArrayP[this.circularIndexUtil.getIndex()]
+        var index: int32 = 0
+        while highScores.getTotal() < 1 and index < this.highScoresArrayP.length:
+            highScores = this.highScoresArrayP[this.circularIndexUtil.next()]
+            index = index +% 1
+        this.setSelectedHighScores(highScores)
 
+when declared(newHighScoresHelper2Hook0):
+    newHighScoresHelper2Hook0 = proc (): HighScoresHelperBase = newHighScoresHelper2()
 

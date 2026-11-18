@@ -1,129 +1,167 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.combat.weapon
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/logic/math/BasicDecimal as BasicDecimalModule
+export BasicDecimalModule
+import org/allbinary/game/combat/weapon/SimpleWeaponProperties as SimpleWeaponPropertiesModule
+export SimpleWeaponPropertiesModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
-from org.allbinary.game.combat.weapon.SimpleWeaponProperties import SimpleWeaponProperties
+type
+    WeaponProperties* = ref object of SimpleWeaponProperties
+        reloadTime*: int64
+        targetingTime*: int64
+        speed*: BasicDecimal
+        MAX*: int64
+        ZERO*: int16
 
+proc newWeaponProperties*(reloadTime: int64, targetingTime: int64, speed: int64, damage: int32, dissipation: int16): WeaponProperties
+proc initWeaponProperties*(this: WeaponProperties, reloadTime: int64, targetingTime: int64, speed: int64, damage: int32, dissipation: int16)
+method setReloadTime*(this: WeaponProperties, reloadTime: int64) {.base.}
+method getReloadTime*(this: WeaponProperties): int64 {.base, discardable.}
+method setTargetingTime*(this: WeaponProperties, targetingTime: int64) {.base.}
+method getTargetingTime*(this: WeaponProperties): int64 {.base, discardable.}
+method getSpeed*(this: WeaponProperties): BasicDecimal {.base, discardable.}
+method setSpeed*(this: WeaponProperties, speed: BasicDecimal) {.base.}
+method getDamageI*(this: WeaponProperties, range: int32): int32 {.base, discardable.}
+method toStringArray*(this: WeaponProperties): JArray[string] {.base, discardable.}
+method toString*(this: WeaponProperties): string {.discardable.}
+import org/allbinary/logic/communication/log/PreLogUtil as PreLogUtilModule
+export PreLogUtilModule
+import org/allbinary/logic/string/StringMaker as StringMakerModule
+export StringMakerModule
+import org/allbinary/string/CommonSeps as CommonSepsModule
+export CommonSepsModule
+import org/allbinary/string/CommonStrings as CommonStringsModule
+export CommonStringsModule
 
-class WeaponProperties(SimpleWeaponProperties):
-    NULL_WEAPON_PROPERTIES: WeaponProperties = None
-    messageSent: bool = False
-    DAMAGE: str = "Damage: "
-    RANGE: str = "Range: "
-    RELOAD: str = "Reload: "
+var WeaponProperties_NULL_WEAPON_PROPERTIESValue: WeaponProperties
+var WeaponProperties_NULL_WEAPON_PROPERTIESSet = false
+proc NULL_WEAPON_PROPERTIES*(t: typedesc[WeaponProperties]): WeaponProperties =
+    if not WeaponProperties_NULL_WEAPON_PROPERTIESSet:
+        WeaponProperties_NULL_WEAPON_PROPERTIESSet = true
+        WeaponProperties_NULL_WEAPON_PROPERTIESValue = newWeaponProperties(0'i64, 0'i64, 0'i64, 0, jToInt16(0))
+    WeaponProperties_NULL_WEAPON_PROPERTIESValue
+var WeaponProperties_messageSentValue: bool
+var WeaponProperties_messageSentSet = false
+proc messageSent*(t: typedesc[WeaponProperties]): bool =
+    if not WeaponProperties_messageSentSet:
+        WeaponProperties_messageSentSet = true
+        WeaponProperties_messageSentValue = false
+    WeaponProperties_messageSentValue
+proc `messageSent=`*(t: typedesc[WeaponProperties], value: bool) =
+    WeaponProperties_messageSentSet = true
+    WeaponProperties_messageSentValue = value
+var WeaponProperties_DAMAGEValue: string
+var WeaponProperties_DAMAGESet = false
+proc DAMAGE*(t: typedesc[WeaponProperties]): string =
+    if not WeaponProperties_DAMAGESet:
+        WeaponProperties_DAMAGESet = true
+        WeaponProperties_DAMAGEValue = "Damage: "
+    WeaponProperties_DAMAGEValue
+var WeaponProperties_RANGEValue: string
+var WeaponProperties_RANGESet = false
+proc RANGE*(t: typedesc[WeaponProperties]): string =
+    if not WeaponProperties_RANGESet:
+        WeaponProperties_RANGESet = true
+        WeaponProperties_RANGEValue = "Range: "
+    WeaponProperties_RANGEValue
+var WeaponProperties_RELOADValue: string
+var WeaponProperties_RELOADSet = false
+proc RELOAD*(t: typedesc[WeaponProperties]): string =
+    if not WeaponProperties_RELOADSet:
+        WeaponProperties_RELOADSet = true
+        WeaponProperties_RELOADValue = "Reload: "
+    WeaponProperties_RELOADValue
 
-    def _init_fields(self) -> None:
-        from org.allbinary.logic.math.BasicDecimal import BasicDecimal
-        self.reloadTime: int = 0
-        self.targetingTime: int = 0
-        self.speed: BasicDecimal = BasicDecimal.ZERO_BIGDECIMAL
-        self.MAX: int = 10240
-        self.ZERO: int = 0
-    
+# Java field initializers run after the base initializer
+proc initFieldsWeaponProperties(this: WeaponProperties) =
+    this.reloadTime = 0
+    this.targetingTime = 0
+    this.speed = BasicDecimal.ZERO_BIGDECIMAL
+    this.MAX = 10240'i64
+    this.ZERO = 0
+    discard
 
-    def __init__(self, reloadTime: int, targetingTime: int, speed: int, damage: int, dissipation: int) -> None:
-        from org.allbinary.logic.communication.log.PreLogUtil import PreLogUtil
-        from org.allbinary.logic.math.BasicDecimal import BasicDecimal
-        from org.allbinary.logic.string.StringMaker import StringMaker
-        from org.allbinary.string.CommonStrings import CommonStrings
-        super().__init__()
-        self._init_fields()
-        if speed < self.MAX and speed != 0 and not WeaponProperties.messageSent:
-            MESSAGE: str = "Danger Danger Danger: Speed probably to slow if using 1 degree calculations as velocity for a single axis could be below 1024: "
-            commonStrings: CommonStrings = CommonStrings.getInstance()
-            PreLogUtil.put(str(StringMaker().append(MESSAGE).appendlong(speed)), self, commonStrings.CONSTRUCTOR)
-            WeaponProperties.messageSent = True
-        self.setReloadTime(reloadTime)
-        self.setTargetingTime(targetingTime)
-        self.setDamage(damage)
-        self.setDissipation(dissipation)
-        self.setSpeed(BasicDecimal(speed))
-        if dissipation != self.ZERO:
-            unscaledDamage: int = self.speed.getUnscaled() * damage
-            scaledDissipation: int = dissipation * self.speed.getScaledFactorValue()
-            value: int = (int(unscaledDamage / scaledDissipation))
-            self.setRange(int((value * 9) / 10))
-    
+proc initWeaponProperties*(this: WeaponProperties, reloadTime: int64, targetingTime: int64, speed: int64, damage: int32, dissipation: int16) =
+        initSimpleWeaponProperties(this)
+        this.initFieldsWeaponProperties()
+        if speed < this.MAX and speed != 0'i64 and (not WeaponProperties.messageSent):
+            let MESSAGE: string = "Danger Danger Danger: Speed probably to slow if using 1 degree calculations as velocity for a single axis could be below 1024: "
+            let commonStrings: CommonStrings = CommonStrings.getInstance()
+            PreLogUtil.put(newStringMaker().append(MESSAGE).appendlong(speed).toString(), this, commonStrings.CONSTRUCTOR)
+            WeaponProperties.messageSent = true
+        this.setReloadTime(reloadTime)
+        this.setTargetingTime(targetingTime)
+        this.setDamage(damage)
+        this.setDissipation(dissipation)
+        this.setSpeed(newBasicDecimal(speed))
+        if dissipation != this.ZERO:
+            let unscaledDamage: int64 = this.speed.getUnscaled() *% int64(damage)
+            let scaledDissipation: int32 = int32(dissipation) *% this.speed.getScaledFactorValue()
+            let value: int64 = (unscaledDamage div int64(scaledDissipation))
+            this.setRange(jToInt32((value *% 9'i64)) div 10)
 
-    def setReloadTime(self, reloadTime: int) -> None:
-        self.reloadTime = reloadTime
-    
+proc newWeaponProperties*(reloadTime: int64, targetingTime: int64, speed: int64, damage: int32, dissipation: int16): WeaponProperties =
+    result = WeaponProperties()
+    initWeaponProperties(result, reloadTime, targetingTime, speed, damage, dissipation)
 
-    def getReloadTime(self) -> int:
-        return self.reloadTime
-    
+method setReloadTime*(this: WeaponProperties, reloadTime: int64) {.base.} =
+        this.reloadTime = reloadTime
 
-    def setTargetingTime(self, targetingTime: int) -> None:
-        self.targetingTime = targetingTime
-    
+method getReloadTime*(this: WeaponProperties): int64 {.base, discardable.} =
+        return this.reloadTime
 
-    def getTargetingTime(self) -> int:
-        return self.targetingTime
-    
+method setTargetingTime*(this: WeaponProperties, targetingTime: int64) {.base.} =
+        this.targetingTime = targetingTime
 
-    def getSpeed(self) -> BasicDecimal:
-        from org.allbinary.logic.math.BasicDecimal import BasicDecimal
-        return self.speed
-    
+method getTargetingTime*(this: WeaponProperties): int64 {.base, discardable.} =
+        return this.targetingTime
 
-    def setSpeed(self, speed: BasicDecimal) -> None:
-        from org.allbinary.logic.math.BasicDecimal import BasicDecimal
-        self.speed = speed
-    
+method getSpeed*(this: WeaponProperties): BasicDecimal {.base, discardable.} =
+        return this.speed
 
-    def getDamageI(self, range: int) -> int:
-        return self.getDamage() - ((self.getDissipation() * range) / self.speed.getScaled())
-    
+method setSpeed*(this: WeaponProperties, speed: BasicDecimal) {.base.} =
+        this.speed = speed
 
-    def toStringArray(self) -> list[str]:
-        from org.allbinary.logic.string.StringMaker import StringMaker
-        index: int = 0
-        stringArray: list[str] = [None] * (3)
-        stringBuffer: StringMaker = StringMaker()
-        stringArray[((index := index + 1) - 1)] = str(stringBuffer.append(WeaponProperties.DAMAGE).appendint(int(self.getDamage())))
+method getDamageI*(this: WeaponProperties, range: int32): int32 {.base, discardable.} =
+        return this.getDamage() -% ((int32(this.getDissipation()) *% range) div this.speed.getScaled())
+
+method toStringArray*(this: WeaponProperties): JArray[string] {.base, discardable.} =
+        var index: int32 = 0
+        let stringArray: JArray[string] = newJArray[string](3, default(string))
+        let stringBuffer: StringMaker = newStringMaker()
+        stringArray[jPostIncrement(index)] = stringBuffer.append(WeaponProperties.DAMAGE).appendint(this.getDamage()).toString()
         stringBuffer.delete(0, stringBuffer.length())
-        stringArray[((index := index + 1) - 1)] = str(stringBuffer.append(WeaponProperties.RANGE).appendint(int(self.getRange())))
+        stringArray[jPostIncrement(index)] = stringBuffer.append(WeaponProperties.RANGE).appendint(this.getRange()).toString()
         stringBuffer.delete(0, stringBuffer.length())
-        stringArray[((index := index + 1) - 1)] = str(stringBuffer.append(WeaponProperties.RELOAD).appendlong(self.getReloadTime()))
+        stringArray[jPostIncrement(index)] = stringBuffer.append(WeaponProperties.RELOAD).appendlong(this.getReloadTime()).toString()
         return stringArray
-    
 
-    def toString(self) -> str:
-        from org.allbinary.logic.string.StringMaker import StringMaker
-        from org.allbinary.string.CommonSeps import CommonSeps
-        stringBuffer: StringMaker = StringMaker()
-        stringBuffer.append(WeaponProperties.DAMAGE).appendint(int(self.getDamage()))
+method toString*(this: WeaponProperties): string {.discardable.} =
+        let stringBuffer: StringMaker = newStringMaker()
+        stringBuffer.append(WeaponProperties.DAMAGE).appendint(this.getDamage())
         stringBuffer.append(CommonSeps.getInstance().SPACE)
-        stringBuffer.append(WeaponProperties.RANGE).appendint(int(self.getRange()))
+        stringBuffer.append(WeaponProperties.RANGE).appendint(this.getRange())
         stringBuffer.append(CommonSeps.getInstance().SPACE)
-        stringBuffer.append(WeaponProperties.RELOAD).appendlong(self.getReloadTime())
-        return str(stringBuffer)
+        stringBuffer.append(WeaponProperties.RELOAD).appendlong(this.getReloadTime())
+        return stringBuffer.toString()
 
-    def __str__(self) -> str:
-        return self.toString()
-# from org.allbinary.logic.communication.log.PreLogUtil import PreLogUtil
-# from org.allbinary.logic.math.BasicDecimal import BasicDecimal
-# from org.allbinary.logic.string.StringMaker import StringMaker
-# from org.allbinary.string.CommonSeps import CommonSeps
-# from org.allbinary.string.CommonStrings import CommonStrings
-
-
-def _WeaponProperties_NULL_WEAPON_PROPERTIES() -> object:
-    return WeaponProperties(0, 0, 0, 0, ((int(0) + 32768) % 65536 - 32768))
-
-lazy_static(WeaponProperties, "NULL_WEAPON_PROPERTIES", _WeaponProperties_NULL_WEAPON_PROPERTIES)
+when declared(newWeaponPropertiesHook5):
+    newWeaponPropertiesHook5 = proc (reloadTime: int64, targetingTime: int64, speed: int64, damage: int32, dissipation: int16): SimpleWeaponProperties = newWeaponProperties(reloadTime, targetingTime, speed, damage, dissipation)
 

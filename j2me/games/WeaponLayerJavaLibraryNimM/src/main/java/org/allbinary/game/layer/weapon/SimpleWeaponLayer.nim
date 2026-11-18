@@ -1,52 +1,62 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.layer.weapon
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/animation/Animation as AnimationModule
+export AnimationModule
+import org/allbinary/game/multiplayer/layer/RemoteInfo as RemoteInfoModule
+export RemoteInfoModule
+import org/allbinary/graphics/Rectangle as RectangleModule
+export RectangleModule
+import org/allbinary/physics/movement/Movement as MovementModule
+export MovementModule
+import org/allbinary/view/ViewPositionBase as ViewPositionBaseModule
+export ViewPositionBaseModule
+import org/allbinary/game/layer/weapon/WeaponLayer as WeaponLayerModule
+export WeaponLayerModule
 
-from org.allbinary.game.layer.weapon.WeaponLayer import WeaponLayer
+type
+    SimpleWeaponLayer* = ref object of WeaponLayer
+
+proc newSimpleWeaponLayer*(name: string, remoteInfo: RemoteInfo, multiPlayerType: int32, movement: Movement, animationInterface: Animation, destroyedAnimationInterface: Animation, rectangle: Rectangle, viewPosition: ViewPositionBase): SimpleWeaponLayer
+proc initSimpleWeaponLayer*(this: SimpleWeaponLayer, name: string, remoteInfo: RemoteInfo, multiPlayerType: int32, movement: Movement, animationInterface: Animation, destroyedAnimationInterface: Animation, rectangle: Rectangle, viewPosition: ViewPositionBase)
+proc createDestroyed*(t: typedesc[SimpleWeaponLayer]): Animation {.discardable.}
+import org/allbinary/animation/FeaturedAnimationInterfaceFactoryInterfaceFactory as FeaturedAnimationInterfaceFactoryInterfaceFactoryModule
+export FeaturedAnimationInterfaceFactoryInterfaceFactoryModule
+import org/allbinary/animation/NullIndexedAnimationFactory as NullIndexedAnimationFactoryModule
+export NullIndexedAnimationFactoryModule
+import org/allbinary/game/combat/damage/ExplosionResources as ExplosionResourcesModule
+export ExplosionResourcesModule
+import org/allbinary/game/layer/weapon/CollidableWeaponBehavior as CollidableWeaponBehaviorModule
+export CollidableWeaponBehaviorModule
 
 
-class SimpleWeaponLayer(WeaponLayer):
-    
-
-    # throws Exception
-    @staticmethod
-    def createDestroyed() -> Animation:
-        from org.allbinary.animation.Animation import Animation
-        from org.allbinary.animation.FeaturedAnimationInterfaceFactoryInterfaceFactory import FeaturedAnimationInterfaceFactoryInterfaceFactory
-        from org.allbinary.animation.NullIndexedAnimationFactory import NullIndexedAnimationFactory
-        from org.allbinary.game.combat.damage.ExplosionResources import ExplosionResources
+proc createDestroyed*(t: typedesc[SimpleWeaponLayer]): Animation {.discardable.} =
         return FeaturedAnimationInterfaceFactoryInterfaceFactory.getInstance().getProcedural(ExplosionResources.getInstance().THIRD_EXPLOSION_RESOURCE).getInstanceAnimation(NullIndexedAnimationFactory.getFactoryInstance().getInstance(0))
-    
 
-    def __init__(self, name: str, remoteInfo: RemoteInfo, multiPlayerType: int, movement: Movement, animationInterface: Animation, destroyedAnimationInterface: Animation, rectangle: Rectangle, viewPosition: ViewPositionBase) -> None:
-        from org.allbinary.game.layer.weapon.CollidableWeaponBehavior import CollidableWeaponBehavior
-        from org.allbinary.animation.Animation import Animation
-        from org.allbinary.game.multiplayer.layer.RemoteInfo import RemoteInfo
-        from org.allbinary.graphics.Rectangle import Rectangle
-        from org.allbinary.physics.movement.Movement import Movement
-        from org.allbinary.view.ViewPositionBase import ViewPositionBase
-        super().__init__(name, remoteInfo, multiPlayerType, movement, animationInterface, destroyedAnimationInterface, rectangle, viewPosition)
-        self.setCollidableInferface(CollidableWeaponBehavior(True))
-# from org.allbinary.animation.Animation import Animation
-# from org.allbinary.animation.FeaturedAnimationInterfaceFactoryInterfaceFactory import FeaturedAnimationInterfaceFactoryInterfaceFactory
-# from org.allbinary.animation.NullIndexedAnimationFactory import NullIndexedAnimationFactory
-# from org.allbinary.game.combat.damage.ExplosionResources import ExplosionResources
-# from org.allbinary.game.multiplayer.layer.RemoteInfo import RemoteInfo
-# from org.allbinary.graphics.Rectangle import Rectangle
-# from org.allbinary.physics.movement.Movement import Movement
-# from org.allbinary.view.ViewPositionBase import ViewPositionBase
+proc initSimpleWeaponLayer*(this: SimpleWeaponLayer, name: string, remoteInfo: RemoteInfo, multiPlayerType: int32, movement: Movement, animationInterface: Animation, destroyedAnimationInterface: Animation, rectangle: Rectangle, viewPosition: ViewPositionBase) =
+        initWeaponLayer(this, name, remoteInfo, multiPlayerType, movement, animationInterface, destroyedAnimationInterface, rectangle, viewPosition)
+        this.setCollidableInferface(newCollidableWeaponBehavior(true))
 
+proc newSimpleWeaponLayer*(name: string, remoteInfo: RemoteInfo, multiPlayerType: int32, movement: Movement, animationInterface: Animation, destroyedAnimationInterface: Animation, rectangle: Rectangle, viewPosition: ViewPositionBase): SimpleWeaponLayer =
+    result = SimpleWeaponLayer()
+    initSimpleWeaponLayer(result, name, remoteInfo, multiPlayerType, movement, animationInterface, destroyedAnimationInterface, rectangle, viewPosition)
+
+when declared(newSimpleWeaponLayerHook8):
+    newSimpleWeaponLayerHook8 = proc (name: string, remoteInfo: RemoteInfo, multiPlayerType: int32, movement: Movement, animationInterface: Animation, destroyedAnimationInterface: Animation, rectangle: Rectangle, viewPosition: ViewPositionBase): WeaponLayer = newSimpleWeaponLayer(name, remoteInfo, multiPlayerType, movement, animationInterface, destroyedAnimationInterface, rectangle, viewPosition)
 

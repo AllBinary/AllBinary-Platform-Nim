@@ -1,144 +1,162 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.physics.velocity
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/game/physics/velocity/BasicVelocityProperties as BasicVelocityPropertiesModule
+export BasicVelocityPropertiesModule
+import org/allbinary/game/physics/velocity/VelocityInterface as VelocityInterfaceModule
+export VelocityInterfaceModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
-from org.allbinary.game.physics.velocity.BasicVelocityProperties import BasicVelocityProperties
-from org.allbinary.game.physics.velocity.VelocityInterface import VelocityInterface
+type
+    VelocityProperties* = ref object of BasicVelocityProperties
+        maxForwardVelocity*: int32
+        maxReverseVelocity*: int32
 
+converter jAsVelocityInterface*(value: VelocityProperties): VelocityInterface = cast[VelocityInterface](value)
+proc newVelocityProperties*(maxForwardVelocity: int32, maxReverseVelocity: int32): VelocityProperties
+proc initVelocityProperties*(this: VelocityProperties, maxForwardVelocity: int32, maxReverseVelocity: int32)
+method getMaxForwardVelocity*(this: VelocityProperties): int32 {.discardable.}
+method setMaxForwardVelocity*(this: VelocityProperties, maxForwardVelocity: int32)
+method getMaxReverseVelocity*(this: VelocityProperties): int32 {.discardable.}
+method setMaxReverseVelocity*(this: VelocityProperties, maxReverseVelocity: int32)
+method limitMaxXYForwardVelocity*(this: VelocityProperties)
+method limitMaxXYReverseVelocity*(this: VelocityProperties)
+method limitMaxYForwardVelocity*(this: VelocityProperties) {.base.}
+method limitMaxYReverseVelocity*(this: VelocityProperties) {.base.}
+method limitMaxXForwardVelocity*(this: VelocityProperties) {.base.}
+method limitMaxXReverseVelocity*(this: VelocityProperties) {.base.}
+method isOverXYMaxForwardVelocity*(this: VelocityProperties): bool {.base, discardable.}
+method isOverXYMaxReverseVelocity*(this: VelocityProperties): bool {.base, discardable.}
+method limitXYToForwardAndReverseMaxVelocity*(this: VelocityProperties)
+method limitMaxXYVelocity*(this: VelocityProperties, maxVelocity: int32)
+method limitMaxPositiveYVelocity*(this: VelocityProperties, maxVelocity: int32) {.base.}
+method limitMaxNegativeYVelocity*(this: VelocityProperties, maxVelocity: int32) {.base.}
+method limitMaxYVelocity*(this: VelocityProperties, maxVelocity: int32) {.base.}
+method limitMaxXVelocity*(this: VelocityProperties, maxVelocity: int32) {.base.}
+method isOverXYMaxVelocity*(this: VelocityProperties, maxVelocity: int32): bool {.base, discardable.}
+method setVelocityi*(this: VelocityProperties, magnitude: int64, angle: int32, otherAngle: int32)
+method addVelocityi*(this: VelocityProperties, magnitude: int64, angle: int32, otherAngle: int32)
 
-class VelocityProperties(BasicVelocityProperties, VelocityInterface):
-    NULL_VELOCITY_PROPERTIES: VelocityProperties = None
+var VelocityProperties_NULL_VELOCITY_PROPERTIESValue: VelocityProperties
+var VelocityProperties_NULL_VELOCITY_PROPERTIESSet = false
+proc NULL_VELOCITY_PROPERTIES*(t: typedesc[VelocityProperties]): VelocityProperties =
+    if not VelocityProperties_NULL_VELOCITY_PROPERTIESSet:
+        VelocityProperties_NULL_VELOCITY_PROPERTIESSet = true
+        VelocityProperties_NULL_VELOCITY_PROPERTIESValue = newVelocityProperties(0, 0)
+    VelocityProperties_NULL_VELOCITY_PROPERTIESValue
 
-    def _init_fields(self) -> None:
-        self.maxForwardVelocity: int = 0
-        self.maxReverseVelocity: int = 0
-    
+# Java field initializers run after the base initializer
+proc initFieldsVelocityProperties(this: VelocityProperties) =
+    this.maxForwardVelocity = 0
+    this.maxReverseVelocity = 0
+    discard
 
-    def __init__(self, maxForwardVelocity: int, maxReverseVelocity: int) -> None:
-        super().__init__()
-        self._init_fields()
-        self.setMaxForwardVelocity(maxForwardVelocity)
-        self.setMaxReverseVelocity(maxReverseVelocity)
-    
+proc initVelocityProperties*(this: VelocityProperties, maxForwardVelocity: int32, maxReverseVelocity: int32) =
+        initBasicVelocityProperties(this)
+        this.initFieldsVelocityProperties()
+        this.setMaxForwardVelocity(maxForwardVelocity)
+        this.setMaxReverseVelocity(maxReverseVelocity)
 
-    def getMaxForwardVelocity(self) -> int:
-        return self.maxForwardVelocity
-    
+proc newVelocityProperties*(maxForwardVelocity: int32, maxReverseVelocity: int32): VelocityProperties =
+    result = VelocityProperties()
+    initVelocityProperties(result, maxForwardVelocity, maxReverseVelocity)
 
-    def setMaxForwardVelocity(self, maxForwardVelocity: int) -> None:
-        self.maxForwardVelocity = maxForwardVelocity
-    
+method getMaxForwardVelocity*(this: VelocityProperties): int32 {.discardable.} =
+        return this.maxForwardVelocity
 
-    def getMaxReverseVelocity(self) -> int:
-        return self.maxReverseVelocity
-    
+method setMaxForwardVelocity*(this: VelocityProperties, maxForwardVelocity: int32) =
+        this.maxForwardVelocity = maxForwardVelocity
 
-    def setMaxReverseVelocity(self, maxReverseVelocity: int) -> None:
-        self.maxReverseVelocity = maxReverseVelocity
-    
+method getMaxReverseVelocity*(this: VelocityProperties): int32 {.discardable.} =
+        return this.maxReverseVelocity
 
-    def limitMaxXYForwardVelocity(self) -> None:
-        self.limitMaxXYVelocity(self.getMaxForwardVelocity())
-    
+method setMaxReverseVelocity*(this: VelocityProperties, maxReverseVelocity: int32) =
+        this.maxReverseVelocity = maxReverseVelocity
 
-    def limitMaxXYReverseVelocity(self) -> None:
-        self.limitMaxXYVelocity(self.getMaxReverseVelocity())
-    
+method limitMaxXYForwardVelocity*(this: VelocityProperties) =
+        this.limitMaxXYVelocity(this.getMaxForwardVelocity())
 
-    def limitMaxYForwardVelocity(self) -> None:
-        self.limitMaxYVelocity(self.getMaxForwardVelocity())
-    
+method limitMaxXYReverseVelocity*(this: VelocityProperties) =
+        this.limitMaxXYVelocity(this.getMaxReverseVelocity())
 
-    def limitMaxYReverseVelocity(self) -> None:
-        self.limitMaxYVelocity(self.getMaxReverseVelocity())
-    
+method limitMaxYForwardVelocity*(this: VelocityProperties) {.base.} =
+        this.limitMaxYVelocity(this.getMaxForwardVelocity())
 
-    def limitMaxXForwardVelocity(self) -> None:
-        self.limitMaxXVelocity(self.getMaxForwardVelocity())
-    
+method limitMaxYReverseVelocity*(this: VelocityProperties) {.base.} =
+        this.limitMaxYVelocity(this.getMaxReverseVelocity())
 
-    def limitMaxXReverseVelocity(self) -> None:
-        self.limitMaxXVelocity(self.getMaxReverseVelocity())
-    
+method limitMaxXForwardVelocity*(this: VelocityProperties) {.base.} =
+        this.limitMaxXVelocity(this.getMaxForwardVelocity())
 
-    def isOverXYMaxForwardVelocity(self) -> bool:
-        return self.isOverXYMaxVelocity(self.getMaxForwardVelocity())
-    
+method limitMaxXReverseVelocity*(this: VelocityProperties) {.base.} =
+        this.limitMaxXVelocity(this.getMaxReverseVelocity())
 
-    def isOverXYMaxReverseVelocity(self) -> bool:
-        return self.isOverXYMaxVelocity(self.getMaxReverseVelocity())
-    
+method isOverXYMaxForwardVelocity*(this: VelocityProperties): bool {.base, discardable.} =
+        return this.isOverXYMaxVelocity(this.getMaxForwardVelocity())
 
-    def limitXYToForwardAndReverseMaxVelocity(self) -> None:
-        self.limitMaxXYForwardVelocity()
-        self.limitMaxXYReverseVelocity()
-    
+method isOverXYMaxReverseVelocity*(this: VelocityProperties): bool {.base, discardable.} =
+        return this.isOverXYMaxVelocity(this.getMaxReverseVelocity())
 
-    def limitMaxXYVelocity(self, maxVelocity: int) -> None:
-        self.limitMaxXVelocity(maxVelocity)
-        self.limitMaxYVelocity(maxVelocity)
-    
+method limitXYToForwardAndReverseMaxVelocity*(this: VelocityProperties) =
+        this.limitMaxXYForwardVelocity()
+        this.limitMaxXYReverseVelocity()
 
-    def limitMaxPositiveYVelocity(self, maxVelocity: int) -> None:
-        if self.velocityYBasicDecimal.getUnscaled() > maxVelocity:
-            self.velocityYBasicDecimal.setint(maxVelocity)
-    
+method limitMaxXYVelocity*(this: VelocityProperties, maxVelocity: int32) =
+        this.limitMaxXVelocity(maxVelocity)
+        this.limitMaxYVelocity(maxVelocity)
 
-    def limitMaxNegativeYVelocity(self, maxVelocity: int) -> None:
-        if self.velocityYBasicDecimal.getUnscaled() < -maxVelocity:
-            self.velocityYBasicDecimal.setint(-maxVelocity)
-    
+method limitMaxPositiveYVelocity*(this: VelocityProperties, maxVelocity: int32) {.base.} =
+        if this.velocityYBasicDecimal.getUnscaled() > int64(maxVelocity):
+            this.velocityYBasicDecimal.setint(maxVelocity)
 
-    def limitMaxYVelocity(self, maxVelocity: int) -> None:
-        self.limitMaxPositiveYVelocity(maxVelocity)
-        self.limitMaxNegativeYVelocity(maxVelocity)
-    
+method limitMaxNegativeYVelocity*(this: VelocityProperties, maxVelocity: int32) {.base.} =
+        if this.velocityYBasicDecimal.getUnscaled() < int64(-maxVelocity):
+            this.velocityYBasicDecimal.setint(-maxVelocity)
 
-    def limitMaxXVelocity(self, maxVelocity: int) -> None:
-        if self.velocityXBasicDecimal.getUnscaled() > maxVelocity:
-            self.velocityXBasicDecimal.setint(maxVelocity)
-        if self.velocityXBasicDecimal.getUnscaled() < -maxVelocity:
-            self.velocityXBasicDecimal.setint(-maxVelocity)
-    
+method limitMaxYVelocity*(this: VelocityProperties, maxVelocity: int32) {.base.} =
+        this.limitMaxPositiveYVelocity(maxVelocity)
+        this.limitMaxNegativeYVelocity(maxVelocity)
 
-    def isOverXYMaxVelocity(self, maxVelocity: int) -> bool:
-        if self.velocityXBasicDecimal.getUnscaled() > maxVelocity:
-            return True
-        if self.velocityXBasicDecimal.getUnscaled() < -maxVelocity:
-            return True
-        if self.velocityYBasicDecimal.getUnscaled() > maxVelocity:
-            return True
-        if self.velocityYBasicDecimal.getUnscaled() < -maxVelocity:
-            return True
-        return False
-    
+method limitMaxXVelocity*(this: VelocityProperties, maxVelocity: int32) {.base.} =
+        if this.velocityXBasicDecimal.getUnscaled() > int64(maxVelocity):
+            this.velocityXBasicDecimal.setint(maxVelocity)
+        if this.velocityXBasicDecimal.getUnscaled() < int64(-maxVelocity):
+            this.velocityXBasicDecimal.setint(-maxVelocity)
 
-    def setVelocityi(self, magnitude: int, angle: int, otherAngle: int) -> None:
-        super().setVelocityi(magnitude, angle, otherAngle)
-        self.limitXYToForwardAndReverseMaxVelocity()
-    
+method isOverXYMaxVelocity*(this: VelocityProperties, maxVelocity: int32): bool {.base, discardable.} =
+        if this.velocityXBasicDecimal.getUnscaled() > int64(maxVelocity):
+            return true
+        if this.velocityXBasicDecimal.getUnscaled() < int64(-maxVelocity):
+            return true
+        if this.velocityYBasicDecimal.getUnscaled() > int64(maxVelocity):
+            return true
+        if this.velocityYBasicDecimal.getUnscaled() < int64(-maxVelocity):
+            return true
+        return false
 
-    def addVelocityi(self, magnitude: int, angle: int, otherAngle: int) -> None:
-        super().addVelocityi(magnitude, angle, otherAngle)
-        self.limitXYToForwardAndReverseMaxVelocity()
+method setVelocityi*(this: VelocityProperties, magnitude: int64, angle: int32, otherAngle: int32) =
+        procCall BasicVelocityProperties(this).setVelocityi(magnitude, angle, otherAngle)
+        this.limitXYToForwardAndReverseMaxVelocity()
 
+method addVelocityi*(this: VelocityProperties, magnitude: int64, angle: int32, otherAngle: int32) =
+        procCall BasicVelocityProperties(this).addVelocityi(magnitude, angle, otherAngle)
+        this.limitXYToForwardAndReverseMaxVelocity()
 
-def _VelocityProperties_NULL_VELOCITY_PROPERTIES() -> object:
-    return VelocityProperties(0, 0)
-
-lazy_static(VelocityProperties, "NULL_VELOCITY_PROPERTIES", _VelocityProperties_NULL_VELOCITY_PROPERTIES)
+when declared(newVelocityPropertiesHook2):
+    newVelocityPropertiesHook2 = proc (maxForwardVelocity: int32, maxReverseVelocity: int32): BasicVelocityProperties = newVelocityProperties(maxForwardVelocity, maxReverseVelocity)
 

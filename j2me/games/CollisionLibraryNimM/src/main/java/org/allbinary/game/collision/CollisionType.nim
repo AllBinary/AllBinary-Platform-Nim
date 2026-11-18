@@ -1,37 +1,45 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.collision
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+
+type
+    CollisionType* = ref object of JObject
+        name*: string
+
+proc newCollisionType*(name: string): CollisionType
+proc initCollisionType*(this: CollisionType, name: string)
+method toString*(this: CollisionType): string {.discardable.}
 
 
-
-class CollisionType:
-
-    def _init_fields(self) -> None:
-        self.name: str = None
+# Java field initializers run after the base initializer
+proc initFieldsCollisionType(this: CollisionType) =
     
+    discard
 
-    def __init__(self, name: str) -> None:
-        self._init_fields()
-        self.name = name
-    
+proc initCollisionType*(this: CollisionType, name: string) =
+        this.initFieldsCollisionType()
+        this.name = name
 
-    def toString(self) -> str:
-        return self.name
+proc newCollisionType*(name: string): CollisionType =
+    result = CollisionType()
+    initCollisionType(result, name)
 
-    def __str__(self) -> str:
-        return self.toString()
-
+method toString*(this: CollisionType): string {.discardable.} =
+        return this.name
 

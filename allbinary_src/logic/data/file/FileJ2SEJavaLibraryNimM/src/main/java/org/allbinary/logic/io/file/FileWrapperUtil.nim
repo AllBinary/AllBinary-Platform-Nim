@@ -1,50 +1,63 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.logic.io.file
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import java/io/File as FileModule
+export FileModule
+import org/allbinary/logic/io/file/AbFile as AbFileModule
+export AbFileModule
+
+type
+    FileWrapperUtil* = ref object of JObject
+
+proc newFileWrapperUtil*(): FileWrapperUtil
+proc wrapFiles*(t: typedesc[FileWrapperUtil], files: JArray[JObject]): JArray[AbFile] {.discardable.}
+proc wrapFile*(t: typedesc[FileWrapperUtil], file: JFile): AbFile {.discardable.}
+import org/allbinary/logic/communication/log/PreLogUtil as PreLogUtilModule
+export PreLogUtilModule
 
 
+proc initFileWrapperUtil*(this: FileWrapperUtil) =
+    discard
 
-class FileWrapperUtil:
-    
+proc newFileWrapperUtil*(): FileWrapperUtil =
+    result = FileWrapperUtil()
+    initFileWrapperUtil(result)
 
-    @staticmethod
-    def wrapFiles(files: list[object]) -> list[AbFile]:
-        from org.allbinary.logic.io.file.AbFile import AbFile
-        from org.allbinary.logic.communication.log.PreLogUtil import PreLogUtil
+proc wrapFiles*(t: typedesc[FileWrapperUtil], files: JArray[JObject]): JArray[AbFile] {.discardable.} =
         try:
-            abFileArray: list[AbFile] = [None] * (len(files))
-            for index in range(len(files) - 1, 0 - 1, -1):
-                abFileArray[index] = AbFile(files[index])
+            let abFileArray: JArray[AbFile] = newJArray[AbFile](files.length, default(AbFile))
+            block:
+                var index: int32 = files.length -% 1
+                while index >= 0:
+                    defer: index = index -% 1
+                    abFileArray[index] = newAbFile(JFile(JObject(files[index])))
             return abFileArray
-        except Exception as e:
+        except CatchableError as jcaught:
+            let e = jToException(jcaught)
             PreLogUtil.putSE("Exception Wrapping Files", "FileWrapperUtil", "wrapFiles", e)
-            return [None] * (0)
-    
+            return newJArray[AbFile](0, default(AbFile))
 
-    @staticmethod
-    def wrapFile(file: File) -> AbFile:
-        from org.allbinary.logic.io.file.AbFile import AbFile
-        from org.allbinary.logic.io.file.AbFile import AbFile
-        from org.allbinary.logic.communication.log.PreLogUtil import PreLogUtil
+proc wrapFile*(t: typedesc[FileWrapperUtil], file: JFile): AbFile {.discardable.} =
         try:
-            return AbFile(file)
-        except Exception as e:
+            return newAbFile(file)
+        except CatchableError as jcaught:
+            let e = jToException(jcaught)
             PreLogUtil.putSE("Exception Wrapping File", "FileWrapperUtil", "wrapFile", e)
             return AbFile.NULL_FILE
-# from java.io.File import File
-# from org.allbinary.logic.communication.log.PreLogUtil import PreLogUtil
-
 

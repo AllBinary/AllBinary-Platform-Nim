@@ -1,57 +1,68 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.input.accelerometer
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/input/gyro/AllBinaryOrientationSensor as AllBinaryOrientationSensorModule
+export AllBinaryOrientationSensorModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    AccelerometerSensorFactory* = ref object of JObject
 
+proc newAccelerometerSensorFactory*(): AccelerometerSensorFactory
+proc init*(t: typedesc[AccelerometerSensorFactory])
+proc getInstance*(t: typedesc[AccelerometerSensorFactory]): AllBinaryOrientationSensor {.discardable.}
+import org/allbinary/game/configuration/feature/Features as FeaturesModule
+export FeaturesModule
+import org/allbinary/game/configuration/feature/SensorFeatureFactory as SensorFeatureFactoryModule
+export SensorFeatureFactoryModule
+import org/allbinary/input/accelerometer/NoAccelerometerSensor as NoAccelerometerSensorModule
+export NoAccelerometerSensorModule
 
-class AccelerometerSensorFactory:
-    allBinaryAccelerometerSensor: AllBinaryOrientationSensor = None
-    
+var AccelerometerSensorFactory_allBinaryAccelerometerSensorValue: AllBinaryOrientationSensor
+var AccelerometerSensorFactory_allBinaryAccelerometerSensorSet = false
+proc allBinaryAccelerometerSensor*(t: typedesc[AccelerometerSensorFactory]): AllBinaryOrientationSensor =
+    if not AccelerometerSensorFactory_allBinaryAccelerometerSensorSet:
+        AccelerometerSensorFactory_allBinaryAccelerometerSensorSet = true
+        AccelerometerSensorFactory_allBinaryAccelerometerSensorValue = AllBinaryOrientationSensor.NULL_ALLBINARY_ORIENTATION_SENSOR
+    AccelerometerSensorFactory_allBinaryAccelerometerSensorValue
+proc `allBinaryAccelerometerSensor=`*(t: typedesc[AccelerometerSensorFactory], value: AllBinaryOrientationSensor) =
+    AccelerometerSensorFactory_allBinaryAccelerometerSensorSet = true
+    AccelerometerSensorFactory_allBinaryAccelerometerSensorValue = value
 
-    # throws Exception
-    @staticmethod
-    def init() -> None:
-        from org.allbinary.input.accelerometer.NoAccelerometerSensor import NoAccelerometerSensor
-        from org.allbinary.game.configuration.feature.Features import Features
-        from org.allbinary.game.configuration.feature.SensorFeatureFactory import SensorFeatureFactory
-        features: Features = Features.getInstance()
-        sensorFeatureFactory: SensorFeatureFactory = SensorFeatureFactory.getInstance()
+proc initAccelerometerSensorFactory*(this: AccelerometerSensorFactory) =
+    discard
+
+proc newAccelerometerSensorFactory*(): AccelerometerSensorFactory =
+    result = AccelerometerSensorFactory()
+    initAccelerometerSensorFactory(result)
+
+proc init*(t: typedesc[AccelerometerSensorFactory]) =
+        var features: Features = Features.getInstance()
+        var sensorFeatureFactory: SensorFeatureFactory = SensorFeatureFactory.getInstance()
         if features.isFeature(sensorFeatureFactory.ORIENTATION_SENSORS):
-            raise Exception("No Orientation Sensors")
+            raise newJException("Exception", "No Orientation Sensors")
         elif features.isFeature(sensorFeatureFactory.SIMULATED_ORIENTATION_SENSORS):
-            raise Exception("No Simulation Sensors")
+            raise newJException("Exception", "No Simulation Sensors")
         elif features.isFeature(sensorFeatureFactory.NO_ORIENTATION):
-            AccelerometerSensorFactory.allBinaryAccelerometerSensor = NoAccelerometerSensor()
+            AccelerometerSensorFactory.allBinaryAccelerometerSensor = newNoAccelerometerSensor()
         else:
-            raise Exception("Not Such SensorFeature")
-    
+            raise newJException("Exception", "Not Such SensorFeature")
 
-    @staticmethod
-    def getInstance() -> AllBinaryOrientationSensor:
-        from org.allbinary.input.gyro.AllBinaryOrientationSensor import AllBinaryOrientationSensor
+proc getInstance*(t: typedesc[AccelerometerSensorFactory]): AllBinaryOrientationSensor {.discardable.} =
         return AccelerometerSensorFactory.allBinaryAccelerometerSensor
-# from org.allbinary.game.configuration.feature.Features import Features
-# from org.allbinary.game.configuration.feature.SensorFeatureFactory import SensorFeatureFactory
-# from org.allbinary.input.gyro.AllBinaryOrientationSensor import AllBinaryOrientationSensor
-
-
-def _AccelerometerSensorFactory_allBinaryAccelerometerSensor() -> object:
-    from org.allbinary.input.gyro.AllBinaryOrientationSensor import AllBinaryOrientationSensor
-    return AllBinaryOrientationSensor.NULL_ALLBINARY_ORIENTATION_SENSOR
-
-lazy_static(AccelerometerSensorFactory, "allBinaryAccelerometerSensor", _AccelerometerSensorFactory_allBinaryAccelerometerSensor)
 

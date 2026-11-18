@@ -1,65 +1,77 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#   
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+    
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.identification
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/game/identification/GroupInterface as GroupInterfaceModule
+export GroupInterfaceModule
 
-from org.allbinary.game.identification.GroupInterface import GroupInterface
+type
+    Group* = ref object of GroupInterface
+        name*: string
+        teamId*: int16
+        string*: string
+
+proc newGroup*(teamName: string, teamId: int16): Group
+proc initGroup*(this: Group, teamName: string, teamId: int16)
+method getGroupName*(this: Group): string {.discardable.}
+method setName*(this: Group, name: string) {.base.}
+method getGroupId*(this: Group): int16 {.discardable.}
+method toString*(this: Group): string {.discardable.}
+import org/allbinary/logic/string/StringMaker as StringMakerModule
+export StringMakerModule
+import org/allbinary/logic/string/StringUtil as StringUtilModule
+export StringUtilModule
+import org/allbinary/game/identification/GroupCommonFactory as GroupCommonFactoryModule
+export GroupCommonFactoryModule
 
 
-class Group(GroupInterface):
-
-    def _init_fields(self) -> None:
-        from org.allbinary.logic.string.StringUtil import StringUtil
-        self.name: str = StringUtil.getInstance().EMPTY_STRING
-        self.teamId: int = None
-        self.string: str = StringUtil.getInstance().EMPTY_STRING
+# Java field initializers run after the base initializer
+proc initFieldsGroup(this: Group) =
+    this.name = StringUtil.getInstance().EMPTY_STRING
     
+    this.string = StringUtil.getInstance().EMPTY_STRING
+    discard
 
-    def __init__(self, teamName: str, teamId: int) -> None:
-        self._init_fields()
-        self.teamId = teamId
-        self.setName(teamName)
-    
+proc initGroup*(this: Group, teamName: string, teamId: int16) =
+        this.initFieldsGroup()
+        this.teamId = teamId
+        this.setName(teamName)
 
-    def getGroupName(self) -> str:
-        return self.name
-    
+proc newGroup*(teamName: string, teamId: int16): Group =
+    result = Group()
+    initGroup(result, teamName, teamId)
 
-    def setName(self, name: str) -> None:
-        from org.allbinary.game.identification.GroupCommonFactory import GroupCommonFactory
-        from org.allbinary.logic.string.StringMaker import StringMaker
-        self.name = name
-        groupCommonFactory: GroupCommonFactory = GroupCommonFactory.getInstance()
-        stringBuffer: StringMaker = StringMaker()
+method getGroupName*(this: Group): string {.discardable.} =
+        return this.name
+
+method setName*(this: Group, name: string) {.base.} =
+        this.name = name
+        let groupCommonFactory: GroupCommonFactory = GroupCommonFactory.getInstance()
+        let stringBuffer: StringMaker = newStringMaker()
         stringBuffer.append(groupCommonFactory.GROUP_NAME_LABEL)
-        stringBuffer.append(self.name)
+        stringBuffer.append(this.name)
         stringBuffer.append(groupCommonFactory.ID_LABEL)
-        stringBuffer.appendshort(self.teamId)
-        self.string = str(stringBuffer)
-    
+        stringBuffer.appendshort(this.teamId)
+        this.string = stringBuffer.toString()
 
-    def getGroupId(self) -> int:
-        return self.teamId
-    
+method getGroupId*(this: Group): int16 {.discardable.} =
+        return this.teamId
 
-    def toString(self) -> str:
-        return self.string
-
-    def __str__(self) -> str:
-        return self.toString()
-# from org.allbinary.logic.string.StringMaker import StringMaker
-# from org.allbinary.logic.string.StringUtil import StringUtil
-
+method toString*(this: Group): string {.discardable.} =
+        return this.string
 

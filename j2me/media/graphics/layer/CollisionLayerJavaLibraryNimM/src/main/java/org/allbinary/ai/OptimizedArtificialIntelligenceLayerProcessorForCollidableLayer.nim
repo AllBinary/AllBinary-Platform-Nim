@@ -1,49 +1,59 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.ai
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/layer/AllBinaryLayer as AllBinaryLayerModule
+export AllBinaryLayerModule
+import org/allbinary/layer/AllBinaryLayerManager as AllBinaryLayerManagerModule
+export AllBinaryLayerManagerModule
+import org/allbinary/layer/LayerProcessor as LayerProcessorModule
+export LayerProcessorModule
 
-from org.allbinary.layer.LayerProcessor import LayerProcessor
+type
+    OptimizedArtificialIntelligenceLayerProcessorForCollidableLayer* = ref object of LayerProcessor
+
+proc newOptimizedArtificialIntelligenceLayerProcessorForCollidableLayer*(): OptimizedArtificialIntelligenceLayerProcessorForCollidableLayer
+proc initOptimizedArtificialIntelligenceLayerProcessorForCollidableLayer*(this: OptimizedArtificialIntelligenceLayerProcessorForCollidableLayer)
+method processAt*(this: OptimizedArtificialIntelligenceLayerProcessorForCollidableLayer, allBinaryLayerManager: AllBinaryLayerManager, layerInterface: AllBinaryLayer, index: int32)
+method isProcessorLayer*(this: OptimizedArtificialIntelligenceLayerProcessorForCollidableLayer, layerInterface: AllBinaryLayer): bool {.discardable.}
+import org/allbinary/game/layer/CollidableCompositeLayer as CollidableCompositeLayerModule
+export CollidableCompositeLayerModule
+import org/allbinary/ai/OptimizedArtificialIntelligenceLayerManager as OptimizedArtificialIntelligenceLayerManagerModule
+export OptimizedArtificialIntelligenceLayerManagerModule
 
 
-class OptimizedArtificialIntelligenceLayerProcessorForCollidableLayer(LayerProcessor):
-    
+proc initOptimizedArtificialIntelligenceLayerProcessorForCollidableLayer*(this: OptimizedArtificialIntelligenceLayerProcessorForCollidableLayer) =
+        initLayerProcessor(this, newOptimizedArtificialIntelligenceLayerManager())
 
-    def __init__(self) -> None:
-        from org.allbinary.ai.OptimizedArtificialIntelligenceLayerManager import OptimizedArtificialIntelligenceLayerManager
-        super().__init__(OptimizedArtificialIntelligenceLayerManager())
-    
+proc newOptimizedArtificialIntelligenceLayerProcessorForCollidableLayer*(): OptimizedArtificialIntelligenceLayerProcessorForCollidableLayer =
+    result = OptimizedArtificialIntelligenceLayerProcessorForCollidableLayer()
+    initOptimizedArtificialIntelligenceLayerProcessorForCollidableLayer(result)
 
-    # throws Exception
-    def processAt(self, allBinaryLayerManager: AllBinaryLayerManager, layerInterface: AllBinaryLayer, index: int) -> None:
-        from org.allbinary.game.layer.CollidableCompositeLayer import CollidableCompositeLayer
-        from org.allbinary.layer.AllBinaryLayer import AllBinaryLayer
-        from org.allbinary.layer.AllBinaryLayerManager import AllBinaryLayerManager
-        artificialIntelligenceCompositeInterface: CollidableCompositeLayer = layerInterface
+method processAt*(this: OptimizedArtificialIntelligenceLayerProcessorForCollidableLayer, allBinaryLayerManager: AllBinaryLayerManager, layerInterface: AllBinaryLayer, index: int32) =
+        var artificialIntelligenceCompositeInterface: CollidableCompositeLayer = CollidableCompositeLayer(JObject(layerInterface))
         artificialIntelligenceCompositeInterface.getArtificialIntelligenceInterface().processAI(allBinaryLayerManager)
-    
 
-    # throws Exception
-    def isProcessorLayer(self, layerInterface: AllBinaryLayer) -> bool:
-        from org.allbinary.layer.AllBinaryLayer import AllBinaryLayer
+method isProcessorLayer*(this: OptimizedArtificialIntelligenceLayerProcessorForCollidableLayer, layerInterface: AllBinaryLayer): bool {.discardable.} =
         if layerInterface.implmentsArtificialIntelligenceCompositeInterface():
-            return True
+            return true
         else:
-            return False
-# from org.allbinary.game.layer.CollidableCompositeLayer import CollidableCompositeLayer
-# from org.allbinary.layer.AllBinaryLayer import AllBinaryLayer
-# from org.allbinary.layer.AllBinaryLayerManager import AllBinaryLayerManager
+            return false
 
+when declared(newOptimizedArtificialIntelligenceLayerProcessorForCollidableLayerHook0):
+    newOptimizedArtificialIntelligenceLayerProcessorForCollidableLayerHook0 = proc (): LayerProcessor = newOptimizedArtificialIntelligenceLayerProcessorForCollidableLayer()
 

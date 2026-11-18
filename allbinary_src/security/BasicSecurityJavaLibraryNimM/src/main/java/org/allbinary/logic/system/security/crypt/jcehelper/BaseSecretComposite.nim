@@ -1,42 +1,50 @@
-# 
-# AllBinary Open License Version 1 
-# Copyright (c) 2025 AllBinary 
-#  
-# By agreeing to this license you and any business entity you represent are 
-# legally bound to the AllBinary Open License Version 1 legal agreement. 
-#  
-# You may obtain the AllBinary Open License Version 1 legal agreement from 
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
-#  
-# Created By: Travis Berthelot 
-#   
+#[
+  
+  AllBinary Open License Version 1 
+  Copyright (c) 2025 AllBinary 
+   
+  By agreeing to this license you and any business entity you represent are 
+  legally bound to the AllBinary Open License Version 1 legal agreement. 
+   
+  You may obtain the AllBinary Open License Version 1 legal agreement from 
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
+   
+  Created By: Travis Berthelot 
+    
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.logic.system.security.crypt.jcehelper
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    BaseSecretComposite* = ref object of JObject
 
+proc newBaseSecretComposite*(): BaseSecretComposite
+method encrypt*(this: BaseSecretComposite, array: JArray[int8]): JArray[int8] {.base, discardable.}
+method decrypt*(this: BaseSecretComposite, array: JArray[int8]): JArray[int8] {.base, discardable.}
+import org/allbinary/logic/NullUtil as NullUtilModule
+export NullUtilModule
 
-class BaseSecretComposite:
-    NULL_SECRET_COMPOSITE: BaseSecretComposite = None
-    
+var BaseSecretComposite_NULL_SECRET_COMPOSITEValue: BaseSecretComposite
+var BaseSecretComposite_NULL_SECRET_COMPOSITESet = false
+proc NULL_SECRET_COMPOSITE*(t: typedesc[BaseSecretComposite]): BaseSecretComposite =
+    if not BaseSecretComposite_NULL_SECRET_COMPOSITESet:
+        BaseSecretComposite_NULL_SECRET_COMPOSITESet = true
+        BaseSecretComposite_NULL_SECRET_COMPOSITEValue = newBaseSecretComposite()
+    BaseSecretComposite_NULL_SECRET_COMPOSITEValue
 
-    # throws Exception
-    def encrypt(self, array: list[int]) -> list[int]:
-        from org.allbinary.logic.NullUtil import NullUtil
+proc initBaseSecretComposite*(this: BaseSecretComposite) =
+    discard
+
+proc newBaseSecretComposite*(): BaseSecretComposite =
+    result = BaseSecretComposite()
+    initBaseSecretComposite(result)
+
+method encrypt*(this: BaseSecretComposite, array: JArray[int8]): JArray[int8] {.base, discardable.} =
         return NullUtil.getInstance().NULL_BYTE_ARRAY
-    
 
-    # throws Exception
-    def decrypt(self, array: list[int]) -> list[int]:
-        from org.allbinary.logic.NullUtil import NullUtil
+method decrypt*(this: BaseSecretComposite, array: JArray[int8]): JArray[int8] {.base, discardable.} =
         return NullUtil.getInstance().NULL_BYTE_ARRAY
-# from org.allbinary.logic.NullUtil import NullUtil
-
-
-def _BaseSecretComposite_NULL_SECRET_COMPOSITE() -> object:
-    return BaseSecretComposite()
-
-lazy_static(BaseSecretComposite, "NULL_SECRET_COMPOSITE", _BaseSecretComposite_NULL_SECRET_COMPOSITE)
 

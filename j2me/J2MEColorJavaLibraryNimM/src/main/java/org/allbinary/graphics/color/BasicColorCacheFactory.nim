@@ -66,7 +66,7 @@ method add*(this: BasicColorCacheFactory, basicDefaultColor: BasicColor) {.base.
         this.hashtable.put(basicDefaultColor.intValue(), basicDefaultColor)
 
 method getAndOrCreate*(this: BasicColorCacheFactory, integer: int32): BasicColor {.base, discardable.} =
-        var basicColor: BasicColor = BasicColor(this.hashtable.get(integer))
+        var basicColor: BasicColor = BasicColor(JObject(this.hashtable.get(integer)))
         if (jIsNil(basicColor)):
             basicColor = BasicColorFactory.getInstance().createInstance(integer.intValue())
             this.hashtable.put(integer, basicColor)

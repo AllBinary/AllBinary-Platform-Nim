@@ -1,49 +1,64 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.input.motion.gesture.observer
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/logic/util/event/AllBinaryEventObject as AllBinaryEventObjectModule
+export AllBinaryEventObjectModule
+import org/allbinary/logic/util/event/EventListenerInterface as EventListenerInterfaceModule
+export EventListenerInterfaceModule
+import org/allbinary/logic/util/event/handler/BasicEventHandler as BasicEventHandlerModule
+export BasicEventHandlerModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
-from org.allbinary.logic.util.event.handler.BasicEventHandler import BasicEventHandler
+type
+    BasicMotionGesturesHandler* = ref object of BasicEventHandler
 
+proc newBasicMotionGesturesHandler*(): BasicMotionGesturesHandler
+proc initBasicMotionGesturesHandler*(this: BasicMotionGesturesHandler)
+proc getInstance*(t: typedesc[BasicMotionGesturesHandler]): BasicMotionGesturesHandler {.discardable.}
+method process*(this: BasicMotionGesturesHandler, eventObject: AllBinaryEventObject, eventListenerInterface: EventListenerInterface)
+import org/allbinary/input/motion/gesture/observer/BaseMotionGestureEventListener as BaseMotionGestureEventListenerModule
+export BaseMotionGestureEventListenerModule
+import org/allbinary/input/motion/gesture/observer/MotionGestureEvent as MotionGestureEventModule
+export MotionGestureEventModule
 
-class BasicMotionGesturesHandler(BasicEventHandler):
-    SINGLETON: BasicMotionGesturesHandler = None
-    
+var BasicMotionGesturesHandler_SINGLETONValue: BasicMotionGesturesHandler
+var BasicMotionGesturesHandler_SINGLETONSet = false
+proc SINGLETON*(t: typedesc[BasicMotionGesturesHandler]): BasicMotionGesturesHandler =
+    if not BasicMotionGesturesHandler_SINGLETONSet:
+        BasicMotionGesturesHandler_SINGLETONSet = true
+        BasicMotionGesturesHandler_SINGLETONValue = newBasicMotionGesturesHandler()
+    BasicMotionGesturesHandler_SINGLETONValue
 
-    @staticmethod
-    def getInstance() -> BasicMotionGesturesHandler:
+proc getInstance*(t: typedesc[BasicMotionGesturesHandler]): BasicMotionGesturesHandler {.discardable.} =
         return BasicMotionGesturesHandler.SINGLETON
-    
 
-    def __init__(self) -> None:
-        super().__init__()
-    
+proc initBasicMotionGesturesHandler*(this: BasicMotionGesturesHandler) =
+        initBasicEventHandler(this)
+        discard
 
-    # throws Exception
-    def process(self, eventObject: AllBinaryEventObject, eventListenerInterface: EventListenerInterface) -> None:
-        from org.allbinary.logic.util.event.AllBinaryEventObject import AllBinaryEventObject
-        from org.allbinary.logic.util.event.EventListenerInterface import EventListenerInterface
-        baseMotionGestureEventListener: BaseMotionGestureEventListener = eventListenerInterface
-        baseMotionGestureEventListener.onMotionGestureEvent(eventObject)
-# from org.allbinary.logic.util.event.AllBinaryEventObject import AllBinaryEventObject
-# from org.allbinary.logic.util.event.EventListenerInterface import EventListenerInterface
+proc newBasicMotionGesturesHandler*(): BasicMotionGesturesHandler =
+    result = BasicMotionGesturesHandler()
+    initBasicMotionGesturesHandler(result)
 
+method process*(this: BasicMotionGesturesHandler, eventObject: AllBinaryEventObject, eventListenerInterface: EventListenerInterface) =
+        let baseMotionGestureEventListener: BaseMotionGestureEventListener = BaseMotionGestureEventListener(JObject(eventListenerInterface))
+        baseMotionGestureEventListener.onMotionGestureEvent(MotionGestureEvent(JObject(eventObject)))
 
-def _BasicMotionGesturesHandler_SINGLETON() -> object:
-    return BasicMotionGesturesHandler()
-
-lazy_static(BasicMotionGesturesHandler, "SINGLETON", _BasicMotionGesturesHandler_SINGLETON)
+when declared(newBasicMotionGesturesHandlerHook0):
+    newBasicMotionGesturesHandlerHook0 = proc (): BasicEventHandler = newBasicMotionGesturesHandler()
 

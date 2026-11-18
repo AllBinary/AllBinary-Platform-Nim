@@ -1,41 +1,52 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#   
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+    
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.graphics.paint
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import javax/microedition/lcdui/Graphics as GraphicsModule
+export GraphicsModule
+import org/allbinary/graphics/paint/LocationPaintableInterface as LocationPaintableInterfaceModule
+export LocationPaintableInterfaceModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
-from org.allbinary.graphics.paint.LocationPaintableInterface import LocationPaintableInterface
+type
+    LocationPaintable* = ref object of LocationPaintableInterface
 
+proc newLocationPaintable*(): LocationPaintable
+proc getInstance*(t: typedesc[LocationPaintable]): LocationPaintable {.discardable.}
+method paintXY*(this: LocationPaintable, graphics: Graphics, x: int32, y: int32)
 
-class LocationPaintable(LocationPaintableInterface):
-    instance: LocationPaintable = None
-    
+var LocationPaintable_instanceValue: LocationPaintable
+var LocationPaintable_instanceSet = false
+proc instance*(t: typedesc[LocationPaintable]): LocationPaintable =
+    if not LocationPaintable_instanceSet:
+        LocationPaintable_instanceSet = true
+        LocationPaintable_instanceValue = newLocationPaintable()
+    LocationPaintable_instanceValue
 
-    @staticmethod
-    def getInstance() -> LocationPaintable:
+proc initLocationPaintable*(this: LocationPaintable) =
+    discard
+
+proc newLocationPaintable*(): LocationPaintable =
+    result = LocationPaintable()
+    initLocationPaintable(result)
+
+proc getInstance*(t: typedesc[LocationPaintable]): LocationPaintable {.discardable.} =
         return LocationPaintable.instance
-    
 
-    def paintXY(self, graphics: Graphics, x: int, y: int) -> None:
-        from javax.microedition.lcdui.Graphics import Graphics
-        pass
-# from javax.microedition.lcdui.Graphics import Graphics
-
-
-def _LocationPaintable_instance() -> object:
-    return LocationPaintable()
-
-lazy_static(LocationPaintable, "instance", _LocationPaintable_instance)
+method paintXY*(this: LocationPaintable, graphics: Graphics, x: int32, y: int32) =
+        discard
 

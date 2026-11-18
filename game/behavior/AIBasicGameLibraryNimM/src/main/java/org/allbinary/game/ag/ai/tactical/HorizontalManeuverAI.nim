@@ -1,90 +1,102 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.ag.ai.tactical
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/game/ai/BasicAI as BasicAIModule
+export BasicAIModule
+import org/allbinary/game/input/GameInput as GameInputModule
+export GameInputModule
+import org/allbinary/layer/AllBinaryLayer as AllBinaryLayerModule
+export AllBinaryLayerModule
+import org/allbinary/layer/AllBinaryLayerManager as AllBinaryLayerManagerModule
+export AllBinaryLayerManagerModule
 
-from org.allbinary.game.ai.BasicAI import BasicAI
+type
+    HorizontalManeuverAI* = ref object of BasicAI
+        currentRelativeAngle*: int32
+        currentSpeed*: int32
+
+proc newHorizontalManeuverAI*(ownerLayerInterface: AllBinaryLayer, gameInput: GameInput): HorizontalManeuverAI
+proc initHorizontalManeuverAI*(this: HorizontalManeuverAI, ownerLayerInterface: AllBinaryLayer, gameInput: GameInput)
+method processAI*(this: HorizontalManeuverAI, allBinaryLayerManager: AllBinaryLayerManager)
+method reverse*(this: HorizontalManeuverAI) {.base.}
+method accelerate*(this: HorizontalManeuverAI) {.base.}
+method drop*(this: HorizontalManeuverAI) {.base.}
+import javax/microedition/lcdui/Canvas as CanvasModule
+export CanvasModule
+import org/allbinary/graphics/displayable/DisplayInfoSingleton as DisplayInfoSingletonModule
+export DisplayInfoSingletonModule
 
 
-class HorizontalManeuverAI(BasicAI):
-
-    def _init_fields(self) -> None:
-        self.currentRelativeAngle: int = 0
-        self.currentSpeed: int = None
+# Java field initializers run after the base initializer
+proc initFieldsHorizontalManeuverAI(this: HorizontalManeuverAI) =
+    this.currentRelativeAngle = 0
     
+    discard
 
-    def __init__(self, ownerLayerInterface: AllBinaryLayer, gameInput: GameInput) -> None:
-        from org.allbinary.game.input.GameInput import GameInput
-        from org.allbinary.layer.AllBinaryLayer import AllBinaryLayer
-        super().__init__(ownerLayerInterface, gameInput)
-        self._init_fields()
-        self.currentSpeed = 5
-    
+proc initHorizontalManeuverAI*(this: HorizontalManeuverAI, ownerLayerInterface: AllBinaryLayer, gameInput: GameInput) =
+        initBasicAI(this, ownerLayerInterface, gameInput)
+        this.initFieldsHorizontalManeuverAI()
+        this.currentSpeed = 5
 
-    # throws Exception
-    def processAI(self, allBinaryLayerManager: AllBinaryLayerManager) -> None:
-        from javax.microedition.lcdui.Canvas import Canvas
-        from org.allbinary.graphics.displayable.DisplayInfoSingleton import DisplayInfoSingleton
-        from org.allbinary.layer.AllBinaryLayer import AllBinaryLayer
-        from org.allbinary.layer.AllBinaryLayerManager import AllBinaryLayerManager
-        ownerLayerInterface: AllBinaryLayer = self.getOwnerLayerInterface()
-        x: int = ownerLayerInterface.getXP()
-        if ownerLayerInterface.getXP() - self.currentSpeed <= 0:
-            self.reverse()
-            self.drop()
-        if ownerLayerInterface.getX2() + self.currentSpeed > DisplayInfoSingleton.getInstance().getLastWidth():
-            self.reverse()
-            self.accelerate()
-            self.drop()
-        if self.currentRelativeAngle == 0:
-            x += self.currentSpeed
-        elif self.currentRelativeAngle == 180:
-            x -= self.currentSpeed
+proc newHorizontalManeuverAI*(ownerLayerInterface: AllBinaryLayer, gameInput: GameInput): HorizontalManeuverAI =
+    result = HorizontalManeuverAI()
+    initHorizontalManeuverAI(result, ownerLayerInterface, gameInput)
+
+method processAI*(this: HorizontalManeuverAI, allBinaryLayerManager: AllBinaryLayerManager) =
+        var ownerLayerInterface: AllBinaryLayer = this.getOwnerLayerInterface()
+        var x: int32 = ownerLayerInterface.getXP()
+        if ownerLayerInterface.getXP() -% this.currentSpeed <= 0:
+            this.reverse()
+            this.drop()
+        if ownerLayerInterface.getX2() +% this.currentSpeed > DisplayInfoSingleton.getInstance().getLastWidth():
+            this.reverse()
+            this.accelerate()
+            this.drop()
+        if this.currentRelativeAngle == 0:
+            x = x +% this.currentSpeed
+        elif this.currentRelativeAngle == 180:
+            x = x -% this.currentSpeed
         ownerLayerInterface.setPosition(x, ownerLayerInterface.getYP(), ownerLayerInterface.getZP())
-        if self.currentRelativeAngle == 0:
-            super().processKeyAI(Canvas.KEY_NUM0)
-        elif self.currentRelativeAngle == 180:
-            super().processKeyAI(Canvas.KEY_POUND)
-    
+        if this.currentRelativeAngle == 0:
+            procCall BasicAI(this).processKeyAI(Canvas.KEY_NUM0)
+        elif this.currentRelativeAngle == 180:
+            procCall BasicAI(this).processKeyAI(Canvas.KEY_POUND)
 
-    def reverse(self) -> None:
-        if self.currentRelativeAngle == 180:
-            self.currentRelativeAngle = 0
-        elif self.currentRelativeAngle == 0:
-            self.currentRelativeAngle = 180
-    
+method reverse*(this: HorizontalManeuverAI) {.base.} =
+        if this.currentRelativeAngle == 180:
+            this.currentRelativeAngle = 0
+        elif this.currentRelativeAngle == 0:
+            this.currentRelativeAngle = 180
 
-    def accelerate(self) -> None:
-        if self.currentSpeed < 20:
-            self.currentSpeed += 1
-    
+method accelerate*(this: HorizontalManeuverAI) {.base.} =
+        if this.currentSpeed < 20:
+            this.currentSpeed = this.currentSpeed +% 1
 
-    def drop(self) -> None:
-        from org.allbinary.graphics.displayable.DisplayInfoSingleton import DisplayInfoSingleton
-        from org.allbinary.layer.AllBinaryLayer import AllBinaryLayer
-        ownerLayerInterface: AllBinaryLayer = self.getOwnerLayerInterface()
-        y: int = ownerLayerInterface.getYP()
-        if ownerLayerInterface.getY2() + ownerLayerInterface.getHeight() > DisplayInfoSingleton.getInstance().getLastHeight():
+method drop*(this: HorizontalManeuverAI) {.base.} =
+        var ownerLayerInterface: AllBinaryLayer = this.getOwnerLayerInterface()
+        var y: int32 = ownerLayerInterface.getYP()
+        if ownerLayerInterface.getY2() +% ownerLayerInterface.getHeight() > DisplayInfoSingleton.getInstance().getLastHeight():
             y = 0
         else:
-            y += ownerLayerInterface.getHeight() + 1
+            y = y +% ownerLayerInterface.getHeight() +% 1
         ownerLayerInterface.setPosition(ownerLayerInterface.getXP(), y, ownerLayerInterface.getZP())
-# from javax.microedition.lcdui.Canvas import Canvas
-# from org.allbinary.game.input.GameInput import GameInput
-# from org.allbinary.graphics.displayable.DisplayInfoSingleton import DisplayInfoSingleton
-# from org.allbinary.layer.AllBinaryLayer import AllBinaryLayer
-# from org.allbinary.layer.AllBinaryLayerManager import AllBinaryLayerManager
 
+when declared(newHorizontalManeuverAIHook2):
+    newHorizontalManeuverAIHook2 = proc (ownerLayerInterface: AllBinaryLayer, gameInput: GameInput): BasicAI = newHorizontalManeuverAI(ownerLayerInterface, gameInput)
 

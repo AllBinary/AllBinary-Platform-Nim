@@ -1,99 +1,86 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.layer
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/game/identification/GroupInterfaceCompositeInterface as GroupInterfaceCompositeInterfaceModule
+export GroupInterfaceCompositeInterfaceModule
+import org/allbinary/graphics/paint/PaintableInterface as PaintableInterfaceModule
+export PaintableInterfaceModule
+import org/allbinary/layer/NamedInterface as NamedInterfaceModule
+export NamedInterfaceModule
+import org/allbinary/layer/PositionInterface as PositionInterfaceModule
+export PositionInterfaceModule
 
-from org.allbinary.game.identification.GroupInterfaceCompositeInterface import GroupInterfaceCompositeInterface
-from org.allbinary.graphics.paint.PaintableInterface import PaintableInterface
-from org.allbinary.layer.NamedInterface import NamedInterface
-from org.allbinary.layer.PositionInterface import PositionInterface
+type
+    LayerInterface* = ref object of NamedInterface
 
 
-# Java interface
-class LayerInterface(NamedInterface, PaintableInterface, GroupInterfaceCompositeInterface, PositionInterface):
-    
+method getHeight*(this: LayerInterface): int32 {.base, discardable.} =
+        raise newJException("AbstractMethodError", "getHeight")
 
-    def getHeight(self) -> int:
-        raise NotImplementedError()
-    
+method getWidth*(this: LayerInterface): int32 {.base, discardable.} =
+        raise newJException("AbstractMethodError", "getWidth")
 
-    def getWidth(self) -> int:
-        raise NotImplementedError()
-    
+method getHalfHeight*(this: LayerInterface): int32 {.base, discardable.} =
+        raise newJException("AbstractMethodError", "getHalfHeight")
 
-    def getHalfHeight(self) -> int:
-        raise NotImplementedError()
-    
+method getHalfWidth*(this: LayerInterface): int32 {.base, discardable.} =
+        raise newJException("AbstractMethodError", "getHalfWidth")
 
-    def getHalfWidth(self) -> int:
-        raise NotImplementedError()
-    
+method getXP*(this: LayerInterface): int32 {.base, discardable.} =
+        raise newJException("AbstractMethodError", "getXP")
 
-    def getXP(self) -> int:
-        raise NotImplementedError()
-    
+method getYP*(this: LayerInterface): int32 {.base, discardable.} =
+        raise newJException("AbstractMethodError", "getYP")
 
-    def getYP(self) -> int:
-        raise NotImplementedError()
-    
+method getZP*(this: LayerInterface): int32 {.base, discardable.} =
+        raise newJException("AbstractMethodError", "getZP")
 
-    def getZP(self) -> int:
-        raise NotImplementedError()
-    
+method getX2*(this: LayerInterface): int32 {.base, discardable.} =
+        raise newJException("AbstractMethodError", "getX2")
 
-    def getX2(self) -> int:
-        raise NotImplementedError()
-    
+method getY2*(this: LayerInterface): int32 {.base, discardable.} =
+        raise newJException("AbstractMethodError", "getY2")
 
-    def getY2(self) -> int:
-        raise NotImplementedError()
-    
+method getZ2*(this: LayerInterface): int32 {.base, discardable.} =
+        raise newJException("AbstractMethodError", "getZ2")
 
-    def getZ2(self) -> int:
-        raise NotImplementedError()
-    
+method isVisible*(this: LayerInterface): bool {.base, discardable.} =
+        raise newJException("AbstractMethodError", "isVisible")
 
-    def isVisible(self) -> bool:
-        raise NotImplementedError()
-    
+method moveDXYZ*(this: LayerInterface, dx: int32, dy: int32, dz: int32) {.base.} =
+        raise newJException("AbstractMethodError", "moveDXYZ")
 
-    def moveDXYZ(self, dx: int, dy: int, dz: int) -> None:
-        raise NotImplementedError()
-    
+method setVisible*(this: LayerInterface, visible: bool) {.base.} =
+        raise newJException("AbstractMethodError", "setVisible")
 
-    def setVisible(self, visible: bool) -> None:
-        raise NotImplementedError()
-    
+method implmentsTickableInterface*(this: LayerInterface): bool {.base, discardable.} =
+        raise newJException("AbstractMethodError", "implmentsTickableInterface")
 
-    def implmentsTickableInterface(self) -> bool:
-        raise NotImplementedError()
-    
+method implmentsCollidableInterface*(this: LayerInterface): bool {.base, discardable.} =
+        raise newJException("AbstractMethodError", "implmentsCollidableInterface")
 
-    def implmentsCollidableInterface(self) -> bool:
-        raise NotImplementedError()
-    
+method implmentsGameInputInterface*(this: LayerInterface): bool {.base, discardable.} =
+        raise newJException("AbstractMethodError", "implmentsGameInputInterface")
 
-    def implmentsGameInputInterface(self) -> bool:
-        raise NotImplementedError()
-    
+method implmentsArtificialIntelligenceCompositeInterface*(this: LayerInterface): bool {.base, discardable.} =
+        raise newJException("AbstractMethodError", "implmentsArtificialIntelligenceCompositeInterface")
 
-    def implmentsArtificialIntelligenceCompositeInterface(self) -> bool:
-        raise NotImplementedError()
-    
-
-    def getType(self) -> int:
-        raise NotImplementedError()
-
+method getType*(this: LayerInterface): int32 {.base, discardable.} =
+        raise newJException("AbstractMethodError", "getType")
 

@@ -1,52 +1,72 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.layer.pickup
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/game/layer/pickup/PickedUpLayerType as PickedUpLayerTypeModule
+export PickedUpLayerTypeModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    PickedUpLayerTypeFactory* = ref object of JObject
+        NONE*: PickedUpLayerType
+        BEAM*: PickedUpLayerType
+        MINE*: PickedUpLayerType
+        PROJECTILE*: PickedUpLayerType
+        ENHANCEMENT*: PickedUpLayerType
+        MORPH*: PickedUpLayerType
+        PART*: PickedUpLayerType
+        HEAL*: PickedUpLayerType
+        LIFE*: PickedUpLayerType
+        POINTS*: PickedUpLayerType
 
+proc newPickedUpLayerTypeFactory*(): PickedUpLayerTypeFactory
+proc getInstance*(t: typedesc[PickedUpLayerTypeFactory]): PickedUpLayerTypeFactory {.discardable.}
+import org/allbinary/logic/string/StringUtil as StringUtilModule
+export StringUtilModule
 
-class PickedUpLayerTypeFactory:
-    instance: PickedUpLayerTypeFactory = None
+var PickedUpLayerTypeFactory_instanceValue: PickedUpLayerTypeFactory
+var PickedUpLayerTypeFactory_instanceSet = false
+proc instance*(t: typedesc[PickedUpLayerTypeFactory]): PickedUpLayerTypeFactory =
+    if not PickedUpLayerTypeFactory_instanceSet:
+        PickedUpLayerTypeFactory_instanceSet = true
+        PickedUpLayerTypeFactory_instanceValue = newPickedUpLayerTypeFactory()
+    PickedUpLayerTypeFactory_instanceValue
 
-    def _init_fields(self) -> None:
-        from org.allbinary.logic.string.StringUtil import StringUtil
-        self.NONE: PickedUpLayerType = PickedUpLayerType(StringUtil.getInstance().NULL_STRING)
-        self.BEAM: PickedUpLayerType = PickedUpLayerType("BEAM")
-        self.MINE: PickedUpLayerType = PickedUpLayerType("MINE")
-        self.PROJECTILE: PickedUpLayerType = PickedUpLayerType("PROJECTILE")
-        self.ENHANCEMENT: PickedUpLayerType = PickedUpLayerType("Enhancement")
-        self.MORPH: PickedUpLayerType = PickedUpLayerType("Morph")
-        self.PART: PickedUpLayerType = PickedUpLayerType("Part")
-        self.HEAL: PickedUpLayerType = PickedUpLayerType("Heal")
-        self.LIFE: PickedUpLayerType = PickedUpLayerType("Life")
-        self.POINTS: PickedUpLayerType = PickedUpLayerType("Points")
+# Java field initializers run after the base initializer
+proc initFieldsPickedUpLayerTypeFactory(this: PickedUpLayerTypeFactory) =
+    this.NONE = newPickedUpLayerType(StringUtil.getInstance().NULL_STRING)
+    this.BEAM = newPickedUpLayerType("BEAM")
+    this.MINE = newPickedUpLayerType("MINE")
+    this.PROJECTILE = newPickedUpLayerType("PROJECTILE")
+    this.ENHANCEMENT = newPickedUpLayerType("Enhancement")
+    this.MORPH = newPickedUpLayerType("Morph")
+    this.PART = newPickedUpLayerType("Part")
+    this.HEAL = newPickedUpLayerType("Heal")
+    this.LIFE = newPickedUpLayerType("Life")
+    this.POINTS = newPickedUpLayerType("Points")
+    discard
 
-    def __init__(self) -> None:
-        self._init_fields()
-    
+proc initPickedUpLayerTypeFactory*(this: PickedUpLayerTypeFactory) =
+    this.initFieldsPickedUpLayerTypeFactory()
 
-    @staticmethod
-    def getInstance() -> PickedUpLayerTypeFactory:
+proc newPickedUpLayerTypeFactory*(): PickedUpLayerTypeFactory =
+    result = PickedUpLayerTypeFactory()
+    initPickedUpLayerTypeFactory(result)
+
+proc getInstance*(t: typedesc[PickedUpLayerTypeFactory]): PickedUpLayerTypeFactory {.discardable.} =
         return PickedUpLayerTypeFactory.instance
-# from org.allbinary.logic.string.StringUtil import StringUtil
-from org.allbinary.game.layer.pickup.PickedUpLayerType import PickedUpLayerType
-
-
-def _PickedUpLayerTypeFactory_instance() -> object:
-    return PickedUpLayerTypeFactory()
-
-lazy_static(PickedUpLayerTypeFactory, "instance", _PickedUpLayerTypeFactory_instance)
 

@@ -1,77 +1,82 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.logic.io
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/logic/io/AbFileInputStream as AbFileInputStreamModule
+export AbFileInputStreamModule
+import org/allbinary/logic/io/AbFileOutputStream as AbFileOutputStreamModule
+export AbFileOutputStreamModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    FileStreamFactory* = ref object of JObject
 
+proc newFileStreamFactory*(): FileStreamFactory
+proc initFileStreamFactory*(this: FileStreamFactory)
+proc getInstance*(t: typedesc[FileStreamFactory]): FileStreamFactory {.discardable.}
+method getFileInputStreamInstance*(this: FileStreamFactory, path: string, fileName: string): AbFileInputStream {.base, discardable.}
+method getFileOutputStreamInstance*(this: FileStreamFactory, path: string, fileName: string): AbFileOutputStream {.base, discardable.}
+method delete*(this: FileStreamFactory, path: string, fileName: string) {.base.}
+import org/allbinary/logic/NullUtil as NullUtilModule
+export NullUtilModule
+import org/allbinary/logic/io/file/AbFile as AbFileModule
+export AbFileModule
+import org/allbinary/logic/io/path/AbPath as AbPathModule
+export AbPathModule
 
-class FileStreamFactory:
-    SINGLETON: object = None
-    
+var FileStreamFactory_SINGLETONValue: JObject
+var FileStreamFactory_SINGLETONSet = false
+proc SINGLETON*(t: typedesc[FileStreamFactory]): JObject =
+    if not FileStreamFactory_SINGLETONSet:
+        FileStreamFactory_SINGLETONSet = true
+        FileStreamFactory_SINGLETONValue = NullUtil.getInstance().NULL_OBJECT
+    FileStreamFactory_SINGLETONValue
+proc `SINGLETON=`*(t: typedesc[FileStreamFactory], value: JObject) =
+    FileStreamFactory_SINGLETONSet = true
+    FileStreamFactory_SINGLETONValue = value
 
-    @staticmethod
-    def getInstance() -> FileStreamFactory:
-        from org.allbinary.logic.NullUtil import NullUtil
+proc getInstance*(t: typedesc[FileStreamFactory]): FileStreamFactory {.discardable.} =
         if FileStreamFactory.SINGLETON == NullUtil.getInstance().NULL_OBJECT:
-            FileStreamFactory.SINGLETON = FileStreamFactory()
-        return FileStreamFactory.SINGLETON
-    
+            FileStreamFactory.SINGLETON = newFileStreamFactory()
+        return FileStreamFactory(JObject(FileStreamFactory.SINGLETON))
 
-    def __init__(self) -> None:
-        pass
-    
+proc initFileStreamFactory*(this: FileStreamFactory) =
+        discard
+        discard
 
-    # throws Exception
-    def getFileInputStreamInstance(self, path: str, fileName: str) -> AbFileInputStream:
-        from org.allbinary.logic.io.AbFileInputStream import AbFileInputStream
-        from org.allbinary.logic.io.file.AbFile import AbFile
-        from org.allbinary.logic.io.path.AbPath import AbPath
-        FILEABPATH: AbPath = AbPath(path, fileName)
-        file: AbFile = AbFile.createAbFileFromAbPath(FILEABPATH)
+proc newFileStreamFactory*(): FileStreamFactory =
+    result = FileStreamFactory()
+    initFileStreamFactory(result)
+
+method getFileInputStreamInstance*(this: FileStreamFactory, path: string, fileName: string): AbFileInputStream {.base, discardable.} =
+        let FILEABPATH: AbPath = newAbPath(path, fileName)
+        let file: AbFile = AbFile.createAbFileFromAbPath(FILEABPATH)
         return AbFileInputStream.createFromAbFile(file)
-    
 
-    # throws Exception
-    def getFileOutputStreamInstance(self, path: str, fileName: str) -> AbFileOutputStream:
-        from org.allbinary.logic.io.AbFileOutputStream import AbFileOutputStream
-        from org.allbinary.logic.io.file.AbFile import AbFile
-        from org.allbinary.logic.io.path.AbPath import AbPath
-        FILEABPATH: AbPath = AbPath(path, fileName)
-        file: AbFile = AbFile.createAbFileFromAbPath(FILEABPATH)
+method getFileOutputStreamInstance*(this: FileStreamFactory, path: string, fileName: string): AbFileOutputStream {.base, discardable.} =
+        let FILEABPATH: AbPath = newAbPath(path, fileName)
+        let file: AbFile = AbFile.createAbFileFromAbPath(FILEABPATH)
         if file.exists():
             file.delete()
             file.createNewFile()
         return AbFileOutputStream.createFromAbFile(file)
-    
 
-    # throws Exception
-    def delete(self, path: str, fileName: str) -> None:
-        from org.allbinary.logic.io.file.AbFile import AbFile
-        from org.allbinary.logic.io.path.AbPath import AbPath
-        FILEABPATH: AbPath = AbPath(path, fileName)
-        file: AbFile = AbFile.createAbFileFromAbPath(FILEABPATH)
+method delete*(this: FileStreamFactory, path: string, fileName: string) {.base.} =
+        let FILEABPATH: AbPath = newAbPath(path, fileName)
+        let file: AbFile = AbFile.createAbFileFromAbPath(FILEABPATH)
         file.delete()
-# from org.allbinary.logic.NullUtil import NullUtil
-# from org.allbinary.logic.io.file.AbFile import AbFile
-# from org.allbinary.logic.io.path.AbPath import AbPath
-
-
-def _FileStreamFactory_SINGLETON() -> object:
-    from org.allbinary.logic.NullUtil import NullUtil
-    return NullUtil.getInstance().NULL_OBJECT
-
-lazy_static(FileStreamFactory, "SINGLETON", _FileStreamFactory_SINGLETON)
 

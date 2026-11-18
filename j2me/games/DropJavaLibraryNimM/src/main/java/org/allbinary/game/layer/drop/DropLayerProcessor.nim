@@ -1,59 +1,75 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.layer.drop
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/layer/AllBinaryLayerManager as AllBinaryLayerManagerModule
+export AllBinaryLayerManagerModule
+import org/allbinary/layer/BasicLayerProcessor as BasicLayerProcessorModule
+export BasicLayerProcessorModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
-from org.allbinary.layer.BasicLayerProcessor import BasicLayerProcessor
+type
+    DropLayerProcessor* = ref object of BasicLayerProcessor
 
+proc newDropLayerProcessor*(): DropLayerProcessor
+proc initDropLayerProcessor*(this: DropLayerProcessor)
+proc getInstance*(t: typedesc[DropLayerProcessor]): BasicLayerProcessor {.discardable.}
+method process*(this: DropLayerProcessor, allBinaryLayerManager: AllBinaryLayerManager)
+import org/allbinary/layer/AllBinaryLayer as AllBinaryLayerModule
+export AllBinaryLayerModule
+import org/allbinary/util/BasicArrayList as BasicArrayListModule
+export BasicArrayListModule
+import org/allbinary/game/layer/drop/DropLayerInterface as DropLayerInterfaceModule
+export DropLayerInterfaceModule
 
-class DropLayerProcessor(BasicLayerProcessor):
-    LAYER_PROCESSOR: BasicLayerProcessor = None
-    
+var DropLayerProcessor_LAYER_PROCESSORValue: BasicLayerProcessor
+var DropLayerProcessor_LAYER_PROCESSORSet = false
+proc LAYER_PROCESSOR*(t: typedesc[DropLayerProcessor]): BasicLayerProcessor =
+    if not DropLayerProcessor_LAYER_PROCESSORSet:
+        DropLayerProcessor_LAYER_PROCESSORSet = true
+        DropLayerProcessor_LAYER_PROCESSORValue = newDropLayerProcessor()
+    DropLayerProcessor_LAYER_PROCESSORValue
 
-    def __init__(self) -> None:
-        super().__init__()
-    
+proc initDropLayerProcessor*(this: DropLayerProcessor) =
+        initBasicLayerProcessor(this)
+        discard
 
-    @staticmethod
-    def getInstance() -> BasicLayerProcessor:
+proc newDropLayerProcessor*(): DropLayerProcessor =
+    result = DropLayerProcessor()
+    initDropLayerProcessor(result)
+
+proc getInstance*(t: typedesc[DropLayerProcessor]): BasicLayerProcessor {.discardable.} =
         return DropLayerProcessor.LAYER_PROCESSOR
-    
 
-    # throws Exception
-    def process(self, allBinaryLayerManager: AllBinaryLayerManager) -> None:
-        from org.allbinary.layer.AllBinaryLayer import AllBinaryLayer
-        from org.allbinary.layer.AllBinaryLayerManager import AllBinaryLayerManager
-        from org.allbinary.util.BasicArrayList import BasicArrayList
-        list_: BasicArrayList = self.getList()
-        size: int = list_.size()
-        layerInterface: AllBinaryLayer = None
-        dropLayerInterface: DropLayerInterface = None
-        for index in range(0, size):
-            layerInterface = list_.objectArray[index]
-            dropLayerInterface = layerInterface
-            layerInterface = dropLayerInterface.getDroppedLayer()
-            allBinaryLayerManager.append(layerInterface)
-        list_.clear()
-# from org.allbinary.layer.AllBinaryLayer import AllBinaryLayer
-# from org.allbinary.layer.AllBinaryLayerManager import AllBinaryLayerManager
-# from org.allbinary.util.BasicArrayList import BasicArrayList
+method process*(this: DropLayerProcessor, allBinaryLayerManager: AllBinaryLayerManager) =
+        let list: BasicArrayList = this.getList()
+        let size: int32 = list.size()
+        var layerInterface: AllBinaryLayer = nil
+        var dropLayerInterface: DropLayerInterface = nil
+        block:
+            var index: int32 = 0
+            while index < size:
+                defer: index = index +% 1
+                layerInterface = AllBinaryLayer(JObject(list.objectArray[index]))
+                dropLayerInterface = DropLayerInterface(JObject(layerInterface))
+                layerInterface = AllBinaryLayer(JObject(dropLayerInterface.getDroppedLayer()))
+                allBinaryLayerManager.append(layerInterface)
+        list.clear()
 
-
-def _DropLayerProcessor_LAYER_PROCESSOR() -> object:
-    return DropLayerProcessor()
-
-lazy_static(DropLayerProcessor, "LAYER_PROCESSOR", _DropLayerProcessor_LAYER_PROCESSOR)
+when declared(newDropLayerProcessorHook0):
+    newDropLayerProcessorHook0 = proc (): BasicLayerProcessor = newDropLayerProcessor()
 

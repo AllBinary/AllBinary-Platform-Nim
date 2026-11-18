@@ -1,61 +1,75 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.collision
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/layer/AllBinaryLayer as AllBinaryLayerModule
+export AllBinaryLayerModule
+import org/allbinary/game/collision/CollisionProcessor as CollisionProcessorModule
+export CollisionProcessorModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    LayerCollisionUtil* = ref object of JObject
+        collisionProcessor*: CollisionProcessor
 
+proc newLayerCollisionUtil*(): LayerCollisionUtil
+proc initLayerCollisionUtil*(this: LayerCollisionUtil)
+proc getInstance*(t: typedesc[LayerCollisionUtil]): LayerCollisionUtil {.discardable.}
+method isCollision*(this: LayerCollisionUtil, myLayer: AllBinaryLayer, myLayer2: AllBinaryLayer): bool {.base, discardable.}
+import org/allbinary/game/configuration/feature/Features as FeaturesModule
+export FeaturesModule
+import org/allbinary/game/configuration/feature/GameFeatureFactory as GameFeatureFactoryModule
+export GameFeatureFactoryModule
+import org/allbinary/graphics/opengles/OpenGLFeatureUtil as OpenGLFeatureUtilModule
+export OpenGLFeatureUtilModule
+import org/allbinary/game/collision/Collision2DProcessor as Collision2DProcessorModule
+export Collision2DProcessorModule
+import org/allbinary/game/collision/CollisionThreedProcessor as CollisionThreedProcessorModule
+export CollisionThreedProcessorModule
 
-class LayerCollisionUtil:
-    instance: LayerCollisionUtil = None
+var LayerCollisionUtil_instanceValue: LayerCollisionUtil
+var LayerCollisionUtil_instanceSet = false
+proc instance*(t: typedesc[LayerCollisionUtil]): LayerCollisionUtil =
+    if not LayerCollisionUtil_instanceSet:
+        LayerCollisionUtil_instanceSet = true
+        LayerCollisionUtil_instanceValue = newLayerCollisionUtil()
+    LayerCollisionUtil_instanceValue
 
-    def _init_fields(self) -> None:
-        self.collisionProcessor: CollisionProcessor = None
+# Java field initializers run after the base initializer
+proc initFieldsLayerCollisionUtil(this: LayerCollisionUtil) =
     
+    discard
 
-    @staticmethod
-    def getInstance() -> LayerCollisionUtil:
+proc getInstance*(t: typedesc[LayerCollisionUtil]): LayerCollisionUtil {.discardable.} =
         return LayerCollisionUtil.instance
-    
 
-    def __init__(self) -> None:
-        from org.allbinary.game.collision.Collision2DProcessor import Collision2DProcessor
-        from org.allbinary.game.collision.CollisionThreedProcessor import CollisionThreedProcessor
-        from org.allbinary.game.configuration.feature.Features import Features
-        from org.allbinary.game.configuration.feature.GameFeatureFactory import GameFeatureFactory
-        from org.allbinary.graphics.opengles.OpenGLFeatureUtil import OpenGLFeatureUtil
-        self._init_fields()
-        features: Features = Features.getInstance()
-        gameFeatureFactory: GameFeatureFactory = GameFeatureFactory.getInstance()
-        if OpenGLFeatureUtil.getInstance().isAnyThreed() and not features.isFeature(gameFeatureFactory.COLLISIONS_FORCED_TWO_DIMENSIONAL):
-            self.collisionProcessor = CollisionThreedProcessor()
+proc initLayerCollisionUtil*(this: LayerCollisionUtil) =
+        this.initFieldsLayerCollisionUtil()
+        var features: Features = Features.getInstance()
+        var gameFeatureFactory: GameFeatureFactory = GameFeatureFactory.getInstance()
+        if OpenGLFeatureUtil.getInstance().isAnyThreed() and (not features.isFeature(gameFeatureFactory.COLLISIONS_FORCED_TWO_DIMENSIONAL)):
+            this.collisionProcessor = newCollisionThreedProcessor()
         else:
-            self.collisionProcessor = Collision2DProcessor()
-    
+            this.collisionProcessor = newCollision2DProcessor()
 
-    def isCollision(self, myLayer: AllBinaryLayer, myLayer2: AllBinaryLayer) -> bool:
-        from org.allbinary.layer.AllBinaryLayer import AllBinaryLayer
-        return self.collisionProcessor.isCollision(myLayer, myLayer2)
-# from org.allbinary.game.configuration.feature.Features import Features
-# from org.allbinary.game.configuration.feature.GameFeatureFactory import GameFeatureFactory
-# from org.allbinary.graphics.opengles.OpenGLFeatureUtil import OpenGLFeatureUtil
-# from org.allbinary.layer.AllBinaryLayer import AllBinaryLayer
+proc newLayerCollisionUtil*(): LayerCollisionUtil =
+    result = LayerCollisionUtil()
+    initLayerCollisionUtil(result)
 
-
-def _LayerCollisionUtil_instance() -> object:
-    return LayerCollisionUtil()
-
-lazy_static(LayerCollisionUtil, "instance", _LayerCollisionUtil_instance)
+method isCollision*(this: LayerCollisionUtil, myLayer: AllBinaryLayer, myLayer2: AllBinaryLayer): bool {.base, discardable.} =
+        return this.collisionProcessor.isCollision(myLayer, myLayer2)
 

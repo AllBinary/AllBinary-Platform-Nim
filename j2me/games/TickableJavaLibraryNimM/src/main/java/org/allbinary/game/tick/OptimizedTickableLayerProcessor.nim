@@ -1,48 +1,59 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.tick
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/layer/AllBinaryLayer as AllBinaryLayerModule
+export AllBinaryLayerModule
+import org/allbinary/layer/AllBinaryLayerManager as AllBinaryLayerManagerModule
+export AllBinaryLayerManagerModule
+import org/allbinary/layer/LayerProcessor as LayerProcessorModule
+export LayerProcessorModule
 
-from org.allbinary.layer.LayerProcessor import LayerProcessor
+type
+    OptimizedTickableLayerProcessor* = ref object of LayerProcessor
+
+proc newOptimizedTickableLayerProcessor*(): OptimizedTickableLayerProcessor
+proc initOptimizedTickableLayerProcessor*(this: OptimizedTickableLayerProcessor)
+method processAt*(this: OptimizedTickableLayerProcessor, allBinaryLayerManager: AllBinaryLayerManager, layerInterface: AllBinaryLayer, index: int32)
+method isProcessorLayer*(this: OptimizedTickableLayerProcessor, layerInterface: AllBinaryLayer): bool {.discardable.}
+import org/allbinary/game/layer/AllBinaryGameLayer as AllBinaryGameLayerModule
+export AllBinaryGameLayerModule
+import org/allbinary/game/tick/OptimizedTickableLayerManager as OptimizedTickableLayerManagerModule
+export OptimizedTickableLayerManagerModule
 
 
-class OptimizedTickableLayerProcessor(LayerProcessor):
-    
+proc initOptimizedTickableLayerProcessor*(this: OptimizedTickableLayerProcessor) =
+        initLayerProcessor(this, newOptimizedTickableLayerManager())
 
-    def __init__(self) -> None:
-        from org.allbinary.game.tick.OptimizedTickableLayerManager import OptimizedTickableLayerManager
-        super().__init__(OptimizedTickableLayerManager())
-    
+proc newOptimizedTickableLayerProcessor*(): OptimizedTickableLayerProcessor =
+    result = OptimizedTickableLayerProcessor()
+    initOptimizedTickableLayerProcessor(result)
 
-    # throws Exception
-    def processAt(self, allBinaryLayerManager: AllBinaryLayerManager, layerInterface: AllBinaryLayer, index: int) -> None:
-        from org.allbinary.game.layer.AllBinaryGameLayer import AllBinaryGameLayer
-        from org.allbinary.layer.AllBinaryLayer import AllBinaryLayer
-        from org.allbinary.layer.AllBinaryLayerManager import AllBinaryLayerManager
-        tickableInterface: AllBinaryGameLayer = layerInterface
+method processAt*(this: OptimizedTickableLayerProcessor, allBinaryLayerManager: AllBinaryLayerManager, layerInterface: AllBinaryLayer, index: int32) =
+        var tickableInterface: AllBinaryGameLayer = AllBinaryGameLayer(JObject(layerInterface))
         tickableInterface.processTick(allBinaryLayerManager)
-    
 
-    def isProcessorLayer(self, layerInterface: AllBinaryLayer) -> bool:
-        from org.allbinary.layer.AllBinaryLayer import AllBinaryLayer
+method isProcessorLayer*(this: OptimizedTickableLayerProcessor, layerInterface: AllBinaryLayer): bool {.discardable.} =
         if layerInterface.implmentsTickableInterface():
-            return True
+            return true
         else:
-            return False
-# from org.allbinary.game.layer.AllBinaryGameLayer import AllBinaryGameLayer
-# from org.allbinary.layer.AllBinaryLayer import AllBinaryLayer
-# from org.allbinary.layer.AllBinaryLayerManager import AllBinaryLayerManager
+            return false
 
+when declared(newOptimizedTickableLayerProcessorHook0):
+    newOptimizedTickableLayerProcessorHook0 = proc (): LayerProcessor = newOptimizedTickableLayerProcessor()
 

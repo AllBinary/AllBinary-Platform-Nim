@@ -1,34 +1,46 @@
-# 
-# AllBinary Open License Version 1 
-# Copyright (c) 2025 AllBinary 
-#  
-# By agreeing to this license you and any business entity you represent are 
-# legally bound to the AllBinary Open License Version 1 legal agreement. 
-#  
-# You may obtain the AllBinary Open License Version 1 legal agreement from 
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
-#  
-# Created By: Travis Berthelot 
-#   
+#[
+  
+  AllBinary Open License Version 1 
+  Copyright (c) 2025 AllBinary 
+   
+  By agreeing to this license you and any business entity you represent are 
+  legally bound to the AllBinary Open License Version 1 legal agreement. 
+   
+  You may obtain the AllBinary Open License Version 1 legal agreement from 
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
+   
+  Created By: Travis Berthelot 
+    
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.configuration.persistance
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import javax/microedition/rms/RecordComparator as RecordComparatorModule
+export RecordComparatorModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
-from javax.microedition.rms.RecordComparator import RecordComparator
+type
+    NullRecordComparator* = ref object of RecordComparator
 
+proc newNullRecordComparator*(): NullRecordComparator
+method compare*(this: NullRecordComparator, rec1: JArray[int8], rec2: JArray[int8]): int32 {.discardable.}
 
-class NullRecordComparator(RecordComparator):
-    NULL_RECORD_COMPARATOR: NullRecordComparator = None
-    
+var NullRecordComparator_NULL_RECORD_COMPARATORValue: NullRecordComparator
+var NullRecordComparator_NULL_RECORD_COMPARATORSet = false
+proc NULL_RECORD_COMPARATORStatic*(t: typedesc[NullRecordComparator]): NullRecordComparator =
+    if not NullRecordComparator_NULL_RECORD_COMPARATORSet:
+        NullRecordComparator_NULL_RECORD_COMPARATORSet = true
+        NullRecordComparator_NULL_RECORD_COMPARATORValue = newNullRecordComparator()
+    NullRecordComparator_NULL_RECORD_COMPARATORValue
 
-    def compare(self, rec1: list[int], rec2: list[int]) -> int:
+proc initNullRecordComparator*(this: NullRecordComparator) =
+    discard
+
+proc newNullRecordComparator*(): NullRecordComparator =
+    result = NullRecordComparator()
+    initNullRecordComparator(result)
+
+method compare*(this: NullRecordComparator, rec1: JArray[int8], rec2: JArray[int8]): int32 {.discardable.} =
         return 0
-
-
-def _NullRecordComparator_NULL_RECORD_COMPARATOR() -> object:
-    return NullRecordComparator()
-
-lazy_static(NullRecordComparator, "NULL_RECORD_COMPARATOR", _NullRecordComparator_NULL_RECORD_COMPARATOR)
 

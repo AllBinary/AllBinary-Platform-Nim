@@ -1,56 +1,67 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.logic.math.vector
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/logic/math/BasicDecimal as BasicDecimalModule
+export BasicDecimalModule
+
+type
+    Vertex* = ref object of JObject
+        x*: BasicDecimal
+        y*: BasicDecimal
+        z*: BasicDecimal
+
+proc newVertex*(): Vertex
+proc initVertex*(this: Vertex)
+method toString*(this: Vertex): string {.discardable.}
+import org/allbinary/logic/string/StringMaker as StringMakerModule
+export StringMakerModule
+import org/allbinary/math/PositionStrings as PositionStringsModule
+export PositionStringsModule
+import org/allbinary/string/CommonSeps as CommonSepsModule
+export CommonSepsModule
 
 
+# Java field initializers run after the base initializer
+proc initFieldsVertex(this: Vertex) =
+    this.x = newBasicDecimal(0)
+    this.y = newBasicDecimal(0)
+    this.z = newBasicDecimal(0)
+    discard
 
-class Vertex:
+proc initVertex*(this: Vertex) =
+        this.initFieldsVertex()
+        discard
 
-    def _init_fields(self) -> None:
-        from org.allbinary.logic.math.BasicDecimal import BasicDecimal
-        self.x: BasicDecimal = BasicDecimal(0)
-        self.y: BasicDecimal = BasicDecimal(0)
-        self.z: BasicDecimal = BasicDecimal(0)
-    
+proc newVertex*(): Vertex =
+    result = Vertex()
+    initVertex(result)
 
-    def __init__(self) -> None:
-        self._init_fields()
-    
-
-    def toString(self) -> str:
-        from org.allbinary.logic.string.StringMaker import StringMaker
-        from org.allbinary.math.PositionStrings import PositionStrings
-        from org.allbinary.string.CommonSeps import CommonSeps
-        stringBuffer: StringMaker = StringMaker()
-        positionStrings: PositionStrings = PositionStrings.getInstance()
+method toString*(this: Vertex): string {.discardable.} =
+        var stringBuffer: StringMaker = newStringMaker()
+        var positionStrings: PositionStrings = PositionStrings.getInstance()
         stringBuffer.append(positionStrings.X_LABEL)
-        stringBuffer.append(str(self.x))
+        stringBuffer.append(this.x.toString())
         stringBuffer.append(CommonSeps.getInstance().SPACE)
         stringBuffer.append(positionStrings.Y_LABEL)
-        stringBuffer.append(str(self.y))
+        stringBuffer.append(this.y.toString())
         stringBuffer.append(CommonSeps.getInstance().SPACE)
         stringBuffer.append(positionStrings.Z_LABEL)
-        stringBuffer.append(str(self.z))
-        return str(stringBuffer)
-
-    def __str__(self) -> str:
-        return self.toString()
-# from org.allbinary.logic.math.BasicDecimal import BasicDecimal
-# from org.allbinary.logic.string.StringMaker import StringMaker
-# from org.allbinary.math.PositionStrings import PositionStrings
-# from org.allbinary.string.CommonSeps import CommonSeps
-
+        stringBuffer.append(this.z.toString())
+        return stringBuffer.toString()
 

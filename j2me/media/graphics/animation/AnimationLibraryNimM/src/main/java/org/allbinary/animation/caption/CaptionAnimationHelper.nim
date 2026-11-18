@@ -1,79 +1,96 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.animation.caption
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import javax/microedition/lcdui/Graphics as GraphicsModule
+export GraphicsModule
+import org/allbinary/animation/Animation as AnimationModule
+export AnimationModule
+import org/allbinary/animation/text/TextAnimation as TextAnimationModule
+export TextAnimationModule
+import org/allbinary/graphics/color/BasicColor as BasicColorModule
+export BasicColorModule
+import org/allbinary/time/TimeDelayHelper as TimeDelayHelperModule
+export TimeDelayHelperModule
+import org/allbinary/animation/caption/CaptionAnimationHelperBase as CaptionAnimationHelperBaseModule
+export CaptionAnimationHelperBaseModule
 
-from org.allbinary.animation.caption.CaptionAnimationHelperBase import CaptionAnimationHelperBase
+type
+    CaptionAnimationHelper* = ref object of CaptionAnimationHelperBase
+        timeHelper*: TimeDelayHelper
+        textAnimation*: TextAnimation
+        captionAnimation*: Animation
+        animation*: Animation
+
+proc newCaptionAnimationHelper*(captionAnimation: Animation, captionDx: int32, captionDy: int32, dx: int32, dy: int32): CaptionAnimationHelper
+proc initCaptionAnimationHelper*(this: CaptionAnimationHelper, captionAnimation: Animation, captionDx: int32, captionDy: int32, dx: int32, dy: int32)
+method isShowing*(this: CaptionAnimationHelper): bool {.discardable.}
+method tick*(this: CaptionAnimationHelper)
+method update*(this: CaptionAnimationHelper, message: string, basicColor: BasicColor)
+method paintXY*(this: CaptionAnimationHelper, graphics: Graphics, x: int32, y: int32)
+import org/allbinary/animation/AnimationBehavior as AnimationBehaviorModule
+export AnimationBehaviorModule
+import org/allbinary/animation/NullAnimationFactory as NullAnimationFactoryModule
+export NullAnimationFactoryModule
+import org/allbinary/logic/string/StringUtil as StringUtilModule
+export StringUtilModule
+import org/allbinary/time/GameTickTimeDelayHelperFactory as GameTickTimeDelayHelperFactoryModule
+export GameTickTimeDelayHelperFactoryModule
+import org/allbinary/animation/caption/CaptionAnimation as CaptionAnimationModule
+export CaptionAnimationModule
 
 
-class CaptionAnimationHelper(CaptionAnimationHelperBase):
-
-    def _init_fields(self) -> None:
-        from org.allbinary.animation.Animation import Animation
-        from org.allbinary.animation.AnimationBehavior import AnimationBehavior
-        from org.allbinary.animation.NullAnimationFactory import NullAnimationFactory
-        from org.allbinary.animation.text.TextAnimation import TextAnimation
-        from org.allbinary.logic.string.StringUtil import StringUtil
-        from org.allbinary.time.TimeDelayHelper import TimeDelayHelper
-        self.timeHelper: TimeDelayHelper = TimeDelayHelper(620)
-        self.textAnimation: TextAnimation = TextAnimation(StringUtil.getInstance().EMPTY_STRING, AnimationBehavior.getInstance())
-        self.captionAnimation: Animation = None
-        self.animation: Animation = NullAnimationFactory.getFactoryInstance().getInstance(0)
+# Java field initializers run after the base initializer
+proc initFieldsCaptionAnimationHelper(this: CaptionAnimationHelper) =
+    this.timeHelper = newTimeDelayHelper(620)
+    this.textAnimation = newTextAnimation(StringUtil.getInstance().EMPTY_STRING, AnimationBehavior.getInstance())
     
+    this.animation = NullAnimationFactory.getFactoryInstance().getInstance(0)
+    discard
 
-    def __init__(self, captionAnimation: Animation, captionDx: int, captionDy: int, dx: int, dy: int) -> None:
-        from org.allbinary.animation.caption.CaptionAnimation import CaptionAnimation
-        from org.allbinary.animation.Animation import Animation
-        super().__init__()
-        self._init_fields()
-        self.captionAnimation = CaptionAnimation(captionAnimation, self.textAnimation, captionDx, captionDy, dx, dy)
-    
+proc initCaptionAnimationHelper*(this: CaptionAnimationHelper, captionAnimation: Animation, captionDx: int32, captionDy: int32, dx: int32, dy: int32) =
+        initCaptionAnimationHelperBase(this)
+        this.initFieldsCaptionAnimationHelper()
+        this.captionAnimation = newCaptionAnimation(captionAnimation, this.textAnimation, captionDx, captionDy, dx, dy)
 
-    def isShowing(self) -> bool:
-        if self.animation == self.captionAnimation:
-            return True
+proc newCaptionAnimationHelper*(captionAnimation: Animation, captionDx: int32, captionDy: int32, dx: int32, dy: int32): CaptionAnimationHelper =
+    result = CaptionAnimationHelper()
+    initCaptionAnimationHelper(result, captionAnimation, captionDx, captionDy, dx, dy)
+
+method isShowing*(this: CaptionAnimationHelper): bool {.discardable.} =
+        if this.animation == this.captionAnimation:
+            return true
         else:
-            return False
-    
+            return false
 
-    def tick(self) -> None:
-        from org.allbinary.animation.NullAnimationFactory import NullAnimationFactory
-        from org.allbinary.time.GameTickTimeDelayHelperFactory import GameTickTimeDelayHelperFactory
-        if self.timeHelper.isTime(GameTickTimeDelayHelperFactory.getInstance().startTime):
-            self.animation = NullAnimationFactory.getFactoryInstance().getInstance(0)
-    
+method tick*(this: CaptionAnimationHelper) =
+        if this.timeHelper.isTime(GameTickTimeDelayHelperFactory.getInstance().startTime):
+            this.animation = NullAnimationFactory.getFactoryInstance().getInstance(0)
 
-    def update(self, message: str, basicColor: BasicColor) -> None:
-        from org.allbinary.graphics.color.BasicColor import BasicColor
-        self.textAnimation.setBasicColorP(basicColor)
-        self.textAnimation.setText(message)
-        self.animation = self.captionAnimation
-        self.timeHelper.setStartTimeTNT()
-    
+method update*(this: CaptionAnimationHelper, message: string, basicColor: BasicColor) =
+        this.textAnimation.setBasicColorP(basicColor)
+        this.textAnimation.setText(message)
+        this.animation = this.captionAnimation
+        this.timeHelper.setStartTimeTNT()
 
-    def paintXY(self, graphics: Graphics, x: int, y: int) -> None:
-        from javax.microedition.lcdui.Graphics import Graphics
-        self.animation.paintXY(graphics, x, y)
-# from javax.microedition.lcdui.Graphics import Graphics
-# from org.allbinary.animation.Animation import Animation
-# from org.allbinary.animation.AnimationBehavior import AnimationBehavior
-# from org.allbinary.animation.NullAnimationFactory import NullAnimationFactory
-# from org.allbinary.animation.text.TextAnimation import TextAnimation
-# from org.allbinary.graphics.color.BasicColor import BasicColor
-# from org.allbinary.logic.string.StringUtil import StringUtil
-# from org.allbinary.time.GameTickTimeDelayHelperFactory import GameTickTimeDelayHelperFactory
-# from org.allbinary.time.TimeDelayHelper import TimeDelayHelper
+method paintXY*(this: CaptionAnimationHelper, graphics: Graphics, x: int32, y: int32) =
+        this.animation.paintXY(graphics, x, y)
 
+when declared(newCaptionAnimationHelperHook5):
+    newCaptionAnimationHelperHook5 = proc (captionAnimation: Animation, captionDx: int32, captionDy: int32, dx: int32, dy: int32): CaptionAnimationHelperBase = newCaptionAnimationHelper(captionAnimation, captionDx, captionDy, dx, dy)
 

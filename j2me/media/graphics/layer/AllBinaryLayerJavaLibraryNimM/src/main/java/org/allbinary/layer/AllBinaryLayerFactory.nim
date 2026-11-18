@@ -1,43 +1,55 @@
-# 
-# AllBinary Open License Version 1 
-# Copyright (c) 2011 AllBinary 
-#  
-# By agreeing to this license you and any business entity you represent are 
-# legally bound to the AllBinary Open License Version 1 legal agreement. 
-#  
-# You may obtain the AllBinary Open License Version 1 legal agreement from 
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
-#  
-# Created By: Travis Berthelot 
-#   
+#[
+  
+  AllBinary Open License Version 1 
+  Copyright (c) 2011 AllBinary 
+   
+  By agreeing to this license you and any business entity you represent are 
+  legally bound to the AllBinary Open License Version 1 legal agreement. 
+   
+  You may obtain the AllBinary Open License Version 1 legal agreement from 
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
+   
+  Created By: Travis Berthelot 
+    
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.layer
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/graphics/Rectangle as RectangleModule
+export RectangleModule
+import org/allbinary/layer/AllBinaryLayerFactoryInterface as AllBinaryLayerFactoryInterfaceModule
+export AllBinaryLayerFactoryInterfaceModule
+import org/allbinary/layer/AllBinaryLayer as AllBinaryLayerModule
+export AllBinaryLayerModule
 
-from org.allbinary.layer.AllBinaryLayerFactoryInterface import AllBinaryLayerFactoryInterface
+type
+    AllBinaryLayerFactory* = ref object of AllBinaryLayerFactoryInterface
+        rectangle*: Rectangle
+
+proc newAllBinaryLayerFactory*(rectangle: Rectangle): AllBinaryLayerFactory
+proc initAllBinaryLayerFactory*(this: AllBinaryLayerFactory, rectangle: Rectangle)
+method getInstance*(this: AllBinaryLayerFactory): AllBinaryLayer {.discardable.}
+import org/allbinary/logic/string/StringUtil as StringUtilModule
+export StringUtilModule
+import org/allbinary/view/ViewPosition as ViewPositionModule
+export ViewPositionModule
 
 
-class AllBinaryLayerFactory(AllBinaryLayerFactoryInterface):
-
-    def _init_fields(self) -> None:
-        from org.allbinary.graphics.Rectangle import Rectangle
-        self.rectangle: Rectangle = None
+# Java field initializers run after the base initializer
+proc initFieldsAllBinaryLayerFactory(this: AllBinaryLayerFactory) =
     
+    discard
 
-    def __init__(self, rectangle: Rectangle) -> None:
-        from org.allbinary.graphics.Rectangle import Rectangle
-        self._init_fields()
-        self.rectangle = rectangle
-    
+proc initAllBinaryLayerFactory*(this: AllBinaryLayerFactory, rectangle: Rectangle) =
+        this.initFieldsAllBinaryLayerFactory()
+        this.rectangle = rectangle
 
-    def getInstance(self) -> AllBinaryLayer:
-        from org.allbinary.layer.AllBinaryLayer import AllBinaryLayer
-        from org.allbinary.logic.string.StringUtil import StringUtil
-        from org.allbinary.view.ViewPosition import ViewPosition
-        return AllBinaryLayer(StringUtil.getInstance().EMPTY_STRING, self.rectangle, ViewPosition.getInstanceD())
-# from org.allbinary.graphics.Rectangle import Rectangle
-# from org.allbinary.logic.string.StringUtil import StringUtil
-# from org.allbinary.view.ViewPosition import ViewPosition
+proc newAllBinaryLayerFactory*(rectangle: Rectangle): AllBinaryLayerFactory =
+    result = AllBinaryLayerFactory()
+    initAllBinaryLayerFactory(result, rectangle)
 
+method getInstance*(this: AllBinaryLayerFactory): AllBinaryLayer {.discardable.} =
+        return newAllBinaryLayer(StringUtil.getInstance().EMPTY_STRING, this.rectangle, ViewPosition.getInstanceD())
 

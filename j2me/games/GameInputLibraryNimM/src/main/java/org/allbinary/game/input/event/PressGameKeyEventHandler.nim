@@ -1,92 +1,107 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.input.event
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/game/input/PlayerGameInput as PlayerGameInputModule
+export PlayerGameInputModule
+import org/allbinary/logic/util/event/AllBinaryEventObject as AllBinaryEventObjectModule
+export AllBinaryEventObjectModule
+import org/allbinary/logic/util/event/EventListenerInterface as EventListenerInterfaceModule
+export EventListenerInterfaceModule
+import org/allbinary/logic/util/event/handler/BasicEventHandler as BasicEventHandlerModule
+export BasicEventHandlerModule
+import org/allbinary/util/BasicArrayList as BasicArrayListModule
+export BasicArrayListModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
-from org.allbinary.logic.util.event.handler.BasicEventHandler import BasicEventHandler
+type
+    PressGameKeyEventHandler* = ref object of BasicEventHandler
+        list*: BasicArrayList
 
+proc newPressGameKeyEventHandler*(): PressGameKeyEventHandler
+proc initPressGameKeyEventHandler*(this: PressGameKeyEventHandler)
+proc getInstance*(t: typedesc[PressGameKeyEventHandler]): PressGameKeyEventHandler {.discardable.}
+method addListener*(this: PressGameKeyEventHandler, playerGameInput: PlayerGameInput) {.base.}
+method removeAllListeners*(this: PressGameKeyEventHandler)
+method removeListener*(this: PressGameKeyEventHandler, eventListenerInterface: EventListenerInterface)
+method fireEvent*(this: PressGameKeyEventHandler, eventObject: AllBinaryEventObject)
+method process*(this: PressGameKeyEventHandler, eventObject: AllBinaryEventObject, eventListenerInterface: EventListenerInterface)
+import org/allbinary/logic/util/event/EventStrings as EventStringsModule
+export EventStringsModule
+import org/allbinary/util/BasicArrayListD as BasicArrayListDModule
+export BasicArrayListDModule
+import org/allbinary/game/input/event/GameKeyEvent as GameKeyEventModule
+export GameKeyEventModule
+import org/allbinary/game/input/event/PressGameKeyEventListenerInterface as PressGameKeyEventListenerInterfaceModule
+export PressGameKeyEventListenerInterfaceModule
 
-class PressGameKeyEventHandler(BasicEventHandler):
-    instance: PressGameKeyEventHandler = None
+var PressGameKeyEventHandler_instanceValue: PressGameKeyEventHandler
+var PressGameKeyEventHandler_instanceSet = false
+proc instance*(t: typedesc[PressGameKeyEventHandler]): PressGameKeyEventHandler =
+    if not PressGameKeyEventHandler_instanceSet:
+        PressGameKeyEventHandler_instanceSet = true
+        PressGameKeyEventHandler_instanceValue = newPressGameKeyEventHandler()
+    PressGameKeyEventHandler_instanceValue
 
-    def _init_fields(self) -> None:
-        from org.allbinary.util.BasicArrayList import BasicArrayList
-        from org.allbinary.util.BasicArrayListD import BasicArrayListD
-        self.list_: BasicArrayList = BasicArrayListD()
-    
+# Java field initializers run after the base initializer
+proc initFieldsPressGameKeyEventHandler(this: PressGameKeyEventHandler) =
+    this.list = newBasicArrayListD()
+    discard
 
-    @staticmethod
-    def getInstance() -> PressGameKeyEventHandler:
+proc getInstance*(t: typedesc[PressGameKeyEventHandler]): PressGameKeyEventHandler {.discardable.} =
         return PressGameKeyEventHandler.instance
-    
 
-    def __init__(self) -> None:
-        super().__init__()
-        self._init_fields()
-    
+proc initPressGameKeyEventHandler*(this: PressGameKeyEventHandler) =
+        initBasicEventHandler(this)
+        this.initFieldsPressGameKeyEventHandler()
+        discard
 
-    def addListener(self, playerGameInput: PlayerGameInput) -> None:
-        from org.allbinary.game.input.PlayerGameInput import PlayerGameInput
-        if not self.list_.contains(playerGameInput):
-            self.list_.add(playerGameInput)
-    
+proc newPressGameKeyEventHandler*(): PressGameKeyEventHandler =
+    result = PressGameKeyEventHandler()
+    initPressGameKeyEventHandler(result)
 
-    def removeAllListeners(self) -> None:
-        self.list_.clear()
-        super().removeAllListeners()
-    
+method addListener*(this: PressGameKeyEventHandler, playerGameInput: PlayerGameInput) {.base.} =
+        if (not this.list.contains(playerGameInput)):
+            this.list.add(playerGameInput)
 
-    def removeListener(self, eventListenerInterface: EventListenerInterface) -> None:
-        from org.allbinary.logic.util.event.EventListenerInterface import EventListenerInterface
-        self.list_.remove(eventListenerInterface)
-        super().removeListener(eventListenerInterface)
-    
+method removeAllListeners*(this: PressGameKeyEventHandler) =
+        this.list.clear()
+        procCall BasicEventHandler(this).removeAllListeners()
 
-    # throws Exception
-    def fireEvent(self, eventObject: AllBinaryEventObject) -> None:
-        from org.allbinary.game.input.PlayerGameInput import PlayerGameInput
-        from org.allbinary.logic.util.event.AllBinaryEventObject import AllBinaryEventObject
-        from org.allbinary.logic.util.event.EventStrings import EventStrings
-        index = self.list_.size()
-        while (index := index - 1) >= 0:
-            try:
-                playerGameInput: PlayerGameInput = self.list_.objectArray[index]
-                playerGameInput.onPressGameKeyEvent(eventObject)
-            except Exception as e:
-                self.logUtil.put(self.commonStrings.EXCEPTION, self, EventStrings.getInstance().FIRE_EVENT, e)
-        super().fireEvent(eventObject)
-    
+method removeListener*(this: PressGameKeyEventHandler, eventListenerInterface: EventListenerInterface) =
+        this.list.remove(eventListenerInterface)
+        procCall BasicEventHandler(this).removeListener(eventListenerInterface)
 
-    # throws Exception
-    def process(self, eventObject: AllBinaryEventObject, eventListenerInterface: EventListenerInterface) -> None:
-        from org.allbinary.logic.util.event.AllBinaryEventObject import AllBinaryEventObject
-        from org.allbinary.logic.util.event.EventListenerInterface import EventListenerInterface
-        pressGameKeyEventListenerInterface: PressGameKeyEventListenerInterface = (eventListenerInterface)
-        pressGameKeyEventListenerInterface.onPressGameKeyEvent(eventObject)
-# from org.allbinary.game.input.PlayerGameInput import PlayerGameInput
-# from org.allbinary.logic.communication.log.LogUtil import LogUtil
-# from org.allbinary.logic.util.event.AllBinaryEventObject import AllBinaryEventObject
-# from org.allbinary.logic.util.event.EventListenerInterface import EventListenerInterface
-# from org.allbinary.logic.util.event.EventStrings import EventStrings
-# from org.allbinary.util.BasicArrayList import BasicArrayList
-# from org.allbinary.util.BasicArrayListD import BasicArrayListD
+method fireEvent*(this: PressGameKeyEventHandler, eventObject: AllBinaryEventObject) =
+        block:
+            var index: int32 = this.list.size()
+            while jPreDecrement(index) >= 0:
+                try:
+                    var playerGameInput: PlayerGameInput = PlayerGameInput(JObject(this.list.objectArray[index]))
+                    playerGameInput.onPressGameKeyEvent(GameKeyEvent(JObject(eventObject)))
+                except CatchableError as jcaught:
+                    let e = jToException(jcaught)
+                    this.logUtil.put(this.commonStrings.EXCEPTION, this, EventStrings.getInstance().FIRE_EVENT, e)
+        procCall BasicEventHandler(this).fireEvent(eventObject)
 
+method process*(this: PressGameKeyEventHandler, eventObject: AllBinaryEventObject, eventListenerInterface: EventListenerInterface) =
+        let pressGameKeyEventListenerInterface: PressGameKeyEventListenerInterface = (PressGameKeyEventListenerInterface(JObject(eventListenerInterface)))
+        pressGameKeyEventListenerInterface.onPressGameKeyEvent(GameKeyEvent(JObject(eventObject)))
 
-def _PressGameKeyEventHandler_instance() -> object:
-    return PressGameKeyEventHandler()
-
-lazy_static(PressGameKeyEventHandler, "instance", _PressGameKeyEventHandler_instance)
+when declared(newPressGameKeyEventHandlerHook0):
+    newPressGameKeyEventHandlerHook0 = proc (): BasicEventHandler = newPressGameKeyEventHandler()
 

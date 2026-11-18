@@ -1,69 +1,77 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.input.motion.gesture
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/game/input/CompleteMotionGestureInputEvent as CompleteMotionGestureInputEventModule
+export CompleteMotionGestureInputEventModule
+import org/allbinary/util/BasicArrayList as BasicArrayListModule
+export BasicArrayListModule
+
+type
+    MotionGestureToMotionGestureActionAssociation* = ref object of JObject
+        list*: BasicArrayList
+        motionGestureAction*: CompleteMotionGestureInputEvent
+
+proc newMotionGestureToMotionGestureActionAssociation*(list: BasicArrayList, commandAction: CompleteMotionGestureInputEvent): MotionGestureToMotionGestureActionAssociation
+proc initMotionGestureToMotionGestureActionAssociation*(this: MotionGestureToMotionGestureActionAssociation, list: BasicArrayList, commandAction: CompleteMotionGestureInputEvent)
+method getMotionGesture*(this: MotionGestureToMotionGestureActionAssociation): BasicArrayList {.base, discardable.}
+method setMotionGestures*(this: MotionGestureToMotionGestureActionAssociation, list: BasicArrayList) {.base.}
+method getCommandAction*(this: MotionGestureToMotionGestureActionAssociation): CompleteMotionGestureInputEvent {.base, discardable.}
+method setMotionGestureAction*(this: MotionGestureToMotionGestureActionAssociation, commandAction: CompleteMotionGestureInputEvent) {.base.}
+method isMotionGestureArrayEquals*(this: MotionGestureToMotionGestureActionAssociation, aList: BasicArrayList): bool {.base, discardable.}
 
 
-
-class MotionGestureToMotionGestureActionAssociation:
-
-    def _init_fields(self) -> None:
-        from org.allbinary.game.input.CompleteMotionGestureInputEvent import CompleteMotionGestureInputEvent
-        from org.allbinary.util.BasicArrayList import BasicArrayList
-        self.list_: BasicArrayList = None
-        self.motionGestureAction: CompleteMotionGestureInputEvent = None
+# Java field initializers run after the base initializer
+proc initFieldsMotionGestureToMotionGestureActionAssociation(this: MotionGestureToMotionGestureActionAssociation) =
     
-
-    def __init__(self, list_: BasicArrayList, commandAction: CompleteMotionGestureInputEvent) -> None:
-        from org.allbinary.game.input.CompleteMotionGestureInputEvent import CompleteMotionGestureInputEvent
-        from org.allbinary.util.BasicArrayList import BasicArrayList
-        self._init_fields()
-        self.list_ = list_
-        self.motionGestureAction = commandAction
     
+    discard
 
-    def getMotionGesture(self) -> BasicArrayList:
-        from org.allbinary.util.BasicArrayList import BasicArrayList
-        return self.list_
-    
+proc initMotionGestureToMotionGestureActionAssociation*(this: MotionGestureToMotionGestureActionAssociation, list: BasicArrayList, commandAction: CompleteMotionGestureInputEvent) =
+        this.initFieldsMotionGestureToMotionGestureActionAssociation()
+        this.list = list
+        this.motionGestureAction = commandAction
 
-    def setMotionGestures(self, list_: BasicArrayList) -> None:
-        from org.allbinary.util.BasicArrayList import BasicArrayList
-        self.list_ = list_
-    
+proc newMotionGestureToMotionGestureActionAssociation*(list: BasicArrayList, commandAction: CompleteMotionGestureInputEvent): MotionGestureToMotionGestureActionAssociation =
+    result = MotionGestureToMotionGestureActionAssociation()
+    initMotionGestureToMotionGestureActionAssociation(result, list, commandAction)
 
-    def getCommandAction(self) -> CompleteMotionGestureInputEvent:
-        from org.allbinary.game.input.CompleteMotionGestureInputEvent import CompleteMotionGestureInputEvent
-        return self.motionGestureAction
-    
+method getMotionGesture*(this: MotionGestureToMotionGestureActionAssociation): BasicArrayList {.base, discardable.} =
+        return this.list
 
-    def setMotionGestureAction(self, commandAction: CompleteMotionGestureInputEvent) -> None:
-        from org.allbinary.game.input.CompleteMotionGestureInputEvent import CompleteMotionGestureInputEvent
-        self.motionGestureAction = commandAction
-    
+method setMotionGestures*(this: MotionGestureToMotionGestureActionAssociation, list: BasicArrayList) {.base.} =
+        this.list = list
 
-    def isMotionGestureArrayEquals(self, aList: BasicArrayList) -> bool:
-        from org.allbinary.util.BasicArrayList import BasicArrayList
-        size: int = aList.size()
-        if self.list_.size() != size:
-            return False
-        for i in range(size - 1, 0 - 1, -1):
-            if aList.objectArray[i] != self.list_.objectArray[i]:
-                return False
-        return True
-# from org.allbinary.game.input.CompleteMotionGestureInputEvent import CompleteMotionGestureInputEvent
-# from org.allbinary.util.BasicArrayList import BasicArrayList
+method getCommandAction*(this: MotionGestureToMotionGestureActionAssociation): CompleteMotionGestureInputEvent {.base, discardable.} =
+        return this.motionGestureAction
 
+method setMotionGestureAction*(this: MotionGestureToMotionGestureActionAssociation, commandAction: CompleteMotionGestureInputEvent) {.base.} =
+        this.motionGestureAction = commandAction
+
+method isMotionGestureArrayEquals*(this: MotionGestureToMotionGestureActionAssociation, aList: BasicArrayList): bool {.base, discardable.} =
+        var size: int32 = aList.size()
+        if this.list.size() != size:
+            return false
+        block:
+            var i: int32 = size -% 1
+            while i >= 0:
+                defer: i = i -% 1
+                if aList.objectArray[i] != this.list.objectArray[i]:
+                    return false
+        return true
 

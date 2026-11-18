@@ -1,32 +1,43 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.input.motion.button
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/graphics/color/BasicColor as BasicColorModule
+export BasicColorModule
+import org/allbinary/graphics/paint/Paintable as PaintableModule
+export PaintableModule
+
+type
+    TouchButtonsPaintableFactory* = ref object of JObject
+
+proc newTouchButtonsPaintableFactory*(): TouchButtonsPaintableFactory
+proc getInstance*(t: typedesc[TouchButtonsPaintableFactory], basicColor: BasicColor): Paintable {.discardable.}
+import org/allbinary/input/motion/button/TouchButtonsPaintable as TouchButtonsPaintableModule
+export TouchButtonsPaintableModule
 
 
+proc initTouchButtonsPaintableFactory*(this: TouchButtonsPaintableFactory) =
+    discard
 
-class TouchButtonsPaintableFactory:
-    
+proc newTouchButtonsPaintableFactory*(): TouchButtonsPaintableFactory =
+    result = TouchButtonsPaintableFactory()
+    initTouchButtonsPaintableFactory(result)
 
-    @staticmethod
-    def getInstance(basicColor: BasicColor) -> Paintable:
-        from org.allbinary.input.motion.button.TouchButtonsPaintable import TouchButtonsPaintable
-        from org.allbinary.graphics.color.BasicColor import BasicColor
-        from org.allbinary.graphics.paint.Paintable import Paintable
-        return TouchButtonsPaintable(basicColor)
-# from org.allbinary.graphics.color.BasicColor import BasicColor
-# from org.allbinary.graphics.paint.Paintable import Paintable
-
+proc getInstance*(t: typedesc[TouchButtonsPaintableFactory], basicColor: BasicColor): Paintable {.discardable.} =
+        return newTouchButtonsPaintable(basicColor)
 

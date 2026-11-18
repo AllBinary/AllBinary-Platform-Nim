@@ -1,40 +1,52 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.graphics.form.item
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/graphics/form/item/ABCustomItem as ABCustomItemModule
+export ABCustomItemModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    CustomItemUtil* = ref object of JObject
+        CUSTOM_ITEM_ARRAY*: JArray[ABCustomItem]
 
+proc newCustomItemUtil*(): CustomItemUtil
+proc getInstance*(t: typedesc[CustomItemUtil]): CustomItemUtil {.discardable.}
 
-class CustomItemUtil:
-    instance: CustomItemUtil = None
+var CustomItemUtil_instanceValue: CustomItemUtil
+var CustomItemUtil_instanceSet = false
+proc instance*(t: typedesc[CustomItemUtil]): CustomItemUtil =
+    if not CustomItemUtil_instanceSet:
+        CustomItemUtil_instanceSet = true
+        CustomItemUtil_instanceValue = newCustomItemUtil()
+    CustomItemUtil_instanceValue
 
-    def _init_fields(self) -> None:
-        self.CUSTOM_ITEM_ARRAY: list[ABCustomItem] = [None] * (0)
+# Java field initializers run after the base initializer
+proc initFieldsCustomItemUtil(this: CustomItemUtil) =
+    this.CUSTOM_ITEM_ARRAY = newJArray[ABCustomItem](0, default(ABCustomItem))
+    discard
 
-    def __init__(self) -> None:
-        self._init_fields()
-    
+proc initCustomItemUtil*(this: CustomItemUtil) =
+    this.initFieldsCustomItemUtil()
 
-    @staticmethod
-    def getInstance() -> CustomItemUtil:
+proc newCustomItemUtil*(): CustomItemUtil =
+    result = CustomItemUtil()
+    initCustomItemUtil(result)
+
+proc getInstance*(t: typedesc[CustomItemUtil]): CustomItemUtil {.discardable.} =
         return CustomItemUtil.instance
-
-
-def _CustomItemUtil_instance() -> object:
-    return CustomItemUtil()
-
-lazy_static(CustomItemUtil, "instance", _CustomItemUtil_instance)
 

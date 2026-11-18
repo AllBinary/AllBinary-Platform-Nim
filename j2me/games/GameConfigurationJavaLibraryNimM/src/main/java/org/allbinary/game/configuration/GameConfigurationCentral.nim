@@ -1,202 +1,216 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.configuration
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import java/lang/Integer as IntegerModule
+export IntegerModule
+import org/allbinary/logic/communication/log/LogUtil as LogUtilModule
+export LogUtilModule
+import org/allbinary/logic/system/security/licensing/AbeClientInformationInterface as AbeClientInformationInterfaceModule
+export AbeClientInformationInterfaceModule
+import org/allbinary/game/configuration/GameConfiguration as GameConfigurationModule
+export GameConfigurationModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    GameConfigurationCentral* = ref object of JObject
+        logUtil*: LogUtil
+        SCALE*: GameConfiguration
+        ORIENTATION*: GameConfiguration
+        SENSOR_UPDATE_RATE*: GameConfiguration
+        VIBRATION*: GameConfiguration
+        CHALLENGE_LEVEL*: GameConfiguration
+        COLLIDE_DAMAGE*: GameConfiguration
+        DURABILITY_CHALLENGE_LEVEL*: GameConfiguration
+        SPEED_CHALLENGE_LEVEL*: GameConfiguration
+        ATTACK_CHALLENGE_LEVEL*: GameConfiguration
+        CONTROL_LEVEL*: GameConfiguration
+        PLAYER_INPUT_WAIT*: GameConfiguration
+        SPEED*: GameConfiguration
+        SOUND_VOLUME*: GameConfiguration
+        MAX_GAME_OBJECTS*: GameConfiguration
+        MAX_LAYERS*: GameConfiguration
+        gameControlFidelity*: int32
 
+proc newGameConfigurationCentral*(): GameConfigurationCentral
+proc initGameConfigurationCentral*(this: GameConfigurationCentral)
+proc getInstance*(t: typedesc[GameConfigurationCentral]): GameConfigurationCentral {.discardable.}
+method load*(this: GameConfigurationCentral, abeClientInformation: AbeClientInformationInterface) {.base.}
+method setGameControlFidelity*(this: GameConfigurationCentral, gameControlFidelity: int32) {.base.}
+method getGameControlFidelity*(this: GameConfigurationCentral): int32 {.base, discardable.}
+method toString*(this: GameConfigurationCentral): string {.discardable.}
+import org/allbinary/game/configuration/persistance/GameConfigurationPersistanceSingleton as GameConfigurationPersistanceSingletonModule
+export GameConfigurationPersistanceSingletonModule
+import org/allbinary/game/configuration/persistance/KeyValuePersistance as KeyValuePersistanceModule
+export KeyValuePersistanceModule
+import org/allbinary/logic/NullUtil as NullUtilModule
+export NullUtilModule
+import org/allbinary/logic/math/SmallIntegerSingletonFactory as SmallIntegerSingletonFactoryModule
+export SmallIntegerSingletonFactoryModule
+import org/allbinary/logic/string/StringMaker as StringMakerModule
+export StringMakerModule
+import org/allbinary/string/CommonSeps as CommonSepsModule
+export CommonSepsModule
+import org/allbinary/string/CommonStrings as CommonStringsModule
+export CommonStringsModule
+import org/allbinary/util/ABHashtable as ABHashtableModule
+export ABHashtableModule
+import org/allbinary/util/BasicArrayList as BasicArrayListModule
+export BasicArrayListModule
 
-class GameConfigurationCentral:
-    SINGLETON: object = None
+var GameConfigurationCentral_SINGLETONValue: JObject
+var GameConfigurationCentral_SINGLETONSet = false
+proc SINGLETON*(t: typedesc[GameConfigurationCentral]): JObject =
+    if not GameConfigurationCentral_SINGLETONSet:
+        GameConfigurationCentral_SINGLETONSet = true
+        GameConfigurationCentral_SINGLETONValue = NullUtil.getInstance().NULL_OBJECT
+    GameConfigurationCentral_SINGLETONValue
+proc `SINGLETON=`*(t: typedesc[GameConfigurationCentral], value: JObject) =
+    GameConfigurationCentral_SINGLETONSet = true
+    GameConfigurationCentral_SINGLETONValue = value
 
-    def _init_fields(self) -> None:
-        from org.allbinary.logic.communication.log.LogUtil import LogUtil
-        self.logUtil: LogUtil = LogUtil.getInstance()
-        self.SCALE: GameConfiguration = None
-        self.ORIENTATION: GameConfiguration = None
-        self.SENSOR_UPDATE_RATE: GameConfiguration = None
-        self.VIBRATION: GameConfiguration = None
-        self.CHALLENGE_LEVEL: GameConfiguration = None
-        self.COLLIDE_DAMAGE: GameConfiguration = None
-        self.DURABILITY_CHALLENGE_LEVEL: GameConfiguration = None
-        self.SPEED_CHALLENGE_LEVEL: GameConfiguration = None
-        self.ATTACK_CHALLENGE_LEVEL: GameConfiguration = None
-        self.CONTROL_LEVEL: GameConfiguration = None
-        self.PLAYER_INPUT_WAIT: GameConfiguration = None
-        self.SPEED: GameConfiguration = None
-        self.SOUND_VOLUME: GameConfiguration = None
-        self.MAX_GAME_OBJECTS: GameConfiguration = None
-        self.MAX_LAYERS: GameConfiguration = None
-        self.gameControlFidelity: int = 36
+# Java field initializers run after the base initializer
+proc initFieldsGameConfigurationCentral(this: GameConfigurationCentral) =
+    this.logUtil = LogUtil.getInstance()
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    this.gameControlFidelity = 36
+    discard
 
-    @staticmethod
-    def getInstance() -> GameConfigurationCentral:
-        from org.allbinary.logic.NullUtil import NullUtil
+proc getInstance*(t: typedesc[GameConfigurationCentral]): GameConfigurationCentral {.discardable.} =
         if GameConfigurationCentral.SINGLETON == NullUtil.getInstance().NULL_OBJECT:
-            GameConfigurationCentral.SINGLETON = GameConfigurationCentral()
-        return GameConfigurationCentral.SINGLETON
-    
+            GameConfigurationCentral.SINGLETON = newGameConfigurationCentral()
+        return GameConfigurationCentral(JObject(GameConfigurationCentral.SINGLETON))
 
-    def __init__(self) -> None:
-        from org.allbinary.game.configuration.GameConfiguration import GameConfiguration
-        from org.allbinary.game.configuration.GameConfiguration import GameConfiguration
-        from org.allbinary.game.configuration.GameConfiguration import GameConfiguration
-        from org.allbinary.game.configuration.GameConfiguration import GameConfiguration
-        from org.allbinary.game.configuration.GameConfiguration import GameConfiguration
-        from org.allbinary.game.configuration.GameConfiguration import GameConfiguration
-        from org.allbinary.game.configuration.GameConfiguration import GameConfiguration
-        from org.allbinary.game.configuration.GameConfiguration import GameConfiguration
-        from org.allbinary.game.configuration.GameConfiguration import GameConfiguration
-        from org.allbinary.game.configuration.GameConfiguration import GameConfiguration
-        from org.allbinary.game.configuration.GameConfiguration import GameConfiguration
-        from org.allbinary.game.configuration.GameConfiguration import GameConfiguration
-        from org.allbinary.game.configuration.GameConfiguration import GameConfiguration
-        from org.allbinary.game.configuration.GameConfiguration import GameConfiguration
-        from org.allbinary.game.configuration.GameConfiguration import GameConfiguration
-        from org.allbinary.logic.math.SmallIntegerSingletonFactory import SmallIntegerSingletonFactory
-        self._init_fields()
-        smallIntegerSingletonFactory: SmallIntegerSingletonFactory = SmallIntegerSingletonFactory.getInstance()
-        self.SCALE = GameConfiguration("Scale", smallIntegerSingletonFactory.getAt(2), smallIntegerSingletonFactory.getAt(2), smallIntegerSingletonFactory.getAt(3))
-        self.ORIENTATION = GameConfiguration("Orientation", smallIntegerSingletonFactory.getAt(0), smallIntegerSingletonFactory.getAt(0), smallIntegerSingletonFactory.getAt(8))
-        self.SENSOR_UPDATE_RATE = GameConfiguration("Sensor Update Rate", smallIntegerSingletonFactory.getAt(0), smallIntegerSingletonFactory.getAt(0), smallIntegerSingletonFactory.getAt(3))
-        self.VIBRATION = GameConfiguration("Vibration", smallIntegerSingletonFactory.getAt(0), smallIntegerSingletonFactory.getAt(0), smallIntegerSingletonFactory.getAt(3))
-        self.CHALLENGE_LEVEL = GameConfiguration("Global Challenge Level", smallIntegerSingletonFactory.getAt(3), smallIntegerSingletonFactory.getAt(1), smallIntegerSingletonFactory.getAt(10))
-        self.COLLIDE_DAMAGE = GameConfiguration("Collide Damage Challenge Level", smallIntegerSingletonFactory.getAt(3), smallIntegerSingletonFactory.getAt(1), smallIntegerSingletonFactory.getAt(10))
-        self.DURABILITY_CHALLENGE_LEVEL = GameConfiguration("Enemy Durability Challenge Level", smallIntegerSingletonFactory.getAt(3), smallIntegerSingletonFactory.getAt(1), smallIntegerSingletonFactory.getAt(10))
-        self.SPEED_CHALLENGE_LEVEL = GameConfiguration("Enemy Speed Challenge Level", smallIntegerSingletonFactory.getAt(3), smallIntegerSingletonFactory.getAt(1), smallIntegerSingletonFactory.getAt(10))
-        self.ATTACK_CHALLENGE_LEVEL = GameConfiguration("Enemy Attack Challenge Level", smallIntegerSingletonFactory.getAt(3), smallIntegerSingletonFactory.getAt(1), smallIntegerSingletonFactory.getAt(10))
-        self.CONTROL_LEVEL = GameConfiguration("Control Fidelity", smallIntegerSingletonFactory.getAt(5), smallIntegerSingletonFactory.getAt(1), smallIntegerSingletonFactory.getAt(10))
-        self.PLAYER_INPUT_WAIT = GameConfiguration("Input Wait", smallIntegerSingletonFactory.getAt(5), smallIntegerSingletonFactory.getAt(1), smallIntegerSingletonFactory.getAt(10))
-        self.SPEED = GameConfiguration("Game Speed (Device Specific)", smallIntegerSingletonFactory.getAt(5), smallIntegerSingletonFactory.getAt(1), smallIntegerSingletonFactory.getAt(10))
-        self.SOUND_VOLUME = GameConfiguration("Sound Volume", smallIntegerSingletonFactory.getAt(6), smallIntegerSingletonFactory.getAt(0), smallIntegerSingletonFactory.getAt(10))
-        self.MAX_GAME_OBJECTS = GameConfiguration("Max Game Objects", smallIntegerSingletonFactory.getAt(20), smallIntegerSingletonFactory.getAt(1), smallIntegerSingletonFactory.getAt(50))
-        self.MAX_LAYERS = GameConfiguration("Max Layers", smallIntegerSingletonFactory.getAt(20), smallIntegerSingletonFactory.getAt(1), smallIntegerSingletonFactory.getAt(50))
-    
+proc initGameConfigurationCentral*(this: GameConfigurationCentral) =
+        this.initFieldsGameConfigurationCentral()
+        let smallIntegerSingletonFactory: SmallIntegerSingletonFactory = SmallIntegerSingletonFactory.getInstance()
+        this.SCALE = newGameConfiguration("Scale", smallIntegerSingletonFactory.getAt(2), smallIntegerSingletonFactory.getAt(2), smallIntegerSingletonFactory.getAt(3))
+        this.ORIENTATION = newGameConfiguration("Orientation", smallIntegerSingletonFactory.getAt(0), smallIntegerSingletonFactory.getAt(0), smallIntegerSingletonFactory.getAt(8))
+        this.SENSOR_UPDATE_RATE = newGameConfiguration("Sensor Update Rate", smallIntegerSingletonFactory.getAt(0), smallIntegerSingletonFactory.getAt(0), smallIntegerSingletonFactory.getAt(3))
+        this.VIBRATION = newGameConfiguration("Vibration", smallIntegerSingletonFactory.getAt(0), smallIntegerSingletonFactory.getAt(0), smallIntegerSingletonFactory.getAt(3))
+        this.CHALLENGE_LEVEL = newGameConfiguration("Global Challenge Level", smallIntegerSingletonFactory.getAt(3), smallIntegerSingletonFactory.getAt(1), smallIntegerSingletonFactory.getAt(10))
+        this.COLLIDE_DAMAGE = newGameConfiguration("Collide Damage Challenge Level", smallIntegerSingletonFactory.getAt(3), smallIntegerSingletonFactory.getAt(1), smallIntegerSingletonFactory.getAt(10))
+        this.DURABILITY_CHALLENGE_LEVEL = newGameConfiguration("Enemy Durability Challenge Level", smallIntegerSingletonFactory.getAt(3), smallIntegerSingletonFactory.getAt(1), smallIntegerSingletonFactory.getAt(10))
+        this.SPEED_CHALLENGE_LEVEL = newGameConfiguration("Enemy Speed Challenge Level", smallIntegerSingletonFactory.getAt(3), smallIntegerSingletonFactory.getAt(1), smallIntegerSingletonFactory.getAt(10))
+        this.ATTACK_CHALLENGE_LEVEL = newGameConfiguration("Enemy Attack Challenge Level", smallIntegerSingletonFactory.getAt(3), smallIntegerSingletonFactory.getAt(1), smallIntegerSingletonFactory.getAt(10))
+        this.CONTROL_LEVEL = newGameConfiguration("Control Fidelity", smallIntegerSingletonFactory.getAt(5), smallIntegerSingletonFactory.getAt(1), smallIntegerSingletonFactory.getAt(10))
+        this.PLAYER_INPUT_WAIT = newGameConfiguration("Input Wait", smallIntegerSingletonFactory.getAt(5), smallIntegerSingletonFactory.getAt(1), smallIntegerSingletonFactory.getAt(10))
+        this.SPEED = newGameConfiguration("Game Speed (Device Specific)", smallIntegerSingletonFactory.getAt(5), smallIntegerSingletonFactory.getAt(1), smallIntegerSingletonFactory.getAt(10))
+        this.SOUND_VOLUME = newGameConfiguration("Sound Volume", smallIntegerSingletonFactory.getAt(6), smallIntegerSingletonFactory.getAt(0), smallIntegerSingletonFactory.getAt(10))
+        this.MAX_GAME_OBJECTS = newGameConfiguration("Max Game Objects", smallIntegerSingletonFactory.getAt(20), smallIntegerSingletonFactory.getAt(1), smallIntegerSingletonFactory.getAt(50))
+        this.MAX_LAYERS = newGameConfiguration("Max Layers", smallIntegerSingletonFactory.getAt(20), smallIntegerSingletonFactory.getAt(1), smallIntegerSingletonFactory.getAt(50))
 
-    def load(self, abeClientInformation: AbeClientInformationInterface) -> None:
-        from org.allbinary.game.configuration.persistance.GameConfigurationPersistanceSingleton import GameConfigurationPersistanceSingleton
-        from org.allbinary.game.configuration.persistance.KeyValuePersistance import KeyValuePersistance
-        from org.allbinary.logic.math.SmallIntegerSingletonFactory import SmallIntegerSingletonFactory
-        from org.allbinary.logic.system.security.licensing.AbeClientInformationInterface import AbeClientInformationInterface
-        from org.allbinary.string.CommonStrings import CommonStrings
-        from org.allbinary.util.ABHashtable import ABHashtable
-        from org.allbinary.util.BasicArrayList import BasicArrayList
-        commonStrings: CommonStrings = CommonStrings.getInstance()
+proc newGameConfigurationCentral*(): GameConfigurationCentral =
+    result = GameConfigurationCentral()
+    initGameConfigurationCentral(result)
+
+method load*(this: GameConfigurationCentral, abeClientInformation: AbeClientInformationInterface) {.base.} =
+        let commonStrings: CommonStrings = CommonStrings.getInstance()
         try:
-            smallIntegerSingletonFactory: SmallIntegerSingletonFactory = SmallIntegerSingletonFactory.getInstance()
-            keyValuePersistance: KeyValuePersistance = GameConfigurationPersistanceSingleton.getInstance()
+            let smallIntegerSingletonFactory: SmallIntegerSingletonFactory = SmallIntegerSingletonFactory.getInstance()
+            let keyValuePersistance: KeyValuePersistance = GameConfigurationPersistanceSingleton.getInstance()
             keyValuePersistance.clear()
             keyValuePersistance.loadAll(abeClientInformation)
-            list_: BasicArrayList = keyValuePersistance.getIds()
-            if list_.size() > 0:
-                hashtable: ABHashtable[object, object] = keyValuePersistance.get(0)
-                anyType: object = self.SCALE.getName()
-                value: str = hashtable.get(anyType)
-                self.SCALE.setValue(smallIntegerSingletonFactory.getAt(int(str(value))))
+            let list: BasicArrayList = keyValuePersistance.getIds()
+            if list.size() > 0:
+                let hashtable: ABHashtable = keyValuePersistance.get(0)
+                let anyType: JObject = JObject(JObject(this.SCALE.getName()))
+                let value: string = jstr(hashtable.get(anyType))
+                this.SCALE.setValue(smallIntegerSingletonFactory.getAt(jParseInt(value).intValue()))
             else:
-                self.logUtil.putF("No Game Configuration To Load", self, commonStrings.LOAD)
-        except Exception as e:
-            self.logUtil.put(commonStrings.EXCEPTION, self, commonStrings.LOAD, e)
-    
+                this.logUtil.putF("No Game Configuration To Load", this, commonStrings.LOAD)
+        except CatchableError as jcaught:
+            let e = jToException(jcaught)
+            this.logUtil.put(commonStrings.EXCEPTION, this, commonStrings.LOAD, e)
 
-    def setGameControlFidelity(self, gameControlFidelity: int) -> None:
-        self.gameControlFidelity = gameControlFidelity
-    
+method setGameControlFidelity*(this: GameConfigurationCentral, gameControlFidelity: int32) {.base.} =
+        this.gameControlFidelity = gameControlFidelity
 
-    def getGameControlFidelity(self) -> int:
-        return self.gameControlFidelity
-    
+method getGameControlFidelity*(this: GameConfigurationCentral): int32 {.base, discardable.} =
+        return this.gameControlFidelity
 
-    def toString(self) -> str:
-        from org.allbinary.logic.string.StringMaker import StringMaker
-        from org.allbinary.string.CommonSeps import CommonSeps
-        stringBuffer: StringMaker = StringMaker()
-        commonStrings: CommonSeps = CommonSeps.getInstance()
+method toString*(this: GameConfigurationCentral): string {.discardable.} =
+        let stringBuffer: StringMaker = newStringMaker()
+        let commonStrings: CommonSeps = CommonSeps.getInstance()
         stringBuffer.append(commonStrings.COMMA_SEP)
-        stringBuffer.append(self.SCALE.getName())
+        stringBuffer.append(this.SCALE.getName())
         stringBuffer.append(commonStrings.EQUALS)
-        stringBuffer.appendint(int(int(self.SCALE.getValue())))
+        stringBuffer.appendint(int32(this.SCALE.getValue().intValue()))
         stringBuffer.append(commonStrings.COMMA_SEP)
-        stringBuffer.append(self.ORIENTATION.getName())
+        stringBuffer.append(this.ORIENTATION.getName())
         stringBuffer.append(commonStrings.EQUALS)
-        stringBuffer.appendint(int(int(self.ORIENTATION.getValue())))
+        stringBuffer.appendint(int32(this.ORIENTATION.getValue().intValue()))
         stringBuffer.append(commonStrings.COMMA_SEP)
-        stringBuffer.append(self.SENSOR_UPDATE_RATE.getName())
+        stringBuffer.append(this.SENSOR_UPDATE_RATE.getName())
         stringBuffer.append(commonStrings.EQUALS)
-        stringBuffer.appendint(int(int(self.SENSOR_UPDATE_RATE.getValue())))
+        stringBuffer.appendint(int32(this.SENSOR_UPDATE_RATE.getValue().intValue()))
         stringBuffer.append(commonStrings.COMMA_SEP)
-        stringBuffer.append(self.VIBRATION.getName())
+        stringBuffer.append(this.VIBRATION.getName())
         stringBuffer.append(commonStrings.EQUALS)
-        stringBuffer.appendint(int(int(self.VIBRATION.getValue())))
+        stringBuffer.appendint(int32(this.VIBRATION.getValue().intValue()))
         stringBuffer.append(commonStrings.COMMA_SEP)
-        stringBuffer.append(self.CHALLENGE_LEVEL.getName())
+        stringBuffer.append(this.CHALLENGE_LEVEL.getName())
         stringBuffer.append(commonStrings.EQUALS)
-        stringBuffer.appendint(int(int(self.CHALLENGE_LEVEL.getValue())))
+        stringBuffer.appendint(int32(this.CHALLENGE_LEVEL.getValue().intValue()))
         stringBuffer.append(commonStrings.COMMA_SEP)
-        stringBuffer.append(self.COLLIDE_DAMAGE.getName())
+        stringBuffer.append(this.COLLIDE_DAMAGE.getName())
         stringBuffer.append(commonStrings.EQUALS)
-        stringBuffer.appendint(int(int(self.COLLIDE_DAMAGE.getValue())))
+        stringBuffer.appendint(int32(this.COLLIDE_DAMAGE.getValue().intValue()))
         stringBuffer.append(commonStrings.COMMA_SEP)
-        stringBuffer.append(self.DURABILITY_CHALLENGE_LEVEL.getName())
+        stringBuffer.append(this.DURABILITY_CHALLENGE_LEVEL.getName())
         stringBuffer.append(commonStrings.EQUALS)
-        stringBuffer.appendint(int(int(self.DURABILITY_CHALLENGE_LEVEL.getValue())))
+        stringBuffer.appendint(int32(this.DURABILITY_CHALLENGE_LEVEL.getValue().intValue()))
         stringBuffer.append(commonStrings.COMMA_SEP)
-        stringBuffer.append(self.SPEED_CHALLENGE_LEVEL.getName())
+        stringBuffer.append(this.SPEED_CHALLENGE_LEVEL.getName())
         stringBuffer.append(commonStrings.EQUALS)
-        stringBuffer.appendint(int(int(self.SPEED_CHALLENGE_LEVEL.getValue())))
+        stringBuffer.appendint(int32(this.SPEED_CHALLENGE_LEVEL.getValue().intValue()))
         stringBuffer.append(commonStrings.COMMA_SEP)
-        stringBuffer.append(self.ATTACK_CHALLENGE_LEVEL.getName())
+        stringBuffer.append(this.ATTACK_CHALLENGE_LEVEL.getName())
         stringBuffer.append(commonStrings.EQUALS)
-        stringBuffer.appendint(int(int(self.ATTACK_CHALLENGE_LEVEL.getValue())))
+        stringBuffer.appendint(int32(this.ATTACK_CHALLENGE_LEVEL.getValue().intValue()))
         stringBuffer.append(commonStrings.COMMA_SEP)
-        stringBuffer.append(self.CONTROL_LEVEL.getName())
+        stringBuffer.append(this.CONTROL_LEVEL.getName())
         stringBuffer.append(commonStrings.EQUALS)
-        stringBuffer.appendint(int(int(self.CONTROL_LEVEL.getValue())))
+        stringBuffer.appendint(int32(this.CONTROL_LEVEL.getValue().intValue()))
         stringBuffer.append(commonStrings.COMMA_SEP)
-        stringBuffer.append(self.SPEED.getName())
+        stringBuffer.append(this.SPEED.getName())
         stringBuffer.append(commonStrings.EQUALS)
-        stringBuffer.appendint(int(int(self.SPEED.getValue())))
+        stringBuffer.appendint(int32(this.SPEED.getValue().intValue()))
         stringBuffer.append(commonStrings.COMMA_SEP)
-        stringBuffer.append(self.MAX_GAME_OBJECTS.getName())
+        stringBuffer.append(this.MAX_GAME_OBJECTS.getName())
         stringBuffer.append(commonStrings.EQUALS)
-        stringBuffer.appendint(int(int(self.MAX_GAME_OBJECTS.getValue())))
+        stringBuffer.appendint(int32(this.MAX_GAME_OBJECTS.getValue().intValue()))
         stringBuffer.append(commonStrings.COMMA_SEP)
-        stringBuffer.append(self.MAX_LAYERS.getName())
+        stringBuffer.append(this.MAX_LAYERS.getName())
         stringBuffer.append(commonStrings.EQUALS)
-        stringBuffer.appendint(int(int(self.MAX_LAYERS.getValue())))
-        return str(stringBuffer)
-
-    def __str__(self) -> str:
-        return self.toString()
-# from org.allbinary.game.configuration.persistance.GameConfigurationPersistanceSingleton import GameConfigurationPersistanceSingleton
-# from org.allbinary.game.configuration.persistance.KeyValuePersistance import KeyValuePersistance
-# from org.allbinary.logic.NullUtil import NullUtil
-# from org.allbinary.logic.communication.log.LogUtil import LogUtil
-# from org.allbinary.logic.math.SmallIntegerSingletonFactory import SmallIntegerSingletonFactory
-# from org.allbinary.logic.string.StringMaker import StringMaker
-# from org.allbinary.logic.system.security.licensing.AbeClientInformationInterface import AbeClientInformationInterface
-# from org.allbinary.string.CommonSeps import CommonSeps
-# from org.allbinary.string.CommonStrings import CommonStrings
-# from org.allbinary.util.ABHashtable import ABHashtable
-# from org.allbinary.util.BasicArrayList import BasicArrayList
-
-
-def _GameConfigurationCentral_SINGLETON() -> object:
-    from org.allbinary.logic.NullUtil import NullUtil
-    return NullUtil.getInstance().NULL_OBJECT
-
-lazy_static(GameConfigurationCentral, "SINGLETON", _GameConfigurationCentral_SINGLETON)
+        stringBuffer.appendint(int32(this.MAX_LAYERS.getValue().intValue()))
+        return stringBuffer.toString()
 

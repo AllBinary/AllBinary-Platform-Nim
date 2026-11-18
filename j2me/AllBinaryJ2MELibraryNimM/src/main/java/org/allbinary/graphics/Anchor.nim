@@ -1,31 +1,45 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.graphics
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    Anchor* = ref object of JObject
 
+proc newAnchor*(): Anchor
+import javax/microedition/lcdui/Graphics as GraphicsModule
+export GraphicsModule
 
-class Anchor:
-    TOP_LEFT: int = None
-# from javax.microedition.lcdui.Graphics import Graphics
+var Anchor_TOP_LEFTValue: int32
+var Anchor_TOP_LEFTSet = false
+proc TOP_LEFT*(t: typedesc[Anchor]): int32 =
+    if not Anchor_TOP_LEFTSet:
+        Anchor_TOP_LEFTSet = true
+        Anchor_TOP_LEFTValue = Graphics.TOP and Graphics.LEFT
+    Anchor_TOP_LEFTValue
+proc `TOP_LEFT=`*(t: typedesc[Anchor], value: int32) =
+    Anchor_TOP_LEFTSet = true
+    Anchor_TOP_LEFTValue = value
 
+proc initAnchor*(this: Anchor) =
+    discard
 
-def _Anchor_TOP_LEFT() -> object:
-    from javax.microedition.lcdui.Graphics import Graphics
-    return Graphics.TOP & Graphics.LEFT
-
-lazy_static(Anchor, "TOP_LEFT", _Anchor_TOP_LEFT)
+proc newAnchor*(): Anchor =
+    result = Anchor()
+    initAnchor(result)
 

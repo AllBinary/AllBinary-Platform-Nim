@@ -1,90 +1,103 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.input.motion.gesture
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/input/motion/gesture/MotionGestureInput as MotionGestureInputModule
+export MotionGestureInputModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    TouchMotionGestureFactory* = ref object of JObject
+        LEFT*: MotionGestureInput
+        RIGHT*: MotionGestureInput
+        UP*: MotionGestureInput
+        DOWN*: MotionGestureInput
+        PRESSED*: MotionGestureInput
+        RELEASED*: MotionGestureInput
+        DIAGONAL_DOWN_RIGHT*: MotionGestureInput
+        DIAGONAL_DOWN_LEFT*: MotionGestureInput
+        DIAGONAL_UP_RIGHT*: MotionGestureInput
+        DIAGONAL_UP_LEFT*: MotionGestureInput
+        SCROLL_UP*: MotionGestureInput
+        SCROLL_DOWN*: MotionGestureInput
+        NO_MOTION*: MotionGestureInput
+        LAST_MOTION*: MotionGestureInput
 
+proc newTouchMotionGestureFactory*(): TouchMotionGestureFactory
+proc initTouchMotionGestureFactory*(this: TouchMotionGestureFactory)
+proc getInstance*(t: typedesc[TouchMotionGestureFactory]): TouchMotionGestureFactory {.discardable.}
+import org/allbinary/game/input/InputFactory as InputFactoryModule
+export InputFactoryModule
+import org/allbinary/logic/NullUtil as NullUtilModule
+export NullUtilModule
 
-class TouchMotionGestureFactory:
-    instance: object = None
+var TouchMotionGestureFactory_instanceValue: JObject
+var TouchMotionGestureFactory_instanceSet = false
+proc instance*(t: typedesc[TouchMotionGestureFactory]): JObject =
+    if not TouchMotionGestureFactory_instanceSet:
+        TouchMotionGestureFactory_instanceSet = true
+        TouchMotionGestureFactory_instanceValue = NullUtil.getInstance().NULL_OBJECT
+    TouchMotionGestureFactory_instanceValue
+proc `instance=`*(t: typedesc[TouchMotionGestureFactory], value: JObject) =
+    TouchMotionGestureFactory_instanceSet = true
+    TouchMotionGestureFactory_instanceValue = value
 
-    def _init_fields(self) -> None:
-        self.LEFT: MotionGestureInput = None
-        self.RIGHT: MotionGestureInput = None
-        self.UP: MotionGestureInput = None
-        self.DOWN: MotionGestureInput = None
-        self.PRESSED: MotionGestureInput = None
-        self.RELEASED: MotionGestureInput = None
-        self.DIAGONAL_DOWN_RIGHT: MotionGestureInput = None
-        self.DIAGONAL_DOWN_LEFT: MotionGestureInput = None
-        self.DIAGONAL_UP_RIGHT: MotionGestureInput = None
-        self.DIAGONAL_UP_LEFT: MotionGestureInput = None
-        self.SCROLL_UP: MotionGestureInput = None
-        self.SCROLL_DOWN: MotionGestureInput = None
-        self.NO_MOTION: MotionGestureInput = None
-        self.LAST_MOTION: MotionGestureInput = None
+# Java field initializers run after the base initializer
+proc initFieldsTouchMotionGestureFactory(this: TouchMotionGestureFactory) =
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    discard
 
-    @staticmethod
-    def getInstance() -> TouchMotionGestureFactory:
-        from org.allbinary.logic.NullUtil import NullUtil
+proc getInstance*(t: typedesc[TouchMotionGestureFactory]): TouchMotionGestureFactory {.discardable.} =
         if TouchMotionGestureFactory.instance == NullUtil.getInstance().NULL_OBJECT:
-            TouchMotionGestureFactory.instance = TouchMotionGestureFactory()
-        return TouchMotionGestureFactory.instance
-    
+            TouchMotionGestureFactory.instance = newTouchMotionGestureFactory()
+        return TouchMotionGestureFactory(JObject(TouchMotionGestureFactory.instance))
 
-    def __init__(self) -> None:
-        from org.allbinary.input.motion.gesture.MotionGestureInput import MotionGestureInput
-        from org.allbinary.input.motion.gesture.MotionGestureInput import MotionGestureInput
-        from org.allbinary.input.motion.gesture.MotionGestureInput import MotionGestureInput
-        from org.allbinary.input.motion.gesture.MotionGestureInput import MotionGestureInput
-        from org.allbinary.input.motion.gesture.MotionGestureInput import MotionGestureInput
-        from org.allbinary.input.motion.gesture.MotionGestureInput import MotionGestureInput
-        from org.allbinary.input.motion.gesture.MotionGestureInput import MotionGestureInput
-        from org.allbinary.input.motion.gesture.MotionGestureInput import MotionGestureInput
-        from org.allbinary.input.motion.gesture.MotionGestureInput import MotionGestureInput
-        from org.allbinary.input.motion.gesture.MotionGestureInput import MotionGestureInput
-        from org.allbinary.input.motion.gesture.MotionGestureInput import MotionGestureInput
-        from org.allbinary.input.motion.gesture.MotionGestureInput import MotionGestureInput
-        from org.allbinary.input.motion.gesture.MotionGestureInput import MotionGestureInput
-        from org.allbinary.input.motion.gesture.MotionGestureInput import MotionGestureInput
-        from org.allbinary.game.input.InputFactory import InputFactory
-        self._init_fields()
-        MAX: int = InputFactory.getInstance().MAX
-        self.LEFT = MotionGestureInput(MAX - 3, "Left Touch")
-        self.RIGHT = MotionGestureInput(MAX - 4, "Right Touch")
-        self.UP = MotionGestureInput(MAX - 5, "Up Touch")
-        self.DOWN = MotionGestureInput(MAX - 6, "Down Touch")
-        self.PRESSED = MotionGestureInput(MAX - 7, "Screen Press")
-        self.RELEASED = MotionGestureInput(MAX - 8, "Released")
-        self.DIAGONAL_DOWN_RIGHT = MotionGestureInput(MAX - 9, "Diagonal Dn R")
-        self.DIAGONAL_DOWN_LEFT = MotionGestureInput(MAX - 10, "Diagonal Dn L")
-        self.DIAGONAL_UP_RIGHT = MotionGestureInput(MAX - 11, "Diagonal Up R")
-        self.DIAGONAL_UP_LEFT = MotionGestureInput(MAX - 12, "Diagonal Up L")
-        self.SCROLL_UP = MotionGestureInput(MAX - 13, "Scroll Up")
-        self.SCROLL_DOWN = MotionGestureInput(MAX - 14, "Scroll Down")
-        self.NO_MOTION = MotionGestureInput(MAX - 2, "No Motion")
-        self.LAST_MOTION = MotionGestureInput(MAX - 19, "Last Motion")
-# from org.allbinary.game.input.InputFactory import InputFactory
-# from org.allbinary.logic.NullUtil import NullUtil
+proc initTouchMotionGestureFactory*(this: TouchMotionGestureFactory) =
+        this.initFieldsTouchMotionGestureFactory()
+        var MAX: int32 = InputFactory.getInstance().MAX
+        this.LEFT = newMotionGestureInput(MAX -% 3, "Left Touch")
+        this.RIGHT = newMotionGestureInput(MAX -% 4, "Right Touch")
+        this.UP = newMotionGestureInput(MAX -% 5, "Up Touch")
+        this.DOWN = newMotionGestureInput(MAX -% 6, "Down Touch")
+        this.PRESSED = newMotionGestureInput(MAX -% 7, "Screen Press")
+        this.RELEASED = newMotionGestureInput(MAX -% 8, "Released")
+        this.DIAGONAL_DOWN_RIGHT = newMotionGestureInput(MAX -% 9, "Diagonal Dn R")
+        this.DIAGONAL_DOWN_LEFT = newMotionGestureInput(MAX -% 10, "Diagonal Dn L")
+        this.DIAGONAL_UP_RIGHT = newMotionGestureInput(MAX -% 11, "Diagonal Up R")
+        this.DIAGONAL_UP_LEFT = newMotionGestureInput(MAX -% 12, "Diagonal Up L")
+        this.SCROLL_UP = newMotionGestureInput(MAX -% 13, "Scroll Up")
+        this.SCROLL_DOWN = newMotionGestureInput(MAX -% 14, "Scroll Down")
+        this.NO_MOTION = newMotionGestureInput(MAX -% 2, "No Motion")
+        this.LAST_MOTION = newMotionGestureInput(MAX -% 19, "Last Motion")
 
-
-def _TouchMotionGestureFactory_instance() -> object:
-    from org.allbinary.logic.NullUtil import NullUtil
-    return NullUtil.getInstance().NULL_OBJECT
-
-lazy_static(TouchMotionGestureFactory, "instance", _TouchMotionGestureFactory_instance)
+proc newTouchMotionGestureFactory*(): TouchMotionGestureFactory =
+    result = TouchMotionGestureFactory()
+    initTouchMotionGestureFactory(result)
 

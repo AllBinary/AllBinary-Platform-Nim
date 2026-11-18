@@ -1,60 +1,75 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.input.motion
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
 
+type
+    AllMotionRecognizer* = ref object of JObject
+        id*: int32
 
+proc newAllMotionRecognizer*(): AllMotionRecognizer
+proc initAllMotionRecognizer*(this: AllMotionRecognizer)
+method processStartMotionEvent*(this: AllMotionRecognizer, x: int32, y: int32, deviceId: int32, modifiers: int32) {.base.}
+method processEndMotionEvent*(this: AllMotionRecognizer, x: int32, y: int32, deviceId: int32, modifiers: int32) {.base.}
+method processDraggedMotionEvent*(this: AllMotionRecognizer, x: int32, y: int32, deviceId: int32, modifiers: int32) {.base.}
+method processMovedMotionEvent*(this: AllMotionRecognizer, x: int32, y: int32, deviceId: int32, modifiers: int32) {.base.}
+method processScrolledMotionEvent*(this: AllMotionRecognizer, x: int32, y: int32, deviceId: int32, modifiers: int32) {.base.}
+method getId*(this: AllMotionRecognizer): int32 {.base, discardable.}
 
-class AllMotionRecognizer:
-    index: int = 0
+var AllMotionRecognizer_indexValue: int32
+var AllMotionRecognizer_indexSet = false
+proc index*(t: typedesc[AllMotionRecognizer]): int32 =
+    if not AllMotionRecognizer_indexSet:
+        AllMotionRecognizer_indexSet = true
+        AllMotionRecognizer_indexValue = 0
+    AllMotionRecognizer_indexValue
+proc `index=`*(t: typedesc[AllMotionRecognizer], value: int32) =
+    AllMotionRecognizer_indexSet = true
+    AllMotionRecognizer_indexValue = value
 
-    def _init_fields(self) -> None:
-        self.id: int = None
+# Java field initializers run after the base initializer
+proc initFieldsAllMotionRecognizer(this: AllMotionRecognizer) =
     
+    discard
 
-    def __init__(self) -> None:
-        self._init_fields()
-        self.id = ((setattr(AllMotionRecognizer, "index", AllMotionRecognizer.index + 1) or AllMotionRecognizer.index) - 1)
-    
+proc initAllMotionRecognizer*(this: AllMotionRecognizer) =
+        this.initFieldsAllMotionRecognizer()
+        this.id = jPostIncrement(AllMotionRecognizer.index)
 
-    # throws Exception
-    def processStartMotionEvent(self, x: int, y: int, deviceId: int, modifiers: int) -> None:
-        pass
-    
+proc newAllMotionRecognizer*(): AllMotionRecognizer =
+    result = AllMotionRecognizer()
+    initAllMotionRecognizer(result)
 
-    # throws Exception
-    def processEndMotionEvent(self, x: int, y: int, deviceId: int, modifiers: int) -> None:
-        pass
-    
+method processStartMotionEvent*(this: AllMotionRecognizer, x: int32, y: int32, deviceId: int32, modifiers: int32) {.base.} =
+        discard
 
-    # throws Exception
-    def processDraggedMotionEvent(self, x: int, y: int, deviceId: int, modifiers: int) -> None:
-        pass
-    
+method processEndMotionEvent*(this: AllMotionRecognizer, x: int32, y: int32, deviceId: int32, modifiers: int32) {.base.} =
+        discard
 
-    # throws Exception
-    def processMovedMotionEvent(self, x: int, y: int, deviceId: int, modifiers: int) -> None:
-        pass
-    
+method processDraggedMotionEvent*(this: AllMotionRecognizer, x: int32, y: int32, deviceId: int32, modifiers: int32) {.base.} =
+        discard
 
-    # throws Exception
-    def processScrolledMotionEvent(self, x: int, y: int, deviceId: int, modifiers: int) -> None:
-        pass
-    
+method processMovedMotionEvent*(this: AllMotionRecognizer, x: int32, y: int32, deviceId: int32, modifiers: int32) {.base.} =
+        discard
 
-    def getId(self) -> int:
-        return self.id
+method processScrolledMotionEvent*(this: AllMotionRecognizer, x: int32, y: int32, deviceId: int32, modifiers: int32) {.base.} =
+        discard
 
+method getId*(this: AllMotionRecognizer): int32 {.base, discardable.} =
+        return this.id
 

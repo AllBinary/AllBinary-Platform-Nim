@@ -1,29 +1,41 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.logic.io
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import java/io/DataOutputStream as DataOutputStreamModule
+export DataOutputStreamModule
+import java/io/OutputStream as OutputStreamModule
+export OutputStreamModule
 
-from java.io.DataOutputStream import DataOutputStream
+type
+    AbDataOutputStream* = ref object of DataOutputStream
+
+proc newAbDataOutputStream*(`out`: OutputStream): AbDataOutputStream
+proc initAbDataOutputStream*(this: AbDataOutputStream, `out`: OutputStream)
 
 
-class AbDataOutputStream(DataOutputStream):
-    
+proc initAbDataOutputStream*(this: AbDataOutputStream, `out`: OutputStream) =
+        initDataOutputStream(this, `out`)
 
-    def __init__(self, out: OutputStream) -> None:
-        from java.io.OutputStream import OutputStream
-        super().__init__(out)
-# from java.io.OutputStream import OutputStream
+proc newAbDataOutputStream*(`out`: OutputStream): AbDataOutputStream =
+    result = AbDataOutputStream()
+    initAbDataOutputStream(result, `out`)
 
+when declared(newAbDataOutputStreamHook1):
+    newAbDataOutputStreamHook1 = proc (`out`: OutputStream): DataOutputStream = newAbDataOutputStream(`out`)
 

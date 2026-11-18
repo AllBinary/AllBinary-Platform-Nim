@@ -1,43 +1,54 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.input.motion.gesture.observer
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/logic/communication/log/LogUtil as LogUtilModule
+export LogUtilModule
+import org/allbinary/util/BasicArrayList as BasicArrayListModule
+export BasicArrayListModule
+import org/allbinary/input/motion/gesture/observer/CompleteMotionGestureListenerInterface as CompleteMotionGestureListenerInterfaceModule
+export CompleteMotionGestureListenerInterfaceModule
 
-from org.allbinary.input.motion.gesture.observer.CompleteMotionGestureListenerInterface import CompleteMotionGestureListenerInterface
+type
+    NullCompleteMotionGestureReceiver* = ref object of CompleteMotionGestureListenerInterface
+        logUtil*: LogUtil
+
+proc newNullCompleteMotionGestureReceiver*(): NullCompleteMotionGestureReceiver
+proc initNullCompleteMotionGestureReceiver*(this: NullCompleteMotionGestureReceiver)
+method onMotionGestureCompleted*(this: NullCompleteMotionGestureReceiver, list: BasicArrayList)
+import org/allbinary/string/CommonStrings as CommonStringsModule
+export CommonStringsModule
 
 
-class NullCompleteMotionGestureReceiver(CompleteMotionGestureListenerInterface):
+# Java field initializers run after the base initializer
+proc initFieldsNullCompleteMotionGestureReceiver(this: NullCompleteMotionGestureReceiver) =
+    this.logUtil = LogUtil.getInstance()
+    discard
 
-    def _init_fields(self) -> None:
-        from org.allbinary.logic.communication.log.LogUtil import LogUtil
-        self.logUtil: LogUtil = LogUtil.getInstance()
-    
+proc initNullCompleteMotionGestureReceiver*(this: NullCompleteMotionGestureReceiver) =
+        this.initFieldsNullCompleteMotionGestureReceiver()
+        let commonStrings: CommonStrings = CommonStrings.getInstance()
+        this.logUtil.putF("Null Gesture Reciever", this, commonStrings.CONSTRUCTOR)
 
-    def __init__(self) -> None:
-        from org.allbinary.string.CommonStrings import CommonStrings
-        self._init_fields()
-        commonStrings: CommonStrings = CommonStrings.getInstance()
-        self.logUtil.putF("Null Gesture Reciever", self, commonStrings.CONSTRUCTOR)
-    
+proc newNullCompleteMotionGestureReceiver*(): NullCompleteMotionGestureReceiver =
+    result = NullCompleteMotionGestureReceiver()
+    initNullCompleteMotionGestureReceiver(result)
 
-    # throws Exception
-    def onMotionGestureCompleted(self, list_: BasicArrayList) -> None:
-        from org.allbinary.util.BasicArrayList import BasicArrayList
-        pass
-# from org.allbinary.logic.communication.log.LogUtil import LogUtil
-# from org.allbinary.string.CommonStrings import CommonStrings
-# from org.allbinary.util.BasicArrayList import BasicArrayList
-
+method onMotionGestureCompleted*(this: NullCompleteMotionGestureReceiver, list: BasicArrayList) =
+        discard
 

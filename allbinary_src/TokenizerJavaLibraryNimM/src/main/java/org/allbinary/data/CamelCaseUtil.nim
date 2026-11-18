@@ -1,69 +1,82 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#   
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+    
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.data
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import java/lang/Character as CharacterModule
+export CharacterModule
+import org/allbinary/logic/string/StringMaker as StringMakerModule
+export StringMakerModule
+import org/allbinary/string/CommonSeps as CommonSepsModule
+export CommonSepsModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    CamelCaseUtil* = ref object of JObject
+        commonSeps*: CommonSeps
 
+proc newCamelCaseUtil*(): CamelCaseUtil
+proc getInstance*(t: typedesc[CamelCaseUtil]): CamelCaseUtil {.discardable.}
+method getAsCamelCase*(this: CamelCaseUtil, string: string, stringBuilder: StringMaker): string {.base, discardable.}
+import org/allbinary/logic/string/StringValidationUtil as StringValidationUtilModule
+export StringValidationUtilModule
+import org/allbinary/logic/string/tokens/Tokenizer as TokenizerModule
+export TokenizerModule
+import org/allbinary/util/BasicArrayList as BasicArrayListModule
+export BasicArrayListModule
+import org/allbinary/util/BasicArrayListD as BasicArrayListDModule
+export BasicArrayListDModule
 
-class CamelCaseUtil:
-    instance: CamelCaseUtil = None
+var CamelCaseUtil_instanceValue: CamelCaseUtil
+var CamelCaseUtil_instanceSet = false
+proc instance*(t: typedesc[CamelCaseUtil]): CamelCaseUtil =
+    if not CamelCaseUtil_instanceSet:
+        CamelCaseUtil_instanceSet = true
+        CamelCaseUtil_instanceValue = newCamelCaseUtil()
+    CamelCaseUtil_instanceValue
 
-    def _init_fields(self) -> None:
-        from org.allbinary.string.CommonSeps import CommonSeps
-        self.commonSeps: CommonSeps = CommonSeps.getInstance()
+# Java field initializers run after the base initializer
+proc initFieldsCamelCaseUtil(this: CamelCaseUtil) =
+    this.commonSeps = CommonSeps.getInstance()
+    discard
 
-    def __init__(self) -> None:
-        self._init_fields()
-    
+proc initCamelCaseUtil*(this: CamelCaseUtil) =
+    this.initFieldsCamelCaseUtil()
 
-    @staticmethod
-    def getInstance() -> CamelCaseUtil:
+proc newCamelCaseUtil*(): CamelCaseUtil =
+    result = CamelCaseUtil()
+    initCamelCaseUtil(result)
+
+proc getInstance*(t: typedesc[CamelCaseUtil]): CamelCaseUtil {.discardable.} =
         return CamelCaseUtil.instance
-    
 
-    # throws Exception
-    def getAsCamelCase(self, string: str, stringBuilder: StringMaker) -> str:
-        from org.allbinary.logic.string.StringMaker import StringMaker
-        from org.allbinary.logic.string.StringValidationUtil import StringValidationUtil
-        from org.allbinary.logic.string.tokens.Tokenizer import Tokenizer
-        from org.allbinary.util.BasicArrayList import BasicArrayList
-        from org.allbinary.util.BasicArrayListD import BasicArrayListD
-        stringValidationUtil: StringValidationUtil = StringValidationUtil.getInstance()
+method getAsCamelCase*(this: CamelCaseUtil, string: string, stringBuilder: StringMaker): string {.base, discardable.} =
+        let stringValidationUtil: StringValidationUtil = StringValidationUtil.getInstance()
         stringBuilder.delete(0, stringBuilder.length())
-        list_: BasicArrayList = BasicArrayListD()
-        tokenizer: Tokenizer = Tokenizer(self.commonSeps.UNDERSCORE)
-        tokenizer.getTokensFromString(string, list_)
-        size: int = list_.size()
-        word: str = None
-        for i in range(0, size):
-            word = list_.get(i)
-            word = (word if stringValidationUtil.isEmpty(word) else str(StringMaker().appendchar(word[0].upper()).append(word[1:].lower())))
-            stringBuilder.append(word)
-        return str(stringBuilder)
-# from org.allbinary.logic.string.StringMaker import StringMaker
-# from org.allbinary.logic.string.StringUtil import StringUtil
-# from org.allbinary.logic.string.StringValidationUtil import StringValidationUtil
-# from org.allbinary.logic.string.tokens.Tokenizer import Tokenizer
-# from org.allbinary.string.CommonSeps import CommonSeps
-# from org.allbinary.util.BasicArrayList import BasicArrayList
-# from org.allbinary.util.BasicArrayListD import BasicArrayListD
-
-
-def _CamelCaseUtil_instance() -> object:
-    return CamelCaseUtil()
-
-lazy_static(CamelCaseUtil, "instance", _CamelCaseUtil_instance)
+        let list: BasicArrayList = newBasicArrayListD()
+        let tokenizer: Tokenizer = newTokenizer(this.commonSeps.UNDERSCORE)
+        tokenizer.getTokensFromString(string, list)
+        let size: int32 = list.size()
+        var word: string = ""
+        block:
+            var i: int32 = 0
+            while i < size:
+                defer: i = i +% 1
+                word = jstr(list.get(i))
+                word = (if stringValidationUtil.isEmpty(word): word else: newStringMaker().appendchar(Character.toUpperCase(jCharAt(word, 0))).append(jToLowerCase(jSubstring(word, 1))).toString())
+                stringBuilder.append(word)
+        return stringBuilder.toString()
 

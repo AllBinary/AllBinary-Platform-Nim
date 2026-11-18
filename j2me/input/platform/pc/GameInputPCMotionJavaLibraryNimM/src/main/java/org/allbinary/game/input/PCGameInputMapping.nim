@@ -1,63 +1,76 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.input
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/game/input/mapping/PersistentInputMapping as PersistentInputMappingModule
+export PersistentInputMappingModule
+import org/allbinary/logic/system/security/licensing/AbeClientInformationInterface as AbeClientInformationInterfaceModule
+export AbeClientInformationInterfaceModule
+import org/allbinary/game/input/Input as InputModule
+export InputModule
 
-from org.allbinary.game.input.mapping.PersistentInputMapping import PersistentInputMapping
+type
+    PCGameInputMapping* = ref object of PersistentInputMapping
+
+proc newPCGameInputMapping*(): PCGameInputMapping
+proc initPCGameInputMapping*(this: PCGameInputMapping)
+method init*(this: PCGameInputMapping, abeClientInformation: AbeClientInformationInterface)
+method isDelete*(this: PCGameInputMapping, input: Input): bool {.discardable.}
+method isSystemInput*(this: PCGameInputMapping, input: Input): bool {.discardable.}
+import org/allbinary/game/configuration/persistance/GamePersistanceStrings as GamePersistanceStringsModule
+export GamePersistanceStringsModule
+import org/allbinary/input/motion/button/BasicTouchInputFactory as BasicTouchInputFactoryModule
+export BasicTouchInputFactoryModule
+import org/allbinary/input/motion/gesture/TouchMotionGestureFactory as TouchMotionGestureFactoryModule
+export TouchMotionGestureFactoryModule
+import org/allbinary/input/motion/gesture/TrackballMotionGestureFactory as TrackballMotionGestureFactoryModule
+export TrackballMotionGestureFactoryModule
+import org/allbinary/game/input/PCKeyFactory as PCKeyFactoryModule
+export PCKeyFactoryModule
 
 
-class PCGameInputMapping(PersistentInputMapping):
-    
+proc initPCGameInputMapping*(this: PCGameInputMapping) =
+        initPersistentInputMapping(this, GamePersistanceStrings.getInstance().SAVED_INPUT_CONFIGURATION_RECORD_ID)
 
-    def __init__(self) -> None:
-        from org.allbinary.game.configuration.persistance.GamePersistanceStrings import GamePersistanceStrings
-        super().__init__(GamePersistanceStrings.getInstance().SAVED_INPUT_CONFIGURATION_RECORD_ID)
-    
+proc newPCGameInputMapping*(): PCGameInputMapping =
+    result = PCGameInputMapping()
+    initPCGameInputMapping(result)
 
-    # throws Exception
-    def init(self, abeClientInformation: AbeClientInformationInterface) -> None:
-        from org.allbinary.game.input.PCKeyFactory import PCKeyFactory
-        from org.allbinary.input.motion.button.BasicTouchInputFactory import BasicTouchInputFactory
-        from org.allbinary.input.motion.gesture.TouchMotionGestureFactory import TouchMotionGestureFactory
-        from org.allbinary.input.motion.gesture.TrackballMotionGestureFactory import TrackballMotionGestureFactory
-        from org.allbinary.logic.system.security.licensing.AbeClientInformationInterface import AbeClientInformationInterface
-        self.logUtil.putF(self.commonStrings.START, self, self.commonStrings.INIT)
+method init*(this: PCGameInputMapping, abeClientInformation: AbeClientInformationInterface) =
+        this.logUtil.putF(this.commonStrings.START, this, this.commonStrings.INIT)
         PCKeyFactory.getInstance()
         TouchMotionGestureFactory.getInstance()
         TrackballMotionGestureFactory.getInstance()
         BasicTouchInputFactory.getInstance()
-        super().init(abeClientInformation)
-        if self.getTotalMapped() == 0 or self.isDefaultNew():
-            self.getInputMapping().addMapping(self.getDefault())
-            self.save(abeClientInformation)
-    
+        procCall PersistentInputMapping(this).init(abeClientInformation)
+        if this.getTotalMapped() == 0 or this.isDefaultNew():
+            this.getInputMapping().addMapping(this.getDefault())
+            this.save(abeClientInformation)
 
-    def isDelete(self, input: Input) -> bool:
-        from org.allbinary.game.input.PCKeyFactory import PCKeyFactory
+method isDelete*(this: PCGameInputMapping, input: Input): bool {.discardable.} =
         if input == PCKeyFactory.getInstance().DEL:
-            return True
+            return true
         else:
-            return False
-    
+            return false
 
-    def isSystemInput(self, input: Input) -> bool:
-        return False
-# from org.allbinary.game.configuration.persistance.GamePersistanceStrings import GamePersistanceStrings
-# from org.allbinary.input.motion.button.BasicTouchInputFactory import BasicTouchInputFactory
-# from org.allbinary.input.motion.gesture.TouchMotionGestureFactory import TouchMotionGestureFactory
-# from org.allbinary.input.motion.gesture.TrackballMotionGestureFactory import TrackballMotionGestureFactory
-# from org.allbinary.logic.system.security.licensing.AbeClientInformationInterface import AbeClientInformationInterface
+method isSystemInput*(this: PCGameInputMapping, input: Input): bool {.discardable.} =
+        return false
 
+when declared(newPCGameInputMappingHook0):
+    newPCGameInputMappingHook0 = proc (): PersistentInputMapping = newPCGameInputMapping()
 

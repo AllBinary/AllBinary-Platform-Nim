@@ -1,45 +1,55 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.image
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import javax/microedition/lcdui/Image as ImageModule
+export ImageModule
+import org/allbinary/graphics/paint/PaintableInterface as PaintableInterfaceModule
+export PaintableInterfaceModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    PaintableToImageUtil* = ref object of JObject
 
+proc newPaintableToImageUtil*(): PaintableToImageUtil
+proc getImage*(t: typedesc[PaintableToImageUtil], paintableInterface: PaintableInterface, width: int32, height: int32): Image {.discardable.}
+import javax/microedition/lcdui/Graphics as GraphicsModule
+export GraphicsModule
+import org/allbinary/image/GameFeatureImageCacheFactory as GameFeatureImageCacheFactoryModule
+export GameFeatureImageCacheFactoryModule
 
-class PaintableToImageUtil:
-    instance: PaintableToImageUtil = None
-    
+var PaintableToImageUtil_instanceValue: PaintableToImageUtil
+var PaintableToImageUtil_instanceSet = false
+proc instance*(t: typedesc[PaintableToImageUtil]): PaintableToImageUtil =
+    if not PaintableToImageUtil_instanceSet:
+        PaintableToImageUtil_instanceSet = true
+        PaintableToImageUtil_instanceValue = newPaintableToImageUtil()
+    PaintableToImageUtil_instanceValue
 
-    # throws Exception
-    @staticmethod
-    def getImage(paintableInterface: PaintableInterface, width: int, height: int) -> Image:
-        from org.allbinary.image.GameFeatureImageCacheFactory import GameFeatureImageCacheFactory
-        from javax.microedition.lcdui.Graphics import Graphics
-        from javax.microedition.lcdui.Image import Image
-        from org.allbinary.graphics.paint.PaintableInterface import PaintableInterface
-        image: Image = GameFeatureImageCacheFactory.getInstance().get(type(PaintableToImageUtil.instance).__module__ + "." + type(PaintableToImageUtil.instance).__qualname__, width, height)
-        graphics: Graphics = image.getGraphics()
+proc initPaintableToImageUtil*(this: PaintableToImageUtil) =
+    discard
+
+proc newPaintableToImageUtil*(): PaintableToImageUtil =
+    result = PaintableToImageUtil()
+    initPaintableToImageUtil(result)
+
+proc getImage*(t: typedesc[PaintableToImageUtil], paintableInterface: PaintableInterface, width: int32, height: int32): Image {.discardable.} =
+        var image: Image = GameFeatureImageCacheFactory.getInstance().get(jClassName(PaintableToImageUtil.instance), width, height)
+        var graphics: Graphics = image.getGraphics()
         paintableInterface.paint(graphics)
         return image
-# from javax.microedition.lcdui.Graphics import Graphics
-# from javax.microedition.lcdui.Image import Image
-# from org.allbinary.graphics.paint.PaintableInterface import PaintableInterface
-
-
-def _PaintableToImageUtil_instance() -> object:
-    return PaintableToImageUtil()
-
-lazy_static(PaintableToImageUtil, "instance", _PaintableToImageUtil_instance)
 

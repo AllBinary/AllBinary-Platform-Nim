@@ -1,67 +1,82 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.init.crypt.jcehelper
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import java/io/ByteArrayInputStream as ByteArrayInputStreamModule
+export ByteArrayInputStreamModule
+import java/io/ByteArrayOutputStream as ByteArrayOutputStreamModule
+export ByteArrayOutputStreamModule
+import java/io/InputStream as InputStreamModule
+export InputStreamModule
+import org/allbinary/TsUtil as TsUtilModule
+export TsUtilModule
+import org/allbinary/logic/communication/log/LogUtil as LogUtilModule
+export LogUtilModule
+import org/allbinary/init/crypt/jcehelper/CryptInterface as CryptInterfaceModule
+export CryptInterfaceModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    BasicCryptUtil* = ref object of JObject
+        logUtil*: LogUtil
+        tsUtil*: TsUtil
+        XML_START*: string
 
+proc newBasicCryptUtil*(): BasicCryptUtil
+proc getInstance*(t: typedesc[BasicCryptUtil]): BasicCryptUtil {.discardable.}
+method getDecryptedInputStream*(this: BasicCryptUtil, inputStream: InputStream, cryptInterface: CryptInterface): InputStream {.base, discardable.}
 
-class BasicCryptUtil:
-    instance: BasicCryptUtil = None
+var BasicCryptUtil_instanceValue: BasicCryptUtil
+var BasicCryptUtil_instanceSet = false
+proc instance*(t: typedesc[BasicCryptUtil]): BasicCryptUtil =
+    if not BasicCryptUtil_instanceSet:
+        BasicCryptUtil_instanceSet = true
+        BasicCryptUtil_instanceValue = newBasicCryptUtil()
+    BasicCryptUtil_instanceValue
 
-    def _init_fields(self) -> None:
-        from org.allbinary.TsUtil import TsUtil
-        from org.allbinary.logic.communication.log.LogUtil import LogUtil
-        self.logUtil: LogUtil = LogUtil.getInstance()
-        self.tsUtil: TsUtil = TsUtil.getInstance()
-        self.XML_START: str = "<?xml"
+# Java field initializers run after the base initializer
+proc initFieldsBasicCryptUtil(this: BasicCryptUtil) =
+    this.logUtil = LogUtil.getInstance()
+    this.tsUtil = TsUtil.getInstance()
+    this.XML_START = "<?xml"
+    discard
 
-    def __init__(self) -> None:
-        self._init_fields()
-    
+proc initBasicCryptUtil*(this: BasicCryptUtil) =
+    this.initFieldsBasicCryptUtil()
 
-    @staticmethod
-    def getInstance() -> BasicCryptUtil:
+proc newBasicCryptUtil*(): BasicCryptUtil =
+    result = BasicCryptUtil()
+    initBasicCryptUtil(result)
+
+proc getInstance*(t: typedesc[BasicCryptUtil]): BasicCryptUtil {.discardable.} =
         return BasicCryptUtil.instance
-    
 
-    # throws Exception
-    def getDecryptedInputStream(self, inputStream: InputStream, cryptInterface: CryptInterface) -> InputStream:
-        from java.io.InputStream import InputStream
-        buffer: ByteArrayOutputStream = ByteArrayOutputStream()
-        ch: int = 0
-        while True:
+method getDecryptedInputStream*(this: BasicCryptUtil, inputStream: InputStream, cryptInterface: CryptInterface): InputStream {.base, discardable.} =
+        var buffer: ByteArrayOutputStream = newByteArrayOutputStream()
+        var ch: int32 = 0
+        while true:
             ch = inputStream.read()
             if ch == -1:
                 break
             buffer.write(ch)
-        decrypted: list[int] = cryptInterface.decrypt(buffer.toByteArray())
-        decryptedString: str = bytes(decrypted).decode()
-        index: int = decryptedString.find(self.XML_START)
+        var decrypted: JArray[int8] = cryptInterface.decrypt(buffer.toByteArray())
+        var decryptedString: string = jNewString(decrypted)
+        var index: int32 = jIndexOf(decryptedString, this.XML_START)
         if index > 0:
-            decryptedString = decryptedString[index:]
-        return ByteArrayInputStream(self.tsUtil.getByteArray(decryptedString))
-# from java.io.ByteArrayInputStream import ByteArrayInputStream
-# from java.io.ByteArrayOutputStream import ByteArrayOutputStream
-# from java.io.InputStream import InputStream
-# from org.allbinary.TsUtil import TsUtil
-# from org.allbinary.logic.communication.log.LogUtil import LogUtil
-
-
-def _BasicCryptUtil_instance() -> object:
-    return BasicCryptUtil()
-
-lazy_static(BasicCryptUtil, "instance", _BasicCryptUtil_instance)
+            decryptedString = jSubstring(decryptedString, index)
+        return newByteArrayInputStream(this.tsUtil.getByteArray(decryptedString))
 

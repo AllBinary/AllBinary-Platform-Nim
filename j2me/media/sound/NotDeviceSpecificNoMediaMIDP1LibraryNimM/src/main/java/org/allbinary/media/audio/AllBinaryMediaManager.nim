@@ -1,124 +1,115 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#   
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+    
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.media.audio
 
-from __future__ import annotations
-
-import threading
-
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import java/io/InputStream as InputStreamModule
+export InputStreamModule
+import javax/microedition/media/Player as PlayerModule
+export PlayerModule
+import org/allbinary/media/audio/SoundsFactoryInterface as SoundsFactoryInterfaceModule
+export SoundsFactoryInterfaceModule
 
 #NotDeviceSpecificNoMediaMIDP1Library
-class AllBinaryMediaManager:
-    THIS: str = "AllBinaryMediaManagerNoMediaMIDP1"
-    _lock = threading.RLock()
-    
+type
+    AllBinaryMediaManager* = ref object of JObject
 
-    def __init__(self) -> None:
-        pass
-    
+proc newAllBinaryMediaManager*(): AllBinaryMediaManager
+proc initAllBinaryMediaManager*(this: AllBinaryMediaManager)
+proc isMuted*(t: typedesc[AllBinaryMediaManager]): bool {.discardable.}
+proc setMuted*(t: typedesc[AllBinaryMediaManager], aMuted: bool)
+proc update*(t: typedesc[AllBinaryMediaManager]): bool {.discardable.}
+proc init*(t: typedesc[AllBinaryMediaManager], soundsFactoryInterface: SoundsFactoryInterface)
+proc shutdown*(t: typedesc[AllBinaryMediaManager], soundsFactoryInterface: SoundsFactoryInterface)
+proc createPlayerFromInputStream*(t: typedesc[AllBinaryMediaManager], stream: InputStream, `type`: string): Player {.discardable.}
+proc createPlayer*(t: typedesc[AllBinaryMediaManager], locator: string): Player {.discardable.}
+proc playTone*(t: typedesc[AllBinaryMediaManager], frequency: int32, time: int32, volume: int32)
+proc getSupportedContentTypes*(t: typedesc[AllBinaryMediaManager], protocol: string): JArray[string] {.discardable.}
+proc getSupportedProtocols*(t: typedesc[AllBinaryMediaManager], content_type: string): JArray[string] {.discardable.}
+import org/allbinary/TsUtil as TsUtilModule
+export TsUtilModule
+import org/allbinary/graphics/canvas/transition/progress/ProgressCanvasFactory as ProgressCanvasFactoryModule
+export ProgressCanvasFactoryModule
+import org/allbinary/logic/communication/log/LogUtil as LogUtilModule
+export LogUtilModule
+import org/allbinary/logic/string/StringUtil as StringUtilModule
+export StringUtilModule
+import org/allbinary/string/CommonStrings as CommonStringsModule
+export CommonStringsModule
+import org/allbinary/media/audio/Sounds as SoundsModule
+export SoundsModule
+import org/allbinary/media/audio/NoPlayer as NoPlayerModule
+export NoPlayerModule
 
-    @staticmethod
-    def isMuted() -> bool:
-        return False
-    
+var AllBinaryMediaManager_THISValue: string
+var AllBinaryMediaManager_THISSet = false
+proc THIS*(t: typedesc[AllBinaryMediaManager]): string =
+    if not AllBinaryMediaManager_THISSet:
+        AllBinaryMediaManager_THISSet = true
+        AllBinaryMediaManager_THISValue = "AllBinaryMediaManagerNoMediaMIDP1"
+    AllBinaryMediaManager_THISValue
 
-    @staticmethod
-    def setMuted(aMuted: bool) -> None:
-        pass
-    
+proc initAllBinaryMediaManager*(this: AllBinaryMediaManager) =
+        discard
+        discard
 
-    @staticmethod
-    def update() -> bool:
-        return True
-    
+proc newAllBinaryMediaManager*(): AllBinaryMediaManager =
+    result = AllBinaryMediaManager()
+    initAllBinaryMediaManager(result)
 
-    # throws Exception
-    @staticmethod
-    def init(soundsFactoryInterface: SoundsFactoryInterface) -> None:
-        from org.allbinary.media.audio.Sounds import Sounds
-        from org.allbinary.graphics.canvas.transition.progress.ProgressCanvasFactory import ProgressCanvasFactory
-        from org.allbinary.logic.communication.log.LogUtil import LogUtil
-        from org.allbinary.string.CommonStrings import CommonStrings
-        logUtil: LogUtil = LogUtil.getInstance()
-        commonString: CommonStrings = CommonStrings.getInstance()
+proc isMuted*(t: typedesc[AllBinaryMediaManager]): bool {.discardable.} =
+        return false
+
+proc setMuted*(t: typedesc[AllBinaryMediaManager], aMuted: bool) =
+        discard
+
+proc update*(t: typedesc[AllBinaryMediaManager]): bool {.discardable.} =
+        return true
+
+proc init*(t: typedesc[AllBinaryMediaManager], soundsFactoryInterface: SoundsFactoryInterface) =
+        let logUtil: LogUtil = LogUtil.getInstance()
+        let commonString: CommonStrings = CommonStrings.getInstance()
         logUtil.putF(commonString.START, AllBinaryMediaManager.THIS, commonString.INIT)
         ProgressCanvasFactory.getInstance().addNormalPortion(50, "Media Manager")
-        Sounds(soundsFactoryInterface).init()
-    
+        newSounds(soundsFactoryInterface).init()
 
-    # throws Exception
-    @staticmethod
-    def shutdown(soundsFactoryInterface: SoundsFactoryInterface) -> None:
-        from org.allbinary.media.audio.Sounds import Sounds
-        from org.allbinary.media.audio.Sounds import Sounds
-        from org.allbinary.TsUtil import TsUtil
-        Sounds(soundsFactoryInterface).stopAll()
-        Sounds(soundsFactoryInterface).closeAll()
+proc shutdown*(t: typedesc[AllBinaryMediaManager], soundsFactoryInterface: SoundsFactoryInterface) =
+        newSounds(soundsFactoryInterface).stopAll()
+        newSounds(soundsFactoryInterface).closeAll()
         TsUtil.getInstance().gc()
-    
 
-    @staticmethod
-    def createPlayerFromInputStream(stream: InputStream, type_: str) -> Player:
-        from org.allbinary.media.audio.NoPlayer import NoPlayer
-        from java.io.InputStream import InputStream
-        from javax.microedition.media.Player import Player
-        from org.allbinary.logic.communication.log.LogUtil import LogUtil
-        from org.allbinary.string.CommonStrings import CommonStrings
-        logUtil: LogUtil = LogUtil.getInstance()
-        commonString: CommonStrings = CommonStrings.getInstance()
+proc createPlayerFromInputStream*(t: typedesc[AllBinaryMediaManager], stream: InputStream, `type`: string): Player {.discardable.} =
+        let logUtil: LogUtil = LogUtil.getInstance()
+        let commonString: CommonStrings = CommonStrings.getInstance()
         logUtil.putF(commonString.START, AllBinaryMediaManager.THIS, "creatPlayer(InputStream)")
-        return NoPlayer.NO_PLAYER
-    
+        return Player(JObject(NoPlayer.NO_PLAYERStatic))
 
-    @staticmethod
-    def createPlayer(locator: str) -> Player:
-        from org.allbinary.media.audio.NoPlayer import NoPlayer
-        from javax.microedition.media.Player import Player
-        from org.allbinary.logic.communication.log.LogUtil import LogUtil
-        from org.allbinary.string.CommonStrings import CommonStrings
-        logUtil: LogUtil = LogUtil.getInstance()
-        commonString: CommonStrings = CommonStrings.getInstance()
+proc createPlayer*(t: typedesc[AllBinaryMediaManager], locator: string): Player {.discardable.} =
+        let logUtil: LogUtil = LogUtil.getInstance()
+        let commonString: CommonStrings = CommonStrings.getInstance()
         logUtil.putF(commonString.START, AllBinaryMediaManager.THIS, "creatPlayer(locator)")
-        return NoPlayer.NO_PLAYER
-    
+        return Player(JObject(NoPlayer.NO_PLAYERStatic))
 
-    @staticmethod
-    def playTone(frequency: int, time: int, volume: int) -> None:
-        with AllBinaryMediaManager._lock:
-            return AllBinaryMediaManager._playTone_unlocked(frequency, time, volume)
+proc playTone*(t: typedesc[AllBinaryMediaManager], frequency: int32, time: int32, volume: int32) =
+        discard
 
-    @staticmethod
-    def _playTone_unlocked(frequency: int, time: int, volume: int) -> None:
-        pass
-    
-
-    @staticmethod
-    def getSupportedContentTypes(protocol: str) -> list[str]:
-        from org.allbinary.logic.string.StringUtil import StringUtil
+proc getSupportedContentTypes*(t: typedesc[AllBinaryMediaManager], protocol: string): JArray[string] {.discardable.} =
         return StringUtil.getInstance().getArrayInstance()
-    
 
-    @staticmethod
-    def getSupportedProtocols(content_type: str) -> list[str]:
-        from org.allbinary.logic.string.StringUtil import StringUtil
+proc getSupportedProtocols*(t: typedesc[AllBinaryMediaManager], content_type: string): JArray[string] {.discardable.} =
         return StringUtil.getInstance().getArrayInstance()
-# from java.io.InputStream import InputStream
-# from javax.microedition.media.Player import Player
-# from org.allbinary.TsUtil import TsUtil
-# from org.allbinary.graphics.canvas.transition.progress.ProgressCanvasFactory import ProgressCanvasFactory
-# from org.allbinary.logic.communication.log.LogUtil import LogUtil
-# from org.allbinary.logic.string.StringUtil import StringUtil
-# from org.allbinary.string.CommonStrings import CommonStrings
-
 

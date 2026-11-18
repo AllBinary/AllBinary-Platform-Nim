@@ -1,49 +1,59 @@
 # Generated Code Do Not Modify
 # package org.apache.xmlrpc
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import java/io/IOException as IOExceptionModule
+export IOExceptionModule
+import java/net/MalformedURLException as MalformedURLExceptionModule
+export MalformedURLExceptionModule
+import java/net/URL as URLModule
+export URLModule
+import org/allbinary/util/BasicArrayList as BasicArrayListModule
+export BasicArrayListModule
+import org/allbinary/init/crypt/jcehelper/CryptInterface as CryptInterfaceModule
+export CryptInterfaceModule
+import org/apache/xmlrpc/XmlRpcHandler as XmlRpcHandlerModule
+export XmlRpcHandlerModule
 
-from org.apache.xmlrpc.XmlRpcHandler import XmlRpcHandler
+type
+    XmlRpcClient* = ref object of XmlRpcHandler
+        url*: URL
+
+proc newXmlRpcClient*(url: string): XmlRpcClient
+proc initXmlRpcClient*(this: XmlRpcClient, url: string)
+method getURL*(this: XmlRpcClient): URL {.base, discardable.}
+method setBasicAuthentication*(this: XmlRpcClient, user: string, password: string) {.base.}
+method execute*(this: XmlRpcClient, `method`: string, params: BasicArrayList): JObject {.discardable.}
+method executeWithCrypt*(this: XmlRpcClient, `method`: string, params: BasicArrayList, cryptInterface: CryptInterface): JObject {.base, discardable.}
+import org/allbinary/logic/NullUtil as NullUtilModule
+export NullUtilModule
+import org/apache/xmlrpc/XmlRpcException as XmlRpcExceptionModule
+export XmlRpcExceptionModule
 
 
-class XmlRpcClient(XmlRpcHandler):
-
-    def _init_fields(self) -> None:
-        self.url: URL = None
+# Java field initializers run after the base initializer
+proc initFieldsXmlRpcClient(this: XmlRpcClient) =
     
+    discard
 
-    def __init__(self, url: str) -> None:
-        self._init_fields()
-        self.url = URL(url)
-    
+proc initXmlRpcClient*(this: XmlRpcClient, url: string) =
+        this.initFieldsXmlRpcClient()
+        this.url = newURL(url)
 
-    def getURL(self) -> URL:
-        return self.url
-    
+proc newXmlRpcClient*(url: string): XmlRpcClient =
+    result = XmlRpcClient()
+    initXmlRpcClient(result, url)
 
-    def setBasicAuthentication(self, user: str, password: str) -> None:
-        pass
-    
+method getURL*(this: XmlRpcClient): URL {.base, discardable.} =
+        return this.url
 
-    # throws XmlRpcException, IOException
-    def execute(self, method: str, params: BasicArrayList) -> object:
-        from org.allbinary.util.BasicArrayList import BasicArrayList
-        from org.allbinary.logic.NullUtil import NullUtil
+method setBasicAuthentication*(this: XmlRpcClient, user: string, password: string) {.base.} =
+        discard
+
+method execute*(this: XmlRpcClient, `method`: string, params: BasicArrayList): JObject {.discardable.} =
         return NullUtil.getInstance().NULL_OBJECT
-    
 
-    # throws XmlRpcException, IOException
-    def executeWithCrypt(self, method: str, params: BasicArrayList, cryptInterface: CryptInterface) -> object:
-        from org.allbinary.util.BasicArrayList import BasicArrayList
-        from org.allbinary.init.crypt.jcehelper.CryptInterface import CryptInterface
-        from org.allbinary.logic.NullUtil import NullUtil
+method executeWithCrypt*(this: XmlRpcClient, `method`: string, params: BasicArrayList, cryptInterface: CryptInterface): JObject {.base, discardable.} =
         return NullUtil.getInstance().NULL_OBJECT
-# from java.io.IOException import IOException
-# from java.net.MalformedURLException import MalformedURLException
-# from java.net.URL import URL
-# from org.allbinary.util.BasicArrayList import BasicArrayList
-# from org.allbinary.util.BasicArrayListD import BasicArrayListD
-# from org.allbinary.init.crypt.jcehelper.CryptInterface import CryptInterface
-# from org.allbinary.logic.NullUtil import NullUtil
-
 

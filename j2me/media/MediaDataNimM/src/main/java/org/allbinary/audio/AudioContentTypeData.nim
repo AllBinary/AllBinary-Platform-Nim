@@ -1,34 +1,45 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.audio
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+
+type
+    AudioContentTypeData* = ref object of JObject
+        name*: string
+
+proc newAudioContentTypeData*(name: string): AudioContentTypeData
+proc initAudioContentTypeData*(this: AudioContentTypeData, name: string)
+method getName*(this: AudioContentTypeData): string {.base, discardable.}
 
 
-
-class AudioContentTypeData:
-
-    def _init_fields(self) -> None:
-        self.name: str = None
+# Java field initializers run after the base initializer
+proc initFieldsAudioContentTypeData(this: AudioContentTypeData) =
     
+    discard
 
-    def __init__(self, name: str) -> None:
-        self._init_fields()
-        self.name = name
-    
+proc initAudioContentTypeData*(this: AudioContentTypeData, name: string) =
+        this.initFieldsAudioContentTypeData()
+        this.name = name
 
-    def getName(self) -> str:
-        return self.name
+proc newAudioContentTypeData*(name: string): AudioContentTypeData =
+    result = AudioContentTypeData()
+    initAudioContentTypeData(result, name)
 
+method getName*(this: AudioContentTypeData): string {.base, discardable.} =
+        return this.name
 

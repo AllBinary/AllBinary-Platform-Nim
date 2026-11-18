@@ -1,85 +1,94 @@
-# 
-# AllBinary Open License Version 1 
-# Copyright (c) 2026 AllBinary 
-#  
-# By agreeing to this license you and any business entity you represent are 
-# legally bound to the AllBinary Open License Version 1 legal agreement. 
-#  
-# You may obtain the AllBinary Open License Version 1 legal agreement from 
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
-#  
-# Created By: Travis Berthelot 
-#   
+#[
+  
+  AllBinary Open License Version 1 
+  Copyright (c) 2026 AllBinary 
+   
+  By agreeing to this license you and any business entity you represent are 
+  legally bound to the AllBinary Open License Version 1 legal agreement. 
+   
+  You may obtain the AllBinary Open License Version 1 legal agreement from 
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
+   
+  Created By: Travis Berthelot 
+    
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.logic.io.file
 
-from __future__ import annotations
-
-from java.lang.JavaRuntimeStatic import lazy_static
-
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import java/io/InputStream as InputStreamModule
+export InputStreamModule
+import org/allbinary/logic/communication/log/LogUtil as LogUtilModule
+export LogUtilModule
+import org/allbinary/string/CommonStrings as CommonStringsModule
+export CommonStringsModule
 
 #J2MEForJ2ME
-class AbFileSystem:
-    instance: AbFileSystem = None
+type
+    AbFileSystem* = ref object of JObject
+        logUtil*: LogUtil
+        commonStrings*: CommonStrings
 
-    def _init_fields(self) -> None:
-        from org.allbinary.logic.communication.log.LogUtil import LogUtil
-        from org.allbinary.string.CommonStrings import CommonStrings
-        self.logUtil: LogUtil = LogUtil.getInstance()
-        self.commonStrings: CommonStrings = CommonStrings.getInstance()
+proc newAbFileSystem*(): AbFileSystem
+proc getInstance*(t: typedesc[AbFileSystem]): AbFileSystem {.discardable.}
+method isDirectoryOrFile*(this: AbFileSystem, path: string): bool {.base, discardable.}
+method isDirectory*(this: AbFileSystem, path: string): bool {.base, discardable.}
+method getFilesAsStringArrayForPath*(this: AbFileSystem, currentDirPath: string): JArray[string] {.base, discardable.}
+method readAsString*(this: AbFileSystem, fileName: string): string {.base, discardable.}
+method readAsString*(this: AbFileSystem, fileName: string, bytes: JArray[int8]): string {.base, discardable.}
+method close*(this: AbFileSystem, closeable: JObject): bool {.base, discardable.}
+import org/allbinary/logic/string/StringUtil as StringUtilModule
+export StringUtilModule
 
-    def __init__(self) -> None:
-        self._init_fields()
-    
+var AbFileSystem_instanceValue: AbFileSystem
+var AbFileSystem_instanceSet = false
+proc instance*(t: typedesc[AbFileSystem]): AbFileSystem =
+    if not AbFileSystem_instanceSet:
+        AbFileSystem_instanceSet = true
+        AbFileSystem_instanceValue = newAbFileSystem()
+    AbFileSystem_instanceValue
 
-    @staticmethod
-    def getInstance() -> AbFileSystem:
+# Java field initializers run after the base initializer
+proc initFieldsAbFileSystem(this: AbFileSystem) =
+    this.logUtil = LogUtil.getInstance()
+    this.commonStrings = CommonStrings.getInstance()
+    discard
+
+proc initAbFileSystem*(this: AbFileSystem) =
+    this.initFieldsAbFileSystem()
+
+proc newAbFileSystem*(): AbFileSystem =
+    result = AbFileSystem()
+    initAbFileSystem(result)
+
+proc getInstance*(t: typedesc[AbFileSystem]): AbFileSystem {.discardable.} =
         return AbFileSystem.instance
-    
 
-    def isDirectoryOrFile(self, path: str) -> bool:
-        return False
-    
+method isDirectoryOrFile*(this: AbFileSystem, path: string): bool {.base, discardable.} =
+        return false
 
-    def isDirectory(self, path: str) -> bool:
-        return False
-    
+method isDirectory*(this: AbFileSystem, path: string): bool {.base, discardable.} =
+        return false
 
-    def getFilesAsStringArrayForPath(self, currentDirPath: str) -> list[str]:
-        from org.allbinary.logic.string.StringUtil import StringUtil
+method getFilesAsStringArrayForPath*(this: AbFileSystem, currentDirPath: string): JArray[string] {.base, discardable.} =
         return StringUtil.getInstance().getArrayInstance()
-    
 
-    def readAsString(self, fileName: str) -> str:
-        bytes: list[int] = [0] * (1000000)
-        return self.readAsString(fileName, bytes)
-    
+method readAsString*(this: AbFileSystem, fileName: string): string {.base, discardable.} =
+        let bytes: JArray[int8] = newJArray[int8](1000000, default(int8))
+        return this.readAsString(fileName, bytes)
 
-    # Java overloaded method: Python keeps the last definition
-    def readAsString(self, fileName: str, bytes: list[int]) -> str:
-        from org.allbinary.logic.string.StringUtil import StringUtil
+method readAsString*(this: AbFileSystem, fileName: string, bytes: JArray[int8]): string {.base, discardable.} =
         return StringUtil.getInstance().EMPTY_STRING
-    
 
-    def close(self, closeable: object) -> bool:
-        from java.io.InputStream import InputStream
+method close*(this: AbFileSystem, closeable: JObject): bool {.base, discardable.} =
         try:
-            if closeable is not None:
-                inputStream: InputStream = (closeable)
+            if (not jIsNil(closeable)):
+                let inputStream: InputStream = (InputStream(JObject(closeable)))
                 inputStream.close()
-            return True
-        except Exception as e:
-            self.logUtil.put(self.commonStrings.EXCEPTION, self, self.commonStrings.CLOSE, e)
-            return False
-# from java.io.InputStream import InputStream
-# from org.allbinary.logic.NullUtil import NullUtil
-# from org.allbinary.logic.communication.log.LogUtil import LogUtil
-# from org.allbinary.logic.string.StringUtil import StringUtil
-# from org.allbinary.string.CommonStrings import CommonStrings
-
-
-def _AbFileSystem_instance() -> object:
-    return AbFileSystem()
-
-lazy_static(AbFileSystem, "instance", _AbFileSystem_instance)
+            return true
+        except CatchableError as jcaught:
+            let e = jToException(jcaught)
+            this.logUtil.put(this.commonStrings.EXCEPTION, this, this.commonStrings.CLOSE, e)
+            return false
 

@@ -1,152 +1,174 @@
-# 
-# AllBinary Open License Version 1 
-# Copyright (c) 2011 AllBinary 
-#  
-# By agreeing to this license you and any business entity you represent are 
-# legally bound to the AllBinary Open License Version 1 legal agreement. 
-#  
-# You may obtain the AllBinary Open License Version 1 legal agreement from 
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
-#  
-# Created By: Travis Berthelot 
-#   
+#[
+  
+  AllBinary Open License Version 1 
+  Copyright (c) 2011 AllBinary 
+   
+  By agreeing to this license you and any business entity you represent are 
+  legally bound to the AllBinary Open License Version 1 legal agreement. 
+   
+  You may obtain the AllBinary Open License Version 1 legal agreement from 
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
+   
+  Created By: Travis Berthelot 
+    
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.input.event
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import java/lang/Integer as IntegerModule
+export IntegerModule
+import org/allbinary/game/input/PlayerGameInput as PlayerGameInputModule
+export PlayerGameInputModule
+import org/allbinary/logic/util/event/EventListenerInterface as EventListenerInterfaceModule
+export EventListenerInterfaceModule
+import org/allbinary/logic/util/event/handler/BasicEventHandler as BasicEventHandlerModule
+export BasicEventHandlerModule
+import org/allbinary/util/BasicArrayList as BasicArrayListModule
+export BasicArrayListModule
+import org/allbinary/game/input/event/GameKeyEvent as GameKeyEventModule
+export GameKeyEventModule
 
-import threading
-from org.allbinary.logic.util.event.handler.BasicEventHandler import BasicEventHandler
+type
+    DownKeyEventHandlerBase* = ref object of BasicEventHandler
+        list*: BasicArrayList
 
+proc newDownKeyEventHandlerBase*(): DownKeyEventHandlerBase
+proc initDownKeyEventHandlerBase*(this: DownKeyEventHandlerBase)
+method addListener*(this: DownKeyEventHandlerBase, playerGameInput: PlayerGameInput) {.base.}
+method removeAllListeners*(this: DownKeyEventHandlerBase)
+method removeListenerSingleThreaded*(this: DownKeyEventHandlerBase, eventListenerInterface: EventListenerInterface)
+method removeListener*(this: DownKeyEventHandlerBase, eventListenerInterface: EventListenerInterface)
+method fireEventI*(this: DownKeyEventHandlerBase, eventObject: int32) {.base.}
+method fireEventForGameKeyEvent*(this: DownKeyEventHandlerBase, eventObject: GameKeyEvent) {.base.}
+method processI*(this: DownKeyEventHandlerBase, eventObject: int32, eventListenerInterface: EventListenerInterface) {.base.}
+method processEvent*(this: DownKeyEventHandlerBase, eventObject: GameKeyEvent, eventListenerInterface: EventListenerInterface) {.base.}
+method toString*(this: DownKeyEventHandlerBase): string {.discardable.}
+import org/allbinary/logic/string/StringMaker as StringMakerModule
+export StringMakerModule
+import org/allbinary/logic/util/event/EventStrings as EventStringsModule
+export EventStringsModule
+import org/allbinary/util/BasicArrayListD as BasicArrayListDModule
+export BasicArrayListDModule
+import org/allbinary/game/input/event/DownKeyEventListenerInterface as DownKeyEventListenerInterfaceModule
+export DownKeyEventListenerInterfaceModule
 
-class DownKeyEventHandlerBase(BasicEventHandler):
-    TOTAL_LISTENERS: str = " Total PlayerGameInput Listeners: "
-    LISTENER_LABEL: str = " PlayerGameInput Listener: "
-    _lock = threading.RLock()
+var DownKeyEventHandlerBase_TOTAL_LISTENERSValue: string
+var DownKeyEventHandlerBase_TOTAL_LISTENERSSet = false
+proc TOTAL_LISTENERS*(t: typedesc[DownKeyEventHandlerBase]): string =
+    if not DownKeyEventHandlerBase_TOTAL_LISTENERSSet:
+        DownKeyEventHandlerBase_TOTAL_LISTENERSSet = true
+        DownKeyEventHandlerBase_TOTAL_LISTENERSValue = " Total PlayerGameInput Listeners: "
+    DownKeyEventHandlerBase_TOTAL_LISTENERSValue
+var DownKeyEventHandlerBase_LISTENER_LABELValue: string
+var DownKeyEventHandlerBase_LISTENER_LABELSet = false
+proc LISTENER_LABEL*(t: typedesc[DownKeyEventHandlerBase]): string =
+    if not DownKeyEventHandlerBase_LISTENER_LABELSet:
+        DownKeyEventHandlerBase_LISTENER_LABELSet = true
+        DownKeyEventHandlerBase_LISTENER_LABELValue = " PlayerGameInput Listener: "
+    DownKeyEventHandlerBase_LISTENER_LABELValue
 
-    def _init_fields(self) -> None:
-        from org.allbinary.util.BasicArrayList import BasicArrayList
-        from org.allbinary.util.BasicArrayListD import BasicArrayListD
-        self.list_: BasicArrayList = BasicArrayListD()
-    
+# Java field initializers run after the base initializer
+proc initFieldsDownKeyEventHandlerBase(this: DownKeyEventHandlerBase) =
+    this.list = newBasicArrayListD()
+    discard
 
-    def __init__(self) -> None:
-        super().__init__()
-        self._init_fields()
-    
+proc initDownKeyEventHandlerBase*(this: DownKeyEventHandlerBase) =
+        initBasicEventHandler(this)
+        this.initFieldsDownKeyEventHandlerBase()
+        discard
 
-    def addListener(self, playerGameInput: PlayerGameInput) -> None:
-        from org.allbinary.game.input.PlayerGameInput import PlayerGameInput
-        if not self.list_.contains(playerGameInput):
-            self.list_.add(playerGameInput)
-    
+proc newDownKeyEventHandlerBase*(): DownKeyEventHandlerBase =
+    result = DownKeyEventHandlerBase()
+    initDownKeyEventHandlerBase(result)
 
-    def removeAllListeners(self) -> None:
-        self.list_.clear()
-        super().removeAllListeners()
-    
+method addListener*(this: DownKeyEventHandlerBase, playerGameInput: PlayerGameInput) {.base.} =
+        if (not this.list.contains(playerGameInput)):
+            this.list.add(playerGameInput)
 
-    def removeListenerSingleThreaded(self, eventListenerInterface: EventListenerInterface) -> None:
-        from org.allbinary.logic.util.event.EventListenerInterface import EventListenerInterface
-        self.list_.remove(eventListenerInterface)
-        super().removeListenerSingleThreaded(eventListenerInterface)
-    
+method removeAllListeners*(this: DownKeyEventHandlerBase) =
+        this.list.clear()
+        procCall BasicEventHandler(this).removeAllListeners()
 
-    def removeListener(self, eventListenerInterface: EventListenerInterface) -> None:
-        with self._lock:
-            return self._removeListener_unlocked(eventListenerInterface)
+method removeListenerSingleThreaded*(this: DownKeyEventHandlerBase, eventListenerInterface: EventListenerInterface) =
+        this.list.remove(eventListenerInterface)
+        procCall BasicEventHandler(this).removeListenerSingleThreaded(eventListenerInterface)
 
-    def _removeListener_unlocked(self, eventListenerInterface: EventListenerInterface) -> None:
-        from org.allbinary.logic.util.event.EventListenerInterface import EventListenerInterface
-        self.list_.remove(eventListenerInterface)
-        super().removeListener(eventListenerInterface)
-    
+method removeListener*(this: DownKeyEventHandlerBase, eventListenerInterface: EventListenerInterface) =
+        this.list.remove(eventListenerInterface)
+        procCall BasicEventHandler(this).removeListener(eventListenerInterface)
 
-    # throws Exception
-    def fireEventI(self, eventObject: int) -> None:
-        from org.allbinary.game.input.PlayerGameInput import PlayerGameInput
-        from org.allbinary.logic.util.event.EventListenerInterface import EventListenerInterface
-        from org.allbinary.logic.util.event.EventStrings import EventStrings
-        index = self.list_.size()
-        while (index := index - 1) >= 0:
+method fireEventI*(this: DownKeyEventHandlerBase, eventObject: int32) {.base.} =
+        block:
+            var index: int32 = this.list.size()
+            while jPreDecrement(index) >= 0:
+                try:
+                    var playerGameInput: PlayerGameInput = PlayerGameInput(JObject(this.list.objectArray[index]))
+                    playerGameInput.onDownKey(eventObject)
+                except CatchableError as jcaught:
+                    let e = jToException(jcaught)
+                    this.logUtil.put(this.commonStrings.EXCEPTION, this, EventStrings.getInstance().FIRE_EVENT, e)
+        var index: int32 = 0
+        var eventListenerInterface: EventListenerInterface = nil
+        while index < this.eventListenerInterfaceList.size():
             try:
-                playerGameInput: PlayerGameInput = self.list_.objectArray[index]
-                playerGameInput.onDownKey(eventObject)
-            except Exception as e:
-                self.logUtil.put(self.commonStrings.EXCEPTION, self, EventStrings.getInstance().FIRE_EVENT, e)
-        index: int = 0
-        eventListenerInterface: EventListenerInterface = None
-        while index < self.eventListenerInterfaceList.size():
-            try:
-                eventListenerInterface = self.eventListenerInterfaceList.get(index)
-                self.processI(eventObject, eventListenerInterface)
-            except Exception as e:
-                self.logUtil.put(self.commonStrings.EXCEPTION, self, EventStrings.getInstance().FIRE_EVENT, e)
-            index += 1
-    
+                eventListenerInterface = EventListenerInterface(JObject(this.eventListenerInterfaceList.get(index)))
+                this.processI(eventObject, eventListenerInterface)
+            except CatchableError as jcaught:
+                let e = jToException(jcaught)
+                this.logUtil.put(this.commonStrings.EXCEPTION, this, EventStrings.getInstance().FIRE_EVENT, e)
+            index = index +% 1
 
-    # throws Exception
-    def fireEventForGameKeyEvent(self, eventObject: GameKeyEvent) -> None:
-        from org.allbinary.game.input.PlayerGameInput import PlayerGameInput
-        from org.allbinary.logic.util.event.EventListenerInterface import EventListenerInterface
-        from org.allbinary.logic.util.event.EventStrings import EventStrings
-        size: int = self.list_.size()
-        index = size
-        while (index := index - 1) >= 0:
+method fireEventForGameKeyEvent*(this: DownKeyEventHandlerBase, eventObject: GameKeyEvent) {.base.} =
+        let size: int32 = this.list.size()
+        block:
+            var index: int32 = size
+            while jPreDecrement(index) >= 0:
+                try:
+                    var playerGameInput: PlayerGameInput = PlayerGameInput(JObject(this.list.objectArray[index]))
+                    playerGameInput.onDownKeyEvent(eventObject)
+                except CatchableError as jcaught:
+                    let e = jToException(jcaught)
+                    this.logUtil.put(this.commonStrings.EXCEPTION, this, EventStrings.getInstance().FIRE_EVENT, e)
+        var index: int32 = 0
+        var eventListenerInterface: EventListenerInterface = nil
+        while index < this.eventListenerInterfaceList.size():
             try:
-                playerGameInput: PlayerGameInput = self.list_.objectArray[index]
-                playerGameInput.onDownKeyEvent(eventObject)
-            except Exception as e:
-                self.logUtil.put(self.commonStrings.EXCEPTION, self, EventStrings.getInstance().FIRE_EVENT, e)
-        index: int = 0
-        eventListenerInterface: EventListenerInterface = None
-        while index < self.eventListenerInterfaceList.size():
-            try:
-                eventListenerInterface = self.eventListenerInterfaceList.get(index)
-                self.processEvent(eventObject, eventListenerInterface)
-            except Exception as e:
-                self.logUtil.put(self.commonStrings.EXCEPTION, self, EventStrings.getInstance().FIRE_EVENT, e)
-            index += 1
-    
+                eventListenerInterface = EventListenerInterface(JObject(this.eventListenerInterfaceList.get(index)))
+                this.processEvent(eventObject, eventListenerInterface)
+            except CatchableError as jcaught:
+                let e = jToException(jcaught)
+                this.logUtil.put(this.commonStrings.EXCEPTION, this, EventStrings.getInstance().FIRE_EVENT, e)
+            index = index +% 1
 
-    # throws Exception
-    def processI(self, eventObject: int, eventListenerInterface: EventListenerInterface) -> None:
-        from org.allbinary.logic.util.event.EventListenerInterface import EventListenerInterface
-        downKeyEventListenerInterface: DownKeyEventListenerInterface = eventListenerInterface
+method processI*(this: DownKeyEventHandlerBase, eventObject: int32, eventListenerInterface: EventListenerInterface) {.base.} =
+        let downKeyEventListenerInterface: DownKeyEventListenerInterface = DownKeyEventListenerInterface(JObject(eventListenerInterface))
         downKeyEventListenerInterface.onDownKey(eventObject)
-    
 
-    # throws Exception
-    def processEvent(self, eventObject: GameKeyEvent, eventListenerInterface: EventListenerInterface) -> None:
-        from org.allbinary.logic.util.event.EventListenerInterface import EventListenerInterface
-        downKeyEventListenerInterface: DownKeyEventListenerInterface = eventListenerInterface
+method processEvent*(this: DownKeyEventHandlerBase, eventObject: GameKeyEvent, eventListenerInterface: EventListenerInterface) {.base.} =
+        let downKeyEventListenerInterface: DownKeyEventListenerInterface = DownKeyEventListenerInterface(JObject(eventListenerInterface))
         downKeyEventListenerInterface.onDownKeyEvent(eventObject)
-    
 
-    def toString(self) -> str:
-        from org.allbinary.logic.string.StringMaker import StringMaker
-        from org.allbinary.logic.util.event.EventListenerInterface import EventListenerInterface
-        stringBuffer: StringMaker = StringMaker()
-        stringBuffer.append(str(super()))
+method toString*(this: DownKeyEventHandlerBase): string {.discardable.} =
+        let stringBuffer: StringMaker = newStringMaker()
+        stringBuffer.append(procCall BasicEventHandler(this).toString())
         stringBuffer.append(DownKeyEventHandlerBase.TOTAL_LISTENERS)
-        stringBuffer.appendint(self.list_.size())
-        eventListenerInterface: EventListenerInterface = None
-        for index in range(0, self.list_.size()):
-            try:
-                eventListenerInterface = self.list_.get(index)
-                stringBuffer.append(DownKeyEventHandlerBase.LISTENER_LABEL)
-                stringBuffer.append(str(eventListenerInterface))
-            except Exception as e:
-                self.logUtil.put(self.commonStrings.EXCEPTION, self, self.commonStrings.TOSTRING, e)
-        return str(stringBuffer)
+        stringBuffer.appendint(this.list.size())
+        var eventListenerInterface: EventListenerInterface = nil
+        block:
+            var index: int32 = 0
+            while index < this.list.size():
+                defer: index = index +% 1
+                try:
+                    eventListenerInterface = EventListenerInterface(JObject(this.list.get(index)))
+                    stringBuffer.append(DownKeyEventHandlerBase.LISTENER_LABEL)
+                    stringBuffer.append(eventListenerInterface.toString())
+                except CatchableError as jcaught:
+                    let e = jToException(jcaught)
+                    this.logUtil.put(this.commonStrings.EXCEPTION, this, this.commonStrings.TOSTRING, e)
+        return stringBuffer.toString()
 
-    def __str__(self) -> str:
-        return self.toString()
-# from org.allbinary.game.input.PlayerGameInput import PlayerGameInput
-# from org.allbinary.logic.string.StringMaker import StringMaker
-# from org.allbinary.logic.util.event.EventListenerInterface import EventListenerInterface
-# from org.allbinary.logic.util.event.EventStrings import EventStrings
-# from org.allbinary.util.BasicArrayList import BasicArrayList
-# from org.allbinary.util.BasicArrayListD import BasicArrayListD
-
+when declared(newDownKeyEventHandlerBaseHook0):
+    newDownKeyEventHandlerBaseHook0 = proc (): BasicEventHandler = newDownKeyEventHandlerBase()
 

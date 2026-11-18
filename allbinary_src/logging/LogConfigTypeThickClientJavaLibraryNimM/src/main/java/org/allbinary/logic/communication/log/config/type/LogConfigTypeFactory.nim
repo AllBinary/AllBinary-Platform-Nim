@@ -1,54 +1,73 @@
-# 
-# AllBinary Open License Version 1 
-# Copyright (c) 2022 AllBinary 
-#  
-# By agreeing to this license you and any business entity you represent are 
-# legally bound to the AllBinary Open License Version 1 legal agreement. 
-#  
-# You may obtain the AllBinary Open License Version 1 legal agreement from 
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
-#  
-# Created By: Travis Berthelot 
-#   
+#[
+  
+  AllBinary Open License Version 1 
+  Copyright (c) 2022 AllBinary 
+   
+  By agreeing to this license you and any business entity you represent are 
+  legally bound to the AllBinary Open License Version 1 legal agreement. 
+   
+  You may obtain the AllBinary Open License Version 1 legal agreement from 
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
+   
+  Created By: Travis Berthelot 
+    
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.logic.communication.log.config.type
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/logic/communication/log/config/type/LogConfigType as LogConfigTypeModule
+export LogConfigTypeModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    LogConfigTypeFactory* = ref object of JObject
+        NO_DESCRIPTION*: string
+        OS*: LogConfigType
+        FACTORYERROR*: LogConfigType
+        FILE*: LogConfigType
+        FILEERROR*: LogConfigType
+        IDLOGGING*: LogConfigType
+        REPLACE*: LogConfigType
+        REPLACE_INFO*: LogConfigType
+        REPLACEERROR*: LogConfigType
 
+proc newLogConfigTypeFactory*(): LogConfigTypeFactory
+proc initLogConfigTypeFactory*(this: LogConfigTypeFactory)
+proc getInstance*(t: typedesc[LogConfigTypeFactory]): LogConfigTypeFactory {.discardable.}
+import org/allbinary/logic/communication/log/config/type/LogConfigTypes as LogConfigTypesModule
+export LogConfigTypesModule
 
-class LogConfigTypeFactory:
-    instance: LogConfigTypeFactory = None
+var LogConfigTypeFactory_instanceValue: LogConfigTypeFactory
+var LogConfigTypeFactory_instanceSet = false
+proc instance*(t: typedesc[LogConfigTypeFactory]): LogConfigTypeFactory =
+    if not LogConfigTypeFactory_instanceSet:
+        LogConfigTypeFactory_instanceSet = true
+        LogConfigTypeFactory_instanceValue = newLogConfigTypeFactory()
+    LogConfigTypeFactory_instanceValue
 
-    def _init_fields(self) -> None:
-        self.NO_DESCRIPTION: str = "No Description"
-        self.OS: LogConfigType = LogConfigType("Operating System", self.NO_DESCRIPTION)
-        self.FACTORYERROR: LogConfigType = LogConfigType("Factory Error", self.NO_DESCRIPTION)
-        self.FILE: LogConfigType = LogConfigType("File", self.NO_DESCRIPTION)
-        self.FILEERROR: LogConfigType = LogConfigType("File Error", self.NO_DESCRIPTION)
-        self.IDLOGGING: LogConfigType = LogConfigType("ID Logging", self.NO_DESCRIPTION)
-        self.REPLACE: LogConfigType = LogConfigType("Replace", self.NO_DESCRIPTION)
-        self.REPLACE_INFO: LogConfigType = LogConfigType("Replace Info", self.NO_DESCRIPTION)
-        self.REPLACEERROR: LogConfigType = LogConfigType("Replace Error", self.NO_DESCRIPTION)
-    
+# Java field initializers run after the base initializer
+proc initFieldsLogConfigTypeFactory(this: LogConfigTypeFactory) =
+    this.NO_DESCRIPTION = "No Description"
+    this.OS = newLogConfigType("Operating System", this.NO_DESCRIPTION)
+    this.FACTORYERROR = newLogConfigType("Factory Error", this.NO_DESCRIPTION)
+    this.FILE = newLogConfigType("File", this.NO_DESCRIPTION)
+    this.FILEERROR = newLogConfigType("File Error", this.NO_DESCRIPTION)
+    this.IDLOGGING = newLogConfigType("ID Logging", this.NO_DESCRIPTION)
+    this.REPLACE = newLogConfigType("Replace", this.NO_DESCRIPTION)
+    this.REPLACE_INFO = newLogConfigType("Replace Info", this.NO_DESCRIPTION)
+    this.REPLACEERROR = newLogConfigType("Replace Error", this.NO_DESCRIPTION)
+    discard
 
-    @staticmethod
-    def getInstance() -> LogConfigTypeFactory:
+proc getInstance*(t: typedesc[LogConfigTypeFactory]): LogConfigTypeFactory {.discardable.} =
         return LogConfigTypeFactory.instance
-    
 
-    def __init__(self) -> None:
-        from org.allbinary.logic.communication.log.config.type.LogConfigTypes import LogConfigTypes
-        from org.allbinary.logic.communication.log.config.type.LogConfigTypes import LogConfigTypes
-        self._init_fields()
-        LogConfigTypes.LOGGING.add(self.OS)
-        LogConfigTypes.LOGGING.add(self.FACTORYERROR)
-from org.allbinary.logic.communication.log.config.type.LogConfigType import LogConfigType
+proc initLogConfigTypeFactory*(this: LogConfigTypeFactory) =
+        this.initFieldsLogConfigTypeFactory()
+        LogConfigTypes.LOGGING.add(this.OS)
+        LogConfigTypes.LOGGING.add(this.FACTORYERROR)
 
-
-def _LogConfigTypeFactory_instance() -> object:
-    return LogConfigTypeFactory()
-
-lazy_static(LogConfigTypeFactory, "instance", _LogConfigTypeFactory_instance)
+proc newLogConfigTypeFactory*(): LogConfigTypeFactory =
+    result = LogConfigTypeFactory()
+    initLogConfigTypeFactory(result)
 

@@ -1,27 +1,39 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.graphics.displayable.event
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/logic/util/event/AllBinaryEventObject as AllBinaryEventObjectModule
+export AllBinaryEventObjectModule
 
-from org.allbinary.logic.util.event.AllBinaryEventObject import AllBinaryEventObject
+type
+    DisplayChangeEvent* = ref object of AllBinaryEventObject
+
+proc newDisplayChangeEvent*(anyType: JObject): DisplayChangeEvent
+proc initDisplayChangeEvent*(this: DisplayChangeEvent, anyType: JObject)
 
 
-class DisplayChangeEvent(AllBinaryEventObject):
-    
+proc initDisplayChangeEvent*(this: DisplayChangeEvent, anyType: JObject) =
+        initAllBinaryEventObject(this, anyType)
 
-    def __init__(self, anyType: object) -> None:
-        super().__init__(anyType)
+proc newDisplayChangeEvent*(anyType: JObject): DisplayChangeEvent =
+    result = DisplayChangeEvent()
+    initDisplayChangeEvent(result, anyType)
 
+when declared(newDisplayChangeEventHook1):
+    newDisplayChangeEventHook1 = proc (anyType: JObject): AllBinaryEventObject = newDisplayChangeEvent(anyType)
 

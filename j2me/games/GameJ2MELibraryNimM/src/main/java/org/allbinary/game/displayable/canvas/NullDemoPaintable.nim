@@ -1,34 +1,46 @@
-# 
-# AllBinary Open License Version 1 
-# Copyright (c) 2025 AllBinary 
-#  
-# By agreeing to this license you and any business entity you represent are 
-# legally bound to the AllBinary Open License Version 1 legal agreement. 
-#  
-# You may obtain the AllBinary Open License Version 1 legal agreement from 
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
-#  
-# Created By: Travis Berthelot 
-#   
+#[
+  
+  AllBinary Open License Version 1 
+  Copyright (c) 2025 AllBinary 
+   
+  By agreeing to this license you and any business entity you represent are 
+  legally bound to the AllBinary Open License Version 1 legal agreement. 
+   
+  You may obtain the AllBinary Open License Version 1 legal agreement from 
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
+   
+  Created By: Travis Berthelot 
+    
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.displayable.canvas
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/game/displayable/canvas/DemoPaintableInterface as DemoPaintableInterfaceModule
+export DemoPaintableInterfaceModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
-from org.allbinary.game.displayable.canvas.DemoPaintableInterface import DemoPaintableInterface
+type
+    NullDemoPaintable* = ref object of DemoPaintableInterface
 
+proc newNullDemoPaintable*(): NullDemoPaintable
+method showGamePaintable*(this: NullDemoPaintable)
 
-class NullDemoPaintable(DemoPaintableInterface):
-    NULL_DEMO_PAINTABLE: NullDemoPaintable = None
-    
+var NullDemoPaintable_NULL_DEMO_PAINTABLEValue: NullDemoPaintable
+var NullDemoPaintable_NULL_DEMO_PAINTABLESet = false
+proc NULL_DEMO_PAINTABLEStatic*(t: typedesc[NullDemoPaintable]): NullDemoPaintable =
+    if not NullDemoPaintable_NULL_DEMO_PAINTABLESet:
+        NullDemoPaintable_NULL_DEMO_PAINTABLESet = true
+        NullDemoPaintable_NULL_DEMO_PAINTABLEValue = newNullDemoPaintable()
+    NullDemoPaintable_NULL_DEMO_PAINTABLEValue
 
-    def showGamePaintable(self) -> None:
-        pass
+proc initNullDemoPaintable*(this: NullDemoPaintable) =
+    discard
 
+proc newNullDemoPaintable*(): NullDemoPaintable =
+    result = NullDemoPaintable()
+    initNullDemoPaintable(result)
 
-def _NullDemoPaintable_NULL_DEMO_PAINTABLE() -> object:
-    return NullDemoPaintable()
-
-lazy_static(NullDemoPaintable, "NULL_DEMO_PAINTABLE", _NullDemoPaintable_NULL_DEMO_PAINTABLE)
+method showGamePaintable*(this: NullDemoPaintable) =
+        discard
 

@@ -1,55 +1,62 @@
-# 
-# AllBinary Open License Version 1 
-# Copyright (c) 2022 AllBinary 
-#  
-# By agreeing to this license you and any business entity you represent are 
-# legally bound to the AllBinary Open License Version 1 legal agreement. 
-#  
-# You may obtain the AllBinary Open License Version 1 legal agreement from 
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
-#  
-# Created By: Travis Berthelot 
-#   
+#[
+  
+  AllBinary Open License Version 1 
+  Copyright (c) 2022 AllBinary 
+   
+  By agreeing to this license you and any business entity you represent are 
+  legally bound to the AllBinary Open License Version 1 legal agreement. 
+   
+  You may obtain the AllBinary Open License Version 1 legal agreement from 
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
+   
+  Created By: Travis Berthelot 
+    
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.image.opengles
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import javax/microedition/khronos/opengles/GL10 as GL10Module
+export GL10Module
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    OpenGLESImageProcessor* = ref object of JObject
 
+proc newOpenGLESImageProcessor*(): OpenGLESImageProcessor
+proc getInstance*(t: typedesc[OpenGLESImageProcessor]): OpenGLESImageProcessor {.discardable.}
+method translate*(this: OpenGLESImageProcessor, gl: GL10, translateX: float32, translateY: float32) {.base.}
+method rotate*(this: OpenGLESImageProcessor, gl: GL10, angle: float32) {.base.}
+method scale*(this: OpenGLESImageProcessor, gl: GL10, scaleX: float32, scaleY: float32) {.base.}
+method colorMask*(this: OpenGLESImageProcessor, gl: GL10, red: float32, green: float32, blue: float32, alpha: float32) {.base.}
 
-class OpenGLESImageProcessor:
-    instance: OpenGLESImageProcessor = None
-    
+var OpenGLESImageProcessor_instanceValue: OpenGLESImageProcessor
+var OpenGLESImageProcessor_instanceSet = false
+proc instance*(t: typedesc[OpenGLESImageProcessor]): OpenGLESImageProcessor =
+    if not OpenGLESImageProcessor_instanceSet:
+        OpenGLESImageProcessor_instanceSet = true
+        OpenGLESImageProcessor_instanceValue = newOpenGLESImageProcessor()
+    OpenGLESImageProcessor_instanceValue
 
-    @staticmethod
-    def getInstance() -> OpenGLESImageProcessor:
+proc initOpenGLESImageProcessor*(this: OpenGLESImageProcessor) =
+    discard
+
+proc newOpenGLESImageProcessor*(): OpenGLESImageProcessor =
+    result = OpenGLESImageProcessor()
+    initOpenGLESImageProcessor(result)
+
+proc getInstance*(t: typedesc[OpenGLESImageProcessor]): OpenGLESImageProcessor {.discardable.} =
         return OpenGLESImageProcessor.instance
-    
 
-    def translate(self, gl: GL10, translateX: float, translateY: float) -> None:
-        from javax.microedition.khronos.opengles.GL10 import GL10
-        pass
-    
+method translate*(this: OpenGLESImageProcessor, gl: GL10, translateX: float32, translateY: float32) {.base.} =
+        discard
 
-    def rotate(self, gl: GL10, angle: float) -> None:
-        from javax.microedition.khronos.opengles.GL10 import GL10
-        pass
-    
+method rotate*(this: OpenGLESImageProcessor, gl: GL10, angle: float32) {.base.} =
+        discard
 
-    def scale(self, gl: GL10, scaleX: float, scaleY: float) -> None:
-        from javax.microedition.khronos.opengles.GL10 import GL10
-        pass
-    
+method scale*(this: OpenGLESImageProcessor, gl: GL10, scaleX: float32, scaleY: float32) {.base.} =
+        discard
 
-    def colorMask(self, gl: GL10, red: float, green: float, blue: float, alpha: float) -> None:
-        from javax.microedition.khronos.opengles.GL10 import GL10
-        pass
-# from javax.microedition.khronos.opengles.GL10 import GL10
-
-
-def _OpenGLESImageProcessor_instance() -> object:
-    return OpenGLESImageProcessor()
-
-lazy_static(OpenGLESImageProcessor, "instance", _OpenGLESImageProcessor_instance)
+method colorMask*(this: OpenGLESImageProcessor, gl: GL10, red: float32, green: float32, blue: float32, alpha: float32) {.base.} =
+        discard
 

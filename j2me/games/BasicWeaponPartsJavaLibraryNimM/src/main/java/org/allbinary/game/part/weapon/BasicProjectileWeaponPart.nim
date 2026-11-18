@@ -1,69 +1,74 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.part.weapon
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/animation/Animation as AnimationModule
+export AnimationModule
+import org/allbinary/game/combat/weapon/WeaponProperties as WeaponPropertiesModule
+export WeaponPropertiesModule
+import org/allbinary/game/layer/weapon/WeaponLayerCircularPool as WeaponLayerCircularPoolModule
+export WeaponLayerCircularPoolModule
+import org/allbinary/game/score/ScoreableInterface as ScoreableInterfaceModule
+export ScoreableInterfaceModule
+import org/allbinary/graphics/RelativeRelationship as RelativeRelationshipModule
+export RelativeRelationshipModule
+import org/allbinary/layer/AllBinaryLayer as AllBinaryLayerModule
+export AllBinaryLayerModule
+import org/allbinary/layer/AllBinaryLayerManager as AllBinaryLayerManagerModule
+export AllBinaryLayerManagerModule
+import org/allbinary/game/part/weapon/BasicWeaponPart as BasicWeaponPartModule
+export BasicWeaponPartModule
 
-from org.allbinary.game.part.weapon.BasicWeaponPart import BasicWeaponPart
+type
+    BasicProjectileWeaponPart* = ref object of BasicWeaponPart
+        weaponLayerCircularStaticPool*: WeaponLayerCircularPool
+
+proc newBasicProjectileWeaponPart*(animationInterface: Animation, sourceLayerInterface: AllBinaryLayer, weaponLayerCircularStaticPool: WeaponLayerCircularPool, weaponProperties: WeaponProperties, scoreableInterface: ScoreableInterface, relativeRelationship: RelativeRelationship): BasicProjectileWeaponPart
+proc initBasicProjectileWeaponPart*(this: BasicProjectileWeaponPart, animationInterface: Animation, sourceLayerInterface: AllBinaryLayer, weaponLayerCircularStaticPool: WeaponLayerCircularPool, weaponProperties: WeaponProperties, scoreableInterface: ScoreableInterface, relativeRelationship: RelativeRelationship)
+proc createBasicProjectileWeaponPart*(t: typedesc[BasicProjectileWeaponPart], animationInterface: Animation, weaponLayerCircularStaticPool: WeaponLayerCircularPool): BasicProjectileWeaponPart {.discardable.}
+method processScore*(this: BasicProjectileWeaponPart, allbinaryLayerManager: AllBinaryLayerManager, angle: int16, otherAngle: int16, weaponProperties: WeaponProperties, scoreableInterface: ScoreableInterface)
+import org/allbinary/game/layer/weapon/WeaponLayer as WeaponLayerModule
+export WeaponLayerModule
+import org/allbinary/game/score/NoScoreable as NoScoreableModule
+export NoScoreableModule
 
 
-class BasicProjectileWeaponPart(BasicWeaponPart):
-
-    def _init_fields(self) -> None:
-        from org.allbinary.game.layer.weapon.WeaponLayerCircularPool import WeaponLayerCircularPool
-        self.weaponLayerCircularStaticPool: WeaponLayerCircularPool = None
+# Java field initializers run after the base initializer
+proc initFieldsBasicProjectileWeaponPart(this: BasicProjectileWeaponPart) =
     
+    discard
 
-    @staticmethod
-    def createBasicProjectileWeaponPart(animationInterface: Animation, weaponLayerCircularStaticPool: WeaponLayerCircularPool) -> BasicProjectileWeaponPart:
-        from org.allbinary.animation.Animation import Animation
-        from org.allbinary.game.combat.weapon.WeaponProperties import WeaponProperties
-        from org.allbinary.game.layer.weapon.WeaponLayerCircularPool import WeaponLayerCircularPool
-        from org.allbinary.game.score.NoScoreable import NoScoreable
-        from org.allbinary.graphics.RelativeRelationship import RelativeRelationship
-        from org.allbinary.layer.AllBinaryLayer import AllBinaryLayer
-        return BasicProjectileWeaponPart(animationInterface, AllBinaryLayer.NULL_ALLBINARY_LAYER, weaponLayerCircularStaticPool, WeaponProperties.NULL_WEAPON_PROPERTIES, NoScoreable.getInstance(), RelativeRelationship.NULL_RELATIVE_RELATIONSHIP)
-    
+proc createBasicProjectileWeaponPart*(t: typedesc[BasicProjectileWeaponPart], animationInterface: Animation, weaponLayerCircularStaticPool: WeaponLayerCircularPool): BasicProjectileWeaponPart {.discardable.} =
+        return newBasicProjectileWeaponPart(animationInterface, AllBinaryLayer.NULL_ALLBINARY_LAYER, weaponLayerCircularStaticPool, WeaponProperties.NULL_WEAPON_PROPERTIES, NoScoreable.getInstance(), RelativeRelationship.NULL_RELATIVE_RELATIONSHIP)
 
-    def __init__(self, animationInterface: Animation, sourceLayerInterface: AllBinaryLayer, weaponLayerCircularStaticPool: WeaponLayerCircularPool, weaponProperties: WeaponProperties, scoreableInterface: ScoreableInterface, relativeRelationship: RelativeRelationship) -> None:
-        from org.allbinary.animation.Animation import Animation
-        from org.allbinary.game.combat.weapon.WeaponProperties import WeaponProperties
-        from org.allbinary.game.layer.weapon.WeaponLayerCircularPool import WeaponLayerCircularPool
-        from org.allbinary.game.score.ScoreableInterface import ScoreableInterface
-        from org.allbinary.graphics.RelativeRelationship import RelativeRelationship
-        from org.allbinary.layer.AllBinaryLayer import AllBinaryLayer
-        super().__init__(animationInterface, sourceLayerInterface, weaponProperties, scoreableInterface, relativeRelationship)
-        self._init_fields()
-        self.weaponLayerCircularStaticPool = weaponLayerCircularStaticPool
-    
+proc initBasicProjectileWeaponPart*(this: BasicProjectileWeaponPart, animationInterface: Animation, sourceLayerInterface: AllBinaryLayer, weaponLayerCircularStaticPool: WeaponLayerCircularPool, weaponProperties: WeaponProperties, scoreableInterface: ScoreableInterface, relativeRelationship: RelativeRelationship) =
+        initBasicWeaponPart(this, animationInterface, sourceLayerInterface, weaponProperties, scoreableInterface, relativeRelationship)
+        this.initFieldsBasicProjectileWeaponPart()
+        this.weaponLayerCircularStaticPool = weaponLayerCircularStaticPool
 
-    # throws Exception
-    def processScore(self, allbinaryLayerManager: AllBinaryLayerManager, angle: int, otherAngle: int, weaponProperties: WeaponProperties, scoreableInterface: ScoreableInterface) -> None:
-        from org.allbinary.game.combat.weapon.WeaponProperties import WeaponProperties
-        from org.allbinary.game.layer.weapon.WeaponLayer import WeaponLayer
-        from org.allbinary.game.score.ScoreableInterface import ScoreableInterface
-        from org.allbinary.layer.AllBinaryLayerManager import AllBinaryLayerManager
-        weaponLayer: WeaponLayer = self.weaponLayerCircularStaticPool.getInstanceWeaponLayer(self.getOwnerLayerInterface(), self.relativeRelationship.getX(), self.relativeRelationship.getY(), self.relativeRelationship.getZ(), angle, otherAngle, weaponProperties, scoreableInterface)
+proc newBasicProjectileWeaponPart*(animationInterface: Animation, sourceLayerInterface: AllBinaryLayer, weaponLayerCircularStaticPool: WeaponLayerCircularPool, weaponProperties: WeaponProperties, scoreableInterface: ScoreableInterface, relativeRelationship: RelativeRelationship): BasicProjectileWeaponPart =
+    result = BasicProjectileWeaponPart()
+    initBasicProjectileWeaponPart(result, animationInterface, sourceLayerInterface, weaponLayerCircularStaticPool, weaponProperties, scoreableInterface, relativeRelationship)
+
+method processScore*(this: BasicProjectileWeaponPart, allbinaryLayerManager: AllBinaryLayerManager, angle: int16, otherAngle: int16, weaponProperties: WeaponProperties, scoreableInterface: ScoreableInterface) =
+        let weaponLayer: WeaponLayer = this.weaponLayerCircularStaticPool.getInstanceWeaponLayer(this.getOwnerLayerInterface(), this.relativeRelationship.getX(), this.relativeRelationship.getY(), this.relativeRelationship.getZ(), int32(angle), int32(otherAngle), weaponProperties, scoreableInterface)
         allbinaryLayerManager.append(weaponLayer)
-# from org.allbinary.animation.Animation import Animation
-# from org.allbinary.game.combat.weapon.WeaponProperties import WeaponProperties
-# from org.allbinary.game.layer.weapon.WeaponLayer import WeaponLayer
-# from org.allbinary.game.layer.weapon.WeaponLayerCircularPool import WeaponLayerCircularPool
-# from org.allbinary.game.score.NoScoreable import NoScoreable
-# from org.allbinary.game.score.ScoreableInterface import ScoreableInterface
-# from org.allbinary.graphics.RelativeRelationship import RelativeRelationship
-# from org.allbinary.layer.AllBinaryLayer import AllBinaryLayer
-# from org.allbinary.layer.AllBinaryLayerManager import AllBinaryLayerManager
 
+when declared(newBasicProjectileWeaponPartHook6):
+    newBasicProjectileWeaponPartHook6 = proc (animationInterface: Animation, sourceLayerInterface: AllBinaryLayer, weaponLayerCircularStaticPool: WeaponLayerCircularPool, weaponProperties: WeaponProperties, scoreableInterface: ScoreableInterface, relativeRelationship: RelativeRelationship): BasicWeaponPart = newBasicProjectileWeaponPart(animationInterface, sourceLayerInterface, weaponLayerCircularStaticPool, weaponProperties, scoreableInterface, relativeRelationship)
 

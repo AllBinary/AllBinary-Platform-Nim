@@ -1,111 +1,137 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.input.motion.button
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/game/input/CompleteMotionGestureInputEvent as CompleteMotionGestureInputEventModule
+export CompleteMotionGestureInputEventModule
+import org/allbinary/game/input/CompleteMotionGestureInputEventListenerInterface as CompleteMotionGestureInputEventListenerInterfaceModule
+export CompleteMotionGestureInputEventListenerInterfaceModule
+import org/allbinary/game/input/mapping/InputMappingInterface as InputMappingInterfaceModule
+export InputMappingInterfaceModule
+import org/allbinary/graphics/color/BasicColor as BasicColorModule
+export BasicColorModule
+import org/allbinary/graphics/paint/ProcessPaintable as ProcessPaintableModule
+export ProcessPaintableModule
+import org/allbinary/logic/communication/log/LogUtil as LogUtilModule
+export LogUtilModule
+import org/allbinary/logic/util/event/AllBinaryEventObject as AllBinaryEventObjectModule
+export AllBinaryEventObjectModule
+import org/allbinary/string/CommonStrings as CommonStringsModule
+export CommonStringsModule
+import org/allbinary/time/TimeDelayHelper as TimeDelayHelperModule
+export TimeDelayHelperModule
+import org/allbinary/input/motion/button/TouchButtonsMappingPaintable as TouchButtonsMappingPaintableModule
+export TouchButtonsMappingPaintableModule
 
-from org.allbinary.game.input.CompleteMotionGestureInputEventListenerInterface import CompleteMotionGestureInputEventListenerInterface
-from org.allbinary.graphics.paint.ProcessPaintable import ProcessPaintable
+type
+    TouchButtonsPaintableComposite* = ref object of ProcessPaintable
+        logUtil*: LogUtil
+        commonStrings*: CommonStrings
+        inputMappingInterface*: InputMappingInterface
+        touchButtonsPaintable*: TouchButtonsMappingPaintable
+        timeHelper*: TimeDelayHelper
+        released*: bool
+        METHOD_NAME*: string
+        RELEASE*: string
+        FAST_REPEAT*: string
+        IGNORE*: string
+
+converter jAsCompleteMotionGestureInputEventListenerInterface*(value: TouchButtonsPaintableComposite): CompleteMotionGestureInputEventListenerInterface = cast[CompleteMotionGestureInputEventListenerInterface](value)
+proc newTouchButtonsPaintableComposite*(inputMappingInterface: InputMappingInterface, basicColor: BasicColor): TouchButtonsPaintableComposite
+proc initTouchButtonsPaintableComposite*(this: TouchButtonsPaintableComposite, inputMappingInterface: InputMappingInterface, basicColor: BasicColor)
+method onEvent*(this: TouchButtonsPaintableComposite, eventObject: AllBinaryEventObject)
+method onCompleteMotionGestureInputEvent*(this: TouchButtonsPaintableComposite, completeMotionGestureInputEvent: CompleteMotionGestureInputEvent)
+method process*(this: TouchButtonsPaintableComposite)
+import org/allbinary/game/input/CompleteMotionGestureInputEventHandler as CompleteMotionGestureInputEventHandlerModule
+export CompleteMotionGestureInputEventHandlerModule
+import org/allbinary/game/input/GameKey as GameKeyModule
+export GameKeyModule
+import org/allbinary/game/input/motion/action/GameKeyCompleteMotionGestureInputEvent as GameKeyCompleteMotionGestureInputEventModule
+export GameKeyCompleteMotionGestureInputEventModule
+import org/allbinary/input/motion/gesture/MotionGestureInput as MotionGestureInputModule
+export MotionGestureInputModule
+import org/allbinary/input/motion/gesture/TouchMotionGestureFactory as TouchMotionGestureFactoryModule
+export TouchMotionGestureFactoryModule
+import org/allbinary/logic/communication/log/ForcedLogUtil as ForcedLogUtilModule
+export ForcedLogUtilModule
+import org/allbinary/logic/string/StringMaker as StringMakerModule
+export StringMakerModule
+import org/allbinary/logic/string/StringUtil as StringUtilModule
+export StringUtilModule
+import org/allbinary/logic/util/event/EventStrings as EventStringsModule
+export EventStringsModule
 
 
-class TouchButtonsPaintableComposite(ProcessPaintable, CompleteMotionGestureInputEventListenerInterface):
-
-    def _init_fields(self) -> None:
-        from org.allbinary.game.input.mapping.InputMappingInterface import InputMappingInterface
-        from org.allbinary.logic.communication.log.LogUtil import LogUtil
-        from org.allbinary.string.CommonStrings import CommonStrings
-        from org.allbinary.time.TimeDelayHelper import TimeDelayHelper
-        self.logUtil: LogUtil = LogUtil.getInstance()
-        self.commonStrings: CommonStrings = CommonStrings.getInstance()
-        self.inputMappingInterface: InputMappingInterface = None
-        self.touchButtonsPaintable: TouchButtonsMappingPaintable = None
-        self.timeHelper: TimeDelayHelper = TimeDelayHelper(250)
-        self.released: bool = True
-        self.METHOD_NAME: str = "onCompleteMotionGestureInputEvent"
-        self.RELEASE: str = "Ignoring: MotionGestureInput Release"
-        self.FAST_REPEAT: str = "Ignoring: MotionGestureInput Repeated To Quickly"
-        self.IGNORE: str = "Ignoring: Until Released"
+# Java field initializers run after the base initializer
+proc initFieldsTouchButtonsPaintableComposite(this: TouchButtonsPaintableComposite) =
+    this.logUtil = LogUtil.getInstance()
+    this.commonStrings = CommonStrings.getInstance()
     
-
-    def __init__(self, inputMappingInterface: InputMappingInterface, basicColor: BasicColor) -> None:
-        from org.allbinary.input.motion.button.TouchButtonsMappingPaintable import TouchButtonsMappingPaintable
-        from org.allbinary.game.input.CompleteMotionGestureInputEventHandler import CompleteMotionGestureInputEventHandler
-        from org.allbinary.game.input.mapping.InputMappingInterface import InputMappingInterface
-        from org.allbinary.graphics.color.BasicColor import BasicColor
-        super().__init__()
-        self._init_fields()
-        self.inputMappingInterface = inputMappingInterface
-        CompleteMotionGestureInputEventHandler.getInstance().addListenerInterface(self)
-        self.touchButtonsPaintable = TouchButtonsMappingPaintable(basicColor)
     
+    this.timeHelper = newTimeDelayHelper(250)
+    this.released = true
+    this.METHOD_NAME = "onCompleteMotionGestureInputEvent"
+    this.RELEASE = "Ignoring: MotionGestureInput Release"
+    this.FAST_REPEAT = "Ignoring: MotionGestureInput Repeated To Quickly"
+    this.IGNORE = "Ignoring: Until Released"
+    discard
 
-    def onEvent(self, eventObject: AllBinaryEventObject) -> None:
-        from org.allbinary.logic.communication.log.ForcedLogUtil import ForcedLogUtil
-        from org.allbinary.logic.util.event.AllBinaryEventObject import AllBinaryEventObject
-        from org.allbinary.logic.util.event.EventStrings import EventStrings
-        ForcedLogUtil.log(EventStrings.getInstance().PERFORMANCE_MESSAGE, self)
-    
+proc initTouchButtonsPaintableComposite*(this: TouchButtonsPaintableComposite, inputMappingInterface: InputMappingInterface, basicColor: BasicColor) =
+        initProcessPaintable(this)
+        this.initFieldsTouchButtonsPaintableComposite()
+        this.inputMappingInterface = inputMappingInterface
+        CompleteMotionGestureInputEventHandler.getInstance().addListenerInterface(this)
+        this.touchButtonsPaintable = newTouchButtonsMappingPaintable(basicColor)
 
-    def onCompleteMotionGestureInputEvent(self, completeMotionGestureInputEvent: CompleteMotionGestureInputEvent) -> None:
-        from org.allbinary.game.input.CompleteMotionGestureInputEvent import CompleteMotionGestureInputEvent
-        from org.allbinary.game.input.GameKey import GameKey
-        from org.allbinary.game.input.motion.action.GameKeyCompleteMotionGestureInputEvent import GameKeyCompleteMotionGestureInputEvent
-        from org.allbinary.input.motion.gesture.MotionGestureInput import MotionGestureInput
-        from org.allbinary.input.motion.gesture.TouchMotionGestureFactory import TouchMotionGestureFactory
-        from org.allbinary.logic.string.StringMaker import StringMaker
-        from org.allbinary.logic.string.StringUtil import StringUtil
+proc newTouchButtonsPaintableComposite*(inputMappingInterface: InputMappingInterface, basicColor: BasicColor): TouchButtonsPaintableComposite =
+    result = TouchButtonsPaintableComposite()
+    initTouchButtonsPaintableComposite(result, inputMappingInterface, basicColor)
+
+method onEvent*(this: TouchButtonsPaintableComposite, eventObject: AllBinaryEventObject) =
+        ForcedLogUtil.log(EventStrings.getInstance().PERFORMANCE_MESSAGE, this)
+
+method onCompleteMotionGestureInputEvent*(this: TouchButtonsPaintableComposite, completeMotionGestureInputEvent: CompleteMotionGestureInputEvent) =
         try:
-            self.logUtil.putF(self.commonStrings.START, self, "onCompleteMotionGestureInputEvent")
-            touchMotionGestureFactory: TouchMotionGestureFactory = TouchMotionGestureFactory.getInstance()
-            gameKeyCompleteMotionGestureInputEvent: GameKeyCompleteMotionGestureInputEvent = completeMotionGestureInputEvent
-            gameKey: GameKey = gameKeyCompleteMotionGestureInputEvent.getGameKey()
-            motionGestureInput: MotionGestureInput = completeMotionGestureInputEvent.getMotionGestureInput()
+            this.logUtil.putF(this.commonStrings.START, this, "onCompleteMotionGestureInputEvent")
+            let touchMotionGestureFactory: TouchMotionGestureFactory = TouchMotionGestureFactory.getInstance()
+            let gameKeyCompleteMotionGestureInputEvent: GameKeyCompleteMotionGestureInputEvent = GameKeyCompleteMotionGestureInputEvent(JObject(completeMotionGestureInputEvent))
+            let gameKey: GameKey = gameKeyCompleteMotionGestureInputEvent.getGameKey()
+            let motionGestureInput: MotionGestureInput = completeMotionGestureInputEvent.getMotionGestureInput()
             if motionGestureInput == touchMotionGestureFactory.RELEASED:
-                self.logUtil.putF(self.RELEASE, self, self.METHOD_NAME)
-                self.released = True
+                this.logUtil.putF(this.RELEASE, this, this.METHOD_NAME)
+                this.released = true
                 return
-            if motionGestureInput == TouchMotionGestureFactory.getInstance().NO_MOTION and not self.timeHelper.isTimeTNT():
-                self.logUtil.putF(self.FAST_REPEAT, self, self.METHOD_NAME)
+            if motionGestureInput == TouchMotionGestureFactory.getInstance().NO_MOTION and (not this.timeHelper.isTimeTNT()):
+                this.logUtil.putF(this.FAST_REPEAT, this, this.METHOD_NAME)
                 return
-            if not self.released:
-                self.logUtil.putF(self.IGNORE, self, self.METHOD_NAME)
+            if (not this.released):
+                this.logUtil.putF(this.IGNORE, this, this.METHOD_NAME)
                 return
-            self.released = False
-            self.logUtil.putF(str(StringMaker().append("GameKey: ").append(StringUtil.getInstance().toString(gameKey)).append(" MotionGestureInput: ").append(StringUtil.getInstance().toString(motionGestureInput))), self, self.METHOD_NAME)
-            self.inputMappingInterface.processInputMapping(gameKey, motionGestureInput)
-        except Exception as e:
-            self.logUtil.put(self.commonStrings.EXCEPTION, self, self.METHOD_NAME, e)
-    
+            this.released = false
+            this.logUtil.putF(newStringMaker().append("GameKey: ").append(StringUtil.getInstance().toString(gameKey)).append(" MotionGestureInput: ").append(StringUtil.getInstance().toString(motionGestureInput)).toString(), this, this.METHOD_NAME)
+            this.inputMappingInterface.processInputMapping(gameKey, motionGestureInput)
+        except CatchableError as jcaught:
+            let e = jToException(jcaught)
+            this.logUtil.put(this.commonStrings.EXCEPTION, this, this.METHOD_NAME, e)
 
-    def process(self) -> None:
-        from org.allbinary.game.input.CompleteMotionGestureInputEventHandler import CompleteMotionGestureInputEventHandler
-        CompleteMotionGestureInputEventHandler.getInstance().removeListener(self)
-# from org.allbinary.game.input.CompleteMotionGestureInputEvent import CompleteMotionGestureInputEvent
-# from org.allbinary.game.input.CompleteMotionGestureInputEventHandler import CompleteMotionGestureInputEventHandler
-# from org.allbinary.game.input.GameKey import GameKey
-# from org.allbinary.game.input.mapping.InputMappingInterface import InputMappingInterface
-# from org.allbinary.game.input.motion.action.GameKeyCompleteMotionGestureInputEvent import GameKeyCompleteMotionGestureInputEvent
-# from org.allbinary.graphics.color.BasicColor import BasicColor
-# from org.allbinary.input.motion.gesture.MotionGestureInput import MotionGestureInput
-# from org.allbinary.input.motion.gesture.TouchMotionGestureFactory import TouchMotionGestureFactory
-# from org.allbinary.logic.communication.log.ForcedLogUtil import ForcedLogUtil
-# from org.allbinary.logic.communication.log.LogUtil import LogUtil
-# from org.allbinary.logic.string.StringMaker import StringMaker
-# from org.allbinary.logic.string.StringUtil import StringUtil
-# from org.allbinary.logic.util.event.AllBinaryEventObject import AllBinaryEventObject
-# from org.allbinary.logic.util.event.EventStrings import EventStrings
-# from org.allbinary.string.CommonStrings import CommonStrings
-# from org.allbinary.time.TimeDelayHelper import TimeDelayHelper
+method process*(this: TouchButtonsPaintableComposite) =
+        CompleteMotionGestureInputEventHandler.getInstance().removeListener(this)
 
+when declared(newTouchButtonsPaintableCompositeHook2):
+    newTouchButtonsPaintableCompositeHook2 = proc (inputMappingInterface: InputMappingInterface, basicColor: BasicColor): ProcessPaintable = newTouchButtonsPaintableComposite(inputMappingInterface, basicColor)
 

@@ -1,67 +1,80 @@
-# 
-# AllBinary Open License Version 1 
-# Copyright (c) 2011 AllBinary 
-#  
-# By agreeing to this license you and any business entity you represent are 
-# legally bound to the AllBinary Open License Version 1 legal agreement. 
-#  
-# You may obtain the AllBinary Open License Version 1 legal agreement from 
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
-#  
-# Created By: Travis Berthelot 
-#   
+#[
+  
+  AllBinary Open License Version 1 
+  Copyright (c) 2011 AllBinary 
+   
+  By agreeing to this license you and any business entity you represent are 
+  legally bound to the AllBinary Open License Version 1 legal agreement. 
+   
+  You may obtain the AllBinary Open License Version 1 legal agreement from 
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
+   
+  Created By: Travis Berthelot 
+    
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.animation
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/media/ScaleProperties as ScalePropertiesModule
+export ScalePropertiesModule
+import org/allbinary/animation/AnimationInterfaceFactoryInterface as AnimationInterfaceFactoryInterfaceModule
+export AnimationInterfaceFactoryInterfaceModule
+import org/allbinary/animation/ProceduralAnimationInterfaceFactoryInterface as ProceduralAnimationInterfaceFactoryInterfaceModule
+export ProceduralAnimationInterfaceFactoryInterfaceModule
+import org/allbinary/animation/Animation as AnimationModule
+export AnimationModule
 
-from org.allbinary.animation.AnimationInterfaceFactoryInterface import AnimationInterfaceFactoryInterface
-from org.allbinary.animation.ProceduralAnimationInterfaceFactoryInterface import ProceduralAnimationInterfaceFactoryInterface
+type
+    RotationAnimationFactory* = ref object of AnimationInterfaceFactoryInterface
+        totalAngle*: int16
+        angleIncrement*: int16
+
+converter jAsProceduralAnimationInterfaceFactoryInterface*(value: RotationAnimationFactory): ProceduralAnimationInterfaceFactoryInterface = cast[ProceduralAnimationInterfaceFactoryInterface](value)
+proc newRotationAnimationFactory*(totalAngle: int16, angleIncrement: int16): RotationAnimationFactory
+proc initRotationAnimationFactory*(this: RotationAnimationFactory, totalAngle: int16, angleIncrement: int16)
+proc createFactory*(t: typedesc[RotationAnimationFactory]): RotationAnimationFactory {.discardable.}
+method getInstance*(this: RotationAnimationFactory, instanceId: int32): Animation {.discardable.}
+method getInstanceAnimation*(this: RotationAnimationFactory, animationInterface: Animation): Animation {.discardable.}
+method setInitialScale*(this: RotationAnimationFactory, scaleProperties: ScaleProperties)
+import org/allbinary/game/configuration/GameConfigurationCentral as GameConfigurationCentralModule
+export GameConfigurationCentralModule
+import org/allbinary/math/AngleFactory as AngleFactoryModule
+export AngleFactoryModule
+import org/allbinary/math/AngleInfo as AngleInfoModule
+export AngleInfoModule
+import org/allbinary/animation/NullRotationAnimation as NullRotationAnimationModule
+export NullRotationAnimationModule
+import org/allbinary/animation/AnimationBehavior as AnimationBehaviorModule
+export AnimationBehaviorModule
 
 
-class RotationAnimationFactory(AnimationInterfaceFactoryInterface, ProceduralAnimationInterfaceFactoryInterface):
-
-    def _init_fields(self) -> None:
-        self.totalAngle: int = None
-        self.angleIncrement: int = None
+# Java field initializers run after the base initializer
+proc initFieldsRotationAnimationFactory(this: RotationAnimationFactory) =
     
-
-    @staticmethod
-    def createFactory() -> RotationAnimationFactory:
-        from org.allbinary.game.configuration.GameConfigurationCentral import GameConfigurationCentral
-        from org.allbinary.math.AngleFactory import AngleFactory
-        totalAngle: int = AngleFactory.getInstance().TOTAL_ANGLE
-        return RotationAnimationFactory(totalAngle, ((int((totalAngle / GameConfigurationCentral.getInstance().getGameControlFidelity())) + 32768) % 65536 - 32768))
     
+    discard
 
-    def __init__(self, totalAngle: int, angleIncrement: int) -> None:
-        self._init_fields()
-        self.totalAngle = totalAngle
-        self.angleIncrement = angleIncrement
-    
+proc createFactory*(t: typedesc[RotationAnimationFactory]): RotationAnimationFactory {.discardable.} =
+        let totalAngle: int16 = AngleFactory.getInstance().TOTAL_ANGLE
+        return newRotationAnimationFactory(totalAngle, jToInt16((totalAngle div GameConfigurationCentral.getInstance().getGameControlFidelity())))
 
-    # throws Exception
-    def getInstance(self, instanceId: int) -> Animation:
-        from org.allbinary.animation.NullRotationAnimation import NullRotationAnimation
-        from org.allbinary.animation.AnimationBehavior import AnimationBehavior
-        from org.allbinary.math.AngleInfo import AngleInfo
-        return NullRotationAnimation.createTotalAngle(AngleInfo.getInstance(self.angleIncrement), self.totalAngle, AnimationBehavior.getInstance())
-    
+proc initRotationAnimationFactory*(this: RotationAnimationFactory, totalAngle: int16, angleIncrement: int16) =
+        this.initFieldsRotationAnimationFactory()
+        this.totalAngle = totalAngle
+        this.angleIncrement = angleIncrement
 
-    # throws Exception
-    def getInstanceAnimation(self, animationInterface: Animation) -> Animation:
-        from org.allbinary.animation.NullRotationAnimation import NullRotationAnimation
-        from org.allbinary.animation.AnimationBehavior import AnimationBehavior
-        from org.allbinary.math.AngleInfo import AngleInfo
-        return NullRotationAnimation.createTotalAngle(AngleInfo.getInstance(self.angleIncrement), self.totalAngle, AnimationBehavior.getInstance())
-    
+proc newRotationAnimationFactory*(totalAngle: int16, angleIncrement: int16): RotationAnimationFactory =
+    result = RotationAnimationFactory()
+    initRotationAnimationFactory(result, totalAngle, angleIncrement)
 
-    def setInitialScale(self, scaleProperties: ScaleProperties) -> None:
-        from org.allbinary.media.ScaleProperties import ScaleProperties
-        pass
-# from org.allbinary.game.configuration.GameConfigurationCentral import GameConfigurationCentral
-# from org.allbinary.math.AngleFactory import AngleFactory
-# from org.allbinary.math.AngleInfo import AngleInfo
-# from org.allbinary.media.ScaleProperties import ScaleProperties
+method getInstance*(this: RotationAnimationFactory, instanceId: int32): Animation {.discardable.} =
+        return NullRotationAnimation.createTotalAngle(AngleInfo.getInstance(this.angleIncrement), this.totalAngle, AnimationBehavior.getInstance())
 
+method getInstanceAnimation*(this: RotationAnimationFactory, animationInterface: Animation): Animation {.discardable.} =
+        return NullRotationAnimation.createTotalAngle(AngleInfo.getInstance(this.angleIncrement), this.totalAngle, AnimationBehavior.getInstance())
+
+method setInitialScale*(this: RotationAnimationFactory, scaleProperties: ScaleProperties) =
+        discard
 

@@ -84,7 +84,7 @@ method addListeners*(this: BasicEventHandler, vector: BasicArrayList) =
             var index: int32 = 0
             while index < size:
                 defer: index = index +% 1
-                eventListenerInterface = EventListenerInterface(vector.get(index))
+                eventListenerInterface = EventListenerInterface(JObject(vector.get(index)))
                 this.addListenerInterface(eventListenerInterface)
 
 method removeListeners*(this: BasicEventHandler, vector: BasicArrayList) {.base.} =
@@ -94,7 +94,7 @@ method removeListeners*(this: BasicEventHandler, vector: BasicArrayList) {.base.
             var index: int32 = 0
             while index < size:
                 defer: index = index +% 1
-                eventListenerInterface = EventListenerInterface(vector.get(index))
+                eventListenerInterface = EventListenerInterface(JObject(vector.get(index)))
                 this.removeListener(eventListenerInterface)
 
 method addListenerSingleThreaded*(this: BasicEventHandler, eventListenerInterface: EventListenerInterface) {.base.} =
@@ -116,7 +116,7 @@ method fireEvent*(this: BasicEventHandler, eventObject: AllBinaryEventObject) =
         var index: int32 = 0
         while index < this.eventListenerInterfaceList.size():
             try:
-                eventListenerInterface = EventListenerInterface(this.eventListenerInterfaceList.get(index))
+                eventListenerInterface = EventListenerInterface(JObject(this.eventListenerInterfaceList.get(index)))
                 this.process(eventObject, eventListenerInterface)
             except CatchableError as jcaught:
                 let e = jToException(jcaught)
@@ -137,7 +137,7 @@ method toString*(this: BasicEventHandler): string {.discardable.} =
         var index: int32 = 0
         while index < this.eventListenerInterfaceList.size():
             try:
-                eventListenerInterface = EventListenerInterface(this.eventListenerInterfaceList.get(index))
+                eventListenerInterface = EventListenerInterface(JObject(this.eventListenerInterfaceList.get(index)))
                 stringBuffer.append(this.eventStrings.LISTENER_LABEL)
                 stringBuffer.append(eventListenerInterface.toString())
             except CatchableError as jcaught:

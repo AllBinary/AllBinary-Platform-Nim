@@ -1,29 +1,41 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-# 
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+  
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.collision
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/layer/LayerManager as LayerManagerModule
+export LayerManagerModule
 
-from org.allbinary.layer.LayerManager import LayerManager
+type
+    OptimizedAllBinaryCollisionLayerManager* = ref object of LayerManager
+
+proc newOptimizedAllBinaryCollisionLayerManager*(): OptimizedAllBinaryCollisionLayerManager
+proc initOptimizedAllBinaryCollisionLayerManager*(this: OptimizedAllBinaryCollisionLayerManager)
+import org/allbinary/layer/LayerManagerNoDebug as LayerManagerNoDebugModule
+export LayerManagerNoDebugModule
 
 
-class OptimizedAllBinaryCollisionLayerManager(LayerManager):
-    
+proc initOptimizedAllBinaryCollisionLayerManager*(this: OptimizedAllBinaryCollisionLayerManager) =
+        initLayerManager(this, LayerManagerNoDebug.getInstance())
 
-    def __init__(self) -> None:
-        from org.allbinary.layer.LayerManagerNoDebug import LayerManagerNoDebug
-        super().__init__(LayerManagerNoDebug.getInstance())
-# from org.allbinary.layer.LayerManagerNoDebug import LayerManagerNoDebug
+proc newOptimizedAllBinaryCollisionLayerManager*(): OptimizedAllBinaryCollisionLayerManager =
+    result = OptimizedAllBinaryCollisionLayerManager()
+    initOptimizedAllBinaryCollisionLayerManager(result)
 
+when declared(newOptimizedAllBinaryCollisionLayerManagerHook0):
+    newOptimizedAllBinaryCollisionLayerManagerHook0 = proc (): LayerManager = newOptimizedAllBinaryCollisionLayerManager()
 

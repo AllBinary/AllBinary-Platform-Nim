@@ -87,7 +87,7 @@ method putFS*(this: LogUtil, specialMessage: string, className: string, function
 method put*(this: LogUtil, specialMessage: string, anyType: JObject, functionName: string, exception: JObject) {.base.} =
         var className: string = CommonStrings.getInstance().EMPTY
         if (not jIsNil(jClassName(anyType))):
-            className = jClassName(anyType)
+            className = jNewString(jClassName(anyType))
         let message: string = this.logFormatUtil.get(className, functionName, specialMessage, exception)
         echo jstr(this.LOG_SUCCESS)
         echo jstr(message)

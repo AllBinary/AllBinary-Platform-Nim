@@ -1,49 +1,68 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    GameStrings* = ref object of JObject
+        PROCESS_TICK*: string
+        ON_GAME_INITIALIZED*: string
+        UPDATESURFACE*: string
+        ON_SET_DISPLAYABLE*: string
+        UNPAUSE*: string
+        TOGGLE_MENU*: string
+        SET_GAME_OVER*: string
+        GAME_STATE*: string
+        SET_GAME_STATE*: string
+        STOP_GAME_CANVAS_RUNNABLE_INTERFACE*: string
 
+proc newGameStrings*(): GameStrings
+proc getInstance*(t: typedesc[GameStrings]): GameStrings {.discardable.}
 
-class GameStrings:
-    instance: GameStrings = None
+var GameStrings_instanceValue: GameStrings
+var GameStrings_instanceSet = false
+proc instance*(t: typedesc[GameStrings]): GameStrings =
+    if not GameStrings_instanceSet:
+        GameStrings_instanceSet = true
+        GameStrings_instanceValue = newGameStrings()
+    GameStrings_instanceValue
 
-    def _init_fields(self) -> None:
-        self.PROCESS_TICK: str = "processTick"
-        self.ON_GAME_INITIALIZED: str = "onGameInitialized"
-        self.UPDATESURFACE: str = "updateSurface"
-        self.ON_SET_DISPLAYABLE: str = "onSetDisplayable"
-        self.UNPAUSE: str = "unPause"
-        self.TOGGLE_MENU: str = "toggleMenu"
-        self.SET_GAME_OVER: str = "setGameOver"
-        self.GAME_STATE: str = "Game State: "
-        self.SET_GAME_STATE: str = "setGameState"
-        self.STOP_GAME_CANVAS_RUNNABLE_INTERFACE: str = "stopGameCanvasRunnableInterface"
+# Java field initializers run after the base initializer
+proc initFieldsGameStrings(this: GameStrings) =
+    this.PROCESS_TICK = "processTick"
+    this.ON_GAME_INITIALIZED = "onGameInitialized"
+    this.UPDATESURFACE = "updateSurface"
+    this.ON_SET_DISPLAYABLE = "onSetDisplayable"
+    this.UNPAUSE = "unPause"
+    this.TOGGLE_MENU = "toggleMenu"
+    this.SET_GAME_OVER = "setGameOver"
+    this.GAME_STATE = "Game State: "
+    this.SET_GAME_STATE = "setGameState"
+    this.STOP_GAME_CANVAS_RUNNABLE_INTERFACE = "stopGameCanvasRunnableInterface"
+    discard
 
-    def __init__(self) -> None:
-        self._init_fields()
-    
+proc initGameStrings*(this: GameStrings) =
+    this.initFieldsGameStrings()
 
-    @staticmethod
-    def getInstance() -> GameStrings:
+proc newGameStrings*(): GameStrings =
+    result = GameStrings()
+    initGameStrings(result)
+
+proc getInstance*(t: typedesc[GameStrings]): GameStrings {.discardable.} =
         return GameStrings.instance
-
-
-def _GameStrings_instance() -> object:
-    return GameStrings()
-
-lazy_static(GameStrings, "instance", _GameStrings_instance)
 

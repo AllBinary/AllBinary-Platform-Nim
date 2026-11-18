@@ -1,34 +1,45 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.graphics
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+
+type
+    ScreenCapture* = ref object of JObject
+
+proc newScreenCapture*(): ScreenCapture
+method saveFrame*(this: ScreenCapture) {.base.}
+method startRecording*(this: ScreenCapture) {.base.}
+method endRecording*(this: ScreenCapture) {.base.}
 
 
+proc initScreenCapture*(this: ScreenCapture) =
+    discard
 
-class ScreenCapture:
-    
+proc newScreenCapture*(): ScreenCapture =
+    result = ScreenCapture()
+    initScreenCapture(result)
 
-    def saveFrame(self) -> None:
-        pass
-    
+method saveFrame*(this: ScreenCapture) {.base.} =
+        discard
 
-    def startRecording(self) -> None:
-        pass
-    
+method startRecording*(this: ScreenCapture) {.base.} =
+        discard
 
-    def endRecording(self) -> None:
-        pass
-
+method endRecording*(this: ScreenCapture) {.base.} =
+        discard
 

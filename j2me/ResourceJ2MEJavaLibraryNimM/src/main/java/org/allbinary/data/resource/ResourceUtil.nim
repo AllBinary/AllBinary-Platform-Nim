@@ -1,121 +1,133 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.data.resource
 
-from __future__ import annotations
-
-from java.lang.JavaRuntimeStatic import lazy_static
-
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import java/lang/Integer as IntegerModule
+export IntegerModule
+import java/lang/ClassLoader as ClassLoaderModule
+import java/io/InputStream as InputStreamModule
+export InputStreamModule
+import org/allbinary/logic/communication/log/LogUtil as LogUtilModule
+export LogUtilModule
 
 #J2ME
-class ResourceUtil:
-    instance: ResourceUtil = None
+type
+    ResourceUtil* = ref object of JObject
+        logUtil*: LogUtil
 
-    def _init_fields(self) -> None:
-        from org.allbinary.logic.communication.log.LogUtil import LogUtil
-        self.logUtil: LogUtil = LogUtil.getInstance()
-    
+proc newResourceUtil*(): ResourceUtil
+proc initResourceUtil*(this: ResourceUtil)
+proc getInstance*(t: typedesc[ResourceUtil]): ResourceUtil {.discardable.}
+method setLoadingPaths*(this: ResourceUtil, path: string, ext: string) {.base.}
+method getResourceAsStream*(this: ResourceUtil, resource: string): InputStream {.base, discardable.}
+method getResourceAsStreamAtStart*(this: ResourceUtil, resource: string, startIndex: int32): InputStream {.base, discardable.}
+method addResource*(this: ResourceUtil, resource: string, value: int32) {.base.}
+import org/allbinary/logic/string/StringMaker as StringMakerModule
+export StringMakerModule
+import org/allbinary/string/CommonSeps as CommonSepsModule
+export CommonSepsModule
+import org/allbinary/string/CommonStrings as CommonStringsModule
+export CommonStringsModule
 
-    @staticmethod
-    def getInstance() -> ResourceUtil:
+var ResourceUtil_instanceValue: ResourceUtil
+var ResourceUtil_instanceSet = false
+proc instance*(t: typedesc[ResourceUtil]): ResourceUtil =
+    if not ResourceUtil_instanceSet:
+        ResourceUtil_instanceSet = true
+        ResourceUtil_instanceValue = newResourceUtil()
+    ResourceUtil_instanceValue
+proc `instance=`*(t: typedesc[ResourceUtil], value: ResourceUtil) =
+    ResourceUtil_instanceSet = true
+    ResourceUtil_instanceValue = value
+
+# Java field initializers run after the base initializer
+proc initFieldsResourceUtil(this: ResourceUtil) =
+    this.logUtil = LogUtil.getInstance()
+    discard
+
+proc getInstance*(t: typedesc[ResourceUtil]): ResourceUtil {.discardable.} =
         return ResourceUtil.instance
-    
 
-    def __init__(self) -> None:
-        self._init_fields()
-    
+proc initResourceUtil*(this: ResourceUtil) =
+        this.initFieldsResourceUtil()
+        discard
 
-    def setLoadingPaths(self, path: str, ext: str) -> None:
-        from org.allbinary.string.CommonStrings import CommonStrings
-        self.logUtil.putF(CommonStrings.getInstance().NOT_IMPLEMENTED, self, "setLoadingPaths")
-    
+proc newResourceUtil*(): ResourceUtil =
+    result = ResourceUtil()
+    initResourceUtil(result)
 
-    # throws Exception
-    def getResourceAsStream(self, resource: str) -> InputStream:
-        from java.io.InputStream import InputStream
-        from org.allbinary.logic.string.StringMaker import StringMaker
-        from org.allbinary.string.CommonSeps import CommonSeps
-        inputStream: InputStream = type(resource).getResourceAsStream(resource)
-        if inputStream is None:
-            inputStream = self.getResourceAsStreamAtStart(resource, 2)
-            if inputStream is None:
-                inputStream = self.getResourceAsStreamAtStart(resource, 1)
-                if inputStream is None:
-                    stringMaker: StringMaker = StringMaker()
-                    index: int = resource.rfind('/')
-                    resourcePath: str = resource[index + 1:]
-                    inputStream = type(resource).getResourceAsStream(resourcePath)
-                    if inputStream is None:
-                        resourcePath = resource[index:]
-                        inputStream = type(resource).getResourceAsStream(resourcePath)
-                        if inputStream is None:
-                            RES: str = "res"
-                            resourcePath = str(stringMaker.append(RES).append(resource[index:]))
-                            inputStream = type(resource).getResourceAsStream(resourcePath)
-                            if inputStream is None:
+method setLoadingPaths*(this: ResourceUtil, path: string, ext: string) {.base.} =
+        this.logUtil.putF(CommonStrings.getInstance().NOT_IMPLEMENTED, this, "setLoadingPaths")
+
+method getResourceAsStream*(this: ResourceUtil, resource: string): InputStream {.base, discardable.} =
+        var inputStream: InputStream = jClassName(resource).getResourceAsStream(resource)
+        if (jIsNil(inputStream)):
+            inputStream = this.getResourceAsStreamAtStart(resource, 2)
+            if (jIsNil(inputStream)):
+                inputStream = this.getResourceAsStreamAtStart(resource, 1)
+                if (jIsNil(inputStream)):
+                    let stringMaker: StringMaker = newStringMaker()
+                    let index: int32 = jLastIndexOf(resource, uint16(ord('/')))
+                    var resourcePath: string = jSubstring(resource, index +% 1)
+                    inputStream = jClassName(resource).getResourceAsStream(resourcePath)
+                    if (jIsNil(inputStream)):
+                        resourcePath = jSubstring(resource, index)
+                        inputStream = jClassName(resource).getResourceAsStream(resourcePath)
+                        if (jIsNil(inputStream)):
+                            let RES: string = "res"
+                            resourcePath = stringMaker.append(RES).append(jSubstring(resource, index)).toString()
+                            inputStream = jClassName(resource).getResourceAsStream(resourcePath)
+                            if (jIsNil(inputStream)):
                                 stringMaker.delete(0, stringMaker.length())
-                                resourcePath = str(stringMaker.append("/").append(RES).append(resource[index:]))
-                                inputStream = type(resource).getResourceAsStream(resourcePath)
-                                COLON: str = CommonSeps.getInstance().COLON
-                                if inputStream is None:
+                                resourcePath = stringMaker.append("/").append(RES).append(jSubstring(resource, index)).toString()
+                                inputStream = jClassName(resource).getResourceAsStream(resourcePath)
+                                let COLON: string = CommonSeps.getInstance().COLON
+                                if (jIsNil(inputStream)):
                                     stringMaker.delete(0, stringMaker.length())
-                                    resourcePath = str(stringMaker.append(RES).append(COLON).append(resource[index:]))
-                                    inputStream = type(resource).getResourceAsStream(resourcePath)
-                                    if inputStream is None:
+                                    resourcePath = stringMaker.append(RES).append(COLON).append(jSubstring(resource, index)).toString()
+                                    inputStream = jClassName(resource).getResourceAsStream(resourcePath)
+                                    if (jIsNil(inputStream)):
                                         stringMaker.delete(0, stringMaker.length())
-                                        resourcePath = str(stringMaker.append(RES).append(COLON).append(resource[index + 1:]))
-                                        inputStream = type(resource).getResourceAsStream(resourcePath)
-                                        if inputStream is None:
-                                            RESOURCE_STRING: str = "resource"
+                                        resourcePath = stringMaker.append(RES).append(COLON).append(jSubstring(resource, index +% 1)).toString()
+                                        inputStream = jClassName(resource).getResourceAsStream(resourcePath)
+                                        if (jIsNil(inputStream)):
+                                            let RESOURCE_STRING: string = "resource"
                                             stringMaker.delete(0, stringMaker.length())
-                                            resourcePath = str(stringMaker.append(RESOURCE_STRING).append(COLON).append(resource[index:]))
-                                            inputStream = type(resource).getResourceAsStream(resourcePath)
-                                            if inputStream is None:
+                                            resourcePath = stringMaker.append(RESOURCE_STRING).append(COLON).append(jSubstring(resource, index)).toString()
+                                            inputStream = jClassName(resource).getResourceAsStream(resourcePath)
+                                            if (jIsNil(inputStream)):
                                                 stringMaker.delete(0, stringMaker.length())
-                                                resourcePath = str(stringMaker.append(RESOURCE_STRING).append(COLON).append(resource[index + 1:]))
-                                                inputStream = type(resource).getResourceAsStream(resourcePath)
-                                                if inputStream is None:
+                                                resourcePath = stringMaker.append(RESOURCE_STRING).append(COLON).append(jSubstring(resource, index +% 1)).toString()
+                                                inputStream = jClassName(resource).getResourceAsStream(resourcePath)
+                                                if (jIsNil(inputStream)):
                                                     stringMaker.delete(0, stringMaker.length())
-                                                    raise Exception(str(stringMaker.append("Unable to obtain: ").append(resource)))
+                                                    raise newJException("Exception", stringMaker.append("Unable to obtain: ").append(resource).toString())
         return inputStream
-    
 
-    # throws Exception
-    def getResourceAsStreamAtStart(self, resource: str, startIndex: int) -> InputStream:
-        from java.io.InputStream import InputStream
-        from org.allbinary.logic.string.StringMaker import StringMaker
-        from org.allbinary.string.CommonSeps import CommonSeps
-        stringMaker: StringMaker = StringMaker()
-        index: int = resource.find(CommonSeps.getInstance().COLON)
-        resourcePath: str = resource[index + startIndex:]
-        inputStream: InputStream = type(resource).getResourceAsStream(resourcePath)
-        if inputStream is not None:
+method getResourceAsStreamAtStart*(this: ResourceUtil, resource: string, startIndex: int32): InputStream {.base, discardable.} =
+        let stringMaker: StringMaker = newStringMaker()
+        var index: int32 = jIndexOf(resource, CommonSeps.getInstance().COLON)
+        let resourcePath: string = jSubstring(resource, index +% startIndex)
+        let inputStream: InputStream = jClassName(resource).getResourceAsStream(resourcePath)
+        if (not jIsNil(inputStream)):
             return inputStream
         return inputStream
-    
 
-    def addResource(self, resource: str, value: int) -> None:
-        pass
-# from java.io.InputStream import InputStream
-# from org.allbinary.logic.communication.log.LogUtil import LogUtil
-# from org.allbinary.logic.string.StringMaker import StringMaker
-# from org.allbinary.string.CommonSeps import CommonSeps
-# from org.allbinary.string.CommonStrings import CommonStrings
-
-
-def _ResourceUtil_instance() -> object:
-    return ResourceUtil()
-
-lazy_static(ResourceUtil, "instance", _ResourceUtil_instance)
+method addResource*(this: ResourceUtil, resource: string, value: int32) {.base.} =
+        discard
 

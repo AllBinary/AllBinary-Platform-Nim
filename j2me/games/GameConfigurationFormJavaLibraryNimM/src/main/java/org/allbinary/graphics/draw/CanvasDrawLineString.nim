@@ -1,65 +1,80 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#   
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+    
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.graphics.draw
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import javax/microedition/lcdui/Graphics as GraphicsModule
+export GraphicsModule
+import org/allbinary/graphics/font/MyFontProcessor as MyFontProcessorModule
+export MyFontProcessorModule
+import org/allbinary/graphics/font/UpdateMyFontInterface as UpdateMyFontInterfaceModule
+export UpdateMyFontInterfaceModule
+import org/allbinary/graphics/draw/DrawStringUtil as DrawStringUtilModule
+export DrawStringUtilModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
-from org.allbinary.graphics.font.UpdateMyFontInterface import UpdateMyFontInterface
+type
+    CanvasDrawLineString* = ref object of UpdateMyFontInterface
+        drawStringUtil*: DrawStringUtil
+        myFontProcessor*: MyFontProcessor
+        x*: int32
+        y*: int32
+        fontHeight*: int32
 
+proc newCanvasDrawLineString*(x: int32, y: int32): CanvasDrawLineString
+proc initCanvasDrawLineString*(this: CanvasDrawLineString, x: int32, y: int32)
+method updateMeasurement*(this: CanvasDrawLineString, graphics: Graphics)
+method paint*(this: CanvasDrawLineString, graphics: Graphics, string: string, line: int32) {.base.}
+import javax/microedition/lcdui/Font as FontModule
+export FontModule
+import org/allbinary/graphics/font/UpdateMyFontProcessor as UpdateMyFontProcessorModule
+export UpdateMyFontProcessorModule
 
-class CanvasDrawLineString(UpdateMyFontInterface):
-    NULL_CANVAS_DRAW_LINE_STRING: CanvasDrawLineString = None
+var CanvasDrawLineString_NULL_CANVAS_DRAW_LINE_STRINGValue: CanvasDrawLineString
+var CanvasDrawLineString_NULL_CANVAS_DRAW_LINE_STRINGSet = false
+proc NULL_CANVAS_DRAW_LINE_STRING*(t: typedesc[CanvasDrawLineString]): CanvasDrawLineString =
+    if not CanvasDrawLineString_NULL_CANVAS_DRAW_LINE_STRINGSet:
+        CanvasDrawLineString_NULL_CANVAS_DRAW_LINE_STRINGSet = true
+        CanvasDrawLineString_NULL_CANVAS_DRAW_LINE_STRINGValue = newCanvasDrawLineString(0, 0)
+    CanvasDrawLineString_NULL_CANVAS_DRAW_LINE_STRINGValue
 
-    def _init_fields(self) -> None:
-        from org.allbinary.graphics.font.MyFontProcessor import MyFontProcessor
-        from org.allbinary.graphics.font.UpdateMyFontProcessor import UpdateMyFontProcessor
-        self.drawStringUtil: DrawStringUtil = DrawStringUtil.getInstance()
-        self.myFontProcessor: MyFontProcessor = UpdateMyFontProcessor(self)
-        self.x: int = None
-        self.y: int = None
-        self.fontHeight: int = 0
+# Java field initializers run after the base initializer
+proc initFieldsCanvasDrawLineString(this: CanvasDrawLineString) =
+    this.drawStringUtil = DrawStringUtil.getInstance()
+    this.myFontProcessor = newUpdateMyFontProcessor(this)
     
-
-    def __init__(self, x: int, y: int) -> None:
-        self._init_fields()
-        self.x = x
-        self.y = y
     
+    this.fontHeight = 0
+    discard
 
-    def updateMeasurement(self, graphics: Graphics) -> None:
-        from javax.microedition.lcdui.Font import Font
-        from javax.microedition.lcdui.Graphics import Graphics
-        from org.allbinary.graphics.font.MyFontProcessor import MyFontProcessor
-        font: Font = graphics.getFont()
-        self.fontHeight = font.getHeight()
-        self.myFontProcessor = MyFontProcessor.getInstance()
-    
+proc initCanvasDrawLineString*(this: CanvasDrawLineString, x: int32, y: int32) =
+        this.initFieldsCanvasDrawLineString()
+        this.x = x
+        this.y = y
 
-    def paint(self, graphics: Graphics, string: str, line: int) -> None:
-        from javax.microedition.lcdui.Graphics import Graphics
-        self.myFontProcessor.process(graphics)
-        self.drawStringUtil.drawCenterString(graphics, string, 0, len(string), self.x, self.y + (line * self.fontHeight))
-# from javax.microedition.lcdui.Font import Font
-# from javax.microedition.lcdui.Graphics import Graphics
-# from org.allbinary.graphics.font.MyFontProcessor import MyFontProcessor
-# from org.allbinary.graphics.font.UpdateMyFontProcessor import UpdateMyFontProcessor
-from org.allbinary.graphics.draw.DrawStringUtil import DrawStringUtil
+proc newCanvasDrawLineString*(x: int32, y: int32): CanvasDrawLineString =
+    result = CanvasDrawLineString()
+    initCanvasDrawLineString(result, x, y)
 
+method updateMeasurement*(this: CanvasDrawLineString, graphics: Graphics) =
+        let font: Font = graphics.getFont()
+        this.fontHeight = font.getHeight()
+        this.myFontProcessor = MyFontProcessor.getInstance()
 
-def _CanvasDrawLineString_NULL_CANVAS_DRAW_LINE_STRING() -> object:
-    return CanvasDrawLineString(0, 0)
-
-lazy_static(CanvasDrawLineString, "NULL_CANVAS_DRAW_LINE_STRING", _CanvasDrawLineString_NULL_CANVAS_DRAW_LINE_STRING)
+method paint*(this: CanvasDrawLineString, graphics: Graphics, string: string, line: int32) {.base.} =
+        this.myFontProcessor.process(graphics)
+        this.drawStringUtil.drawCenterString(graphics, string, 0, jLength(string), this.x, this.y +% (line *% this.fontHeight))
 

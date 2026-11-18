@@ -1,41 +1,57 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.graphics.form
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import javax/microedition/lcdui/Graphics as GraphicsModule
+export GraphicsModule
+import org/allbinary/graphics/form/item/ABCustomItem as ABCustomItemModule
+export ABCustomItemModule
+import org/allbinary/graphics/form/ItemIndexPaintable as ItemIndexPaintableModule
+export ItemIndexPaintableModule
+import org/allbinary/graphics/form/ScrollSelectionForm as ScrollSelectionFormModule
+export ScrollSelectionFormModule
 
-from org.allbinary.graphics.form.ItemIndexPaintable import ItemIndexPaintable
+type
+    ScrollSelectionFormTempHorizontalPaintable* = ref object of ItemIndexPaintable
+        scrollSelectionForm*: ScrollSelectionForm
+
+proc newScrollSelectionFormTempHorizontalPaintable*(scrollSelectionForm: ScrollSelectionForm): ScrollSelectionFormTempHorizontalPaintable
+proc initScrollSelectionFormTempHorizontalPaintable*(this: ScrollSelectionFormTempHorizontalPaintable, scrollSelectionForm: ScrollSelectionForm)
+method paint*(this: ScrollSelectionFormTempHorizontalPaintable, graphics: Graphics, index: int32, item: ABCustomItem, dx: int32, dy: int32): int32 {.discardable.}
 
 
-class ScrollSelectionFormTempHorizontalPaintable(ItemIndexPaintable):
-
-    def _init_fields(self) -> None:
-        self.scrollSelectionForm: ScrollSelectionForm = None
+# Java field initializers run after the base initializer
+proc initFieldsScrollSelectionFormTempHorizontalPaintable(this: ScrollSelectionFormTempHorizontalPaintable) =
     
+    discard
 
-    def __init__(self, scrollSelectionForm: ScrollSelectionForm) -> None:
-        super().__init__()
-        self._init_fields()
-        self.scrollSelectionForm = scrollSelectionForm
-    
+proc initScrollSelectionFormTempHorizontalPaintable*(this: ScrollSelectionFormTempHorizontalPaintable, scrollSelectionForm: ScrollSelectionForm) =
+        initItemIndexPaintable(this)
+        this.initFieldsScrollSelectionFormTempHorizontalPaintable()
+        this.scrollSelectionForm = scrollSelectionForm
 
-    # throws Exception
-    def paint(self, graphics: Graphics, index: int, item: ABCustomItem, dx: int, dy: int) -> int:
-        from javax.microedition.lcdui.Graphics import Graphics
-        from org.allbinary.graphics.form.item.ABCustomItem import ABCustomItem
-        return self.scrollSelectionForm.paintItemTempHorizontal(graphics, index, item, dx, dy)
-# from javax.microedition.lcdui.Graphics import Graphics
-# from org.allbinary.graphics.form.item.ABCustomItem import ABCustomItem
+proc newScrollSelectionFormTempHorizontalPaintable*(scrollSelectionForm: ScrollSelectionForm): ScrollSelectionFormTempHorizontalPaintable =
+    result = ScrollSelectionFormTempHorizontalPaintable()
+    initScrollSelectionFormTempHorizontalPaintable(result, scrollSelectionForm)
 
+method paint*(this: ScrollSelectionFormTempHorizontalPaintable, graphics: Graphics, index: int32, item: ABCustomItem, dx: int32, dy: int32): int32 {.discardable.} =
+        return this.scrollSelectionForm.paintItemTempHorizontal(graphics, index, item, dx, dy)
+
+when declared(newScrollSelectionFormTempHorizontalPaintableHook1):
+    newScrollSelectionFormTempHorizontalPaintableHook1 = proc (scrollSelectionForm: ScrollSelectionForm): ItemIndexPaintable = newScrollSelectionFormTempHorizontalPaintable(scrollSelectionForm)
 

@@ -1,93 +1,112 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.animation
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/logic/communication/log/LogUtil as LogUtilModule
+export LogUtilModule
+import org/allbinary/util/BasicArrayList as BasicArrayListModule
+export BasicArrayListModule
+import org/allbinary/animation/VectorAnimationUtil as VectorAnimationUtilModule
+export VectorAnimationUtilModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    VectorMirrorGenerator* = ref object of JObject
+        logUtil*: LogUtil
+        vectorAnimationUtil*: VectorAnimationUtil
 
+proc newVectorMirrorGenerator*(): VectorMirrorGenerator
+proc initVectorMirrorGenerator*(this: VectorMirrorGenerator)
+proc getInstance*(t: typedesc[VectorMirrorGenerator]): VectorMirrorGenerator {.discardable.}
+method getInstance*(this: VectorMirrorGenerator, points: JArray[JArray[JArray[int32]]], width: int32): JArray[JArray[JArray[int32]]] {.base, discardable.}
+method getInstance*(this: VectorMirrorGenerator, pointBasicArrayList: BasicArrayList, width: int32): BasicArrayList {.base, discardable.}
+import org/allbinary/graphics/PointFactory as PointFactoryModule
+export PointFactoryModule
+import org/allbinary/graphics/pipeline/BasicGraphicsPipeline as BasicGraphicsPipelineModule
+export BasicGraphicsPipelineModule
+import org/allbinary/logic/NullUtil as NullUtilModule
+export NullUtilModule
+import org/allbinary/string/CommonStrings as CommonStringsModule
+export CommonStringsModule
+import org/allbinary/util/BasicArrayListS as BasicArrayListSModule
+export BasicArrayListSModule
 
-class VectorMirrorGenerator:
-    instance: VectorMirrorGenerator = None
+var VectorMirrorGenerator_instanceValue: VectorMirrorGenerator
+var VectorMirrorGenerator_instanceSet = false
+proc instance*(t: typedesc[VectorMirrorGenerator]): VectorMirrorGenerator =
+    if not VectorMirrorGenerator_instanceSet:
+        VectorMirrorGenerator_instanceSet = true
+        VectorMirrorGenerator_instanceValue = newVectorMirrorGenerator()
+    VectorMirrorGenerator_instanceValue
 
-    def _init_fields(self) -> None:
-        from org.allbinary.logic.communication.log.LogUtil import LogUtil
-        self.logUtil: LogUtil = LogUtil.getInstance()
-        self.vectorAnimationUtil: VectorAnimationUtil = VectorAnimationUtil.getInstance()
-    
+# Java field initializers run after the base initializer
+proc initFieldsVectorMirrorGenerator(this: VectorMirrorGenerator) =
+    this.logUtil = LogUtil.getInstance()
+    this.vectorAnimationUtil = VectorAnimationUtil.getInstance()
+    discard
 
-    @staticmethod
-    def getInstance() -> VectorMirrorGenerator:
+proc getInstance*(t: typedesc[VectorMirrorGenerator]): VectorMirrorGenerator {.discardable.} =
         return VectorMirrorGenerator.instance
-    
 
-    def __init__(self) -> None:
-        self._init_fields()
-    
+proc initVectorMirrorGenerator*(this: VectorMirrorGenerator) =
+        this.initFieldsVectorMirrorGenerator()
+        discard
 
-    # Java overloaded method: Python keeps the last definition
-    def getInstance(self, points: list[list[list[int]]], width: int) -> list[list[list[int]]]:
-        from org.allbinary.graphics.PointFactory import PointFactory
-        from org.allbinary.logic.NullUtil import NullUtil
-        from org.allbinary.string.CommonStrings import CommonStrings
-        from org.allbinary.util.BasicArrayList import BasicArrayList
-        from org.allbinary.util.BasicArrayListS import BasicArrayListS
+proc newVectorMirrorGenerator*(): VectorMirrorGenerator =
+    result = VectorMirrorGenerator()
+    initVectorMirrorGenerator(result)
+
+method getInstance*(this: VectorMirrorGenerator, points: JArray[JArray[JArray[int32]]], width: int32): JArray[JArray[JArray[int32]]] {.base, discardable.} =
         try:
-            pointFactory: PointFactory = PointFactory.getInstance()
-            pointBasicArrayList: BasicArrayList = None
-            nextPoints: list[list[int]] = None
-            size2: int = 0
-            size: int = len(points)
-            pointsBasicArrayList: BasicArrayList = BasicArrayListS(size)
-            for frame in range(0, size):
-                nextPoints = points[frame]
-                size2 = len(nextPoints)
-                pointBasicArrayList = BasicArrayListS(size2)
-                for index in range(0, size2):
-                    pointBasicArrayList.add(pointFactory.createXY(nextPoints[index][0], nextPoints[index][1]))
-                pointsBasicArrayList.add(pointBasicArrayList)
-            for index in range(0, len(points)):
-                pointsBasicArrayList.add(self.getInstance(pointsBasicArrayList.objectArray[index], width))
-            newPoints: list[list[list[int]]] = self.vectorAnimationUtil.toAnimationArrayFromListOfPointList(pointsBasicArrayList)
+            let pointFactory: PointFactory = PointFactory.getInstance()
+            var pointBasicArrayList: BasicArrayList = nil
+            var nextPoints: JArray[JArray[int32]] = nil
+            var size2: int32 = 0
+            let size: int32 = points.length
+            let pointsBasicArrayList: BasicArrayList = newBasicArrayListS(size)
+            block:
+                var frame: int32 = 0
+                while frame < size:
+                    defer: frame = frame +% 1
+                    nextPoints = points[frame]
+                    size2 = nextPoints.length
+                    pointBasicArrayList = newBasicArrayListS(size2)
+                    block:
+                        var index: int32 = 0
+                        while index < size2:
+                            defer: index = index +% 1
+                            pointBasicArrayList.add(pointFactory.createXY(nextPoints[index][0], nextPoints[index][1]))
+                    pointsBasicArrayList.add(pointBasicArrayList)
+            block:
+                var index: int32 = 0
+                while index < points.length:
+                    defer: index = index +% 1
+                    pointsBasicArrayList.add(this.getInstance(BasicArrayList(JObject(pointsBasicArrayList.objectArray[index])), width))
+            var newPoints: JArray[JArray[JArray[int32]]] = this.vectorAnimationUtil.toAnimationArrayFromListOfPointList(pointsBasicArrayList)
             return newPoints
-        except Exception as e:
-            commonStrings: CommonStrings = CommonStrings.getInstance()
-            self.logUtil.put(commonStrings.EXCEPTION, self, commonStrings.GET_INSTANCE, e)
+        except CatchableError as jcaught:
+            let e = jToException(jcaught)
+            let commonStrings: CommonStrings = CommonStrings.getInstance()
+            this.logUtil.put(commonStrings.EXCEPTION, this, commonStrings.GET_INSTANCE, e)
             return NullUtil.getInstance().NULL_INT_ARRAY_ARRAY_ARRAY
-    
 
-    # throws Exception
-    # Java overloaded method: Python keeps the last definition
-    def getInstance(self, pointBasicArrayList: BasicArrayList, width: int) -> BasicArrayList:
-        from org.allbinary.graphics.pipeline.BasicGraphicsPipeline import BasicGraphicsPipeline
-        from org.allbinary.util.BasicArrayList import BasicArrayList
-        graphicsPipe: BasicGraphicsPipeline = BasicGraphicsPipeline(pointBasicArrayList)
+method getInstance*(this: VectorMirrorGenerator, pointBasicArrayList: BasicArrayList, width: int32): BasicArrayList {.base, discardable.} =
+        var graphicsPipe: BasicGraphicsPipeline = newBasicGraphicsPipeline(pointBasicArrayList)
         graphicsPipe.createMatrix()
         graphicsPipe.mirror(width)
         return graphicsPipe.getMatrix()
-# from org.allbinary.graphics.PointFactory import PointFactory
-# from org.allbinary.graphics.pipeline.BasicGraphicsPipeline import BasicGraphicsPipeline
-# from org.allbinary.logic.NullUtil import NullUtil
-# from org.allbinary.logic.communication.log.LogUtil import LogUtil
-# from org.allbinary.string.CommonStrings import CommonStrings
-# from org.allbinary.util.BasicArrayList import BasicArrayList
-# from org.allbinary.util.BasicArrayListS import BasicArrayListS
-from org.allbinary.animation.VectorAnimationUtil import VectorAnimationUtil
-
-
-def _VectorMirrorGenerator_instance() -> object:
-    return VectorMirrorGenerator()
-
-lazy_static(VectorMirrorGenerator, "instance", _VectorMirrorGenerator_instance)
 

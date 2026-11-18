@@ -1,31 +1,42 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.input.gyro
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/canvas/Processor as ProcessorModule
+export ProcessorModule
 
-from org.allbinary.canvas.Processor import Processor
+type
+    GyroSensorUpdateProcessor* = ref object of Processor
+
+proc newGyroSensorUpdateProcessor*(): GyroSensorUpdateProcessor
+method process*(this: GyroSensorUpdateProcessor)
 
 
-class GyroSensorUpdateProcessor(Processor):
+proc initGyroSensorUpdateProcessor*(this: GyroSensorUpdateProcessor) =
+    initProcessor(this)
 
-    def __init__(self) -> None:
-        super().__init__()
-    
+proc newGyroSensorUpdateProcessor*(): GyroSensorUpdateProcessor =
+    result = GyroSensorUpdateProcessor()
+    initGyroSensorUpdateProcessor(result)
 
-    # throws Exception
-    def process(self) -> None:
-        pass
+method process*(this: GyroSensorUpdateProcessor) =
+        discard
 
+when declared(newGyroSensorUpdateProcessorHook0):
+    newGyroSensorUpdateProcessorHook0 = proc (): Processor = newGyroSensorUpdateProcessor()
 

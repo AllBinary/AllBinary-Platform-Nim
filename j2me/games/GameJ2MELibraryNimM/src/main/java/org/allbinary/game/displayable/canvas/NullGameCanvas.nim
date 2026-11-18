@@ -1,151 +1,157 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.displayable.canvas
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import javax/microedition/lcdui/CommandListener as CommandListenerModule
+export CommandListenerModule
+import javax/microedition/lcdui/Graphics as GraphicsModule
+export GraphicsModule
+import org/allbinary/game/layer/AllBinaryGameLayerManager as AllBinaryGameLayerManagerModule
+export AllBinaryGameLayerManagerModule
+import org/allbinary/game/displayable/canvas/AllBinaryGameCanvas as AllBinaryGameCanvasModule
+export AllBinaryGameCanvasModule
 
-import threading
-from java.lang.JavaRuntimeStatic import lazy_static
-from org.allbinary.game.displayable.canvas.AllBinaryGameCanvas import AllBinaryGameCanvas
+type
+    NullGameCanvas* = ref object of AllBinaryGameCanvas
+        runningNull*: bool
 
+proc newNullGameCanvas*(gameLayerManager: AllBinaryGameLayerManager): NullGameCanvas
+proc initNullGameCanvas*(this: NullGameCanvas, gameLayerManager: AllBinaryGameLayerManager)
+proc createNull*(t: typedesc[NullGameCanvas]): NullGameCanvas {.discardable.}
+proc getInstance*(t: typedesc[NullGameCanvas]): NullGameCanvas {.discardable.}
+proc createCanvas*(t: typedesc[NullGameCanvas], gameLayerManager: AllBinaryGameLayerManager): NullGameCanvas {.discardable.}
+method isGameOver*(this: NullGameCanvas): bool {.discardable.}
+method setRunning*(this: NullGameCanvas, running: bool)
+method isRunning*(this: NullGameCanvas): bool {.discardable.}
+method pause*(this: NullGameCanvas)
+method unPause*(this: NullGameCanvas)
+method initCommands*(this: NullGameCanvas, cmdListener: CommandListener)
+method buildGameInit*(this: NullGameCanvas, isProgress: bool)
+method draw*(this: NullGameCanvas, graphics: Graphics)
+method run*(this: NullGameCanvas)
+method getType*(this: NullGameCanvas): int32 {.discardable.}
+import javax/microedition/lcdui/NullCommandListener as NullCommandListenerModule
+export NullCommandListenerModule
+import org/allbinary/game/init/BasicBuildGameInitializerFactory as BasicBuildGameInitializerFactoryModule
+export BasicBuildGameInitializerFactoryModule
+import org/allbinary/game/score/NoHighScoresFactory as NoHighScoresFactoryModule
+export NoHighScoresFactoryModule
+import org/allbinary/logic/NullUtil as NullUtilModule
+export NullUtilModule
+import org/allbinary/logic/communication/log/LogUtil as LogUtilModule
+export LogUtilModule
+import org/allbinary/string/CommonStrings as CommonStringsModule
+export CommonStringsModule
 
-class NullGameCanvas(AllBinaryGameCanvas):
-    instance: object = None
-    NO_GAME: str = "No Background Game"
-    TYPE: int = 1
-    _lock = threading.RLock()
+var NullGameCanvas_instanceValue: JObject
+var NullGameCanvas_instanceSet = false
+proc instance*(t: typedesc[NullGameCanvas]): JObject =
+    if not NullGameCanvas_instanceSet:
+        NullGameCanvas_instanceSet = true
+        NullGameCanvas_instanceValue = NullUtil.getInstance().NULL_OBJECT
+    NullGameCanvas_instanceValue
+proc `instance=`*(t: typedesc[NullGameCanvas], value: JObject) =
+    NullGameCanvas_instanceSet = true
+    NullGameCanvas_instanceValue = value
+var NullGameCanvas_NO_GAMEValue: string
+var NullGameCanvas_NO_GAMESet = false
+proc NO_GAME*(t: typedesc[NullGameCanvas]): string =
+    if not NullGameCanvas_NO_GAMESet:
+        NullGameCanvas_NO_GAMESet = true
+        NullGameCanvas_NO_GAMEValue = "No Background Game"
+    NullGameCanvas_NO_GAMEValue
+var NullGameCanvas_TYPEValue: int32
+var NullGameCanvas_TYPESet = false
+proc TYPE*(t: typedesc[NullGameCanvas]): int32 =
+    if not NullGameCanvas_TYPESet:
+        NullGameCanvas_TYPESet = true
+        NullGameCanvas_TYPEValue = 1
+    NullGameCanvas_TYPEValue
 
-    def _init_fields(self) -> None:
-        self.runningNull: bool = True
-    
+# Java field initializers run after the base initializer
+proc initFieldsNullGameCanvas(this: NullGameCanvas) =
+    this.runningNull = true
+    discard
 
-    @staticmethod
-    def createNull() -> NullGameCanvas:
-        from org.allbinary.game.layer.AllBinaryGameLayerManager import AllBinaryGameLayerManager
-        from org.allbinary.logic.communication.log.LogUtil import LogUtil
-        from org.allbinary.string.CommonStrings import CommonStrings
+proc createNull*(t: typedesc[NullGameCanvas]): NullGameCanvas {.discardable.} =
         try:
-            return NullGameCanvas(AllBinaryGameLayerManager.getNullInstance())
-        except Exception as e:
+            return newNullGameCanvas(AllBinaryGameLayerManager.getNullInstance())
+        except CatchableError as jcaught:
+            let e = jToException(jcaught)
             LogUtil.getInstance().put(CommonStrings.getInstance().EXCEPTION, "NullGameCanvas", CommonStrings.getInstance().GET_INSTANCE, e)
-            raise RuntimeError()
-    
+            raise newJException("RuntimeException", "")
 
-    @staticmethod
-    def getInstance() -> NullGameCanvas:
-        from org.allbinary.logic.NullUtil import NullUtil
+proc getInstance*(t: typedesc[NullGameCanvas]): NullGameCanvas {.discardable.} =
         if NullGameCanvas.instance == NullUtil.getInstance().NULL_OBJECT:
             NullGameCanvas.instance = NullGameCanvas.createNull()
-        return NullGameCanvas.instance
-    
+        return NullGameCanvas(JObject(NullGameCanvas.instance))
 
-    # throws Exception
-    @staticmethod
-    def createCanvas(gameLayerManager: AllBinaryGameLayerManager) -> NullGameCanvas:
-        from org.allbinary.game.layer.AllBinaryGameLayerManager import AllBinaryGameLayerManager
-        nullGameCanvas: NullGameCanvas = NullGameCanvas(gameLayerManager)
-        nullGameCanvas.setInitialized(True)
+proc createCanvas*(t: typedesc[NullGameCanvas], gameLayerManager: AllBinaryGameLayerManager): NullGameCanvas {.discardable.} =
+        let nullGameCanvas: NullGameCanvas = newNullGameCanvas(gameLayerManager)
+        nullGameCanvas.setInitialized(true)
         nullGameCanvas.setTitle(NullGameCanvas.NO_GAME)
         return nullGameCanvas
-    
 
-    def __init__(self, gameLayerManager: AllBinaryGameLayerManager) -> None:
-        from javax.microedition.lcdui.NullCommandListener import NullCommandListener
-        from org.allbinary.game.init.BasicBuildGameInitializerFactory import BasicBuildGameInitializerFactory
-        from org.allbinary.game.layer.AllBinaryGameLayerManager import AllBinaryGameLayerManager
-        from org.allbinary.game.score.NoHighScoresFactory import NoHighScoresFactory
-        super().__init__(NullCommandListener.NULL_COMMAND_LISTENER, gameLayerManager, NoHighScoresFactory.getInstance(), BasicBuildGameInitializerFactory.NULL_BASE_BUILD_GMAE_INITIALIZER_FACTORY, False)
-        self._init_fields()
-        super().setWait(1200)
-    
+proc initNullGameCanvas*(this: NullGameCanvas, gameLayerManager: AllBinaryGameLayerManager) =
+        initAllBinaryGameCanvas(this, NullCommandListener.NULL_COMMAND_LISTENERStatic, gameLayerManager, NoHighScoresFactory.getInstance(), BasicBuildGameInitializerFactory.NULL_BASE_BUILD_GMAE_INITIALIZER_FACTORY, false)
+        this.initFieldsNullGameCanvas()
+        procCall AllBinaryGameCanvas(this).setWait(1200)
 
-    def isGameOver(self) -> bool:
-        with self._lock:
-            return self._isGameOver_unlocked()
+proc newNullGameCanvas*(gameLayerManager: AllBinaryGameLayerManager): NullGameCanvas =
+    result = NullGameCanvas()
+    initNullGameCanvas(result, gameLayerManager)
 
-    def _isGameOver_unlocked(self) -> bool:
-        return False
-    
+method isGameOver*(this: NullGameCanvas): bool {.discardable.} =
+        return false
 
-    def setRunning(self, running: bool) -> None:
-        self.runningNull = running
-    
+method setRunning*(this: NullGameCanvas, running: bool) =
+        this.runningNull = running
 
-    def isRunning(self) -> bool:
-        with self._lock:
-            return self._isRunning_unlocked()
+method isRunning*(this: NullGameCanvas): bool {.discardable.} =
+        return this.runningNull
 
-    def _isRunning_unlocked(self) -> bool:
-        return self.runningNull
-    
+method pause*(this: NullGameCanvas) =
+        this.setPaused(true)
 
-    def pause(self) -> None:
-        with self._lock:
-            return self._pause_unlocked()
+method unPause*(this: NullGameCanvas) =
+        this.setPaused(false)
 
-    def _pause_unlocked(self) -> None:
-        self.setPaused(True)
-    
+method initCommands*(this: NullGameCanvas, cmdListener: CommandListener) =
+        this.removeAllCommands()
+        this.setCommandListener(cmdListener)
 
-    def unPause(self) -> None:
-        with self._lock:
-            return self._unPause_unlocked()
+method buildGameInit*(this: NullGameCanvas, isProgress: bool) =
+        discard
 
-    def _unPause_unlocked(self) -> None:
-        self.setPaused(False)
-    
+method draw*(this: NullGameCanvas, graphics: Graphics) =
+        discard
 
-    def initCommands(self, cmdListener: CommandListener) -> None:
-        from javax.microedition.lcdui.CommandListener import CommandListener
-        self.removeAllCommands()
-        self.setCommandListener(cmdListener)
-    
-
-    # throws Exception
-    def buildGameInit(self, isProgress: bool) -> None:
-        pass
-    
-
-    def draw(self, graphics: Graphics) -> None:
-        from javax.microedition.lcdui.Graphics import Graphics
-        pass
-    
-
-    def run(self) -> None:
+method run*(this: NullGameCanvas) =
         try:
-            self.logUtil.putF(self.commonStrings.START_RUNNABLE, self, self.commonStrings.RUN)
-            self.logUtil.putF(self.commonStrings.END_RUNNABLE, self, self.commonStrings.RUN)
-        except Exception as e:
-            self.logUtil.put(self.commonStrings.EXCEPTION, self, self.commonStrings.RUN, e)
-    
+            this.logUtil.putF(this.commonStrings.START_RUNNABLE, this, this.commonStrings.RUN)
+            this.logUtil.putF(this.commonStrings.END_RUNNABLE, this, this.commonStrings.RUN)
+        except CatchableError as jcaught:
+            let e = jToException(jcaught)
+            this.logUtil.put(this.commonStrings.EXCEPTION, this, this.commonStrings.RUN, e)
 
-    def getType(self) -> int:
+method getType*(this: NullGameCanvas): int32 {.discardable.} =
         return NullGameCanvas.TYPE
-# from javax.microedition.lcdui.CommandListener import CommandListener
-# from javax.microedition.lcdui.Graphics import Graphics
-# from javax.microedition.lcdui.NullCommandListener import NullCommandListener
-# from org.allbinary.game.init.BasicBuildGameInitializerFactory import BasicBuildGameInitializerFactory
-# from org.allbinary.game.layer.AllBinaryGameLayerManager import AllBinaryGameLayerManager
-# from org.allbinary.game.score.NoHighScoresFactory import NoHighScoresFactory
-# from org.allbinary.logic.NullUtil import NullUtil
-# from org.allbinary.logic.communication.log.LogUtil import LogUtil
-# from org.allbinary.string.CommonStrings import CommonStrings
 
-
-def _NullGameCanvas_instance() -> object:
-    from org.allbinary.logic.NullUtil import NullUtil
-    return NullUtil.getInstance().NULL_OBJECT
-
-lazy_static(NullGameCanvas, "instance", _NullGameCanvas_instance)
+when declared(newNullGameCanvasHook1):
+    newNullGameCanvasHook1 = proc (gameLayerManager: AllBinaryGameLayerManager): AllBinaryGameCanvas = newNullGameCanvas(gameLayerManager)
 

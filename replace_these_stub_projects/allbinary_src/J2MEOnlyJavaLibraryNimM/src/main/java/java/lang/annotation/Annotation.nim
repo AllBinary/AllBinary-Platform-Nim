@@ -1,15 +1,13 @@
 # Generated Code Do Not Modify
 # package java.lang.annotation
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+
+type
+    Annotation* = ref object of JObject
 
 
-
-# Java interface
-class Annotation:
-    
-
-    def annotationType(self) -> type:
-        raise NotImplementedError()
-
+method annotationType*(this: Annotation): string {.base, discardable.} =
+        raise newJException("AbstractMethodError", "annotationType")
 

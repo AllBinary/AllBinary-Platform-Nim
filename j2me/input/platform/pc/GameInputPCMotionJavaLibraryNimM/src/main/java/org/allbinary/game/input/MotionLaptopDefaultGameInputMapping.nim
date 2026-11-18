@@ -1,54 +1,66 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.input
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/game/input/mapping/PersistentInputMapping as PersistentInputMappingModule
+export PersistentInputMappingModule
 
-from org.allbinary.game.input.mapping.PersistentInputMapping import PersistentInputMapping
+type
+    MotionLaptopDefaultGameInputMapping* = ref object of PersistentInputMapping
+
+proc newMotionLaptopDefaultGameInputMapping*(): MotionLaptopDefaultGameInputMapping
+proc initMotionLaptopDefaultGameInputMapping*(this: MotionLaptopDefaultGameInputMapping)
+import org/allbinary/game/configuration/persistance/GamePersistanceStrings as GamePersistanceStringsModule
+export GamePersistanceStringsModule
+import org/allbinary/game/input/mapping/InputToGameKeyMapping as InputToGameKeyMappingModule
+export InputToGameKeyMappingModule
+import org/allbinary/input/motion/button/BasicTouchInputFactory as BasicTouchInputFactoryModule
+export BasicTouchInputFactoryModule
+import org/allbinary/input/motion/gesture/TouchMotionGestureFactory as TouchMotionGestureFactoryModule
+export TouchMotionGestureFactoryModule
+import org/allbinary/game/input/PCKeyFactory as PCKeyFactoryModule
+export PCKeyFactoryModule
+import org/allbinary/game/input/GameKeyFactory as GameKeyFactoryModule
+export GameKeyFactoryModule
 
 
-class MotionLaptopDefaultGameInputMapping(PersistentInputMapping):
-    
-
-    def __init__(self) -> None:
-        from org.allbinary.game.input.PCKeyFactory import PCKeyFactory
-        from org.allbinary.game.input.GameKeyFactory import GameKeyFactory
-        from org.allbinary.game.configuration.persistance.GamePersistanceStrings import GamePersistanceStrings
-        from org.allbinary.game.input.mapping.InputToGameKeyMapping import InputToGameKeyMapping
-        from org.allbinary.input.motion.button.BasicTouchInputFactory import BasicTouchInputFactory
-        from org.allbinary.input.motion.gesture.TouchMotionGestureFactory import TouchMotionGestureFactory
-        super().__init__(GamePersistanceStrings.getInstance().DEFAULT_INPUT_MAPPING_RECORD_ID)
-        pcKeyFactory: PCKeyFactory = PCKeyFactory.getInstance()
-        inputToGameKeyMapping: InputToGameKeyMapping = self.getInputMapping()
-        gameKeyFactory: GameKeyFactory = GameKeyFactory.getInstance()
-        touchMotionGestureFactory: TouchMotionGestureFactory = TouchMotionGestureFactory.getInstance()
-        basicTouchInputFactory: BasicTouchInputFactory = BasicTouchInputFactory.getInstance()
+proc initMotionLaptopDefaultGameInputMapping*(this: MotionLaptopDefaultGameInputMapping) =
+        initPersistentInputMapping(this, GamePersistanceStrings.getInstance().DEFAULT_INPUT_MAPPING_RECORD_ID)
+        let pcKeyFactory: PCKeyFactory = PCKeyFactory.getInstance()
+        let inputToGameKeyMapping: InputToGameKeyMapping = this.getInputMapping()
+        let gameKeyFactory: GameKeyFactory = GameKeyFactory.getInstance()
+        let touchMotionGestureFactory: TouchMotionGestureFactory = TouchMotionGestureFactory.getInstance()
+        let basicTouchInputFactory: BasicTouchInputFactory = BasicTouchInputFactory.getInstance()
         inputToGameKeyMapping.add(gameKeyFactory.FIRE, pcKeyFactory.ENTER)
         inputToGameKeyMapping.add(gameKeyFactory.KEY_NUM1, pcKeyFactory.FOUR)
-        inputToGameKeyMapping.add(gameKeyFactory.KEY_NUM1, pcKeyFactory._P)
+        inputToGameKeyMapping.add(gameKeyFactory.KEY_NUM1, pcKeyFactory.U_P)
         inputToGameKeyMapping.add(gameKeyFactory.KEY_NUM1, pcKeyFactory.p)
         inputToGameKeyMapping.add(gameKeyFactory.UP, pcKeyFactory.DPAD_UP)
         inputToGameKeyMapping.add(gameKeyFactory.DOWN, pcKeyFactory.DPAD_DOWN)
         inputToGameKeyMapping.add(gameKeyFactory.LEFT, pcKeyFactory.DPAD_LEFT)
         inputToGameKeyMapping.add(gameKeyFactory.RIGHT, pcKeyFactory.DPAD_RIGHT)
-        inputToGameKeyMapping.add(gameKeyFactory.KEY_NUM7, pcKeyFactory._Y)
-        inputToGameKeyMapping.add(gameKeyFactory.KEY_NUM9, pcKeyFactory._I)
-        inputToGameKeyMapping.add(gameKeyFactory.UP, pcKeyFactory._U)
-        inputToGameKeyMapping.add(gameKeyFactory.LEFT, pcKeyFactory._H)
-        inputToGameKeyMapping.add(gameKeyFactory.RIGHT, pcKeyFactory._J)
-        inputToGameKeyMapping.add(gameKeyFactory.DOWN, pcKeyFactory._N)
-        inputToGameKeyMapping.add(gameKeyFactory.KEY_NUM5, pcKeyFactory._M)
+        inputToGameKeyMapping.add(gameKeyFactory.KEY_NUM7, pcKeyFactory.U_Y)
+        inputToGameKeyMapping.add(gameKeyFactory.KEY_NUM9, pcKeyFactory.U_I)
+        inputToGameKeyMapping.add(gameKeyFactory.UP, pcKeyFactory.U_U)
+        inputToGameKeyMapping.add(gameKeyFactory.LEFT, pcKeyFactory.U_H)
+        inputToGameKeyMapping.add(gameKeyFactory.RIGHT, pcKeyFactory.U_J)
+        inputToGameKeyMapping.add(gameKeyFactory.DOWN, pcKeyFactory.U_N)
+        inputToGameKeyMapping.add(gameKeyFactory.KEY_NUM5, pcKeyFactory.U_M)
         inputToGameKeyMapping.add(gameKeyFactory.KEY_NUM7, pcKeyFactory.y)
         inputToGameKeyMapping.add(gameKeyFactory.KEY_NUM9, pcKeyFactory.i)
         inputToGameKeyMapping.add(gameKeyFactory.UP, pcKeyFactory.u)
@@ -56,13 +68,13 @@ class MotionLaptopDefaultGameInputMapping(PersistentInputMapping):
         inputToGameKeyMapping.add(gameKeyFactory.RIGHT, pcKeyFactory.j)
         inputToGameKeyMapping.add(gameKeyFactory.DOWN, pcKeyFactory.n)
         inputToGameKeyMapping.add(gameKeyFactory.KEY_NUM5, pcKeyFactory.m)
-        inputToGameKeyMapping.add(gameKeyFactory.KEY_NUM7, pcKeyFactory._Q)
-        inputToGameKeyMapping.add(gameKeyFactory.KEY_NUM9, pcKeyFactory._E)
-        inputToGameKeyMapping.add(gameKeyFactory.UP, pcKeyFactory._W)
-        inputToGameKeyMapping.add(gameKeyFactory.LEFT, pcKeyFactory._A)
-        inputToGameKeyMapping.add(gameKeyFactory.RIGHT, pcKeyFactory._D)
-        inputToGameKeyMapping.add(gameKeyFactory.DOWN, pcKeyFactory._S)
-        inputToGameKeyMapping.add(gameKeyFactory.KEY_NUM5, pcKeyFactory._X)
+        inputToGameKeyMapping.add(gameKeyFactory.KEY_NUM7, pcKeyFactory.U_Q)
+        inputToGameKeyMapping.add(gameKeyFactory.KEY_NUM9, pcKeyFactory.U_E)
+        inputToGameKeyMapping.add(gameKeyFactory.UP, pcKeyFactory.U_W)
+        inputToGameKeyMapping.add(gameKeyFactory.LEFT, pcKeyFactory.U_A)
+        inputToGameKeyMapping.add(gameKeyFactory.RIGHT, pcKeyFactory.U_D)
+        inputToGameKeyMapping.add(gameKeyFactory.DOWN, pcKeyFactory.U_S)
+        inputToGameKeyMapping.add(gameKeyFactory.KEY_NUM5, pcKeyFactory.U_X)
         inputToGameKeyMapping.add(gameKeyFactory.KEY_NUM7, pcKeyFactory.q)
         inputToGameKeyMapping.add(gameKeyFactory.KEY_NUM9, pcKeyFactory.e)
         inputToGameKeyMapping.add(gameKeyFactory.UP, pcKeyFactory.w)
@@ -94,9 +106,11 @@ class MotionLaptopDefaultGameInputMapping(PersistentInputMapping):
         inputToGameKeyMapping.add(gameKeyFactory.KEY_STAR, pcKeyFactory.STAR)
         inputToGameKeyMapping.add(gameKeyFactory.LEVEL_DOWN, pcKeyFactory.COMMA)
         inputToGameKeyMapping.add(gameKeyFactory.LEVEL_UP, pcKeyFactory.PERIOD)
-# from org.allbinary.game.configuration.persistance.GamePersistanceStrings import GamePersistanceStrings
-# from org.allbinary.game.input.mapping.InputToGameKeyMapping import InputToGameKeyMapping
-# from org.allbinary.input.motion.button.BasicTouchInputFactory import BasicTouchInputFactory
-# from org.allbinary.input.motion.gesture.TouchMotionGestureFactory import TouchMotionGestureFactory
 
+proc newMotionLaptopDefaultGameInputMapping*(): MotionLaptopDefaultGameInputMapping =
+    result = MotionLaptopDefaultGameInputMapping()
+    initMotionLaptopDefaultGameInputMapping(result)
+
+when declared(newMotionLaptopDefaultGameInputMappingHook0):
+    newMotionLaptopDefaultGameInputMappingHook0 = proc (): PersistentInputMapping = newMotionLaptopDefaultGameInputMapping()
 

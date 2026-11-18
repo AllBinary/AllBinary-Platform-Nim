@@ -1,27 +1,23 @@
 # Generated Code Do Not Modify
 # package org.allbinary.view
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import javax/microedition/lcdui/Displayable as DisplayableModule
+export DisplayableModule
+import javax/microedition/midlet/MIDlet as MIDletModule
+export MIDletModule
+
+type
+    EmulatorViewInterface* = ref object of JObject
 
 
+method setMidlet*(this: EmulatorViewInterface, midlet: MIDlet) {.base.} =
+        raise newJException("AbstractMethodError", "setMidlet")
 
-# Java interface
-class EmulatorViewInterface:
-    
+method onEmulatorInitComplete*(this: EmulatorViewInterface, midletActivity: JObject) {.base.} =
+        raise newJException("AbstractMethodError", "onEmulatorInitComplete")
 
-    def setMidlet(self, midlet: MIDlet) -> None:
-        from javax.microedition.midlet.MIDlet import MIDlet
-        raise NotImplementedError()
-    
-
-    def onEmulatorInitComplete(self, midletActivity: object) -> None:
-        raise NotImplementedError()
-    
-
-    def onSetDisplayable(self, displayable: Displayable) -> None:
-        from javax.microedition.lcdui.Displayable import Displayable
-        raise NotImplementedError()
-# from javax.microedition.lcdui.Displayable import Displayable
-# from javax.microedition.midlet.MIDlet import MIDlet
-
+method onSetDisplayable*(this: EmulatorViewInterface, displayable: Displayable) {.base.} =
+        raise newJException("AbstractMethodError", "onSetDisplayable")
 

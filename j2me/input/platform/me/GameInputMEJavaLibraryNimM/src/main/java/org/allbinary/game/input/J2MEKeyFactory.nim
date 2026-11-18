@@ -1,97 +1,115 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.input
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/game/input/GameKeyFactory as GameKeyFactoryModule
+export GameKeyFactoryModule
+import org/allbinary/game/input/Input as InputModule
+export InputModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    J2MEKeyFactory* = ref object of JObject
+        gameKeyFactory*: GameKeyFactory
 
+proc newJ2MEKeyFactory*(): J2MEKeyFactory
+proc initJ2MEKeyFactory*(this: J2MEKeyFactory)
+proc getInstance*(t: typedesc[J2MEKeyFactory]): J2MEKeyFactory {.discardable.}
+method init*(this: J2MEKeyFactory) {.base.}
+method isSubmission*(this: J2MEKeyFactory, input: Input): bool {.base, discardable.}
+method isDelete*(this: J2MEKeyFactory, input: Input): bool {.base, discardable.}
+method isBackSpace*(this: J2MEKeyFactory, input: Input): bool {.base, discardable.}
+method isUp*(this: J2MEKeyFactory, input: Input): bool {.base, discardable.}
+method isDown*(this: J2MEKeyFactory, input: Input): bool {.base, discardable.}
+method isLeft*(this: J2MEKeyFactory, input: Input): bool {.base, discardable.}
+method isRight*(this: J2MEKeyFactory, input: Input): bool {.base, discardable.}
+method isEnter*(this: J2MEKeyFactory, input: Input): bool {.base, discardable.}
+import org/allbinary/game/input/GameKey as GameKeyModule
+export GameKeyModule
+import org/allbinary/game/input/InputFactory as InputFactoryModule
+export InputFactoryModule
 
-class J2MEKeyFactory:
-    instance: J2MEKeyFactory = None
+var J2MEKeyFactory_instanceValue: J2MEKeyFactory
+var J2MEKeyFactory_instanceSet = false
+proc instance*(t: typedesc[J2MEKeyFactory]): J2MEKeyFactory =
+    if not J2MEKeyFactory_instanceSet:
+        J2MEKeyFactory_instanceSet = true
+        J2MEKeyFactory_instanceValue = newJ2MEKeyFactory()
+    J2MEKeyFactory_instanceValue
 
-    def _init_fields(self) -> None:
-        self.gameKeyFactory: GameKeyFactory = GameKeyFactory.getInstance()
-    
+# Java field initializers run after the base initializer
+proc initFieldsJ2MEKeyFactory(this: J2MEKeyFactory) =
+    this.gameKeyFactory = GameKeyFactory.getInstance()
+    discard
 
-    @staticmethod
-    def getInstance() -> J2MEKeyFactory:
+proc getInstance*(t: typedesc[J2MEKeyFactory]): J2MEKeyFactory {.discardable.} =
         return J2MEKeyFactory.instance
-    
 
-    def __init__(self) -> None:
-        self._init_fields()
-    
+proc initJ2MEKeyFactory*(this: J2MEKeyFactory) =
+        this.initFieldsJ2MEKeyFactory()
+        discard
 
-    def init(self) -> None:
-        from org.allbinary.game.input.InputFactory import InputFactory
-        gameKeyArray: list[GameKey] = [self.gameKeyFactory.DOWN, self.gameKeyFactory.FIRE, self.gameKeyFactory.GAME_A, self.gameKeyFactory.GAME_B, self.gameKeyFactory.GAME_C, self.gameKeyFactory.GAME_D, self.gameKeyFactory.KEY_NUM0, self.gameKeyFactory.KEY_NUM1, self.gameKeyFactory.KEY_NUM2, self.gameKeyFactory.KEY_NUM3, self.gameKeyFactory.KEY_NUM4, self.gameKeyFactory.KEY_NUM5, self.gameKeyFactory.KEY_NUM6, self.gameKeyFactory.KEY_NUM7, self.gameKeyFactory.KEY_NUM8, self.gameKeyFactory.KEY_NUM9, self.gameKeyFactory.KEY_POUND, self.gameKeyFactory.KEY_STAR, self.gameKeyFactory.LEFT, self.gameKeyFactory.LEVEL_DOWN, self.gameKeyFactory.LEVEL_UP, self.gameKeyFactory.NONE, self.gameKeyFactory.RIGHT, self.gameKeyFactory.UP]
-        inputFactory: InputFactory = InputFactory.getInstance()
-        index = len(gameKeyArray)
-        while (index := index - 1) >= 0:
-            inputFactory.add(gameKeyArray[index].getId(), gameKeyArray[index])
-    
+proc newJ2MEKeyFactory*(): J2MEKeyFactory =
+    result = J2MEKeyFactory()
+    initJ2MEKeyFactory(result)
 
-    def isSubmission(self, input: Input) -> bool:
-        if input == self.gameKeyFactory.FIRE:
-            return True
-        return False
-    
+method init*(this: J2MEKeyFactory) {.base.} =
+        var gameKeyArray: JArray[GameKey] = newJArrayFromRefs[GameKey](this.gameKeyFactory.DOWN, this.gameKeyFactory.FIRE, this.gameKeyFactory.GAME_A, this.gameKeyFactory.GAME_B, this.gameKeyFactory.GAME_C, this.gameKeyFactory.GAME_D, this.gameKeyFactory.KEY_NUM0, this.gameKeyFactory.KEY_NUM1, this.gameKeyFactory.KEY_NUM2, this.gameKeyFactory.KEY_NUM3, this.gameKeyFactory.KEY_NUM4, this.gameKeyFactory.KEY_NUM5, this.gameKeyFactory.KEY_NUM6, this.gameKeyFactory.KEY_NUM7, this.gameKeyFactory.KEY_NUM8, this.gameKeyFactory.KEY_NUM9, this.gameKeyFactory.KEY_POUND, this.gameKeyFactory.KEY_STAR, this.gameKeyFactory.LEFT, this.gameKeyFactory.LEVEL_DOWN, this.gameKeyFactory.LEVEL_UP, this.gameKeyFactory.NONE, this.gameKeyFactory.RIGHT, this.gameKeyFactory.UP)
+        var inputFactory: InputFactory = InputFactory.getInstance()
+        block:
+            var index: int32 = gameKeyArray.length
+            while jPreDecrement(index) >= 0:
+                inputFactory.add(gameKeyArray[index].getId(), gameKeyArray[index])
 
-    def isDelete(self, input: Input) -> bool:
-        if input == self.gameKeyFactory.GAME_D:
-            return True
-        return False
-    
+method isSubmission*(this: J2MEKeyFactory, input: Input): bool {.base, discardable.} =
+        if input == this.gameKeyFactory.FIRE:
+            return true
+        return false
 
-    def isBackSpace(self, input: Input) -> bool:
-        return False
-    
+method isDelete*(this: J2MEKeyFactory, input: Input): bool {.base, discardable.} =
+        if input == this.gameKeyFactory.GAME_D:
+            return true
+        return false
 
-    def isUp(self, input: Input) -> bool:
-        if input == self.gameKeyFactory.UP:
-            return True
-        return False
-    
+method isBackSpace*(this: J2MEKeyFactory, input: Input): bool {.base, discardable.} =
+        return false
 
-    def isDown(self, input: Input) -> bool:
-        if input == self.gameKeyFactory.DOWN:
-            return True
-        return False
-    
+method isUp*(this: J2MEKeyFactory, input: Input): bool {.base, discardable.} =
+        if input == this.gameKeyFactory.UP:
+            return true
+        return false
 
-    def isLeft(self, input: Input) -> bool:
-        if input == self.gameKeyFactory.LEFT:
-            return True
-        return False
-    
+method isDown*(this: J2MEKeyFactory, input: Input): bool {.base, discardable.} =
+        if input == this.gameKeyFactory.DOWN:
+            return true
+        return false
 
-    def isRight(self, input: Input) -> bool:
-        if input == self.gameKeyFactory.RIGHT:
-            return True
-        return False
-    
+method isLeft*(this: J2MEKeyFactory, input: Input): bool {.base, discardable.} =
+        if input == this.gameKeyFactory.LEFT:
+            return true
+        return false
 
-    def isEnter(self, input: Input) -> bool:
-        if input == self.gameKeyFactory.FIRE:
-            return True
-        return False
-from org.allbinary.game.input.GameKeyFactory import GameKeyFactory
+method isRight*(this: J2MEKeyFactory, input: Input): bool {.base, discardable.} =
+        if input == this.gameKeyFactory.RIGHT:
+            return true
+        return false
 
-
-def _J2MEKeyFactory_instance() -> object:
-    return J2MEKeyFactory()
-
-lazy_static(J2MEKeyFactory, "instance", _J2MEKeyFactory_instance)
+method isEnter*(this: J2MEKeyFactory, input: Input): bool {.base, discardable.} =
+        if input == this.gameKeyFactory.FIRE:
+            return true
+        return false
 

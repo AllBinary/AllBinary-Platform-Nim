@@ -1,47 +1,64 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.audio
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/audio/AudioContentTypeData as AudioContentTypeDataModule
+export AudioContentTypeDataModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    AudioContentTypeDataFactory* = ref object of JObject
+        MIME_AUDIO_TONE*: AudioContentTypeData
+        MIME_AUDIO_AMR*: AudioContentTypeData
+        MIME_AUDIO_AMR_WB*: AudioContentTypeData
+        MIME_AUDIO_WAV*: AudioContentTypeData
+        MIME_AUDIO_MIDI*: AudioContentTypeData
+        MIME_AUDIO_SP_MIDI*: AudioContentTypeData
 
+proc newAudioContentTypeDataFactory*(): AudioContentTypeDataFactory
+proc initAudioContentTypeDataFactory*(this: AudioContentTypeDataFactory)
+proc getInstance*(t: typedesc[AudioContentTypeDataFactory]): AudioContentTypeDataFactory {.discardable.}
 
-class AudioContentTypeDataFactory:
-    instance: AudioContentTypeDataFactory = None
+var AudioContentTypeDataFactory_instanceValue: AudioContentTypeDataFactory
+var AudioContentTypeDataFactory_instanceSet = false
+proc instance*(t: typedesc[AudioContentTypeDataFactory]): AudioContentTypeDataFactory =
+    if not AudioContentTypeDataFactory_instanceSet:
+        AudioContentTypeDataFactory_instanceSet = true
+        AudioContentTypeDataFactory_instanceValue = newAudioContentTypeDataFactory()
+    AudioContentTypeDataFactory_instanceValue
 
-    def _init_fields(self) -> None:
-        self.MIME_AUDIO_TONE: AudioContentTypeData = AudioContentTypeData("audio/x-tone-seq")
-        self.MIME_AUDIO_AMR: AudioContentTypeData = AudioContentTypeData("audio/amr")
-        self.MIME_AUDIO_AMR_WB: AudioContentTypeData = AudioContentTypeData("audio/amr-wb")
-        self.MIME_AUDIO_WAV: AudioContentTypeData = AudioContentTypeData("audio/x-wav")
-        self.MIME_AUDIO_MIDI: AudioContentTypeData = AudioContentTypeData("audio/midi")
-        self.MIME_AUDIO_SP_MIDI: AudioContentTypeData = AudioContentTypeData("audio/sp-midi")
-    
+# Java field initializers run after the base initializer
+proc initFieldsAudioContentTypeDataFactory(this: AudioContentTypeDataFactory) =
+    this.MIME_AUDIO_TONE = newAudioContentTypeData("audio/x-tone-seq")
+    this.MIME_AUDIO_AMR = newAudioContentTypeData("audio/amr")
+    this.MIME_AUDIO_AMR_WB = newAudioContentTypeData("audio/amr-wb")
+    this.MIME_AUDIO_WAV = newAudioContentTypeData("audio/x-wav")
+    this.MIME_AUDIO_MIDI = newAudioContentTypeData("audio/midi")
+    this.MIME_AUDIO_SP_MIDI = newAudioContentTypeData("audio/sp-midi")
+    discard
 
-    @staticmethod
-    def getInstance() -> AudioContentTypeDataFactory:
+proc getInstance*(t: typedesc[AudioContentTypeDataFactory]): AudioContentTypeDataFactory {.discardable.} =
         return AudioContentTypeDataFactory.instance
-    
 
-    def __init__(self) -> None:
-        self._init_fields()
-from org.allbinary.audio.AudioContentTypeData import AudioContentTypeData
+proc initAudioContentTypeDataFactory*(this: AudioContentTypeDataFactory) =
+        this.initFieldsAudioContentTypeDataFactory()
+        discard
 
-
-def _AudioContentTypeDataFactory_instance() -> object:
-    return AudioContentTypeDataFactory()
-
-lazy_static(AudioContentTypeDataFactory, "instance", _AudioContentTypeDataFactory_instance)
+proc newAudioContentTypeDataFactory*(): AudioContentTypeDataFactory =
+    result = AudioContentTypeDataFactory()
+    initAudioContentTypeDataFactory(result)
 

@@ -1,65 +1,80 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.animation.image
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import javax/microedition/lcdui/Graphics as GraphicsModule
+export GraphicsModule
+import javax/microedition/lcdui/Image as ImageModule
+export ImageModule
+import org/allbinary/animation/AnimationBehavior as AnimationBehaviorModule
+export AnimationBehaviorModule
+import org/allbinary/animation/image/ImageArrayAnimation as ImageArrayAnimationModule
+export ImageArrayAnimationModule
 
-from org.allbinary.animation.image.ImageArrayAnimation import ImageArrayAnimation
+type
+    AdjustedImageArrayAnimation* = ref object of ImageArrayAnimation
+        dx*: int32
+        dy*: int32
+
+proc newAdjustedImageArrayAnimation*(imageArray: JArray[Image], dx: int32, dy: int32, animationBehavior: AnimationBehavior): AdjustedImageArrayAnimation
+proc initAdjustedImageArrayAnimation*(this: AdjustedImageArrayAnimation, imageArray: JArray[Image], dx: int32, dy: int32, animationBehavior: AnimationBehavior)
+method init*(this: AdjustedImageArrayAnimation, dx: int32, dy: int32) {.base.}
+method paintXY*(this: AdjustedImageArrayAnimation, graphics: Graphics, x: int32, y: int32)
+method setDx*(this: AdjustedImageArrayAnimation, dx: int32)
+method getDx*(this: AdjustedImageArrayAnimation): int32 {.discardable.}
+method setDy*(this: AdjustedImageArrayAnimation, dy: int32)
+method getDy*(this: AdjustedImageArrayAnimation): int32 {.discardable.}
 
 
-class AdjustedImageArrayAnimation(ImageArrayAnimation):
+# Java field initializers run after the base initializer
+proc initFieldsAdjustedImageArrayAnimation(this: AdjustedImageArrayAnimation) =
+    this.dx = 0
+    this.dy = 0
+    discard
 
-    def _init_fields(self) -> None:
-        self.dx: int = 0
-        self.dy: int = 0
-    
+proc initAdjustedImageArrayAnimation*(this: AdjustedImageArrayAnimation, imageArray: JArray[Image], dx: int32, dy: int32, animationBehavior: AnimationBehavior) =
+        initImageArrayAnimation(this, imageArray, animationBehavior)
+        this.initFieldsAdjustedImageArrayAnimation()
+        this.init(dx, dy)
 
-    def __init__(self, imageArray: list[Image], dx: int, dy: int, animationBehavior: AnimationBehavior) -> None:
-        from javax.microedition.lcdui.Image import Image
-        from org.allbinary.animation.AnimationBehavior import AnimationBehavior
-        super().__init__(imageArray, animationBehavior)
-        self._init_fields()
-        self.init(dx, dy)
-    
+proc newAdjustedImageArrayAnimation*(imageArray: JArray[Image], dx: int32, dy: int32, animationBehavior: AnimationBehavior): AdjustedImageArrayAnimation =
+    result = AdjustedImageArrayAnimation()
+    initAdjustedImageArrayAnimation(result, imageArray, dx, dy, animationBehavior)
 
-    # throws Exception
-    def init(self, dx: int, dy: int) -> None:
-        self.setDx(dx)
-        self.setDy(dy)
-    
+method init*(this: AdjustedImageArrayAnimation, dx: int32, dy: int32) {.base.} =
+        this.setDx(dx)
+        this.setDy(dy)
 
-    def paintXY(self, graphics: Graphics, x: int, y: int) -> None:
-        from javax.microedition.lcdui.Graphics import Graphics
-        super().paintXY(graphics, x + self.dx, y + self.dy)
-    
+method paintXY*(this: AdjustedImageArrayAnimation, graphics: Graphics, x: int32, y: int32) =
+        procCall ImageArrayAnimation(this).paintXY(graphics, x +% this.dx, y +% this.dy)
 
-    def setDx(self, dx: int) -> None:
-        self.dx = dx
-    
+method setDx*(this: AdjustedImageArrayAnimation, dx: int32) =
+        this.dx = dx
 
-    def getDx(self) -> int:
-        return self.dx
-    
+method getDx*(this: AdjustedImageArrayAnimation): int32 {.discardable.} =
+        return this.dx
 
-    def setDy(self, dy: int) -> None:
-        self.dy = dy
-    
+method setDy*(this: AdjustedImageArrayAnimation, dy: int32) =
+        this.dy = dy
 
-    def getDy(self) -> int:
-        return self.dy
-# from javax.microedition.lcdui.Graphics import Graphics
-# from javax.microedition.lcdui.Image import Image
-# from org.allbinary.animation.AnimationBehavior import AnimationBehavior
+method getDy*(this: AdjustedImageArrayAnimation): int32 {.discardable.} =
+        return this.dy
 
+when declared(newAdjustedImageArrayAnimationHook4):
+    newAdjustedImageArrayAnimationHook4 = proc (imageArray: JArray[Image], dx: int32, dy: int32, animationBehavior: AnimationBehavior): ImageArrayAnimation = newAdjustedImageArrayAnimation(imageArray, dx, dy, animationBehavior)
 

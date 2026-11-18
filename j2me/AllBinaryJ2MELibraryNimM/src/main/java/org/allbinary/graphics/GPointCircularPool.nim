@@ -1,34 +1,50 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.graphics
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/logic/util/cache/BaseCircularPool as BaseCircularPoolModule
+export BaseCircularPoolModule
 
-from org.allbinary.logic.util.cache.BaseCircularPool import BaseCircularPool
+type
+    GPointCircularPool* = ref object of BaseCircularPool
+
+proc newGPointCircularPool*(size: int32): GPointCircularPool
+proc initGPointCircularPool*(this: GPointCircularPool, size: int32)
+import org/allbinary/util/CircularIndexUtil as CircularIndexUtilModule
+export CircularIndexUtilModule
+import org/allbinary/graphics/CustomGPoint as CustomGPointModule
+export CustomGPointModule
 
 
-class GPointCircularPool(BaseCircularPool):
-    
+proc initGPointCircularPool*(this: GPointCircularPool, size: int32) =
+        initBaseCircularPool(this)
+        this.circularIndexUtil = CircularIndexUtil.createInstance(size)
+        this.OBJECT_ARRAY = newJArray[JObject](size, default(JObject))
+        block:
+            var index: int32 = size -% 1
+            while index >= 0:
+                defer: index = index -% 1
+                this.OBJECT_ARRAY[index] = CustomGPoint.getInstance3(0, 0)
 
-    def __init__(self, size: int) -> None:
-        from org.allbinary.graphics.CustomGPoint import CustomGPoint
-        from org.allbinary.util.CircularIndexUtil import CircularIndexUtil
-        super().__init__()
-        self.circularIndexUtil = CircularIndexUtil.createInstance(size)
-        self.OBJECT_ARRAY = [None] * (size)
-        for index in range(size - 1, 0 - 1, -1):
-            self.OBJECT_ARRAY[index] = CustomGPoint.getInstance3(0, 0)
-# from org.allbinary.util.CircularIndexUtil import CircularIndexUtil
+proc newGPointCircularPool*(size: int32): GPointCircularPool =
+    result = GPointCircularPool()
+    initGPointCircularPool(result, size)
 
+when declared(newGPointCircularPoolHook1):
+    newGPointCircularPoolHook1 = proc (size: int32): BaseCircularPool = newGPointCircularPool(size)
 

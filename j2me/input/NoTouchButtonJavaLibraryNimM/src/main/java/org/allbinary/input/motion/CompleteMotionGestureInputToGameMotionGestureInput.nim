@@ -1,48 +1,58 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#   
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+    
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.input.motion
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/string/CommonStrings as CommonStringsModule
+export CommonStringsModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    CompleteMotionGestureInputToGameMotionGestureInput* = ref object of JObject
+        commonStrings*: CommonStrings
 
+proc newCompleteMotionGestureInputToGameMotionGestureInput*(): CompleteMotionGestureInputToGameMotionGestureInput
+proc getInstance*(t: typedesc[CompleteMotionGestureInputToGameMotionGestureInput]): CompleteMotionGestureInputToGameMotionGestureInput {.discardable.}
+method init*(this: CompleteMotionGestureInputToGameMotionGestureInput) {.base.}
+import org/allbinary/logic/communication/log/PreLogUtil as PreLogUtilModule
+export PreLogUtilModule
 
-class CompleteMotionGestureInputToGameMotionGestureInput:
-    instance: CompleteMotionGestureInputToGameMotionGestureInput = None
+var CompleteMotionGestureInputToGameMotionGestureInput_instanceValue: CompleteMotionGestureInputToGameMotionGestureInput
+var CompleteMotionGestureInputToGameMotionGestureInput_instanceSet = false
+proc instance*(t: typedesc[CompleteMotionGestureInputToGameMotionGestureInput]): CompleteMotionGestureInputToGameMotionGestureInput =
+    if not CompleteMotionGestureInputToGameMotionGestureInput_instanceSet:
+        CompleteMotionGestureInputToGameMotionGestureInput_instanceSet = true
+        CompleteMotionGestureInputToGameMotionGestureInput_instanceValue = newCompleteMotionGestureInputToGameMotionGestureInput()
+    CompleteMotionGestureInputToGameMotionGestureInput_instanceValue
 
-    def _init_fields(self) -> None:
-        from org.allbinary.string.CommonStrings import CommonStrings
-        self.commonStrings: CommonStrings = CommonStrings.getInstance()
+# Java field initializers run after the base initializer
+proc initFieldsCompleteMotionGestureInputToGameMotionGestureInput(this: CompleteMotionGestureInputToGameMotionGestureInput) =
+    this.commonStrings = CommonStrings.getInstance()
+    discard
 
-    def __init__(self) -> None:
-        self._init_fields()
-    
+proc initCompleteMotionGestureInputToGameMotionGestureInput*(this: CompleteMotionGestureInputToGameMotionGestureInput) =
+    this.initFieldsCompleteMotionGestureInputToGameMotionGestureInput()
 
-    @staticmethod
-    def getInstance() -> CompleteMotionGestureInputToGameMotionGestureInput:
+proc newCompleteMotionGestureInputToGameMotionGestureInput*(): CompleteMotionGestureInputToGameMotionGestureInput =
+    result = CompleteMotionGestureInputToGameMotionGestureInput()
+    initCompleteMotionGestureInputToGameMotionGestureInput(result)
+
+proc getInstance*(t: typedesc[CompleteMotionGestureInputToGameMotionGestureInput]): CompleteMotionGestureInputToGameMotionGestureInput {.discardable.} =
         return CompleteMotionGestureInputToGameMotionGestureInput.instance
-    
 
-    def init(self) -> None:
-        from org.allbinary.logic.communication.log.PreLogUtil import PreLogUtil
-        PreLogUtil.put("No Touch Button = No Compound Motion Gestures", self, self.commonStrings.INIT)
-# from org.allbinary.logic.communication.log.PreLogUtil import PreLogUtil
-# from org.allbinary.string.CommonStrings import CommonStrings
-
-
-def _CompleteMotionGestureInputToGameMotionGestureInput_instance() -> object:
-    return CompleteMotionGestureInputToGameMotionGestureInput()
-
-lazy_static(CompleteMotionGestureInputToGameMotionGestureInput, "instance", _CompleteMotionGestureInputToGameMotionGestureInput_instance)
+method init*(this: CompleteMotionGestureInputToGameMotionGestureInput) {.base.} =
+        PreLogUtil.put("No Touch Button = No Compound Motion Gestures", this, this.commonStrings.INIT)
 

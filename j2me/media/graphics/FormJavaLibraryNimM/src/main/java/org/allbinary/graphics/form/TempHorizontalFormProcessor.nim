@@ -1,38 +1,54 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.graphics.form
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/canvas/Processor as ProcessorModule
+export ProcessorModule
+import org/allbinary/graphics/form/ScrollCurrentSelectionForm as ScrollCurrentSelectionFormModule
+export ScrollCurrentSelectionFormModule
 
-from org.allbinary.canvas.Processor import Processor
+type
+    TempHorizontalFormProcessor* = ref object of Processor
+        scrollCurrentSelectionForm*: ScrollCurrentSelectionForm
+
+proc newTempHorizontalFormProcessor*(scrollCurrentSelectionForm: ScrollCurrentSelectionForm): TempHorizontalFormProcessor
+proc initTempHorizontalFormProcessor*(this: TempHorizontalFormProcessor, scrollCurrentSelectionForm: ScrollCurrentSelectionForm)
+method process*(this: TempHorizontalFormProcessor)
 
 
-class TempHorizontalFormProcessor(Processor):
-
-    def _init_fields(self) -> None:
-        self.scrollCurrentSelectionForm: ScrollCurrentSelectionForm = None
+# Java field initializers run after the base initializer
+proc initFieldsTempHorizontalFormProcessor(this: TempHorizontalFormProcessor) =
     
+    discard
 
-    def __init__(self, scrollCurrentSelectionForm: ScrollCurrentSelectionForm) -> None:
-        super().__init__()
-        self._init_fields()
-        self.scrollCurrentSelectionForm = scrollCurrentSelectionForm
-    
+proc initTempHorizontalFormProcessor*(this: TempHorizontalFormProcessor, scrollCurrentSelectionForm: ScrollCurrentSelectionForm) =
+        initProcessor(this)
+        this.initFieldsTempHorizontalFormProcessor()
+        this.scrollCurrentSelectionForm = scrollCurrentSelectionForm
 
-    # throws Exception
-    def process(self) -> None:
-        self.scrollCurrentSelectionForm.processTempHorizontalForm()
-        self.scrollCurrentSelectionForm.processor = Processor.getInstance()
+proc newTempHorizontalFormProcessor*(scrollCurrentSelectionForm: ScrollCurrentSelectionForm): TempHorizontalFormProcessor =
+    result = TempHorizontalFormProcessor()
+    initTempHorizontalFormProcessor(result, scrollCurrentSelectionForm)
 
+method process*(this: TempHorizontalFormProcessor) =
+        this.scrollCurrentSelectionForm.processTempHorizontalForm()
+        this.scrollCurrentSelectionForm.processor = Processor.getInstance()
+
+when declared(newTempHorizontalFormProcessorHook1):
+    newTempHorizontalFormProcessorHook1 = proc (scrollCurrentSelectionForm: ScrollCurrentSelectionForm): Processor = newTempHorizontalFormProcessor(scrollCurrentSelectionForm)
 

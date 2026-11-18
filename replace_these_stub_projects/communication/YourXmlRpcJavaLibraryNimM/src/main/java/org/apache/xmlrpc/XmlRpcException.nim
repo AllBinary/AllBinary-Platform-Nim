@@ -1,14 +1,23 @@
 # Generated Code Do Not Modify
 # package org.apache.xmlrpc
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+
+type
+    XmlRpcException* = ref object of JException
+
+proc newXmlRpcException*(code: int32, message: string): XmlRpcException
+proc initXmlRpcException*(this: XmlRpcException, code: int32, message: string)
 
 
+proc initXmlRpcException*(this: XmlRpcException, code: int32, message: string) =
+        initJException(this, message)
 
-class XmlRpcException(Exception):
-    
+proc newXmlRpcException*(code: int32, message: string): XmlRpcException =
+    result = XmlRpcException()
+    initXmlRpcException(result, code, message)
 
-    def __init__(self, code: int, message: str) -> None:
-        super().__init__(message)
-
+when declared(newXmlRpcExceptionHook2):
+    newXmlRpcExceptionHook2 = proc (code: int32, message: string): JException = newXmlRpcException(code, message)
 

@@ -1,57 +1,69 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.image.opengles
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/image/opengles/OpenGLImageFactory as OpenGLImageFactoryModule
+export OpenGLImageFactoryModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    OpenGLImageSpecificFactory* = ref object of JObject
+        imageFactory*: OpenGLImageFactory
+        updating*: bool
 
+proc newOpenGLImageSpecificFactory*(): OpenGLImageSpecificFactory
+proc getInstance*(t: typedesc[OpenGLImageSpecificFactory]): OpenGLImageSpecificFactory {.discardable.}
+method setImageFactory*(this: OpenGLImageSpecificFactory, imageFactory: OpenGLImageFactory) {.base.}
+method getImageFactory*(this: OpenGLImageSpecificFactory): OpenGLImageFactory {.base, discardable.}
+import org/allbinary/logic/communication/log/PreLogUtil as PreLogUtilModule
+export PreLogUtilModule
+import org/allbinary/logic/string/StringMaker as StringMakerModule
+export StringMakerModule
+import org/allbinary/logic/string/StringUtil as StringUtilModule
+export StringUtilModule
 
-class OpenGLImageSpecificFactory:
-    instance: OpenGLImageSpecificFactory = None
+var OpenGLImageSpecificFactory_instanceValue: OpenGLImageSpecificFactory
+var OpenGLImageSpecificFactory_instanceSet = false
+proc instance*(t: typedesc[OpenGLImageSpecificFactory]): OpenGLImageSpecificFactory =
+    if not OpenGLImageSpecificFactory_instanceSet:
+        OpenGLImageSpecificFactory_instanceSet = true
+        OpenGLImageSpecificFactory_instanceValue = newOpenGLImageSpecificFactory()
+    OpenGLImageSpecificFactory_instanceValue
 
-    def _init_fields(self) -> None:
-        self.imageFactory: OpenGLImageFactory = OpenGLImageFactory.NULL_OPENGL_IMAGE_FACTORY
-        self.updating: bool = False
+# Java field initializers run after the base initializer
+proc initFieldsOpenGLImageSpecificFactory(this: OpenGLImageSpecificFactory) =
+    this.imageFactory = OpenGLImageFactory.NULL_OPENGL_IMAGE_FACTORY
+    this.updating = false
+    discard
 
-    def __init__(self) -> None:
-        self._init_fields()
-    
+proc initOpenGLImageSpecificFactory*(this: OpenGLImageSpecificFactory) =
+    this.initFieldsOpenGLImageSpecificFactory()
 
-    @staticmethod
-    def getInstance() -> OpenGLImageSpecificFactory:
+proc newOpenGLImageSpecificFactory*(): OpenGLImageSpecificFactory =
+    result = OpenGLImageSpecificFactory()
+    initOpenGLImageSpecificFactory(result)
+
+proc getInstance*(t: typedesc[OpenGLImageSpecificFactory]): OpenGLImageSpecificFactory {.discardable.} =
         return OpenGLImageSpecificFactory.instance
-    
 
-    def setImageFactory(self, imageFactory: OpenGLImageFactory) -> None:
-        from org.allbinary.logic.communication.log.PreLogUtil import PreLogUtil
-        from org.allbinary.logic.string.StringMaker import StringMaker
-        from org.allbinary.logic.string.StringUtil import StringUtil
-        self.imageFactory = imageFactory
-        PreLogUtil.put(str(StringMaker().append("Selected Image Factory: ").append(StringUtil.getInstance().toString(self.imageFactory))), self, "setImageFactory")
-    
+method setImageFactory*(this: OpenGLImageSpecificFactory, imageFactory: OpenGLImageFactory) {.base.} =
+        this.imageFactory = imageFactory
+        PreLogUtil.put(newStringMaker().append("Selected Image Factory: ").append(StringUtil.getInstance().toString(this.imageFactory)).toString(), this, "setImageFactory")
 
-    def getImageFactory(self) -> OpenGLImageFactory:
-        return self.imageFactory
-# from org.allbinary.logic.communication.log.PreLogUtil import PreLogUtil
-# from org.allbinary.logic.string.StringMaker import StringMaker
-# from org.allbinary.logic.string.StringUtil import StringUtil
-from org.allbinary.image.opengles.OpenGLImageFactory import OpenGLImageFactory
-
-
-def _OpenGLImageSpecificFactory_instance() -> object:
-    return OpenGLImageSpecificFactory()
-
-lazy_static(OpenGLImageSpecificFactory, "instance", _OpenGLImageSpecificFactory_instance)
+method getImageFactory*(this: OpenGLImageSpecificFactory): OpenGLImageFactory {.base, discardable.} =
+        return this.imageFactory
 

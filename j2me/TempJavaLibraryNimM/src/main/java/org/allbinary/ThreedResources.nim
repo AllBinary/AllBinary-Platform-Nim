@@ -1,38 +1,48 @@
-# 
-# AllBinary Open License Version 1 
-# Copyright (c) 2022 AllBinary 
-#  
-# By agreeing to this license you and any business entity you represent are 
-# legally bound to the AllBinary Open License Version 1 legal agreement. 
-#  
-# You may obtain the AllBinary Open License Version 1 legal agreement from 
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
-#  
-# Created By: Travis Berthelot 
-#   
+#[
+  
+  AllBinary Open License Version 1 
+  Copyright (c) 2022 AllBinary 
+   
+  By agreeing to this license you and any business entity you represent are 
+  legally bound to the AllBinary Open License Version 1 legal agreement. 
+   
+  You may obtain the AllBinary Open License Version 1 legal agreement from 
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
+   
+  Created By: Travis Berthelot 
+    
+]#
 # Generated Code Do Not Modify
 # package org.allbinary
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    ThreedResources* = ref object of JObject
 
+proc newThreedResources*(): ThreedResources
+proc getThreedResources*(t: typedesc[ThreedResources]): ThreedResources {.discardable.}
+method add*(this: ThreedResources) {.base.}
 
-class ThreedResources:
-    threedResources: ThreedResources = None
-    
+var ThreedResources_threedResourcesValue: ThreedResources
+var ThreedResources_threedResourcesSet = false
+proc threedResources*(t: typedesc[ThreedResources]): ThreedResources =
+    if not ThreedResources_threedResourcesSet:
+        ThreedResources_threedResourcesSet = true
+        ThreedResources_threedResourcesValue = newThreedResources()
+    ThreedResources_threedResourcesValue
 
-    @staticmethod
-    def getThreedResources() -> ThreedResources:
+proc initThreedResources*(this: ThreedResources) =
+    discard
+
+proc newThreedResources*(): ThreedResources =
+    result = ThreedResources()
+    initThreedResources(result)
+
+proc getThreedResources*(t: typedesc[ThreedResources]): ThreedResources {.discardable.} =
         return ThreedResources.threedResources
-    
 
-    def add(self) -> None:
-        pass
-
-
-def _ThreedResources_threedResources() -> object:
-    return ThreedResources()
-
-lazy_static(ThreedResources, "threedResources", _ThreedResources_threedResources)
+method add*(this: ThreedResources) {.base.} =
+        discard
 

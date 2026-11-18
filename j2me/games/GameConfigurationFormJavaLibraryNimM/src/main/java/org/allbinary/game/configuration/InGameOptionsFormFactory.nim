@@ -1,75 +1,88 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.configuration
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import javax/microedition/lcdui/CommandListener as CommandListenerModule
+export CommandListenerModule
+import org/allbinary/graphics/color/BasicColor as BasicColorModule
+export BasicColorModule
+import org/allbinary/graphics/displayable/screen/CommandForm as CommandFormModule
+export CommandFormModule
+import org/allbinary/init/Init as InitModule
+export InitModule
+import org/allbinary/logic/communication/log/LogUtil as LogUtilModule
+export LogUtilModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    InGameOptionsFormFactory* = ref object of JObject
+        logUtil*: LogUtil
+        SINGLETON*: CommandForm
 
+proc newInGameOptionsFormFactory*(): InGameOptionsFormFactory
+proc getInstance*(t: typedesc[InGameOptionsFormFactory]): InGameOptionsFormFactory {.discardable.}
+method init*(this: InGameOptionsFormFactory, commandListener: CommandListener, initInterface: Init, title: string, backgrounBasicColor: BasicColor, foregroundBasicColor: BasicColor) {.base.}
+method get*(this: InGameOptionsFormFactory): CommandForm {.base, discardable.}
+import org/allbinary/logic/NullUtil as NullUtilModule
+export NullUtilModule
+import org/allbinary/string/CommonStrings as CommonStringsModule
+export CommonStringsModule
+import org/allbinary/game/configuration/InGameOptionsForm as InGameOptionsFormModule
+export InGameOptionsFormModule
 
-class InGameOptionsFormFactory:
-    instance: object = None
+var InGameOptionsFormFactory_instanceValue: JObject
+var InGameOptionsFormFactory_instanceSet = false
+proc instance*(t: typedesc[InGameOptionsFormFactory]): JObject =
+    if not InGameOptionsFormFactory_instanceSet:
+        InGameOptionsFormFactory_instanceSet = true
+        InGameOptionsFormFactory_instanceValue = NullUtil.getInstance().NULL_OBJECT
+    InGameOptionsFormFactory_instanceValue
+proc `instance=`*(t: typedesc[InGameOptionsFormFactory], value: JObject) =
+    InGameOptionsFormFactory_instanceSet = true
+    InGameOptionsFormFactory_instanceValue = value
 
-    def _init_fields(self) -> None:
-        from org.allbinary.graphics.displayable.screen.CommandForm import CommandForm
-        from org.allbinary.logic.communication.log.LogUtil import LogUtil
-        self.logUtil: LogUtil = LogUtil.getInstance()
-        self.SINGLETON: CommandForm = CommandForm.getNullCommandForm()
+# Java field initializers run after the base initializer
+proc initFieldsInGameOptionsFormFactory(this: InGameOptionsFormFactory) =
+    this.logUtil = LogUtil.getInstance()
+    this.SINGLETON = CommandForm.getNullCommandForm()
+    discard
 
-    def __init__(self) -> None:
-        self._init_fields()
-    
+proc initInGameOptionsFormFactory*(this: InGameOptionsFormFactory) =
+    this.initFieldsInGameOptionsFormFactory()
 
-    @staticmethod
-    def getInstance() -> InGameOptionsFormFactory:
-        from org.allbinary.logic.NullUtil import NullUtil
+proc newInGameOptionsFormFactory*(): InGameOptionsFormFactory =
+    result = InGameOptionsFormFactory()
+    initInGameOptionsFormFactory(result)
+
+proc getInstance*(t: typedesc[InGameOptionsFormFactory]): InGameOptionsFormFactory {.discardable.} =
         if InGameOptionsFormFactory.instance == NullUtil.getInstance().NULL_OBJECT:
-            InGameOptionsFormFactory.instance = InGameOptionsFormFactory()
-        return InGameOptionsFormFactory.instance
-    
+            InGameOptionsFormFactory.instance = newInGameOptionsFormFactory()
+        return InGameOptionsFormFactory(JObject(InGameOptionsFormFactory.instance))
 
-    def init(self, commandListener: CommandListener, initInterface: Init, title: str, backgrounBasicColor: BasicColor, foregroundBasicColor: BasicColor) -> None:
-        from org.allbinary.game.configuration.InGameOptionsForm import InGameOptionsForm
-        from javax.microedition.lcdui.CommandListener import CommandListener
-        from org.allbinary.graphics.color.BasicColor import BasicColor
-        from org.allbinary.graphics.displayable.screen.CommandForm import CommandForm
-        from org.allbinary.init.Init import Init
-        from org.allbinary.string.CommonStrings import CommonStrings
+method init*(this: InGameOptionsFormFactory, commandListener: CommandListener, initInterface: Init, title: string, backgrounBasicColor: BasicColor, foregroundBasicColor: BasicColor) {.base.} =
         try:
-            if self.SINGLETON == CommandForm.getNullCommandForm():
+            if this.SINGLETON == CommandForm.getNullCommandForm():
                 initInterface.init()
-                self.SINGLETON = InGameOptionsForm(commandListener, title, backgrounBasicColor, foregroundBasicColor)
-        except Exception as e:
-            commonStrings: CommonStrings = CommonStrings.getInstance()
-            self.logUtil.put(commonStrings.EXCEPTION, self, commonStrings.INIT, e)
-    
+                this.SINGLETON = newInGameOptionsForm(commandListener, title, backgrounBasicColor, foregroundBasicColor)
+        except CatchableError as jcaught:
+            let e = jToException(jcaught)
+            let commonStrings: CommonStrings = CommonStrings.getInstance()
+            this.logUtil.put(commonStrings.EXCEPTION, this, commonStrings.INIT, e)
 
-    def get(self) -> CommandForm:
-        from org.allbinary.graphics.displayable.screen.CommandForm import CommandForm
-        return self.SINGLETON
-# from javax.microedition.lcdui.CommandListener import CommandListener
-# from org.allbinary.graphics.color.BasicColor import BasicColor
-# from org.allbinary.graphics.displayable.screen.CommandForm import CommandForm
-# from org.allbinary.init.Init import Init
-# from org.allbinary.logic.NullUtil import NullUtil
-# from org.allbinary.logic.communication.log.LogUtil import LogUtil
-# from org.allbinary.string.CommonStrings import CommonStrings
-
-
-def _InGameOptionsFormFactory_instance() -> object:
-    from org.allbinary.logic.NullUtil import NullUtil
-    return NullUtil.getInstance().NULL_OBJECT
-
-lazy_static(InGameOptionsFormFactory, "instance", _InGameOptionsFormFactory_instance)
+method get*(this: InGameOptionsFormFactory): CommandForm {.base, discardable.} =
+        return this.SINGLETON
 

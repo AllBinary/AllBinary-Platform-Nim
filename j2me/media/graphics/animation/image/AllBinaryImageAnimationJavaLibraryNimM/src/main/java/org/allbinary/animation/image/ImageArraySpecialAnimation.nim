@@ -1,81 +1,102 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.animation.image
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import javax/microedition/lcdui/Graphics as GraphicsModule
+export GraphicsModule
+import javax/microedition/lcdui/Image as ImageModule
+export ImageModule
+import org/allbinary/animation/AnimationBehavior as AnimationBehaviorModule
+export AnimationBehaviorModule
+import org/allbinary/animation/special/SpecialAnimationInterface as SpecialAnimationInterfaceModule
+export SpecialAnimationInterfaceModule
+import org/allbinary/time/TimeDelayHelper as TimeDelayHelperModule
+export TimeDelayHelperModule
+import org/allbinary/animation/image/ImageArrayAnimation as ImageArrayAnimationModule
+export ImageArrayAnimationModule
 
-from org.allbinary.animation.special.SpecialAnimationInterface import SpecialAnimationInterface
-from org.allbinary.animation.image.ImageArrayAnimation import ImageArrayAnimation
+type
+    ImageArraySpecialAnimation* = ref object of ImageArrayAnimation
+        timeDelayHelper*: TimeDelayHelper
+        loopCount*: int32
+        loopCountTotal*: int32
+
+converter jAsSpecialAnimationInterface*(value: ImageArraySpecialAnimation): SpecialAnimationInterface = cast[SpecialAnimationInterface](value)
+proc newImageArraySpecialAnimation*(imageArray: JArray[Image], animationBehavior: AnimationBehavior): ImageArraySpecialAnimation
+proc initImageArraySpecialAnimation*(this: ImageArraySpecialAnimation, imageArray: JArray[Image], animationBehavior: AnimationBehavior)
+method getLoopCount*(this: ImageArraySpecialAnimation): int32 {.base, discardable.}
+method setLastFrame*(this: ImageArraySpecialAnimation)
+method reset*(this: ImageArraySpecialAnimation)
+method nextFrame*(this: ImageArraySpecialAnimation)
+method isComplete*(this: ImageArraySpecialAnimation): bool {.discardable.}
+method paintXY*(this: ImageArraySpecialAnimation, graphics: Graphics, x: int32, y: int32)
+import org/allbinary/graphics/displayable/DisplayInfoSingleton as DisplayInfoSingletonModule
+export DisplayInfoSingletonModule
+import org/allbinary/time/GameTickTimeDelayHelperFactory as GameTickTimeDelayHelperFactoryModule
+export GameTickTimeDelayHelperFactoryModule
 
 
-class ImageArraySpecialAnimation(ImageArrayAnimation, SpecialAnimationInterface):
+# Java field initializers run after the base initializer
+proc initFieldsImageArraySpecialAnimation(this: ImageArraySpecialAnimation) =
+    this.timeDelayHelper = newTimeDelayHelper(270)
+    this.loopCount = 0
+    this.loopCountTotal = 1
+    discard
 
-    def _init_fields(self) -> None:
-        from org.allbinary.time.TimeDelayHelper import TimeDelayHelper
-        self.timeDelayHelper: TimeDelayHelper = TimeDelayHelper(270)
-        self.loopCount: int = 0
-        self.loopCountTotal: int = 1
-    
+proc initImageArraySpecialAnimation*(this: ImageArraySpecialAnimation, imageArray: JArray[Image], animationBehavior: AnimationBehavior) =
+        initImageArrayAnimation(this, imageArray, animationBehavior)
+        this.initFieldsImageArraySpecialAnimation()
+        this.reset()
 
-    def __init__(self, imageArray: list[Image], animationBehavior: AnimationBehavior) -> None:
-        from javax.microedition.lcdui.Image import Image
-        from org.allbinary.animation.AnimationBehavior import AnimationBehavior
-        super().__init__(imageArray, animationBehavior)
-        self._init_fields()
-        self.reset()
-    
+proc newImageArraySpecialAnimation*(imageArray: JArray[Image], animationBehavior: AnimationBehavior): ImageArraySpecialAnimation =
+    result = ImageArraySpecialAnimation()
+    initImageArraySpecialAnimation(result, imageArray, animationBehavior)
 
-    def getLoopCount(self) -> int:
-        return self.loopCount
-    
+method getLoopCount*(this: ImageArraySpecialAnimation): int32 {.base, discardable.} =
+        return this.loopCount
 
-    def setLastFrame(self) -> None:
-        self.circularIndexUtil.setIndex(self.circularIndexUtil.getSize() - 1)
-    
+method setLastFrame*(this: ImageArraySpecialAnimation) =
+        this.circularIndexUtil.setIndex(this.circularIndexUtil.getSize() -% 1)
 
-    def reset(self) -> None:
-        self.setFrame(self.getSize() - 1)
-        self.loopCount = 0
-    
+method reset*(this: ImageArraySpecialAnimation) =
+        this.setFrame(this.getSize() -% 1)
+        this.loopCount = 0
 
-    def nextFrame(self) -> None:
-        from org.allbinary.time.GameTickTimeDelayHelperFactory import GameTickTimeDelayHelperFactory
-        if self.getFrame() > 0:
-            if self.timeDelayHelper.isTime(GameTickTimeDelayHelperFactory.getInstance().startTime):
-                self.previousFrame()
-                if self.getFrame() == 0:
-                    self.loopCount += 1
-    
+method nextFrame*(this: ImageArraySpecialAnimation) =
+        if this.getFrame() > 0:
+            if this.timeDelayHelper.isTime(GameTickTimeDelayHelperFactory.getInstance().startTime):
+                this.previousFrame()
+                if this.getFrame() == 0:
+                    this.loopCount = this.loopCount +% 1
 
-    def isComplete(self) -> bool:
-        if self.loopCount < self.loopCountTotal or self.getFrame() != 0:
-            return False
+method isComplete*(this: ImageArraySpecialAnimation): bool {.discardable.} =
+        if this.loopCount < this.loopCountTotal or this.getFrame() != 0:
+            return false
         else:
-            return True
-    
+            return true
 
-    def paintXY(self, graphics: Graphics, x: int, y: int) -> None:
-        from javax.microedition.lcdui.Graphics import Graphics
-        from org.allbinary.graphics.displayable.DisplayInfoSingleton import DisplayInfoSingleton
-        x = DisplayInfoSingleton.getInstance().getLastHalfWidth() - (self.getImage(self.circularIndexUtil.getIndex()).getWidth() >> 1)
+method paintXY*(this: ImageArraySpecialAnimation, graphics: Graphics, x: int32, y: int32) =
+        var x = x
+        var y = y
+        x = DisplayInfoSingleton.getInstance().getLastHalfWidth() -% (ashr(this.getImage(this.circularIndexUtil.getIndex()).getWidth(), 1))
         y = 5
-        super().paintXY(graphics, x, y)
-# from javax.microedition.lcdui.Graphics import Graphics
-# from javax.microedition.lcdui.Image import Image
-# from org.allbinary.animation.AnimationBehavior import AnimationBehavior
-# from org.allbinary.graphics.displayable.DisplayInfoSingleton import DisplayInfoSingleton
-# from org.allbinary.time.GameTickTimeDelayHelperFactory import GameTickTimeDelayHelperFactory
-# from org.allbinary.time.TimeDelayHelper import TimeDelayHelper
+        procCall ImageArrayAnimation(this).paintXY(graphics, x, y)
 
+when declared(newImageArraySpecialAnimationHook2):
+    newImageArraySpecialAnimationHook2 = proc (imageArray: JArray[Image], animationBehavior: AnimationBehavior): ImageArrayAnimation = newImageArraySpecialAnimation(imageArray, animationBehavior)
 

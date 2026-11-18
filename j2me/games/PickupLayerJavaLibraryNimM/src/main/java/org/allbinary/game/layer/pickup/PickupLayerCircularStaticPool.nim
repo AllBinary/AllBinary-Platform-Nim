@@ -1,47 +1,67 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.layer.pickup
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/layer/AllBinaryLayerCircularPool as AllBinaryLayerCircularPoolModule
+export AllBinaryLayerCircularPoolModule
+import org/allbinary/game/layer/pickup/PickedUpLayerInterface as PickedUpLayerInterfaceModule
+export PickedUpLayerInterfaceModule
+import org/allbinary/game/layer/pickup/PickedUpLayerInterfaceFactoryInterface as PickedUpLayerInterfaceFactoryInterfaceModule
+export PickedUpLayerInterfaceFactoryInterfaceModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
-from org.allbinary.layer.AllBinaryLayerCircularPool import AllBinaryLayerCircularPool
+type
+    PickupLayerCircularStaticPool* = ref object of AllBinaryLayerCircularPool
 
+proc newPickupLayerCircularStaticPool*(): PickupLayerCircularStaticPool
+proc initPickupLayerCircularStaticPool*(this: PickupLayerCircularStaticPool)
+proc getInstance*(t: typedesc[PickupLayerCircularStaticPool]): PickupLayerCircularStaticPool {.discardable.}
+method getInstanceXYZ*(this: PickupLayerCircularStaticPool, pickedUpLayerInterfaceFactoryInterface: PickedUpLayerInterfaceFactoryInterface, x: int32, y: int32, z: int32): PickedUpLayerInterface {.base, discardable.}
+import org/allbinary/game/layer/pickup/PickupLayer as PickupLayerModule
+export PickupLayerModule
 
-class PickupLayerCircularStaticPool(AllBinaryLayerCircularPool):
-    SINGLETON: PickupLayerCircularStaticPool = None
-    
+var PickupLayerCircularStaticPool_SINGLETONValue: PickupLayerCircularStaticPool
+var PickupLayerCircularStaticPool_SINGLETONSet = false
+proc SINGLETON*(t: typedesc[PickupLayerCircularStaticPool]): PickupLayerCircularStaticPool =
+    if not PickupLayerCircularStaticPool_SINGLETONSet:
+        PickupLayerCircularStaticPool_SINGLETONSet = true
+        PickupLayerCircularStaticPool_SINGLETONValue = newPickupLayerCircularStaticPool()
+    PickupLayerCircularStaticPool_SINGLETONValue
+proc `SINGLETON=`*(t: typedesc[PickupLayerCircularStaticPool], value: PickupLayerCircularStaticPool) =
+    PickupLayerCircularStaticPool_SINGLETONSet = true
+    PickupLayerCircularStaticPool_SINGLETONValue = value
 
-    def __init__(self) -> None:
-        super().__init__()
-    
+proc initPickupLayerCircularStaticPool*(this: PickupLayerCircularStaticPool) =
+        initAllBinaryLayerCircularPool(this)
+        discard
 
-    @staticmethod
-    def getInstance() -> PickupLayerCircularStaticPool:
+proc newPickupLayerCircularStaticPool*(): PickupLayerCircularStaticPool =
+    result = PickupLayerCircularStaticPool()
+    initPickupLayerCircularStaticPool(result)
+
+proc getInstance*(t: typedesc[PickupLayerCircularStaticPool]): PickupLayerCircularStaticPool {.discardable.} =
         return PickupLayerCircularStaticPool.SINGLETON
-    
 
-    # throws Exception
-    def getInstanceXYZ(self, pickedUpLayerInterfaceFactoryInterface: PickedUpLayerInterfaceFactoryInterface, x: int, y: int, z: int) -> PickedUpLayerInterface:
-        pickupLayer: PickupLayer = self.getNextInstance()
+method getInstanceXYZ*(this: PickupLayerCircularStaticPool, pickedUpLayerInterfaceFactoryInterface: PickedUpLayerInterfaceFactoryInterface, x: int32, y: int32, z: int32): PickedUpLayerInterface {.base, discardable.} =
+        let pickupLayer: PickupLayer = PickupLayer(JObject(this.getNextInstance()))
         pickupLayer.initXYZ(x, y, z)
         pickupLayer.init(pickedUpLayerInterfaceFactoryInterface, pickedUpLayerInterfaceFactoryInterface.getAnimationInterface())
         return pickupLayer
 
-
-def _PickupLayerCircularStaticPool_SINGLETON() -> object:
-    return PickupLayerCircularStaticPool()
-
-lazy_static(PickupLayerCircularStaticPool, "SINGLETON", _PickupLayerCircularStaticPool_SINGLETON)
+when declared(newPickupLayerCircularStaticPoolHook0):
+    newPickupLayerCircularStaticPoolHook0 = proc (): AllBinaryLayerCircularPool = newPickupLayerCircularStaticPool()
 

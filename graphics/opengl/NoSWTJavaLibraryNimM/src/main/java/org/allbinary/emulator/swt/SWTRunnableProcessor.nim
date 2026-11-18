@@ -1,44 +1,55 @@
-# 
-# AllBinary Open License Version 1 
-# Copyright (c) 2022 AllBinary 
-#  
-# By agreeing to this license you and any business entity you represent are 
-# legally bound to the AllBinary Open License Version 1 legal agreement. 
-#  
-# You may obtain the AllBinary Open License Version 1 legal agreement from 
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
-#  
-# Created By: Travis Berthelot 
-#   
+#[
+  
+  AllBinary Open License Version 1 
+  Copyright (c) 2022 AllBinary 
+   
+  By agreeing to this license you and any business entity you represent are 
+  legally bound to the AllBinary Open License Version 1 legal agreement. 
+   
+  You may obtain the AllBinary Open License Version 1 legal agreement from 
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
+   
+  Created By: Travis Berthelot 
+    
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.emulator.swt
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/eclipse/swt/widgets/Display as DisplayModule
+export DisplayModule
+import org/allbinary/emulator/swt/SWTProcessor as SWTProcessorModule
+export SWTProcessorModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
-from org.allbinary.emulator.swt.SWTProcessor import SWTProcessor
+type
+    SWTRunnableProcessor* = ref object of SWTProcessor
 
+proc newSWTRunnableProcessor*(): SWTRunnableProcessor
+proc getInstance*(t: typedesc[SWTRunnableProcessor]): SWTRunnableProcessor {.discardable.}
+method process*(this: SWTRunnableProcessor, display: Display)
 
-class SWTRunnableProcessor(SWTProcessor):
-    instanceR: SWTRunnableProcessor = None
+var SWTRunnableProcessor_instanceRValue: SWTRunnableProcessor
+var SWTRunnableProcessor_instanceRSet = false
+proc instanceR*(t: typedesc[SWTRunnableProcessor]): SWTRunnableProcessor =
+    if not SWTRunnableProcessor_instanceRSet:
+        SWTRunnableProcessor_instanceRSet = true
+        SWTRunnableProcessor_instanceRValue = newSWTRunnableProcessor()
+    SWTRunnableProcessor_instanceRValue
 
-    def __init__(self) -> None:
-        super().__init__()
-    
+proc initSWTRunnableProcessor*(this: SWTRunnableProcessor) =
+    initSWTProcessor(this)
 
-    @staticmethod
-    def getInstance() -> SWTRunnableProcessor:
+proc newSWTRunnableProcessor*(): SWTRunnableProcessor =
+    result = SWTRunnableProcessor()
+    initSWTRunnableProcessor(result)
+
+proc getInstance*(t: typedesc[SWTRunnableProcessor]): SWTRunnableProcessor {.discardable.} =
         return SWTRunnableProcessor.instanceR
-    
 
-    def process(self, display: Display) -> None:
-        from org.eclipse.swt.widgets.Display import Display
-        pass
-# from org.eclipse.swt.widgets.Display import Display
+method process*(this: SWTRunnableProcessor, display: Display) =
+        discard
 
-
-def _SWTRunnableProcessor_instanceR() -> object:
-    return SWTRunnableProcessor()
-
-lazy_static(SWTRunnableProcessor, "instanceR", _SWTRunnableProcessor_instanceR)
+when declared(newSWTRunnableProcessorHook0):
+    newSWTRunnableProcessorHook0 = proc (): SWTProcessor = newSWTRunnableProcessor()
 

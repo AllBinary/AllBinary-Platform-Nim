@@ -1,23 +1,33 @@
 # Generated Code Do Not Modify
 # package org.allbinary.game.collision
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/layer/AllBinaryLayer as AllBinaryLayerModule
+export AllBinaryLayerModule
+import org/allbinary/game/collision/CollisionProcessor as CollisionProcessorModule
+export CollisionProcessorModule
 
-from org.allbinary.game.collision.CollisionProcessor import CollisionProcessor
+type
+    Collision2DProcessor* = ref object of CollisionProcessor
+
+proc newCollision2DProcessor*(): Collision2DProcessor
+method isCollision*(this: Collision2DProcessor, myLayer: AllBinaryLayer, myLayer2: AllBinaryLayer): bool {.discardable.}
 
 
-class Collision2DProcessor(CollisionProcessor):
+proc initCollision2DProcessor*(this: Collision2DProcessor) =
+    initCollisionProcessor(this)
 
-    def __init__(self) -> None:
-        super().__init__()
-    
+proc newCollision2DProcessor*(): Collision2DProcessor =
+    result = Collision2DProcessor()
+    initCollision2DProcessor(result)
 
-    def isCollision(self, myLayer: AllBinaryLayer, myLayer2: AllBinaryLayer) -> bool:
-        from org.allbinary.layer.AllBinaryLayer import AllBinaryLayer
+method isCollision*(this: Collision2DProcessor, myLayer: AllBinaryLayer, myLayer2: AllBinaryLayer): bool {.discardable.} =
         if myLayer2.getXP() >= myLayer.getX2() or myLayer2.getYP() >= myLayer.getY2() or myLayer2.getX2() <= myLayer.getXP() or myLayer2.getY2() <= myLayer.getYP():
-            return False
+            return false
         else:
-            return True
-# from org.allbinary.layer.AllBinaryLayer import AllBinaryLayer
+            return true
 
+when declared(newCollision2DProcessorHook0):
+    newCollision2DProcessorHook0 = proc (): CollisionProcessor = newCollision2DProcessor()
 

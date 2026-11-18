@@ -1,50 +1,58 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.input
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/game/input/Input as InputModule
+export InputModule
 
-from org.allbinary.game.input.Input import Input
+type
+    PCGameKey* = ref object of Input
+
+proc newPCGameKey*(keyCode: int32, name: string): PCGameKey
+proc initPCGameKey*(this: PCGameKey, keyCode: int32, name: string)
+method toString*(this: PCGameKey): string {.discardable.}
+proc getString*(t: typedesc[PCGameKey], keyCode: int32): string {.discardable.}
+import org/allbinary/logic/string/StringUtil as StringUtilModule
+export StringUtilModule
+import org/allbinary/game/input/InputFactory as InputFactoryModule
+export InputFactoryModule
 
 
-class PCGameKey(Input):
-    
-
-    def __init__(self, keyCode: int, name: str) -> None:
-        from org.allbinary.game.input.InputFactory import InputFactory
-        super().__init__(keyCode, name)
-        id: int = self.getId()
+proc initPCGameKey*(this: PCGameKey, keyCode: int32, name: string) =
+        initInput(this, keyCode, name)
+        var id: int32 = this.getId()
         if id >= 0:
-            InputFactory.getInstance().add(id, self)
-    
+            InputFactory.getInstance().add(id, this)
 
-    def toString(self) -> str:
-        return "PCGameKey: " + str(super())
+proc newPCGameKey*(keyCode: int32, name: string): PCGameKey =
+    result = PCGameKey()
+    initPCGameKey(result, keyCode, name)
 
-    def __str__(self) -> str:
-        return self.toString()
-    
+method toString*(this: PCGameKey): string {.discardable.} =
+        return jstr("PCGameKey: ") & jstr(procCall Input(this).toString())
 
-    @staticmethod
-    def getString(keyCode: int) -> str:
-        from org.allbinary.game.input.InputFactory import InputFactory
-        from org.allbinary.logic.string.StringUtil import StringUtil
-        input: Input = InputFactory.getInstance().getInstanceById(keyCode)
-        if input is not None:
+proc getString*(t: typedesc[PCGameKey], keyCode: int32): string {.discardable.} =
+        var input: Input = InputFactory.getInstance().getInstanceById(keyCode)
+        if (not jIsNil(input)):
             return input.getName()
         else:
             return StringUtil.getInstance().EMPTY_STRING
-# from org.allbinary.logic.string.StringUtil import StringUtil
 
+when declared(newPCGameKeyHook2):
+    newPCGameKeyHook2 = proc (keyCode: int32, name: string): Input = newPCGameKey(keyCode, name)
 

@@ -1,30 +1,37 @@
 # Generated Code Do Not Modify
 # package org.allbinary.graphics.opengles.shader
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import javax/microedition/khronos/opengles/GL10 as GL10Module
+export GL10Module
+import org/allbinary/string/CommonStrings as CommonStringsModule
+export CommonStringsModule
+
+type
+    OpenGLObject3dProcessor* = ref object of JObject
+        commonStrings*: CommonStrings
+
+proc newOpenGLObject3dProcessor*(): OpenGLObject3dProcessor
+method process*(this: OpenGLObject3dProcessor, gl: GL10, object3d: JObject) {.base.}
+method process*(this: OpenGLObject3dProcessor, gl: GL10, object3d: JObject, index: int32) {.base.}
 
 
+# Java field initializers run after the base initializer
+proc initFieldsOpenGLObject3dProcessor(this: OpenGLObject3dProcessor) =
+    this.commonStrings = CommonStrings.getInstance()
+    discard
 
-class OpenGLObject3dProcessor:
+proc initOpenGLObject3dProcessor*(this: OpenGLObject3dProcessor) =
+    this.initFieldsOpenGLObject3dProcessor()
 
-    def _init_fields(self) -> None:
-        from org.allbinary.string.CommonStrings import CommonStrings
-        self.commonStrings: CommonStrings = CommonStrings.getInstance()
+proc newOpenGLObject3dProcessor*(): OpenGLObject3dProcessor =
+    result = OpenGLObject3dProcessor()
+    initOpenGLObject3dProcessor(result)
 
-    def __init__(self) -> None:
-        self._init_fields()
-    
+method process*(this: OpenGLObject3dProcessor, gl: GL10, object3d: JObject) {.base.} =
+        discard
 
-    def process(self, gl: GL10, object3d: object) -> None:
-        from javax.microedition.khronos.opengles.GL10 import GL10
-        pass
-    
-
-    # Java overloaded method: Python keeps the last definition
-    def process(self, gl: GL10, object3d: object, index: int) -> None:
-        from javax.microedition.khronos.opengles.GL10 import GL10
-        pass
-# from javax.microedition.khronos.opengles.GL10 import GL10
-# from org.allbinary.string.CommonStrings import CommonStrings
-
+method process*(this: OpenGLObject3dProcessor, gl: GL10, object3d: JObject, index: int32) {.base.} =
+        discard
 

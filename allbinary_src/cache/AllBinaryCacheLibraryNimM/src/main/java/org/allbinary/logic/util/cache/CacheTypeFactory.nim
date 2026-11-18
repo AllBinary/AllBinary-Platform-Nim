@@ -1,34 +1,46 @@
 # Generated Code Do Not Modify
 # package org.allbinary.logic.util.cache
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/logic/util/cache/CacheType as CacheTypeModule
+export CacheTypeModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    CacheTypeFactory* = ref object of JObject
+        NO_CACHE*: CacheType
+        CACHE*: CacheType
+        SET*: CacheType
+        CACHE_VECTOR*: CacheType
 
+proc newCacheTypeFactory*(): CacheTypeFactory
+proc getInstance*(t: typedesc[CacheTypeFactory]): CacheTypeFactory {.discardable.}
+import org/allbinary/logic/string/StringUtil as StringUtilModule
+export StringUtilModule
 
-class CacheTypeFactory:
-    instance: CacheTypeFactory = None
+var CacheTypeFactory_instanceValue: CacheTypeFactory
+var CacheTypeFactory_instanceSet = false
+proc instance*(t: typedesc[CacheTypeFactory]): CacheTypeFactory =
+    if not CacheTypeFactory_instanceSet:
+        CacheTypeFactory_instanceSet = true
+        CacheTypeFactory_instanceValue = newCacheTypeFactory()
+    CacheTypeFactory_instanceValue
 
-    def _init_fields(self) -> None:
-        from org.allbinary.logic.string.StringUtil import StringUtil
-        self.NO_CACHE: CacheType = CacheType(StringUtil.getInstance().EMPTY_STRING, StringUtil.getInstance().EMPTY_STRING)
-        self.CACHE: CacheType = CacheType(StringUtil.getInstance().EMPTY_STRING, StringUtil.getInstance().EMPTY_STRING)
-        self.SET: CacheType = CacheType(StringUtil.getInstance().EMPTY_STRING, "Set")
-        self.CACHE_VECTOR: CacheType = CacheType(StringUtil.getInstance().EMPTY_STRING, StringUtil.getInstance().EMPTY_STRING)
+# Java field initializers run after the base initializer
+proc initFieldsCacheTypeFactory(this: CacheTypeFactory) =
+    this.NO_CACHE = newCacheType(StringUtil.getInstance().EMPTY_STRING, StringUtil.getInstance().EMPTY_STRING)
+    this.CACHE = newCacheType(StringUtil.getInstance().EMPTY_STRING, StringUtil.getInstance().EMPTY_STRING)
+    this.SET = newCacheType(StringUtil.getInstance().EMPTY_STRING, "Set")
+    this.CACHE_VECTOR = newCacheType(StringUtil.getInstance().EMPTY_STRING, StringUtil.getInstance().EMPTY_STRING)
+    discard
 
-    def __init__(self) -> None:
-        self._init_fields()
-    
+proc initCacheTypeFactory*(this: CacheTypeFactory) =
+    this.initFieldsCacheTypeFactory()
 
-    @staticmethod
-    def getInstance() -> CacheTypeFactory:
+proc newCacheTypeFactory*(): CacheTypeFactory =
+    result = CacheTypeFactory()
+    initCacheTypeFactory(result)
+
+proc getInstance*(t: typedesc[CacheTypeFactory]): CacheTypeFactory {.discardable.} =
         return CacheTypeFactory.instance
-# from org.allbinary.logic.string.StringUtil import StringUtil
-from org.allbinary.logic.util.cache.CacheType import CacheType
-
-
-def _CacheTypeFactory_instance() -> object:
-    return CacheTypeFactory()
-
-lazy_static(CacheTypeFactory, "instance", _CacheTypeFactory_instance)
 

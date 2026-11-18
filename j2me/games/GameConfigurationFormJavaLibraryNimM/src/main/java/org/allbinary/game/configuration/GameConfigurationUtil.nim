@@ -1,139 +1,158 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.configuration
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import java/lang/Integer as IntegerModule
+export IntegerModule
+import org/allbinary/logic/communication/log/LogUtil as LogUtilModule
+export LogUtilModule
+import org/allbinary/string/CommonStrings as CommonStringsModule
+export CommonStringsModule
+import org/allbinary/game/configuration/GameConfiguration as GameConfigurationModule
+export GameConfigurationModule
+import org/allbinary/game/configuration/GameOptionsForm as GameOptionsFormModule
+export GameOptionsFormModule
+import org/allbinary/game/configuration/GameConfigurationGauge as GameConfigurationGaugeModule
+export GameConfigurationGaugeModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    GameConfigurationUtil* = ref object of JObject
+        logUtil*: LogUtil
+        commonStrings*: CommonStrings
+        GAUGE_UPDATE*: string
+        FROM*: string
+        TO*: string
+        COMPETITION_VALUE*: int32
 
+proc newGameConfigurationUtil*(): GameConfigurationUtil
+proc getInstance*(t: typedesc[GameConfigurationUtil]): GameConfigurationUtil {.discardable.}
+method change*(this: GameConfigurationUtil, gameOptionsForm: GameOptionsForm, gauge: GameConfigurationGauge) {.base.}
+method update*(this: GameConfigurationUtil, gauge: GameConfigurationGauge) {.base.}
+method setDefault*(this: GameConfigurationUtil, gauge: GameConfigurationGauge) {.base.}
+method updateChallange*(this: GameConfigurationUtil, gameOptionsForm: GameOptionsForm, gameConfiguration: GameConfiguration) {.base.}
+method updateCompetitionValue*(this: GameConfigurationUtil) {.base.}
+method getCompetitionValue*(this: GameConfigurationUtil): int32 {.base, discardable.}
+import javax/microedition/lcdui/Item as ItemModule
+export ItemModule
+import org/allbinary/logic/math/SmallIntegerSingletonFactory as SmallIntegerSingletonFactoryModule
+export SmallIntegerSingletonFactoryModule
+import org/allbinary/logic/string/StringMaker as StringMakerModule
+export StringMakerModule
+import org/allbinary/game/configuration/GameConfigurationSingleton as GameConfigurationSingletonModule
+export GameConfigurationSingletonModule
+import org/allbinary/game/configuration/GameConfigurationCentral as GameConfigurationCentralModule
+export GameConfigurationCentralModule
 
-class GameConfigurationUtil:
-    instance: GameConfigurationUtil = None
+var GameConfigurationUtil_instanceValue: GameConfigurationUtil
+var GameConfigurationUtil_instanceSet = false
+proc instance*(t: typedesc[GameConfigurationUtil]): GameConfigurationUtil =
+    if not GameConfigurationUtil_instanceSet:
+        GameConfigurationUtil_instanceSet = true
+        GameConfigurationUtil_instanceValue = newGameConfigurationUtil()
+    GameConfigurationUtil_instanceValue
 
-    def _init_fields(self) -> None:
-        from org.allbinary.logic.communication.log.LogUtil import LogUtil
-        from org.allbinary.string.CommonStrings import CommonStrings
-        self.logUtil: LogUtil = LogUtil.getInstance()
-        self.commonStrings: CommonStrings = CommonStrings.getInstance()
-        self.GAUGE_UPDATE: str = "Gauge Update: "
-        self.FROM: str = " from: "
-        self.TO: str = " to: "
-        self.COMPETITION_VALUE: int = 1
+# Java field initializers run after the base initializer
+proc initFieldsGameConfigurationUtil(this: GameConfigurationUtil) =
+    this.logUtil = LogUtil.getInstance()
+    this.commonStrings = CommonStrings.getInstance()
+    this.GAUGE_UPDATE = "Gauge Update: "
+    this.FROM = " from: "
+    this.TO = " to: "
+    this.COMPETITION_VALUE = 1
+    discard
 
-    def __init__(self) -> None:
-        self._init_fields()
-    
+proc initGameConfigurationUtil*(this: GameConfigurationUtil) =
+    this.initFieldsGameConfigurationUtil()
 
-    @staticmethod
-    def getInstance() -> GameConfigurationUtil:
+proc newGameConfigurationUtil*(): GameConfigurationUtil =
+    result = GameConfigurationUtil()
+    initGameConfigurationUtil(result)
+
+proc getInstance*(t: typedesc[GameConfigurationUtil]): GameConfigurationUtil {.discardable.} =
         return GameConfigurationUtil.instance
-    
 
-    # throws Exception
-    def change(self, gameOptionsForm: GameOptionsForm, gauge: GameConfigurationGauge) -> None:
-        from org.allbinary.game.configuration.GameConfigurationSingleton import GameConfigurationSingleton
-        self.update(gauge)
-        gameConfigurationSingleton: GameConfigurationSingleton = GameConfigurationSingleton.getInstance()
-        gameConfiguration: GameConfiguration = gameConfigurationSingleton.getInstanceByName(gauge.getLabel())
-        self.updateChallange(gameOptionsForm, gameConfiguration)
-    
+method change*(this: GameConfigurationUtil, gameOptionsForm: GameOptionsForm, gauge: GameConfigurationGauge) {.base.} =
+        this.update(gauge)
+        var gameConfigurationSingleton: GameConfigurationSingleton = GameConfigurationSingleton.getInstance()
+        var gameConfiguration: GameConfiguration = gameConfigurationSingleton.getInstanceByName(gauge.getLabel())
+        this.updateChallange(gameOptionsForm, gameConfiguration)
 
-    # throws Exception
-    def update(self, gauge: GameConfigurationGauge) -> None:
-        from org.allbinary.game.configuration.GameConfigurationSingleton import GameConfigurationSingleton
-        from org.allbinary.logic.math.SmallIntegerSingletonFactory import SmallIntegerSingletonFactory
-        from org.allbinary.logic.string.StringMaker import StringMaker
-        gameConfigurationSingleton: GameConfigurationSingleton = GameConfigurationSingleton.getInstance()
-        gameConfiguration: GameConfiguration = gameConfigurationSingleton.getInstanceByName(gauge.getLabel())
-        smallIntegerSingletonFactory: SmallIntegerSingletonFactory = SmallIntegerSingletonFactory.getInstance()
-        value: int = smallIntegerSingletonFactory.getAt(gauge.getValue() + int(gameConfiguration.getMinValue()))
-        stringBuffer: StringMaker = StringMaker()
-        stringBuffer.append(self.GAUGE_UPDATE)
+method update*(this: GameConfigurationUtil, gauge: GameConfigurationGauge) {.base.} =
+        var gameConfigurationSingleton: GameConfigurationSingleton = GameConfigurationSingleton.getInstance()
+        var gameConfiguration: GameConfiguration = gameConfigurationSingleton.getInstanceByName(gauge.getLabel())
+        let smallIntegerSingletonFactory: SmallIntegerSingletonFactory = SmallIntegerSingletonFactory.getInstance()
+        var value: int32 = smallIntegerSingletonFactory.getAt(gauge.getValue() + gameConfiguration.getMinValue().intValue())
+        var stringBuffer: StringMaker = newStringMaker()
+        stringBuffer.append(this.GAUGE_UPDATE)
         stringBuffer.append(gameConfiguration.getName())
-        stringBuffer.append(self.FROM)
-        stringBuffer.appendint(int(int(gameConfiguration.getValue())))
-        stringBuffer.append(self.TO)
-        stringBuffer.appendint(int(int(value)))
-        self.logUtil.putF(str(stringBuffer), self, self.commonStrings.UPDATE)
+        stringBuffer.append(this.FROM)
+        stringBuffer.appendint(int32(gameConfiguration.getValue().intValue()))
+        stringBuffer.append(this.TO)
+        stringBuffer.appendint(int32(value.intValue()))
+        this.logUtil.putF(stringBuffer.toString(), this, this.commonStrings.UPDATE)
         gameConfiguration.setValue(value)
-    
 
-    # throws Exception
-    def setDefault(self, gauge: GameConfigurationGauge) -> None:
-        from org.allbinary.game.configuration.GameConfigurationSingleton import GameConfigurationSingleton
-        from org.allbinary.logic.string.StringMaker import StringMaker
-        gameConfigurationSingleton: GameConfigurationSingleton = GameConfigurationSingleton.getInstance()
-        gameConfiguration: GameConfiguration = gameConfigurationSingleton.getInstanceByName(gauge.getLabel())
-        stringBuffer: StringMaker = StringMaker()
+method setDefault*(this: GameConfigurationUtil, gauge: GameConfigurationGauge) {.base.} =
+        var gameConfigurationSingleton: GameConfigurationSingleton = GameConfigurationSingleton.getInstance()
+        var gameConfiguration: GameConfiguration = gameConfigurationSingleton.getInstanceByName(gauge.getLabel())
+        var stringBuffer: StringMaker = newStringMaker()
         stringBuffer.append("Gauge Default: ")
         stringBuffer.append(gameConfiguration.getName())
-        stringBuffer.append(self.TO)
-        stringBuffer.appendint(int(int(gameConfiguration.getDefaultValue())))
-        self.logUtil.putF(str(stringBuffer), self, "setDefault")
-        gauge.setValue(int(gameConfiguration.getDefaultValue()) - int(gameConfiguration.getMinValue()))
+        stringBuffer.append(this.TO)
+        stringBuffer.appendint(int32(gameConfiguration.getDefaultValue().intValue()))
+        this.logUtil.putF(stringBuffer.toString(), this, "setDefault")
+        gauge.setValue(gameConfiguration.getDefaultValue().intValue() - gameConfiguration.getMinValue().intValue())
         gameConfiguration.setValue(gameConfiguration.getDefaultValue())
-    
 
-    # throws Exception
-    def updateChallange(self, gameOptionsForm: GameOptionsForm, gameConfiguration: GameConfiguration) -> None:
-        from org.allbinary.game.configuration.GameConfigurationSingleton import GameConfigurationSingleton
-        from org.allbinary.game.configuration.GameConfigurationCentral import GameConfigurationCentral
-        from javax.microedition.lcdui.Item import Item
-        gameConfigurationSingleton: GameConfigurationSingleton = GameConfigurationSingleton.getInstance()
-        gameConfigurationCentral: GameConfigurationCentral = GameConfigurationCentral.getInstance()
+method updateChallange*(this: GameConfigurationUtil, gameOptionsForm: GameOptionsForm, gameConfiguration: GameConfiguration) {.base.} =
+        var gameConfigurationSingleton: GameConfigurationSingleton = GameConfigurationSingleton.getInstance()
+        var gameConfigurationCentral: GameConfigurationCentral = GameConfigurationCentral.getInstance()
         if gameConfiguration == gameConfigurationCentral.CHALLENGE_LEVEL:
-            self.logUtil.putF(self.commonStrings.START, self, "updateChallange")
+            this.logUtil.putF(this.commonStrings.START, this, "updateChallange")
             gameConfigurationCentral.COLLIDE_DAMAGE.setValue(gameConfiguration.getValue())
             gameConfigurationCentral.ATTACK_CHALLENGE_LEVEL.setValue(gameConfiguration.getValue())
             gameConfigurationCentral.DURABILITY_CHALLENGE_LEVEL.setValue(gameConfiguration.getValue())
             gameConfigurationCentral.SPEED_CHALLENGE_LEVEL.setValue(gameConfiguration.getValue())
-            size: int = gameOptionsForm.size()
-            for index in range(0, size):
-                item: Item = gameOptionsForm.get(index)
-                if isinstance(item, GameConfigurationGauge):
-                    gauge: GameConfigurationGauge = item
-                    name: str = item.getLabel()
-                    nextGameConfiguration: GameConfiguration = gameConfigurationSingleton.getInstanceByName(name)
-                    if nextGameConfiguration == gameConfigurationCentral.COLLIDE_DAMAGE:
-                        gauge.setValue(int(gameConfigurationCentral.COLLIDE_DAMAGE.getValue()) - int(gameConfiguration.getMinValue()))
-                    elif nextGameConfiguration == gameConfigurationCentral.DURABILITY_CHALLENGE_LEVEL:
-                        gauge.setValue(int(gameConfigurationCentral.DURABILITY_CHALLENGE_LEVEL.getValue()) - int(gameConfiguration.getMinValue()))
-                    elif nextGameConfiguration == gameConfigurationCentral.ATTACK_CHALLENGE_LEVEL:
-                        gauge.setValue(int(gameConfigurationCentral.ATTACK_CHALLENGE_LEVEL.getValue()) - int(gameConfiguration.getMinValue()))
-                    elif nextGameConfiguration == gameConfigurationCentral.SPEED_CHALLENGE_LEVEL:
-                        gauge.setValue(int(gameConfigurationCentral.SPEED_CHALLENGE_LEVEL.getValue()) - int(gameConfiguration.getMinValue()))
-    
+            let size: int32 = gameOptionsForm.size()
+            block:
+                var index: int32 = 0
+                while index < size:
+                    defer: index = index +% 1
+                    var item: Item = gameOptionsForm.get(index)
+                    if (item of GameConfigurationGauge):
+                        var gauge: GameConfigurationGauge = GameConfigurationGauge(JObject(item))
+                        var name: string = item.getLabel()
+                        var nextGameConfiguration: GameConfiguration = gameConfigurationSingleton.getInstanceByName(name)
+                        if nextGameConfiguration == gameConfigurationCentral.COLLIDE_DAMAGE:
+                            gauge.setValue(gameConfigurationCentral.COLLIDE_DAMAGE.getValue().intValue() - gameConfiguration.getMinValue().intValue())
+                        elif nextGameConfiguration == gameConfigurationCentral.DURABILITY_CHALLENGE_LEVEL:
+                            gauge.setValue(gameConfigurationCentral.DURABILITY_CHALLENGE_LEVEL.getValue().intValue() - gameConfiguration.getMinValue().intValue())
+                        elif nextGameConfiguration == gameConfigurationCentral.ATTACK_CHALLENGE_LEVEL:
+                            gauge.setValue(gameConfigurationCentral.ATTACK_CHALLENGE_LEVEL.getValue().intValue() - gameConfiguration.getMinValue().intValue())
+                        elif nextGameConfiguration == gameConfigurationCentral.SPEED_CHALLENGE_LEVEL:
+                            gauge.setValue(gameConfigurationCentral.SPEED_CHALLENGE_LEVEL.getValue().intValue() - gameConfiguration.getMinValue().intValue())
 
-    def updateCompetitionValue(self) -> None:
-        from org.allbinary.game.configuration.GameConfigurationCentral import GameConfigurationCentral
-        self.logUtil.putF(self.commonStrings.START, self, "updateCompetitionValue")
-        gameConfigurationCentral: GameConfigurationCentral = GameConfigurationCentral.getInstance()
-        self.COMPETITION_VALUE = int(gameConfigurationCentral.COLLIDE_DAMAGE.getValue()) + int(gameConfigurationCentral.ATTACK_CHALLENGE_LEVEL.getValue()) + int(gameConfigurationCentral.DURABILITY_CHALLENGE_LEVEL.getValue()) + int(gameConfigurationCentral.SPEED_CHALLENGE_LEVEL.getValue())
-        self.COMPETITION_VALUE = (self.COMPETITION_VALUE >> 2)
-    
+method updateCompetitionValue*(this: GameConfigurationUtil) {.base.} =
+        this.logUtil.putF(this.commonStrings.START, this, "updateCompetitionValue")
+        var gameConfigurationCentral: GameConfigurationCentral = GameConfigurationCentral.getInstance()
+        this.COMPETITION_VALUE = gameConfigurationCentral.COLLIDE_DAMAGE.getValue().intValue() + gameConfigurationCentral.ATTACK_CHALLENGE_LEVEL.getValue().intValue() + gameConfigurationCentral.DURABILITY_CHALLENGE_LEVEL.getValue().intValue() + gameConfigurationCentral.SPEED_CHALLENGE_LEVEL.getValue().intValue()
+        this.COMPETITION_VALUE = (ashr(this.COMPETITION_VALUE, 2))
 
-    def getCompetitionValue(self) -> int:
-        return self.COMPETITION_VALUE
-# from javax.microedition.lcdui.Item import Item
-# from org.allbinary.logic.communication.log.LogUtil import LogUtil
-# from org.allbinary.logic.math.SmallIntegerSingletonFactory import SmallIntegerSingletonFactory
-# from org.allbinary.logic.string.StringMaker import StringMaker
-# from org.allbinary.string.CommonStrings import CommonStrings
-
-
-def _GameConfigurationUtil_instance() -> object:
-    return GameConfigurationUtil()
-
-lazy_static(GameConfigurationUtil, "instance", _GameConfigurationUtil_instance)
+method getCompetitionValue*(this: GameConfigurationUtil): int32 {.base, discardable.} =
+        return this.COMPETITION_VALUE
 

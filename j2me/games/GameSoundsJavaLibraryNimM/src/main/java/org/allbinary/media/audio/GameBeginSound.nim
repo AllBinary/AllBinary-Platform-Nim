@@ -1,40 +1,56 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.media.audio
 
-from __future__ import annotations
-
-from java.lang.JavaRuntimeStatic import lazy_static
-from org.allbinary.media.audio.CompositeSound import CompositeSound
-
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/media/audio/CompositeSound as CompositeSoundModule
+export CompositeSoundModule
+import org/allbinary/media/audio/Sound as SoundModule
+export SoundModule
 
 #Use 8hz16bitmono for most J2ME
-class GameBeginSound(CompositeSound):
-    soundInterface: Sound = None
-    
+type
+    GameBeginSound* = ref object of CompositeSound
 
-    def __init__(self) -> None:
-        super().__init__("resource:/wav/begin.wav")
-    
+proc newGameBeginSound*(): GameBeginSound
+proc initGameBeginSound*(this: GameBeginSound)
+proc getInstance*(t: typedesc[GameBeginSound]): Sound {.discardable.}
 
-    @staticmethod
-    def getInstance() -> Sound:
+var GameBeginSound_soundInterfaceValue: Sound
+var GameBeginSound_soundInterfaceSet = false
+proc soundInterface*(t: typedesc[GameBeginSound]): Sound =
+    if not GameBeginSound_soundInterfaceSet:
+        GameBeginSound_soundInterfaceSet = true
+        GameBeginSound_soundInterfaceValue = newGameBeginSound()
+    GameBeginSound_soundInterfaceValue
+proc `soundInterface=`*(t: typedesc[GameBeginSound], value: Sound) =
+    GameBeginSound_soundInterfaceSet = true
+    GameBeginSound_soundInterfaceValue = value
+
+proc initGameBeginSound*(this: GameBeginSound) =
+        initCompositeSound(this, "resource:/wav/begin.wav")
+
+proc newGameBeginSound*(): GameBeginSound =
+    result = GameBeginSound()
+    initGameBeginSound(result)
+
+proc getInstance*(t: typedesc[GameBeginSound]): Sound {.discardable.} =
         return GameBeginSound.soundInterface
 
-
-def _GameBeginSound_soundInterface() -> object:
-    return GameBeginSound()
-
-lazy_static(GameBeginSound, "soundInterface", _GameBeginSound_soundInterface)
+when declared(newGameBeginSoundHook0):
+    newGameBeginSoundHook0 = proc (): CompositeSound = newGameBeginSound()
 

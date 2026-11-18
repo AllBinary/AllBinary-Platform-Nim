@@ -1,89 +1,99 @@
 # Generated Code Do Not Modify
 # package org.allbinary.graphics.form
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import javax/microedition/lcdui/Graphics as GraphicsModule
+export GraphicsModule
+import org/allbinary/graphics/color/BasicColor as BasicColorModule
+export BasicColorModule
+import org/allbinary/graphics/form/item/ABCustomItem as ABCustomItemModule
+export ABCustomItemModule
+import org/allbinary/logic/communication/log/LogUtil as LogUtilModule
+export LogUtilModule
+import org/allbinary/string/CommonStrings as CommonStringsModule
+export CommonStringsModule
+import org/allbinary/graphics/form/CustomScreen as CustomScreenModule
+export CustomScreenModule
 
-from org.allbinary.graphics.form.CustomScreen import CustomScreen
+type
+    ABCustomForm* = ref object of CustomScreen
+        logUtil*: LogUtil
+        commonStrings*: CommonStrings
+
+proc newABCustomForm*(title: string, items: JArray[ABCustomItem], backgroundBasicColor: BasicColor, foregroundBasicColor: BasicColor): ABCustomForm
+proc initABCustomForm*(this: ABCustomForm, title: string, items: JArray[ABCustomItem], backgroundBasicColor: BasicColor, foregroundBasicColor: BasicColor)
+method getAllitems*(this: ABCustomForm): JArray[ABCustomItem] {.base, discardable.}
+method size*(this: ABCustomForm): int32 {.base, discardable.}
+method setSelectedIndex*(this: ABCustomForm, index: int32) {.base.}
+method getSelectedIndex*(this: ABCustomForm): int32 {.base, discardable.}
+method deleteAll*(this: ABCustomForm) {.base.}
+method delete*(this: ABCustomForm, itemNum: int32) {.base.}
+method append*(this: ABCustomForm, item: ABCustomItem): int32 {.base, discardable.}
+method insert*(this: ABCustomForm, itemNum: int32, item: ABCustomItem) {.base.}
+method set*(this: ABCustomForm, itemNum: int32, item: ABCustomItem) {.base.}
+method get*(this: ABCustomForm, itemNum: int32): ABCustomItem {.base, discardable.}
+method getWidth*(this: ABCustomForm): int32 {.base, discardable.}
+method paint*(this: ABCustomForm, graphics: Graphics) {.base.}
+method getTitle*(this: ABCustomForm): string {.base, discardable.}
+import org/allbinary/logic/string/StringUtil as StringUtilModule
+export StringUtilModule
 
 
-class ABCustomForm(CustomScreen):
+# Java field initializers run after the base initializer
+proc initFieldsABCustomForm(this: ABCustomForm) =
+    this.logUtil = LogUtil.getInstance()
+    this.commonStrings = CommonStrings.getInstance()
+    discard
 
-    def _init_fields(self) -> None:
-        from org.allbinary.logic.communication.log.LogUtil import LogUtil
-        from org.allbinary.string.CommonStrings import CommonStrings
-        self.logUtil: LogUtil = LogUtil.getInstance()
-        self.commonStrings: CommonStrings = CommonStrings.getInstance()
-    
+proc initABCustomForm*(this: ABCustomForm, title: string, items: JArray[ABCustomItem], backgroundBasicColor: BasicColor, foregroundBasicColor: BasicColor) =
+        initCustomScreen(this)
+        this.initFieldsABCustomForm()
+        discard
 
-    def __init__(self, title: str, items: list[ABCustomItem], backgroundBasicColor: BasicColor, foregroundBasicColor: BasicColor) -> None:
-        from org.allbinary.graphics.color.BasicColor import BasicColor
-        from org.allbinary.graphics.form.item.ABCustomItem import ABCustomItem
-        super().__init__()
-        self._init_fields()
-    
+proc newABCustomForm*(title: string, items: JArray[ABCustomItem], backgroundBasicColor: BasicColor, foregroundBasicColor: BasicColor): ABCustomForm =
+    result = ABCustomForm()
+    initABCustomForm(result, title, items, backgroundBasicColor, foregroundBasicColor)
 
-    def getAllitems(self) -> list[ABCustomItem]:
-        from org.allbinary.graphics.form.item.ABCustomItem import ABCustomItem
-        return [None] * (0)
-    
+method getAllitems*(this: ABCustomForm): JArray[ABCustomItem] {.base, discardable.} =
+        return newJArray[ABCustomItem](0, default(ABCustomItem))
 
-    def size(self) -> int:
+method size*(this: ABCustomForm): int32 {.base, discardable.} =
         return 0
-    
 
-    def setSelectedIndex(self, index: int) -> None:
-        pass
-    
+method setSelectedIndex*(this: ABCustomForm, index: int32) {.base.} =
+        discard
 
-    def getSelectedIndex(self) -> int:
+method getSelectedIndex*(this: ABCustomForm): int32 {.base, discardable.} =
         return 0
-    
 
-    def deleteAll(self) -> None:
-        pass
-    
+method deleteAll*(this: ABCustomForm) {.base.} =
+        discard
 
-    def delete(self, itemNum: int) -> None:
-        pass
-    
+method delete*(this: ABCustomForm, itemNum: int32) {.base.} =
+        discard
 
-    def append(self, item: ABCustomItem) -> int:
-        from org.allbinary.graphics.form.item.ABCustomItem import ABCustomItem
+method append*(this: ABCustomForm, item: ABCustomItem): int32 {.base, discardable.} =
         return -1
-    
 
-    def insert(self, itemNum: int, item: ABCustomItem) -> None:
-        from org.allbinary.graphics.form.item.ABCustomItem import ABCustomItem
-        pass
-    
+method insert*(this: ABCustomForm, itemNum: int32, item: ABCustomItem) {.base.} =
+        discard
 
-    def set(self, itemNum: int, item: ABCustomItem) -> None:
-        from org.allbinary.graphics.form.item.ABCustomItem import ABCustomItem
-        pass
-    
+method set*(this: ABCustomForm, itemNum: int32, item: ABCustomItem) {.base.} =
+        discard
 
-    def get(self, itemNum: int) -> ABCustomItem:
-        from org.allbinary.graphics.form.item.ABCustomItem import ABCustomItem
+method get*(this: ABCustomForm, itemNum: int32): ABCustomItem {.base, discardable.} =
         return ABCustomItem.getNullInstance()
-    
 
-    def getWidth(self) -> int:
-        raise RuntimeError()
-    
+method getWidth*(this: ABCustomForm): int32 {.base, discardable.} =
+        raise newJException("RuntimeException", "")
 
-    def paint(self, graphics: Graphics) -> None:
-        from javax.microedition.lcdui.Graphics import Graphics
-        pass
-    
+method paint*(this: ABCustomForm, graphics: Graphics) {.base.} =
+        discard
 
-    def getTitle(self) -> str:
-        from org.allbinary.logic.string.StringUtil import StringUtil
+method getTitle*(this: ABCustomForm): string {.base, discardable.} =
         return StringUtil.getInstance().EMPTY_STRING
-# from javax.microedition.lcdui.Graphics import Graphics
-# from org.allbinary.graphics.color.BasicColor import BasicColor
-# from org.allbinary.graphics.form.item.ABCustomItem import ABCustomItem
-# from org.allbinary.logic.communication.log.LogUtil import LogUtil
-# from org.allbinary.logic.string.StringUtil import StringUtil
-# from org.allbinary.string.CommonStrings import CommonStrings
 
+when declared(newABCustomFormHook4):
+    newABCustomFormHook4 = proc (title: string, items: JArray[ABCustomItem], backgroundBasicColor: BasicColor, foregroundBasicColor: BasicColor): CustomScreen = newABCustomForm(title, items, backgroundBasicColor, foregroundBasicColor)
 

@@ -1,40 +1,50 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.logic.system.security.licensing
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    LicenseStrings* = ref object of JObject
+        LOCKED*: string
 
+proc newLicenseStrings*(): LicenseStrings
+proc getInstance*(t: typedesc[LicenseStrings]): LicenseStrings {.discardable.}
 
-class LicenseStrings:
-    instance: LicenseStrings = None
+var LicenseStrings_instanceValue: LicenseStrings
+var LicenseStrings_instanceSet = false
+proc instance*(t: typedesc[LicenseStrings]): LicenseStrings =
+    if not LicenseStrings_instanceSet:
+        LicenseStrings_instanceSet = true
+        LicenseStrings_instanceValue = newLicenseStrings()
+    LicenseStrings_instanceValue
 
-    def _init_fields(self) -> None:
-        self.LOCKED: str = "Demo Locked Feature"
+# Java field initializers run after the base initializer
+proc initFieldsLicenseStrings(this: LicenseStrings) =
+    this.LOCKED = "Demo Locked Feature"
+    discard
 
-    def __init__(self) -> None:
-        self._init_fields()
-    
+proc initLicenseStrings*(this: LicenseStrings) =
+    this.initFieldsLicenseStrings()
 
-    @staticmethod
-    def getInstance() -> LicenseStrings:
+proc newLicenseStrings*(): LicenseStrings =
+    result = LicenseStrings()
+    initLicenseStrings(result)
+
+proc getInstance*(t: typedesc[LicenseStrings]): LicenseStrings {.discardable.} =
         return LicenseStrings.instance
-
-
-def _LicenseStrings_instance() -> object:
-    return LicenseStrings()
-
-lazy_static(LicenseStrings, "instance", _LicenseStrings_instance)
 

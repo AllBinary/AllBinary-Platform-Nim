@@ -1,32 +1,45 @@
 # Generated Code Do Not Modify
 # package org.allbinary.graphics
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/platform/graphics/PlatformBitmapBase as PlatformBitmapBaseModule
+export PlatformBitmapBaseModule
 
-from org.allbinary.platform.graphics.PlatformBitmapBase import PlatformBitmapBase
+type
+    OpenGLBitmap* = ref object of PlatformBitmapBase
+        bitmap*: JObject
+
+proc newOpenGLBitmap*(bitmap: JObject): OpenGLBitmap
+proc initOpenGLBitmap*(this: OpenGLBitmap, bitmap: JObject)
+method getPixels*(this: OpenGLBitmap, pixels: JArray[int32], offset: int32, stride: int32, x: int32, y: int32, width: int32, height: int32) {.base.}
+method setPixels*(this: OpenGLBitmap, pixels: JArray[int32], offset: int32, stride: int32, x: int32, y: int32, width: int32, height: int32) {.base.}
+method recycle*(this: OpenGLBitmap) {.base.}
 
 
-class OpenGLBitmap(PlatformBitmapBase):
-
-    def _init_fields(self) -> None:
-        self.bitmap: object = None
+# Java field initializers run after the base initializer
+proc initFieldsOpenGLBitmap(this: OpenGLBitmap) =
     
+    discard
 
-    def __init__(self, bitmap: object) -> None:
-        super().__init__()
-        self._init_fields()
-        self.bitmap = bitmap
-    
+proc initOpenGLBitmap*(this: OpenGLBitmap, bitmap: JObject) =
+        initPlatformBitmapBase(this)
+        this.initFieldsOpenGLBitmap()
+        this.bitmap = bitmap
 
-    def getPixels(self, pixels: list[int], offset: int, stride: int, x: int, y: int, width: int, height: int) -> None:
-        pass
-    
+proc newOpenGLBitmap*(bitmap: JObject): OpenGLBitmap =
+    result = OpenGLBitmap()
+    initOpenGLBitmap(result, bitmap)
 
-    def setPixels(self, pixels: list[int], offset: int, stride: int, x: int, y: int, width: int, height: int) -> None:
-        pass
-    
+method getPixels*(this: OpenGLBitmap, pixels: JArray[int32], offset: int32, stride: int32, x: int32, y: int32, width: int32, height: int32) {.base.} =
+        discard
 
-    def recycle(self) -> None:
-        pass
+method setPixels*(this: OpenGLBitmap, pixels: JArray[int32], offset: int32, stride: int32, x: int32, y: int32, width: int32, height: int32) {.base.} =
+        discard
 
+method recycle*(this: OpenGLBitmap) {.base.} =
+        discard
+
+when declared(newOpenGLBitmapHook1):
+    newOpenGLBitmapHook1 = proc (bitmap: JObject): PlatformBitmapBase = newOpenGLBitmap(bitmap)
 

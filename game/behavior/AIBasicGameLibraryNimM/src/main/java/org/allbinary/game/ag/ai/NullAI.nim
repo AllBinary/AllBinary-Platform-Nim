@@ -1,34 +1,46 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.ag.ai
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/ai/ArtificialIntelligence as ArtificialIntelligenceModule
+export ArtificialIntelligenceModule
+import org/allbinary/layer/AllBinaryLayerManager as AllBinaryLayerManagerModule
+export AllBinaryLayerManagerModule
 
-from org.allbinary.ai.ArtificialIntelligence import ArtificialIntelligence
+type
+    NullAI* = ref object of ArtificialIntelligence
+
+proc newNullAI*(): NullAI
+proc initNullAI*(this: NullAI)
+method processAI*(this: NullAI, allBinaryLayerManager: AllBinaryLayerManager)
 
 
-class NullAI(ArtificialIntelligence):
-    
+proc initNullAI*(this: NullAI) =
+        initArtificialIntelligence(this)
+        discard
 
-    def __init__(self) -> None:
-        super().__init__()
-    
+proc newNullAI*(): NullAI =
+    result = NullAI()
+    initNullAI(result)
 
-    # throws Exception
-    def processAI(self, allBinaryLayerManager: AllBinaryLayerManager) -> None:
-        from org.allbinary.layer.AllBinaryLayerManager import AllBinaryLayerManager
-        pass
-# from org.allbinary.layer.AllBinaryLayerManager import AllBinaryLayerManager
+method processAI*(this: NullAI, allBinaryLayerManager: AllBinaryLayerManager) =
+        discard
 
+when declared(newNullAIHook0):
+    newNullAIHook0 = proc (): ArtificialIntelligence = newNullAI()
 

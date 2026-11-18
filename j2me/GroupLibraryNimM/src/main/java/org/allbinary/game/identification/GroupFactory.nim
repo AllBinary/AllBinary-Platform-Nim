@@ -1,85 +1,99 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#   
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+    
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.identification
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/logic/communication/log/LogUtil as LogUtilModule
+export LogUtilModule
+import org/allbinary/util/BasicArrayList as BasicArrayListModule
+export BasicArrayListModule
+import org/allbinary/game/identification/Group as GroupModule
+export GroupModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    GroupFactory* = ref object of JObject
+        logUtil*: LogUtil
+        NULL_GROUP_ARRAY*: JArray[Group]
+        list*: BasicArrayList
+        index*: int32
 
+proc newGroupFactory*(): GroupFactory
+proc getInstance*(t: typedesc[GroupFactory]): GroupFactory {.discardable.}
+method getNextGroup*(this: GroupFactory): Group {.base, discardable.}
+method getNextGroupByName*(this: GroupFactory, name: string): Group {.base, discardable.}
+method init*(this: GroupFactory, groups: int16, nameArray: JArray[string]) {.base.}
+import org/allbinary/logic/string/StringMaker as StringMakerModule
+export StringMakerModule
+import org/allbinary/logic/string/StringUtil as StringUtilModule
+export StringUtilModule
+import org/allbinary/util/BasicArrayListD as BasicArrayListDModule
+export BasicArrayListDModule
 
-class GroupFactory:
-    instance: GroupFactory = None
+var GroupFactory_instanceValue: GroupFactory
+var GroupFactory_instanceSet = false
+proc instance*(t: typedesc[GroupFactory]): GroupFactory =
+    if not GroupFactory_instanceSet:
+        GroupFactory_instanceSet = true
+        GroupFactory_instanceValue = newGroupFactory()
+    GroupFactory_instanceValue
 
-    def _init_fields(self) -> None:
-        from org.allbinary.logic.communication.log.LogUtil import LogUtil
-        from org.allbinary.util.BasicArrayList import BasicArrayList
-        from org.allbinary.util.BasicArrayListD import BasicArrayListD
-        self.logUtil: LogUtil = LogUtil.getInstance()
-        self.NULL_GROUP_ARRAY: list[Group] = [None] * (0)
-        self.list_: BasicArrayList = BasicArrayListD()
-        self.index: int = 0
+# Java field initializers run after the base initializer
+proc initFieldsGroupFactory(this: GroupFactory) =
+    this.logUtil = LogUtil.getInstance()
+    this.NULL_GROUP_ARRAY = newJArray[Group](0, default(Group))
+    this.list = newBasicArrayListD()
+    this.index = 0
+    discard
 
-    def __init__(self) -> None:
-        self._init_fields()
-    
+proc initGroupFactory*(this: GroupFactory) =
+    this.initFieldsGroupFactory()
 
-    @staticmethod
-    def getInstance() -> GroupFactory:
+proc newGroupFactory*(): GroupFactory =
+    result = GroupFactory()
+    initGroupFactory(result)
+
+proc getInstance*(t: typedesc[GroupFactory]): GroupFactory {.discardable.} =
         return GroupFactory.instance
-    
 
-    def getNextGroup(self) -> Group:
-        group: Group = self.list_.objectArray[self.index]
-        self.index += 1
+method getNextGroup*(this: GroupFactory): Group {.base, discardable.} =
+        let group: Group = Group(JObject(this.list.objectArray[this.index]))
+        this.index = this.index +% 1
         return group
-    
 
-    def getNextGroupByName(self, name: str) -> Group:
-        group: Group = self.getNextGroup()
+method getNextGroupByName*(this: GroupFactory, name: string): Group {.base, discardable.} =
+        let group: Group = this.getNextGroup()
         group.setName(name)
         return group
-    
 
-    def init(self, groups: int, nameArray: list[str]) -> None:
-        from org.allbinary.game.identification.Group import Group
-        from org.allbinary.logic.string.StringMaker import StringMaker
-        from org.allbinary.logic.string.StringUtil import StringUtil
-        stringMaker: StringMaker = StringMaker()
-        stringUtil: StringUtil = StringUtil.getInstance()
-        TEAM: str = "Team "
-        self.list_.clear()
-        self.index = 0
-        size: int = self.list_.size()
-        name: str = None
-        while size < groups:
+method init*(this: GroupFactory, groups: int16, nameArray: JArray[string]) {.base.} =
+        let stringMaker: StringMaker = newStringMaker()
+        let stringUtil: StringUtil = StringUtil.getInstance()
+        let TEAM: string = "Team "
+        this.list.clear()
+        this.index = 0
+        var size: int32 = this.list.size()
+        var name: string = ""
+        while size < int32(groups):
             name = stringUtil.EMPTY_STRING
-            if size < len(nameArray):
+            if size < nameArray.length:
                 name = nameArray[size]
             else:
                 stringMaker.delete(0, stringMaker.length())
-                name = str(stringMaker.append(TEAM).appendint(size))
-            self.list_.add(Group(name, ((int((size + 3)) + 32768) % 65536 - 32768)))
-            size += 1
-# from org.allbinary.logic.communication.log.LogUtil import LogUtil
-# from org.allbinary.logic.string.StringMaker import StringMaker
-# from org.allbinary.logic.string.StringUtil import StringUtil
-# from org.allbinary.util.BasicArrayList import BasicArrayList
-# from org.allbinary.util.BasicArrayListD import BasicArrayListD
-
-
-def _GroupFactory_instance() -> object:
-    return GroupFactory()
-
-lazy_static(GroupFactory, "instance", _GroupFactory_instance)
+                name = stringMaker.append(TEAM).appendint(size).toString()
+            this.list.add(newGroup(name, jToInt16((size +% 3))))
+            size = size +% 1
 

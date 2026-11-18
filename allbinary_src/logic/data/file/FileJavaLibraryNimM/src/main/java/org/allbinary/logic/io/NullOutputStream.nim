@@ -1,49 +1,59 @@
-# 
-# AllBinary Open License Version 1 
-# Copyright (c) 2025 AllBinary 
-# 
-# By agreeing to this license you and any business entity you represent are 
-# legally bound to the AllBinary Open License Version 1 legal agreement. 
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from 
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
-# 
-# Created By: Travis Berthelot 
-#  
+#[
+  
+  AllBinary Open License Version 1 
+  Copyright (c) 2025 AllBinary 
+  
+  By agreeing to this license you and any business entity you represent are 
+  legally bound to the AllBinary Open License Version 1 legal agreement. 
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from 
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
+  
+  Created By: Travis Berthelot 
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.logic.io
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import java/io/IOException as IOExceptionModule
+export IOExceptionModule
+import java/io/OutputStream as OutputStreamModule
+export OutputStreamModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
-from java.io.OutputStream import OutputStream
+type
+    NullOutputStream* = ref object of OutputStream
 
+proc newNullOutputStream*(): NullOutputStream
+method write*(this: NullOutputStream, b: int32)
+method write*(this: NullOutputStream, b: JArray[int8], off: int32, len: int32)
+method close*(this: NullOutputStream)
 
-class NullOutputStream(OutputStream):
-    NULL_OUTPUT_STREAM: NullOutputStream = None
+var NullOutputStream_NULL_OUTPUT_STREAMValue: NullOutputStream
+var NullOutputStream_NULL_OUTPUT_STREAMSet = false
+proc NULL_OUTPUT_STREAMStatic*(t: typedesc[NullOutputStream]): NullOutputStream =
+    if not NullOutputStream_NULL_OUTPUT_STREAMSet:
+        NullOutputStream_NULL_OUTPUT_STREAMSet = true
+        NullOutputStream_NULL_OUTPUT_STREAMValue = newNullOutputStream()
+    NullOutputStream_NULL_OUTPUT_STREAMValue
 
-    def __init__(self) -> None:
-        super().__init__()
-    
+proc initNullOutputStream*(this: NullOutputStream) =
+    initOutputStream(this)
 
-    # throws IOException
-    def write(self, b: int) -> None:
-        pass
-    
+proc newNullOutputStream*(): NullOutputStream =
+    result = NullOutputStream()
+    initNullOutputStream(result)
 
-    # throws IOException
-    # Java overloaded method: Python keeps the last definition
-    def write(self, b: list[int], off: int, len_: int) -> None:
-        pass
-    
+method write*(this: NullOutputStream, b: int32) =
+        discard
 
-    def close(self) -> None:
-        pass
-# from java.io.IOException import IOException
+method write*(this: NullOutputStream, b: JArray[int8], off: int32, len: int32) =
+        discard
 
+method close*(this: NullOutputStream) =
+        discard
 
-def _NullOutputStream_NULL_OUTPUT_STREAM() -> object:
-    return NullOutputStream()
-
-lazy_static(NullOutputStream, "NULL_OUTPUT_STREAM", _NullOutputStream_NULL_OUTPUT_STREAM)
+when declared(newNullOutputStreamHook0):
+    newNullOutputStreamHook0 = proc (): OutputStream = newNullOutputStream()
 

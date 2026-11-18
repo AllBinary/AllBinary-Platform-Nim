@@ -1,366 +1,384 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.graphics.form
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import javax/microedition/lcdui/Graphics as GraphicsModule
+export GraphicsModule
+import org/allbinary/graphics/GPoint as GPointModule
+export GPointModule
+import org/allbinary/graphics/Rectangle as RectangleModule
+export RectangleModule
+import org/allbinary/graphics/color/BasicColor as BasicColorModule
+export BasicColorModule
+import org/allbinary/graphics/form/item/ABCustomItem as ABCustomItemModule
+export ABCustomItemModule
+import org/allbinary/math/RectangleCollisionUtil as RectangleCollisionUtilModule
+export RectangleCollisionUtilModule
+import org/allbinary/graphics/form/PaintableForm as PaintableFormModule
+export PaintableFormModule
+import org/allbinary/graphics/form/ItemPaintableFactory as ItemPaintableFactoryModule
+export ItemPaintableFactoryModule
+import org/allbinary/graphics/form/ItemIndexPaintable as ItemIndexPaintableModule
+export ItemIndexPaintableModule
+import org/allbinary/graphics/form/ItemIndexDx as ItemIndexDxModule
+export ItemIndexDxModule
+import org/allbinary/graphics/form/ItemPaintable as ItemPaintableModule
+export ItemPaintableModule
+import org/allbinary/graphics/form/FormType as FormTypeModule
+export FormTypeModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
-from org.allbinary.graphics.form.PaintableForm import PaintableForm
+type
+    ScrollSelectionForm* = ref object of PaintableForm
+        rectangleCollisionUtil*: RectangleCollisionUtil
+        border*: int32
+        halfBorder*: int32
+        buttonBasicColor*: BasicColor
+        scrollSelectionFormFormTypeItemIndexPaintable*: ItemIndexPaintable
+        formTypeItemIndexDx*: ItemIndexDx
+        paintable*: ItemPaintable
+        adjustedExtraBorder*: int32
 
+proc newScrollSelectionForm*(title: string, items: JArray[ABCustomItem], formPaintableFactory: ItemPaintableFactory, border: int32, adjustedExtraBorder: int32, backgroundBasicColor: BasicColor, foregroundBasicColor: BasicColor): ScrollSelectionForm
+proc initScrollSelectionForm*(this: ScrollSelectionForm, title: string, items: JArray[ABCustomItem], formPaintableFactory: ItemPaintableFactory, border: int32, adjustedExtraBorder: int32, backgroundBasicColor: BasicColor, foregroundBasicColor: BasicColor)
+proc createForm*(t: typedesc[ScrollSelectionForm], title: string, items: JArray[ABCustomItem], formPaintableFactory: ItemPaintableFactory, border: int32, backgroundBasicColor: BasicColor, foregroundBasicColor: BasicColor): PaintableForm {.discardable.}
+proc getNullScrollSelectionForm*(t: typedesc[ScrollSelectionForm]): ScrollSelectionForm {.discardable.}
+proc getNullScrollSelectionFormHorizontal*(t: typedesc[ScrollSelectionForm]): ScrollSelectionForm {.discardable.}
+method init*(this: ScrollSelectionForm, rectangle: Rectangle, formType: FormType)
+method paintItemHorizontal*(this: ScrollSelectionForm, graphics: Graphics, index: int32, item: ABCustomItem, x: int32, y: int32): int32 {.base, discardable.}
+method paintItemVertical*(this: ScrollSelectionForm, graphics: Graphics, index: int32, item: ABCustomItem, x: int32, y: int32): int32 {.base, discardable.}
+method paintItemTempHorizontal*(this: ScrollSelectionForm, graphics: Graphics, index: int32, item: ABCustomItem, x: int32, y: int32): int32 {.base, discardable.}
+method getSelectedIndexForPointHorizontalDx*(this: ScrollSelectionForm, index: int32, item: ABCustomItem, dx: int32, dy: int32): int32 {.base, discardable.}
+method getSelectedIndexForPointVerticalDx*(this: ScrollSelectionForm, index: int32, item: ABCustomItem, dx: int32, dy: int32): int32 {.base, discardable.}
+method getSelectedIndexForPointTempHorizontalDx*(this: ScrollSelectionForm, index: int32, item: ABCustomItem, dx: int32, dy: int32): int32 {.base, discardable.}
+method append*(this: ScrollSelectionForm, item: ABCustomItem): int32 {.discardable.}
+method getSelectedItem*(this: ScrollSelectionForm, point: GPoint): ABCustomItem {.base, discardable.}
+method getItemIndex*(this: ScrollSelectionForm, item: ABCustomItem): int32 {.base, discardable.}
+method getStartIndex*(this: ScrollSelectionForm): int32 {.base, discardable.}
+method getSelectedIndexForPoint*(this: ScrollSelectionForm, point: GPoint): int32 {.base, discardable.}
+method processInputKey*(this: ScrollSelectionForm, gameKeyCode: int32): int32 {.base, discardable.}
+method isInForm*(this: ScrollSelectionForm, point: GPoint): bool {.base, discardable.}
+method paintItem*(this: ScrollSelectionForm, graphics: Graphics, index: int32, item: ABCustomItem, x: int32, y: int32): int32 {.base, discardable.}
+method paintUnselectedItem*(this: ScrollSelectionForm, graphics: Graphics, index: int32, item: ABCustomItem, x: int32, y: int32): int32 {.base, discardable.}
+method getDiffX*(this: ScrollSelectionForm, item: ABCustomItem): int32 {.base, discardable.}
+method getDx*(this: ScrollSelectionForm): int32 {.base, discardable.}
+method getDy*(this: ScrollSelectionForm): int32 {.base, discardable.}
+method setButtonBasicColor*(this: ScrollSelectionForm, buttonBasicColor: BasicColor) {.base.}
+method getButtonBasicColor*(this: ScrollSelectionForm): BasicColor {.base, discardable.}
+import javax/microedition/lcdui/Canvas as CanvasModule
+export CanvasModule
+import org/allbinary/graphics/color/BasicColorFactory as BasicColorFactoryModule
+export BasicColorFactoryModule
+import org/allbinary/logic/NullUtil as NullUtilModule
+export NullUtilModule
+import org/allbinary/logic/communication/log/LogUtil as LogUtilModule
+export LogUtilModule
+import org/allbinary/logic/string/StringMaker as StringMakerModule
+export StringMakerModule
+import org/allbinary/logic/string/StringUtil as StringUtilModule
+export StringUtilModule
+import org/allbinary/string/CommonLabels as CommonLabelsModule
+export CommonLabelsModule
+import org/allbinary/string/CommonSeps as CommonSepsModule
+export CommonSepsModule
+import org/allbinary/string/CommonStrings as CommonStringsModule
+export CommonStringsModule
+import org/allbinary/graphics/form/FormTypeFactory as FormTypeFactoryModule
+export FormTypeFactoryModule
+import org/allbinary/graphics/form/ScrollSelectionFormTempHorizontalPaintable as ScrollSelectionFormTempHorizontalPaintableModule
+export ScrollSelectionFormTempHorizontalPaintableModule
+import org/allbinary/graphics/form/ScrollSelectionFormTempHorizontalDx as ScrollSelectionFormTempHorizontalDxModule
+export ScrollSelectionFormTempHorizontalDxModule
+import org/allbinary/graphics/form/ScrollSelectionFormVerticalPaintable as ScrollSelectionFormVerticalPaintableModule
+export ScrollSelectionFormVerticalPaintableModule
+import org/allbinary/graphics/form/ScrollSelectionFormVericalDx as ScrollSelectionFormVericalDxModule
+export ScrollSelectionFormVericalDxModule
+import org/allbinary/graphics/form/ScrollSelectionFormHorizontalPaintable as ScrollSelectionFormHorizontalPaintableModule
+export ScrollSelectionFormHorizontalPaintableModule
+import org/allbinary/graphics/form/ScrollSelectionFormHorizontalDx as ScrollSelectionFormHorizontalDxModule
+export ScrollSelectionFormHorizontalDxModule
 
-class ScrollSelectionForm(PaintableForm):
-    NULL_SCROLL_SELECTION_FORM: object = None
-    NULL_SCROLL_SELECTION_HORIZONTAL_FORM: object = None
-    INSIDE_FORM: str = " inside form"
-    IS_IN_FORM: str = "isInForm"
-    GET_SELECTED_INDEX: str = "getSelectedIndexForPoint"
+var ScrollSelectionForm_NULL_SCROLL_SELECTION_FORMValue: JObject
+var ScrollSelectionForm_NULL_SCROLL_SELECTION_FORMSet = false
+proc NULL_SCROLL_SELECTION_FORM*(t: typedesc[ScrollSelectionForm]): JObject =
+    if not ScrollSelectionForm_NULL_SCROLL_SELECTION_FORMSet:
+        ScrollSelectionForm_NULL_SCROLL_SELECTION_FORMSet = true
+        ScrollSelectionForm_NULL_SCROLL_SELECTION_FORMValue = NullUtil.getInstance().NULL_OBJECT
+    ScrollSelectionForm_NULL_SCROLL_SELECTION_FORMValue
+proc `NULL_SCROLL_SELECTION_FORM=`*(t: typedesc[ScrollSelectionForm], value: JObject) =
+    ScrollSelectionForm_NULL_SCROLL_SELECTION_FORMSet = true
+    ScrollSelectionForm_NULL_SCROLL_SELECTION_FORMValue = value
+var ScrollSelectionForm_NULL_SCROLL_SELECTION_HORIZONTAL_FORMValue: JObject
+var ScrollSelectionForm_NULL_SCROLL_SELECTION_HORIZONTAL_FORMSet = false
+proc NULL_SCROLL_SELECTION_HORIZONTAL_FORM*(t: typedesc[ScrollSelectionForm]): JObject =
+    if not ScrollSelectionForm_NULL_SCROLL_SELECTION_HORIZONTAL_FORMSet:
+        ScrollSelectionForm_NULL_SCROLL_SELECTION_HORIZONTAL_FORMSet = true
+        ScrollSelectionForm_NULL_SCROLL_SELECTION_HORIZONTAL_FORMValue = NullUtil.getInstance().NULL_OBJECT
+    ScrollSelectionForm_NULL_SCROLL_SELECTION_HORIZONTAL_FORMValue
+proc `NULL_SCROLL_SELECTION_HORIZONTAL_FORM=`*(t: typedesc[ScrollSelectionForm], value: JObject) =
+    ScrollSelectionForm_NULL_SCROLL_SELECTION_HORIZONTAL_FORMSet = true
+    ScrollSelectionForm_NULL_SCROLL_SELECTION_HORIZONTAL_FORMValue = value
+var ScrollSelectionForm_INSIDE_FORMValue: string
+var ScrollSelectionForm_INSIDE_FORMSet = false
+proc INSIDE_FORM*(t: typedesc[ScrollSelectionForm]): string =
+    if not ScrollSelectionForm_INSIDE_FORMSet:
+        ScrollSelectionForm_INSIDE_FORMSet = true
+        ScrollSelectionForm_INSIDE_FORMValue = " inside form"
+    ScrollSelectionForm_INSIDE_FORMValue
+var ScrollSelectionForm_IS_IN_FORMValue: string
+var ScrollSelectionForm_IS_IN_FORMSet = false
+proc IS_IN_FORM*(t: typedesc[ScrollSelectionForm]): string =
+    if not ScrollSelectionForm_IS_IN_FORMSet:
+        ScrollSelectionForm_IS_IN_FORMSet = true
+        ScrollSelectionForm_IS_IN_FORMValue = "isInForm"
+    ScrollSelectionForm_IS_IN_FORMValue
+var ScrollSelectionForm_GET_SELECTED_INDEXValue: string
+var ScrollSelectionForm_GET_SELECTED_INDEXSet = false
+proc GET_SELECTED_INDEX*(t: typedesc[ScrollSelectionForm]): string =
+    if not ScrollSelectionForm_GET_SELECTED_INDEXSet:
+        ScrollSelectionForm_GET_SELECTED_INDEXSet = true
+        ScrollSelectionForm_GET_SELECTED_INDEXValue = "getSelectedIndexForPoint"
+    ScrollSelectionForm_GET_SELECTED_INDEXValue
 
-    def _init_fields(self) -> None:
-        from org.allbinary.graphics.color.BasicColor import BasicColor
-        from org.allbinary.math.RectangleCollisionUtil import RectangleCollisionUtil
-        self.rectangleCollisionUtil: RectangleCollisionUtil = RectangleCollisionUtil.getInstance()
-        self.border: int = None
-        self.halfBorder: int = None
-        self.buttonBasicColor: BasicColor = None
-        self.scrollSelectionFormFormTypeItemIndexPaintable: ItemIndexPaintable = ItemIndexPaintable.getInstance()
-        self.formTypeItemIndexDx: ItemIndexDx = ItemIndexDx.getInstance()
-        self.paintable: ItemPaintable = ItemPaintableFactory.getInstance()
-        self.adjustedExtraBorder: int = None
+# Java field initializers run after the base initializer
+proc initFieldsScrollSelectionForm(this: ScrollSelectionForm) =
+    this.rectangleCollisionUtil = RectangleCollisionUtil.getInstance()
     
+    
+    
+    this.scrollSelectionFormFormTypeItemIndexPaintable = ItemIndexPaintable.getInstance()
+    this.formTypeItemIndexDx = ItemIndexDx.getInstance()
+    this.paintable = ItemPaintableFactory.getInstance()
+    
+    discard
 
-    @staticmethod
-    def createForm(title: str, items: list[ABCustomItem], formPaintableFactory: ItemPaintableFactory, border: int, backgroundBasicColor: BasicColor, foregroundBasicColor: BasicColor) -> PaintableForm:
-        from org.allbinary.graphics.form.ItemPaintableFactory import ItemPaintableFactory
-        from org.allbinary.graphics.form.PaintableForm import PaintableForm
-        from org.allbinary.graphics.form.PaintableForm import PaintableForm
-        from org.allbinary.graphics.color.BasicColor import BasicColor
-        from org.allbinary.graphics.form.item.ABCustomItem import ABCustomItem
-        from org.allbinary.logic.communication.log.LogUtil import LogUtil
-        from org.allbinary.string.CommonStrings import CommonStrings
+proc createForm*(t: typedesc[ScrollSelectionForm], title: string, items: JArray[ABCustomItem], formPaintableFactory: ItemPaintableFactory, border: int32, backgroundBasicColor: BasicColor, foregroundBasicColor: BasicColor): PaintableForm {.discardable.} =
         try:
             if formPaintableFactory == ItemPaintableFactory.getInstance():
-                return ScrollSelectionForm(title, items, formPaintableFactory, border, -3, backgroundBasicColor, foregroundBasicColor)
+                return newScrollSelectionForm(title, items, formPaintableFactory, border, -3, backgroundBasicColor, foregroundBasicColor)
             else:
-                commonStrings: CommonStrings = CommonStrings.getInstance()
-                logUtil: LogUtil = LogUtil.getInstance()
+                let commonStrings: CommonStrings = CommonStrings.getInstance()
+                let logUtil: LogUtil = LogUtil.getInstance()
                 logUtil.putF(commonStrings.EXCEPTION, logUtil, commonStrings.EXCEPTION)
                 return PaintableForm.getNullPaintableForm()
-        except Exception as e:
-            commonStrings: CommonStrings = CommonStrings.getInstance()
-            logUtil: LogUtil = LogUtil.getInstance()
+        except CatchableError as jcaught:
+            let e = jToException(jcaught)
+            let commonStrings: CommonStrings = CommonStrings.getInstance()
+            let logUtil: LogUtil = LogUtil.getInstance()
             logUtil.put(commonStrings.EXCEPTION, logUtil, commonStrings.EXCEPTION, e)
             return PaintableForm.getNullPaintableForm()
-    
 
-    @staticmethod
-    def getNullScrollSelectionForm() -> ScrollSelectionForm:
-        from org.allbinary.graphics.form.ItemPaintableFactory import ItemPaintableFactory
-        from org.allbinary.graphics.color.BasicColorFactory import BasicColorFactory
-        from org.allbinary.graphics.form.item.ABCustomItem import ABCustomItem
-        from org.allbinary.logic.NullUtil import NullUtil
-        from org.allbinary.logic.string.StringUtil import StringUtil
+proc getNullScrollSelectionForm*(t: typedesc[ScrollSelectionForm]): ScrollSelectionForm {.discardable.} =
         if ScrollSelectionForm.NULL_SCROLL_SELECTION_FORM == NullUtil.getInstance().NULL_OBJECT:
-            ScrollSelectionForm.NULL_SCROLL_SELECTION_FORM = ScrollSelectionForm.createForm(StringUtil.getInstance().EMPTY_STRING, [None] * (0), ItemPaintableFactory.getInstance(), 0, BasicColorFactory.getInstance().BLACK, BasicColorFactory.getInstance().WHITE)
-        return ScrollSelectionForm.NULL_SCROLL_SELECTION_FORM
-    
+            ScrollSelectionForm.NULL_SCROLL_SELECTION_FORM = ScrollSelectionForm.createForm(StringUtil.getInstance().EMPTY_STRING, newJArray[ABCustomItem](0, default(ABCustomItem)), ItemPaintableFactory.getInstance(), 0, BasicColorFactory.getInstance().BLACK, BasicColorFactory.getInstance().WHITE)
+        return ScrollSelectionForm(JObject(ScrollSelectionForm.NULL_SCROLL_SELECTION_FORM))
 
-    @staticmethod
-    def getNullScrollSelectionFormHorizontal() -> ScrollSelectionForm:
-        from org.allbinary.graphics.form.ItemPaintableFactory import ItemPaintableFactory
-        from org.allbinary.graphics.color.BasicColorFactory import BasicColorFactory
-        from org.allbinary.graphics.form.item.ABCustomItem import ABCustomItem
-        from org.allbinary.logic.NullUtil import NullUtil
-        from org.allbinary.logic.string.StringUtil import StringUtil
+proc getNullScrollSelectionFormHorizontal*(t: typedesc[ScrollSelectionForm]): ScrollSelectionForm {.discardable.} =
         if ScrollSelectionForm.NULL_SCROLL_SELECTION_HORIZONTAL_FORM == NullUtil.getInstance().NULL_OBJECT:
-            ScrollSelectionForm.NULL_SCROLL_SELECTION_HORIZONTAL_FORM = ScrollSelectionForm.createForm(StringUtil.getInstance().EMPTY_STRING, [None] * (0), ItemPaintableFactory.getInstance(), 0, BasicColorFactory.getInstance().BLACK, BasicColorFactory.getInstance().WHITE)
-        return ScrollSelectionForm.NULL_SCROLL_SELECTION_HORIZONTAL_FORM
-    
+            ScrollSelectionForm.NULL_SCROLL_SELECTION_HORIZONTAL_FORM = ScrollSelectionForm.createForm(StringUtil.getInstance().EMPTY_STRING, newJArray[ABCustomItem](0, default(ABCustomItem)), ItemPaintableFactory.getInstance(), 0, BasicColorFactory.getInstance().BLACK, BasicColorFactory.getInstance().WHITE)
+        return ScrollSelectionForm(JObject(ScrollSelectionForm.NULL_SCROLL_SELECTION_HORIZONTAL_FORM))
 
-    def __init__(self, title: str, items: list[ABCustomItem], formPaintableFactory: ItemPaintableFactory, border: int, adjustedExtraBorder: int, backgroundBasicColor: BasicColor, foregroundBasicColor: BasicColor) -> None:
-        from org.allbinary.graphics.color.BasicColor import BasicColor
-        from org.allbinary.graphics.form.item.ABCustomItem import ABCustomItem
-        super().__init__(title, items, backgroundBasicColor, foregroundBasicColor)
-        self._init_fields()
-        self.adjustedExtraBorder = adjustedExtraBorder
-        self.buttonBasicColor = foregroundBasicColor
-        self.border = border
-        self.halfBorder = (border >> 1)
-        self.paintable = formPaintableFactory.getInstanceItemPaintable(self)
-    
+proc initScrollSelectionForm*(this: ScrollSelectionForm, title: string, items: JArray[ABCustomItem], formPaintableFactory: ItemPaintableFactory, border: int32, adjustedExtraBorder: int32, backgroundBasicColor: BasicColor, foregroundBasicColor: BasicColor) =
+        initPaintableForm(this, title, items, backgroundBasicColor, foregroundBasicColor)
+        this.initFieldsScrollSelectionForm()
+        this.adjustedExtraBorder = adjustedExtraBorder
+        this.buttonBasicColor = foregroundBasicColor
+        this.border = border
+        this.halfBorder = (ashr(border, 1))
+        this.paintable = formPaintableFactory.getInstanceItemPaintable(this)
 
-    # throws Exception
-    def init(self, rectangle: Rectangle, formType: FormType) -> None:
-        from org.allbinary.graphics.form.FormTypeFactory import FormTypeFactory
-        from org.allbinary.graphics.form.ScrollSelectionFormTempHorizontalPaintable import ScrollSelectionFormTempHorizontalPaintable
-        from org.allbinary.graphics.form.ScrollSelectionFormTempHorizontalDx import ScrollSelectionFormTempHorizontalDx
-        from org.allbinary.graphics.form.ScrollSelectionFormVerticalPaintable import ScrollSelectionFormVerticalPaintable
-        from org.allbinary.graphics.form.ScrollSelectionFormVericalDx import ScrollSelectionFormVericalDx
-        from org.allbinary.graphics.form.ScrollSelectionFormHorizontalPaintable import ScrollSelectionFormHorizontalPaintable
-        from org.allbinary.graphics.form.ScrollSelectionFormHorizontalDx import ScrollSelectionFormHorizontalDx
-        from org.allbinary.graphics.Rectangle import Rectangle
-        super().init(rectangle, formType)
-        formTypeFactory: FormTypeFactory = FormTypeFactory.getInstance()
+proc newScrollSelectionForm*(title: string, items: JArray[ABCustomItem], formPaintableFactory: ItemPaintableFactory, border: int32, adjustedExtraBorder: int32, backgroundBasicColor: BasicColor, foregroundBasicColor: BasicColor): ScrollSelectionForm =
+    result = ScrollSelectionForm()
+    initScrollSelectionForm(result, title, items, formPaintableFactory, border, adjustedExtraBorder, backgroundBasicColor, foregroundBasicColor)
+
+method init*(this: ScrollSelectionForm, rectangle: Rectangle, formType: FormType) =
+        procCall PaintableForm(this).init(rectangle, formType)
+        let formTypeFactory: FormTypeFactory = FormTypeFactory.getInstance()
         if formType == formTypeFactory.HORIZONTAL_FORM:
-            self.scrollSelectionFormFormTypeItemIndexPaintable = ScrollSelectionFormHorizontalPaintable(self)
-            self.formTypeItemIndexDx = ScrollSelectionFormHorizontalDx(self)
+            this.scrollSelectionFormFormTypeItemIndexPaintable = newScrollSelectionFormHorizontalPaintable(this)
+            this.formTypeItemIndexDx = newScrollSelectionFormHorizontalDx(this)
         elif formType == formTypeFactory.VERTICAL_CENTER_FORM:
-            self.scrollSelectionFormFormTypeItemIndexPaintable = ScrollSelectionFormVerticalPaintable(self)
-            self.formTypeItemIndexDx = ScrollSelectionFormVericalDx(self)
+            this.scrollSelectionFormFormTypeItemIndexPaintable = newScrollSelectionFormVerticalPaintable(this)
+            this.formTypeItemIndexDx = newScrollSelectionFormVericalDx(this)
         elif formType == formTypeFactory.TEMP_HORIZONTAL_FORM:
-            self.scrollSelectionFormFormTypeItemIndexPaintable = ScrollSelectionFormTempHorizontalPaintable(self)
-            self.formTypeItemIndexDx = ScrollSelectionFormTempHorizontalDx(self)
+            this.scrollSelectionFormFormTypeItemIndexPaintable = newScrollSelectionFormTempHorizontalPaintable(this)
+            this.formTypeItemIndexDx = newScrollSelectionFormTempHorizontalDx(this)
         elif formType == formTypeFactory.NULL_FORM_TYPE:
-            pass
+            discard
         else:
-            raise Exception(formTypeFactory.UNK)
-    
+            raise newJException("Exception", formTypeFactory.UNK)
 
-    def paintItemHorizontal(self, graphics: Graphics, index: int, item: ABCustomItem, x: int, y: int) -> int:
-        from javax.microedition.lcdui.Graphics import Graphics
-        from org.allbinary.graphics.form.item.ABCustomItem import ABCustomItem
-        width: int = item.getMinimumWidth()
-        return x + width + self.border
-    
+method paintItemHorizontal*(this: ScrollSelectionForm, graphics: Graphics, index: int32, item: ABCustomItem, x: int32, y: int32): int32 {.base, discardable.} =
+        let width: int32 = item.getMinimumWidth()
+        return x +% width +% this.border
 
-    def paintItemVertical(self, graphics: Graphics, index: int, item: ABCustomItem, x: int, y: int) -> int:
-        from javax.microedition.lcdui.Graphics import Graphics
-        from org.allbinary.graphics.form.item.ABCustomItem import ABCustomItem
-        height: int = item.getMinimumHeight()
-        return y + height + self.border
-    
+method paintItemVertical*(this: ScrollSelectionForm, graphics: Graphics, index: int32, item: ABCustomItem, x: int32, y: int32): int32 {.base, discardable.} =
+        let height: int32 = item.getMinimumHeight()
+        return y +% height +% this.border
 
-    def paintItemTempHorizontal(self, graphics: Graphics, index: int, item: ABCustomItem, x: int, y: int) -> int:
-        from javax.microedition.lcdui.Graphics import Graphics
-        from org.allbinary.graphics.form.item.ABCustomItem import ABCustomItem
+method paintItemTempHorizontal*(this: ScrollSelectionForm, graphics: Graphics, index: int32, item: ABCustomItem, x: int32, y: int32): int32 {.base, discardable.} =
         return 0
-    
 
-    def getSelectedIndexForPointHorizontalDx(self, index: int, item: ABCustomItem, dx: int, dy: int) -> int:
-        from org.allbinary.graphics.form.item.ABCustomItem import ABCustomItem
-        return dx - self.halfBorder
-    
+method getSelectedIndexForPointHorizontalDx*(this: ScrollSelectionForm, index: int32, item: ABCustomItem, dx: int32, dy: int32): int32 {.base, discardable.} =
+        return dx -% this.halfBorder
 
-    def getSelectedIndexForPointVerticalDx(self, index: int, item: ABCustomItem, dx: int, dy: int) -> int:
-        from org.allbinary.graphics.form.item.ABCustomItem import ABCustomItem
-        return dx + self.getDiffX(item)
-    
+method getSelectedIndexForPointVerticalDx*(this: ScrollSelectionForm, index: int32, item: ABCustomItem, dx: int32, dy: int32): int32 {.base, discardable.} =
+        return dx +% this.getDiffX(item)
 
-    def getSelectedIndexForPointTempHorizontalDx(self, index: int, item: ABCustomItem, dx: int, dy: int) -> int:
-        from org.allbinary.graphics.form.item.ABCustomItem import ABCustomItem
-        return dx + self.getDiffX(item)
-    
+method getSelectedIndexForPointTempHorizontalDx*(this: ScrollSelectionForm, index: int32, item: ABCustomItem, dx: int32, dy: int32): int32 {.base, discardable.} =
+        return dx +% this.getDiffX(item)
 
-    def append(self, item: ABCustomItem) -> int:
-        from org.allbinary.graphics.form.item.ABCustomItem import ABCustomItem
-        return super().append(item)
-    
+method append*(this: ScrollSelectionForm, item: ABCustomItem): int32 {.discardable.} =
+        return procCall PaintableForm(this).append(item)
 
-    # throws Exception
-    def getSelectedItem(self, point: GPoint) -> ABCustomItem:
-        from org.allbinary.graphics.GPoint import GPoint
-        from org.allbinary.graphics.form.item.ABCustomItem import ABCustomItem
-        index: int = self.getSelectedIndexForPoint(point)
+method getSelectedItem*(this: ScrollSelectionForm, point: GPoint): ABCustomItem {.base, discardable.} =
+        var index: int32 = this.getSelectedIndexForPoint(point)
         if index != -1:
-            return self.get(index)
+            return this.get(index)
         else:
             return ABCustomItem.getNullInstance()
-    
 
-    # throws Exception
-    def getItemIndex(self, item: ABCustomItem) -> int:
-        from org.allbinary.graphics.form.item.ABCustomItem import ABCustomItem
-        nextItem: ABCustomItem = None
-        size: int = self.size()
-        for index in range(0, size):
-            nextItem = self.get(index)
-            if nextItem == item:
-                return index
+method getItemIndex*(this: ScrollSelectionForm, item: ABCustomItem): int32 {.base, discardable.} =
+        var nextItem: ABCustomItem = nil
+        let size: int32 = this.size()
+        block:
+            var index: int32 = 0
+            while index < size:
+                defer: index = index +% 1
+                nextItem = ABCustomItem(JObject(this.get(index)))
+                if nextItem == item:
+                    return index
         return -1
-    
 
-    def getStartIndex(self) -> int:
+method getStartIndex*(this: ScrollSelectionForm): int32 {.base, discardable.} =
         return 0
-    
 
-    # throws Exception
-    def getSelectedIndexForPoint(self, point: GPoint) -> int:
-        from org.allbinary.graphics.form.FormTypeFactory import FormTypeFactory
-        from org.allbinary.graphics.GPoint import GPoint
-        from org.allbinary.graphics.form.item.ABCustomItem import ABCustomItem
-        from org.allbinary.logic.string.StringMaker import StringMaker
-        from org.allbinary.string.CommonLabels import CommonLabels
-        from org.allbinary.string.CommonSeps import CommonSeps
-        start: int = self.getStartIndex()
-        size: int = self.size()
-        dx: int = self.getDx()
-        dy: int = self.getDy()
-        formTypeFactory: FormTypeFactory = FormTypeFactory.getInstance()
-        commonLabels: CommonLabels = CommonLabels.getInstance()
-        stringBuffer: StringMaker = StringMaker()
+method getSelectedIndexForPoint*(this: ScrollSelectionForm, point: GPoint): int32 {.base, discardable.} =
+        let start: int32 = this.getStartIndex()
+        let size: int32 = this.size()
+        var dx: int32 = this.getDx()
+        var dy: int32 = this.getDy()
+        let formTypeFactory: FormTypeFactory = FormTypeFactory.getInstance()
+        let commonLabels: CommonLabels = CommonLabels.getInstance()
+        let stringBuffer: StringMaker = newStringMaker()
         stringBuffer.append(commonLabels.START_LABEL)
         stringBuffer.appendint(start)
         stringBuffer.append(CommonSeps.getInstance().SPACE)
         stringBuffer.append(commonLabels.TOTAL_LABEL)
         stringBuffer.appendint(size)
-        self.logUtil.putF(str(stringBuffer), self, ScrollSelectionForm.GET_SELECTED_INDEX)
-        item: ABCustomItem = None
-        width: int = 0
-        height: int = 0
-        diffX: int = 0
-        for index in range(start, size):
-            item = self.get(index)
-            width = item.getMinimumWidth()
-            height = item.getMinimumHeight()
-            diffX = self.formTypeItemIndexDx.getDx(index, item, dx, dy)
-            if self.rectangleCollisionUtil.isInside(diffX, dy - self.halfBorder, diffX + width + self.border, dy + height + self.halfBorder + 1, point.getX(), point.getY()):
-                stringBuffer.delete(0, stringBuffer.length())
-                stringBuffer.append(commonLabels.ITEM_LABEL)
-                stringBuffer.append(item.getLabel())
-                stringBuffer.append(CommonSeps.getInstance().SPACE)
-                stringBuffer.append(commonLabels.INDEX_LABEL)
-                stringBuffer.appendint(index)
-                self.logUtil.putF(str(stringBuffer), self, ScrollSelectionForm.GET_SELECTED_INDEX)
-                return index
-            if self.formType == formTypeFactory.HORIZONTAL_FORM:
-                dx = dx + width + self.border
-                if dx > self.rectangle.getMaxX():
-                    break
-            elif self.formType == formTypeFactory.VERTICAL_CENTER_FORM:
-                dy = dy + height + self.border
-                if dy > self.rectangle.getMaxY():
-                    break
-            elif self.formType == formTypeFactory.NULL_FORM_TYPE:
-                pass
-            else:
-                raise Exception(formTypeFactory.UNK)
+        this.logUtil.putF(stringBuffer.toString(), this, ScrollSelectionForm.GET_SELECTED_INDEX)
+        var item: ABCustomItem = nil
+        var width: int32 = 0
+        var height: int32 = 0
+        var diffX: int32 = 0
+        block:
+            var index: int32 = start
+            while index < size:
+                defer: index = index +% 1
+                item = this.get(index)
+                width = item.getMinimumWidth()
+                height = item.getMinimumHeight()
+                diffX = this.formTypeItemIndexDx.getDx(index, item, dx, dy)
+                if this.rectangleCollisionUtil.isInside(diffX, dy -% this.halfBorder, diffX +% width +% this.border, dy +% height +% this.halfBorder +% 1, point.getX(), point.getY()):
+                    stringBuffer.delete(0, stringBuffer.length())
+                    stringBuffer.append(commonLabels.ITEM_LABEL)
+                    stringBuffer.append(item.getLabel())
+                    stringBuffer.append(CommonSeps.getInstance().SPACE)
+                    stringBuffer.append(commonLabels.INDEX_LABEL)
+                    stringBuffer.appendint(index)
+                    this.logUtil.putF(stringBuffer.toString(), this, ScrollSelectionForm.GET_SELECTED_INDEX)
+                    return index
+                if this.formType == formTypeFactory.HORIZONTAL_FORM:
+                    dx = dx +% width +% this.border
+                    if dx > this.rectangle.getMaxX():
+                        break
+                elif this.formType == formTypeFactory.VERTICAL_CENTER_FORM:
+                    dy = dy +% height +% this.border
+                    if dy > this.rectangle.getMaxY():
+                        break
+                elif this.formType == formTypeFactory.NULL_FORM_TYPE:
+                    discard
+                else:
+                    raise newJException("Exception", formTypeFactory.UNK)
         return -1
-    
 
-    # throws Exception
-    def processInputKey(self, gameKeyCode: int) -> int:
-        from org.allbinary.graphics.form.FormTypeFactory import FormTypeFactory
-        from javax.microedition.lcdui.Canvas import Canvas
-        formTypeFactory: FormTypeFactory = FormTypeFactory.getInstance()
-        if self.size() == 0:
+method processInputKey*(this: ScrollSelectionForm, gameKeyCode: int32): int32 {.base, discardable.} =
+        let formTypeFactory: FormTypeFactory = FormTypeFactory.getInstance()
+        if this.size() == 0:
             return -1
-        index: int = self.getSelectedIndex()
-        if self.formType == formTypeFactory.HORIZONTAL_FORM or self.formType == formTypeFactory.TEMP_HORIZONTAL_FORM:
+        var index: int32 = this.getSelectedIndex()
+        if this.formType == formTypeFactory.HORIZONTAL_FORM or this.formType == formTypeFactory.TEMP_HORIZONTAL_FORM:
             if gameKeyCode == Canvas.RIGHT:
-                index += 1
+                index = index +% 1
             elif gameKeyCode == Canvas.LEFT:
-                index -= 1
-        elif self.formType == formTypeFactory.VERTICAL_CENTER_FORM:
+                index = index -% 1
+        elif this.formType == formTypeFactory.VERTICAL_CENTER_FORM:
             if gameKeyCode == Canvas.DOWN:
-                index += 1
+                index = index +% 1
             elif gameKeyCode == Canvas.UP:
-                index -= 1
-        elif self.formType == formTypeFactory.NULL_FORM_TYPE:
-            pass
+                index = index -% 1
+        elif this.formType == formTypeFactory.NULL_FORM_TYPE:
+            discard
         else:
-            raise Exception(formTypeFactory.UNK)
-        max: int = self.size() - 1
+            raise newJException("Exception", formTypeFactory.UNK)
+        let max: int32 = this.size() -% 1
         if index < 0:
-            self.setSelectedIndex(0)
+            this.setSelectedIndex(0)
         elif index > max:
-            self.setSelectedIndex(max)
+            this.setSelectedIndex(max)
         else:
-            self.setSelectedIndex(index)
+            this.setSelectedIndex(index)
         return -1
-    
 
-    def isInForm(self, point: GPoint) -> bool:
-        from org.allbinary.graphics.GPoint import GPoint
-        from org.allbinary.logic.string.StringMaker import StringMaker
-        from org.allbinary.logic.string.StringUtil import StringUtil
-        if self.rectangleCollisionUtil.isInside(self.x, self.y - self.halfBorder, self.rectangle.getMaxX() + self.border, self.rectangle.getMaxY() + self.border, point.getX(), point.getY()):
-            self.logUtil.putF(str(StringMaker().append(StringUtil.getInstance().toString(point)).append(ScrollSelectionForm.INSIDE_FORM)), self, ScrollSelectionForm.IS_IN_FORM)
-            return True
-        return False
-    
+method isInForm*(this: ScrollSelectionForm, point: GPoint): bool {.base, discardable.} =
+        if this.rectangleCollisionUtil.isInside(this.x, this.y -% this.halfBorder, this.rectangle.getMaxX() +% this.border, this.rectangle.getMaxY() +% this.border, point.getX(), point.getY()):
+            this.logUtil.putF(newStringMaker().append(StringUtil.getInstance().toString(point)).append(ScrollSelectionForm.INSIDE_FORM).toString(), this, ScrollSelectionForm.IS_IN_FORM)
+            return true
+        return false
 
-    # throws Exception
-    def paintItem(self, graphics: Graphics, index: int, item: ABCustomItem, x: int, y: int) -> int:
-        from javax.microedition.lcdui.Graphics import Graphics
-        from org.allbinary.graphics.form.item.ABCustomItem import ABCustomItem
+method paintItem*(this: ScrollSelectionForm, graphics: Graphics, index: int32, item: ABCustomItem, x: int32, y: int32): int32 {.base, discardable.} =
         item.paintXY(graphics, x, y)
-        width: int = item.getMinimumWidth()
-        height: int = item.getMinimumHeight()
-        graphics.setColor(int(self.getButtonBasicColor()))
-        adjustedBorder: int = 3
-        graphics.drawRect(x - self.halfBorder - adjustedBorder, y - self.halfBorder - adjustedBorder, width + self.border + self.adjustedExtraBorder, height + self.border + self.adjustedExtraBorder)
-        return self.scrollSelectionFormFormTypeItemIndexPaintable.paint(graphics, index, item, x, y)
-    
+        let width: int32 = item.getMinimumWidth()
+        let height: int32 = item.getMinimumHeight()
+        graphics.setColor(this.getButtonBasicColor().intValue())
+        let adjustedBorder: int32 = 3
+        graphics.drawRect(x -% this.halfBorder -% adjustedBorder, y -% this.halfBorder -% adjustedBorder, width +% this.border +% this.adjustedExtraBorder, height +% this.border +% this.adjustedExtraBorder)
+        return this.scrollSelectionFormFormTypeItemIndexPaintable.paint(graphics, index, item, x, y)
 
-    # throws Exception
-    def paintUnselectedItem(self, graphics: Graphics, index: int, item: ABCustomItem, x: int, y: int) -> int:
-        from javax.microedition.lcdui.Graphics import Graphics
-        from org.allbinary.graphics.form.item.ABCustomItem import ABCustomItem
-        graphics.setColor(int(self.getButtonBasicColor()))
+method paintUnselectedItem*(this: ScrollSelectionForm, graphics: Graphics, index: int32, item: ABCustomItem, x: int32, y: int32): int32 {.base, discardable.} =
+        graphics.setColor(this.getButtonBasicColor().intValue())
         item.paintUnselected(graphics, x, y)
-        return self.scrollSelectionFormFormTypeItemIndexPaintable.paint(graphics, index, item, x, y)
-    
+        return this.scrollSelectionFormFormTypeItemIndexPaintable.paint(graphics, index, item, x, y)
 
-    def getDiffX(self, item: ABCustomItem) -> int:
-        from org.allbinary.graphics.form.item.ABCustomItem import ABCustomItem
+method getDiffX*(this: ScrollSelectionForm, item: ABCustomItem): int32 {.base, discardable.} =
         return 0
-    
 
-    def getDx(self) -> int:
-        return self.x
-    
+method getDx*(this: ScrollSelectionForm): int32 {.base, discardable.} =
+        return this.x
 
-    def getDy(self) -> int:
-        return self.y
-    
+method getDy*(this: ScrollSelectionForm): int32 {.base, discardable.} =
+        return this.y
 
-    def setButtonBasicColor(self, buttonBasicColor: BasicColor) -> None:
-        from org.allbinary.graphics.color.BasicColor import BasicColor
-        self.buttonBasicColor = buttonBasicColor
-    
+method setButtonBasicColor*(this: ScrollSelectionForm, buttonBasicColor: BasicColor) {.base.} =
+        this.buttonBasicColor = buttonBasicColor
 
-    def getButtonBasicColor(self) -> BasicColor:
-        from org.allbinary.graphics.color.BasicColor import BasicColor
-        return self.buttonBasicColor
-# from javax.microedition.lcdui.Canvas import Canvas
-# from javax.microedition.lcdui.Graphics import Graphics
-# from org.allbinary.graphics.GPoint import GPoint
-# from org.allbinary.graphics.Rectangle import Rectangle
-# from org.allbinary.graphics.color.BasicColor import BasicColor
-# from org.allbinary.graphics.color.BasicColorFactory import BasicColorFactory
-# from org.allbinary.graphics.form.item.ABCustomItem import ABCustomItem
-# from org.allbinary.logic.NullUtil import NullUtil
-# from org.allbinary.logic.communication.log.LogUtil import LogUtil
-# from org.allbinary.logic.string.StringMaker import StringMaker
-# from org.allbinary.logic.string.StringUtil import StringUtil
-# from org.allbinary.math.RectangleCollisionUtil import RectangleCollisionUtil
-# from org.allbinary.string.CommonLabels import CommonLabels
-# from org.allbinary.string.CommonSeps import CommonSeps
-# from org.allbinary.string.CommonStrings import CommonStrings
-from org.allbinary.graphics.form.ItemPaintableFactory import ItemPaintableFactory
-from org.allbinary.graphics.form.ItemIndexPaintable import ItemIndexPaintable
-from org.allbinary.graphics.form.ItemIndexDx import ItemIndexDx
+method getButtonBasicColor*(this: ScrollSelectionForm): BasicColor {.base, discardable.} =
+        return this.buttonBasicColor
 
-
-def _ScrollSelectionForm_NULL_SCROLL_SELECTION_FORM() -> object:
-    from org.allbinary.logic.NullUtil import NullUtil
-    return NullUtil.getInstance().NULL_OBJECT
-
-lazy_static(ScrollSelectionForm, "NULL_SCROLL_SELECTION_FORM", _ScrollSelectionForm_NULL_SCROLL_SELECTION_FORM)
-
-def _ScrollSelectionForm_NULL_SCROLL_SELECTION_HORIZONTAL_FORM() -> object:
-    from org.allbinary.logic.NullUtil import NullUtil
-    return NullUtil.getInstance().NULL_OBJECT
-
-lazy_static(ScrollSelectionForm, "NULL_SCROLL_SELECTION_HORIZONTAL_FORM", _ScrollSelectionForm_NULL_SCROLL_SELECTION_HORIZONTAL_FORM)
+when declared(newScrollSelectionFormHook7):
+    newScrollSelectionFormHook7 = proc (title: string, items: JArray[ABCustomItem], formPaintableFactory: ItemPaintableFactory, border: int32, adjustedExtraBorder: int32, backgroundBasicColor: BasicColor, foregroundBasicColor: BasicColor): PaintableForm = newScrollSelectionForm(title, items, formPaintableFactory, border, adjustedExtraBorder, backgroundBasicColor, foregroundBasicColor)
 

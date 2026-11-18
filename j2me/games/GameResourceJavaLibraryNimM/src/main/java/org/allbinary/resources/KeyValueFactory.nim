@@ -1,50 +1,60 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#   
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+    
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.resources
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/util/ABHashtable as ABHashtableModule
+export ABHashtableModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    KeyValueFactory* = ref object of JObject
+        MAP*: ABHashtable
 
+proc newKeyValueFactory*(): KeyValueFactory
+proc getInstance*(t: typedesc[KeyValueFactory]): KeyValueFactory {.discardable.}
+method get*(this: KeyValueFactory, key: string): string {.base, discardable.}
+import org/allbinary/logic/StdUtil as StdUtilModule
+export StdUtilModule
 
-class KeyValueFactory:
-    instance: KeyValueFactory = None
+var KeyValueFactory_instanceValue: KeyValueFactory
+var KeyValueFactory_instanceSet = false
+proc instance*(t: typedesc[KeyValueFactory]): KeyValueFactory =
+    if not KeyValueFactory_instanceSet:
+        KeyValueFactory_instanceSet = true
+        KeyValueFactory_instanceValue = newKeyValueFactory()
+    KeyValueFactory_instanceValue
 
-    def _init_fields(self) -> None:
-        from org.allbinary.logic.StdUtil import StdUtil
-        from org.allbinary.util.ABHashtable import ABHashtable
-        self.MAP: ABHashtable[object, object] = StdUtil.getInstance().createHashtable()
+# Java field initializers run after the base initializer
+proc initFieldsKeyValueFactory(this: KeyValueFactory) =
+    this.MAP = StdUtil.getInstance().createHashtable()
+    discard
 
-    def __init__(self) -> None:
-        self._init_fields()
-    
+proc initKeyValueFactory*(this: KeyValueFactory) =
+    this.initFieldsKeyValueFactory()
 
-    @staticmethod
-    def getInstance() -> KeyValueFactory:
+proc newKeyValueFactory*(): KeyValueFactory =
+    result = KeyValueFactory()
+    initKeyValueFactory(result)
+
+proc getInstance*(t: typedesc[KeyValueFactory]): KeyValueFactory {.discardable.} =
         return KeyValueFactory.instance
-    
 
-    def get(self, key: str) -> str:
-        if not self.MAP.containsKey(key):
+method get*(this: KeyValueFactory, key: string): string {.base, discardable.} =
+        if (not this.MAP.containsKey(JObject(JObject(key)))):
             return key
-        return self.MAP.get(key)
-# from org.allbinary.logic.StdUtil import StdUtil
-# from org.allbinary.util.ABHashtable import ABHashtable
-
-
-def _KeyValueFactory_instance() -> object:
-    return KeyValueFactory()
-
-lazy_static(KeyValueFactory, "instance", _KeyValueFactory_instance)
+        return jstr(this.MAP.get(JObject(JObject(key))))
 

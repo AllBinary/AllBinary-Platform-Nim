@@ -1,70 +1,83 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.logic.system.security.licensing
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import java/io/InputStream as InputStreamModule
+export InputStreamModule
+import java/io/InputStreamReader as InputStreamReaderModule
+export InputStreamReaderModule
+import org/allbinary/logic/communication/log/LogUtil as LogUtilModule
+export LogUtilModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    PartnerIdentifierFileUtil* = ref object of JObject
+        logUtil*: LogUtil
+        FILE_NAME*: string
 
+proc newPartnerIdentifierFileUtil*(): PartnerIdentifierFileUtil
+proc getInstance*(t: typedesc[PartnerIdentifierFileUtil]): PartnerIdentifierFileUtil {.discardable.}
+method get*(this: PartnerIdentifierFileUtil): string {.base, discardable.}
+import org/allbinary/data/resource/ResourceUtil as ResourceUtilModule
+export ResourceUtilModule
+import org/allbinary/logic/string/StringUtil as StringUtilModule
+export StringUtilModule
+import org/allbinary/string/CommonStrings as CommonStringsModule
+export CommonStringsModule
 
-class PartnerIdentifierFileUtil:
-    instance: PartnerIdentifierFileUtil = None
+var PartnerIdentifierFileUtil_instanceValue: PartnerIdentifierFileUtil
+var PartnerIdentifierFileUtil_instanceSet = false
+proc instance*(t: typedesc[PartnerIdentifierFileUtil]): PartnerIdentifierFileUtil =
+    if not PartnerIdentifierFileUtil_instanceSet:
+        PartnerIdentifierFileUtil_instanceSet = true
+        PartnerIdentifierFileUtil_instanceValue = newPartnerIdentifierFileUtil()
+    PartnerIdentifierFileUtil_instanceValue
 
-    def _init_fields(self) -> None:
-        from org.allbinary.logic.communication.log.LogUtil import LogUtil
-        self.logUtil: LogUtil = LogUtil.getInstance()
-        self.FILE_NAME: str = "partner.txt"
+# Java field initializers run after the base initializer
+proc initFieldsPartnerIdentifierFileUtil(this: PartnerIdentifierFileUtil) =
+    this.logUtil = LogUtil.getInstance()
+    this.FILE_NAME = "partner.txt"
+    discard
 
-    def __init__(self) -> None:
-        self._init_fields()
-    
+proc initPartnerIdentifierFileUtil*(this: PartnerIdentifierFileUtil) =
+    this.initFieldsPartnerIdentifierFileUtil()
 
-    @staticmethod
-    def getInstance() -> PartnerIdentifierFileUtil:
+proc newPartnerIdentifierFileUtil*(): PartnerIdentifierFileUtil =
+    result = PartnerIdentifierFileUtil()
+    initPartnerIdentifierFileUtil(result)
+
+proc getInstance*(t: typedesc[PartnerIdentifierFileUtil]): PartnerIdentifierFileUtil {.discardable.} =
         return PartnerIdentifierFileUtil.instance
-    
 
-    def get(self) -> str:
-        from java.io.InputStream import InputStream
-        from org.allbinary.data.resource.ResourceUtil import ResourceUtil
-        from org.allbinary.logic.string.StringUtil import StringUtil
-        from org.allbinary.string.CommonStrings import CommonStrings
+method get*(this: PartnerIdentifierFileUtil): string {.base, discardable.} =
         try:
-            resourceUtil: ResourceUtil = ResourceUtil.getInstance()
-            inputStream: InputStream = resourceUtil.getResourceAsStream(self.FILE_NAME)
-            inputStreamReader: InputStreamReader = InputStreamReader(inputStream)
-            chars: list[str] = ['\0'] * (30)
-            size: int = inputStreamReader.read(chars)
-            partnerString: str = StringUtil.getInstance().EMPTY_STRING
+            let resourceUtil: ResourceUtil = ResourceUtil.getInstance()
+            let inputStream: InputStream = resourceUtil.getResourceAsStream(this.FILE_NAME)
+            let inputStreamReader: InputStreamReader = newInputStreamReader(inputStream)
+            let chars: JArray[uint16] = newJArray[uint16](30, default(uint16))
+            let size: int32 = inputStreamReader.read(chars)
+            var partnerString: string = StringUtil.getInstance().EMPTY_STRING
             if size > 0:
-                partnerString = "".join(chars[0:0 + size])
+                partnerString = jFromChars(chars, 0, size)
             inputStreamReader.close()
             return partnerString
-        except Exception as e:
-            commonStrings: CommonStrings = CommonStrings.getInstance()
-            self.logUtil.put(commonStrings.EXCEPTION, self, commonStrings.GET, e)
+        except CatchableError as jcaught:
+            let e = jToException(jcaught)
+            let commonStrings: CommonStrings = CommonStrings.getInstance()
+            this.logUtil.put(commonStrings.EXCEPTION, this, commonStrings.GET, e)
             return StringUtil.getInstance().NULL_STRING
-# from java.io.InputStream import InputStream
-# from java.io.InputStreamReader import InputStreamReader
-# from org.allbinary.data.resource.ResourceUtil import ResourceUtil
-# from org.allbinary.logic.communication.log.LogUtil import LogUtil
-# from org.allbinary.logic.string.StringUtil import StringUtil
-# from org.allbinary.string.CommonStrings import CommonStrings
-
-
-def _PartnerIdentifierFileUtil_instance() -> object:
-    return PartnerIdentifierFileUtil()
-
-lazy_static(PartnerIdentifierFileUtil, "instance", _PartnerIdentifierFileUtil_instance)
 

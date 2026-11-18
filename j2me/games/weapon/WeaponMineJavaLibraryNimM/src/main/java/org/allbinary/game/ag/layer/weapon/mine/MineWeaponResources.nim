@@ -1,58 +1,76 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.ag.layer.weapon.mine
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/game/layer/resources/BasicGameResources as BasicGameResourcesModule
+export BasicGameResourcesModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
-from org.allbinary.game.layer.resources.BasicGameResources import BasicGameResources
+type
+    MineWeaponResources* = ref object of BasicGameResources
+        DROP_TEXT_RESOURCE*: string
+        DROP_RESOURCE*: string
+        DROP_ICON_RESOURCE*: string
 
+proc newMineWeaponResources*(): MineWeaponResources
+proc initMineWeaponResources*(this: MineWeaponResources)
+proc getInstance*(t: typedesc[MineWeaponResources]): MineWeaponResources {.discardable.}
+import org/allbinary/logic/NullUtil as NullUtilModule
+export NullUtilModule
 
-class MineWeaponResources(BasicGameResources):
-    instance: object = None
+var MineWeaponResources_instanceValue: JObject
+var MineWeaponResources_instanceSet = false
+proc instance*(t: typedesc[MineWeaponResources]): JObject =
+    if not MineWeaponResources_instanceSet:
+        MineWeaponResources_instanceSet = true
+        MineWeaponResources_instanceValue = NullUtil.getInstance().NULL_OBJECT
+    MineWeaponResources_instanceValue
+proc `instance=`*(t: typedesc[MineWeaponResources], value: JObject) =
+    MineWeaponResources_instanceSet = true
+    MineWeaponResources_instanceValue = value
 
-    def _init_fields(self) -> None:
-        self.DROP_TEXT_RESOURCE: str = "/mine_drop_text_20_by_20.png"
-        self.DROP_RESOURCE: str = "/mine_drop_20_by_20.png"
-        self.DROP_ICON_RESOURCE: str = "/mine_drop_icon_20_by_20.png"
-    
+# Java field initializers run after the base initializer
+proc initFieldsMineWeaponResources(this: MineWeaponResources) =
+    this.DROP_TEXT_RESOURCE = "/mine_drop_text_20_by_20.png"
+    this.DROP_RESOURCE = "/mine_drop_20_by_20.png"
+    this.DROP_ICON_RESOURCE = "/mine_drop_icon_20_by_20.png"
+    discard
 
-    @staticmethod
-    def getInstance() -> MineWeaponResources:
-        from org.allbinary.logic.NullUtil import NullUtil
+proc getInstance*(t: typedesc[MineWeaponResources]): MineWeaponResources {.discardable.} =
         if MineWeaponResources.instance == NullUtil.getInstance().NULL_OBJECT:
-            MineWeaponResources.instance = MineWeaponResources()
-        return MineWeaponResources.instance
-    
+            MineWeaponResources.instance = newMineWeaponResources()
+        return MineWeaponResources(JObject(MineWeaponResources.instance))
 
-    def __init__(self) -> None:
-        super().__init__()
-        self._init_fields()
-        ROOT: str = "/mine"
-        SMALL: str = "_20_by_20.png"
-        MEDIUM: str = SMALL
-        SIZE_FOUR: str = SMALL
-        SIZE_FIVE: str = SMALL
-        SIZE_SIX: str = SMALL
-        SIZE: list[str] = [SMALL, MEDIUM, SIZE_FOUR, SIZE_FIVE, SIZE_SIX]
-        super().init(ROOT, SIZE)
-# from org.allbinary.logic.NullUtil import NullUtil
+proc initMineWeaponResources*(this: MineWeaponResources) =
+        initBasicGameResources(this)
+        this.initFieldsMineWeaponResources()
+        let ROOT: string = "/mine"
+        let SMALL: string = "_20_by_20.png"
+        let MEDIUM: string = SMALL
+        let SIZE_FOUR: string = SMALL
+        let SIZE_FIVE: string = SMALL
+        let SIZE_SIX: string = SMALL
+        let SIZE: JArray[string] = newJArrayFrom[string]([SMALL, MEDIUM, SIZE_FOUR, SIZE_FIVE, SIZE_SIX])
+        procCall BasicGameResources(this).init(ROOT, SIZE)
 
+proc newMineWeaponResources*(): MineWeaponResources =
+    result = MineWeaponResources()
+    initMineWeaponResources(result)
 
-def _MineWeaponResources_instance() -> object:
-    from org.allbinary.logic.NullUtil import NullUtil
-    return NullUtil.getInstance().NULL_OBJECT
-
-lazy_static(MineWeaponResources, "instance", _MineWeaponResources_instance)
+when declared(newMineWeaponResourcesHook0):
+    newMineWeaponResourcesHook0 = proc (): BasicGameResources = newMineWeaponResources()
 

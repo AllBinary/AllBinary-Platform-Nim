@@ -1,86 +1,107 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.resource
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/layer/AllBinaryLayer as AllBinaryLayerModule
+export AllBinaryLayerModule
+import org/allbinary/util/BasicArrayList as BasicArrayListModule
+export BasicArrayListModule
+import org/allbinary/util/BasicArrayListUtil as BasicArrayListUtilModule
+export BasicArrayListUtilModule
+import org/allbinary/game/resource/FeaturedResourceFactory as FeaturedResourceFactoryModule
+export FeaturedResourceFactoryModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
-from org.allbinary.game.resource.FeaturedResourceFactory import FeaturedResourceFactory
+type
+    FeaturedResourceRelativeRelationshipFactory* = ref object of FeaturedResourceFactory
+        basicArrayListUtil*: BasicArrayListUtil
 
+proc newFeaturedResourceRelativeRelationshipFactory*(): FeaturedResourceRelativeRelationshipFactory
+proc initFeaturedResourceRelativeRelationshipFactory*(this: FeaturedResourceRelativeRelationshipFactory)
+proc getInstance*(t: typedesc[FeaturedResourceRelativeRelationshipFactory]): FeaturedResourceRelativeRelationshipFactory {.discardable.}
+method getRelativeRelationshipList*(this: FeaturedResourceRelativeRelationshipFactory, resource: string, layer: AllBinaryLayer): BasicArrayList {.base, discardable.}
+method duplicate*(this: FeaturedResourceRelativeRelationshipFactory, list: BasicArrayList, layer: AllBinaryLayer): BasicArrayList {.base, discardable.}
+import org/allbinary/graphics/PointFactory as PointFactoryModule
+export PointFactoryModule
+import org/allbinary/graphics/RelativeRelationship as RelativeRelationshipModule
+export RelativeRelationshipModule
+import org/allbinary/layer/relationship/RelativeLayerRelationship as RelativeLayerRelationshipModule
+export RelativeLayerRelationshipModule
+import org/allbinary/logic/string/StringMaker as StringMakerModule
+export StringMakerModule
+import org/allbinary/util/BasicArrayListD as BasicArrayListDModule
+export BasicArrayListDModule
+import org/allbinary/game/resource/ResourceRelativeRelationshipFactoryInterface as ResourceRelativeRelationshipFactoryInterfaceModule
+export ResourceRelativeRelationshipFactoryInterfaceModule
 
-class FeaturedResourceRelativeRelationshipFactory(FeaturedResourceFactory):
-    INSTANCE: FeaturedResourceRelativeRelationshipFactory = None
+var FeaturedResourceRelativeRelationshipFactory_INSTANCEValue: FeaturedResourceRelativeRelationshipFactory
+var FeaturedResourceRelativeRelationshipFactory_INSTANCESet = false
+proc INSTANCE*(t: typedesc[FeaturedResourceRelativeRelationshipFactory]): FeaturedResourceRelativeRelationshipFactory =
+    if not FeaturedResourceRelativeRelationshipFactory_INSTANCESet:
+        FeaturedResourceRelativeRelationshipFactory_INSTANCESet = true
+        FeaturedResourceRelativeRelationshipFactory_INSTANCEValue = newFeaturedResourceRelativeRelationshipFactory()
+    FeaturedResourceRelativeRelationshipFactory_INSTANCEValue
+proc `INSTANCE=`*(t: typedesc[FeaturedResourceRelativeRelationshipFactory], value: FeaturedResourceRelativeRelationshipFactory) =
+    FeaturedResourceRelativeRelationshipFactory_INSTANCESet = true
+    FeaturedResourceRelativeRelationshipFactory_INSTANCEValue = value
 
-    def _init_fields(self) -> None:
-        from org.allbinary.util.BasicArrayListUtil import BasicArrayListUtil
-        self.basicArrayListUtil: BasicArrayListUtil = BasicArrayListUtil.getInstance()
-    
+# Java field initializers run after the base initializer
+proc initFieldsFeaturedResourceRelativeRelationshipFactory(this: FeaturedResourceRelativeRelationshipFactory) =
+    this.basicArrayListUtil = BasicArrayListUtil.getInstance()
+    discard
 
-    def __init__(self) -> None:
-        super().__init__()
-        self._init_fields()
-    
+proc initFeaturedResourceRelativeRelationshipFactory*(this: FeaturedResourceRelativeRelationshipFactory) =
+        initFeaturedResourceFactory(this)
+        this.initFieldsFeaturedResourceRelativeRelationshipFactory()
+        discard
 
-    @staticmethod
-    def getInstance() -> FeaturedResourceRelativeRelationshipFactory:
+proc newFeaturedResourceRelativeRelationshipFactory*(): FeaturedResourceRelativeRelationshipFactory =
+    result = FeaturedResourceRelativeRelationshipFactory()
+    initFeaturedResourceRelativeRelationshipFactory(result)
+
+proc getInstance*(t: typedesc[FeaturedResourceRelativeRelationshipFactory]): FeaturedResourceRelativeRelationshipFactory {.discardable.} =
         return FeaturedResourceRelativeRelationshipFactory.INSTANCE
-    
 
-    # throws Exception
-    def getRelativeRelationshipList(self, resource: str, layer: AllBinaryLayer) -> BasicArrayList:
-        from org.allbinary.layer.AllBinaryLayer import AllBinaryLayer
-        from org.allbinary.logic.string.StringMaker import StringMaker
-        from org.allbinary.util.BasicArrayList import BasicArrayList
-        featureReleaseList: BasicArrayList = self.getList()
-        size: int = self.getList().size()
-        for index in range(0, size):
-            featureInterface: ResourceRelativeRelationshipFactoryInterface = featureReleaseList.objectArray[index]
-            if featureInterface.isFeature():
-                list_: BasicArrayList = featureInterface.getResourceRelativeRelationshipList(resource)
-                if list_ != self.basicArrayListUtil.getImmutableInstance():
-                    return self.duplicate(list_, layer)
-        raise Exception(str(StringMaker().append("Not available for current feature selection or Resource: ").append(resource)))
-    
+method getRelativeRelationshipList*(this: FeaturedResourceRelativeRelationshipFactory, resource: string, layer: AllBinaryLayer): BasicArrayList {.base, discardable.} =
+        let featureReleaseList: BasicArrayList = this.getList()
+        var size: int32 = this.getList().size()
+        block:
+            var index: int32 = 0
+            while index < size:
+                defer: index = index +% 1
+                var featureInterface: ResourceRelativeRelationshipFactoryInterface = ResourceRelativeRelationshipFactoryInterface(JObject(featureReleaseList.objectArray[index]))
+                if featureInterface.isFeature():
+                    var list: BasicArrayList = featureInterface.getResourceRelativeRelationshipList(resource)
+                    if list != this.basicArrayListUtil.getImmutableInstance():
+                        return this.duplicate(list, layer)
+        raise newJException("Exception", newStringMaker().append("Not available for current feature selection or Resource: ").append(resource).toString())
 
-    # throws Exception
-    def duplicate(self, list_: BasicArrayList, layer: AllBinaryLayer) -> BasicArrayList:
-        from org.allbinary.graphics.PointFactory import PointFactory
-        from org.allbinary.graphics.RelativeRelationship import RelativeRelationship
-        from org.allbinary.layer.AllBinaryLayer import AllBinaryLayer
-        from org.allbinary.layer.relationship.RelativeLayerRelationship import RelativeLayerRelationship
-        from org.allbinary.util.BasicArrayList import BasicArrayList
-        from org.allbinary.util.BasicArrayListD import BasicArrayListD
-        from org.allbinary.util.BasicArrayListUtil import BasicArrayListUtil
-        pointFactory: PointFactory = PointFactory.getInstance()
-        newList: BasicArrayList = BasicArrayListD()
-        size: int = list_.size()
-        for index in range(0, size):
-            relativeRelationship: RelativeRelationship = list_.objectArray[index]
-            newList.add(RelativeLayerRelationship(layer, pointFactory.createXY(relativeRelationship.getX(), relativeRelationship.getY()), BasicArrayListUtil.getInstance().getImmutableInstance()))
+method duplicate*(this: FeaturedResourceRelativeRelationshipFactory, list: BasicArrayList, layer: AllBinaryLayer): BasicArrayList {.base, discardable.} =
+        let pointFactory: PointFactory = PointFactory.getInstance()
+        let newList: BasicArrayList = newBasicArrayListD()
+        let size: int32 = list.size()
+        block:
+            var index: int32 = 0
+            while index < size:
+                defer: index = index +% 1
+                var relativeRelationship: RelativeRelationship = RelativeRelationship(JObject(list.objectArray[index]))
+                newList.add(newRelativeLayerRelationship(layer, pointFactory.createXY(relativeRelationship.getX(), relativeRelationship.getY()), BasicArrayListUtil.getInstance().getImmutableInstance()))
         return newList
-# from org.allbinary.graphics.PointFactory import PointFactory
-# from org.allbinary.graphics.RelativeRelationship import RelativeRelationship
-# from org.allbinary.layer.AllBinaryLayer import AllBinaryLayer
-# from org.allbinary.layer.relationship.RelativeLayerRelationship import RelativeLayerRelationship
-# from org.allbinary.logic.string.StringMaker import StringMaker
-# from org.allbinary.util.BasicArrayList import BasicArrayList
-# from org.allbinary.util.BasicArrayListD import BasicArrayListD
-# from org.allbinary.util.BasicArrayListUtil import BasicArrayListUtil
 
-
-def _FeaturedResourceRelativeRelationshipFactory_INSTANCE() -> object:
-    return FeaturedResourceRelativeRelationshipFactory()
-
-lazy_static(FeaturedResourceRelativeRelationshipFactory, "INSTANCE", _FeaturedResourceRelativeRelationshipFactory_INSTANCE)
+when declared(newFeaturedResourceRelativeRelationshipFactoryHook0):
+    newFeaturedResourceRelativeRelationshipFactoryHook0 = proc (): FeaturedResourceFactory = newFeaturedResourceRelativeRelationshipFactory()
 

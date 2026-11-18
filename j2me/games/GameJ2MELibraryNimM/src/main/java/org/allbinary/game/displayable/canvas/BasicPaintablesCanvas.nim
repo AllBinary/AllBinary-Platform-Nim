@@ -1,55 +1,73 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.displayable.canvas
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import javax/microedition/lcdui/CommandListener as CommandListenerModule
+export CommandListenerModule
+import javax/microedition/lcdui/Graphics as GraphicsModule
+export GraphicsModule
+import org/allbinary/game/layer/AllBinaryGameLayerManager as AllBinaryGameLayerManagerModule
+export AllBinaryGameLayerManagerModule
+import org/allbinary/game/paint/ColorFillBasePaintable as ColorFillBasePaintableModule
+export ColorFillBasePaintableModule
+import org/allbinary/graphics/paint/Paintable as PaintableModule
+export PaintableModule
+import org/allbinary/game/displayable/canvas/GameCommandCanvas as GameCommandCanvasModule
+export GameCommandCanvasModule
 
-from org.allbinary.game.displayable.canvas.GameCommandCanvas import GameCommandCanvas
+type
+    BasicPaintablesCanvas* = ref object of GameCommandCanvas
+        paintableArray*: JArray[Paintable]
+        colorFillPaintable*: ColorFillBasePaintable
+
+proc newBasicPaintablesCanvas*(cmdListener: CommandListener, name: string, allBinaryGameLayerManager: AllBinaryGameLayerManager, paintableArray: JArray[Paintable]): BasicPaintablesCanvas
+proc initBasicPaintablesCanvas*(this: BasicPaintablesCanvas, cmdListener: CommandListener, name: string, allBinaryGameLayerManager: AllBinaryGameLayerManager, paintableArray: JArray[Paintable])
+method paint*(this: BasicPaintablesCanvas, graphics: Graphics)
+import org/allbinary/game/paint/ColorFillPaintableFactory as ColorFillPaintableFactoryModule
+export ColorFillPaintableFactoryModule
 
 
-class BasicPaintablesCanvas(GameCommandCanvas):
-
-    def _init_fields(self) -> None:
-        from org.allbinary.game.paint.ColorFillBasePaintable import ColorFillBasePaintable
-        from org.allbinary.graphics.paint.Paintable import Paintable
-        self.paintableArray: list[Paintable] = None
-        self.colorFillPaintable: ColorFillBasePaintable = None
+# Java field initializers run after the base initializer
+proc initFieldsBasicPaintablesCanvas(this: BasicPaintablesCanvas) =
     
-
-    def __init__(self, cmdListener: CommandListener, name: str, allBinaryGameLayerManager: AllBinaryGameLayerManager, paintableArray: list[Paintable]) -> None:
-        from javax.microedition.lcdui.CommandListener import CommandListener
-        from org.allbinary.game.layer.AllBinaryGameLayerManager import AllBinaryGameLayerManager
-        from org.allbinary.game.paint.ColorFillPaintableFactory import ColorFillPaintableFactory
-        from org.allbinary.graphics.paint.Paintable import Paintable
-        super().__init__(cmdListener, name, allBinaryGameLayerManager.getBackgroundBasicColor(), allBinaryGameLayerManager.getForegroundBasicColor())
-        self._init_fields()
-        self.paintableArray = paintableArray
-        self.colorFillPaintable = ColorFillPaintableFactory.getInstance().getInstance(allBinaryGameLayerManager.getBackgroundBasicColor(), False)
     
+    discard
 
-    def paint(self, graphics: Graphics) -> None:
-        from javax.microedition.lcdui.Graphics import Graphics
-        self.colorFillPaintable.paint(graphics)
-        graphics.setColor(self.foregroundColor)
-        for index in range(len(self.paintableArray) - 1, 0 - 1, -1):
-            self.paintableArray[index].paint(graphics)
-        super().paint(graphics)
-# from javax.microedition.lcdui.CommandListener import CommandListener
-# from javax.microedition.lcdui.Graphics import Graphics
-# from org.allbinary.game.layer.AllBinaryGameLayerManager import AllBinaryGameLayerManager
-# from org.allbinary.game.paint.ColorFillBasePaintable import ColorFillBasePaintable
-# from org.allbinary.game.paint.ColorFillPaintableFactory import ColorFillPaintableFactory
-# from org.allbinary.graphics.paint.Paintable import Paintable
+proc initBasicPaintablesCanvas*(this: BasicPaintablesCanvas, cmdListener: CommandListener, name: string, allBinaryGameLayerManager: AllBinaryGameLayerManager, paintableArray: JArray[Paintable]) =
+        initGameCommandCanvas(this, cmdListener, name, allBinaryGameLayerManager.getBackgroundBasicColor(), allBinaryGameLayerManager.getForegroundBasicColor())
+        this.initFieldsBasicPaintablesCanvas()
+        this.paintableArray = paintableArray
+        this.colorFillPaintable = ColorFillPaintableFactory.getInstance().getInstance(allBinaryGameLayerManager.getBackgroundBasicColor(), false)
 
+proc newBasicPaintablesCanvas*(cmdListener: CommandListener, name: string, allBinaryGameLayerManager: AllBinaryGameLayerManager, paintableArray: JArray[Paintable]): BasicPaintablesCanvas =
+    result = BasicPaintablesCanvas()
+    initBasicPaintablesCanvas(result, cmdListener, name, allBinaryGameLayerManager, paintableArray)
+
+method paint*(this: BasicPaintablesCanvas, graphics: Graphics) =
+        this.colorFillPaintable.paint(graphics)
+        graphics.setColor(this.foregroundColor)
+        block:
+            var index: int32 = this.paintableArray.length -% 1
+            while index >= 0:
+                defer: index = index -% 1
+                this.paintableArray[index].paint(graphics)
+        procCall GameCommandCanvas(this).paint(graphics)
+
+when declared(newBasicPaintablesCanvasHook4):
+    newBasicPaintablesCanvasHook4 = proc (cmdListener: CommandListener, name: string, allBinaryGameLayerManager: AllBinaryGameLayerManager, paintableArray: JArray[Paintable]): GameCommandCanvas = newBasicPaintablesCanvas(cmdListener, name, allBinaryGameLayerManager, paintableArray)
 

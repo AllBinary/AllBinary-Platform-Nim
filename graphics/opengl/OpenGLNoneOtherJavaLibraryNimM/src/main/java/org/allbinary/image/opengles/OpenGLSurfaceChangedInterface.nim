@@ -1,18 +1,15 @@
 # Generated Code Do Not Modify
 # package org.allbinary.image.opengles
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import javax/microedition/khronos/opengles/GL as GLModule
+export GLModule
+
+type
+    OpenGLSurfaceChangedInterface* = ref object of JObject
 
 
-
-# Java interface
-class OpenGLSurfaceChangedInterface:
-    
-
-    # throws Exception
-    def set(self, gl: GL) -> None:
-        from javax.microedition.khronos.opengles.GL import GL
-        raise NotImplementedError()
-# from javax.microedition.khronos.opengles.GL import GL
-
+method set*(this: OpenGLSurfaceChangedInterface, gl: GL) {.base.} =
+        raise newJException("AbstractMethodError", "set")
 

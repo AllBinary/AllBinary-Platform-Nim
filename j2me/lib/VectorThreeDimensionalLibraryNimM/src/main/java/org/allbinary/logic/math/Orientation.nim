@@ -1,72 +1,89 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.logic.math
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/logic/math/BasicDecimal as BasicDecimalModule
+export BasicDecimalModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    Orientation* = ref object of JObject
+        yaw*: BasicDecimal
+        pitch*: BasicDecimal
+        roll*: BasicDecimal
 
+proc newOrientation*(yaw: int32, pitch: int32, roll: int32): Orientation
+proc initOrientation*(this: Orientation, yaw: int32, pitch: int32, roll: int32)
+proc getInstance*(t: typedesc[Orientation], yaw: int32, pitch: int32, roll: int32): Orientation {.discardable.}
+method toString*(this: Orientation): string {.discardable.}
+import org/allbinary/logic/string/StringMaker as StringMakerModule
+export StringMakerModule
 
-class Orientation:
-    NONE: Orientation = None
-    SINGLETON: Orientation = None
+var Orientation_NONEValue: Orientation
+var Orientation_NONESet = false
+proc NONE*(t: typedesc[Orientation]): Orientation =
+    if not Orientation_NONESet:
+        Orientation_NONESet = true
+        Orientation_NONEValue = newOrientation(0, 0, 0)
+    Orientation_NONEValue
+proc `NONE=`*(t: typedesc[Orientation], value: Orientation) =
+    Orientation_NONESet = true
+    Orientation_NONEValue = value
+var Orientation_SINGLETONValue: Orientation
+var Orientation_SINGLETONSet = false
+proc SINGLETON*(t: typedesc[Orientation]): Orientation =
+    if not Orientation_SINGLETONSet:
+        Orientation_SINGLETONSet = true
+        Orientation_SINGLETONValue = newOrientation(0, 0, 0)
+    Orientation_SINGLETONValue
+proc `SINGLETON=`*(t: typedesc[Orientation], value: Orientation) =
+    Orientation_SINGLETONSet = true
+    Orientation_SINGLETONValue = value
 
-    def _init_fields(self) -> None:
-        self.yaw: BasicDecimal = BasicDecimal(0)
-        self.pitch: BasicDecimal = BasicDecimal(0)
-        self.roll: BasicDecimal = BasicDecimal(0)
-    
+# Java field initializers run after the base initializer
+proc initFieldsOrientation(this: Orientation) =
+    this.yaw = newBasicDecimal(0)
+    this.pitch = newBasicDecimal(0)
+    this.roll = newBasicDecimal(0)
+    discard
 
-    @staticmethod
-    def getInstance(yaw: int, pitch: int, roll: int) -> Orientation:
+proc getInstance*(t: typedesc[Orientation], yaw: int32, pitch: int32, roll: int32): Orientation {.discardable.} =
         Orientation.SINGLETON.yaw.setint(yaw)
         Orientation.SINGLETON.pitch.setint(pitch)
         Orientation.SINGLETON.roll.setint(roll)
         return Orientation.SINGLETON
-    
 
-    def __init__(self, yaw: int, pitch: int, roll: int) -> None:
-        self._init_fields()
-        self.yaw.setint(yaw)
-        self.pitch.setint(pitch)
-        self.roll.setint(roll)
-    
+proc initOrientation*(this: Orientation, yaw: int32, pitch: int32, roll: int32) =
+        this.initFieldsOrientation()
+        this.yaw.setint(yaw)
+        this.pitch.setint(pitch)
+        this.roll.setint(roll)
 
-    def toString(self) -> str:
-        from org.allbinary.logic.string.StringMaker import StringMaker
-        stringBuffer: StringMaker = StringMaker()
+proc newOrientation*(yaw: int32, pitch: int32, roll: int32): Orientation =
+    result = Orientation()
+    initOrientation(result, yaw, pitch, roll)
+
+method toString*(this: Orientation): string {.discardable.} =
+        var stringBuffer: StringMaker = newStringMaker()
         stringBuffer.append("Y: ")
-        stringBuffer.append(str(self.yaw))
+        stringBuffer.append(this.yaw.toString())
         stringBuffer.append(" P: ")
-        stringBuffer.append(str(self.pitch))
+        stringBuffer.append(this.pitch.toString())
         stringBuffer.append(" R: ")
-        stringBuffer.append(str(self.roll))
-        return str(stringBuffer)
-
-    def __str__(self) -> str:
-        return self.toString()
-# from org.allbinary.logic.string.StringMaker import StringMaker
-from org.allbinary.logic.math.BasicDecimal import BasicDecimal
-
-
-def _Orientation_NONE() -> object:
-    return Orientation(0, 0, 0)
-
-lazy_static(Orientation, "NONE", _Orientation_NONE)
-
-def _Orientation_SINGLETON() -> object:
-    return Orientation(0, 0, 0)
-
-lazy_static(Orientation, "SINGLETON", _Orientation_SINGLETON)
+        stringBuffer.append(this.roll.toString())
+        return stringBuffer.toString()
 

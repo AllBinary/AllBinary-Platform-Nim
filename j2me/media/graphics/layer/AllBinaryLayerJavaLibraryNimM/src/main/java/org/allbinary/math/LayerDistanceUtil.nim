@@ -1,67 +1,75 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.math
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/graphics/GPoint as GPointModule
+export GPointModule
+import org/allbinary/layer/AllBinaryLayer as AllBinaryLayerModule
+export AllBinaryLayerModule
+import org/allbinary/logic/math/MathUtil as MathUtilModule
+export MathUtilModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    LayerDistanceUtil* = ref object of JObject
+        mathUtil*: MathUtil
 
+proc newLayerDistanceUtil*(): LayerDistanceUtil
+proc getInstance*(t: typedesc[LayerDistanceUtil]): LayerDistanceUtil {.discardable.}
+method getDistance*(this: LayerDistanceUtil, layerInterface: AllBinaryLayer, layerInterface2: AllBinaryLayer): int32 {.base, discardable.}
+method getDistance3D*(this: LayerDistanceUtil, layerInterface: AllBinaryLayer, layerInterface2: AllBinaryLayer): int32 {.base, discardable.}
+method getDistanceAt*(this: LayerDistanceUtil, layerInterface: AllBinaryLayer, point: GPoint): int32 {.base, discardable.}
 
-class LayerDistanceUtil:
-    instance: LayerDistanceUtil = None
+var LayerDistanceUtil_instanceValue: LayerDistanceUtil
+var LayerDistanceUtil_instanceSet = false
+proc instance*(t: typedesc[LayerDistanceUtil]): LayerDistanceUtil =
+    if not LayerDistanceUtil_instanceSet:
+        LayerDistanceUtil_instanceSet = true
+        LayerDistanceUtil_instanceValue = newLayerDistanceUtil()
+    LayerDistanceUtil_instanceValue
 
-    def _init_fields(self) -> None:
-        from org.allbinary.logic.math.MathUtil import MathUtil
-        self.mathUtil: MathUtil = MathUtil.getInstance()
+# Java field initializers run after the base initializer
+proc initFieldsLayerDistanceUtil(this: LayerDistanceUtil) =
+    this.mathUtil = MathUtil.getInstance()
+    discard
 
-    def __init__(self) -> None:
-        self._init_fields()
-    
+proc initLayerDistanceUtil*(this: LayerDistanceUtil) =
+    this.initFieldsLayerDistanceUtil()
 
-    @staticmethod
-    def getInstance() -> LayerDistanceUtil:
+proc newLayerDistanceUtil*(): LayerDistanceUtil =
+    result = LayerDistanceUtil()
+    initLayerDistanceUtil(result)
+
+proc getInstance*(t: typedesc[LayerDistanceUtil]): LayerDistanceUtil {.discardable.} =
         return LayerDistanceUtil.instance
-    
 
-    def getDistance(self, layerInterface: AllBinaryLayer, layerInterface2: AllBinaryLayer) -> int:
-        from org.allbinary.layer.AllBinaryLayer import AllBinaryLayer
-        dx: int = (layerInterface.getXP() + layerInterface.getHalfWidth()) - (layerInterface2.getXP() + layerInterface2.getHalfWidth())
-        dy: int = (layerInterface.getYP() + layerInterface.getHalfHeight()) - (layerInterface2.getYP() + layerInterface2.getHalfHeight())
-        return int(self.mathUtil.sqrt((dx * dx) + (dy * dy)))
-    
+method getDistance*(this: LayerDistanceUtil, layerInterface: AllBinaryLayer, layerInterface2: AllBinaryLayer): int32 {.base, discardable.} =
+        let dx: int32 = (layerInterface.getXP() +% layerInterface.getHalfWidth()) -% (layerInterface2.getXP() +% layerInterface2.getHalfWidth())
+        let dy: int32 = (layerInterface.getYP() +% layerInterface.getHalfHeight()) -% (layerInterface2.getYP() +% layerInterface2.getHalfHeight())
+        return int32(this.mathUtil.sqrt((dx *% dx) +% (dy *% dy)))
 
-    def getDistance3D(self, layerInterface: AllBinaryLayer, layerInterface2: AllBinaryLayer) -> int:
-        from org.allbinary.layer.AllBinaryLayer import AllBinaryLayer
-        dx: int = (layerInterface.getXP() + layerInterface.getHalfWidth()) - (layerInterface2.getXP() + layerInterface2.getHalfWidth())
-        dy: int = (layerInterface.getYP() + layerInterface.getHalfHeight()) - (layerInterface2.getYP() + layerInterface2.getHalfHeight())
-        dz: int = (layerInterface.getZP() + layerInterface.getHalfDepth()) - (layerInterface2.getZP() + layerInterface2.getHalfDepth())
-        return int(self.mathUtil.sqrt((dx * dx) + (dy * dy) + (dz * dz)))
-    
+method getDistance3D*(this: LayerDistanceUtil, layerInterface: AllBinaryLayer, layerInterface2: AllBinaryLayer): int32 {.base, discardable.} =
+        let dx: int32 = (layerInterface.getXP() +% layerInterface.getHalfWidth()) -% (layerInterface2.getXP() +% layerInterface2.getHalfWidth())
+        let dy: int32 = (layerInterface.getYP() +% layerInterface.getHalfHeight()) -% (layerInterface2.getYP() +% layerInterface2.getHalfHeight())
+        let dz: int32 = (layerInterface.getZP() +% layerInterface.getHalfDepth()) -% (layerInterface2.getZP() +% layerInterface2.getHalfDepth())
+        return int32(this.mathUtil.sqrt((dx *% dx) +% (dy *% dy) +% (dz *% dz)))
 
-    def getDistanceAt(self, layerInterface: AllBinaryLayer, point: GPoint) -> int:
-        from org.allbinary.graphics.GPoint import GPoint
-        from org.allbinary.layer.AllBinaryLayer import AllBinaryLayer
-        dx: int = layerInterface.getXP() - point.getX()
-        dy: int = layerInterface.getYP() - point.getY()
-        return int(self.mathUtil.sqrt((dx * dx) + (dy * dy)))
-# from org.allbinary.graphics.GPoint import GPoint
-# from org.allbinary.layer.AllBinaryLayer import AllBinaryLayer
-# from org.allbinary.logic.math.MathUtil import MathUtil
-
-
-def _LayerDistanceUtil_instance() -> object:
-    return LayerDistanceUtil()
-
-lazy_static(LayerDistanceUtil, "instance", _LayerDistanceUtil_instance)
+method getDistanceAt*(this: LayerDistanceUtil, layerInterface: AllBinaryLayer, point: GPoint): int32 {.base, discardable.} =
+        let dx: int32 = layerInterface.getXP() -% point.getX()
+        let dy: int32 = layerInterface.getYP() -% point.getY()
+        return int32(this.mathUtil.sqrt((dx *% dx) +% (dy *% dy)))
 

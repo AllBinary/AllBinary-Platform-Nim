@@ -1,78 +1,100 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.graphics.opengles
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    OpenGLCapabilities* = ref object of JObject
+        CUSTOM_GL_SURFACE_VIEW*: bool
+        VERSION_1_0*: string
+        VERSION_1_1*: string
+        VERSION_2_0*: string
+        VERSION_3_0*: string
+        VERSION_3_1*: string
+        VERSION_3_2*: string
+        VERSION_HIGHER_THAN_EXISTS*: string
+        glVersion*: string
+        shaderVersion*: int32
+        glInstanceVersion*: string
+        maxTextureSize*: int32
 
+proc newOpenGLCapabilities*(): OpenGLCapabilities
+proc initOpenGLCapabilities*(this: OpenGLCapabilities)
+proc getInstance*(t: typedesc[OpenGLCapabilities]): OpenGLCapabilities {.discardable.}
+method isInitialized*(this: OpenGLCapabilities): bool {.base, discardable.}
+method initCapabilities*(this: OpenGLCapabilities, gl: JObject) {.base.}
+method isGlExtensionDrawTexture*(this: OpenGLCapabilities): bool {.base, discardable.}
+method getGlVersion*(this: OpenGLCapabilities): string {.base, discardable.}
+method isVertexBufferObjectSupport*(this: OpenGLCapabilities): bool {.base, discardable.}
+method isTextureSizeValid*(this: OpenGLCapabilities, widthAndHeight: int32): bool {.base, discardable.}
+import org/allbinary/logic/string/StringUtil as StringUtilModule
+export StringUtilModule
 
-class OpenGLCapabilities:
-    instance: OpenGLCapabilities = None
+var OpenGLCapabilities_instanceValue: OpenGLCapabilities
+var OpenGLCapabilities_instanceSet = false
+proc instance*(t: typedesc[OpenGLCapabilities]): OpenGLCapabilities =
+    if not OpenGLCapabilities_instanceSet:
+        OpenGLCapabilities_instanceSet = true
+        OpenGLCapabilities_instanceValue = newOpenGLCapabilities()
+    OpenGLCapabilities_instanceValue
 
-    def _init_fields(self) -> None:
-        from org.allbinary.logic.string.StringUtil import StringUtil
-        self.CUSTOM_GL_SURFACE_VIEW: bool = True
-        self.VERSION_1_0: str = "1.0"
-        self.VERSION_1_1: str = "1.1"
-        self.VERSION_2_0: str = "2.0"
-        self.VERSION_3_0: str = "3.0"
-        self.VERSION_3_1: str = "3.1"
-        self.VERSION_3_2: str = "3.2"
-        self.VERSION_HIGHER_THAN_EXISTS: str = "999.999"
-        self.glVersion: str = StringUtil.getInstance().EMPTY_STRING
-        self.shaderVersion: int = 0
-        self.glInstanceVersion: str = StringUtil.getInstance().EMPTY_STRING
-        self.maxTextureSize: int = 64
-    
+# Java field initializers run after the base initializer
+proc initFieldsOpenGLCapabilities(this: OpenGLCapabilities) =
+    this.CUSTOM_GL_SURFACE_VIEW = true
+    this.VERSION_1_0 = "1.0"
+    this.VERSION_1_1 = "1.1"
+    this.VERSION_2_0 = "2.0"
+    this.VERSION_3_0 = "3.0"
+    this.VERSION_3_1 = "3.1"
+    this.VERSION_3_2 = "3.2"
+    this.VERSION_HIGHER_THAN_EXISTS = "999.999"
+    this.glVersion = StringUtil.getInstance().EMPTY_STRING
+    this.shaderVersion = 0
+    this.glInstanceVersion = StringUtil.getInstance().EMPTY_STRING
+    this.maxTextureSize = 64
+    discard
 
-    @staticmethod
-    def getInstance() -> OpenGLCapabilities:
+proc getInstance*(t: typedesc[OpenGLCapabilities]): OpenGLCapabilities {.discardable.} =
         return OpenGLCapabilities.instance
-    
 
-    def __init__(self) -> None:
-        self._init_fields()
-    
+proc initOpenGLCapabilities*(this: OpenGLCapabilities) =
+        this.initFieldsOpenGLCapabilities()
+        discard
 
-    def isInitialized(self) -> bool:
-        return True
-    
+proc newOpenGLCapabilities*(): OpenGLCapabilities =
+    result = OpenGLCapabilities()
+    initOpenGLCapabilities(result)
 
-    def initCapabilities(self, gl: object) -> None:
-        pass
-    
+method isInitialized*(this: OpenGLCapabilities): bool {.base, discardable.} =
+        return true
 
-    def isGlExtensionDrawTexture(self) -> bool:
-        return False
-    
+method initCapabilities*(this: OpenGLCapabilities, gl: JObject) {.base.} =
+        discard
 
-    def getGlVersion(self) -> str:
-        return self.glVersion
-    
+method isGlExtensionDrawTexture*(this: OpenGLCapabilities): bool {.base, discardable.} =
+        return false
 
-    def isVertexBufferObjectSupport(self) -> bool:
-        return False
-    
+method getGlVersion*(this: OpenGLCapabilities): string {.base, discardable.} =
+        return this.glVersion
 
-    def isTextureSizeValid(self, widthAndHeight: int) -> bool:
-        return True
-# from org.allbinary.logic.string.StringUtil import StringUtil
+method isVertexBufferObjectSupport*(this: OpenGLCapabilities): bool {.base, discardable.} =
+        return false
 
-
-def _OpenGLCapabilities_instance() -> object:
-    return OpenGLCapabilities()
-
-lazy_static(OpenGLCapabilities, "instance", _OpenGLCapabilities_instance)
+method isTextureSizeValid*(this: OpenGLCapabilities, widthAndHeight: int32): bool {.base, discardable.} =
+        return true
 

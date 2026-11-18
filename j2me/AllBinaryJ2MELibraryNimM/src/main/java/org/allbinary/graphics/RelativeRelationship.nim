@@ -1,71 +1,85 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.graphics
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/util/BasicArrayList as BasicArrayListModule
+export BasicArrayListModule
+import org/allbinary/graphics/GPoint as GPointModule
+export GPointModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    RelativeRelationship* = ref object of JObject
+        typesAllowedList*: BasicArrayList
+        x*: int32
+        y*: int32
+        z*: int32
 
+proc newRelativeRelationship*(point: GPoint, typesAllowedList: BasicArrayList): RelativeRelationship
+proc initRelativeRelationship*(this: RelativeRelationship, point: GPoint, typesAllowedList: BasicArrayList)
+method getX*(this: RelativeRelationship): int32 {.base, discardable.}
+method getY*(this: RelativeRelationship): int32 {.base, discardable.}
+method getZ*(this: RelativeRelationship): int32 {.base, discardable.}
+method getTypesAllowedList*(this: RelativeRelationship): BasicArrayList {.base, discardable.}
+method setTypesAllowedList*(this: RelativeRelationship, typesAllowedList: BasicArrayList) {.base.}
+import org/allbinary/util/BasicArrayListUtil as BasicArrayListUtilModule
+export BasicArrayListUtilModule
+import org/allbinary/graphics/PointFactory as PointFactoryModule
+export PointFactoryModule
 
-class RelativeRelationship:
-    NULL_RELATIVE_RELATIONSHIP: RelativeRelationship = None
+var RelativeRelationship_NULL_RELATIVE_RELATIONSHIPValue: RelativeRelationship
+var RelativeRelationship_NULL_RELATIVE_RELATIONSHIPSet = false
+proc NULL_RELATIVE_RELATIONSHIP*(t: typedesc[RelativeRelationship]): RelativeRelationship =
+    if not RelativeRelationship_NULL_RELATIVE_RELATIONSHIPSet:
+        RelativeRelationship_NULL_RELATIVE_RELATIONSHIPSet = true
+        RelativeRelationship_NULL_RELATIVE_RELATIONSHIPValue = newRelativeRelationship(PointFactory.getInstance().ZERO_ZERO, BasicArrayListUtil.getInstance().getImmutableInstance())
+    RelativeRelationship_NULL_RELATIVE_RELATIONSHIPValue
 
-    def _init_fields(self) -> None:
-        from org.allbinary.util.BasicArrayList import BasicArrayList
-        self.typesAllowedList: BasicArrayList = None
-        self.x: int = None
-        self.y: int = None
-        self.z: int = None
+# Java field initializers run after the base initializer
+proc initFieldsRelativeRelationship(this: RelativeRelationship) =
     
-
-    def __init__(self, point: GPoint, typesAllowedList: BasicArrayList) -> None:
-        from org.allbinary.util.BasicArrayList import BasicArrayList
-        self._init_fields()
-        self.x = point.getX()
-        self.y = point.getY()
-        self.z = point.getZ()
-        self.typesAllowedList = typesAllowedList
     
-
-    def getX(self) -> int:
-        return self.x
     
-
-    def getY(self) -> int:
-        return self.y
     
+    discard
 
-    def getZ(self) -> int:
-        return self.z
-    
+proc initRelativeRelationship*(this: RelativeRelationship, point: GPoint, typesAllowedList: BasicArrayList) =
+        this.initFieldsRelativeRelationship()
+        this.x = point.getX()
+        this.y = point.getY()
+        this.z = point.getZ()
+        this.typesAllowedList = typesAllowedList
 
-    def getTypesAllowedList(self) -> BasicArrayList:
-        from org.allbinary.util.BasicArrayList import BasicArrayList
-        return self.typesAllowedList
-    
+proc newRelativeRelationship*(point: GPoint, typesAllowedList: BasicArrayList): RelativeRelationship =
+    result = RelativeRelationship()
+    initRelativeRelationship(result, point, typesAllowedList)
 
-    def setTypesAllowedList(self, typesAllowedList: BasicArrayList) -> None:
-        from org.allbinary.util.BasicArrayList import BasicArrayList
-        self.typesAllowedList = typesAllowedList
-# from org.allbinary.util.BasicArrayList import BasicArrayList
-# from org.allbinary.util.BasicArrayListUtil import BasicArrayListUtil
+method getX*(this: RelativeRelationship): int32 {.base, discardable.} =
+        return this.x
 
+method getY*(this: RelativeRelationship): int32 {.base, discardable.} =
+        return this.y
 
-def _RelativeRelationship_NULL_RELATIVE_RELATIONSHIP() -> object:
-    from org.allbinary.graphics.PointFactory import PointFactory
-    from org.allbinary.util.BasicArrayListUtil import BasicArrayListUtil
-    return RelativeRelationship(PointFactory.getInstance().ZERO_ZERO, BasicArrayListUtil.getInstance().getImmutableInstance())
+method getZ*(this: RelativeRelationship): int32 {.base, discardable.} =
+        return this.z
 
-lazy_static(RelativeRelationship, "NULL_RELATIVE_RELATIONSHIP", _RelativeRelationship_NULL_RELATIVE_RELATIONSHIP)
+method getTypesAllowedList*(this: RelativeRelationship): BasicArrayList {.base, discardable.} =
+        return this.typesAllowedList
+
+method setTypesAllowedList*(this: RelativeRelationship, typesAllowedList: BasicArrayList) {.base.} =
+        this.typesAllowedList = typesAllowedList
 

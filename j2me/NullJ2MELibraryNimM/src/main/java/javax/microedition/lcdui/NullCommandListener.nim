@@ -1,22 +1,36 @@
 # Generated Code Do Not Modify
 # package javax.microedition.lcdui
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import javax/microedition/lcdui/CommandListener as CommandListenerModule
+export CommandListenerModule
+import javax/microedition/lcdui/Command as CommandModule
+export CommandModule
+import javax/microedition/lcdui/Displayable as DisplayableModule
+export DisplayableModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
-from javax.microedition.lcdui.CommandListener import CommandListener
+type
+    NullCommandListener* = ref object of CommandListener
 
+proc newNullCommandListener*(): NullCommandListener
+method commandAction*(this: NullCommandListener, c: Command, d: Displayable)
 
-class NullCommandListener(CommandListener):
-    NULL_COMMAND_LISTENER: NullCommandListener = None
-    
+var NullCommandListener_NULL_COMMAND_LISTENERValue: NullCommandListener
+var NullCommandListener_NULL_COMMAND_LISTENERSet = false
+proc NULL_COMMAND_LISTENERStatic*(t: typedesc[NullCommandListener]): NullCommandListener =
+    if not NullCommandListener_NULL_COMMAND_LISTENERSet:
+        NullCommandListener_NULL_COMMAND_LISTENERSet = true
+        NullCommandListener_NULL_COMMAND_LISTENERValue = newNullCommandListener()
+    NullCommandListener_NULL_COMMAND_LISTENERValue
 
-    def commandAction(self, c: Command, d: Displayable) -> None:
-        pass
+proc initNullCommandListener*(this: NullCommandListener) =
+    discard
 
+proc newNullCommandListener*(): NullCommandListener =
+    result = NullCommandListener()
+    initNullCommandListener(result)
 
-def _NullCommandListener_NULL_COMMAND_LISTENER() -> object:
-    return NullCommandListener()
-
-lazy_static(NullCommandListener, "NULL_COMMAND_LISTENER", _NullCommandListener_NULL_COMMAND_LISTENER)
+method commandAction*(this: NullCommandListener, c: Command, d: Displayable) =
+        discard
 

@@ -1,61 +1,74 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#   
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+    
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.ag.layer.hud.basic.notification
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/logic/communication/log/LogUtil as LogUtilModule
+export LogUtilModule
+import org/allbinary/game/ag/layer/hud/basic/notification/GameNotificationHud as GameNotificationHudModule
+export GameNotificationHudModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    NoGameNotificationHudSingleton* = ref object of JObject
+        logUtil*: LogUtil
+        gameNotificationHud*: GameNotificationHud
 
+proc newNoGameNotificationHudSingleton*(): NoGameNotificationHudSingleton
+proc initNoGameNotificationHudSingleton*(this: NoGameNotificationHudSingleton)
+proc getInstance*(t: typedesc[NoGameNotificationHudSingleton]): NoGameNotificationHudSingleton {.discardable.}
+method getGameNotificationHud*(this: NoGameNotificationHudSingleton): GameNotificationHud {.base, discardable.}
+import org/allbinary/game/graphics/hud/BasicHudFactory as BasicHudFactoryModule
+export BasicHudFactoryModule
+import org/allbinary/string/CommonStrings as CommonStringsModule
+export CommonStringsModule
+import org/allbinary/game/ag/layer/hud/basic/notification/NoGameGameNotificationHud as NoGameGameNotificationHudModule
+export NoGameGameNotificationHudModule
 
-class NoGameNotificationHudSingleton:
-    instance: NoGameNotificationHudSingleton = None
+var NoGameNotificationHudSingleton_instanceValue: NoGameNotificationHudSingleton
+var NoGameNotificationHudSingleton_instanceSet = false
+proc instance*(t: typedesc[NoGameNotificationHudSingleton]): NoGameNotificationHudSingleton =
+    if not NoGameNotificationHudSingleton_instanceSet:
+        NoGameNotificationHudSingleton_instanceSet = true
+        NoGameNotificationHudSingleton_instanceValue = newNoGameNotificationHudSingleton()
+    NoGameNotificationHudSingleton_instanceValue
 
-    def _init_fields(self) -> None:
-        from org.allbinary.logic.communication.log.LogUtil import LogUtil
-        self.logUtil: LogUtil = LogUtil.getInstance()
-        self.gameNotificationHud: GameNotificationHud = GameNotificationHud.NULL_GAME_NOTIFICATION
-    
+# Java field initializers run after the base initializer
+proc initFieldsNoGameNotificationHudSingleton(this: NoGameNotificationHudSingleton) =
+    this.logUtil = LogUtil.getInstance()
+    this.gameNotificationHud = GameNotificationHud.NULL_GAME_NOTIFICATION
+    discard
 
-    @staticmethod
-    def getInstance() -> NoGameNotificationHudSingleton:
+proc getInstance*(t: typedesc[NoGameNotificationHudSingleton]): NoGameNotificationHudSingleton {.discardable.} =
         return NoGameNotificationHudSingleton.instance
-    
 
-    def __init__(self) -> None:
-        from org.allbinary.game.ag.layer.hud.basic.notification.NoGameGameNotificationHud import NoGameGameNotificationHud
-        from org.allbinary.game.graphics.hud.BasicHudFactory import BasicHudFactory
-        from org.allbinary.string.CommonStrings import CommonStrings
-        self._init_fields()
+proc initNoGameNotificationHudSingleton*(this: NoGameNotificationHudSingleton) =
+        this.initFieldsNoGameNotificationHudSingleton()
         try:
-            basicHudFactory: BasicHudFactory = BasicHudFactory.getInstance()
-            self.gameNotificationHud = NoGameGameNotificationHud()
-        except Exception as e:
-            commonStrings: CommonStrings = CommonStrings.getInstance()
-            self.logUtil.put(commonStrings.EXCEPTION, self, commonStrings.CONSTRUCTOR, e)
-    
+            let basicHudFactory: BasicHudFactory = BasicHudFactory.getInstance()
+            this.gameNotificationHud = newNoGameGameNotificationHud()
+        except CatchableError as jcaught:
+            let e = jToException(jcaught)
+            let commonStrings: CommonStrings = CommonStrings.getInstance()
+            this.logUtil.put(commonStrings.EXCEPTION, this, commonStrings.CONSTRUCTOR, e)
 
-    def getGameNotificationHud(self) -> GameNotificationHud:
-        return self.gameNotificationHud
-# from org.allbinary.game.graphics.hud.BasicHudFactory import BasicHudFactory
-# from org.allbinary.graphics.color.BasicColorFactory import BasicColorFactory
-# from org.allbinary.logic.communication.log.LogUtil import LogUtil
-# from org.allbinary.string.CommonStrings import CommonStrings
-from org.allbinary.game.ag.layer.hud.basic.notification.GameNotificationHud import GameNotificationHud
+proc newNoGameNotificationHudSingleton*(): NoGameNotificationHudSingleton =
+    result = NoGameNotificationHudSingleton()
+    initNoGameNotificationHudSingleton(result)
 
-
-def _NoGameNotificationHudSingleton_instance() -> object:
-    return NoGameNotificationHudSingleton()
-
-lazy_static(NoGameNotificationHudSingleton, "instance", _NoGameNotificationHudSingleton_instance)
+method getGameNotificationHud*(this: NoGameNotificationHudSingleton): GameNotificationHud {.base, discardable.} =
+        return this.gameNotificationHud
 

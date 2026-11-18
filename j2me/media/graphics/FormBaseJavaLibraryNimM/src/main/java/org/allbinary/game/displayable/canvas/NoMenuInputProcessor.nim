@@ -1,70 +1,70 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.displayable.canvas
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/game/input/event/GameKeyEvent as GameKeyEventModule
+export GameKeyEventModule
+import org/allbinary/input/motion/gesture/observer/MotionGestureEvent as MotionGestureEventModule
+export MotionGestureEventModule
+import org/allbinary/game/displayable/canvas/BasicMenuInputProcessor as BasicMenuInputProcessorModule
+export BasicMenuInputProcessorModule
 
-import threading
-from java.lang.JavaRuntimeStatic import lazy_static
-from org.allbinary.game.displayable.canvas.BasicMenuInputProcessor import BasicMenuInputProcessor
+type
+    NoMenuInputProcessor* = ref object of BasicMenuInputProcessor
 
+proc newNoMenuInputProcessor*(): NoMenuInputProcessor
+proc initNoMenuInputProcessor*(this: NoMenuInputProcessor)
+proc getInstance*(t: typedesc[NoMenuInputProcessor]): NoMenuInputProcessor {.discardable.}
+method onDownGameKeyEvent*(this: NoMenuInputProcessor, gameKeyEvent: GameKeyEvent)
+method onUpGameKeyEvent*(this: NoMenuInputProcessor, gameKeyEvent: GameKeyEvent)
+method onMotionGestureEvent*(this: NoMenuInputProcessor, motionGestureEvent: MotionGestureEvent)
+import javax/microedition/lcdui/NullCanvas as NullCanvasModule
+export NullCanvasModule
+import org/allbinary/util/BasicArrayListUtil as BasicArrayListUtilModule
+export BasicArrayListUtilModule
 
-class NoMenuInputProcessor(BasicMenuInputProcessor):
-    SINGLETON: NoMenuInputProcessor = None
-    _lock = threading.RLock()
-    
+var NoMenuInputProcessor_SINGLETONValue: NoMenuInputProcessor
+var NoMenuInputProcessor_SINGLETONSet = false
+proc SINGLETON*(t: typedesc[NoMenuInputProcessor]): NoMenuInputProcessor =
+    if not NoMenuInputProcessor_SINGLETONSet:
+        NoMenuInputProcessor_SINGLETONSet = true
+        NoMenuInputProcessor_SINGLETONValue = newNoMenuInputProcessor()
+    NoMenuInputProcessor_SINGLETONValue
 
-    @staticmethod
-    def getInstance() -> NoMenuInputProcessor:
+proc getInstance*(t: typedesc[NoMenuInputProcessor]): NoMenuInputProcessor {.discardable.} =
         return NoMenuInputProcessor.SINGLETON
-    
 
-    def __init__(self) -> None:
-        from javax.microedition.lcdui.NullCanvas import NullCanvas
-        from org.allbinary.util.BasicArrayListUtil import BasicArrayListUtil
-        super().__init__(BasicArrayListUtil.getInstance().getImmutableInstance(), -1, NullCanvas.NULL_CANVAS)
-    
+proc initNoMenuInputProcessor*(this: NoMenuInputProcessor) =
+        initBasicMenuInputProcessor(this, BasicArrayListUtil.getInstance().getImmutableInstance(), -1, NullCanvas.NULL_CANVASStatic)
 
-    def onDownGameKeyEvent(self, gameKeyEvent: GameKeyEvent) -> None:
-        with self._lock:
-            return self._onDownGameKeyEvent_unlocked(gameKeyEvent)
+proc newNoMenuInputProcessor*(): NoMenuInputProcessor =
+    result = NoMenuInputProcessor()
+    initNoMenuInputProcessor(result)
 
-    def _onDownGameKeyEvent_unlocked(self, gameKeyEvent: GameKeyEvent) -> None:
-        from org.allbinary.game.input.event.GameKeyEvent import GameKeyEvent
-        pass
-    
+method onDownGameKeyEvent*(this: NoMenuInputProcessor, gameKeyEvent: GameKeyEvent) =
+        discard
 
-    def onUpGameKeyEvent(self, gameKeyEvent: GameKeyEvent) -> None:
-        with self._lock:
-            return self._onUpGameKeyEvent_unlocked(gameKeyEvent)
+method onUpGameKeyEvent*(this: NoMenuInputProcessor, gameKeyEvent: GameKeyEvent) =
+        discard
 
-    def _onUpGameKeyEvent_unlocked(self, gameKeyEvent: GameKeyEvent) -> None:
-        from org.allbinary.game.input.event.GameKeyEvent import GameKeyEvent
-        pass
-    
+method onMotionGestureEvent*(this: NoMenuInputProcessor, motionGestureEvent: MotionGestureEvent) =
+        discard
 
-    def onMotionGestureEvent(self, motionGestureEvent: MotionGestureEvent) -> None:
-        from org.allbinary.input.motion.gesture.observer.MotionGestureEvent import MotionGestureEvent
-        pass
-# from javax.microedition.lcdui.NullCanvas import NullCanvas
-# from org.allbinary.game.input.event.GameKeyEvent import GameKeyEvent
-# from org.allbinary.input.motion.gesture.observer.MotionGestureEvent import MotionGestureEvent
-# from org.allbinary.util.BasicArrayListUtil import BasicArrayListUtil
-
-
-def _NoMenuInputProcessor_SINGLETON() -> object:
-    return NoMenuInputProcessor()
-
-lazy_static(NoMenuInputProcessor, "SINGLETON", _NoMenuInputProcessor_SINGLETON)
+when declared(newNoMenuInputProcessorHook0):
+    newNoMenuInputProcessorHook0 = proc (): BasicMenuInputProcessor = newNoMenuInputProcessor()
 

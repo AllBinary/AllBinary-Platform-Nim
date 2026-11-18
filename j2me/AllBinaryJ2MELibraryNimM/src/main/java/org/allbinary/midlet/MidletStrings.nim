@@ -1,40 +1,50 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.midlet
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    MidletStrings* = ref object of JObject
+        COMMAND_ACTION*: string
 
+proc newMidletStrings*(): MidletStrings
+proc getInstance*(t: typedesc[MidletStrings]): MidletStrings {.discardable.}
 
-class MidletStrings:
-    instance: MidletStrings = None
+var MidletStrings_instanceValue: MidletStrings
+var MidletStrings_instanceSet = false
+proc instance*(t: typedesc[MidletStrings]): MidletStrings =
+    if not MidletStrings_instanceSet:
+        MidletStrings_instanceSet = true
+        MidletStrings_instanceValue = newMidletStrings()
+    MidletStrings_instanceValue
 
-    def _init_fields(self) -> None:
-        self.COMMAND_ACTION: str = "commandAction"
+# Java field initializers run after the base initializer
+proc initFieldsMidletStrings(this: MidletStrings) =
+    this.COMMAND_ACTION = "commandAction"
+    discard
 
-    def __init__(self) -> None:
-        self._init_fields()
-    
+proc initMidletStrings*(this: MidletStrings) =
+    this.initFieldsMidletStrings()
 
-    @staticmethod
-    def getInstance() -> MidletStrings:
+proc newMidletStrings*(): MidletStrings =
+    result = MidletStrings()
+    initMidletStrings(result)
+
+proc getInstance*(t: typedesc[MidletStrings]): MidletStrings {.discardable.} =
         return MidletStrings.instance
-
-
-def _MidletStrings_instance() -> object:
-    return MidletStrings()
-
-lazy_static(MidletStrings, "instance", _MidletStrings_instance)
 

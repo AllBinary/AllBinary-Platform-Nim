@@ -1,89 +1,100 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#   
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+    
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.logic.io
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import java/io/ByteArrayOutputStream as ByteArrayOutputStreamModule
+export ByteArrayOutputStreamModule
+import java/io/Closeable as CloseableModule
+export CloseableModule
+import java/io/InputStream as InputStreamModule
+export InputStreamModule
+import java/io/OutputStream as OutputStreamModule
+export OutputStreamModule
+import org/allbinary/logic/communication/log/LogUtil as LogUtilModule
+export LogUtilModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    StreamUtil* = ref object of JObject
+        logUtil*: LogUtil
 
+proc newStreamUtil*(): StreamUtil
+proc initStreamUtil*(this: StreamUtil)
+proc getInstance*(t: typedesc[StreamUtil]): StreamUtil {.discardable.}
+method get*(this: StreamUtil, inputStream: InputStream, outputStream: OutputStream, buffer: JArray[int8]): OutputStream {.base, discardable.}
+method getByteArray*(this: StreamUtil, inputStream: InputStream, outputStream2: ByteArrayOutputStream, byteArray: JArray[int8]): JArray[int8] {.base, discardable.}
+method close*(this: StreamUtil, closeable: Closeable): bool {.base, discardable.}
+import org/allbinary/string/CommonStrings as CommonStringsModule
+export CommonStringsModule
 
-class StreamUtil:
-    instance: StreamUtil = None
+var StreamUtil_instanceValue: StreamUtil
+var StreamUtil_instanceSet = false
+proc instance*(t: typedesc[StreamUtil]): StreamUtil =
+    if not StreamUtil_instanceSet:
+        StreamUtil_instanceSet = true
+        StreamUtil_instanceValue = newStreamUtil()
+    StreamUtil_instanceValue
 
-    def _init_fields(self) -> None:
-        from org.allbinary.logic.communication.log.LogUtil import LogUtil
-        self.logUtil: LogUtil = LogUtil.getInstance()
-    
+# Java field initializers run after the base initializer
+proc initFieldsStreamUtil(this: StreamUtil) =
+    this.logUtil = LogUtil.getInstance()
+    discard
 
-    @staticmethod
-    def getInstance() -> StreamUtil:
+proc getInstance*(t: typedesc[StreamUtil]): StreamUtil {.discardable.} =
         return StreamUtil.instance
-    
 
-    def __init__(self) -> None:
-        self._init_fields()
-    
+proc initStreamUtil*(this: StreamUtil) =
+        this.initFieldsStreamUtil()
+        discard
 
-    # throws Exception
-    def get(self, inputStream: InputStream, outputStream: OutputStream, buffer: list[int]) -> OutputStream:
-        from java.io.InputStream import InputStream
-        from java.io.OutputStream import OutputStream
-        len_: int = 0
-        while True:
-            len_ = inputStream.read(buffer, 0, len(buffer))
-            if len_ != -1:
-                pass
+proc newStreamUtil*(): StreamUtil =
+    result = StreamUtil()
+    initStreamUtil(result)
+
+method get*(this: StreamUtil, inputStream: InputStream, outputStream: OutputStream, buffer: JArray[int8]): OutputStream {.base, discardable.} =
+        var len: int32 = 0
+        while true:
+            len = inputStream.read(buffer, 0, buffer.length)
+            if len != -1:
+                discard
             else:
                 break
-            outputStream.write(buffer, 0, len_)
+            outputStream.write(buffer, 0, len)
         return outputStream
-    
 
-    # throws Exception
-    def getByteArray(self, inputStream: InputStream, outputStream2: ByteArrayOutputStream, byteArray: list[int]) -> list[int]:
-        from java.io.InputStream import InputStream
-        outputStream: ByteArrayOutputStream = outputStream2
+method getByteArray*(this: StreamUtil, inputStream: InputStream, outputStream2: ByteArrayOutputStream, byteArray: JArray[int8]): JArray[int8] {.base, discardable.} =
+        let outputStream: ByteArrayOutputStream = outputStream2
         try:
-            self.get(inputStream, outputStream, byteArray)
+            this.get(inputStream, outputStream, byteArray)
             return outputStream.toByteArray()
-        except Exception as e:
+        except CatchableError as jcaught:
+            let e = jToException(jcaught)
             raise e
         finally:
-            self.close(outputStream)
-    
+            this.close(outputStream)
 
-    def close(self, closeable: Closeable) -> bool:
-        from java.io.Closeable import Closeable
-        from org.allbinary.string.CommonStrings import CommonStrings
+method close*(this: StreamUtil, closeable: Closeable): bool {.base, discardable.} =
         try:
-            if closeable is not None:
+            if (not jIsNil(closeable)):
                 closeable.close()
-            return True
-        except Exception as e:
-            commonStrings: CommonStrings = CommonStrings.getInstance()
-            self.logUtil.put(commonStrings.EXCEPTION, self, commonStrings.CLOSE, e)
-            return False
-# from java.io.ByteArrayOutputStream import ByteArrayOutputStream
-# from java.io.Closeable import Closeable
-# from java.io.InputStream import InputStream
-# from java.io.OutputStream import OutputStream
-# from org.allbinary.logic.communication.log.LogUtil import LogUtil
-# from org.allbinary.string.CommonStrings import CommonStrings
-
-
-def _StreamUtil_instance() -> object:
-    return StreamUtil()
-
-lazy_static(StreamUtil, "instance", _StreamUtil_instance)
+            return true
+        except CatchableError as jcaught:
+            let e = jToException(jcaught)
+            let commonStrings: CommonStrings = CommonStrings.getInstance()
+            this.logUtil.put(commonStrings.EXCEPTION, this, commonStrings.CLOSE, e)
+            return false
 

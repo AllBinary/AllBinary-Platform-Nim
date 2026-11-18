@@ -1,36 +1,47 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.init
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/string/CommonStrings as CommonStringsModule
+export CommonStringsModule
+import org/allbinary/init/InitInterface as InitInterfaceModule
+export InitInterfaceModule
 
-from org.allbinary.init.InitInterface import InitInterface
+type
+    Init* = ref object of InitInterface
+        commonStrings*: CommonStrings
+
+proc newInit*(): Init
+method init*(this: Init)
 
 
-class Init(InitInterface):
+# Java field initializers run after the base initializer
+proc initFieldsInit(this: Init) =
+    this.commonStrings = CommonStrings.getInstance()
+    discard
 
-    def _init_fields(self) -> None:
-        from org.allbinary.string.CommonStrings import CommonStrings
-        self.commonStrings: CommonStrings = CommonStrings.getInstance()
+proc initInit*(this: Init) =
+    this.initFieldsInit()
 
-    def __init__(self) -> None:
-        self._init_fields()
-    
+proc newInit*(): Init =
+    result = Init()
+    initInit(result)
 
-    # throws Exception
-    def init(self) -> None:
-        pass
-# from org.allbinary.string.CommonStrings import CommonStrings
-
+method init*(this: Init) =
+        discard
 

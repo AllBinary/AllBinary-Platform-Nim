@@ -1,12 +1,10 @@
 # Generated Code Do Not Modify
 # package org.allbinary.graphics.form.item
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
 
-
-
-# Java interface
-class ABCustomItemStateListener:
-    pass
+type
+    ABCustomItemStateListener* = ref object of JObject
 
 

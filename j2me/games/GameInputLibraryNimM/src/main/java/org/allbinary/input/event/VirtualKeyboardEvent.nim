@@ -1,27 +1,39 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.input.event
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/logic/util/event/AllBinaryEventObject as AllBinaryEventObjectModule
+export AllBinaryEventObjectModule
 
-from org.allbinary.logic.util.event.AllBinaryEventObject import AllBinaryEventObject
+type
+    VirtualKeyboardEvent* = ref object of AllBinaryEventObject
+
+proc newVirtualKeyboardEvent*(anyType: JObject): VirtualKeyboardEvent
+proc initVirtualKeyboardEvent*(this: VirtualKeyboardEvent, anyType: JObject)
 
 
-class VirtualKeyboardEvent(AllBinaryEventObject):
-    
+proc initVirtualKeyboardEvent*(this: VirtualKeyboardEvent, anyType: JObject) =
+        initAllBinaryEventObject(this, anyType)
 
-    def __init__(self, anyType: object) -> None:
-        super().__init__(anyType)
+proc newVirtualKeyboardEvent*(anyType: JObject): VirtualKeyboardEvent =
+    result = VirtualKeyboardEvent()
+    initVirtualKeyboardEvent(result, anyType)
 
+when declared(newVirtualKeyboardEventHook1):
+    newVirtualKeyboardEventHook1 = proc (anyType: JObject): AllBinaryEventObject = newVirtualKeyboardEvent(anyType)
 

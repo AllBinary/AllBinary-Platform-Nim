@@ -1,41 +1,52 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.ag.layer.pickup.health
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    HealthResources* = ref object of JObject
+        RESOURCE*: string
 
+proc newHealthResources*(): HealthResources
+proc initHealthResources*(this: HealthResources)
+proc getInstance*(t: typedesc[HealthResources]): HealthResources {.discardable.}
 
-class HealthResources:
-    SINGLETON: HealthResources = None
+var HealthResources_SINGLETONValue: HealthResources
+var HealthResources_SINGLETONSet = false
+proc SINGLETON*(t: typedesc[HealthResources]): HealthResources =
+    if not HealthResources_SINGLETONSet:
+        HealthResources_SINGLETONSet = true
+        HealthResources_SINGLETONValue = newHealthResources()
+    HealthResources_SINGLETONValue
 
-    def _init_fields(self) -> None:
-        self.RESOURCE: str = "health_drop_20_by_20.png"
-    
+# Java field initializers run after the base initializer
+proc initFieldsHealthResources(this: HealthResources) =
+    this.RESOURCE = "health_drop_20_by_20.png"
+    discard
 
-    def __init__(self) -> None:
-        self._init_fields()
-    
+proc initHealthResources*(this: HealthResources) =
+        this.initFieldsHealthResources()
+        discard
 
-    @staticmethod
-    def getInstance() -> HealthResources:
+proc newHealthResources*(): HealthResources =
+    result = HealthResources()
+    initHealthResources(result)
+
+proc getInstance*(t: typedesc[HealthResources]): HealthResources {.discardable.} =
         return HealthResources.SINGLETON
-
-
-def _HealthResources_SINGLETON() -> object:
-    return HealthResources()
-
-lazy_static(HealthResources, "SINGLETON", _HealthResources_SINGLETON)
 

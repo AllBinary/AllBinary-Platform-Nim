@@ -1,39 +1,55 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.graphics.form
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/graphics/form/item/ABCustomItem as ABCustomItemModule
+export ABCustomItemModule
+import org/allbinary/graphics/form/ItemIndexDx as ItemIndexDxModule
+export ItemIndexDxModule
+import org/allbinary/graphics/form/ScrollSelectionForm as ScrollSelectionFormModule
+export ScrollSelectionFormModule
 
-from org.allbinary.graphics.form.ItemIndexDx import ItemIndexDx
+type
+    ScrollSelectionFormHorizontalDx* = ref object of ItemIndexDx
+        scrollSelectionForm*: ScrollSelectionForm
+
+proc newScrollSelectionFormHorizontalDx*(scrollSelectionForm: ScrollSelectionForm): ScrollSelectionFormHorizontalDx
+proc initScrollSelectionFormHorizontalDx*(this: ScrollSelectionFormHorizontalDx, scrollSelectionForm: ScrollSelectionForm)
+method getDx*(this: ScrollSelectionFormHorizontalDx, index: int32, item: ABCustomItem, dx: int32, dy: int32): int32 {.discardable.}
 
 
-class ScrollSelectionFormHorizontalDx(ItemIndexDx):
-
-    def _init_fields(self) -> None:
-        self.scrollSelectionForm: ScrollSelectionForm = None
+# Java field initializers run after the base initializer
+proc initFieldsScrollSelectionFormHorizontalDx(this: ScrollSelectionFormHorizontalDx) =
     
+    discard
 
-    def __init__(self, scrollSelectionForm: ScrollSelectionForm) -> None:
-        super().__init__()
-        self._init_fields()
-        self.scrollSelectionForm = scrollSelectionForm
-    
+proc initScrollSelectionFormHorizontalDx*(this: ScrollSelectionFormHorizontalDx, scrollSelectionForm: ScrollSelectionForm) =
+        initItemIndexDx(this)
+        this.initFieldsScrollSelectionFormHorizontalDx()
+        this.scrollSelectionForm = scrollSelectionForm
 
-    # throws Exception
-    def getDx(self, index: int, item: ABCustomItem, dx: int, dy: int) -> int:
-        from org.allbinary.graphics.form.item.ABCustomItem import ABCustomItem
-        return self.scrollSelectionForm.getSelectedIndexForPointHorizontalDx(index, item, dx, dy)
-# from org.allbinary.graphics.form.item.ABCustomItem import ABCustomItem
+proc newScrollSelectionFormHorizontalDx*(scrollSelectionForm: ScrollSelectionForm): ScrollSelectionFormHorizontalDx =
+    result = ScrollSelectionFormHorizontalDx()
+    initScrollSelectionFormHorizontalDx(result, scrollSelectionForm)
 
+method getDx*(this: ScrollSelectionFormHorizontalDx, index: int32, item: ABCustomItem, dx: int32, dy: int32): int32 {.discardable.} =
+        return this.scrollSelectionForm.getSelectedIndexForPointHorizontalDx(index, item, dx, dy)
+
+when declared(newScrollSelectionFormHorizontalDxHook1):
+    newScrollSelectionFormHorizontalDxHook1 = proc (scrollSelectionForm: ScrollSelectionForm): ItemIndexDx = newScrollSelectionFormHorizontalDx(scrollSelectionForm)
 

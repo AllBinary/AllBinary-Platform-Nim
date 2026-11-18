@@ -1,75 +1,81 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2026 AllBinary
-#
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-#
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-#
-# Created By: Travis Berthelot
-# 
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2026 AllBinary
+ 
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+ 
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ 
+  Created By: Travis Berthelot
+  
+]#
 # Generated Code Do Not Modify
 # package org.allbinary
 
-from __future__ import annotations
-
-from java.lang.JavaRuntimeStatic import lazy_static
-
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import java/io/IOException as IOExceptionModule
+export IOExceptionModule
+import java/io/InputStream as InputStreamModule
+export InputStreamModule
+import javax/microedition/lcdui/Form as FormModule
+export FormModule
+import javax/microedition/lcdui/Image as ImageModule
+export ImageModule
+import javax/microedition/lcdui/Item as ItemModule
+export ItemModule
+import javax/microedition/media/Player as PlayerModule
+export PlayerModule
 
 #like microemu-playn, so the languages without overloading can be generated. J2ME uses the MIDP overloads.
-class MIDPUtil:
-    instance: MIDPUtil = None
-    
+type
+    MIDPUtil* = ref object of JObject
 
-    @staticmethod
-    def getInstance() -> MIDPUtil:
+proc newMIDPUtil*(): MIDPUtil
+proc getInstance*(t: typedesc[MIDPUtil]): MIDPUtil {.discardable.}
+method createImageWH*(this: MIDPUtil, width: int32, height: int32): Image {.base, discardable.}
+method createImageFromByteArray*(this: MIDPUtil, imageData: JArray[int8], imageOffset: int32, imageLength: int32): Image {.base, discardable.}
+method createImageFromInputStream*(this: MIDPUtil, inputStream: InputStream): Image {.base, discardable.}
+method createPlayerFromInputStream*(this: MIDPUtil, inputStream: InputStream, `type`: string): Player {.base, discardable.}
+method appendItem*(this: MIDPUtil, form: Form, item: Item): int32 {.base, discardable.}
+import javax/microedition/media/Manager as ManagerModule
+export ManagerModule
+import javax/microedition/media/MediaException as MediaExceptionModule
+export MediaExceptionModule
+
+var MIDPUtil_instanceValue: MIDPUtil
+var MIDPUtil_instanceSet = false
+proc instance*(t: typedesc[MIDPUtil]): MIDPUtil =
+    if not MIDPUtil_instanceSet:
+        MIDPUtil_instanceSet = true
+        MIDPUtil_instanceValue = newMIDPUtil()
+    MIDPUtil_instanceValue
+
+proc initMIDPUtil*(this: MIDPUtil) =
+    discard
+
+proc newMIDPUtil*(): MIDPUtil =
+    result = MIDPUtil()
+    initMIDPUtil(result)
+
+proc getInstance*(t: typedesc[MIDPUtil]): MIDPUtil {.discardable.} =
         return MIDPUtil.instance
-    
 
-    def createImageWH(self, width: int, height: int) -> Image:
-        from javax.microedition.lcdui.Image import Image
-        return Image.createImage(width, height)
-    
+method createImageWH*(this: MIDPUtil, width: int32, height: int32): Image {.base, discardable.} =
+        return Image.createImageWH(width, height)
 
-    def createImageFromByteArray(self, imageData: list[int], imageOffset: int, imageLength: int) -> Image:
-        from javax.microedition.lcdui.Image import Image
-        return Image.createImage(imageData, imageOffset, imageLength)
-    
+method createImageFromByteArray*(this: MIDPUtil, imageData: JArray[int8], imageOffset: int32, imageLength: int32): Image {.base, discardable.} =
+        return Image.createImageFromByteArray(imageData, imageOffset, imageLength)
 
-    # throws IOException
-    def createImageFromInputStream(self, inputStream: InputStream) -> Image:
-        from java.io.InputStream import InputStream
-        from javax.microedition.lcdui.Image import Image
-        return Image.createImage(inputStream)
-    
+method createImageFromInputStream*(this: MIDPUtil, inputStream: InputStream): Image {.base, discardable.} =
+        return Image.createImageFromInputStream(inputStream)
 
-    # throws IOException, MediaException
-    def createPlayerFromInputStream(self, inputStream: InputStream, type_: str) -> Player:
-        from java.io.InputStream import InputStream
-        from javax.microedition.media.Manager import Manager
-        from javax.microedition.media.MediaException import MediaException
-        from javax.microedition.media.Player import Player
-        return Manager.createPlayer(inputStream, type_)
-    
+method createPlayerFromInputStream*(this: MIDPUtil, inputStream: InputStream, `type`: string): Player {.base, discardable.} =
+        return Manager.createPlayerFromInputStream(inputStream, `type`)
 
-    def appendItem(self, form: Form, item: Item) -> int:
-        from javax.microedition.lcdui.Form import Form
-        from javax.microedition.lcdui.Item import Item
-        return form.append(item)
-# from java.io.IOException import IOException
-# from java.io.InputStream import InputStream
-# from javax.microedition.lcdui.Form import Form
-# from javax.microedition.lcdui.Image import Image
-# from javax.microedition.lcdui.Item import Item
-# from javax.microedition.media.Manager import Manager
-# from javax.microedition.media.MediaException import MediaException
-# from javax.microedition.media.Player import Player
-
-
-def _MIDPUtil_instance() -> object:
-    return MIDPUtil()
-
-lazy_static(MIDPUtil, "instance", _MIDPUtil_instance)
+method appendItem*(this: MIDPUtil, form: Form, item: Item): int32 {.base, discardable.} =
+        return form.appendItem(item)
 

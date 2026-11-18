@@ -1,23 +1,32 @@
 # Generated Code Do Not Modify
 # package org.allbinary.device
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/device/OpenGLESGraphics as OpenGLESGraphicsModule
+export OpenGLESGraphicsModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    OpenGLESNullGraphicsFactory* = ref object of JObject
 
+proc newOpenGLESNullGraphicsFactory*(): OpenGLESNullGraphicsFactory
+proc getInstance*(t: typedesc[OpenGLESNullGraphicsFactory]): OpenGLESGraphics {.discardable.}
 
-class OpenGLESNullGraphicsFactory:
-    instance: OpenGLESGraphics = None
-    
+var OpenGLESNullGraphicsFactory_instanceValue: OpenGLESGraphics
+var OpenGLESNullGraphicsFactory_instanceSet = false
+proc instance*(t: typedesc[OpenGLESNullGraphicsFactory]): OpenGLESGraphics =
+    if not OpenGLESNullGraphicsFactory_instanceSet:
+        OpenGLESNullGraphicsFactory_instanceSet = true
+        OpenGLESNullGraphicsFactory_instanceValue = newOpenGLESGraphics()
+    OpenGLESNullGraphicsFactory_instanceValue
 
-    @staticmethod
-    def getInstance() -> OpenGLESGraphics:
+proc initOpenGLESNullGraphicsFactory*(this: OpenGLESNullGraphicsFactory) =
+    discard
+
+proc newOpenGLESNullGraphicsFactory*(): OpenGLESNullGraphicsFactory =
+    result = OpenGLESNullGraphicsFactory()
+    initOpenGLESNullGraphicsFactory(result)
+
+proc getInstance*(t: typedesc[OpenGLESNullGraphicsFactory]): OpenGLESGraphics {.discardable.} =
         return OpenGLESNullGraphicsFactory.instance
-
-
-def _OpenGLESNullGraphicsFactory_instance() -> object:
-    from org.allbinary.device.OpenGLESGraphics import OpenGLESGraphics
-    return OpenGLESGraphics()
-
-lazy_static(OpenGLESNullGraphicsFactory, "instance", _OpenGLESNullGraphicsFactory_instance)
 

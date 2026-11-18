@@ -1,126 +1,139 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.configuration
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import java/lang/Integer as IntegerModule
+export IntegerModule
+import javax/microedition/lcdui/ChoiceGroup as ChoiceGroupModule
+export ChoiceGroupModule
+import javax/microedition/lcdui/CommandListener as CommandListenerModule
+export CommandListenerModule
+import org/allbinary/MIDPUtil as MIDPUtilModule
+export MIDPUtilModule
+import org/allbinary/graphics/color/BasicColor as BasicColorModule
+export BasicColorModule
+import org/allbinary/graphics/displayable/screen/CommandForm as CommandFormModule
+export CommandFormModule
+import org/allbinary/util/BasicArrayList as BasicArrayListModule
+export BasicArrayListModule
 
-from org.allbinary.graphics.displayable.screen.CommandForm import CommandForm
+type
+    LoadGameForm* = ref object of CommandForm
+        meUtil*: MIDPUtil
+        areChoices*: bool
+
+proc newLoadGameForm*(commandListener: CommandListener, title: string, backgrounBasicColor: BasicColor, foregroundBasicColor: BasicColor): LoadGameForm
+proc initLoadGameForm*(this: LoadGameForm, commandListener: CommandListener, title: string, backgrounBasicColor: BasicColor, foregroundBasicColor: BasicColor)
+method initCommands*(this: LoadGameForm, cmdListener: CommandListener)
+method update*(this: LoadGameForm)
+method add*(this: LoadGameForm, list: BasicArrayList, name: string, option: int32) {.base.}
+method getChoiceGroup*(this: LoadGameForm, list: BasicArrayList, name: string, option: int32): ChoiceGroup {.base, discardable.}
+method getSelectedId*(this: LoadGameForm): int32 {.base, discardable.}
+method getSelectedText*(this: LoadGameForm): int32 {.base, discardable.}
+import javax/microedition/lcdui/Choice as ChoiceModule
+export ChoiceModule
+import javax/microedition/lcdui/Item as ItemModule
+export ItemModule
+import javax/microedition/lcdui/NullImage as NullImageModule
+export NullImageModule
+import javax/microedition/lcdui/StringItem as StringItemModule
+export StringItemModule
+import org/allbinary/game/commands/GameCommandsFactory as GameCommandsFactoryModule
+export GameCommandsFactoryModule
+import org/allbinary/game/configuration/persistance/GamePersistanceSingleton as GamePersistanceSingletonModule
+export GamePersistanceSingletonModule
+import org/allbinary/logic/string/StringMaker as StringMakerModule
+export StringMakerModule
+import org/allbinary/logic/string/StringUtil as StringUtilModule
+export StringUtilModule
 
 
-class LoadGameForm(CommandForm):
+# Java field initializers run after the base initializer
+proc initFieldsLoadGameForm(this: LoadGameForm) =
+    this.meUtil = MIDPUtil.getInstance()
+    this.areChoices = false
+    discard
 
-    def _init_fields(self) -> None:
-        from org.allbinary.MIDPUtil import MIDPUtil
-        self.meUtil: MIDPUtil = MIDPUtil.getInstance()
-        self.areChoices: bool = False
-    
+proc initLoadGameForm*(this: LoadGameForm, commandListener: CommandListener, title: string, backgrounBasicColor: BasicColor, foregroundBasicColor: BasicColor) =
+        initCommandForm(this, commandListener, title, backgrounBasicColor, foregroundBasicColor)
+        this.initFieldsLoadGameForm()
+        this.logUtil.putF(this.commonStrings.START, this, this.commonStrings.CONSTRUCTOR)
+        this.update()
+        this.initCommands(commandListener)
 
-    def __init__(self, commandListener: CommandListener, title: str, backgrounBasicColor: BasicColor, foregroundBasicColor: BasicColor) -> None:
-        from javax.microedition.lcdui.CommandListener import CommandListener
-        from org.allbinary.graphics.color.BasicColor import BasicColor
-        super().__init__(commandListener, title, backgrounBasicColor, foregroundBasicColor)
-        self._init_fields()
-        self.logUtil.putF(self.commonStrings.START, self, self.commonStrings.CONSTRUCTOR)
-        self.update()
-        self.initCommands(commandListener)
-    
+proc newLoadGameForm*(commandListener: CommandListener, title: string, backgrounBasicColor: BasicColor, foregroundBasicColor: BasicColor): LoadGameForm =
+    result = LoadGameForm()
+    initLoadGameForm(result, commandListener, title, backgrounBasicColor, foregroundBasicColor)
 
-    def initCommands(self, cmdListener: CommandListener) -> None:
-        from javax.microedition.lcdui.CommandListener import CommandListener
-        from org.allbinary.game.commands.GameCommandsFactory import GameCommandsFactory
-        gameCommandsFactory: GameCommandsFactory = GameCommandsFactory.getInstance()
-        self.removeAllCommands()
-        self.addCommand(gameCommandsFactory.LOAD_FILE)
-        self.addCommand(gameCommandsFactory.DELETE_FILE)
-        self.addCommand(gameCommandsFactory.CLOSE_AND_SHOW_GAME_CANVAS)
-        self.setCommandListener(cmdListener)
-    
+method initCommands*(this: LoadGameForm, cmdListener: CommandListener) =
+        let gameCommandsFactory: GameCommandsFactory = GameCommandsFactory.getInstance()
+        this.removeAllCommands()
+        this.addCommand(gameCommandsFactory.LOAD_FILE)
+        this.addCommand(gameCommandsFactory.DELETE_FILE)
+        this.addCommand(gameCommandsFactory.CLOSE_AND_SHOW_GAME_CANVAS)
+        this.setCommandListener(cmdListener)
 
-    # throws Exception
-    def update(self) -> None:
-        from javax.microedition.lcdui.Choice import Choice
-        from javax.microedition.lcdui.Item import Item
-        from javax.microedition.lcdui.StringItem import StringItem
-        from org.allbinary.game.configuration.persistance.GamePersistanceSingleton import GamePersistanceSingleton
-        from org.allbinary.logic.string.StringUtil import StringUtil
-        from org.allbinary.util.BasicArrayList import BasicArrayList
-        list_: BasicArrayList = GamePersistanceSingleton.getInstance().getIds()
-        self.deleteAll()
-        if list_.size() > 0:
-            self.add(list_, "Select A Saved Game", Choice.EXCLUSIVE)
-            self.areChoices = True
+method update*(this: LoadGameForm) =
+        let list: BasicArrayList = GamePersistanceSingleton.getInstance().getIds()
+        this.deleteAll()
+        if list.size() > 0:
+            this.add(list, "Select A Saved Game", Choice.EXCLUSIVE)
+            this.areChoices = true
         else:
-            self.meUtil.appendItem(self, StringItem("No Saved Games", StringUtil.getInstance().EMPTY_STRING, Item.PLAIN))
-            self.areChoices = False
-        super().update()
-    
+            this.meUtil.appendItem(this, newStringItem("No Saved Games", StringUtil.getInstance().EMPTY_STRING, Item.PLAIN))
+            this.areChoices = false
+        procCall CommandForm(this).update()
 
-    def add(self, list_: BasicArrayList, name: str, option: int) -> None:
-        from javax.microedition.lcdui.ChoiceGroup import ChoiceGroup
-        from org.allbinary.util.BasicArrayList import BasicArrayList
-        choiceGroup: ChoiceGroup = self.getChoiceGroup(list_, name, option)
-        if list_.size() > 0:
-            choiceGroup.setSelectedIndex(0, True)
-        self.meUtil.appendItem(self, choiceGroup)
-    
+method add*(this: LoadGameForm, list: BasicArrayList, name: string, option: int32) {.base.} =
+        var choiceGroup: ChoiceGroup = this.getChoiceGroup(list, name, option)
+        if list.size() > 0:
+            choiceGroup.setSelectedIndex(0, true)
+        this.meUtil.appendItem(this, choiceGroup)
 
-    def getChoiceGroup(self, list_: BasicArrayList, name: str, option: int) -> ChoiceGroup:
-        from javax.microedition.lcdui.ChoiceGroup import ChoiceGroup
-        from javax.microedition.lcdui.NullImage import NullImage
-        from org.allbinary.logic.string.StringMaker import StringMaker
-        from org.allbinary.logic.string.StringUtil import StringUtil
-        from org.allbinary.util.BasicArrayList import BasicArrayList
-        METHOD_NAME: str = "getChoiceGroup"
-        ADDING_CHOICE: str = "Adding Choice: "
-        choiceGroup: ChoiceGroup = ChoiceGroup(name, option, StringUtil.getInstance().getArrayInstance(), NullImage.NULL_IMAGE_ARRAY)
-        size: int = list_.size()
-        for index in range(0, size):
-            anyType: object = list_.objectArray[index]
-            self.logUtil.putF(str(StringMaker().append(ADDING_CHOICE).append(str(anyType))), self, METHOD_NAME)
-            choiceGroup.append(str(anyType), NullImage.NULL_IMAGE)
+method getChoiceGroup*(this: LoadGameForm, list: BasicArrayList, name: string, option: int32): ChoiceGroup {.base, discardable.} =
+        let METHOD_NAME: string = "getChoiceGroup"
+        let ADDING_CHOICE: string = "Adding Choice: "
+        let choiceGroup: ChoiceGroup = newChoiceGroup(name, option, StringUtil.getInstance().getArrayInstance(), NullImage.NULL_IMAGE_ARRAY)
+        let size: int32 = list.size()
+        block:
+            var index: int32 = 0
+            while index < size:
+                defer: index = index +% 1
+                var anyType: JObject = list.objectArray[index]
+                this.logUtil.putF(newStringMaker().append(ADDING_CHOICE).append(anyType.toString()).toString(), this, METHOD_NAME)
+                choiceGroup.append(anyType.toString(), NullImage.NULL_IMAGEStatic)
         return choiceGroup
-    
 
-    def getSelectedId(self) -> int:
-        from javax.microedition.lcdui.ChoiceGroup import ChoiceGroup
-        if self.areChoices:
-            choiceGroup: ChoiceGroup = self.get(0)
+method getSelectedId*(this: LoadGameForm): int32 {.base, discardable.} =
+        if this.areChoices:
+            let choiceGroup: ChoiceGroup = ChoiceGroup(JObject(this.get(0)))
             return choiceGroup.getSelectedIndex()
         else:
             return -1
-    
 
-    def getSelectedText(self) -> int:
-        from javax.microedition.lcdui.ChoiceGroup import ChoiceGroup
-        if self.areChoices:
-            choiceGroup: ChoiceGroup = self.get(0)
-            value: int = int(str(choiceGroup.getString(choiceGroup.getSelectedIndex())))
+method getSelectedText*(this: LoadGameForm): int32 {.base, discardable.} =
+        if this.areChoices:
+            let choiceGroup: ChoiceGroup = ChoiceGroup(JObject(this.get(0)))
+            let value: int32 = jstr(choiceGroup.getString(choiceGroup.getSelectedIndex())).intValue()
             return value
         else:
             return -1
-# from javax.microedition.lcdui.Choice import Choice
-# from javax.microedition.lcdui.ChoiceGroup import ChoiceGroup
-# from javax.microedition.lcdui.CommandListener import CommandListener
-# from javax.microedition.lcdui.Item import Item
-# from javax.microedition.lcdui.NullImage import NullImage
-# from javax.microedition.lcdui.StringItem import StringItem
-# from org.allbinary.MIDPUtil import MIDPUtil
-# from org.allbinary.game.commands.GameCommandsFactory import GameCommandsFactory
-# from org.allbinary.game.configuration.persistance.GamePersistanceSingleton import GamePersistanceSingleton
-# from org.allbinary.graphics.color.BasicColor import BasicColor
-# from org.allbinary.logic.string.StringMaker import StringMaker
-# from org.allbinary.logic.string.StringUtil import StringUtil
-# from org.allbinary.util.BasicArrayList import BasicArrayList
 
+when declared(newLoadGameFormHook4):
+    newLoadGameFormHook4 = proc (commandListener: CommandListener, title: string, backgrounBasicColor: BasicColor, foregroundBasicColor: BasicColor): CommandForm = newLoadGameForm(commandListener, title, backgrounBasicColor, foregroundBasicColor)
 

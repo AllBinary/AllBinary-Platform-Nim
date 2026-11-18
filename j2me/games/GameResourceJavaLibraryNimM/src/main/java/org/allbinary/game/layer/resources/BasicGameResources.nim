@@ -1,85 +1,97 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.layer.resources
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/logic/communication/log/LogUtil as LogUtilModule
+export LogUtilModule
+import org/allbinary/logic/string/StringMaker as StringMakerModule
+export StringMakerModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    BasicGameResources* = ref object of JObject
+        logUtil*: LogUtil
+        RESOURCE*: string
+        RESOURCE_DESTROY*: string
 
+proc newBasicGameResources*(): BasicGameResources
+proc initBasicGameResources*(this: BasicGameResources)
+method init*(this: BasicGameResources, ROOT: string, SIZE: JArray[string]) {.base.}
+method append*(this: BasicGameResources, ROOT: string, sizeString: string) {.base.}
+method getString*(this: BasicGameResources): string {.base, discardable.}
+import org/allbinary/game/configuration/GameConfigurationCentral as GameConfigurationCentralModule
+export GameConfigurationCentralModule
+import org/allbinary/logic/string/StringUtil as StringUtilModule
+export StringUtilModule
+import org/allbinary/string/CommonStrings as CommonStringsModule
+export CommonStringsModule
+import org/allbinary/game/layer/resources/GameGraphicsResourceUtil as GameGraphicsResourceUtilModule
+export GameGraphicsResourceUtilModule
 
-class BasicGameResources:
-    stringBuffer: StringMaker = None
+var BasicGameResources_stringBufferValue: StringMaker
+var BasicGameResources_stringBufferSet = false
+proc stringBuffer*(t: typedesc[BasicGameResources]): StringMaker =
+    if not BasicGameResources_stringBufferSet:
+        BasicGameResources_stringBufferSet = true
+        BasicGameResources_stringBufferValue = newStringMaker()
+    BasicGameResources_stringBufferValue
 
-    def _init_fields(self) -> None:
-        from org.allbinary.logic.communication.log.LogUtil import LogUtil
-        from org.allbinary.logic.string.StringUtil import StringUtil
-        self.logUtil: LogUtil = LogUtil.getInstance()
-        self.RESOURCE: str = StringUtil.getInstance().EMPTY_STRING
-        self.RESOURCE_DESTROY: str = StringUtil.getInstance().EMPTY_STRING
-    
+# Java field initializers run after the base initializer
+proc initFieldsBasicGameResources(this: BasicGameResources) =
+    this.logUtil = LogUtil.getInstance()
+    this.RESOURCE = StringUtil.getInstance().EMPTY_STRING
+    this.RESOURCE_DESTROY = StringUtil.getInstance().EMPTY_STRING
+    discard
 
-    def __init__(self) -> None:
-        self._init_fields()
-    
+proc initBasicGameResources*(this: BasicGameResources) =
+        this.initFieldsBasicGameResources()
+        discard
 
-    def init(self, ROOT: str, SIZE: list[str]) -> None:
-        from org.allbinary.game.layer.resources.SIZE import SIZE
-        from org.allbinary.game.configuration.GameConfigurationCentral import GameConfigurationCentral
-        from org.allbinary.logic.string.StringMaker import StringMaker
-        from org.allbinary.string.CommonStrings import CommonStrings
+proc newBasicGameResources*(): BasicGameResources =
+    result = BasicGameResources()
+    initBasicGameResources(result)
+
+method init*(this: BasicGameResources, ROOT: string, SIZE: JArray[string]) {.base.} =
         try:
-            scale: int = int(GameConfigurationCentral.getInstance().SCALE.getValue())
-            if scale > 1 and scale - 1 < len(SIZE):
-                self.append(ROOT, SIZE[scale - 1])
+            var scale: int32 = GameConfigurationCentral.getInstance().SCALE.getValue().intValue()
+            if scale > 1 and scale -% 1 < SIZE.length:
+                this.append(ROOT, SIZE[scale -% 1])
             else:
-                raise Exception(str(StringMaker().append("Invalid Value: ").appendint(scale)))
-        except Exception as e:
-            commonStrings: CommonStrings = CommonStrings.getInstance()
-            self.logUtil.put(commonStrings.EXCEPTION, self, commonStrings.INIT, e)
-    
+                raise newJException("Exception", newStringMaker().append("Invalid Value: ").appendint(scale).toString())
+        except CatchableError as jcaught:
+            let e = jToException(jcaught)
+            let commonStrings: CommonStrings = CommonStrings.getInstance()
+            this.logUtil.put(commonStrings.EXCEPTION, this, commonStrings.INIT, e)
 
-    # throws Exception
-    def append(self, ROOT: str, sizeString: str) -> None:
-        DESTROY: str = "_destroy"
-        string: str = self.getString()
+method append*(this: BasicGameResources, ROOT: string, sizeString: string) {.base.} =
+        let DESTROY: string = "_destroy"
+        let string: string = this.getString()
         BasicGameResources.stringBuffer.delete(0, BasicGameResources.stringBuffer.length())
         BasicGameResources.stringBuffer.append(ROOT)
         BasicGameResources.stringBuffer.append(string)
         BasicGameResources.stringBuffer.append(sizeString)
-        self.RESOURCE = str(BasicGameResources.stringBuffer)
+        this.RESOURCE = BasicGameResources.stringBuffer.toString()
         BasicGameResources.stringBuffer.delete(0, BasicGameResources.stringBuffer.length())
         BasicGameResources.stringBuffer.append(ROOT)
         BasicGameResources.stringBuffer.append(DESTROY)
         BasicGameResources.stringBuffer.append(string)
         BasicGameResources.stringBuffer.append(sizeString)
-        self.RESOURCE_DESTROY = str(BasicGameResources.stringBuffer)
-    
+        this.RESOURCE_DESTROY = BasicGameResources.stringBuffer.toString()
 
-    # throws Exception
-    def getString(self) -> str:
-        from org.allbinary.game.layer.resources.GameGraphicsResourceUtil import GameGraphicsResourceUtil
+method getString*(this: BasicGameResources): string {.base, discardable.} =
         return GameGraphicsResourceUtil.getInstance().getName()
-# from org.allbinary.game.configuration.GameConfigurationCentral import GameConfigurationCentral
-# from org.allbinary.logic.communication.log.LogUtil import LogUtil
-# from org.allbinary.logic.string.StringMaker import StringMaker
-# from org.allbinary.logic.string.StringUtil import StringUtil
-# from org.allbinary.string.CommonStrings import CommonStrings
-
-
-def _BasicGameResources_stringBuffer() -> object:
-    from org.allbinary.logic.string.StringMaker import StringMaker
-    return StringMaker()
-
-lazy_static(BasicGameResources, "stringBuffer", _BasicGameResources_stringBuffer)
 

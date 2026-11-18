@@ -1,124 +1,142 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.animation.caption
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import javax/microedition/lcdui/Graphics as GraphicsModule
+export GraphicsModule
+import javax/microedition/media/Player as PlayerModule
+export PlayerModule
+import org/allbinary/animation/Animation as AnimationModule
+export AnimationModule
+import org/allbinary/animation/AnimationBehavior as AnimationBehaviorModule
+export AnimationBehaviorModule
+import org/allbinary/animation/IndexedAnimation as IndexedAnimationModule
+export IndexedAnimationModule
+import org/allbinary/logic/util/event/AllBinaryEventObject as AllBinaryEventObjectModule
+export AllBinaryEventObjectModule
+import org/allbinary/time/TimeDelayHelper as TimeDelayHelperModule
+export TimeDelayHelperModule
 
-from org.allbinary.animation.IndexedAnimation import IndexedAnimation
+type
+    CaptionIndexedAnimation* = ref object of IndexedAnimation
+        animationInterface*: Animation
+        movieIndexedAnimationInterface*: IndexedAnimation
+        captionDx*: int32
+        captionDy*: int32
+        dx*: int32
+        dy*: int32
+        time*: int32
+        END_EVENT*: AllBinaryEventObject
+        timeDelayHelper*: TimeDelayHelper
+        player*: Player
+
+proc newCaptionIndexedAnimation*(animationInterface: Animation, movieIndexedAnimationInterface: IndexedAnimation, player: Player, captionDx: int32, captionDy: int32, dx: int32, dy: int32, time: int32, animationBehavior: AnimationBehavior): CaptionIndexedAnimation
+proc initCaptionIndexedAnimation*(this: CaptionIndexedAnimation, animationInterface: Animation, movieIndexedAnimationInterface: IndexedAnimation, player: Player, captionDx: int32, captionDy: int32, dx: int32, dy: int32, time: int32, animationBehavior: AnimationBehavior)
+method nextFrame*(this: CaptionIndexedAnimation)
+method isLastFrame*(this: CaptionIndexedAnimation): bool {.discardable.}
+method previousFrame*(this: CaptionIndexedAnimation)
+method setFrame*(this: CaptionIndexedAnimation, index: int32)
+method getFrame*(this: CaptionIndexedAnimation): int32 {.discardable.}
+method getSize*(this: CaptionIndexedAnimation): int32 {.discardable.}
+method setSequence*(this: CaptionIndexedAnimation, sequence: JArray[int32])
+method getSequence*(this: CaptionIndexedAnimation): JArray[int32] {.discardable.}
+method paintXY*(this: CaptionIndexedAnimation, graphics: Graphics, x: int32, y: int32)
+method paintThreedXYZ*(this: CaptionIndexedAnimation, graphics: Graphics, x: int32, y: int32, z: int32)
+import org/allbinary/animation/AnimationEventHandler as AnimationEventHandlerModule
+export AnimationEventHandlerModule
+import org/allbinary/logic/math/PrimitiveIntUtil as PrimitiveIntUtilModule
+export PrimitiveIntUtilModule
+import org/allbinary/time/GameTickTimeDelayHelperFactory as GameTickTimeDelayHelperFactoryModule
+export GameTickTimeDelayHelperFactoryModule
 
 
-class CaptionIndexedAnimation(IndexedAnimation):
-
-    def _init_fields(self) -> None:
-        from javax.microedition.media.Player import Player
-        from org.allbinary.animation.Animation import Animation
-        from org.allbinary.logic.util.event.AllBinaryEventObject import AllBinaryEventObject
-        from org.allbinary.time.TimeDelayHelper import TimeDelayHelper
-        self.animationInterface: Animation = None
-        self.movieIndexedAnimationInterface: IndexedAnimation = None
-        self.captionDx: int = None
-        self.captionDy: int = None
-        self.dx: int = None
-        self.dy: int = None
-        self.time: int = None
-        self.END_EVENT: AllBinaryEventObject = None
-        self.timeDelayHelper: TimeDelayHelper = None
-        self.player: Player = None
+# Java field initializers run after the base initializer
+proc initFieldsCaptionIndexedAnimation(this: CaptionIndexedAnimation) =
     
-
-    def __init__(self, animationInterface: Animation, movieIndexedAnimationInterface: IndexedAnimation, player: Player, captionDx: int, captionDy: int, dx: int, dy: int, time: int, animationBehavior: AnimationBehavior) -> None:
-        from javax.microedition.media.Player import Player
-        from org.allbinary.animation.Animation import Animation
-        from org.allbinary.animation.AnimationBehavior import AnimationBehavior
-        from org.allbinary.logic.util.event.AllBinaryEventObject import AllBinaryEventObject
-        from org.allbinary.time.TimeDelayHelper import TimeDelayHelper
-        super().__init__(animationBehavior)
-        self._init_fields()
-        self.animationInterface = animationInterface
-        self.movieIndexedAnimationInterface = movieIndexedAnimationInterface
-        self.captionDx = captionDx
-        self.captionDy = captionDy
-        self.dx = dx
-        self.dy = dy
-        self.time = time
-        self.END_EVENT = AllBinaryEventObject(self)
-        timePerFrame: int = int(self.time / self.getSize())
-        self.timeDelayHelper = TimeDelayHelper(timePerFrame)
-        self.player = player
-        self.player.start()
     
-
-    # throws Exception
-    def nextFrame(self) -> None:
-        from org.allbinary.animation.AnimationEventHandler import AnimationEventHandler
-        from org.allbinary.time.GameTickTimeDelayHelperFactory import GameTickTimeDelayHelperFactory
-        if self.timeDelayHelper.isTime(GameTickTimeDelayHelperFactory.getInstance().startTime):
-            self.movieIndexedAnimationInterface.nextFrame()
-        if self.isLastFrame():
-            AnimationEventHandler.getInstance().fireEvent(self.END_EVENT)
     
+    
+    
+    
+    
+    
+    
+    
+    discard
 
-    def isLastFrame(self) -> bool:
-        if self.movieIndexedAnimationInterface.getFrame() == self.getSize() - 1:
-            return True
+proc initCaptionIndexedAnimation*(this: CaptionIndexedAnimation, animationInterface: Animation, movieIndexedAnimationInterface: IndexedAnimation, player: Player, captionDx: int32, captionDy: int32, dx: int32, dy: int32, time: int32, animationBehavior: AnimationBehavior) =
+        initIndexedAnimation(this, animationBehavior)
+        this.initFieldsCaptionIndexedAnimation()
+        this.animationInterface = animationInterface
+        this.movieIndexedAnimationInterface = movieIndexedAnimationInterface
+        this.captionDx = captionDx
+        this.captionDy = captionDy
+        this.dx = dx
+        this.dy = dy
+        this.time = time
+        this.END_EVENT = newAllBinaryEventObject(this)
+        var timePerFrame: int32 = this.time div this.getSize()
+        this.timeDelayHelper = newTimeDelayHelper(timePerFrame)
+        this.player = player
+        this.player.start()
+
+proc newCaptionIndexedAnimation*(animationInterface: Animation, movieIndexedAnimationInterface: IndexedAnimation, player: Player, captionDx: int32, captionDy: int32, dx: int32, dy: int32, time: int32, animationBehavior: AnimationBehavior): CaptionIndexedAnimation =
+    result = CaptionIndexedAnimation()
+    initCaptionIndexedAnimation(result, animationInterface, movieIndexedAnimationInterface, player, captionDx, captionDy, dx, dy, time, animationBehavior)
+
+method nextFrame*(this: CaptionIndexedAnimation) =
+        if this.timeDelayHelper.isTime(GameTickTimeDelayHelperFactory.getInstance().startTime):
+            this.movieIndexedAnimationInterface.nextFrame()
+        if this.isLastFrame():
+            AnimationEventHandler.getInstance().fireEvent(this.END_EVENT)
+
+method isLastFrame*(this: CaptionIndexedAnimation): bool {.discardable.} =
+        if this.movieIndexedAnimationInterface.getFrame() == this.getSize() -% 1:
+            return true
         else:
-            return False
-    
+            return false
 
-    def previousFrame(self) -> None:
-        self.movieIndexedAnimationInterface.previousFrame()
-    
+method previousFrame*(this: CaptionIndexedAnimation) =
+        this.movieIndexedAnimationInterface.previousFrame()
 
-    def setFrame(self, index: int) -> None:
-        self.movieIndexedAnimationInterface.setFrame(index)
-    
+method setFrame*(this: CaptionIndexedAnimation, index: int32) =
+        this.movieIndexedAnimationInterface.setFrame(index)
 
-    def getFrame(self) -> int:
-        return self.movieIndexedAnimationInterface.getFrame()
-    
+method getFrame*(this: CaptionIndexedAnimation): int32 {.discardable.} =
+        return this.movieIndexedAnimationInterface.getFrame()
 
-    def getSize(self) -> int:
-        return self.movieIndexedAnimationInterface.getSize()
-    
+method getSize*(this: CaptionIndexedAnimation): int32 {.discardable.} =
+        return this.movieIndexedAnimationInterface.getSize()
 
-    def setSequence(self, sequence: list[int]) -> None:
-        pass
-    
+method setSequence*(this: CaptionIndexedAnimation, sequence: JArray[int32]) =
+        discard
 
-    def getSequence(self) -> list[int]:
-        from org.allbinary.logic.math.PrimitiveIntUtil import PrimitiveIntUtil
+method getSequence*(this: CaptionIndexedAnimation): JArray[int32] {.discardable.} =
         return PrimitiveIntUtil.getArrayInstance()
-    
 
-    def paintXY(self, graphics: Graphics, x: int, y: int) -> None:
-        from javax.microedition.lcdui.Graphics import Graphics
-        self.animationInterface.paintXY(graphics, x + self.captionDx, y + self.captionDy)
-        self.movieIndexedAnimationInterface.paintXY(graphics, x + self.captionDx + self.dx, y + self.captionDy + self.dy)
-    
+method paintXY*(this: CaptionIndexedAnimation, graphics: Graphics, x: int32, y: int32) =
+        this.animationInterface.paintXY(graphics, x +% this.captionDx, y +% this.captionDy)
+        this.movieIndexedAnimationInterface.paintXY(graphics, x +% this.captionDx +% this.dx, y +% this.captionDy +% this.dy)
 
-    def paintThreedXYZ(self, graphics: Graphics, x: int, y: int, z: int) -> None:
-        from javax.microedition.lcdui.Graphics import Graphics
-        self.animationInterface.paintThreedXYZ(graphics, x + self.captionDx, y + self.captionDy, z)
-        self.movieIndexedAnimationInterface.paintThreedXYZ(graphics, x + self.captionDx + self.dx, y + self.captionDy + self.dy, z)
-# from javax.microedition.lcdui.Graphics import Graphics
-# from javax.microedition.media.Player import Player
-# from org.allbinary.animation.Animation import Animation
-# from org.allbinary.animation.AnimationBehavior import AnimationBehavior
-# from org.allbinary.animation.AnimationEventHandler import AnimationEventHandler
-# from org.allbinary.logic.math.PrimitiveIntUtil import PrimitiveIntUtil
-# from org.allbinary.logic.util.event.AllBinaryEventObject import AllBinaryEventObject
-# from org.allbinary.time.GameTickTimeDelayHelperFactory import GameTickTimeDelayHelperFactory
-# from org.allbinary.time.TimeDelayHelper import TimeDelayHelper
+method paintThreedXYZ*(this: CaptionIndexedAnimation, graphics: Graphics, x: int32, y: int32, z: int32) =
+        this.animationInterface.paintThreedXYZ(graphics, x +% this.captionDx, y +% this.captionDy, z)
+        this.movieIndexedAnimationInterface.paintThreedXYZ(graphics, x +% this.captionDx +% this.dx, y +% this.captionDy +% this.dy, z)
 
+when declared(newCaptionIndexedAnimationHook9):
+    newCaptionIndexedAnimationHook9 = proc (animationInterface: Animation, movieIndexedAnimationInterface: IndexedAnimation, player: Player, captionDx: int32, captionDy: int32, dx: int32, dy: int32, time: int32, animationBehavior: AnimationBehavior): IndexedAnimation = newCaptionIndexedAnimation(animationInterface, movieIndexedAnimationInterface, player, captionDx, captionDy, dx, dy, time, animationBehavior)
 

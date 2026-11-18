@@ -1,74 +1,87 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.init
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import javax/microedition/lcdui/CommandListener as CommandListenerModule
+export CommandListenerModule
+import org/allbinary/game/resource/ResourceInitialization as ResourceInitializationModule
+export ResourceInitializationModule
+import org/allbinary/logic/system/security/licensing/AbeClientInformationInterface as AbeClientInformationInterfaceModule
+export AbeClientInformationInterfaceModule
+import org/allbinary/string/CommonStrings as CommonStringsModule
+export CommonStringsModule
+import org/allbinary/game/init/BaseGameInitialization as BaseGameInitializationModule
+export BaseGameInitializationModule
 
-from org.allbinary.game.init.BaseGameInitialization import BaseGameInitialization
+type
+    CommonGameInitialization* = ref object of BaseGameInitialization
+        commonStrings*: CommonStrings
+
+proc newCommonGameInitialization*(resourceInitializationArray: JArray[ResourceInitialization], portion: int32): CommonGameInitialization
+proc initCommonGameInitialization*(this: CommonGameInitialization, resourceInitializationArray: JArray[ResourceInitialization], portion: int32)
+method init*(this: CommonGameInitialization, abeClientInformation: AbeClientInformationInterface, commandListener: CommandListener, level: int32)
+method initGame*(this: CommonGameInitialization) {.base.}
+import org/allbinary/game/resource/ResourceLoadingLevelFactory as ResourceLoadingLevelFactoryModule
+export ResourceLoadingLevelFactoryModule
+import org/allbinary/graphics/PointFactory as PointFactoryModule
+export PointFactoryModule
+import org/allbinary/graphics/canvas/transition/progress/ProgressCanvas as ProgressCanvasModule
+export ProgressCanvasModule
+import org/allbinary/graphics/canvas/transition/progress/ProgressCanvasFactory as ProgressCanvasFactoryModule
+export ProgressCanvasFactoryModule
+import org/allbinary/logic/math/SmallIntegerSingletonFactory as SmallIntegerSingletonFactoryModule
+export SmallIntegerSingletonFactoryModule
+import org/allbinary/math/AngleFactory as AngleFactoryModule
+export AngleFactoryModule
 
 
-class CommonGameInitialization(BaseGameInitialization):
+# Java field initializers run after the base initializer
+proc initFieldsCommonGameInitialization(this: CommonGameInitialization) =
+    this.commonStrings = CommonStrings.getInstance()
+    discard
 
-    def _init_fields(self) -> None:
-        from org.allbinary.string.CommonStrings import CommonStrings
-        self.commonStrings: CommonStrings = CommonStrings.getInstance()
-    
+proc initCommonGameInitialization*(this: CommonGameInitialization, resourceInitializationArray: JArray[ResourceInitialization], portion: int32) =
+        initBaseGameInitialization(this, resourceInitializationArray, portion)
+        this.initFieldsCommonGameInitialization()
 
-    def __init__(self, resourceInitializationArray: list[ResourceInitialization], portion: int) -> None:
-        from org.allbinary.game.resource.ResourceInitialization import ResourceInitialization
-        super().__init__(resourceInitializationArray, portion)
-        self._init_fields()
-    
+proc newCommonGameInitialization*(resourceInitializationArray: JArray[ResourceInitialization], portion: int32): CommonGameInitialization =
+    result = CommonGameInitialization()
+    initCommonGameInitialization(result, resourceInitializationArray, portion)
 
-    # throws Exception
-    def init(self, abeClientInformation: AbeClientInformationInterface, commandListener: CommandListener, level: int) -> None:
-        from javax.microedition.lcdui.CommandListener import CommandListener
-        from org.allbinary.game.resource.ResourceLoadingLevelFactory import ResourceLoadingLevelFactory
-        from org.allbinary.graphics.PointFactory import PointFactory
-        from org.allbinary.graphics.canvas.transition.progress.ProgressCanvas import ProgressCanvas
-        from org.allbinary.graphics.canvas.transition.progress.ProgressCanvasFactory import ProgressCanvasFactory
-        from org.allbinary.logic.math.SmallIntegerSingletonFactory import SmallIntegerSingletonFactory
-        from org.allbinary.logic.system.security.licensing.AbeClientInformationInterface import AbeClientInformationInterface
-        from org.allbinary.math.AngleFactory import AngleFactory
-        super().init(abeClientInformation, commandListener, level)
-        resourceLoadingLevelFactory: ResourceLoadingLevelFactory = ResourceLoadingLevelFactory.getInstance()
-        if not self.isGameInitialized() and level == resourceLoadingLevelFactory.LOAD_ALL.getLevel():
-            self.setGameInitialized(True)
-            progressCanvas: ProgressCanvas = ProgressCanvasFactory.getInstance()
+method init*(this: CommonGameInitialization, abeClientInformation: AbeClientInformationInterface, commandListener: CommandListener, level: int32) =
+        procCall BaseGameInitialization(this).init(abeClientInformation, commandListener, level)
+        let resourceLoadingLevelFactory: ResourceLoadingLevelFactory = ResourceLoadingLevelFactory.getInstance()
+        if (not this.isGameInitialized()) and level == resourceLoadingLevelFactory.LOAD_ALL.getLevel():
+            this.setGameInitialized(true)
+            let progressCanvas: ProgressCanvas = ProgressCanvasFactory.getInstance()
             SmallIntegerSingletonFactory.getInstance().init()
             progressCanvas.addNormalPortion(50, "Integers")
             PointFactory.getInstance().init()
             progressCanvas.addNormalPortion(50, "Points")
             AngleFactory.getInstance()
             progressCanvas.addNormalPortion(50, "Angles")
-            self.initGame()
-            self.resourceInitializationArray[self.GAME_RESOURCES].init()
-        super().resourceInitialization(level)
-    
+            this.initGame()
+            this.resourceInitializationArray[this.GAME_RESOURCES].init()
+        procCall BaseGameInitialization(this).resourceInitialization(level)
 
-    # throws Exception
-    def initGame(self) -> None:
-        raise Exception(self.commonStrings.NOT_IMPLEMENTED)
-# from javax.microedition.lcdui.CommandListener import CommandListener
-# from org.allbinary.game.resource.ResourceInitialization import ResourceInitialization
-# from org.allbinary.game.resource.ResourceLoadingLevelFactory import ResourceLoadingLevelFactory
-# from org.allbinary.graphics.PointFactory import PointFactory
-# from org.allbinary.graphics.canvas.transition.progress.ProgressCanvas import ProgressCanvas
-# from org.allbinary.graphics.canvas.transition.progress.ProgressCanvasFactory import ProgressCanvasFactory
-# from org.allbinary.logic.math.SmallIntegerSingletonFactory import SmallIntegerSingletonFactory
-# from org.allbinary.logic.system.security.licensing.AbeClientInformationInterface import AbeClientInformationInterface
-# from org.allbinary.math.AngleFactory import AngleFactory
-# from org.allbinary.string.CommonStrings import CommonStrings
+method initGame*(this: CommonGameInitialization) {.base.} =
+        raise newJException("Exception", this.commonStrings.NOT_IMPLEMENTED)
 
+when declared(newCommonGameInitializationHook2):
+    newCommonGameInitializationHook2 = proc (resourceInitializationArray: JArray[ResourceInitialization], portion: int32): BaseGameInitialization = newCommonGameInitialization(resourceInitializationArray, portion)
 

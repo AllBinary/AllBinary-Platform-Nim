@@ -1,98 +1,111 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.collision
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import javax/microedition/lcdui/Graphics as GraphicsModule
+export GraphicsModule
+import org/allbinary/game/layer/CollidableCompositeLayer as CollidableCompositeLayerModule
+export CollidableCompositeLayerModule
+import org/allbinary/layer/AllBinaryLayer as AllBinaryLayerModule
+export AllBinaryLayerModule
+import org/allbinary/logic/communication/log/LogUtil as LogUtilModule
+export LogUtilModule
+import org/allbinary/string/CommonStrings as CommonStringsModule
+export CommonStringsModule
+import org/allbinary/game/collision/CollidableInterface as CollidableInterfaceModule
+export CollidableInterfaceModule
+import org/allbinary/game/collision/LayerCollisionUtil as LayerCollisionUtilModule
+export LayerCollisionUtilModule
+import org/allbinary/game/collision/CollidableInterfaceCompositeInterface as CollidableInterfaceCompositeInterfaceModule
+export CollidableInterfaceCompositeInterfaceModule
+import org/allbinary/game/collision/CollisionType as CollisionTypeModule
+export CollisionTypeModule
 
-from org.allbinary.game.collision.CollidableInterface import CollidableInterface
+type
+    CollidableBaseBehavior* = ref object of CollidableInterface
+        logUtil*: LogUtil
+        commonStrings*: CommonStrings
+        layerCollisionUtil*: LayerCollisionUtil
+        collidable*: bool
+
+proc newCollidableBaseBehavior*(collidable: bool): CollidableBaseBehavior
+proc initCollidableBaseBehavior*(this: CollidableBaseBehavior, collidable: bool)
+method update*(this: CollidableBaseBehavior) {.base.}
+method getName*(this: CollidableBaseBehavior): string {.discardable.}
+method setCollidable*(this: CollidableBaseBehavior, collidable: bool) {.base.}
+method isCollidable*(this: CollidableBaseBehavior, ownerLayer: CollidableCompositeLayer): bool {.discardable.}
+method collide*(this: CollidableBaseBehavior, ownerLayer: CollidableCompositeLayer, allbinaryCollidableLayer: CollidableCompositeLayer)
+method isCollision*(this: CollidableBaseBehavior, ownerLayer: CollidableCompositeLayer, collisionLayer: CollidableCompositeLayer): bool {.discardable.}
+method isCollisionInterface*(this: CollidableBaseBehavior, ownerLayer: CollidableCompositeLayer, collidableInterfaceCompositeInterface: CollidableInterfaceCompositeInterface): bool {.base, discardable.}
+method collideInterface*(this: CollidableBaseBehavior, ownerLayer: CollidableCompositeLayer, collidableInterfaceCompositeInterface: CollidableInterfaceCompositeInterface) {.base.}
+method paint*(this: CollidableBaseBehavior, ownerLayer: CollidableCompositeLayer, graphics: Graphics) {.base.}
+method getCollisionTypeWith*(this: CollidableBaseBehavior, layerInterface: AllBinaryLayer): CollisionType {.discardable.}
+import org/allbinary/logic/string/StringMaker as StringMakerModule
+export StringMakerModule
+import org/allbinary/string/CommonLabels as CommonLabelsModule
+export CommonLabelsModule
+import org/allbinary/game/collision/CollisionTypeFactory as CollisionTypeFactoryModule
+export CollisionTypeFactoryModule
 
 
-class CollidableBaseBehavior(CollidableInterface):
+# Java field initializers run after the base initializer
+proc initFieldsCollidableBaseBehavior(this: CollidableBaseBehavior) =
+    this.logUtil = LogUtil.getInstance()
+    this.commonStrings = CommonStrings.getInstance()
+    this.layerCollisionUtil = LayerCollisionUtil.getInstance()
+    this.collidable = true
+    discard
 
-    def _init_fields(self) -> None:
-        from org.allbinary.logic.communication.log.LogUtil import LogUtil
-        from org.allbinary.string.CommonStrings import CommonStrings
-        self.logUtil: LogUtil = LogUtil.getInstance()
-        self.commonStrings: CommonStrings = CommonStrings.getInstance()
-        self.layerCollisionUtil: LayerCollisionUtil = LayerCollisionUtil.getInstance()
-        self.collidable: bool = True
-    
+proc initCollidableBaseBehavior*(this: CollidableBaseBehavior, collidable: bool) =
+        this.initFieldsCollidableBaseBehavior()
+        this.collidable = collidable
 
-    def __init__(self, collidable: bool) -> None:
-        self._init_fields()
-        self.collidable = collidable
-    
+proc newCollidableBaseBehavior*(collidable: bool): CollidableBaseBehavior =
+    result = CollidableBaseBehavior()
+    initCollidableBaseBehavior(result, collidable)
 
-    def update(self) -> None:
-        pass
-    
+method update*(this: CollidableBaseBehavior) {.base.} =
+        discard
 
-    def getName(self) -> str:
-        return type(self).__module__ + "." + type(self).__qualname__
-    
+method getName*(this: CollidableBaseBehavior): string {.discardable.} =
+        return jClassName(this)
 
-    def setCollidable(self, collidable: bool) -> None:
-        self.collidable = collidable
-    
+method setCollidable*(this: CollidableBaseBehavior, collidable: bool) {.base.} =
+        this.collidable = collidable
 
-    def isCollidable(self, ownerLayer: CollidableCompositeLayer) -> bool:
-        from org.allbinary.game.layer.CollidableCompositeLayer import CollidableCompositeLayer
-        return self.collidable
-    
+method isCollidable*(this: CollidableBaseBehavior, ownerLayer: CollidableCompositeLayer): bool {.discardable.} =
+        return this.collidable
 
-    # throws Exception
-    def collide(self, ownerLayer: CollidableCompositeLayer, allbinaryCollidableLayer: CollidableCompositeLayer) -> None:
-        from org.allbinary.game.layer.CollidableCompositeLayer import CollidableCompositeLayer
-        from org.allbinary.logic.string.StringMaker import StringMaker
-        from org.allbinary.string.CommonLabels import CommonLabels
-        raise Exception(str(StringMaker().append(self.commonStrings.NOT_IMPLEMENTED).append(CommonLabels.getInstance().COLON_SEP).append(type(self).__module__ + "." + type(self).__qualname__)))
-    
+method collide*(this: CollidableBaseBehavior, ownerLayer: CollidableCompositeLayer, allbinaryCollidableLayer: CollidableCompositeLayer) =
+        raise newJException("Exception", newStringMaker().append(this.commonStrings.NOT_IMPLEMENTED).append(CommonLabels.getInstance().COLON_SEP).append(jClassName(this)).toString())
 
-    def isCollision(self, ownerLayer: CollidableCompositeLayer, collisionLayer: CollidableCompositeLayer) -> bool:
-        from org.allbinary.game.layer.CollidableCompositeLayer import CollidableCompositeLayer
-        return self.layerCollisionUtil.isCollision(ownerLayer, collisionLayer)
-    
+method isCollision*(this: CollidableBaseBehavior, ownerLayer: CollidableCompositeLayer, collisionLayer: CollidableCompositeLayer): bool {.discardable.} =
+        return this.layerCollisionUtil.isCollision(ownerLayer, collisionLayer)
 
-    def isCollisionInterface(self, ownerLayer: CollidableCompositeLayer, collidableInterfaceCompositeInterface: CollidableInterfaceCompositeInterface) -> bool:
-        from org.allbinary.game.layer.CollidableCompositeLayer import CollidableCompositeLayer
-        from org.allbinary.layer.AllBinaryLayer import AllBinaryLayer
-        return self.layerCollisionUtil.isCollision(ownerLayer, collidableInterfaceCompositeInterface)
-    
+method isCollisionInterface*(this: CollidableBaseBehavior, ownerLayer: CollidableCompositeLayer, collidableInterfaceCompositeInterface: CollidableInterfaceCompositeInterface): bool {.base, discardable.} =
+        return this.layerCollisionUtil.isCollision(ownerLayer, AllBinaryLayer(JObject(collidableInterfaceCompositeInterface)))
 
-    # throws Exception
-    def collideInterface(self, ownerLayer: CollidableCompositeLayer, collidableInterfaceCompositeInterface: CollidableInterfaceCompositeInterface) -> None:
-        from org.allbinary.game.layer.CollidableCompositeLayer import CollidableCompositeLayer
-        raise Exception(self.commonStrings.NOT_IMPLEMENTED)
-    
+method collideInterface*(this: CollidableBaseBehavior, ownerLayer: CollidableCompositeLayer, collidableInterfaceCompositeInterface: CollidableInterfaceCompositeInterface) {.base.} =
+        raise newJException("Exception", this.commonStrings.NOT_IMPLEMENTED)
 
-    def paint(self, ownerLayer: CollidableCompositeLayer, graphics: Graphics) -> None:
-        from javax.microedition.lcdui.Graphics import Graphics
-        from org.allbinary.game.layer.CollidableCompositeLayer import CollidableCompositeLayer
-        pass
-    
+method paint*(this: CollidableBaseBehavior, ownerLayer: CollidableCompositeLayer, graphics: Graphics) {.base.} =
+        discard
 
-    def getCollisionTypeWith(self, layerInterface: AllBinaryLayer) -> CollisionType:
-        from org.allbinary.game.collision.CollisionTypeFactory import CollisionTypeFactory
-        from org.allbinary.layer.AllBinaryLayer import AllBinaryLayer
+method getCollisionTypeWith*(this: CollidableBaseBehavior, layerInterface: AllBinaryLayer): CollisionType {.discardable.} =
         return CollisionTypeFactory.getInstance().NONE
-# from javax.microedition.lcdui.Graphics import Graphics
-# from org.allbinary.game.layer.CollidableCompositeLayer import CollidableCompositeLayer
-# from org.allbinary.layer.AllBinaryLayer import AllBinaryLayer
-# from org.allbinary.logic.communication.log.LogUtil import LogUtil
-# from org.allbinary.logic.string.StringMaker import StringMaker
-# from org.allbinary.string.CommonLabels import CommonLabels
-# from org.allbinary.string.CommonStrings import CommonStrings
-from org.allbinary.game.collision.LayerCollisionUtil import LayerCollisionUtil
-
 

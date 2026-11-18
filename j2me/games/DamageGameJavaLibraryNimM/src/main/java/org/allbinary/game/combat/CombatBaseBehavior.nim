@@ -1,66 +1,73 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.combat
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/game/combat/damage/DamageableBaseBehavior as DamageableBaseBehaviorModule
+export DamageableBaseBehaviorModule
+import org/allbinary/game/combat/destroy/DestroyableBaseBehavior as DestroyableBaseBehaviorModule
+export DestroyableBaseBehaviorModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    CombatBaseBehavior* = ref object of JObject
+        damageableBaseBehavior*: DamageableBaseBehavior
+        destroyableBaseBehavior*: DestroyableBaseBehavior
+        readyForExplosion*: bool
 
+proc newCombatBaseBehavior*(damageableBaseBehavior: DamageableBaseBehavior, destroyableBaseBehavior: DestroyableBaseBehavior): CombatBaseBehavior
+proc initCombatBaseBehavior*(this: CombatBaseBehavior, damageableBaseBehavior: DamageableBaseBehavior, destroyableBaseBehavior: DestroyableBaseBehavior)
+method getDamageableBaseBehavior*(this: CombatBaseBehavior): DamageableBaseBehavior {.base, discardable.}
+method getDestroyableBaseBehavior*(this: CombatBaseBehavior): DestroyableBaseBehavior {.base, discardable.}
+method isReadyForExplosion*(this: CombatBaseBehavior): bool {.base, discardable.}
+method setReadyForExplosion*(this: CombatBaseBehavior, readyForExplosion: bool) {.base.}
 
-class CombatBaseBehavior:
-    NULL_COMBAT_BEHAVIOR: CombatBaseBehavior = None
+var CombatBaseBehavior_NULL_COMBAT_BEHAVIORValue: CombatBaseBehavior
+var CombatBaseBehavior_NULL_COMBAT_BEHAVIORSet = false
+proc NULL_COMBAT_BEHAVIOR*(t: typedesc[CombatBaseBehavior]): CombatBaseBehavior =
+    if not CombatBaseBehavior_NULL_COMBAT_BEHAVIORSet:
+        CombatBaseBehavior_NULL_COMBAT_BEHAVIORSet = true
+        CombatBaseBehavior_NULL_COMBAT_BEHAVIORValue = newCombatBaseBehavior(DamageableBaseBehavior.getInstance(), DestroyableBaseBehavior.getInstance())
+    CombatBaseBehavior_NULL_COMBAT_BEHAVIORValue
 
-    def _init_fields(self) -> None:
-        from org.allbinary.game.combat.damage.DamageableBaseBehavior import DamageableBaseBehavior
-        from org.allbinary.game.combat.destroy.DestroyableBaseBehavior import DestroyableBaseBehavior
-        self.damageableBaseBehavior: DamageableBaseBehavior = None
-        self.destroyableBaseBehavior: DestroyableBaseBehavior = None
-        self.readyForExplosion: bool = False
+# Java field initializers run after the base initializer
+proc initFieldsCombatBaseBehavior(this: CombatBaseBehavior) =
     
-
-    def __init__(self, damageableBaseBehavior: DamageableBaseBehavior, destroyableBaseBehavior: DestroyableBaseBehavior) -> None:
-        from org.allbinary.game.combat.damage.DamageableBaseBehavior import DamageableBaseBehavior
-        from org.allbinary.game.combat.destroy.DestroyableBaseBehavior import DestroyableBaseBehavior
-        self._init_fields()
-        self.damageableBaseBehavior = damageableBaseBehavior
-        self.destroyableBaseBehavior = destroyableBaseBehavior
     
+    this.readyForExplosion = false
+    discard
 
-    def getDamageableBaseBehavior(self) -> DamageableBaseBehavior:
-        from org.allbinary.game.combat.damage.DamageableBaseBehavior import DamageableBaseBehavior
-        return self.damageableBaseBehavior
-    
+proc initCombatBaseBehavior*(this: CombatBaseBehavior, damageableBaseBehavior: DamageableBaseBehavior, destroyableBaseBehavior: DestroyableBaseBehavior) =
+        this.initFieldsCombatBaseBehavior()
+        this.damageableBaseBehavior = damageableBaseBehavior
+        this.destroyableBaseBehavior = destroyableBaseBehavior
 
-    def getDestroyableBaseBehavior(self) -> DestroyableBaseBehavior:
-        from org.allbinary.game.combat.destroy.DestroyableBaseBehavior import DestroyableBaseBehavior
-        return self.destroyableBaseBehavior
-    
+proc newCombatBaseBehavior*(damageableBaseBehavior: DamageableBaseBehavior, destroyableBaseBehavior: DestroyableBaseBehavior): CombatBaseBehavior =
+    result = CombatBaseBehavior()
+    initCombatBaseBehavior(result, damageableBaseBehavior, destroyableBaseBehavior)
 
-    def isReadyForExplosion(self) -> bool:
-        return self.readyForExplosion
-    
+method getDamageableBaseBehavior*(this: CombatBaseBehavior): DamageableBaseBehavior {.base, discardable.} =
+        return this.damageableBaseBehavior
 
-    def setReadyForExplosion(self, readyForExplosion: bool) -> None:
-        self.readyForExplosion = readyForExplosion
-# from org.allbinary.game.combat.damage.DamageableBaseBehavior import DamageableBaseBehavior
-# from org.allbinary.game.combat.destroy.DestroyableBaseBehavior import DestroyableBaseBehavior
+method getDestroyableBaseBehavior*(this: CombatBaseBehavior): DestroyableBaseBehavior {.base, discardable.} =
+        return this.destroyableBaseBehavior
 
+method isReadyForExplosion*(this: CombatBaseBehavior): bool {.base, discardable.} =
+        return this.readyForExplosion
 
-def _CombatBaseBehavior_NULL_COMBAT_BEHAVIOR() -> object:
-    from org.allbinary.game.combat.damage.DamageableBaseBehavior import DamageableBaseBehavior
-    from org.allbinary.game.combat.destroy.DestroyableBaseBehavior import DestroyableBaseBehavior
-    return CombatBaseBehavior(DamageableBaseBehavior.getInstance(), DestroyableBaseBehavior.getInstance())
-
-lazy_static(CombatBaseBehavior, "NULL_COMBAT_BEHAVIOR", _CombatBaseBehavior_NULL_COMBAT_BEHAVIOR)
+method setReadyForExplosion*(this: CombatBaseBehavior, readyForExplosion: bool) {.base.} =
+        this.readyForExplosion = readyForExplosion
 

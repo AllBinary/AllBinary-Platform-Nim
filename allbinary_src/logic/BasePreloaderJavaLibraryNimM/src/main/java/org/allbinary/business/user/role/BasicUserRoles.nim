@@ -63,7 +63,7 @@ method getRole*(this: BasicUserRoles, role: string): BasicUserRole {.base, disca
             var index: int32 = 0
             while index < size:
                 defer: index = index +% 1
-                var userRole: BasicUserRole = BasicUserRole(roleVector.get(index))
+                var userRole: BasicUserRole = BasicUserRole(JObject(roleVector.get(index)))
                 if jCompareTo(role, userRole.toString()) == 0:
                     return userRole
         raise newJException("Exception", "Unable to get role - Unknown Role")

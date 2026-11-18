@@ -1,96 +1,119 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.graphics
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/logic/communication/log/LogUtil as LogUtilModule
+export LogUtilModule
+import org/allbinary/graphics/CellPosition as CellPositionModule
+export CellPositionModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    CellPositionFactory* = ref object of JObject
+        logUtil*: LogUtil
+        NONE*: CellPosition
+        cellPositionArray*: JArray[JArray[CellPosition]]
+        columns*: int32
+        rows*: int32
 
+proc newCellPositionFactory*(): CellPositionFactory
+proc initCellPositionFactory*(this: CellPositionFactory)
+proc getInstance*(t: typedesc[CellPositionFactory]): CellPositionFactory {.discardable.}
+method init*(this: CellPositionFactory, columns: int32, rows: int32) {.base.}
+method getInstanceColRow*(this: CellPositionFactory, i_column: int32, i_row: int32): CellPosition {.base, discardable.}
+method createInstance*(this: CellPositionFactory, i_column: int32, i_row: int32): CellPosition {.base, discardable.}
+method getColumns*(this: CellPositionFactory): int32 {.base, discardable.}
+method getRows*(this: CellPositionFactory): int32 {.base, discardable.}
+import org/allbinary/logic/string/StringMaker as StringMakerModule
+export StringMakerModule
+import org/allbinary/string/CommonStrings as CommonStringsModule
+export CommonStringsModule
 
-class CellPositionFactory:
-    SINGLETON: CellPositionFactory = None
+var CellPositionFactory_SINGLETONValue: CellPositionFactory
+var CellPositionFactory_SINGLETONSet = false
+proc SINGLETON*(t: typedesc[CellPositionFactory]): CellPositionFactory =
+    if not CellPositionFactory_SINGLETONSet:
+        CellPositionFactory_SINGLETONSet = true
+        CellPositionFactory_SINGLETONValue = newCellPositionFactory()
+    CellPositionFactory_SINGLETONValue
+proc `SINGLETON=`*(t: typedesc[CellPositionFactory], value: CellPositionFactory) =
+    CellPositionFactory_SINGLETONSet = true
+    CellPositionFactory_SINGLETONValue = value
 
-    def _init_fields(self) -> None:
-        from org.allbinary.logic.communication.log.LogUtil import LogUtil
-        self.logUtil: LogUtil = LogUtil.getInstance()
-        self.NONE: CellPosition = CellPosition(-1, -1, -1, -1)
-        self.cellPositionArray: list[list[CellPosition]] = [[None] * (0) for _ in range(0)]
-        self.columns: int = 0
-        self.rows: int = 0
-    
+# Java field initializers run after the base initializer
+proc initFieldsCellPositionFactory(this: CellPositionFactory) =
+    this.logUtil = LogUtil.getInstance()
+    this.NONE = newCellPosition(-1, -1, -1, -1)
+    this.cellPositionArray = newJArrayOf[JArray[CellPosition]](0, proc (): JArray[CellPosition] = newJArray[CellPosition](0, default(CellPosition)))
+    this.columns = 0
+    this.rows = 0
+    discard
 
-    @staticmethod
-    def getInstance() -> CellPositionFactory:
+proc getInstance*(t: typedesc[CellPositionFactory]): CellPositionFactory {.discardable.} =
         return CellPositionFactory.SINGLETON
-    
 
-    def __init__(self) -> None:
-        self._init_fields()
-    
+proc initCellPositionFactory*(this: CellPositionFactory) =
+        this.initFieldsCellPositionFactory()
+        discard
 
-    def init(self, columns: int, rows: int) -> None:
-        from org.allbinary.logic.string.StringMaker import StringMaker
-        from org.allbinary.string.CommonStrings import CommonStrings
-        commonStrings: CommonStrings = CommonStrings.getInstance()
-        stringBuffer: StringMaker = StringMaker()
+proc newCellPositionFactory*(): CellPositionFactory =
+    result = CellPositionFactory()
+    initCellPositionFactory(result)
+
+method init*(this: CellPositionFactory, columns: int32, rows: int32) {.base.} =
+        let commonStrings: CommonStrings = CommonStrings.getInstance()
+        let stringBuffer: StringMaker = newStringMaker()
         stringBuffer.append("Init: columns: ")
         stringBuffer.appendint(columns)
         stringBuffer.append(" rows: ")
         stringBuffer.appendint(rows)
-        self.logUtil.putF(str(stringBuffer), self, commonStrings.INIT)
-        self.cellPositionArray = [[None] * (rows) for _ in range(columns)]
-        self.columns = columns
-        self.rows = rows
-        for column in range(0, columns):
-            for row in range(0, rows):
-                self.createInstance(column, row)
-    
+        this.logUtil.putF(stringBuffer.toString(), this, commonStrings.INIT)
+        this.cellPositionArray = newJArrayOf[JArray[CellPosition]](columns, proc (): JArray[CellPosition] = newJArray[CellPosition](rows, default(CellPosition)))
+        this.columns = columns
+        this.rows = rows
+        block:
+            var column: int32 = 0
+            while column < columns:
+                defer: column = column +% 1
+                block:
+                    var row: int32 = 0
+                    while row < rows:
+                        defer: row = row +% 1
+                        this.createInstance(column, row)
 
-    def getInstanceColRow(self, i_column: int, i_row: int) -> CellPosition:
-        from org.allbinary.logic.string.StringMaker import StringMaker
-        from org.allbinary.string.CommonStrings import CommonStrings
+method getInstanceColRow*(this: CellPositionFactory, i_column: int32, i_row: int32): CellPosition {.base, discardable.} =
         try:
-            return self.cellPositionArray[i_column][i_row]
-        except Exception as e:
-            commonStrings: CommonStrings = CommonStrings.getInstance()
-            self.logUtil.put(str(StringMaker().append("columns: ").appendint(self.getColumns()).append(" rows: ").appendint(self.getRows()).append(" col: ").appendint(i_column).append(" row: ").appendint(i_row)), self, commonStrings.GET_INSTANCE, e)
-            return self.NONE
-    
+            return this.cellPositionArray[i_column][i_row]
+        except CatchableError as jcaught:
+            let e = jToException(jcaught)
+            let commonStrings: CommonStrings = CommonStrings.getInstance()
+            this.logUtil.put(newStringMaker().append("columns: ").appendint(this.getColumns()).append(" rows: ").appendint(this.getRows()).append(" col: ").appendint(i_column).append(" row: ").appendint(i_row).toString(), this, commonStrings.GET_INSTANCE, e)
+            return this.NONE
 
-    def createInstance(self, i_column: int, i_row: int) -> CellPosition:
-        from org.allbinary.graphics.CellPosition import CellPosition
-        cellPositionCanBeNull: CellPosition = self.cellPositionArray[i_column][i_row]
-        if cellPositionCanBeNull is None:
-            cellPositionCanBeNull = CellPosition(i_column, i_row, self.columns, self.rows)
-            self.cellPositionArray[i_column][i_row] = cellPositionCanBeNull
+method createInstance*(this: CellPositionFactory, i_column: int32, i_row: int32): CellPosition {.base, discardable.} =
+        var cellPositionCanBeNull: CellPosition = this.cellPositionArray[i_column][i_row]
+        if (jIsNil(cellPositionCanBeNull)):
+            cellPositionCanBeNull = newCellPosition(i_column, i_row, this.columns, this.rows)
+            this.cellPositionArray[i_column][i_row] = cellPositionCanBeNull
         return cellPositionCanBeNull
-    
 
-    def getColumns(self) -> int:
-        return self.columns
-    
+method getColumns*(this: CellPositionFactory): int32 {.base, discardable.} =
+        return this.columns
 
-    def getRows(self) -> int:
-        return self.rows
-# from org.allbinary.logic.communication.log.LogUtil import LogUtil
-# from org.allbinary.logic.string.StringMaker import StringMaker
-# from org.allbinary.string.CommonStrings import CommonStrings
-from org.allbinary.graphics.CellPosition import CellPosition
-
-
-def _CellPositionFactory_SINGLETON() -> object:
-    return CellPositionFactory()
-
-lazy_static(CellPositionFactory, "SINGLETON", _CellPositionFactory_SINGLETON)
+method getRows*(this: CellPositionFactory): int32 {.base, discardable.} =
+        return this.rows
 

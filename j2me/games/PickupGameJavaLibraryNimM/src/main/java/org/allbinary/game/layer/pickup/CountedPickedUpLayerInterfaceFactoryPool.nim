@@ -1,56 +1,67 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.layer.pickup
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/util/BasicArrayList as BasicArrayListModule
+export BasicArrayListModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    CountedPickedUpLayerInterfaceFactoryPool* = ref object of JObject
+        list*: BasicArrayList
 
+proc newCountedPickedUpLayerInterfaceFactoryPool*(): CountedPickedUpLayerInterfaceFactoryPool
+proc initCountedPickedUpLayerInterfaceFactoryPool*(this: CountedPickedUpLayerInterfaceFactoryPool)
+method getList*(this: CountedPickedUpLayerInterfaceFactoryPool): BasicArrayList {.base, discardable.}
+proc getInstance*(t: typedesc[CountedPickedUpLayerInterfaceFactoryPool]): CountedPickedUpLayerInterfaceFactoryPool {.discardable.}
+proc init*(t: typedesc[CountedPickedUpLayerInterfaceFactoryPool])
+import org/allbinary/util/BasicArrayListD as BasicArrayListDModule
+export BasicArrayListDModule
 
-class CountedPickedUpLayerInterfaceFactoryPool:
-    SINGLETON: CountedPickedUpLayerInterfaceFactoryPool = None
+var CountedPickedUpLayerInterfaceFactoryPool_SINGLETONValue: CountedPickedUpLayerInterfaceFactoryPool
+var CountedPickedUpLayerInterfaceFactoryPool_SINGLETONSet = false
+proc SINGLETON*(t: typedesc[CountedPickedUpLayerInterfaceFactoryPool]): CountedPickedUpLayerInterfaceFactoryPool =
+    if not CountedPickedUpLayerInterfaceFactoryPool_SINGLETONSet:
+        CountedPickedUpLayerInterfaceFactoryPool_SINGLETONSet = true
+        CountedPickedUpLayerInterfaceFactoryPool_SINGLETONValue = newCountedPickedUpLayerInterfaceFactoryPool()
+    CountedPickedUpLayerInterfaceFactoryPool_SINGLETONValue
+proc `SINGLETON=`*(t: typedesc[CountedPickedUpLayerInterfaceFactoryPool], value: CountedPickedUpLayerInterfaceFactoryPool) =
+    CountedPickedUpLayerInterfaceFactoryPool_SINGLETONSet = true
+    CountedPickedUpLayerInterfaceFactoryPool_SINGLETONValue = value
 
-    def _init_fields(self) -> None:
-        from org.allbinary.util.BasicArrayList import BasicArrayList
-        self.list_: BasicArrayList = None
+# Java field initializers run after the base initializer
+proc initFieldsCountedPickedUpLayerInterfaceFactoryPool(this: CountedPickedUpLayerInterfaceFactoryPool) =
     
+    discard
 
-    def __init__(self) -> None:
-        from org.allbinary.util.BasicArrayListD import BasicArrayListD
-        self._init_fields()
-        self.list_ = BasicArrayListD()
-    
+proc initCountedPickedUpLayerInterfaceFactoryPool*(this: CountedPickedUpLayerInterfaceFactoryPool) =
+        this.initFieldsCountedPickedUpLayerInterfaceFactoryPool()
+        this.list = newBasicArrayListD()
 
-    def getList(self) -> BasicArrayList:
-        from org.allbinary.util.BasicArrayList import BasicArrayList
-        return self.list_
-    
+proc newCountedPickedUpLayerInterfaceFactoryPool*(): CountedPickedUpLayerInterfaceFactoryPool =
+    result = CountedPickedUpLayerInterfaceFactoryPool()
+    initCountedPickedUpLayerInterfaceFactoryPool(result)
 
-    @staticmethod
-    def getInstance() -> CountedPickedUpLayerInterfaceFactoryPool:
+method getList*(this: CountedPickedUpLayerInterfaceFactoryPool): BasicArrayList {.base, discardable.} =
+        return this.list
+
+proc getInstance*(t: typedesc[CountedPickedUpLayerInterfaceFactoryPool]): CountedPickedUpLayerInterfaceFactoryPool {.discardable.} =
         return CountedPickedUpLayerInterfaceFactoryPool.SINGLETON
-    
 
-    @staticmethod
-    def init() -> None:
-        CountedPickedUpLayerInterfaceFactoryPool.SINGLETON = CountedPickedUpLayerInterfaceFactoryPool()
-# from org.allbinary.util.BasicArrayList import BasicArrayList
-# from org.allbinary.util.BasicArrayListD import BasicArrayListD
-
-
-def _CountedPickedUpLayerInterfaceFactoryPool_SINGLETON() -> object:
-    return CountedPickedUpLayerInterfaceFactoryPool()
-
-lazy_static(CountedPickedUpLayerInterfaceFactoryPool, "SINGLETON", _CountedPickedUpLayerInterfaceFactoryPool_SINGLETON)
+proc init*(t: typedesc[CountedPickedUpLayerInterfaceFactoryPool]) =
+        CountedPickedUpLayerInterfaceFactoryPool.SINGLETON = newCountedPickedUpLayerInterfaceFactoryPool()
 

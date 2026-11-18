@@ -1,33 +1,46 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.configuration.feature
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import javax/microedition/lcdui/Canvas as CanvasModule
+export CanvasModule
+import javax/microedition/lcdui/Graphics as GraphicsModule
+export GraphicsModule
 
-from javax.microedition.lcdui.Canvas import Canvas
+type
+    GameFeatureCanvas* = ref object of Canvas
+
+proc newGameFeatureCanvas*(): GameFeatureCanvas
+proc initGameFeatureCanvas*(this: GameFeatureCanvas)
+method paint*(this: GameFeatureCanvas, graphics: Graphics)
 
 
-class GameFeatureCanvas(Canvas):
-    
+proc initGameFeatureCanvas*(this: GameFeatureCanvas) =
+        initCanvas(this)
+        discard
 
-    def __init__(self) -> None:
-        super().__init__()
-    
+proc newGameFeatureCanvas*(): GameFeatureCanvas =
+    result = GameFeatureCanvas()
+    initGameFeatureCanvas(result)
 
-    def paint(self, graphics: Graphics) -> None:
-        from javax.microedition.lcdui.Graphics import Graphics
-        pass
-# from javax.microedition.lcdui.Graphics import Graphics
+method paint*(this: GameFeatureCanvas, graphics: Graphics) =
+        discard
 
+when declared(newGameFeatureCanvasHook0):
+    newGameFeatureCanvasHook0 = proc (): Canvas = newGameFeatureCanvas()
 

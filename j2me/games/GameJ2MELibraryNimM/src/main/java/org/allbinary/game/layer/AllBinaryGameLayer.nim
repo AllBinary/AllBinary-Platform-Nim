@@ -1,148 +1,163 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.layer
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import javax/microedition/khronos/opengles/GL as GLModule
+export GLModule
+import javax/microedition/lcdui/Graphics as GraphicsModule
+export GraphicsModule
+import org/allbinary/graphics/Rectangle as RectangleModule
+export RectangleModule
+import org/allbinary/graphics/color/BasicColor as BasicColorModule
+export BasicColorModule
+import org/allbinary/graphics/color/BasicColorSetUtil as BasicColorSetUtilModule
+export BasicColorSetUtilModule
+import org/allbinary/graphics/paint/Paintable as PaintableModule
+export PaintableModule
+import org/allbinary/image/opengles/OpenGLSurfaceChangedInterface as OpenGLSurfaceChangedInterfaceModule
+export OpenGLSurfaceChangedInterfaceModule
+import org/allbinary/layer/AllBinaryLayer as AllBinaryLayerModule
+export AllBinaryLayerModule
+import org/allbinary/layer/AllBinaryLayerManager as AllBinaryLayerManagerModule
+export AllBinaryLayerManagerModule
+import org/allbinary/logic/util/event/AllBinaryEventObject as AllBinaryEventObjectModule
+export AllBinaryEventObjectModule
+import org/allbinary/string/CommonStrings as CommonStringsModule
+export CommonStringsModule
+import org/allbinary/util/BasicArrayList as BasicArrayListModule
+export BasicArrayListModule
+import org/allbinary/view/ViewPositionBase as ViewPositionBaseModule
+export ViewPositionBaseModule
+import org/allbinary/view/event/ViewPositionEvent as ViewPositionEventModule
+export ViewPositionEventModule
+import org/allbinary/view/event/ViewPositionEventListenerInterface as ViewPositionEventListenerInterfaceModule
+export ViewPositionEventListenerInterfaceModule
 
-from org.allbinary.image.opengles.OpenGLSurfaceChangedInterface import OpenGLSurfaceChangedInterface
-from org.allbinary.layer.AllBinaryLayer import AllBinaryLayer
-from org.allbinary.view.event.ViewPositionEventListenerInterface import ViewPositionEventListenerInterface
+type
+    AllBinaryGameLayer* = ref object of AllBinaryLayer
+        commonStrings*: CommonStrings
+        basicSetColorUtil*: BasicColorSetUtil
+        RED*: BasicColor
+        paintable*: Paintable
+        gameKeyEventList*: BasicArrayList
+
+converter jAsViewPositionEventListenerInterface*(value: AllBinaryGameLayer): ViewPositionEventListenerInterface = cast[ViewPositionEventListenerInterface](value)
+converter jAsOpenGLSurfaceChangedInterface*(value: AllBinaryGameLayer): OpenGLSurfaceChangedInterface = cast[OpenGLSurfaceChangedInterface](value)
+proc newAllBinaryGameLayer*(name: string, layerInfo: Rectangle, viewPosition: ViewPositionBase): AllBinaryGameLayer
+proc initAllBinaryGameLayer*(this: AllBinaryGameLayer, name: string, layerInfo: Rectangle, viewPosition: ViewPositionBase)
+proc createPaintable*(t: typedesc[AllBinaryGameLayer]): Paintable {.discardable.}
+method set*(this: AllBinaryGameLayer, gl: GL)
+method move*(this: AllBinaryGameLayer) {.base.}
+method getGameKeyEventList*(this: AllBinaryGameLayer): BasicArrayList {.base, discardable.}
+method processInput*(this: AllBinaryGameLayer, allBinaryLayerManager: AllBinaryLayerManager) {.base.}
+method processTick*(this: AllBinaryGameLayer, allBinaryLayerManager: AllBinaryLayerManager) {.base.}
+method onEvent*(this: AllBinaryGameLayer, eventObject: AllBinaryEventObject)
+method onViewPositionChangeEvent*(this: AllBinaryGameLayer) {.base.}
+method onChangeEvent*(this: AllBinaryGameLayer, layerManagerEvent: ViewPositionEvent)
+method paintFirst*(this: AllBinaryGameLayer, graphics: Graphics) {.base.}
+method paintDebug*(this: AllBinaryGameLayer, graphics: Graphics) {.base.}
+method setWidth*(this: AllBinaryGameLayer, width: int32) {.base.}
+method setHeight*(this: AllBinaryGameLayer, height: int32) {.base.}
+import org/allbinary/graphics/color/BasicColorFactory as BasicColorFactoryModule
+export BasicColorFactoryModule
+import org/allbinary/graphics/paint/NullPaintable as NullPaintableModule
+export NullPaintableModule
+import org/allbinary/logic/communication/log/ForcedLogUtil as ForcedLogUtilModule
+export ForcedLogUtilModule
+import org/allbinary/logic/util/event/EventStrings as EventStringsModule
+export EventStringsModule
+import org/allbinary/util/BasicArrayListD as BasicArrayListDModule
+export BasicArrayListDModule
+import org/allbinary/game/layer/SWTUtil as SWTUtilModule
+export SWTUtilModule
+import org/allbinary/game/layer/SWTBlackPaintable as SWTBlackPaintableModule
+export SWTBlackPaintableModule
+import org/allbinary/game/layer/GameLayerUtil as GameLayerUtilModule
+export GameLayerUtilModule
 
 
-class AllBinaryGameLayer(AllBinaryLayer, ViewPositionEventListenerInterface, OpenGLSurfaceChangedInterface):
+# Java field initializers run after the base initializer
+proc initFieldsAllBinaryGameLayer(this: AllBinaryGameLayer) =
+    this.commonStrings = CommonStrings.getInstance()
+    this.basicSetColorUtil = BasicColorSetUtil.getInstance()
+    this.RED = BasicColorFactory.getInstance().RED
+    this.paintable = AllBinaryGameLayer.createPaintable()
+    this.gameKeyEventList = newBasicArrayListD()
+    discard
 
-    def _init_fields(self) -> None:
-        from org.allbinary.graphics.color.BasicColor import BasicColor
-        from org.allbinary.graphics.color.BasicColorFactory import BasicColorFactory
-        from org.allbinary.graphics.color.BasicColorSetUtil import BasicColorSetUtil
-        from org.allbinary.graphics.paint.Paintable import Paintable
-        from org.allbinary.string.CommonStrings import CommonStrings
-        from org.allbinary.util.BasicArrayList import BasicArrayList
-        from org.allbinary.util.BasicArrayListD import BasicArrayListD
-        self.commonStrings: CommonStrings = CommonStrings.getInstance()
-        self.basicSetColorUtil: BasicColorSetUtil = BasicColorSetUtil.getInstance()
-        self.RED: BasicColor = BasicColorFactory.getInstance().RED
-        self.paintable: Paintable = AllBinaryGameLayer.createPaintable()
-        self.gameKeyEventList: BasicArrayList = BasicArrayListD()
-    
-
-    @staticmethod
-    def createPaintable() -> Paintable:
-        from org.allbinary.game.layer.SWTUtil import SWTUtil
-        from org.allbinary.game.layer.SWTBlackPaintable import SWTBlackPaintable
-        from org.allbinary.graphics.paint.NullPaintable import NullPaintable
-        from org.allbinary.graphics.paint.Paintable import Paintable
+proc createPaintable*(t: typedesc[AllBinaryGameLayer]): Paintable {.discardable.} =
         if SWTUtil.isSWT:
-            return SWTBlackPaintable()
+            return newSWTBlackPaintable()
         return NullPaintable.getInstance()
-    
 
-    def __init__(self, name: str, layerInfo: Rectangle, viewPosition: ViewPositionBase) -> None:
-        from org.allbinary.graphics.Rectangle import Rectangle
-        from org.allbinary.view.ViewPositionBase import ViewPositionBase
-        super().__init__(name, layerInfo, viewPosition)
-        self._init_fields()
-    
+proc initAllBinaryGameLayer*(this: AllBinaryGameLayer, name: string, layerInfo: Rectangle, viewPosition: ViewPositionBase) =
+        initAllBinaryLayer(this, name, layerInfo, viewPosition)
+        this.initFieldsAllBinaryGameLayer()
 
-    # throws Exception
-    def set(self, gl: GL) -> None:
-        from javax.microedition.khronos.opengles.GL import GL
-        raise Exception(self.commonStrings.NOT_IMPLEMENTED)
-    
+proc newAllBinaryGameLayer*(name: string, layerInfo: Rectangle, viewPosition: ViewPositionBase): AllBinaryGameLayer =
+    result = AllBinaryGameLayer()
+    initAllBinaryGameLayer(result, name, layerInfo, viewPosition)
 
-    def move(self) -> None:
-        pass
-    
+method set*(this: AllBinaryGameLayer, gl: GL) =
+        raise newJException("Exception", this.commonStrings.NOT_IMPLEMENTED)
 
-    def getGameKeyEventList(self) -> BasicArrayList:
-        from org.allbinary.util.BasicArrayList import BasicArrayList
-        return self.gameKeyEventList
-    
+method move*(this: AllBinaryGameLayer) {.base.} =
+        discard
 
-    # throws Exception
-    def processInput(self, allBinaryLayerManager: AllBinaryLayerManager) -> None:
-        from org.allbinary.layer.AllBinaryLayerManager import AllBinaryLayerManager
-        raise Exception(self.commonStrings.NOT_IMPLEMENTED)
-    
+method getGameKeyEventList*(this: AllBinaryGameLayer): BasicArrayList {.base, discardable.} =
+        return this.gameKeyEventList
 
-    # throws Exception
-    def processTick(self, allBinaryLayerManager: AllBinaryLayerManager) -> None:
-        from org.allbinary.layer.AllBinaryLayerManager import AllBinaryLayerManager
-        raise Exception(self.commonStrings.NOT_IMPLEMENTED)
-    
+method processInput*(this: AllBinaryGameLayer, allBinaryLayerManager: AllBinaryLayerManager) {.base.} =
+        raise newJException("Exception", this.commonStrings.NOT_IMPLEMENTED)
 
-    def onEvent(self, eventObject: AllBinaryEventObject) -> None:
-        from org.allbinary.logic.communication.log.ForcedLogUtil import ForcedLogUtil
-        from org.allbinary.logic.util.event.AllBinaryEventObject import AllBinaryEventObject
-        from org.allbinary.logic.util.event.EventStrings import EventStrings
-        ForcedLogUtil.log(EventStrings.getInstance().PERFORMANCE_MESSAGE, self)
-    
+method processTick*(this: AllBinaryGameLayer, allBinaryLayerManager: AllBinaryLayerManager) {.base.} =
+        raise newJException("Exception", this.commonStrings.NOT_IMPLEMENTED)
 
-    # throws Exception
-    def onViewPositionChangeEvent(self) -> None:
-        self.onChangeEvent(self.viewPositionEvent)
-    
+method onEvent*(this: AllBinaryGameLayer, eventObject: AllBinaryEventObject) =
+        ForcedLogUtil.log(EventStrings.getInstance().PERFORMANCE_MESSAGE, this)
 
-    # throws Exception
-    def onChangeEvent(self, layerManagerEvent: ViewPositionEvent) -> None:
-        from org.allbinary.game.layer.GameLayerUtil import GameLayerUtil
-        from org.allbinary.view.event.ViewPositionEvent import ViewPositionEvent
-        if GameLayerUtil.isOnScreen(self):
-            self.setVisible(True)
+method onViewPositionChangeEvent*(this: AllBinaryGameLayer) {.base.} =
+        this.onChangeEvent(this.viewPositionEvent)
+
+method onChangeEvent*(this: AllBinaryGameLayer, layerManagerEvent: ViewPositionEvent) =
+        if GameLayerUtil.isOnScreen(this):
+            this.setVisible(true)
         else:
-            self.setVisible(False)
-    
+            this.setVisible(false)
 
-    def paintFirst(self, graphics: Graphics) -> None:
-        from javax.microedition.lcdui.Graphics import Graphics
-        self.paintable.paint(graphics)
-    
+method paintFirst*(this: AllBinaryGameLayer, graphics: Graphics) {.base.} =
+        this.paintable.paint(graphics)
 
-    def paintDebug(self, graphics: Graphics) -> None:
-        from javax.microedition.lcdui.Graphics import Graphics
-        from org.allbinary.view.ViewPositionBase import ViewPositionBase
-        viewPosition: ViewPositionBase = self.getViewPosition()
-        viewX: int = viewPosition.getX()
-        viewY: int = viewPosition.getY()
-        self.basicSetColorUtil.setBasicColorP(graphics, self.RED)
-        graphics.drawRect(viewX, viewY, self.getWidth(), self.getHeight())
-    
+method paintDebug*(this: AllBinaryGameLayer, graphics: Graphics) {.base.} =
+        let viewPosition: ViewPositionBase = this.getViewPosition()
+        let viewX: int32 = viewPosition.getX()
+        let viewY: int32 = viewPosition.getY()
+        this.basicSetColorUtil.setBasicColorP(graphics, this.RED)
+        graphics.drawRect(viewX, viewY, this.getWidth(), this.getHeight())
 
-    def setWidth(self, width: int) -> None:
-        super().setLayerWidth(width)
-        self.setHalfWidth(width >> 1)
-    
+method setWidth*(this: AllBinaryGameLayer, width: int32) {.base.} =
+        procCall AllBinaryLayer(this).setLayerWidth(width)
+        this.setHalfWidth(ashr(width, 1))
 
-    def setHeight(self, height: int) -> None:
-        super().setLayerHeight(height)
-        self.setHalfHeight(height >> 1)
-# from javax.microedition.khronos.opengles.GL import GL
-# from javax.microedition.lcdui.Graphics import Graphics
-# from org.allbinary.graphics.Rectangle import Rectangle
-# from org.allbinary.graphics.color.BasicColor import BasicColor
-# from org.allbinary.graphics.color.BasicColorFactory import BasicColorFactory
-# from org.allbinary.graphics.color.BasicColorSetUtil import BasicColorSetUtil
-# from org.allbinary.graphics.paint.NullPaintable import NullPaintable
-# from org.allbinary.graphics.paint.Paintable import Paintable
-# from org.allbinary.layer.AllBinaryLayerManager import AllBinaryLayerManager
-# from org.allbinary.logic.communication.log.ForcedLogUtil import ForcedLogUtil
-# from org.allbinary.logic.util.event.AllBinaryEventObject import AllBinaryEventObject
-# from org.allbinary.logic.util.event.EventStrings import EventStrings
-# from org.allbinary.string.CommonStrings import CommonStrings
-# from org.allbinary.util.BasicArrayList import BasicArrayList
-# from org.allbinary.util.BasicArrayListD import BasicArrayListD
-# from org.allbinary.view.ViewPositionBase import ViewPositionBase
-# from org.allbinary.view.event.ViewPositionEvent import ViewPositionEvent
+method setHeight*(this: AllBinaryGameLayer, height: int32) {.base.} =
+        procCall AllBinaryLayer(this).setLayerHeight(height)
+        this.setHalfHeight(ashr(height, 1))
 
+when declared(newAllBinaryGameLayerHook3):
+    newAllBinaryGameLayerHook3 = proc (name: string, layerInfo: Rectangle, viewPosition: ViewPositionBase): AllBinaryLayer = newAllBinaryGameLayer(name, layerInfo, viewPosition)
 

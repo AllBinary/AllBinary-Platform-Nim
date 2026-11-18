@@ -1,70 +1,82 @@
-# 
-# AllBinary Open License Version 1 
-# Copyright (c) 2022 AllBinary 
-#  
-# By agreeing to this license you and any business entity you represent are 
-# legally bound to the AllBinary Open License Version 1 legal agreement. 
-#  
-# You may obtain the AllBinary Open License Version 1 legal agreement from 
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
-#  
-# Created By: Travis Berthelot 
-#   
+#[
+  
+  AllBinary Open License Version 1 
+  Copyright (c) 2022 AllBinary 
+   
+  By agreeing to this license you and any business entity you represent are 
+  legally bound to the AllBinary Open License Version 1 legal agreement. 
+   
+  You may obtain the AllBinary Open License Version 1 legal agreement from 
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
+   
+  Created By: Travis Berthelot 
+    
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.displayable
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import java/lang/Thread as ThreadModule
+export ThreadModule
+import javax/microedition/lcdui/Canvas as CanvasModule
+export CanvasModule
+import org/allbinary/game/displayable/RepaintBehavior as RepaintBehaviorModule
+export RepaintBehaviorModule
 
-import threading
-from java.lang.JavaRuntimeStatic import lazy_static
-from org.allbinary.game.displayable.RepaintBehavior import RepaintBehavior
+type
+    AlwaysRepaintBehavior* = ref object of RepaintBehavior
+        NAMEOfAlwaysRepaintBehavior*: string
 
+proc newAlwaysRepaintBehavior*(): AlwaysRepaintBehavior
+proc getInstance*(t: typedesc[AlwaysRepaintBehavior]): AlwaysRepaintBehavior {.discardable.}
+method repaint*(this: AlwaysRepaintBehavior, canvas: Canvas)
+method onChangeRepaint*(this: AlwaysRepaintBehavior, canvas: Canvas)
+import org/allbinary/game/configuration/feature/Features as FeaturesModule
+export FeaturesModule
+import org/allbinary/graphics/displayable/DisplayInfoSingleton as DisplayInfoSingletonModule
+export DisplayInfoSingletonModule
+import org/allbinary/graphics/opengles/OpenGLFeatureFactory as OpenGLFeatureFactoryModule
+export OpenGLFeatureFactoryModule
+import org/allbinary/game/displayable/RepaintRunnable as RepaintRunnableModule
+export RepaintRunnableModule
 
-class AlwaysRepaintBehavior(RepaintBehavior):
-    instanceC: AlwaysRepaintBehavior = None
+var AlwaysRepaintBehavior_instanceCValue: AlwaysRepaintBehavior
+var AlwaysRepaintBehavior_instanceCSet = false
+proc instanceC*(t: typedesc[AlwaysRepaintBehavior]): AlwaysRepaintBehavior =
+    if not AlwaysRepaintBehavior_instanceCSet:
+        AlwaysRepaintBehavior_instanceCSet = true
+        AlwaysRepaintBehavior_instanceCValue = newAlwaysRepaintBehavior()
+    AlwaysRepaintBehavior_instanceCValue
 
-    def _init_fields(self) -> None:
-        self.NAME: str = "AlwaysRepaintBehavior"
+# Java field initializers run after the base initializer
+proc initFieldsAlwaysRepaintBehavior(this: AlwaysRepaintBehavior) =
+    this.NAMEOfAlwaysRepaintBehavior = "AlwaysRepaintBehavior"
+    discard
 
-    def __init__(self) -> None:
-        super().__init__()
-        self._init_fields()
-    
+proc initAlwaysRepaintBehavior*(this: AlwaysRepaintBehavior) =
+    initRepaintBehavior(this)
+    this.initFieldsAlwaysRepaintBehavior()
 
-    @staticmethod
-    def getInstance() -> AlwaysRepaintBehavior:
+proc newAlwaysRepaintBehavior*(): AlwaysRepaintBehavior =
+    result = AlwaysRepaintBehavior()
+    initAlwaysRepaintBehavior(result)
+
+proc getInstance*(t: typedesc[AlwaysRepaintBehavior]): AlwaysRepaintBehavior {.discardable.} =
         return AlwaysRepaintBehavior.instanceC
-    
 
-    def repaint(self, canvas: Canvas) -> None:
-        from org.allbinary.game.displayable.RepaintRunnable import RepaintRunnable
-        from javax.microedition.lcdui.Canvas import Canvas
-        from org.allbinary.game.configuration.feature.Features import Features
-        from org.allbinary.graphics.displayable.DisplayInfoSingleton import DisplayInfoSingleton
-        from org.allbinary.graphics.opengles.OpenGLFeatureFactory import OpenGLFeatureFactory
-        features: Features = Features.getInstance()
-        openGLFeatureFactory: OpenGLFeatureFactory = OpenGLFeatureFactory.getInstance()
+method repaint*(this: AlwaysRepaintBehavior, canvas: Canvas) =
+        let features: Features = Features.getInstance()
+        let openGLFeatureFactory: OpenGLFeatureFactory = OpenGLFeatureFactory.getInstance()
         if features.isFeature(openGLFeatureFactory.OPENGL):
             DisplayInfoSingleton.getInstance().process()
         else:
-            thread: threading.Thread = threading.Thread(target=RepaintRunnable(canvas).run, name=self.NAME)
+            let thread: JThread = newJThread(newRepaintRunnable(canvas), this.NAMEOfAlwaysRepaintBehavior)
             thread.start()
-    
 
-    def onChangeRepaint(self, canvas: Canvas) -> None:
-        from javax.microedition.lcdui.Canvas import Canvas
-        pass
-# from javax.microedition.lcdui.Canvas import Canvas
-# from org.allbinary.game.configuration.feature.Features import Features
-# from org.allbinary.graphics.displayable.DisplayInfoSingleton import DisplayInfoSingleton
-# from org.allbinary.graphics.opengles.OpenGLFeatureFactory import OpenGLFeatureFactory
-# from org.allbinary.logic.communication.log.LogUtil import LogUtil
-# from org.allbinary.string.CommonStrings import CommonStrings
-# from org.allbinary.thread.NullRunnable import NullRunnable
+method onChangeRepaint*(this: AlwaysRepaintBehavior, canvas: Canvas) =
+        discard
 
-
-def _AlwaysRepaintBehavior_instanceC() -> object:
-    return AlwaysRepaintBehavior()
-
-lazy_static(AlwaysRepaintBehavior, "instanceC", _AlwaysRepaintBehavior_instanceC)
+when declared(newAlwaysRepaintBehaviorHook0):
+    newAlwaysRepaintBehaviorHook0 = proc (): RepaintBehavior = newAlwaysRepaintBehavior()
 

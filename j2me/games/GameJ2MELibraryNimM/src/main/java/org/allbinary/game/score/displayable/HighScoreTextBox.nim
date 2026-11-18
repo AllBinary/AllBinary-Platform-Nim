@@ -1,133 +1,146 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.score.displayable
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import javax/microedition/lcdui/CommandListener as CommandListenerModule
+export CommandListenerModule
+import javax/microedition/lcdui/Graphics as GraphicsModule
+export GraphicsModule
+import org/allbinary/game/GameInfo as GameInfoModule
+export GameInfoModule
+import org/allbinary/game/score/HighScore as HighScoreModule
+export HighScoreModule
+import org/allbinary/game/score/HighScoresHelperBaseInterface as HighScoresHelperBaseInterfaceModule
+export HighScoresHelperBaseInterfaceModule
+import org/allbinary/game/score/HighScoresFactoryInterface as HighScoresFactoryInterfaceModule
+export HighScoresFactoryInterfaceModule
+import org/allbinary/graphics/color/BasicColor as BasicColorModule
+export BasicColorModule
+import org/allbinary/graphics/form/item/CustomTextBox as CustomTextBoxModule
+export CustomTextBoxModule
+import org/allbinary/graphics/paint/Paintable as PaintableModule
+export PaintableModule
+import org/allbinary/input/event/VirtualKeyboardEventHandler as VirtualKeyboardEventHandlerModule
+export VirtualKeyboardEventHandlerModule
+import org/allbinary/logic/system/security/licensing/AbeClientInformationInterface as AbeClientInformationInterfaceModule
+export AbeClientInformationInterfaceModule
+import org/allbinary/game/score/displayable/HighScoreUtil as HighScoreUtilModule
+export HighScoreUtilModule
 
-from org.allbinary.graphics.form.item.CustomTextBox import CustomTextBox
+type
+    HighScoreTextBox* = ref object of CustomTextBox
+        virtualKeyboardEventHandler*: VirtualKeyboardEventHandler
+        highScoreUtil*: HighScoreUtil
+        pleaseWait*: Paintable
+        paintable*: Paintable
+        submitted*: bool
+
+proc newHighScoreTextBox*(highScoresFactoryInterface: HighScoresFactoryInterface, highScoresHelper: HighScoresHelperBaseInterface, abeClientInformation: AbeClientInformationInterface, gameInfo: GameInfo, cmdListener: CommandListener, name: string, highScore: HighScore, backgrounBasicColor: BasicColor, foregroundBasicColor: BasicColor): HighScoreTextBox
+proc initHighScoreTextBox*(this: HighScoreTextBox, highScoresFactoryInterface: HighScoresFactoryInterface, highScoresHelper: HighScoresHelperBaseInterface, abeClientInformation: AbeClientInformationInterface, gameInfo: GameInfo, cmdListener: CommandListener, name: string, highScore: HighScore, backgrounBasicColor: BasicColor, foregroundBasicColor: BasicColor)
+method initCommands*(this: HighScoreTextBox, cmdListener: CommandListener)
+method open*(this: HighScoreTextBox)
+method close*(this: HighScoreTextBox)
+method update*(this: HighScoreTextBox)
+method paint*(this: HighScoreTextBox, graphics: Graphics)
+method saveHighScore*(this: HighScoreTextBox) {.base.}
+method submit*(this: HighScoreTextBox)
+import javax/microedition/lcdui/Font as FontModule
+export FontModule
+import javax/microedition/lcdui/TextField as TextFieldModule
+export TextFieldModule
+import org/allbinary/PostGameCommandFactory as PostGameCommandFactoryModule
+export PostGameCommandFactoryModule
+import org/allbinary/graphics/color/BasicColorFactory as BasicColorFactoryModule
+export BasicColorFactoryModule
+import org/allbinary/graphics/paint/NullPaintable as NullPaintableModule
+export NullPaintableModule
+import org/allbinary/graphics/paint/SimpleTextPaintable as SimpleTextPaintableModule
+export SimpleTextPaintableModule
+import org/allbinary/logic/system/os/GenericOperatingSystem as GenericOperatingSystemModule
+export GenericOperatingSystemModule
+import org/allbinary/logic/system/os/OperatingSystemFactory as OperatingSystemFactoryModule
+export OperatingSystemFactoryModule
+import org/allbinary/logic/system/security/licensing/InApplicationPurchaseFactory as InApplicationPurchaseFactoryModule
+export InApplicationPurchaseFactoryModule
 
 
-class HighScoreTextBox(CustomTextBox):
-
-    def _init_fields(self) -> None:
-        from org.allbinary.graphics.color.BasicColorFactory import BasicColorFactory
-        from org.allbinary.graphics.paint.NullPaintable import NullPaintable
-        from org.allbinary.graphics.paint.Paintable import Paintable
-        from org.allbinary.graphics.paint.SimpleTextPaintable import SimpleTextPaintable
-        from org.allbinary.input.event.VirtualKeyboardEventHandler import VirtualKeyboardEventHandler
-        self.virtualKeyboardEventHandler: VirtualKeyboardEventHandler = VirtualKeyboardEventHandler.getInstance()
-        self.highScoreUtil: HighScoreUtil = None
-        self.pleaseWait: Paintable = SimpleTextPaintable(self.commonStrings.PLEASE_WAIT, BasicColorFactory.getInstance().WHITE)
-        self.paintable: Paintable = NullPaintable.getInstance()
-        self.submitted: bool = False
+# Java field initializers run after the base initializer
+proc initFieldsHighScoreTextBox(this: HighScoreTextBox) =
+    this.virtualKeyboardEventHandler = VirtualKeyboardEventHandler.getInstance()
     
+    this.pleaseWait = newSimpleTextPaintable(this.commonStrings.PLEASE_WAIT, BasicColorFactory.getInstance().WHITE)
+    this.paintable = NullPaintable.getInstance()
+    this.submitted = false
+    discard
 
-    def __init__(self, highScoresFactoryInterface: HighScoresFactoryInterface, highScoresHelper: HighScoresHelperBaseInterface, abeClientInformation: AbeClientInformationInterface, gameInfo: GameInfo, cmdListener: CommandListener, name: str, highScore: HighScore, backgrounBasicColor: BasicColor, foregroundBasicColor: BasicColor) -> None:
-        from org.allbinary.game.score.displayable.HighScoreUtil import HighScoreUtil
-        from javax.microedition.lcdui.CommandListener import CommandListener
-        from javax.microedition.lcdui.Font import Font
-        from javax.microedition.lcdui.TextField import TextField
-        from org.allbinary.game.GameInfo import GameInfo
-        from org.allbinary.game.score.HighScore import HighScore
-        from org.allbinary.game.score.HighScoresHelperBaseInterface import HighScoresHelperBaseInterface
-        from org.allbinary.game.score.HighScoresFactoryInterface import HighScoresFactoryInterface
-        from org.allbinary.graphics.color.BasicColor import BasicColor
-        from org.allbinary.logic.system.os.GenericOperatingSystem import GenericOperatingSystem
-        from org.allbinary.logic.system.os.OperatingSystemFactory import OperatingSystemFactory
-        from org.allbinary.logic.system.security.licensing.AbeClientInformationInterface import AbeClientInformationInterface
-        from org.allbinary.logic.system.security.licensing.InApplicationPurchaseFactory import InApplicationPurchaseFactory
-        super().__init__(cmdListener, "New High Score Enter Name:", name, 12, TextField.ANY, Font.getDefaultFont(), backgrounBasicColor, foregroundBasicColor)
-        self._init_fields()
-        self.highScoreUtil = HighScoreUtil(highScoresFactoryInterface, highScoresHelper, abeClientInformation, gameInfo, cmdListener, name, highScore)
-        operatingSystemInterface: GenericOperatingSystem = OperatingSystemFactory.getInstance().getOperatingSystemInstance()
+proc initHighScoreTextBox*(this: HighScoreTextBox, highScoresFactoryInterface: HighScoresFactoryInterface, highScoresHelper: HighScoresHelperBaseInterface, abeClientInformation: AbeClientInformationInterface, gameInfo: GameInfo, cmdListener: CommandListener, name: string, highScore: HighScore, backgrounBasicColor: BasicColor, foregroundBasicColor: BasicColor) =
+        initCustomTextBox(this, cmdListener, "New High Score Enter Name:", name, 12, TextField.ANY, Font.getDefaultFont(), backgrounBasicColor, foregroundBasicColor)
+        this.initFieldsHighScoreTextBox()
+        this.highScoreUtil = newHighScoreUtil(highScoresFactoryInterface, highScoresHelper, abeClientInformation, gameInfo, cmdListener, name, highScore)
+        let operatingSystemInterface: GenericOperatingSystem = OperatingSystemFactory.getInstance().getOperatingSystemInstance()
         if operatingSystemInterface.isOverScan():
-            username: str = InApplicationPurchaseFactory.getInstance().getUserName()
-            self.getTextFieldItem().setString(username)
-    
+            var username: string = InApplicationPurchaseFactory.getInstance().getUserName()
+            this.getTextFieldItem().setString(username)
 
-    def initCommands(self, cmdListener: CommandListener) -> None:
-        from org.allbinary.game.score.displayable.HighScoreUtil import HighScoreUtil
-        from javax.microedition.lcdui.CommandListener import CommandListener
-        from org.allbinary.PostGameCommandFactory import PostGameCommandFactory
-        self.removeAllCommands()
-        PostGameCommandFactory.getInstance().addCommands(self)
-        self.addCommand(HighScoreUtil.SUBMIT_TEXTBOX_COMMAND)
-        self.setCommandListener(cmdListener)
-    
+proc newHighScoreTextBox*(highScoresFactoryInterface: HighScoresFactoryInterface, highScoresHelper: HighScoresHelperBaseInterface, abeClientInformation: AbeClientInformationInterface, gameInfo: GameInfo, cmdListener: CommandListener, name: string, highScore: HighScore, backgrounBasicColor: BasicColor, foregroundBasicColor: BasicColor): HighScoreTextBox =
+    result = HighScoreTextBox()
+    initHighScoreTextBox(result, highScoresFactoryInterface, highScoresHelper, abeClientInformation, gameInfo, cmdListener, name, highScore, backgrounBasicColor, foregroundBasicColor)
 
-    def open(self) -> None:
-        from org.allbinary.graphics.paint.NullPaintable import NullPaintable
-        self.virtualKeyboardEventHandler.open()
-        self.paintable = NullPaintable.getInstance()
-        super().open()
-    
+method initCommands*(this: HighScoreTextBox, cmdListener: CommandListener) =
+        this.removeAllCommands()
+        PostGameCommandFactory.getInstance().addCommands(this)
+        this.addCommand(HighScoreUtil.SUBMIT_TEXTBOX_COMMAND)
+        this.setCommandListener(cmdListener)
 
-    # throws Exception
-    def close(self) -> None:
-        from org.allbinary.game.score.displayable.HighScoreUtil import HighScoreUtil
-        from org.allbinary.graphics.paint.NullPaintable import NullPaintable
-        self.virtualKeyboardEventHandler.close()
-        self.paintable = self.pleaseWait
-        self.repaintBehavior.onChangeRepaint(self)
-        super().close()
-        self.removeCommand(HighScoreUtil.SUBMIT_TEXTBOX_COMMAND)
-        self.update()
-        if self.submitted:
-            self.highScoreUtil.saveHighScore()
+method open*(this: HighScoreTextBox) =
+        this.virtualKeyboardEventHandler.open()
+        this.paintable = NullPaintable.getInstance()
+        procCall CustomTextBox(this).open()
+
+method close*(this: HighScoreTextBox) =
+        this.virtualKeyboardEventHandler.close()
+        this.paintable = this.pleaseWait
+        this.repaintBehavior.onChangeRepaint(this)
+        procCall CustomTextBox(this).close()
+        this.removeCommand(HighScoreUtil.SUBMIT_TEXTBOX_COMMAND)
+        this.update()
+        if this.submitted:
+            this.highScoreUtil.saveHighScore()
         else:
-            pass
-        self.paintable = NullPaintable.getInstance()
-        self.repaintBehavior.onChangeRepaint(self)
-    
+            discard
+        this.paintable = NullPaintable.getInstance()
+        this.repaintBehavior.onChangeRepaint(this)
 
-    # throws Exception
-    def update(self) -> None:
-        name: str = self.getTextFieldItem().getString()
-        self.highScoreUtil.update(name)
-        super().update()
-    
+method update*(this: HighScoreTextBox) =
+        let name: string = this.getTextFieldItem().getString()
+        this.highScoreUtil.update(name)
+        procCall CustomTextBox(this).update()
 
-    def paint(self, graphics: Graphics) -> None:
-        from javax.microedition.lcdui.Graphics import Graphics
-        super().paint(graphics)
-        self.paintable.paint(graphics)
-    
+method paint*(this: HighScoreTextBox, graphics: Graphics) =
+        procCall CustomTextBox(this).paint(graphics)
+        this.paintable.paint(graphics)
 
-    def saveHighScore(self) -> None:
-        self.highScoreUtil.saveHighScore()
-    
+method saveHighScore*(this: HighScoreTextBox) {.base.} =
+        this.highScoreUtil.saveHighScore()
 
-    def submit(self) -> None:
-        self.highScoreUtil.submit(self)
-# from javax.microedition.lcdui.CommandListener import CommandListener
-# from javax.microedition.lcdui.Font import Font
-# from javax.microedition.lcdui.Graphics import Graphics
-# from javax.microedition.lcdui.TextField import TextField
-# from org.allbinary.PostGameCommandFactory import PostGameCommandFactory
-# from org.allbinary.game.GameInfo import GameInfo
-# from org.allbinary.game.score.HighScore import HighScore
-# from org.allbinary.game.score.HighScoresHelperBaseInterface import HighScoresHelperBaseInterface
-# from org.allbinary.game.score.HighScoresFactoryInterface import HighScoresFactoryInterface
-# from org.allbinary.graphics.color.BasicColor import BasicColor
-# from org.allbinary.graphics.color.BasicColorFactory import BasicColorFactory
-# from org.allbinary.graphics.paint.NullPaintable import NullPaintable
-# from org.allbinary.graphics.paint.Paintable import Paintable
-# from org.allbinary.graphics.paint.SimpleTextPaintable import SimpleTextPaintable
-# from org.allbinary.input.event.VirtualKeyboardEventHandler import VirtualKeyboardEventHandler
-# from org.allbinary.logic.system.os.GenericOperatingSystem import GenericOperatingSystem
-# from org.allbinary.logic.system.os.OperatingSystemFactory import OperatingSystemFactory
-# from org.allbinary.logic.system.security.licensing.AbeClientInformationInterface import AbeClientInformationInterface
-# from org.allbinary.logic.system.security.licensing.InApplicationPurchaseFactory import InApplicationPurchaseFactory
+method submit*(this: HighScoreTextBox) =
+        this.highScoreUtil.submit(this)
 
+when declared(newHighScoreTextBoxHook9):
+    newHighScoreTextBoxHook9 = proc (highScoresFactoryInterface: HighScoresFactoryInterface, highScoresHelper: HighScoresHelperBaseInterface, abeClientInformation: AbeClientInformationInterface, gameInfo: GameInfo, cmdListener: CommandListener, name: string, highScore: HighScore, backgrounBasicColor: BasicColor, foregroundBasicColor: BasicColor): CustomTextBox = newHighScoreTextBox(highScoresFactoryInterface, highScoresHelper, abeClientInformation, gameInfo, cmdListener, name, highScore, backgrounBasicColor, foregroundBasicColor)
 

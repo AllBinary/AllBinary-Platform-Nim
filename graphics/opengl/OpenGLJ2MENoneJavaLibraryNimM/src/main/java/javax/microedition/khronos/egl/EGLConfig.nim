@@ -1,14 +1,20 @@
 # Generated Code Do Not Modify
 # package javax.microedition.khronos.egl
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+
+type
+    EGLConfig* = ref object of JObject
+
+proc newEGLConfig*(): EGLConfig
+proc initEGLConfig*(this: EGLConfig)
 
 
+proc initEGLConfig*(this: EGLConfig) =
+        raise newJException("RuntimeException", "")
 
-class EGLConfig:
-    
-
-    def __init__(self) -> None:
-        raise RuntimeError()
-
+proc newEGLConfig*(): EGLConfig =
+    result = EGLConfig()
+    initEGLConfig(result)
 

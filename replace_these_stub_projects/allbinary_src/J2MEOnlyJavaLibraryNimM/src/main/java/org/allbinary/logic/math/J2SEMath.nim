@@ -1,46 +1,56 @@
-# 
-# AllBinary Open License Version 1 
-# Copyright (c) 2025 AllBinary 
-#  
-# By agreeing to this license you and any business entity you represent are 
-# legally bound to the AllBinary Open License Version 1 legal agreement. 
-#  
-# You may obtain the AllBinary Open License Version 1 legal agreement from 
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
-#  
-# Created By: Travis Berthelot 
-#   
+#[
+  
+  AllBinary Open License Version 1 
+  Copyright (c) 2025 AllBinary 
+   
+  By agreeing to this license you and any business entity you represent are 
+  legally bound to the AllBinary Open License Version 1 legal agreement. 
+   
+  You may obtain the AllBinary Open License Version 1 legal agreement from 
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
+   
+  Created By: Travis Berthelot 
+    
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.logic.math
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    J2SEMath* = ref object of JObject
 
+proc newJ2SEMath*(): J2SEMath
+proc getInstance*(t: typedesc[J2SEMath]): J2SEMath {.discardable.}
+method round*(this: J2SEMath, value: float32): int32 {.base, discardable.}
+method abs*(this: J2SEMath, value: float32): float32 {.base, discardable.}
+method absdouble*(this: J2SEMath, value: float64): float64 {.base, discardable.}
 
-class J2SEMath:
-    instance: J2SEMath = None
-    
+var J2SEMath_instanceValue: J2SEMath
+var J2SEMath_instanceSet = false
+proc instance*(t: typedesc[J2SEMath]): J2SEMath =
+    if not J2SEMath_instanceSet:
+        J2SEMath_instanceSet = true
+        J2SEMath_instanceValue = newJ2SEMath()
+    J2SEMath_instanceValue
 
-    @staticmethod
-    def getInstance() -> J2SEMath:
+proc initJ2SEMath*(this: J2SEMath) =
+    discard
+
+proc newJ2SEMath*(): J2SEMath =
+    result = J2SEMath()
+    initJ2SEMath(result)
+
+proc getInstance*(t: typedesc[J2SEMath]): J2SEMath {.discardable.} =
         return J2SEMath.instance
-    
 
-    def round(self, value: float) -> int:
-        return int(value)
-    
+method round*(this: J2SEMath, value: float32): int32 {.base, discardable.} =
+        return jToInt32(float64(value))
 
-    def abs(self, value: float) -> float:
-        return (-value if (value < 0.0) else value)
-    
+method abs*(this: J2SEMath, value: float32): float32 {.base, discardable.} =
+        return (if (value < 0'f32): -value else: value)
 
-    def absdouble(self, value: float) -> float:
-        return (-value if (value < 0.0) else value)
-
-
-def _J2SEMath_instance() -> object:
-    return J2SEMath()
-
-lazy_static(J2SEMath, "instance", _J2SEMath_instance)
+method absdouble*(this: J2SEMath, value: float64): float64 {.base, discardable.} =
+        return (if (value < 0.0): -value else: value)
 

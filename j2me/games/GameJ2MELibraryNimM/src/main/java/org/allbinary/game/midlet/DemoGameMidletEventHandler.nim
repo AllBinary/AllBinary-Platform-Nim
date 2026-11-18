@@ -1,49 +1,64 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.midlet
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/logic/util/event/AllBinaryEventObject as AllBinaryEventObjectModule
+export AllBinaryEventObjectModule
+import org/allbinary/logic/util/event/EventListenerInterface as EventListenerInterfaceModule
+export EventListenerInterfaceModule
+import org/allbinary/logic/util/event/handler/BasicEventHandler as BasicEventHandlerModule
+export BasicEventHandlerModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
-from org.allbinary.logic.util.event.handler.BasicEventHandler import BasicEventHandler
+type
+    DemoGameMidletEventHandler* = ref object of BasicEventHandler
 
+proc newDemoGameMidletEventHandler*(): DemoGameMidletEventHandler
+proc initDemoGameMidletEventHandler*(this: DemoGameMidletEventHandler)
+proc getInstance*(t: typedesc[DemoGameMidletEventHandler]): DemoGameMidletEventHandler {.discardable.}
+method process*(this: DemoGameMidletEventHandler, eventObject: AllBinaryEventObject, eventListenerInterface: EventListenerInterface)
+import org/allbinary/game/midlet/DemoGameMidletEventListener as DemoGameMidletEventListenerModule
+export DemoGameMidletEventListenerModule
+import org/allbinary/game/midlet/DemoGameMidletEvent as DemoGameMidletEventModule
+export DemoGameMidletEventModule
 
-class DemoGameMidletEventHandler(BasicEventHandler):
-    gameKeyEventHandler: DemoGameMidletEventHandler = None
-    
+var DemoGameMidletEventHandler_gameKeyEventHandlerValue: DemoGameMidletEventHandler
+var DemoGameMidletEventHandler_gameKeyEventHandlerSet = false
+proc gameKeyEventHandler*(t: typedesc[DemoGameMidletEventHandler]): DemoGameMidletEventHandler =
+    if not DemoGameMidletEventHandler_gameKeyEventHandlerSet:
+        DemoGameMidletEventHandler_gameKeyEventHandlerSet = true
+        DemoGameMidletEventHandler_gameKeyEventHandlerValue = newDemoGameMidletEventHandler()
+    DemoGameMidletEventHandler_gameKeyEventHandlerValue
 
-    def __init__(self) -> None:
-        super().__init__()
-    
+proc initDemoGameMidletEventHandler*(this: DemoGameMidletEventHandler) =
+        initBasicEventHandler(this)
+        discard
 
-    @staticmethod
-    def getInstance() -> DemoGameMidletEventHandler:
+proc newDemoGameMidletEventHandler*(): DemoGameMidletEventHandler =
+    result = DemoGameMidletEventHandler()
+    initDemoGameMidletEventHandler(result)
+
+proc getInstance*(t: typedesc[DemoGameMidletEventHandler]): DemoGameMidletEventHandler {.discardable.} =
         return DemoGameMidletEventHandler.gameKeyEventHandler
-    
 
-    # throws Exception
-    def process(self, eventObject: AllBinaryEventObject, eventListenerInterface: EventListenerInterface) -> None:
-        from org.allbinary.logic.util.event.AllBinaryEventObject import AllBinaryEventObject
-        from org.allbinary.logic.util.event.EventListenerInterface import EventListenerInterface
-        demoGameMidletEventListener: DemoGameMidletEventListener = eventListenerInterface
-        demoGameMidletEventListener.onDemoGameMidletEvent(eventObject)
-# from org.allbinary.logic.util.event.AllBinaryEventObject import AllBinaryEventObject
-# from org.allbinary.logic.util.event.EventListenerInterface import EventListenerInterface
+method process*(this: DemoGameMidletEventHandler, eventObject: AllBinaryEventObject, eventListenerInterface: EventListenerInterface) =
+        let demoGameMidletEventListener: DemoGameMidletEventListener = DemoGameMidletEventListener(JObject(eventListenerInterface))
+        demoGameMidletEventListener.onDemoGameMidletEvent(DemoGameMidletEvent(JObject(eventObject)))
 
-
-def _DemoGameMidletEventHandler_gameKeyEventHandler() -> object:
-    return DemoGameMidletEventHandler()
-
-lazy_static(DemoGameMidletEventHandler, "gameKeyEventHandler", _DemoGameMidletEventHandler_gameKeyEventHandler)
+when declared(newDemoGameMidletEventHandlerHook0):
+    newDemoGameMidletEventHandlerHook0 = proc (): BasicEventHandler = newDemoGameMidletEventHandler()
 

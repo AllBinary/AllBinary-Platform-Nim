@@ -1,77 +1,100 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.input
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/logic/communication/log/LogUtil as LogUtilModule
+export LogUtilModule
+import org/allbinary/string/CommonStrings as CommonStringsModule
+export CommonStringsModule
+import org/allbinary/game/input/Input as InputModule
+export InputModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    InputFactory* = ref object of JObject
+        logUtil*: LogUtil
+        commonStrings*: CommonStrings
+        KEY_CODE_LABEL*: string
+        DEVICE_ID_LABEL*: string
+        MAX*: int32
+        inputIntegerArray*: JArray[Input]
+        NO_INPUT*: Input
 
+proc newInputFactory*(): InputFactory
+proc initInputFactory*(this: InputFactory)
+proc getInstance*(t: typedesc[InputFactory]): InputFactory {.discardable.}
+method add*(this: InputFactory, id: int32, input: Input) {.base.}
+method getInstanceById*(this: InputFactory, id: int32): Input {.base, discardable.}
+import org/allbinary/logic/NullUtil as NullUtilModule
+export NullUtilModule
+import org/allbinary/logic/math/SmallIntegerSingletonFactory as SmallIntegerSingletonFactoryModule
+export SmallIntegerSingletonFactoryModule
+import org/allbinary/logic/string/StringMaker as StringMakerModule
+export StringMakerModule
 
-class InputFactory:
-    instance: object = None
+var InputFactory_instanceValue: JObject
+var InputFactory_instanceSet = false
+proc instance*(t: typedesc[InputFactory]): JObject =
+    if not InputFactory_instanceSet:
+        InputFactory_instanceSet = true
+        InputFactory_instanceValue = NullUtil.getInstance().NULL_OBJECT
+    InputFactory_instanceValue
+proc `instance=`*(t: typedesc[InputFactory], value: JObject) =
+    InputFactory_instanceSet = true
+    InputFactory_instanceValue = value
 
-    def _init_fields(self) -> None:
-        from org.allbinary.logic.communication.log.LogUtil import LogUtil
-        from org.allbinary.logic.math.SmallIntegerSingletonFactory import SmallIntegerSingletonFactory
-        from org.allbinary.string.CommonStrings import CommonStrings
-        self.logUtil: LogUtil = LogUtil.getInstance()
-        self.commonStrings: CommonStrings = CommonStrings.getInstance()
-        self.KEY_CODE_LABEL: str = "KeyCode: "
-        self.DEVICE_ID_LABEL: str = "DeviceId: "
-        self.MAX: int = SmallIntegerSingletonFactory.getInstance().getMin()
-        self.inputIntegerArray: list[Input] = [None] * (self.MAX)
-        self.NO_INPUT: Input = Input(0, self.commonStrings.UNKNOWN)
-    
+# Java field initializers run after the base initializer
+proc initFieldsInputFactory(this: InputFactory) =
+    this.logUtil = LogUtil.getInstance()
+    this.commonStrings = CommonStrings.getInstance()
+    this.KEY_CODE_LABEL = "KeyCode: "
+    this.DEVICE_ID_LABEL = "DeviceId: "
+    this.MAX = SmallIntegerSingletonFactory.getInstance().getMin()
+    this.inputIntegerArray = newJArray[Input](this.MAX, default(Input))
+    this.NO_INPUT = newInput(0, this.commonStrings.UNKNOWN)
+    discard
 
-    @staticmethod
-    def getInstance() -> InputFactory:
-        from org.allbinary.logic.NullUtil import NullUtil
+proc getInstance*(t: typedesc[InputFactory]): InputFactory {.discardable.} =
         if InputFactory.instance == NullUtil.getInstance().NULL_OBJECT:
-            InputFactory.instance = InputFactory()
-        return InputFactory.instance
-    
+            InputFactory.instance = newInputFactory()
+        return InputFactory(JObject(InputFactory.instance))
 
-    def __init__(self) -> None:
-        self._init_fields()
-        size: int = len(self.inputIntegerArray)
-        for index in range(0, size):
-            self.inputIntegerArray[index] = self.NO_INPUT
-    
+proc initInputFactory*(this: InputFactory) =
+        this.initFieldsInputFactory()
+        let size: int32 = this.inputIntegerArray.length
+        block:
+            var index: int32 = 0
+            while index < size:
+                defer: index = index +% 1
+                this.inputIntegerArray[index] = this.NO_INPUT
 
-    def add(self, id: int, input: Input) -> None:
-        self.inputIntegerArray[id] = input
-    
+proc newInputFactory*(): InputFactory =
+    result = InputFactory()
+    initInputFactory(result)
 
-    def getInstanceById(self, id: int) -> Input:
-        from org.allbinary.logic.string.StringMaker import StringMaker
+method add*(this: InputFactory, id: int32, input: Input) {.base.} =
+        this.inputIntegerArray[id] = input
+
+method getInstanceById*(this: InputFactory, id: int32): Input {.base, discardable.} =
+        var id = id
         if id < 0:
             id = -id
-        if id > len(self.inputIntegerArray):
-            self.logUtil.putF(str(StringMaker().append("Warning id: ").appendint(id)), self, self.commonStrings.GET_INSTANCE)
-            return self.NO_INPUT
-        return self.inputIntegerArray[id]
-# from org.allbinary.logic.NullUtil import NullUtil
-# from org.allbinary.logic.communication.log.LogUtil import LogUtil
-# from org.allbinary.logic.math.SmallIntegerSingletonFactory import SmallIntegerSingletonFactory
-# from org.allbinary.logic.string.StringMaker import StringMaker
-# from org.allbinary.string.CommonStrings import CommonStrings
-from org.allbinary.game.input.Input import Input
-
-
-def _InputFactory_instance() -> object:
-    from org.allbinary.logic.NullUtil import NullUtil
-    return NullUtil.getInstance().NULL_OBJECT
-
-lazy_static(InputFactory, "instance", _InputFactory_instance)
+        if id > this.inputIntegerArray.length:
+            this.logUtil.putF(newStringMaker().append("Warning id: ").appendint(id).toString(), this, this.commonStrings.GET_INSTANCE)
+            return this.NO_INPUT
+        return this.inputIntegerArray[id]
 

@@ -1,35 +1,46 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.input.motion.button
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/input/motion/button/BaseTouchInput as BaseTouchInputModule
+export BaseTouchInputModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    NoButtonsTouchInputFactory* = ref object of JObject
 
+proc newNoButtonsTouchInputFactory*(): NoButtonsTouchInputFactory
+proc getInstance*(t: typedesc[NoButtonsTouchInputFactory]): BaseTouchInput {.discardable.}
 
-class NoButtonsTouchInputFactory:
-    instance: BaseTouchInput = None
-    
+var NoButtonsTouchInputFactory_instanceValue: BaseTouchInput
+var NoButtonsTouchInputFactory_instanceSet = false
+proc instance*(t: typedesc[NoButtonsTouchInputFactory]): BaseTouchInput =
+    if not NoButtonsTouchInputFactory_instanceSet:
+        NoButtonsTouchInputFactory_instanceSet = true
+        NoButtonsTouchInputFactory_instanceValue = newBaseTouchInput()
+    NoButtonsTouchInputFactory_instanceValue
 
-    @staticmethod
-    def getInstance() -> BaseTouchInput:
+proc initNoButtonsTouchInputFactory*(this: NoButtonsTouchInputFactory) =
+    discard
+
+proc newNoButtonsTouchInputFactory*(): NoButtonsTouchInputFactory =
+    result = NoButtonsTouchInputFactory()
+    initNoButtonsTouchInputFactory(result)
+
+proc getInstance*(t: typedesc[NoButtonsTouchInputFactory]): BaseTouchInput {.discardable.} =
         return NoButtonsTouchInputFactory.instance
-
-
-def _NoButtonsTouchInputFactory_instance() -> object:
-    from org.allbinary.input.motion.button.BaseTouchInput import BaseTouchInput
-    return BaseTouchInput()
-
-lazy_static(NoButtonsTouchInputFactory, "instance", _NoButtonsTouchInputFactory_instance)
 

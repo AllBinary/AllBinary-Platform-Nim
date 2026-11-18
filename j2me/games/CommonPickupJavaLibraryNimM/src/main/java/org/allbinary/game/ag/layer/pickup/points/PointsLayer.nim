@@ -1,52 +1,67 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.ag.layer.pickup.points
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import javax/microedition/lcdui/Graphics as GraphicsModule
+export GraphicsModule
+import org/allbinary/game/score/ScoreableInterface as ScoreableInterfaceModule
+export ScoreableInterfaceModule
+import org/allbinary/layer/AllBinaryLayer as AllBinaryLayerModule
+export AllBinaryLayerModule
 
-from org.allbinary.layer.AllBinaryLayer import AllBinaryLayer
+type
+    PointsLayer* = ref object of AllBinaryLayer
+        points*: int32
+
+proc newPointsLayer*(points: int32): PointsLayer
+proc initPointsLayer*(this: PointsLayer, points: int32)
+method paint*(this: PointsLayer, graphics: Graphics)
+method visit*(this: PointsLayer, scoreableInterface: ScoreableInterface) {.base.}
+import org/allbinary/graphics/PointFactory as PointFactoryModule
+export PointFactoryModule
+import org/allbinary/graphics/Rectangle as RectangleModule
+export RectangleModule
+import org/allbinary/logic/string/StringUtil as StringUtilModule
+export StringUtilModule
+import org/allbinary/view/ViewPosition as ViewPositionModule
+export ViewPositionModule
 
 
-class PointsLayer(AllBinaryLayer):
-
-    def _init_fields(self) -> None:
-        self.points: int = None
+# Java field initializers run after the base initializer
+proc initFieldsPointsLayer(this: PointsLayer) =
     
+    discard
 
-    def __init__(self, points: int) -> None:
-        from org.allbinary.graphics.PointFactory import PointFactory
-        from org.allbinary.graphics.Rectangle import Rectangle
-        from org.allbinary.logic.string.StringUtil import StringUtil
-        from org.allbinary.view.ViewPosition import ViewPosition
-        super().__init__(StringUtil.getInstance().EMPTY_STRING, Rectangle(PointFactory.getInstance().ZERO_ZERO, 0, 0), ViewPosition.getInstanceD())
-        self._init_fields()
-        self.points = points
-    
+proc initPointsLayer*(this: PointsLayer, points: int32) =
+        initAllBinaryLayer(this, StringUtil.getInstance().EMPTY_STRING, newRectangle(PointFactory.getInstance().ZERO_ZERO, 0, 0), ViewPosition.getInstanceD())
+        this.initFieldsPointsLayer()
+        this.points = points
 
-    def paint(self, graphics: Graphics) -> None:
-        from javax.microedition.lcdui.Graphics import Graphics
-        pass
-    
+proc newPointsLayer*(points: int32): PointsLayer =
+    result = PointsLayer()
+    initPointsLayer(result, points)
 
-    def visit(self, scoreableInterface: ScoreableInterface) -> None:
-        from org.allbinary.game.score.ScoreableInterface import ScoreableInterface
-        scoreableInterface.addPoints(self.points)
-# from javax.microedition.lcdui.Graphics import Graphics
-# from org.allbinary.game.score.ScoreableInterface import ScoreableInterface
-# from org.allbinary.graphics.PointFactory import PointFactory
-# from org.allbinary.graphics.Rectangle import Rectangle
-# from org.allbinary.logic.string.StringUtil import StringUtil
-# from org.allbinary.view.ViewPosition import ViewPosition
+method paint*(this: PointsLayer, graphics: Graphics) =
+        discard
 
+method visit*(this: PointsLayer, scoreableInterface: ScoreableInterface) {.base.} =
+        scoreableInterface.addPoints(this.points)
+
+when declared(newPointsLayerHook1):
+    newPointsLayerHook1 = proc (points: int32): AllBinaryLayer = newPointsLayer(points)
 

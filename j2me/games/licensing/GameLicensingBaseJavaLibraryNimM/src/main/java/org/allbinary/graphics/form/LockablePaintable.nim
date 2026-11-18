@@ -1,57 +1,72 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.graphics.form
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import javax/microedition/lcdui/Graphics as GraphicsModule
+export GraphicsModule
+import org/allbinary/animation/Animation as AnimationModule
+export AnimationModule
+import org/allbinary/graphics/form/ItemPaintable as ItemPaintableModule
+export ItemPaintableModule
 
-from org.allbinary.graphics.form.ItemPaintable import ItemPaintable
+type
+    LockablePaintable* = ref object of ItemPaintable
+        animation*: Animation
+        lockedIndex*: int32
+
+proc newLockablePaintable*(lockedIndex: int32): LockablePaintable
+proc initLockablePaintable*(this: LockablePaintable, lockedIndex: int32)
+method paint*(this: LockablePaintable, graphics: Graphics, currentIndex: int32, x: int32, y: int32)
+method getLockedIndex*(this: LockablePaintable): int32 {.base, discardable.}
+method getAnimation*(this: LockablePaintable): Animation {.base, discardable.}
+import org/allbinary/animation/FeaturedAnimationInterfaceFactoryInterfaceFactory as FeaturedAnimationInterfaceFactoryInterfaceFactoryModule
+export FeaturedAnimationInterfaceFactoryInterfaceFactoryModule
+import org/allbinary/logic/system/security/licensing/LockedResources as LockedResourcesModule
+export LockedResourcesModule
+import org/allbinary/logic/system/security/licensing/LockedUtil as LockedUtilModule
+export LockedUtilModule
 
 
-class LockablePaintable(ItemPaintable):
-
-    def _init_fields(self) -> None:
-        from org.allbinary.animation.Animation import Animation
-        from org.allbinary.animation.FeaturedAnimationInterfaceFactoryInterfaceFactory import FeaturedAnimationInterfaceFactoryInterfaceFactory
-        from org.allbinary.logic.system.security.licensing.LockedResources import LockedResources
-        self.animation: Animation = FeaturedAnimationInterfaceFactoryInterfaceFactory.getInstance().get(LockedResources.getInstance().LOCKED_DEMO_GAME_FEATURE_RESOURCE).getInstance(0)
-        self.lockedIndex: int = None
+# Java field initializers run after the base initializer
+proc initFieldsLockablePaintable(this: LockablePaintable) =
+    this.animation = FeaturedAnimationInterfaceFactoryInterfaceFactory.getInstance().get(LockedResources.getInstance().LOCKED_DEMO_GAME_FEATURE_RESOURCE).getInstance(0)
     
+    discard
 
-    def __init__(self, lockedIndex: int) -> None:
-        super().__init__()
-        self._init_fields()
-        self.lockedIndex = lockedIndex
-    
+proc initLockablePaintable*(this: LockablePaintable, lockedIndex: int32) =
+        initItemPaintable(this)
+        this.initFieldsLockablePaintable()
+        this.lockedIndex = lockedIndex
 
-    def paint(self, graphics: Graphics, currentIndex: int, x: int, y: int) -> None:
-        from javax.microedition.lcdui.Graphics import Graphics
-        from org.allbinary.logic.system.security.licensing.LockedUtil import LockedUtil
-        if LockedUtil.getInstance().isLocked() and currentIndex >= self.getLockedIndex():
-            self.getAnimation().paintXY(graphics, x, y)
-    
+proc newLockablePaintable*(lockedIndex: int32): LockablePaintable =
+    result = LockablePaintable()
+    initLockablePaintable(result, lockedIndex)
 
-    def getLockedIndex(self) -> int:
-        return self.lockedIndex
-    
+method paint*(this: LockablePaintable, graphics: Graphics, currentIndex: int32, x: int32, y: int32) =
+        if LockedUtil.getInstance().isLocked() and currentIndex >= this.getLockedIndex():
+            this.getAnimation().paintXY(graphics, x, y)
 
-    def getAnimation(self) -> Animation:
-        from org.allbinary.animation.Animation import Animation
-        return self.animation
-# from javax.microedition.lcdui.Graphics import Graphics
-# from org.allbinary.animation.Animation import Animation
-# from org.allbinary.animation.FeaturedAnimationInterfaceFactoryInterfaceFactory import FeaturedAnimationInterfaceFactoryInterfaceFactory
-# from org.allbinary.logic.system.security.licensing.LockedResources import LockedResources
-# from org.allbinary.logic.system.security.licensing.LockedUtil import LockedUtil
+method getLockedIndex*(this: LockablePaintable): int32 {.base, discardable.} =
+        return this.lockedIndex
 
+method getAnimation*(this: LockablePaintable): Animation {.base, discardable.} =
+        return this.animation
+
+when declared(newLockablePaintableHook1):
+    newLockablePaintableHook1 = proc (lockedIndex: int32): ItemPaintable = newLockablePaintable(lockedIndex)
 

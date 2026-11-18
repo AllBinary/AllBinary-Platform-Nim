@@ -1,43 +1,54 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.score
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/game/score/HighScoreCommandsBaseFactory as HighScoreCommandsBaseFactoryModule
+export HighScoreCommandsBaseFactoryModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
-from org.allbinary.game.score.HighScoreCommandsBaseFactory import HighScoreCommandsBaseFactory
+type
+    HighScoreCommandsFactory* = ref object of HighScoreCommandsBaseFactory
 
+proc newHighScoreCommandsFactory*(): HighScoreCommandsFactory
+proc initHighScoreCommandsFactory*(this: HighScoreCommandsFactory)
+proc getInstance*(t: typedesc[HighScoreCommandsFactory]): HighScoreCommandsFactory {.discardable.}
+import javax/microedition/lcdui/Command as CommandModule
+export CommandModule
+import org/allbinary/game/score/HighScoreCommands as HighScoreCommandsModule
+export HighScoreCommandsModule
 
-class HighScoreCommandsFactory(HighScoreCommandsBaseFactory):
-    instance: HighScoreCommandsFactory = None
-    
+var HighScoreCommandsFactory_instanceValue: HighScoreCommandsFactory
+var HighScoreCommandsFactory_instanceSet = false
+proc instance*(t: typedesc[HighScoreCommandsFactory]): HighScoreCommandsFactory =
+    if not HighScoreCommandsFactory_instanceSet:
+        HighScoreCommandsFactory_instanceSet = true
+        HighScoreCommandsFactory_instanceValue = newHighScoreCommandsFactory()
+    HighScoreCommandsFactory_instanceValue
 
-    @staticmethod
-    def getInstance() -> HighScoreCommandsFactory:
+proc getInstance*(t: typedesc[HighScoreCommandsFactory]): HighScoreCommandsFactory {.discardable.} =
         return HighScoreCommandsFactory.instance
-    
 
-    def __init__(self) -> None:
-        from org.allbinary.game.score.HighScoreCommands import HighScoreCommands
-        from org.allbinary.game.score.HighScoreCommands import HighScoreCommands
-        from javax.microedition.lcdui.Command import Command
-        super().__init__([HighScoreCommands.getInstance().PERSONAL, HighScoreCommands.getInstance().WORLD])
-# from javax.microedition.lcdui.Command import Command
+proc initHighScoreCommandsFactory*(this: HighScoreCommandsFactory) =
+        initHighScoreCommandsBaseFactory(this, newJArrayFromRefs[Command](HighScoreCommands.getInstance().PERSONAL, HighScoreCommands.getInstance().WORLD))
 
+proc newHighScoreCommandsFactory*(): HighScoreCommandsFactory =
+    result = HighScoreCommandsFactory()
+    initHighScoreCommandsFactory(result)
 
-def _HighScoreCommandsFactory_instance() -> object:
-    return HighScoreCommandsFactory()
-
-lazy_static(HighScoreCommandsFactory, "instance", _HighScoreCommandsFactory_instance)
+when declared(newHighScoreCommandsFactoryHook0):
+    newHighScoreCommandsFactoryHook0 = proc (): HighScoreCommandsBaseFactory = newHighScoreCommandsFactory()
 

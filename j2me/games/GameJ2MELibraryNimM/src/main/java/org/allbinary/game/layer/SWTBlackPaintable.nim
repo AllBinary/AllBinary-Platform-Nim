@@ -1,43 +1,59 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.layer
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import javax/microedition/lcdui/Graphics as GraphicsModule
+export GraphicsModule
+import org/allbinary/graphics/color/BasicColor as BasicColorModule
+export BasicColorModule
+import org/allbinary/graphics/color/BasicColorSetUtil as BasicColorSetUtilModule
+export BasicColorSetUtilModule
+import org/allbinary/graphics/paint/Paintable as PaintableModule
+export PaintableModule
 
-from org.allbinary.graphics.paint.Paintable import Paintable
+type
+    SWTBlackPaintable* = ref object of Paintable
+        basicSetColorUtil*: BasicColorSetUtil
+        BLACK*: BasicColor
+
+proc newSWTBlackPaintable*(): SWTBlackPaintable
+method paint*(this: SWTBlackPaintable, graphics: Graphics)
+import org/allbinary/graphics/color/BasicColorFactory as BasicColorFactoryModule
+export BasicColorFactoryModule
 
 
-class SWTBlackPaintable(Paintable):
+# Java field initializers run after the base initializer
+proc initFieldsSWTBlackPaintable(this: SWTBlackPaintable) =
+    this.basicSetColorUtil = BasicColorSetUtil.getInstance()
+    this.BLACK = BasicColorFactory.getInstance().BLACK
+    discard
 
-    def _init_fields(self) -> None:
-        from org.allbinary.graphics.color.BasicColor import BasicColor
-        from org.allbinary.graphics.color.BasicColorFactory import BasicColorFactory
-        from org.allbinary.graphics.color.BasicColorSetUtil import BasicColorSetUtil
-        self.basicSetColorUtil: BasicColorSetUtil = BasicColorSetUtil.getInstance()
-        self.BLACK: BasicColor = BasicColorFactory.getInstance().BLACK
+proc initSWTBlackPaintable*(this: SWTBlackPaintable) =
+    initPaintable(this)
+    this.initFieldsSWTBlackPaintable()
 
-    def __init__(self) -> None:
-        super().__init__()
-        self._init_fields()
-    
+proc newSWTBlackPaintable*(): SWTBlackPaintable =
+    result = SWTBlackPaintable()
+    initSWTBlackPaintable(result)
 
-    def paint(self, graphics: Graphics) -> None:
-        from javax.microedition.lcdui.Graphics import Graphics
-        self.basicSetColorUtil.setBasicColorP(graphics, self.BLACK)
-# from javax.microedition.lcdui.Graphics import Graphics
-# from org.allbinary.graphics.color.BasicColor import BasicColor
-# from org.allbinary.graphics.color.BasicColorFactory import BasicColorFactory
-# from org.allbinary.graphics.color.BasicColorSetUtil import BasicColorSetUtil
+method paint*(this: SWTBlackPaintable, graphics: Graphics) =
+        this.basicSetColorUtil.setBasicColorP(graphics, this.BLACK)
 
+when declared(newSWTBlackPaintableHook0):
+    newSWTBlackPaintableHook0 = proc (): Paintable = newSWTBlackPaintable()
 

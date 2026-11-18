@@ -1,174 +1,266 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.input
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/game/input/PCGameKey as PCGameKeyModule
+export PCGameKeyModule
+import org/allbinary/game/input/Input as InputModule
+export InputModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    PCKeyFactory* = ref object of JObject
+        UNKNOWN*: PCGameKey
+        ENTER*: PCGameKey
+        U_A*: PCGameKey
+        U_B*: PCGameKey
+        U_C*: PCGameKey
+        U_D*: PCGameKey
+        U_E*: PCGameKey
+        U_F*: PCGameKey
+        U_G*: PCGameKey
+        U_H*: PCGameKey
+        U_I*: PCGameKey
+        U_J*: PCGameKey
+        U_K*: PCGameKey
+        U_L*: PCGameKey
+        U_M*: PCGameKey
+        U_N*: PCGameKey
+        U_O*: PCGameKey
+        U_P*: PCGameKey
+        U_Q*: PCGameKey
+        U_R*: PCGameKey
+        U_S*: PCGameKey
+        U_T*: PCGameKey
+        U_U*: PCGameKey
+        U_V*: PCGameKey
+        U_W*: PCGameKey
+        U_X*: PCGameKey
+        U_Y*: PCGameKey
+        U_Z*: PCGameKey
+        a*: PCGameKey
+        b*: PCGameKey
+        c*: PCGameKey
+        d*: PCGameKey
+        e*: PCGameKey
+        f*: PCGameKey
+        g*: PCGameKey
+        h*: PCGameKey
+        i*: PCGameKey
+        j*: PCGameKey
+        k*: PCGameKey
+        l*: PCGameKey
+        m*: PCGameKey
+        n*: PCGameKey
+        o*: PCGameKey
+        p*: PCGameKey
+        q*: PCGameKey
+        r*: PCGameKey
+        s*: PCGameKey
+        t*: PCGameKey
+        u*: PCGameKey
+        v*: PCGameKey
+        w*: PCGameKey
+        x*: PCGameKey
+        y*: PCGameKey
+        z*: PCGameKey
+        ZERO*: PCGameKey
+        ONE*: PCGameKey
+        TWO*: PCGameKey
+        THREE*: PCGameKey
+        FOUR*: PCGameKey
+        FIVE*: PCGameKey
+        SIX*: PCGameKey
+        SEVEN*: PCGameKey
+        EIGHT*: PCGameKey
+        NINE*: PCGameKey
+        DPAD_UP*: PCGameKey
+        DPAD_DOWN*: PCGameKey
+        DPAD_LEFT*: PCGameKey
+        DPAD_RIGHT*: PCGameKey
+        DPAD_UP2*: PCGameKey
+        DPAD_DOWN2*: PCGameKey
+        DPAD_LEFT2*: PCGameKey
+        DPAD_RIGHT2*: PCGameKey
+        COMMA*: PCGameKey
+        SPACE*: PCGameKey
+        DEL*: PCGameKey
+        STAR*: PCGameKey
+        QUESTION*: PCGameKey
+        PERIOD*: PCGameKey
+        ESCAPE*: PCGameKey
+        BACK_SPACE*: PCGameKey
 
+proc newPCKeyFactory*(): PCKeyFactory
+proc getInstance*(t: typedesc[PCKeyFactory]): PCKeyFactory {.discardable.}
+method isSubmission*(this: PCKeyFactory, input: Input): bool {.base, discardable.}
+method isDelete*(this: PCKeyFactory, input: Input): bool {.base, discardable.}
+method isBackSpace*(this: PCKeyFactory, input: Input): bool {.base, discardable.}
+method isUp*(this: PCKeyFactory, input: Input): bool {.base, discardable.}
+method isDown*(this: PCKeyFactory, input: Input): bool {.base, discardable.}
+method isLeft*(this: PCKeyFactory, input: Input): bool {.base, discardable.}
+method isRight*(this: PCKeyFactory, input: Input): bool {.base, discardable.}
+method isEnter*(this: PCKeyFactory, input: Input): bool {.base, discardable.}
+import org/allbinary/math/PositionStrings as PositionStringsModule
+export PositionStringsModule
+import org/allbinary/string/CommonPhoneStrings as CommonPhoneStringsModule
+export CommonPhoneStringsModule
+import org/allbinary/string/CommonSeps as CommonSepsModule
+export CommonSepsModule
 
-class PCKeyFactory:
-    SINGLETON: PCKeyFactory = None
+var PCKeyFactory_SINGLETONValue: PCKeyFactory
+var PCKeyFactory_SINGLETONSet = false
+proc SINGLETON*(t: typedesc[PCKeyFactory]): PCKeyFactory =
+    if not PCKeyFactory_SINGLETONSet:
+        PCKeyFactory_SINGLETONSet = true
+        PCKeyFactory_SINGLETONValue = newPCKeyFactory()
+    PCKeyFactory_SINGLETONValue
 
-    def _init_fields(self) -> None:
-        from org.allbinary.math.PositionStrings import PositionStrings
-        from org.allbinary.string.CommonPhoneStrings import CommonPhoneStrings
-        from org.allbinary.string.CommonSeps import CommonSeps
-        self.UNKNOWN: PCGameKey = PCGameKey(254, "UNKNOWN")
-        self.ENTER: PCGameKey = PCGameKey(13, "Enter")
-        self._A: PCGameKey = PCGameKey(65, "A")
-        self._B: PCGameKey = PCGameKey(66, "B")
-        self._C: PCGameKey = PCGameKey(67, "C")
-        self._D: PCGameKey = PCGameKey(68, "D")
-        self._E: PCGameKey = PCGameKey(69, "E")
-        self._F: PCGameKey = PCGameKey(70, "F")
-        self._G: PCGameKey = PCGameKey(71, "G")
-        self._H: PCGameKey = PCGameKey(72, "H")
-        self._I: PCGameKey = PCGameKey(73, "I")
-        self._J: PCGameKey = PCGameKey(74, "J")
-        self._K: PCGameKey = PCGameKey(75, "K")
-        self._L: PCGameKey = PCGameKey(76, "L")
-        self._M: PCGameKey = PCGameKey(77, "M")
-        self._N: PCGameKey = PCGameKey(78, "N")
-        self._O: PCGameKey = PCGameKey(79, "O")
-        self._P: PCGameKey = PCGameKey(80, "P")
-        self._Q: PCGameKey = PCGameKey(81, "Q")
-        self._R: PCGameKey = PCGameKey(82, "R")
-        self._S: PCGameKey = PCGameKey(83, "S")
-        self._T: PCGameKey = PCGameKey(84, "T")
-        self._U: PCGameKey = PCGameKey(85, "U")
-        self._V: PCGameKey = PCGameKey(86, "V")
-        self._W: PCGameKey = PCGameKey(87, "W")
-        self._X: PCGameKey = PCGameKey(88, "X")
-        self._Y: PCGameKey = PCGameKey(89, "Y")
-        self._Z: PCGameKey = PCGameKey(90, "Z")
-        self.a: PCGameKey = PCGameKey(97, "a")
-        self.b: PCGameKey = PCGameKey(98, "b")
-        self.c: PCGameKey = PCGameKey(99, "c")
-        self.d: PCGameKey = PCGameKey(100, "d")
-        self.e: PCGameKey = PCGameKey(101, "e")
-        self.f: PCGameKey = PCGameKey(102, "f")
-        self.g: PCGameKey = PCGameKey(103, "g")
-        self.h: PCGameKey = PCGameKey(104, "h")
-        self.i: PCGameKey = PCGameKey(105, "i")
-        self.j: PCGameKey = PCGameKey(106, "j")
-        self.k: PCGameKey = PCGameKey(107, "k")
-        self.l: PCGameKey = PCGameKey(108, "l")
-        self.m: PCGameKey = PCGameKey(109, "m")
-        self.n: PCGameKey = PCGameKey(110, "n")
-        self.o: PCGameKey = PCGameKey(111, "o")
-        self.p: PCGameKey = PCGameKey(112, "p")
-        self.q: PCGameKey = PCGameKey(113, "q")
-        self.r: PCGameKey = PCGameKey(114, "r")
-        self.s: PCGameKey = PCGameKey(115, "s")
-        self.t: PCGameKey = PCGameKey(116, "t")
-        self.u: PCGameKey = PCGameKey(117, "u")
-        self.v: PCGameKey = PCGameKey(118, "v")
-        self.w: PCGameKey = PCGameKey(119, "w")
-        self.x: PCGameKey = PCGameKey(120, PositionStrings.getInstance().X)
-        self.y: PCGameKey = PCGameKey(121, PositionStrings.getInstance().Y)
-        self.z: PCGameKey = PCGameKey(122, "z")
-        self.ZERO: PCGameKey = PCGameKey(48, CommonPhoneStrings.getInstance().ZERO)
-        self.ONE: PCGameKey = PCGameKey(49, CommonPhoneStrings.getInstance().ONE)
-        self.TWO: PCGameKey = PCGameKey(50, CommonPhoneStrings.getInstance().TWO)
-        self.THREE: PCGameKey = PCGameKey(51, CommonPhoneStrings.getInstance().THREE)
-        self.FOUR: PCGameKey = PCGameKey(52, CommonPhoneStrings.getInstance().FOUR)
-        self.FIVE: PCGameKey = PCGameKey(53, CommonPhoneStrings.getInstance().FIVE)
-        self.SIX: PCGameKey = PCGameKey(54, CommonPhoneStrings.getInstance().SIX)
-        self.SEVEN: PCGameKey = PCGameKey(55, CommonPhoneStrings.getInstance().SEVEN)
-        self.EIGHT: PCGameKey = PCGameKey(56, CommonPhoneStrings.getInstance().EIGHT)
-        self.NINE: PCGameKey = PCGameKey(57, CommonPhoneStrings.getInstance().NINE)
-        self.DPAD_UP: PCGameKey = PCGameKey(38, CommonPhoneStrings.getInstance().UP)
-        self.DPAD_DOWN: PCGameKey = PCGameKey(40, CommonPhoneStrings.getInstance().DOWN)
-        self.DPAD_LEFT: PCGameKey = PCGameKey(37, CommonPhoneStrings.getInstance().LEFT)
-        self.DPAD_RIGHT: PCGameKey = PCGameKey(39, CommonPhoneStrings.getInstance().RIGHT)
-        self.DPAD_UP2: PCGameKey = self.DPAD_UP
-        self.DPAD_DOWN2: PCGameKey = self.DPAD_DOWN
-        self.DPAD_LEFT2: PCGameKey = self.DPAD_LEFT
-        self.DPAD_RIGHT2: PCGameKey = self.DPAD_RIGHT
-        self.COMMA: PCGameKey = PCGameKey(44, "COMMA")
-        self.SPACE: PCGameKey = PCGameKey(32, "SPACE")
-        self.DEL: PCGameKey = PCGameKey(46, "DEL")
-        self.STAR: PCGameKey = PCGameKey(42, CommonPhoneStrings.getInstance().STAR)
-        self.QUESTION: PCGameKey = PCGameKey(47, "?")
-        self.PERIOD: PCGameKey = PCGameKey(46, CommonSeps.getInstance().PERIOD)
-        self.ESCAPE: PCGameKey = PCGameKey(27, "Esc")
-        self.BACK_SPACE: PCGameKey = PCGameKey(8, "Backspace")
+# Java field initializers run after the base initializer
+proc initFieldsPCKeyFactory(this: PCKeyFactory) =
+    this.UNKNOWN = newPCGameKey(254, "UNKNOWN")
+    this.ENTER = newPCGameKey(13, "Enter")
+    this.U_A = newPCGameKey(65, "A")
+    this.U_B = newPCGameKey(66, "B")
+    this.U_C = newPCGameKey(67, "C")
+    this.U_D = newPCGameKey(68, "D")
+    this.U_E = newPCGameKey(69, "E")
+    this.U_F = newPCGameKey(70, "F")
+    this.U_G = newPCGameKey(71, "G")
+    this.U_H = newPCGameKey(72, "H")
+    this.U_I = newPCGameKey(73, "I")
+    this.U_J = newPCGameKey(74, "J")
+    this.U_K = newPCGameKey(75, "K")
+    this.U_L = newPCGameKey(76, "L")
+    this.U_M = newPCGameKey(77, "M")
+    this.U_N = newPCGameKey(78, "N")
+    this.U_O = newPCGameKey(79, "O")
+    this.U_P = newPCGameKey(80, "P")
+    this.U_Q = newPCGameKey(81, "Q")
+    this.U_R = newPCGameKey(82, "R")
+    this.U_S = newPCGameKey(83, "S")
+    this.U_T = newPCGameKey(84, "T")
+    this.U_U = newPCGameKey(85, "U")
+    this.U_V = newPCGameKey(86, "V")
+    this.U_W = newPCGameKey(87, "W")
+    this.U_X = newPCGameKey(88, "X")
+    this.U_Y = newPCGameKey(89, "Y")
+    this.U_Z = newPCGameKey(90, "Z")
+    this.a = newPCGameKey(97, "a")
+    this.b = newPCGameKey(98, "b")
+    this.c = newPCGameKey(99, "c")
+    this.d = newPCGameKey(100, "d")
+    this.e = newPCGameKey(101, "e")
+    this.f = newPCGameKey(102, "f")
+    this.g = newPCGameKey(103, "g")
+    this.h = newPCGameKey(104, "h")
+    this.i = newPCGameKey(105, "i")
+    this.j = newPCGameKey(106, "j")
+    this.k = newPCGameKey(107, "k")
+    this.l = newPCGameKey(108, "l")
+    this.m = newPCGameKey(109, "m")
+    this.n = newPCGameKey(110, "n")
+    this.o = newPCGameKey(111, "o")
+    this.p = newPCGameKey(112, "p")
+    this.q = newPCGameKey(113, "q")
+    this.r = newPCGameKey(114, "r")
+    this.s = newPCGameKey(115, "s")
+    this.t = newPCGameKey(116, "t")
+    this.u = newPCGameKey(117, "u")
+    this.v = newPCGameKey(118, "v")
+    this.w = newPCGameKey(119, "w")
+    this.x = newPCGameKey(120, PositionStrings.getInstance().X)
+    this.y = newPCGameKey(121, PositionStrings.getInstance().Y)
+    this.z = newPCGameKey(122, "z")
+    this.ZERO = newPCGameKey(48, CommonPhoneStrings.getInstance().ZERO)
+    this.ONE = newPCGameKey(49, CommonPhoneStrings.getInstance().ONE)
+    this.TWO = newPCGameKey(50, CommonPhoneStrings.getInstance().TWO)
+    this.THREE = newPCGameKey(51, CommonPhoneStrings.getInstance().THREE)
+    this.FOUR = newPCGameKey(52, CommonPhoneStrings.getInstance().FOUR)
+    this.FIVE = newPCGameKey(53, CommonPhoneStrings.getInstance().FIVE)
+    this.SIX = newPCGameKey(54, CommonPhoneStrings.getInstance().SIX)
+    this.SEVEN = newPCGameKey(55, CommonPhoneStrings.getInstance().SEVEN)
+    this.EIGHT = newPCGameKey(56, CommonPhoneStrings.getInstance().EIGHT)
+    this.NINE = newPCGameKey(57, CommonPhoneStrings.getInstance().NINE)
+    this.DPAD_UP = newPCGameKey(38, CommonPhoneStrings.getInstance().UP)
+    this.DPAD_DOWN = newPCGameKey(40, CommonPhoneStrings.getInstance().DOWN)
+    this.DPAD_LEFT = newPCGameKey(37, CommonPhoneStrings.getInstance().LEFT)
+    this.DPAD_RIGHT = newPCGameKey(39, CommonPhoneStrings.getInstance().RIGHT)
+    this.DPAD_UP2 = this.DPAD_UP
+    this.DPAD_DOWN2 = this.DPAD_DOWN
+    this.DPAD_LEFT2 = this.DPAD_LEFT
+    this.DPAD_RIGHT2 = this.DPAD_RIGHT
+    this.COMMA = newPCGameKey(44, "COMMA")
+    this.SPACE = newPCGameKey(32, "SPACE")
+    this.DEL = newPCGameKey(46, "DEL")
+    this.STAR = newPCGameKey(42, CommonPhoneStrings.getInstance().STAR)
+    this.QUESTION = newPCGameKey(47, "?")
+    this.PERIOD = newPCGameKey(46, CommonSeps.getInstance().PERIOD)
+    this.ESCAPE = newPCGameKey(27, "Esc")
+    this.BACK_SPACE = newPCGameKey(8, "Backspace")
+    discard
 
-    def __init__(self) -> None:
-        self._init_fields()
-    
+proc initPCKeyFactory*(this: PCKeyFactory) =
+    this.initFieldsPCKeyFactory()
 
-    @staticmethod
-    def getInstance() -> PCKeyFactory:
+proc newPCKeyFactory*(): PCKeyFactory =
+    result = PCKeyFactory()
+    initPCKeyFactory(result)
+
+proc getInstance*(t: typedesc[PCKeyFactory]): PCKeyFactory {.discardable.} =
         return PCKeyFactory.SINGLETON
-    
 
-    def isSubmission(self, input: Input) -> bool:
-        if input == self.ENTER:
-            return True
-        return False
-    
+method isSubmission*(this: PCKeyFactory, input: Input): bool {.base, discardable.} =
+        if (jSame(input, this.ENTER)):
+            return true
+        return false
 
-    def isDelete(self, input: Input) -> bool:
-        if input == self.DEL:
-            return True
-        return False
-    
+method isDelete*(this: PCKeyFactory, input: Input): bool {.base, discardable.} =
+        if (jSame(input, this.DEL)):
+            return true
+        return false
 
-    def isBackSpace(self, input: Input) -> bool:
-        if input == self.BACK_SPACE:
-            return True
-        return False
-    
+method isBackSpace*(this: PCKeyFactory, input: Input): bool {.base, discardable.} =
+        if (jSame(input, this.BACK_SPACE)):
+            return true
+        return false
 
-    def isUp(self, input: Input) -> bool:
-        if input == self.DPAD_UP or input == self.DPAD_UP2:
-            return True
-        return False
-    
+method isUp*(this: PCKeyFactory, input: Input): bool {.base, discardable.} =
+        if (jSame(input, this.DPAD_UP)) or (jSame(input, this.DPAD_UP2)):
+            return true
+        return false
 
-    def isDown(self, input: Input) -> bool:
-        if input == self.DPAD_DOWN or input == self.DPAD_DOWN2:
-            return True
-        return False
-    
+method isDown*(this: PCKeyFactory, input: Input): bool {.base, discardable.} =
+        if (jSame(input, this.DPAD_DOWN)) or (jSame(input, this.DPAD_DOWN2)):
+            return true
+        return false
 
-    def isLeft(self, input: Input) -> bool:
-        if input == self.DPAD_LEFT or input == self.DPAD_LEFT2:
-            return True
-        return False
-    
+method isLeft*(this: PCKeyFactory, input: Input): bool {.base, discardable.} =
+        if (jSame(input, this.DPAD_LEFT)) or (jSame(input, this.DPAD_LEFT2)):
+            return true
+        return false
 
-    def isRight(self, input: Input) -> bool:
-        if input == self.DPAD_RIGHT or input == self.DPAD_RIGHT2:
-            return True
-        return False
-    
+method isRight*(this: PCKeyFactory, input: Input): bool {.base, discardable.} =
+        if (jSame(input, this.DPAD_RIGHT)) or (jSame(input, this.DPAD_RIGHT2)):
+            return true
+        return false
 
-    def isEnter(self, input: Input) -> bool:
-        if input == self.ENTER:
-            return True
-        return False
-# from org.allbinary.math.PositionStrings import PositionStrings
-# from org.allbinary.string.CommonPhoneStrings import CommonPhoneStrings
-# from org.allbinary.string.CommonSeps import CommonSeps
-from org.allbinary.game.input.PCGameKey import PCGameKey
-
-
-def _PCKeyFactory_SINGLETON() -> object:
-    return PCKeyFactory()
-
-lazy_static(PCKeyFactory, "SINGLETON", _PCKeyFactory_SINGLETON)
+method isEnter*(this: PCKeyFactory, input: Input): bool {.base, discardable.} =
+        if (jSame(input, this.ENTER)):
+            return true
+        return false
 

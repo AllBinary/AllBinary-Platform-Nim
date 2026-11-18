@@ -1,47 +1,56 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.multiplayer.layer
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    MultiplayerBehavior* = ref object of JObject
 
+proc newMultiplayerBehavior*(username: string): MultiplayerBehavior
+proc initMultiplayerBehavior*(this: MultiplayerBehavior, username: string)
+method startTick*(this: MultiplayerBehavior) {.base.}
+method endTick*(this: MultiplayerBehavior) {.base.}
+method getApproximateElapsed*(this: MultiplayerBehavior): int64 {.base, discardable.}
+import org/allbinary/logic/string/StringUtil as StringUtilModule
+export StringUtilModule
 
-class MultiplayerBehavior:
-    NULL_MULTIPLAYER_BEHAVIOR: MultiplayerBehavior = None
-    
+var MultiplayerBehavior_NULL_MULTIPLAYER_BEHAVIORValue: MultiplayerBehavior
+var MultiplayerBehavior_NULL_MULTIPLAYER_BEHAVIORSet = false
+proc NULL_MULTIPLAYER_BEHAVIOR*(t: typedesc[MultiplayerBehavior]): MultiplayerBehavior =
+    if not MultiplayerBehavior_NULL_MULTIPLAYER_BEHAVIORSet:
+        MultiplayerBehavior_NULL_MULTIPLAYER_BEHAVIORSet = true
+        MultiplayerBehavior_NULL_MULTIPLAYER_BEHAVIORValue = newMultiplayerBehavior(StringUtil.getInstance().EMPTY_STRING)
+    MultiplayerBehavior_NULL_MULTIPLAYER_BEHAVIORValue
 
-    def __init__(self, username: str) -> None:
-        pass
-    
+proc initMultiplayerBehavior*(this: MultiplayerBehavior, username: string) =
+        discard
+        discard
 
-    def startTick(self) -> None:
-        pass
-    
+proc newMultiplayerBehavior*(username: string): MultiplayerBehavior =
+    result = MultiplayerBehavior()
+    initMultiplayerBehavior(result, username)
 
-    def endTick(self) -> None:
-        pass
-    
+method startTick*(this: MultiplayerBehavior) {.base.} =
+        discard
 
-    def getApproximateElapsed(self) -> int:
-        return 0
-# from org.allbinary.logic.string.StringUtil import StringUtil
+method endTick*(this: MultiplayerBehavior) {.base.} =
+        discard
 
-
-def _MultiplayerBehavior_NULL_MULTIPLAYER_BEHAVIOR() -> object:
-    from org.allbinary.logic.string.StringUtil import StringUtil
-    return MultiplayerBehavior(StringUtil.getInstance().EMPTY_STRING)
-
-lazy_static(MultiplayerBehavior, "NULL_MULTIPLAYER_BEHAVIOR", _MultiplayerBehavior_NULL_MULTIPLAYER_BEHAVIOR)
+method getApproximateElapsed*(this: MultiplayerBehavior): int64 {.base, discardable.} =
+        return 0'i64
 

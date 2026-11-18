@@ -1,39 +1,51 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.ag.layer.pickup.points
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/layer/AllBinaryLayer as AllBinaryLayerModule
+export AllBinaryLayerModule
+import org/allbinary/layer/AllBinaryLayerFactoryInterface as AllBinaryLayerFactoryInterfaceModule
+export AllBinaryLayerFactoryInterfaceModule
 
-from org.allbinary.layer.AllBinaryLayerFactoryInterface import AllBinaryLayerFactoryInterface
+type
+    PointsLayerFactory* = ref object of AllBinaryLayerFactoryInterface
+        points*: int32
+
+proc newPointsLayerFactory*(points: int32): PointsLayerFactory
+proc initPointsLayerFactory*(this: PointsLayerFactory, points: int32)
+method getInstance*(this: PointsLayerFactory): AllBinaryLayer {.discardable.}
+import org/allbinary/game/ag/layer/pickup/points/PointsLayer as PointsLayerModule
+export PointsLayerModule
 
 
-class PointsLayerFactory(AllBinaryLayerFactoryInterface):
-
-    def _init_fields(self) -> None:
-        self.points: int = None
+# Java field initializers run after the base initializer
+proc initFieldsPointsLayerFactory(this: PointsLayerFactory) =
     
+    discard
 
-    def __init__(self, points: int) -> None:
-        self._init_fields()
-        self.points = points
-    
+proc initPointsLayerFactory*(this: PointsLayerFactory, points: int32) =
+        this.initFieldsPointsLayerFactory()
+        this.points = points
 
-    # throws Exception
-    def getInstance(self) -> AllBinaryLayer:
-        from org.allbinary.game.ag.layer.pickup.points.PointsLayer import PointsLayer
-        from org.allbinary.layer.AllBinaryLayer import AllBinaryLayer
-        return PointsLayer(self.points)
-# from org.allbinary.layer.AllBinaryLayer import AllBinaryLayer
+proc newPointsLayerFactory*(points: int32): PointsLayerFactory =
+    result = PointsLayerFactory()
+    initPointsLayerFactory(result, points)
 
+method getInstance*(this: PointsLayerFactory): AllBinaryLayer {.discardable.} =
+        return newPointsLayer(this.points)
 

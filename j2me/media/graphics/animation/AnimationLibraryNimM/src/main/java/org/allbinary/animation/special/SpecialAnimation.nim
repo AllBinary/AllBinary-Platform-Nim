@@ -1,70 +1,82 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.animation.special
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/animation/AnimationBehavior as AnimationBehaviorModule
+export AnimationBehaviorModule
+import org/allbinary/animation/IndexedAnimation as IndexedAnimationModule
+export IndexedAnimationModule
+import org/allbinary/animation/special/SpecialAnimationInterface as SpecialAnimationInterfaceModule
+export SpecialAnimationInterfaceModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
-from org.allbinary.animation.IndexedAnimation import IndexedAnimation
-from org.allbinary.animation.special.SpecialAnimationInterface import SpecialAnimationInterface
+type
+    SpecialAnimation* = ref object of IndexedAnimation
 
+converter jAsSpecialAnimationInterface*(value: SpecialAnimation): SpecialAnimationInterface = cast[SpecialAnimationInterface](value)
+proc newSpecialAnimation*(animationBehavior: AnimationBehavior): SpecialAnimation
+proc initSpecialAnimation*(this: SpecialAnimation, animationBehavior: AnimationBehavior)
+proc getInstance*(t: typedesc[SpecialAnimation]): SpecialAnimation {.discardable.}
+method nextFrame*(this: SpecialAnimation)
+method setLastFrame*(this: SpecialAnimation)
+method isComplete*(this: SpecialAnimation): bool {.discardable.}
+method open*(this: SpecialAnimation) {.base.}
+method close*(this: SpecialAnimation) {.base.}
+method process*(this: SpecialAnimation) {.base.}
+import org/allbinary/animation/IndexedAnimationBehavior as IndexedAnimationBehaviorModule
+export IndexedAnimationBehaviorModule
 
-class SpecialAnimation(IndexedAnimation, SpecialAnimationInterface):
-    NULL_SPECIAL_ANIMATION: SpecialAnimation = None
-    
+var SpecialAnimation_NULL_SPECIAL_ANIMATIONValue: SpecialAnimation
+var SpecialAnimation_NULL_SPECIAL_ANIMATIONSet = false
+proc NULL_SPECIAL_ANIMATION*(t: typedesc[SpecialAnimation]): SpecialAnimation =
+    if not SpecialAnimation_NULL_SPECIAL_ANIMATIONSet:
+        SpecialAnimation_NULL_SPECIAL_ANIMATIONSet = true
+        SpecialAnimation_NULL_SPECIAL_ANIMATIONValue = newSpecialAnimation(newIndexedAnimationBehavior(1, 250))
+    SpecialAnimation_NULL_SPECIAL_ANIMATIONValue
 
-    @staticmethod
-    def getInstance() -> SpecialAnimation:
+proc getInstance*(t: typedesc[SpecialAnimation]): SpecialAnimation {.discardable.} =
         return SpecialAnimation.NULL_SPECIAL_ANIMATION
-    
 
-    def __init__(self, animationBehavior: AnimationBehavior) -> None:
-        from org.allbinary.animation.AnimationBehavior import AnimationBehavior
-        super().__init__(animationBehavior)
-    
+proc initSpecialAnimation*(this: SpecialAnimation, animationBehavior: AnimationBehavior) =
+        initIndexedAnimation(this, animationBehavior)
 
-    def nextFrame(self) -> None:
-        from org.allbinary.animation.IndexedAnimationBehavior import IndexedAnimationBehavior
-        indexedAnimationBehavior: IndexedAnimationBehavior = (self.animationBehaviorP)
-        indexedAnimationBehavior.loopIndex += 1
-    
+proc newSpecialAnimation*(animationBehavior: AnimationBehavior): SpecialAnimation =
+    result = SpecialAnimation()
+    initSpecialAnimation(result, animationBehavior)
 
-    def setLastFrame(self) -> None:
-        pass
-    
+method nextFrame*(this: SpecialAnimation) =
+        let indexedAnimationBehavior: IndexedAnimationBehavior = (IndexedAnimationBehavior(JObject(this.animationBehaviorP)))
+        indexedAnimationBehavior.loopIndex = indexedAnimationBehavior.loopIndex +% 1
 
-    def isComplete(self) -> bool:
-        return False
-    
+method setLastFrame*(this: SpecialAnimation) =
+        discard
 
-    def open(self) -> None:
-        pass
-    
+method isComplete*(this: SpecialAnimation): bool {.discardable.} =
+        return false
 
-    def close(self) -> None:
-        pass
-    
+method open*(this: SpecialAnimation) {.base.} =
+        discard
 
-    def process(self) -> None:
-        pass
-# from org.allbinary.animation.AnimationBehavior import AnimationBehavior
-# from org.allbinary.animation.IndexedAnimationBehavior import IndexedAnimationBehavior
+method close*(this: SpecialAnimation) {.base.} =
+        discard
 
+method process*(this: SpecialAnimation) {.base.} =
+        discard
 
-def _SpecialAnimation_NULL_SPECIAL_ANIMATION() -> object:
-    from org.allbinary.animation.IndexedAnimationBehavior import IndexedAnimationBehavior
-    return SpecialAnimation(IndexedAnimationBehavior(1, 250))
-
-lazy_static(SpecialAnimation, "NULL_SPECIAL_ANIMATION", _SpecialAnimation_NULL_SPECIAL_ANIMATION)
+when declared(newSpecialAnimationHook1):
+    newSpecialAnimationHook1 = proc (animationBehavior: AnimationBehavior): IndexedAnimation = newSpecialAnimation(animationBehavior)
 

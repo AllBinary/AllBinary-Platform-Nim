@@ -1,51 +1,45 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.ag.life
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+
+type
+    LifeInterface* = ref object of JObject
 
 
+method get*(this: LifeInterface): int16 {.base, discardable.} =
+        raise newJException("AbstractMethodError", "get")
 
-# Java interface
-class LifeInterface:
-    
+method set*(this: LifeInterface, lives: int16) {.base.} =
+        raise newJException("AbstractMethodError", "set")
 
-    def get(self) -> int:
-        raise NotImplementedError()
-    
+method reset*(this: LifeInterface) {.base.} =
+        raise newJException("AbstractMethodError", "reset")
 
-    def set(self, lives: int) -> None:
-        raise NotImplementedError()
-    
+method add*(this: LifeInterface, lives: int16) {.base.} =
+        raise newJException("AbstractMethodError", "add")
 
-    def reset(self) -> None:
-        raise NotImplementedError()
-    
+method deaths*(this: LifeInterface, lives: int16) {.base.} =
+        raise newJException("AbstractMethodError", "deaths")
 
-    def add(self, lives: int) -> None:
-        raise NotImplementedError()
-    
+method getMaxlives*(this: LifeInterface): int16 {.base, discardable.} =
+        raise newJException("AbstractMethodError", "getMaxlives")
 
-    def deaths(self, lives: int) -> None:
-        raise NotImplementedError()
-    
-
-    def getMaxlives(self) -> int:
-        raise NotImplementedError()
-    
-
-    def isAlive(self) -> bool:
-        raise NotImplementedError()
-
+method isAlive*(this: LifeInterface): bool {.base, discardable.} =
+        raise newJException("AbstractMethodError", "isAlive")
 

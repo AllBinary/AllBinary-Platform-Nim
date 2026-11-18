@@ -1,18 +1,27 @@
 # Generated Code Do Not Modify
 # package org.eclipse.swt.graphics
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+
+type
+    Resource* = ref object of JObject
+
+proc newResource*(): Resource
+method dispose*(this: Resource) {.base.}
+method isDisposed*(this: Resource): bool {.base, discardable.}
 
 
+proc initResource*(this: Resource) =
+    discard
 
-class Resource:
-    
+proc newResource*(): Resource =
+    result = Resource()
+    initResource(result)
 
-    def dispose(self) -> None:
-        pass
-    
+method dispose*(this: Resource) {.base.} =
+        discard
 
-    def isDisposed(self) -> bool:
-        return False
-
+method isDisposed*(this: Resource): bool {.base, discardable.} =
+        return false
 

@@ -1,93 +1,114 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#   
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+    
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.animation.text
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import javax/microedition/lcdui/Font as FontModule
+export FontModule
+import javax/microedition/lcdui/Graphics as GraphicsModule
+export GraphicsModule
+import org/allbinary/animation/AnimationBehavior as AnimationBehaviorModule
+export AnimationBehaviorModule
+import org/allbinary/graphics/font/FontDebugFactory as FontDebugFactoryModule
+export FontDebugFactoryModule
+import org/allbinary/animation/text/TextAnimation as TextAnimationModule
+export TextAnimationModule
+import org/allbinary/animation/text/TextInterface as TextInterfaceModule
+export TextInterfaceModule
+import org/allbinary/animation/text/TextChangeListener as TextChangeListenerModule
+export TextChangeListenerModule
 
-from org.allbinary.animation.text.TextAnimation import TextAnimation
-from org.allbinary.animation.text.TextInterface import TextInterface
+type
+    CustomTextAnimation* = ref object of TextAnimation
+        fontDebugFactory*: FontDebugFactory
+        fontSize*: int32
+        font*: Font
+        lastText*: string
+        hasChanged*: bool
+        textWidth*: int32
+
+converter jAsTextInterface*(value: CustomTextAnimation): TextInterface = cast[TextInterface](value)
+proc newCustomTextAnimation*(text: string, fontSize: int32, animationBehavior: AnimationBehavior): CustomTextAnimation
+proc initCustomTextAnimation*(this: CustomTextAnimation, text: string, fontSize: int32, animationBehavior: AnimationBehavior)
+method paintXY*(this: CustomTextAnimation, graphics: Graphics, x: int32, y: int32)
+method setScale*(this: CustomTextAnimation, scaleX: float32, scaleY: float32)
+method setTextWithOnMeasure*(this: CustomTextAnimation, text: string, textChangeListener: TextChangeListener)
+method setText*(this: CustomTextAnimation, text: string)
+method getText*(this: CustomTextAnimation): string {.discardable.}
+method getWidth*(this: CustomTextAnimation): int32 {.discardable.}
+method getFontHeight*(this: CustomTextAnimation): int32 {.discardable.}
+import org/allbinary/logic/string/StringUtil as StringUtilModule
+export StringUtilModule
 
 
-class CustomTextAnimation(TextAnimation, TextInterface):
-
-    def _init_fields(self) -> None:
-        from javax.microedition.lcdui.Font import Font
-        from org.allbinary.graphics.font.FontDebugFactory import FontDebugFactory
-        from org.allbinary.logic.string.StringUtil import StringUtil
-        self.fontDebugFactory: FontDebugFactory = FontDebugFactory.getInstance()
-        self.fontSize: int = None
-        self.font: Font = None
-        self.lastText: str = StringUtil.getInstance().INIT_STRING
-        self.hasChanged: bool = True
-        self.textWidth: int = 0
+# Java field initializers run after the base initializer
+proc initFieldsCustomTextAnimation(this: CustomTextAnimation) =
+    this.fontDebugFactory = FontDebugFactory.getInstance()
     
-
-    def __init__(self, text: str, fontSize: int, animationBehavior: AnimationBehavior) -> None:
-        from javax.microedition.lcdui.Font import Font
-        from org.allbinary.animation.AnimationBehavior import AnimationBehavior
-        super().__init__(text, animationBehavior)
-        self._init_fields()
-        self.fontSize = fontSize
-        self.font = Font.getFont(Font.FACE_SYSTEM, Font.STYLE_PLAIN, fontSize)
     
+    this.lastText = StringUtil.getInstance().INIT_STRING
+    this.hasChanged = true
+    this.textWidth = 0
+    discard
 
-    def paintXY(self, graphics: Graphics, x: int, y: int) -> None:
-        from javax.microedition.lcdui.Font import Font
-        from javax.microedition.lcdui.Graphics import Graphics
-        self.myFontProcessor.process(graphics)
-        existingFont: Font = graphics.getFont()
-        self.fontDebugFactory.setFont(self.font, graphics)
-        super().paintXYNoUpdate(graphics, x, y)
-        self.fontDebugFactory.setFont(existingFont, graphics)
-    
+proc initCustomTextAnimation*(this: CustomTextAnimation, text: string, fontSize: int32, animationBehavior: AnimationBehavior) =
+        initTextAnimation(this, text, animationBehavior)
+        this.initFieldsCustomTextAnimation()
+        this.fontSize = fontSize
+        this.font = Font.getFont(Font.FACE_SYSTEM, Font.STYLE_PLAIN, fontSize)
 
-    def setScale(self, scaleX: float, scaleY: float) -> None:
-        from javax.microedition.lcdui.Font import Font
+proc newCustomTextAnimation*(text: string, fontSize: int32, animationBehavior: AnimationBehavior): CustomTextAnimation =
+    result = CustomTextAnimation()
+    initCustomTextAnimation(result, text, fontSize, animationBehavior)
+
+method paintXY*(this: CustomTextAnimation, graphics: Graphics, x: int32, y: int32) =
+        this.myFontProcessor.process(graphics)
+        let existingFont: Font = graphics.getFont()
+        this.fontDebugFactory.setFont(this.font, graphics)
+        procCall TextAnimation(this).paintXYNoUpdate(graphics, x, y)
+        this.fontDebugFactory.setFont(existingFont, graphics)
+
+method setScale*(this: CustomTextAnimation, scaleX: float32, scaleY: float32) =
         if scaleX != scaleY:
-            raise RuntimeError()
-        self.hasChanged = True
-        self.font = Font.getFont(Font.FACE_SYSTEM, Font.STYLE_PLAIN, int((float(self.fontSize) * scaleX)))
-    
+            raise newJException("RuntimeException", "")
+        this.hasChanged = true
+        this.font = Font.getFont(Font.FACE_SYSTEM, Font.STYLE_PLAIN, jToInt32(float64((float32(this.fontSize) * scaleX))))
 
-    def setTextWithOnMeasure(self, text: str, textChangeListener: TextChangeListener) -> None:
-        super().setTextWithOnMeasure(text, textChangeListener)
-    
+method setTextWithOnMeasure*(this: CustomTextAnimation, text: string, textChangeListener: TextChangeListener) =
+        procCall TextAnimation(this).setTextWithOnMeasure(text, textChangeListener)
 
-    def setText(self, text: str) -> None:
-        if self.lastText != text:
-            self.hasChanged = True
-            self.lastText = text
-            super().setText(text)
-    
+method setText*(this: CustomTextAnimation, text: string) =
+        if this.lastText != text:
+            this.hasChanged = true
+            this.lastText = text
+            procCall TextAnimation(this).setText(text)
 
-    def getText(self) -> str:
-        return self.lastText
-    
+method getText*(this: CustomTextAnimation): string {.discardable.} =
+        return this.lastText
 
-    def getWidth(self) -> int:
-        if self.hasChanged:
-            self.textWidth = self.font.stringWidth(self.textArrayP[0])
-            self.hasChanged = False
-        return self.textWidth
-    
+method getWidth*(this: CustomTextAnimation): int32 {.discardable.} =
+        if this.hasChanged:
+            this.textWidth = this.font.stringWidth(this.textArrayP[0])
+            this.hasChanged = false
+        return this.textWidth
 
-    def getFontHeight(self) -> int:
-        return self.font.getHeight()
-# from javax.microedition.lcdui.Font import Font
-# from javax.microedition.lcdui.Graphics import Graphics
-# from org.allbinary.animation.AnimationBehavior import AnimationBehavior
-# from org.allbinary.graphics.font.FontDebugFactory import FontDebugFactory
-# from org.allbinary.logic.string.StringUtil import StringUtil
+method getFontHeight*(this: CustomTextAnimation): int32 {.discardable.} =
+        return this.font.getHeight()
 
+when declared(newCustomTextAnimationHook3):
+    newCustomTextAnimationHook3 = proc (text: string, fontSize: int32, animationBehavior: AnimationBehavior): TextAnimation = newCustomTextAnimation(text, fontSize, animationBehavior)
 

@@ -1,35 +1,36 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.animation
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/media/ScaleProperties as ScalePropertiesModule
+export ScalePropertiesModule
+import org/allbinary/animation/BasicAnimationInterfaceFactoryInterface as BasicAnimationInterfaceFactoryInterfaceModule
+export BasicAnimationInterfaceFactoryInterfaceModule
+import org/allbinary/animation/Animation as AnimationModule
+export AnimationModule
 
-from org.allbinary.animation.BasicAnimationInterfaceFactoryInterface import BasicAnimationInterfaceFactoryInterface
+type
+    AnimationInterfaceFactoryInterface* = ref object of BasicAnimationInterfaceFactoryInterface
 
 
-# Java interface
-class AnimationInterfaceFactoryInterface(BasicAnimationInterfaceFactoryInterface):
-    
+method getInstance*(this: AnimationInterfaceFactoryInterface, instanceId: int32): Animation {.base, discardable.} =
+        raise newJException("AbstractMethodError", "getInstance")
 
-    # throws Exception
-    def getInstance(self, instanceId: int) -> Animation:
-        raise NotImplementedError()
-    
-
-    def setInitialScale(self, scaleProperties: ScaleProperties) -> None:
-        from org.allbinary.media.ScaleProperties import ScaleProperties
-        raise NotImplementedError()
-# from org.allbinary.media.ScaleProperties import ScaleProperties
-
+method setInitialScale*(this: AnimationInterfaceFactoryInterface, scaleProperties: ScaleProperties) {.base.} =
+        raise newJException("AbstractMethodError", "setInitialScale")
 

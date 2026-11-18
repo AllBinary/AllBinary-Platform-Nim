@@ -1,90 +1,111 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.score
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import java/lang/Long as LongModule
+export LongModule
+import java/io/ByteArrayInputStream as ByteArrayInputStreamModule
+export ByteArrayInputStreamModule
+import java/io/DataInputStream as DataInputStreamModule
+export DataInputStreamModule
+import java/io/EOFException as EOFExceptionModule
+export EOFExceptionModule
+import java/io/IOException as IOExceptionModule
+export IOExceptionModule
+import javax/microedition/rms/RecordComparator as RecordComparatorModule
+export RecordComparatorModule
+import org/allbinary/logic/communication/log/LogUtil as LogUtilModule
+export LogUtilModule
 
-from javax.microedition.rms.RecordComparator import RecordComparator
+type
+    ScoreComparator* = ref object of RecordComparator
+        logUtil*: LogUtil
+        isHighestBest*: bool
+
+proc newScoreComparator*(isHighestBest: bool): ScoreComparator
+proc initScoreComparator*(this: ScoreComparator, isHighestBest: bool)
+method getBestScore*(this: ScoreComparator): int64 {.base, discardable.}
+method compare*(this: ScoreComparator, recordOne: JArray[int8], recordTwo: JArray[int8]): int32 {.discardable.}
+method getHighTooLow*(this: ScoreComparator, scoreOne: int64, scoreTwo: int64): int32 {.base, discardable.}
+method getLowTooHigh*(this: ScoreComparator, scoreOne: int64, scoreTwo: int64): int32 {.base, discardable.}
+import org/allbinary/string/CommonStrings as CommonStringsModule
+export CommonStringsModule
 
 
-class ScoreComparator(RecordComparator):
-
-    def _init_fields(self) -> None:
-        from org.allbinary.logic.communication.log.LogUtil import LogUtil
-        self.logUtil: LogUtil = LogUtil.getInstance()
-        self.isHighestBest: bool = None
+# Java field initializers run after the base initializer
+proc initFieldsScoreComparator(this: ScoreComparator) =
+    this.logUtil = LogUtil.getInstance()
     
+    discard
 
-    def __init__(self, isHighestBest: bool) -> None:
-        self._init_fields()
-        self.isHighestBest = isHighestBest
-    
+proc initScoreComparator*(this: ScoreComparator, isHighestBest: bool) =
+        this.initFieldsScoreComparator()
+        this.isHighestBest = isHighestBest
 
-    def getBestScore(self) -> int:
-        return (9223372036854775807 if self.isHighestBest else 0)
-    
+proc newScoreComparator*(isHighestBest: bool): ScoreComparator =
+    result = ScoreComparator()
+    initScoreComparator(result, isHighestBest)
 
-    def compare(self, recordOne: list[int], recordTwo: list[int]) -> int:
-        from java.io.DataInputStream import DataInputStream
-        from org.allbinary.string.CommonStrings import CommonStrings
-        byteArrayInputStreamOne: ByteArrayInputStream = ByteArrayInputStream(recordOne)
-        inputStreamOne: DataInputStream = DataInputStream(byteArrayInputStreamOne)
-        byteArrayInputStreamTwo: ByteArrayInputStream = ByteArrayInputStream(recordTwo)
-        inputStreamTwo: DataInputStream = DataInputStream(byteArrayInputStreamTwo)
-        scoreOne: int = 0
-        scoreTwo: int = 0
+method getBestScore*(this: ScoreComparator): int64 {.base, discardable.} =
+        return (if this.isHighestBest: Long.MAX_VALUE else: 0)
+
+method compare*(this: ScoreComparator, recordOne: JArray[int8], recordTwo: JArray[int8]): int32 {.discardable.} =
+        let byteArrayInputStreamOne: ByteArrayInputStream = newByteArrayInputStream(recordOne)
+        let inputStreamOne: DataInputStream = newDataInputStream(byteArrayInputStreamOne)
+        let byteArrayInputStreamTwo: ByteArrayInputStream = newByteArrayInputStream(recordTwo)
+        let inputStreamTwo: DataInputStream = newDataInputStream(byteArrayInputStreamTwo)
+        var scoreOne: int64 = 0'i64
+        var scoreTwo: int64 = 0'i64
         try:
             inputStreamOne.readUTF()
             inputStreamTwo.readUTF()
             scoreOne = inputStreamOne.readLong()
             scoreTwo = inputStreamTwo.readLong()
-        except EOFException as e:
-            commonStrings: CommonStrings = CommonStrings.getInstance()
-            self.logUtil.put(commonStrings.EXCEPTION, self, "compare", e)
-        except OSError as e:
-            commonStrings: CommonStrings = CommonStrings.getInstance()
-            self.logUtil.put(commonStrings.EXCEPTION, self, "compare", e)
-        except Exception as e:
-            commonStrings: CommonStrings = CommonStrings.getInstance()
-            self.logUtil.put(commonStrings.EXCEPTION, self, "compare", e)
-        if self.isHighestBest:
-            return self.getHighTooLow(scoreOne, scoreTwo)
+        except CatchableError as jcaught:
+            let e = jToException(jcaught)
+            let commonStrings: CommonStrings = CommonStrings.getInstance()
+            this.logUtil.put(commonStrings.EXCEPTION, this, "compare", e)
+        except CatchableError as jcaught:
+            let e = jToException(jcaught)
+            let commonStrings: CommonStrings = CommonStrings.getInstance()
+            this.logUtil.put(commonStrings.EXCEPTION, this, "compare", e)
+        except CatchableError as jcaught:
+            let e = jToException(jcaught)
+            let commonStrings: CommonStrings = CommonStrings.getInstance()
+            this.logUtil.put(commonStrings.EXCEPTION, this, "compare", e)
+        if this.isHighestBest:
+            return this.getHighTooLow(scoreOne, scoreTwo)
         else:
-            return self.getLowTooHigh(scoreOne, scoreTwo)
-    
+            return this.getLowTooHigh(scoreOne, scoreTwo)
 
-    def getHighTooLow(self, scoreOne: int, scoreTwo: int) -> int:
+method getHighTooLow*(this: ScoreComparator, scoreOne: int64, scoreTwo: int64): int32 {.base, discardable.} =
         if scoreOne > scoreTwo:
             return RecordComparator.PRECEDES
         elif scoreOne < scoreTwo:
             return RecordComparator.FOLLOWS
         else:
             return RecordComparator.EQUIVALENT
-    
 
-    def getLowTooHigh(self, scoreOne: int, scoreTwo: int) -> int:
+method getLowTooHigh*(this: ScoreComparator, scoreOne: int64, scoreTwo: int64): int32 {.base, discardable.} =
         if scoreOne < scoreTwo:
             return RecordComparator.PRECEDES
         elif scoreOne > scoreTwo:
             return RecordComparator.FOLLOWS
         else:
             return RecordComparator.EQUIVALENT
-# from java.io.ByteArrayInputStream import ByteArrayInputStream
-# from java.io.DataInputStream import DataInputStream
-# from java.io.EOFException import EOFException
-# from java.io.IOException import IOException
-# from org.allbinary.logic.communication.log.LogUtil import LogUtil
-# from org.allbinary.string.CommonStrings import CommonStrings
-
 

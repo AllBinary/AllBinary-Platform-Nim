@@ -1,49 +1,64 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.graphics.displayable.command
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import javax/microedition/lcdui/Command as CommandModule
+export CommandModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    MyCommandsFactory* = ref object of JObject
+        NO_COMMAND*: Command
+        GAUGE_CHANGE*: Command
+        SET_DISPLAYABLE*: Command
+        PAUSE_COMMAND*: Command
+        RESUME_COMMAND*: Command
 
+proc newMyCommandsFactory*(): MyCommandsFactory
+proc initMyCommandsFactory*(this: MyCommandsFactory)
+proc getInstance*(t: typedesc[MyCommandsFactory]): MyCommandsFactory {.discardable.}
+import org/allbinary/logic/string/StringUtil as StringUtilModule
+export StringUtilModule
 
-class MyCommandsFactory:
-    instance: MyCommandsFactory = None
+var MyCommandsFactory_instanceValue: MyCommandsFactory
+var MyCommandsFactory_instanceSet = false
+proc instance*(t: typedesc[MyCommandsFactory]): MyCommandsFactory =
+    if not MyCommandsFactory_instanceSet:
+        MyCommandsFactory_instanceSet = true
+        MyCommandsFactory_instanceValue = newMyCommandsFactory()
+    MyCommandsFactory_instanceValue
 
-    def _init_fields(self) -> None:
-        from javax.microedition.lcdui.Command import Command
-        from org.allbinary.logic.string.StringUtil import StringUtil
-        self.NO_COMMAND: Command = Command(StringUtil.getInstance().EMPTY_STRING, StringUtil.getInstance().EMPTY_STRING, -1, -1)
-        self.GAUGE_CHANGE: Command = Command("GAUGE_CHANGE", StringUtil.getInstance().EMPTY_STRING, Command.ITEM, 1)
-        self.SET_DISPLAYABLE: Command = Command("Display", StringUtil.getInstance().EMPTY_STRING, Command.SCREEN, 2)
-        self.PAUSE_COMMAND: Command = Command("Pause", StringUtil.getInstance().EMPTY_STRING, Command.SCREEN, 0)
-        self.RESUME_COMMAND: Command = Command("Resume", StringUtil.getInstance().EMPTY_STRING, Command.SCREEN, 0)
-    
+# Java field initializers run after the base initializer
+proc initFieldsMyCommandsFactory(this: MyCommandsFactory) =
+    this.NO_COMMAND = newCommand(StringUtil.getInstance().EMPTY_STRING, StringUtil.getInstance().EMPTY_STRING, -1, -1)
+    this.GAUGE_CHANGE = newCommand("GAUGE_CHANGE", StringUtil.getInstance().EMPTY_STRING, Command.ITEM, 1)
+    this.SET_DISPLAYABLE = newCommand("Display", StringUtil.getInstance().EMPTY_STRING, Command.SCREEN, 2)
+    this.PAUSE_COMMAND = newCommand("Pause", StringUtil.getInstance().EMPTY_STRING, Command.SCREEN, 0)
+    this.RESUME_COMMAND = newCommand("Resume", StringUtil.getInstance().EMPTY_STRING, Command.SCREEN, 0)
+    discard
 
-    @staticmethod
-    def getInstance() -> MyCommandsFactory:
+proc getInstance*(t: typedesc[MyCommandsFactory]): MyCommandsFactory {.discardable.} =
         return MyCommandsFactory.instance
-    
 
-    def __init__(self) -> None:
-        self._init_fields()
-# from javax.microedition.lcdui.Command import Command
-# from org.allbinary.logic.string.StringUtil import StringUtil
+proc initMyCommandsFactory*(this: MyCommandsFactory) =
+        this.initFieldsMyCommandsFactory()
+        discard
 
-
-def _MyCommandsFactory_instance() -> object:
-    return MyCommandsFactory()
-
-lazy_static(MyCommandsFactory, "instance", _MyCommandsFactory_instance)
+proc newMyCommandsFactory*(): MyCommandsFactory =
+    result = MyCommandsFactory()
+    initMyCommandsFactory(result)
 

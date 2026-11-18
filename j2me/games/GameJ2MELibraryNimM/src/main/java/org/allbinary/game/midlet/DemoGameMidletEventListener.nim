@@ -1,36 +1,37 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.midlet
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/logic/util/event/EventListenerInterface as EventListenerInterfaceModule
+export EventListenerInterfaceModule
+import org/allbinary/game/midlet/DemoGameMidletEvent as DemoGameMidletEventModule
+export DemoGameMidletEventModule
 
-from org.allbinary.logic.util.event.EventListenerInterface import EventListenerInterface
+type
+    DemoGameMidletEventListener* = ref object of EventListenerInterface
 
 
-# Java interface
-class DemoGameMidletEventListener(EventListenerInterface):
-    
+method onDemoStart*(this: DemoGameMidletEventListener) {.base.} =
+        raise newJException("AbstractMethodError", "onDemoStart")
 
-    def onDemoStart(self) -> None:
-        raise NotImplementedError()
-    
+method onGameStart*(this: DemoGameMidletEventListener) {.base.} =
+        raise newJException("AbstractMethodError", "onGameStart")
 
-    def onGameStart(self) -> None:
-        raise NotImplementedError()
-    
-
-    def onDemoGameMidletEvent(self, demoGameMidletEvent: DemoGameMidletEvent) -> None:
-        raise NotImplementedError()
-
+method onDemoGameMidletEvent*(this: DemoGameMidletEventListener, demoGameMidletEvent: DemoGameMidletEvent) {.base.} =
+        raise newJException("AbstractMethodError", "onDemoGameMidletEvent")
 

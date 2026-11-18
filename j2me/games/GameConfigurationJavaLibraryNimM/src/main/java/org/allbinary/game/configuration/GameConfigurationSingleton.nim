@@ -1,70 +1,84 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.configuration
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/util/ABHashtable as ABHashtableModule
+export ABHashtableModule
+import org/allbinary/util/BasicArrayList as BasicArrayListModule
+export BasicArrayListModule
+import org/allbinary/game/configuration/GameConfiguration as GameConfigurationModule
+export GameConfigurationModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    GameConfigurationSingleton* = ref object of JObject
+        list*: BasicArrayList
+        hashtable*: ABHashtable
 
+proc newGameConfigurationSingleton*(): GameConfigurationSingleton
+proc initGameConfigurationSingleton*(this: GameConfigurationSingleton)
+proc getInstance*(t: typedesc[GameConfigurationSingleton]): GameConfigurationSingleton {.discardable.}
+method getInstanceByName*(this: GameConfigurationSingleton, name: string): GameConfiguration {.base, discardable.}
+method getOptionsBasicArrayList*(this: GameConfigurationSingleton): BasicArrayList {.base, discardable.}
+method add*(this: GameConfigurationSingleton, gameConfiguration: GameConfiguration) {.base.}
+method getHashtable*(this: GameConfigurationSingleton): ABHashtable {.base, discardable.}
+import org/allbinary/logic/StdUtil as StdUtilModule
+export StdUtilModule
+import org/allbinary/util/BasicArrayListD as BasicArrayListDModule
+export BasicArrayListDModule
 
-class GameConfigurationSingleton:
-    SINGLETON: GameConfigurationSingleton = None
+var GameConfigurationSingleton_SINGLETONValue: GameConfigurationSingleton
+var GameConfigurationSingleton_SINGLETONSet = false
+proc SINGLETON*(t: typedesc[GameConfigurationSingleton]): GameConfigurationSingleton =
+    if not GameConfigurationSingleton_SINGLETONSet:
+        GameConfigurationSingleton_SINGLETONSet = true
+        GameConfigurationSingleton_SINGLETONValue = newGameConfigurationSingleton()
+    GameConfigurationSingleton_SINGLETONValue
+proc `SINGLETON=`*(t: typedesc[GameConfigurationSingleton], value: GameConfigurationSingleton) =
+    GameConfigurationSingleton_SINGLETONSet = true
+    GameConfigurationSingleton_SINGLETONValue = value
 
-    def _init_fields(self) -> None:
-        from org.allbinary.util.ABHashtable import ABHashtable
-        from org.allbinary.util.BasicArrayList import BasicArrayList
-        self.list_: BasicArrayList = None
-        self.hashtable: ABHashtable[object, object] = None
+# Java field initializers run after the base initializer
+proc initFieldsGameConfigurationSingleton(this: GameConfigurationSingleton) =
     
+    
+    discard
 
-    @staticmethod
-    def getInstance() -> GameConfigurationSingleton:
+proc getInstance*(t: typedesc[GameConfigurationSingleton]): GameConfigurationSingleton {.discardable.} =
         return GameConfigurationSingleton.SINGLETON
-    
 
-    def __init__(self) -> None:
-        from org.allbinary.logic.StdUtil import StdUtil
-        from org.allbinary.util.BasicArrayListD import BasicArrayListD
-        self._init_fields()
-        self.list_ = BasicArrayListD()
-        self.hashtable = StdUtil.getInstance().createHashtable()
-    
+proc initGameConfigurationSingleton*(this: GameConfigurationSingleton) =
+        this.initFieldsGameConfigurationSingleton()
+        this.list = newBasicArrayListD()
+        this.hashtable = StdUtil.getInstance().createHashtable()
 
-    def getInstanceByName(self, name: str) -> GameConfiguration:
-        return self.hashtable.get(name)
-    
+proc newGameConfigurationSingleton*(): GameConfigurationSingleton =
+    result = GameConfigurationSingleton()
+    initGameConfigurationSingleton(result)
 
-    def getOptionsBasicArrayList(self) -> BasicArrayList:
-        from org.allbinary.util.BasicArrayList import BasicArrayList
-        return self.list_
-    
+method getInstanceByName*(this: GameConfigurationSingleton, name: string): GameConfiguration {.base, discardable.} =
+        return GameConfiguration(JObject(this.hashtable.get(name)))
 
-    def add(self, gameConfiguration: GameConfiguration) -> None:
-        self.list_.add(gameConfiguration)
-    
+method getOptionsBasicArrayList*(this: GameConfigurationSingleton): BasicArrayList {.base, discardable.} =
+        return this.list
 
-    def getHashtable(self) -> ABHashtable[object, object]:
-        from org.allbinary.util.ABHashtable import ABHashtable
-        return self.hashtable
-# from org.allbinary.logic.StdUtil import StdUtil
-# from org.allbinary.util.ABHashtable import ABHashtable
-# from org.allbinary.util.BasicArrayList import BasicArrayList
-# from org.allbinary.util.BasicArrayListD import BasicArrayListD
+method add*(this: GameConfigurationSingleton, gameConfiguration: GameConfiguration) {.base.} =
+        this.list.add(gameConfiguration)
 
-
-def _GameConfigurationSingleton_SINGLETON() -> object:
-    return GameConfigurationSingleton()
-
-lazy_static(GameConfigurationSingleton, "SINGLETON", _GameConfigurationSingleton_SINGLETON)
+method getHashtable*(this: GameConfigurationSingleton): ABHashtable {.base, discardable.} =
+        return this.hashtable
 

@@ -1,69 +1,83 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.input.motion.action
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/game/input/CompleteMotionGestureInputEvent as CompleteMotionGestureInputEventModule
+export CompleteMotionGestureInputEventModule
+import org/allbinary/game/input/GameKey as GameKeyModule
+export GameKeyModule
+import org/allbinary/game/input/GameKeyEventSourceInterface as GameKeyEventSourceInterfaceModule
+export GameKeyEventSourceInterfaceModule
+import org/allbinary/game/input/event/GameKeyEvent as GameKeyEventModule
+export GameKeyEventModule
+import org/allbinary/game/input/mapping/InputToGameKeyMapping as InputToGameKeyMappingModule
+export InputToGameKeyMappingModule
+import org/allbinary/input/motion/gesture/MotionGestureInput as MotionGestureInputModule
+export MotionGestureInputModule
 
-from org.allbinary.game.input.CompleteMotionGestureInputEvent import CompleteMotionGestureInputEvent
-from org.allbinary.game.input.GameKeyEventSourceInterface import GameKeyEventSourceInterface
+type
+    GameKeyCompleteMotionGestureInputEvent* = ref object of CompleteMotionGestureInputEvent
+        gameKey*: GameKey
+        gameKeyEvent*: GameKeyEvent
+
+converter jAsGameKeyEventSourceInterface*(value: GameKeyCompleteMotionGestureInputEvent): GameKeyEventSourceInterface = cast[GameKeyEventSourceInterface](value)
+proc newGameKeyCompleteMotionGestureInputEvent*(name: string, motionGestureInput: MotionGestureInput, inputToGameKeyMapping: InputToGameKeyMapping): GameKeyCompleteMotionGestureInputEvent
+proc initGameKeyCompleteMotionGestureInputEvent*(this: GameKeyCompleteMotionGestureInputEvent, name: string, motionGestureInput: MotionGestureInput, inputToGameKeyMapping: InputToGameKeyMapping)
+method getSourceId*(this: GameKeyCompleteMotionGestureInputEvent): int32 {.discardable.}
+method update*(this: GameKeyCompleteMotionGestureInputEvent) {.base.}
+method setGameKeyEvent*(this: GameKeyCompleteMotionGestureInputEvent, gameKeyEvent: GameKeyEvent) {.base.}
+method getGameKeyEvent*(this: GameKeyCompleteMotionGestureInputEvent): GameKeyEvent {.base, discardable.}
+method setGameKey*(this: GameKeyCompleteMotionGestureInputEvent, gameKey: GameKey) {.base.}
+method getGameKey*(this: GameKeyCompleteMotionGestureInputEvent): GameKey {.base, discardable.}
 
 
-class GameKeyCompleteMotionGestureInputEvent(CompleteMotionGestureInputEvent, GameKeyEventSourceInterface):
+# Java field initializers run after the base initializer
+proc initFieldsGameKeyCompleteMotionGestureInputEvent(this: GameKeyCompleteMotionGestureInputEvent) =
+    this.gameKey = GameKey.NULL_GAME_KEY
+    this.gameKeyEvent = GameKeyEvent.NONE
+    discard
 
-    def _init_fields(self) -> None:
-        from org.allbinary.game.input.GameKey import GameKey
-        from org.allbinary.game.input.event.GameKeyEvent import GameKeyEvent
-        self.gameKey: GameKey = GameKey.NULL_GAME_KEY
-        self.gameKeyEvent: GameKeyEvent = GameKeyEvent.NONE
-    
+proc initGameKeyCompleteMotionGestureInputEvent*(this: GameKeyCompleteMotionGestureInputEvent, name: string, motionGestureInput: MotionGestureInput, inputToGameKeyMapping: InputToGameKeyMapping) =
+        initCompleteMotionGestureInputEvent(this, name, motionGestureInput)
+        this.initFieldsGameKeyCompleteMotionGestureInputEvent()
 
-    def __init__(self, name: str, motionGestureInput: MotionGestureInput, inputToGameKeyMapping: InputToGameKeyMapping) -> None:
-        from org.allbinary.game.input.mapping.InputToGameKeyMapping import InputToGameKeyMapping
-        from org.allbinary.input.motion.gesture.MotionGestureInput import MotionGestureInput
-        super().__init__(name, motionGestureInput)
-        self._init_fields()
-    
+proc newGameKeyCompleteMotionGestureInputEvent*(name: string, motionGestureInput: MotionGestureInput, inputToGameKeyMapping: InputToGameKeyMapping): GameKeyCompleteMotionGestureInputEvent =
+    result = GameKeyCompleteMotionGestureInputEvent()
+    initGameKeyCompleteMotionGestureInputEvent(result, name, motionGestureInput, inputToGameKeyMapping)
 
-    def getSourceId(self) -> int:
+method getSourceId*(this: GameKeyCompleteMotionGestureInputEvent): int32 {.discardable.} =
         return 0
-    
 
-    def update(self) -> None:
-        pass
-    
+method update*(this: GameKeyCompleteMotionGestureInputEvent) {.base.} =
+        discard
 
-    def setGameKeyEvent(self, gameKeyEvent: GameKeyEvent) -> None:
-        from org.allbinary.game.input.event.GameKeyEvent import GameKeyEvent
-        self.gameKeyEvent = gameKeyEvent
-    
+method setGameKeyEvent*(this: GameKeyCompleteMotionGestureInputEvent, gameKeyEvent: GameKeyEvent) {.base.} =
+        this.gameKeyEvent = gameKeyEvent
 
-    def getGameKeyEvent(self) -> GameKeyEvent:
-        from org.allbinary.game.input.event.GameKeyEvent import GameKeyEvent
-        return self.gameKeyEvent
-    
+method getGameKeyEvent*(this: GameKeyCompleteMotionGestureInputEvent): GameKeyEvent {.base, discardable.} =
+        return this.gameKeyEvent
 
-    def setGameKey(self, gameKey: GameKey) -> None:
-        from org.allbinary.game.input.GameKey import GameKey
-        self.gameKey = gameKey
-    
+method setGameKey*(this: GameKeyCompleteMotionGestureInputEvent, gameKey: GameKey) {.base.} =
+        this.gameKey = gameKey
 
-    def getGameKey(self) -> GameKey:
-        from org.allbinary.game.input.GameKey import GameKey
-        return self.gameKey
-# from org.allbinary.game.input.GameKey import GameKey
-# from org.allbinary.game.input.event.GameKeyEvent import GameKeyEvent
-# from org.allbinary.game.input.mapping.InputToGameKeyMapping import InputToGameKeyMapping
-# from org.allbinary.input.motion.gesture.MotionGestureInput import MotionGestureInput
+method getGameKey*(this: GameKeyCompleteMotionGestureInputEvent): GameKey {.base, discardable.} =
+        return this.gameKey
 
+when declared(newGameKeyCompleteMotionGestureInputEventHook3):
+    newGameKeyCompleteMotionGestureInputEventHook3 = proc (name: string, motionGestureInput: MotionGestureInput, inputToGameKeyMapping: InputToGameKeyMapping): CompleteMotionGestureInputEvent = newGameKeyCompleteMotionGestureInputEvent(name, motionGestureInput, inputToGameKeyMapping)
 

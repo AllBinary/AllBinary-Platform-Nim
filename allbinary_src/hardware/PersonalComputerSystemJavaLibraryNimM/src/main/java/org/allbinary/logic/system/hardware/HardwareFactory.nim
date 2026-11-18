@@ -59,9 +59,9 @@ proc getInstance*(t: typedesc[HardwareFactory], os: GenericOperatingSystem): Har
         try:
             let operatingSystems: OperatingSystems = OperatingSystems.getInstance()
             if os.getName().compareTo(operatingSystems.LINUX) == 0:
-                return HardwareInterface(newLinuxHardware())
+                return HardwareInterface(JObject(newLinuxHardware()))
             elif os.getName().indexOf(operatingSystems.WINDOWS) >= 0:
-                return HardwareInterface(newWindowsHardware())
+                return HardwareInterface(JObject(newWindowsHardware()))
             raise newJException("Exception", jstr("No Hardware Imp for: ") & jstr(os.getName()))
         except CatchableError as jcaught:
             let e = jToException(jcaught)

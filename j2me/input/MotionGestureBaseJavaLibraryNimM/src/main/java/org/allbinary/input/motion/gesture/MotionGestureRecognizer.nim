@@ -1,200 +1,201 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.input.motion.gesture
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/graphics/GPoint as GPointModule
+export GPointModule
+import org/allbinary/graphics/Line as LineModule
+export LineModule
+import org/allbinary/input/motion/gesture/observer/BasicMotionGesturesHandler as BasicMotionGesturesHandlerModule
+export BasicMotionGesturesHandlerModule
+import org/allbinary/input/motion/gesture/observer/MotionEventCircularPool as MotionEventCircularPoolModule
+export MotionEventCircularPoolModule
+import org/allbinary/logic/communication/log/LogUtil as LogUtilModule
+export LogUtilModule
+import org/allbinary/logic/math/J2SEMath as J2SEMathModule
+export J2SEMathModule
+import org/allbinary/logic/util/event/handler/BasicEventHandler as BasicEventHandlerModule
+export BasicEventHandlerModule
 
-import math
+type
+    MotionGestureRecognizer* = ref object of JObject
+        logUtil*: LogUtil
+        j2seMath*: J2SEMath
+        origin*: GPoint
+        previous*: GPoint
+        intermediate*: GPoint
+        line*: Line
+        motionGesturesHandler*: BasicMotionGesturesHandler
+        movedMotionGesturesHandler*: BasicEventHandler
+        scrolledMotionGesturesHandler*: BasicEventHandler
+        motionEventCircularPool*: MotionEventCircularPool
+
+proc newMotionGestureRecognizer*(id: int32): MotionGestureRecognizer
+proc initMotionGestureRecognizer*(this: MotionGestureRecognizer, id: int32)
+method processPressedMotionEvent*(this: MotionGestureRecognizer, current: GPoint, deviceId: int32, button: int32): bool {.base, discardable.}
+method processReleasedMotionEvent*(this: MotionGestureRecognizer, current: GPoint, deviceId: int32, button: int32): bool {.base, discardable.}
+method processDraggedMotionEvent*(this: MotionGestureRecognizer, current: GPoint, deviceId: int32, buttonMask: int32) {.base.}
+method processMovedMotionEvent*(this: MotionGestureRecognizer, current: GPoint, deviceId: int32, button: int32): bool {.base, discardable.}
+method processScrolledMotionEvent*(this: MotionGestureRecognizer, current: GPoint, deviceId: int32, button: int32): bool {.base, discardable.}
+method getMotionGesturesHandler*(this: MotionGestureRecognizer): BasicMotionGesturesHandler {.base, discardable.}
+import org/allbinary/graphics/PointFactory as PointFactoryModule
+export PointFactoryModule
+import org/allbinary/input/motion/gesture/configuration/MotionGestureConfiguration as MotionGestureConfigurationModule
+export MotionGestureConfigurationModule
+import org/allbinary/input/motion/gesture/configuration/MotionGestureConfigurationFactory as MotionGestureConfigurationFactoryModule
+export MotionGestureConfigurationFactoryModule
+import org/allbinary/input/motion/gesture/observer/MotionGestureEvent as MotionGestureEventModule
+export MotionGestureEventModule
+import org/allbinary/input/motion/gesture/observer/MovedMotionGesturesHandler as MovedMotionGesturesHandlerModule
+export MovedMotionGesturesHandlerModule
+import org/allbinary/input/motion/gesture/observer/ScrolledMotionGesturesHandler as ScrolledMotionGesturesHandlerModule
+export ScrolledMotionGesturesHandlerModule
+import org/allbinary/string/CommonStrings as CommonStringsModule
+export CommonStringsModule
+import org/allbinary/input/motion/gesture/TouchMotionGestureFactory as TouchMotionGestureFactoryModule
+export TouchMotionGestureFactoryModule
+import org/allbinary/input/motion/gesture/MotionGestureInput as MotionGestureInputModule
+export MotionGestureInputModule
 
 
-class MotionGestureRecognizer:
-
-    def _init_fields(self) -> None:
-        from org.allbinary.graphics.GPoint import GPoint
-        from org.allbinary.graphics.Line import Line
-        from org.allbinary.graphics.PointFactory import PointFactory
-        from org.allbinary.input.motion.gesture.observer.BasicMotionGesturesHandler import BasicMotionGesturesHandler
-        from org.allbinary.input.motion.gesture.observer.MotionEventCircularPool import MotionEventCircularPool
-        from org.allbinary.logic.communication.log.LogUtil import LogUtil
-        from org.allbinary.logic.math.J2SEMath import J2SEMath
-        from org.allbinary.logic.util.event.handler.BasicEventHandler import BasicEventHandler
-        self.logUtil: LogUtil = LogUtil.getInstance()
-        self.j2seMath: J2SEMath = J2SEMath.getInstance()
-        self.origin: GPoint = PointFactory.getInstance().ZERO_ZERO
-        self.previous: GPoint = self.origin
-        self.intermediate: GPoint = self.origin
-        self.line: Line = Line(self.origin, self.origin)
-        self.motionGesturesHandler: BasicMotionGesturesHandler = None
-        self.movedMotionGesturesHandler: BasicEventHandler = None
-        self.scrolledMotionGesturesHandler: BasicEventHandler = None
-        self.motionEventCircularPool: MotionEventCircularPool = None
+# Java field initializers run after the base initializer
+proc initFieldsMotionGestureRecognizer(this: MotionGestureRecognizer) =
+    this.logUtil = LogUtil.getInstance()
+    this.j2seMath = J2SEMath.getInstance()
+    this.origin = PointFactory.getInstance().ZERO_ZERO
+    this.previous = this.origin
+    this.intermediate = this.origin
+    this.line = newLine(this.origin, this.origin)
     
+    
+    
+    
+    discard
 
-    def __init__(self, id: int) -> None:
-        from org.allbinary.input.motion.gesture.observer.BasicMotionGesturesHandler import BasicMotionGesturesHandler
-        from org.allbinary.input.motion.gesture.observer.MotionEventCircularPool import MotionEventCircularPool
-        from org.allbinary.input.motion.gesture.observer.MovedMotionGesturesHandler import MovedMotionGesturesHandler
-        from org.allbinary.input.motion.gesture.observer.ScrolledMotionGesturesHandler import ScrolledMotionGesturesHandler
-        from org.allbinary.logic.util.event.handler.BasicEventHandler import BasicEventHandler
-        from org.allbinary.string.CommonStrings import CommonStrings
-        self._init_fields()
-        self.motionEventCircularPool = MotionEventCircularPool.createPool(id)
-        motionGesturesHandler: BasicEventHandler = BasicEventHandler()
-        movedMotionGesturesHandler: BasicEventHandler = motionGesturesHandler
-        scrolledMotionGesturesHandler: BasicEventHandler = motionGesturesHandler
+proc initMotionGestureRecognizer*(this: MotionGestureRecognizer, id: int32) =
+        this.initFieldsMotionGestureRecognizer()
+        this.motionEventCircularPool = MotionEventCircularPool.createPool(id)
+        var motionGesturesHandler: BasicEventHandler = newBasicEventHandler()
+        var movedMotionGesturesHandler: BasicEventHandler = motionGesturesHandler
+        var scrolledMotionGesturesHandler: BasicEventHandler = motionGesturesHandler
         try:
             motionGesturesHandler = BasicMotionGesturesHandler.getInstance()
             movedMotionGesturesHandler = MovedMotionGesturesHandler.getInstance()
             scrolledMotionGesturesHandler = ScrolledMotionGesturesHandler.getInstance()
-        except Exception as e:
-            commonStrings: CommonStrings = CommonStrings.getInstance()
-            self.logUtil.put(commonStrings.EXCEPTION, self, commonStrings.CONSTRUCTOR, e)
-        self.motionGesturesHandler = motionGesturesHandler
-        self.movedMotionGesturesHandler = movedMotionGesturesHandler
-        self.scrolledMotionGesturesHandler = scrolledMotionGesturesHandler
-    
+        except CatchableError as jcaught:
+            let e = jToException(jcaught)
+            let commonStrings: CommonStrings = CommonStrings.getInstance()
+            this.logUtil.put(commonStrings.EXCEPTION, this, commonStrings.CONSTRUCTOR, e)
+        this.motionGesturesHandler = BasicMotionGesturesHandler(JObject(motionGesturesHandler))
+        this.movedMotionGesturesHandler = movedMotionGesturesHandler
+        this.scrolledMotionGesturesHandler = scrolledMotionGesturesHandler
 
-    # throws Exception
-    def processPressedMotionEvent(self, current: GPoint, deviceId: int, button: int) -> bool:
-        from org.allbinary.input.motion.gesture.TouchMotionGestureFactory import TouchMotionGestureFactory
-        from org.allbinary.graphics.GPoint import GPoint
-        from org.allbinary.input.motion.gesture.observer.MotionGestureEvent import MotionGestureEvent
-        self.intermediate = self.origin
-        self.previous = self.origin
-        event: MotionGestureEvent = self.motionEventCircularPool.getInstance(TouchMotionGestureFactory.getInstance().PRESSED)
-        event.setPreviousPoint(self.previous)
+proc newMotionGestureRecognizer*(id: int32): MotionGestureRecognizer =
+    result = MotionGestureRecognizer()
+    initMotionGestureRecognizer(result, id)
+
+method processPressedMotionEvent*(this: MotionGestureRecognizer, current: GPoint, deviceId: int32, button: int32): bool {.base, discardable.} =
+        this.intermediate = this.origin
+        this.previous = this.origin
+        let event: MotionGestureEvent = this.motionEventCircularPool.getInstance(TouchMotionGestureFactory.getInstance().PRESSED)
+        event.setPreviousPoint(this.previous)
         event.setCurrentPoint(current)
-        self.motionGesturesHandler.fireEvent(event)
-        return True
-    
+        this.motionGesturesHandler.fireEvent(event)
+        return true
 
-    # throws Exception
-    def processReleasedMotionEvent(self, current: GPoint, deviceId: int, button: int) -> bool:
-        from org.allbinary.input.motion.gesture.TouchMotionGestureFactory import TouchMotionGestureFactory
-        from org.allbinary.graphics.GPoint import GPoint
-        from org.allbinary.input.motion.gesture.observer.MotionGestureEvent import MotionGestureEvent
-        event: MotionGestureEvent = self.motionEventCircularPool.getInstance(TouchMotionGestureFactory.getInstance().RELEASED)
-        event.setPreviousPoint(self.previous)
+method processReleasedMotionEvent*(this: MotionGestureRecognizer, current: GPoint, deviceId: int32, button: int32): bool {.base, discardable.} =
+        let event: MotionGestureEvent = this.motionEventCircularPool.getInstance(TouchMotionGestureFactory.getInstance().RELEASED)
+        event.setPreviousPoint(this.previous)
         event.setCurrentPoint(current)
-        self.motionGesturesHandler.fireEvent(event)
-        return True
-    
+        this.motionGesturesHandler.fireEvent(event)
+        return true
 
-    # throws Exception
-    def processDraggedMotionEvent(self, current: GPoint, deviceId: int, buttonMask: int) -> None:
-        from org.allbinary.input.motion.gesture.TouchMotionGestureFactory import TouchMotionGestureFactory
-        from org.allbinary.graphics.GPoint import GPoint
-        from org.allbinary.input.motion.gesture.configuration.MotionGestureConfiguration import MotionGestureConfiguration
-        from org.allbinary.input.motion.gesture.configuration.MotionGestureConfigurationFactory import MotionGestureConfigurationFactory
-        from org.allbinary.input.motion.gesture.observer.MotionGestureEvent import MotionGestureEvent
-        if self.previous == self.origin or self.intermediate == self.origin:
-            self.previous = current
-            self.intermediate = current
+method processDraggedMotionEvent*(this: MotionGestureRecognizer, current: GPoint, deviceId: int32, buttonMask: int32) {.base.} =
+        if this.previous == this.origin or this.intermediate == this.origin:
+            this.previous = current
+            this.intermediate = current
             return
-        self.line.setP1(self.previous)
-        self.line.setP2(current)
-        minimumMotionGesture: int = MotionGestureConfigurationFactory.getInstance().getMinimumMotionGesture()
-        if self.j2seMath.abs(float(self.line.getDeltaX())) < minimumMotionGesture and self.j2seMath.abs(float(self.line.getDeltaY())) < minimumMotionGesture:
-            self.intermediate = current
+        this.line.setP1(this.previous)
+        this.line.setP2(current)
+        var minimumMotionGesture: int32 = MotionGestureConfigurationFactory.getInstance().getMinimumMotionGesture()
+        if this.j2seMath.abs(float32(this.line.getDeltaX())) < float32(minimumMotionGesture) and this.j2seMath.abs(float32(this.line.getDeltaY())) < float32(minimumMotionGesture):
+            this.intermediate = current
             return
-        gradient: float = self.line.getGradient()
-        absGradient: float = float(self.j2seMath.abs(gradient))
-        conf: MotionGestureConfiguration = MotionGestureConfigurationFactory.getInstance()
-        touchMotionGestureFactory: TouchMotionGestureFactory = TouchMotionGestureFactory.getInstance()
-        newMotionGesture: MotionGestureInput = touchMotionGestureFactory.NO_MOTION
-        diagonalToleranceHigher: float = 12.0
-        diagonalToleranceLower: float = 12.0
+        var gradient: float64 = this.line.getGradient()
+        var absGradient: float64 = float64(this.j2seMath.abs(float32(gradient)))
+        let conf: MotionGestureConfiguration = MotionGestureConfigurationFactory.getInstance()
+        let touchMotionGestureFactory: TouchMotionGestureFactory = TouchMotionGestureFactory.getInstance()
+        var newMotionGesture: MotionGestureInput = touchMotionGestureFactory.NO_MOTION
+        var diagonalToleranceHigher: float64 = 12.0
+        var diagonalToleranceLower: float64 = 12.0
         if conf.isDiagonalMotionGestureAllowed():
-            diagonalToleranceHigher = float((90 - conf.getDiagonalTolerance()))
-            diagonalToleranceLower = float(conf.getDiagonalTolerance())
-        if absGradient > math.tan(math.radians(diagonalToleranceHigher)):
-            if self.line.getDeltaY() > 0:
+            diagonalToleranceHigher = float64((90 -% conf.getDiagonalTolerance()))
+            diagonalToleranceLower = float64(conf.getDiagonalTolerance())
+        if absGradient > jtan(jtoRadians(diagonalToleranceHigher)):
+            if this.line.getDeltaY() > 0.0:
                 newMotionGesture = touchMotionGestureFactory.UP
             else:
                 newMotionGesture = touchMotionGestureFactory.DOWN
         else:
-            if absGradient < math.tan(math.radians(diagonalToleranceLower)):
-                if self.line.getDeltaX() > 0:
+            if absGradient < jtan(jtoRadians(diagonalToleranceLower)):
+                if this.line.getDeltaX() > 0.0:
                     newMotionGesture = touchMotionGestureFactory.LEFT
                 else:
                     newMotionGesture = touchMotionGestureFactory.RIGHT
             else:
                 if gradient > 0.0:
-                    if self.line.getDeltaX() > 0:
+                    if this.line.getDeltaX() > 0.0:
                         newMotionGesture = touchMotionGestureFactory.DIAGONAL_UP_LEFT
                     else:
                         newMotionGesture = touchMotionGestureFactory.DIAGONAL_DOWN_RIGHT
                 else:
-                    if self.line.getDeltaX() > 0:
+                    if this.line.getDeltaX() > 0.0:
                         newMotionGesture = touchMotionGestureFactory.DIAGONAL_DOWN_LEFT
                     else:
                         newMotionGesture = touchMotionGestureFactory.DIAGONAL_UP_RIGHT
-        self.previous = current
-        self.intermediate = current
-        event: MotionGestureEvent = self.motionEventCircularPool.getInstance(newMotionGesture)
-        event.setPreviousPoint(self.previous)
+        this.previous = current
+        this.intermediate = current
+        let event: MotionGestureEvent = this.motionEventCircularPool.getInstance(newMotionGesture)
+        event.setPreviousPoint(this.previous)
         event.setCurrentPoint(current)
-        self.motionGesturesHandler.fireEvent(event)
+        this.motionGesturesHandler.fireEvent(event)
         return
-    
 
-    # throws Exception
-    def processMovedMotionEvent(self, current: GPoint, deviceId: int, button: int) -> bool:
-        from org.allbinary.input.motion.gesture.TouchMotionGestureFactory import TouchMotionGestureFactory
-        from org.allbinary.graphics.GPoint import GPoint
-        from org.allbinary.input.motion.gesture.observer.MotionGestureEvent import MotionGestureEvent
-        event: MotionGestureEvent = self.motionEventCircularPool.getInstance(TouchMotionGestureFactory.getInstance().NO_MOTION)
-        event.setPreviousPoint(self.previous)
+method processMovedMotionEvent*(this: MotionGestureRecognizer, current: GPoint, deviceId: int32, button: int32): bool {.base, discardable.} =
+        let event: MotionGestureEvent = this.motionEventCircularPool.getInstance(TouchMotionGestureFactory.getInstance().NO_MOTION)
+        event.setPreviousPoint(this.previous)
         event.setCurrentPoint(current)
-        self.movedMotionGesturesHandler.fireEvent(event)
-        return True
-    
+        this.movedMotionGesturesHandler.fireEvent(event)
+        return true
 
-    # throws Exception
-    def processScrolledMotionEvent(self, current: GPoint, deviceId: int, button: int) -> bool:
-        from org.allbinary.input.motion.gesture.TouchMotionGestureFactory import TouchMotionGestureFactory
-        from org.allbinary.graphics.GPoint import GPoint
-        from org.allbinary.input.motion.gesture.observer.MotionGestureEvent import MotionGestureEvent
-        touchMotionGestureFactory: TouchMotionGestureFactory = TouchMotionGestureFactory.getInstance()
-        newMotionGesture: MotionGestureInput = touchMotionGestureFactory.NO_MOTION
+method processScrolledMotionEvent*(this: MotionGestureRecognizer, current: GPoint, deviceId: int32, button: int32): bool {.base, discardable.} =
+        let touchMotionGestureFactory: TouchMotionGestureFactory = TouchMotionGestureFactory.getInstance()
+        var newMotionGesture: MotionGestureInput = touchMotionGestureFactory.NO_MOTION
         if button > 0:
             newMotionGesture = touchMotionGestureFactory.SCROLL_UP
         elif button < 0:
             newMotionGesture = touchMotionGestureFactory.SCROLL_DOWN
-        event: MotionGestureEvent = self.motionEventCircularPool.getInstance(newMotionGesture)
-        event.setPreviousPoint(self.previous)
+        let event: MotionGestureEvent = this.motionEventCircularPool.getInstance(newMotionGesture)
+        event.setPreviousPoint(this.previous)
         event.setCurrentPoint(current)
-        self.scrolledMotionGesturesHandler.fireEvent(event)
-        return True
-    
+        this.scrolledMotionGesturesHandler.fireEvent(event)
+        return true
 
-    def getMotionGesturesHandler(self) -> BasicMotionGesturesHandler:
-        from org.allbinary.input.motion.gesture.observer.BasicMotionGesturesHandler import BasicMotionGesturesHandler
-        return self.motionGesturesHandler
-# from org.allbinary.graphics.GPoint import GPoint
-# from org.allbinary.graphics.Line import Line
-# from org.allbinary.graphics.PointFactory import PointFactory
-# from org.allbinary.input.motion.gesture.configuration.MotionGestureConfiguration import MotionGestureConfiguration
-# from org.allbinary.input.motion.gesture.configuration.MotionGestureConfigurationFactory import MotionGestureConfigurationFactory
-# from org.allbinary.input.motion.gesture.observer.BasicMotionGesturesHandler import BasicMotionGesturesHandler
-# from org.allbinary.input.motion.gesture.observer.MotionEventCircularPool import MotionEventCircularPool
-# from org.allbinary.input.motion.gesture.observer.MotionGestureEvent import MotionGestureEvent
-# from org.allbinary.input.motion.gesture.observer.MovedMotionGesturesHandler import MovedMotionGesturesHandler
-# from org.allbinary.input.motion.gesture.observer.ScrolledMotionGesturesHandler import ScrolledMotionGesturesHandler
-# from org.allbinary.logic.communication.log.LogUtil import LogUtil
-# from org.allbinary.logic.math.J2SEMath import J2SEMath
-# from org.allbinary.logic.util.event.handler.BasicEventHandler import BasicEventHandler
-# from org.allbinary.string.CommonStrings import CommonStrings
-
+method getMotionGesturesHandler*(this: MotionGestureRecognizer): BasicMotionGesturesHandler {.base, discardable.} =
+        return this.motionGesturesHandler
 

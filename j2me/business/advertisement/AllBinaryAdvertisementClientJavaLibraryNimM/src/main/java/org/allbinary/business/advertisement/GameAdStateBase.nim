@@ -1,130 +1,143 @@
-# 
-# AllBinary Open License Version 1 
-# Copyright (c) 2025 AllBinary 
-#  
-# By agreeing to this license you and any business entity you represent are 
-# legally bound to the AllBinary Open License Version 1 legal agreement. 
-#  
-# You may obtain the AllBinary Open License Version 1 legal agreement from 
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
-#  
-# Created By: Travis Berthelot 
-#   
+#[
+  
+  AllBinary Open License Version 1 
+  Copyright (c) 2025 AllBinary 
+   
+  By agreeing to this license you and any business entity you represent are 
+  legally bound to the AllBinary Open License Version 1 legal agreement. 
+   
+  You may obtain the AllBinary Open License Version 1 legal agreement from 
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
+   
+  Created By: Travis Berthelot 
+    
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.business.advertisement
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/game/GameType as GameTypeModule
+export GameTypeModule
+import org/allbinary/game/state/GameState as GameStateModule
+export GameStateModule
+import org/allbinary/logic/util/event/AllBinaryEventObject as AllBinaryEventObjectModule
+export AllBinaryEventObjectModule
+import org/allbinary/business/advertisement/AdConfiguration as AdConfigurationModule
+export AdConfigurationModule
+import org/allbinary/business/advertisement/Advertisements as AdvertisementsModule
+export AdvertisementsModule
+
+type
+    GameAdStateBase* = ref object of JObject
+        adConfigurationP*: AdConfiguration
+        advertisementsP*: Advertisements
+        okayToShowAdsP*: bool
+
+proc newGameAdStateBase*(adConfiguration: AdConfiguration): GameAdStateBase
+proc initGameAdStateBase*(this: GameAdStateBase, adConfiguration: AdConfiguration)
+method initViewArray*(this: GameAdStateBase, viewArray: JArray[JObject]) {.base.}
+method onStart*(this: GameAdStateBase, anyType: JObject) {.base.}
+method init*(this: GameAdStateBase) {.base.}
+method isShowingAtLocation*(this: GameAdStateBase, location: int32): bool {.base, discardable.}
+method isShowingAt*(this: GameAdStateBase): bool {.base, discardable.}
+method show*(this: GameAdStateBase) {.base.}
+method hide*(this: GameAdStateBase) {.base.}
+method onEvent*(this: GameAdStateBase, eventObject: AllBinaryEventObject) {.base.}
+method processAdState*(this: GameAdStateBase, gameState: GameState, gameType: GameType) {.base.}
+method processPageAdState*(this: GameAdStateBase) {.base.}
+method playingAdState*(this: GameAdStateBase) {.base.}
+method playingAdStateWH*(this: GameAdStateBase, width: int32, height: int32) {.base.}
+method notPlayingAdState*(this: GameAdStateBase) {.base.}
+method setGameIsReady*(this: GameAdStateBase, gameIsReady: bool) {.base.}
+method isGameIsReady*(this: GameAdStateBase): bool {.base, discardable.}
+method getAdvertisements*(this: GameAdStateBase): Advertisements {.base, discardable.}
+method getAdConfiguration*(this: GameAdStateBase): AdConfiguration {.base, discardable.}
+method isOkayToShowPageAd*(this: GameAdStateBase): bool {.base, discardable.}
+method setOkayToShowAds*(this: GameAdStateBase, okayToShowAds: bool) {.base.}
+method isOkayToShowAds*(this: GameAdStateBase): bool {.base, discardable.}
+method isEnabled*(this: GameAdStateBase): bool {.base, discardable.}
+import org/allbinary/logic/communication/log/ForcedLogUtil as ForcedLogUtilModule
+export ForcedLogUtilModule
+import org/allbinary/logic/util/event/EventStrings as EventStringsModule
+export EventStringsModule
 
 
-
-class GameAdStateBase:
-
-    def _init_fields(self) -> None:
-        self.adConfigurationP: AdConfiguration = None
-        self.advertisementsP: Advertisements = Advertisements()
-        self.okayToShowAdsP: bool = False
+# Java field initializers run after the base initializer
+proc initFieldsGameAdStateBase(this: GameAdStateBase) =
     
+    this.advertisementsP = newAdvertisements()
+    this.okayToShowAdsP = false
+    discard
 
-    def __init__(self, adConfiguration: AdConfiguration) -> None:
-        self._init_fields()
-        self.adConfigurationP = adConfiguration
-    
+proc initGameAdStateBase*(this: GameAdStateBase, adConfiguration: AdConfiguration) =
+        this.initFieldsGameAdStateBase()
+        this.adConfigurationP = adConfiguration
 
-    def initViewArray(self, viewArray: list[object]) -> None:
-        pass
-    
+proc newGameAdStateBase*(adConfiguration: AdConfiguration): GameAdStateBase =
+    result = GameAdStateBase()
+    initGameAdStateBase(result, adConfiguration)
 
-    def onStart(self, anyType: object) -> None:
-        self.init()
-    
+method initViewArray*(this: GameAdStateBase, viewArray: JArray[JObject]) {.base.} =
+        discard
 
-    def init(self) -> None:
-        pass
-    
+method onStart*(this: GameAdStateBase, anyType: JObject) {.base.} =
+        this.init()
 
-    def isShowingAtLocation(self, location: int) -> bool:
-        return False
-    
+method init*(this: GameAdStateBase) {.base.} =
+        discard
 
-    def isShowingAt(self) -> bool:
-        return False
-    
+method isShowingAtLocation*(this: GameAdStateBase, location: int32): bool {.base, discardable.} =
+        return false
 
-    def show(self) -> None:
-        pass
-    
+method isShowingAt*(this: GameAdStateBase): bool {.base, discardable.} =
+        return false
 
-    def hide(self) -> None:
-        pass
-    
+method show*(this: GameAdStateBase) {.base.} =
+        discard
 
-    def onEvent(self, eventObject: AllBinaryEventObject) -> None:
-        from org.allbinary.logic.communication.log.ForcedLogUtil import ForcedLogUtil
-        from org.allbinary.logic.util.event.AllBinaryEventObject import AllBinaryEventObject
-        from org.allbinary.logic.util.event.EventStrings import EventStrings
-        ForcedLogUtil.log(EventStrings.getInstance().PERFORMANCE_MESSAGE, self)
-    
+method hide*(this: GameAdStateBase) {.base.} =
+        discard
 
-    def processAdState(self, gameState: GameState, gameType: GameType) -> None:
-        from org.allbinary.game.GameType import GameType
-        from org.allbinary.game.state.GameState import GameState
-        pass
-    
+method onEvent*(this: GameAdStateBase, eventObject: AllBinaryEventObject) {.base.} =
+        ForcedLogUtil.log(EventStrings.getInstance().PERFORMANCE_MESSAGE, this)
 
-    def processPageAdState(self) -> None:
-        pass
-    
+method processAdState*(this: GameAdStateBase, gameState: GameState, gameType: GameType) {.base.} =
+        discard
 
-    # throws Exception
-    def playingAdState(self) -> None:
-        pass
-    
+method processPageAdState*(this: GameAdStateBase) {.base.} =
+        discard
 
-    # throws Exception
-    def playingAdStateWH(self, width: int, height: int) -> None:
-        pass
-    
+method playingAdState*(this: GameAdStateBase) {.base.} =
+        discard
 
-    # throws Exception
-    def notPlayingAdState(self) -> None:
-        pass
-    
+method playingAdStateWH*(this: GameAdStateBase, width: int32, height: int32) {.base.} =
+        discard
 
-    def setGameIsReady(self, gameIsReady: bool) -> None:
-        pass
-    
+method notPlayingAdState*(this: GameAdStateBase) {.base.} =
+        discard
 
-    def isGameIsReady(self) -> bool:
-        return False
-    
+method setGameIsReady*(this: GameAdStateBase, gameIsReady: bool) {.base.} =
+        discard
 
-    def getAdvertisements(self) -> Advertisements:
-        return self.advertisementsP
-    
+method isGameIsReady*(this: GameAdStateBase): bool {.base, discardable.} =
+        return false
 
-    def getAdConfiguration(self) -> AdConfiguration:
-        return self.adConfigurationP
-    
+method getAdvertisements*(this: GameAdStateBase): Advertisements {.base, discardable.} =
+        return this.advertisementsP
 
-    def isOkayToShowPageAd(self) -> bool:
-        return False
-    
+method getAdConfiguration*(this: GameAdStateBase): AdConfiguration {.base, discardable.} =
+        return this.adConfigurationP
 
-    def setOkayToShowAds(self, okayToShowAds: bool) -> None:
-        self.okayToShowAdsP = okayToShowAds
-    
+method isOkayToShowPageAd*(this: GameAdStateBase): bool {.base, discardable.} =
+        return false
 
-    def isOkayToShowAds(self) -> bool:
-        return self.okayToShowAdsP
-    
+method setOkayToShowAds*(this: GameAdStateBase, okayToShowAds: bool) {.base.} =
+        this.okayToShowAdsP = okayToShowAds
 
-    def isEnabled(self) -> bool:
-        return False
-# from org.allbinary.game.GameType import GameType
-# from org.allbinary.game.state.GameState import GameState
-# from org.allbinary.logic.communication.log.ForcedLogUtil import ForcedLogUtil
-# from org.allbinary.logic.util.event.AllBinaryEventObject import AllBinaryEventObject
-# from org.allbinary.logic.util.event.EventStrings import EventStrings
-from org.allbinary.business.advertisement.Advertisements import Advertisements
+method isOkayToShowAds*(this: GameAdStateBase): bool {.base, discardable.} =
+        return this.okayToShowAdsP
 
+method isEnabled*(this: GameAdStateBase): bool {.base, discardable.} =
+        return false
 

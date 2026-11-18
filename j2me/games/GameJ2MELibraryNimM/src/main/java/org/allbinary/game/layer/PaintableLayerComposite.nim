@@ -1,54 +1,69 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.layer
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import javax/microedition/lcdui/Graphics as GraphicsModule
+export GraphicsModule
+import org/allbinary/graphics/paint/Paintable as PaintableModule
+export PaintableModule
+import org/allbinary/layer/Layer as LayerModule
+export LayerModule
 
-from org.allbinary.graphics.paint.Paintable import Paintable
+type
+    PaintableLayerComposite* = ref object of Paintable
+        paintableArray*: JArray[Layer]
+
+proc newPaintableLayerComposite*(paintableArray: JArray[Layer]): PaintableLayerComposite
+proc initPaintableLayerComposite*(this: PaintableLayerComposite, paintableArray: JArray[Layer])
+method paint*(this: PaintableLayerComposite, graphics: Graphics)
+method paintThreed*(this: PaintableLayerComposite, graphics: Graphics)
+import org/allbinary/graphics/paint/PaintableInterface as PaintableInterfaceModule
+export PaintableInterfaceModule
 
 
-class PaintableLayerComposite(Paintable):
-
-    def _init_fields(self) -> None:
-        from org.allbinary.layer.Layer import Layer
-        self.paintableArray: list[Layer] = None
+# Java field initializers run after the base initializer
+proc initFieldsPaintableLayerComposite(this: PaintableLayerComposite) =
     
+    discard
 
-    def __init__(self, paintableArray: list[Layer]) -> None:
-        from org.allbinary.layer.Layer import Layer
-        super().__init__()
-        self._init_fields()
-        self.paintableArray = paintableArray
-    
+proc initPaintableLayerComposite*(this: PaintableLayerComposite, paintableArray: JArray[Layer]) =
+        initPaintable(this)
+        this.initFieldsPaintableLayerComposite()
+        this.paintableArray = paintableArray
 
-    def paint(self, graphics: Graphics) -> None:
-        from javax.microedition.lcdui.Graphics import Graphics
-        index = len(self.paintableArray)
-        while (index := index - 1) >= 0:
-            self.paintableArray[index].paint(graphics)
-    
+proc newPaintableLayerComposite*(paintableArray: JArray[Layer]): PaintableLayerComposite =
+    result = PaintableLayerComposite()
+    initPaintableLayerComposite(result, paintableArray)
 
-    def paintThreed(self, graphics: Graphics) -> None:
-        from javax.microedition.lcdui.Graphics import Graphics
-        from org.allbinary.graphics.paint.PaintableInterface import PaintableInterface
-        paintableInterface: PaintableInterface = None
-        index = len(self.paintableArray)
-        while (index := index - 1) >= 0:
-            paintableInterface = self.paintableArray[index]
-            paintableInterface.paintThreed(graphics)
-# from javax.microedition.lcdui.Graphics import Graphics
-# from org.allbinary.graphics.paint.PaintableInterface import PaintableInterface
-# from org.allbinary.layer.Layer import Layer
+method paint*(this: PaintableLayerComposite, graphics: Graphics) =
+        block:
+            var index: int32 = this.paintableArray.length
+            while jPreDecrement(index) >= 0:
+                this.paintableArray[index].paint(graphics)
 
+method paintThreed*(this: PaintableLayerComposite, graphics: Graphics) =
+        var paintableInterface: PaintableInterface = nil
+        block:
+            var index: int32 = this.paintableArray.length
+            while jPreDecrement(index) >= 0:
+                paintableInterface = PaintableInterface(JObject(this.paintableArray[index]))
+                paintableInterface.paintThreed(graphics)
+
+when declared(newPaintableLayerCompositeHook1):
+    newPaintableLayerCompositeHook1 = proc (paintableArray: JArray[Layer]): Paintable = newPaintableLayerComposite(paintableArray)
 

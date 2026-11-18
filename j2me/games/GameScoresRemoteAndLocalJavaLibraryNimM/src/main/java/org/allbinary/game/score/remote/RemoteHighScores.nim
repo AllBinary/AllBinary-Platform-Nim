@@ -1,162 +1,166 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#   
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+    
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.score.remote
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import java/lang/Long as LongModule
+export LongModule
+import java/lang/Boolean as BooleanModule
+export BooleanModule
+import java/util/Enumeration as EnumerationModule
+export EnumerationModule
+import org/allbinary/game/GameInfo as GameInfoModule
+export GameInfoModule
+import org/allbinary/game/score/HighScore as HighScoreModule
+export HighScoreModule
+import org/allbinary/game/score/HighScores as HighScoresModule
+export HighScoresModule
+import org/allbinary/logic/communication/log/LogUtil as LogUtilModule
+export LogUtilModule
+import org/allbinary/logic/system/SoftwareInformation as SoftwareInformationModule
+export SoftwareInformationModule
+import org/allbinary/logic/system/security/licensing/AbeClientInformationInterface as AbeClientInformationInterfaceModule
+export AbeClientInformationInterfaceModule
+import org/allbinary/util/ABHashtable as ABHashtableModule
+export ABHashtableModule
+import org/allbinary/util/EnumerationUtil as EnumerationUtilModule
+export EnumerationUtilModule
 
-import threading
-from java.lang.JavaRuntimeStatic import lazy_static
-from org.allbinary.game.score.HighScores import HighScores
+type
+    RemoteHighScores* = ref object of HighScores
+        logUtil*: LogUtil
+        enumerationUtil*: EnumerationUtil
+        abeClientInformation*: AbeClientInformationInterface
+        softwareInformation*: SoftwareInformation
+        ascending*: bool
+        ASCENDING*: string
 
+proc newRemoteHighScores*(abeClientInformation: AbeClientInformationInterface, softwareInformation: SoftwareInformation, gameInfo: GameInfo, heading: string, columnTwoHeading: string, ascending: bool, preload: bool): RemoteHighScores
+proc initRemoteHighScores*(this: RemoteHighScores, abeClientInformation: AbeClientInformationInterface, softwareInformation: SoftwareInformation, gameInfo: GameInfo, heading: string, columnTwoHeading: string, ascending: bool, preload: bool)
+proc getInstance*(t: typedesc[RemoteHighScores], abeClientInformation: AbeClientInformationInterface, softwareInformation: SoftwareInformation, gameInfo: GameInfo, heading: string, columnTwoHeading: string, isAscending: bool): HighScores {.discardable.}
+proc getInstancePreload*(t: typedesc[RemoteHighScores], abeClientInformation: AbeClientInformationInterface, softwareInformation: SoftwareInformation, gameInfo: GameInfo, heading: string, columnTwoHeading: string, isAscending: bool, preload: bool): HighScores {.discardable.}
+method addHighScore*(this: RemoteHighScores, newHighScore: HighScore)
+method update*(this: RemoteHighScores, hashtable: ABHashtable) {.base.}
+method setAscending*(this: RemoteHighScores, ascending: bool) {.base.}
+method getAscending*(this: RemoteHighScores): bool {.base, discardable.}
+method getSoftwareInformation*(this: RemoteHighScores): SoftwareInformation {.base, discardable.}
+import org/allbinary/util/BasicArrayList as BasicArrayListModule
+export BasicArrayListModule
+import org/allbinary/game/score/RemoteErrorHighScoresSingletonFactory as RemoteErrorHighScoresSingletonFactoryModule
+export RemoteErrorHighScoresSingletonFactoryModule
+import org/allbinary/logic/StdUtil as StdUtilModule
+export StdUtilModule
+import org/allbinary/logic/string/StringMaker as StringMakerModule
+export StringMakerModule
+import org/allbinary/string/CommonLabels as CommonLabelsModule
+export CommonLabelsModule
+import org/allbinary/string/CommonStrings as CommonStringsModule
+export CommonStringsModule
+import org/allbinary/game/score/remote/RemoteHighScoresProcessorFactory as RemoteHighScoresProcessorFactoryModule
+export RemoteHighScoresProcessorFactoryModule
+import org/allbinary/game/score/remote/RemoteHighScoresSubmissionProcessorFactory as RemoteHighScoresSubmissionProcessorFactoryModule
+export RemoteHighScoresSubmissionProcessorFactoryModule
+import org/allbinary/game/score/remote/RemoteHighScoresData as RemoteHighScoresDataModule
+export RemoteHighScoresDataModule
 
-class RemoteHighScores(HighScores):
-    hashTable: ABHashtable[object, object] = None
-    _lock = threading.RLock()
+var RemoteHighScores_hashTableValue: ABHashtable
+var RemoteHighScores_hashTableSet = false
+proc hashTable*(t: typedesc[RemoteHighScores]): ABHashtable =
+    if not RemoteHighScores_hashTableSet:
+        RemoteHighScores_hashTableSet = true
+        RemoteHighScores_hashTableValue = StdUtil.getInstance().createHashtable()
+    RemoteHighScores_hashTableValue
 
-    def _init_fields(self) -> None:
-        from org.allbinary.logic.communication.log.LogUtil import LogUtil
-        from org.allbinary.logic.system.SoftwareInformation import SoftwareInformation
-        from org.allbinary.logic.system.security.licensing.AbeClientInformationInterface import AbeClientInformationInterface
-        from org.allbinary.util.EnumerationUtil import EnumerationUtil
-        self.logUtil: LogUtil = LogUtil.getInstance()
-        self.enumerationUtil: EnumerationUtil = EnumerationUtil.getInstance()
-        self.abeClientInformation: AbeClientInformationInterface = None
-        self.softwareInformation: SoftwareInformation = None
-        self.ascending: bool = None
-        self.ASCENDING: str = "ASCENDING"
+# Java field initializers run after the base initializer
+proc initFieldsRemoteHighScores(this: RemoteHighScores) =
+    this.logUtil = LogUtil.getInstance()
+    this.enumerationUtil = EnumerationUtil.getInstance()
     
+    
+    
+    this.ASCENDING = "ASCENDING"
+    discard
 
-    def __init__(self, abeClientInformation: AbeClientInformationInterface, softwareInformation: SoftwareInformation, gameInfo: GameInfo, heading: str, columnTwoHeading: str, ascending: bool, preload: bool) -> None:
-        from org.allbinary.game.score.remote.RemoteHighScoresProcessorFactory import RemoteHighScoresProcessorFactory
-        from org.allbinary.game.GameInfo import GameInfo
-        from org.allbinary.logic.system.SoftwareInformation import SoftwareInformation
-        from org.allbinary.logic.system.security.licensing.AbeClientInformationInterface import AbeClientInformationInterface
-        super().__init__(str(gameInfo), heading, columnTwoHeading)
-        self._init_fields()
-        self.abeClientInformation = abeClientInformation
-        self.softwareInformation = softwareInformation
-        self.setAscending(ascending)
+proc initRemoteHighScores*(this: RemoteHighScores, abeClientInformation: AbeClientInformationInterface, softwareInformation: SoftwareInformation, gameInfo: GameInfo, heading: string, columnTwoHeading: string, ascending: bool, preload: bool) =
+        initHighScores(this, gameInfo.toString(), heading, columnTwoHeading)
+        this.initFieldsRemoteHighScores()
+        this.abeClientInformation = abeClientInformation
+        this.softwareInformation = softwareInformation
+        this.setAscending(ascending)
         if preload:
-            RemoteHighScoresProcessorFactory.getInstance().process(self, self.abeClientInformation, gameInfo)
-    
+            RemoteHighScoresProcessorFactory.getInstance().process(this, this.abeClientInformation, gameInfo)
 
-    @staticmethod
-    def getInstance(abeClientInformation: AbeClientInformationInterface, softwareInformation: SoftwareInformation, gameInfo: GameInfo, heading: str, columnTwoHeading: str, isAscending: bool) -> HighScores:
-        with RemoteHighScores._lock:
-            return RemoteHighScores._getInstance_unlocked(abeClientInformation, softwareInformation, gameInfo, heading, columnTwoHeading, isAscending)
+proc newRemoteHighScores*(abeClientInformation: AbeClientInformationInterface, softwareInformation: SoftwareInformation, gameInfo: GameInfo, heading: string, columnTwoHeading: string, ascending: bool, preload: bool): RemoteHighScores =
+    result = RemoteHighScores()
+    initRemoteHighScores(result, abeClientInformation, softwareInformation, gameInfo, heading, columnTwoHeading, ascending, preload)
 
-    @staticmethod
-    def _getInstance_unlocked(abeClientInformation: AbeClientInformationInterface, softwareInformation: SoftwareInformation, gameInfo: GameInfo, heading: str, columnTwoHeading: str, isAscending: bool) -> HighScores:
-        from org.allbinary.game.GameInfo import GameInfo
-        from org.allbinary.logic.system.SoftwareInformation import SoftwareInformation
-        from org.allbinary.logic.system.security.licensing.AbeClientInformationInterface import AbeClientInformationInterface
-        return RemoteHighScores.getInstancePreload(abeClientInformation, softwareInformation, gameInfo, heading, columnTwoHeading, isAscending, True)
-    
+proc getInstance*(t: typedesc[RemoteHighScores], abeClientInformation: AbeClientInformationInterface, softwareInformation: SoftwareInformation, gameInfo: GameInfo, heading: string, columnTwoHeading: string, isAscending: bool): HighScores {.discardable.} =
+        return RemoteHighScores.getInstancePreload(abeClientInformation, softwareInformation, gameInfo, heading, columnTwoHeading, isAscending, true)
 
-    @staticmethod
-    def getInstancePreload(abeClientInformation: AbeClientInformationInterface, softwareInformation: SoftwareInformation, gameInfo: GameInfo, heading: str, columnTwoHeading: str, isAscending: bool, preload: bool) -> HighScores:
-        with RemoteHighScores._lock:
-            return RemoteHighScores._getInstancePreload_unlocked(abeClientInformation, softwareInformation, gameInfo, heading, columnTwoHeading, isAscending, preload)
-
-    @staticmethod
-    def _getInstancePreload_unlocked(abeClientInformation: AbeClientInformationInterface, softwareInformation: SoftwareInformation, gameInfo: GameInfo, heading: str, columnTwoHeading: str, isAscending: bool, preload: bool) -> HighScores:
-        from org.allbinary.game.GameInfo import GameInfo
-        from org.allbinary.game.score.RemoteErrorHighScoresSingletonFactory import RemoteErrorHighScoresSingletonFactory
-        from org.allbinary.logic.communication.log.LogUtil import LogUtil
-        from org.allbinary.logic.system.SoftwareInformation import SoftwareInformation
-        from org.allbinary.logic.system.security.licensing.AbeClientInformationInterface import AbeClientInformationInterface
-        from org.allbinary.string.CommonStrings import CommonStrings
-        logUtil: LogUtil = LogUtil.getInstance()
+proc getInstancePreload*(t: typedesc[RemoteHighScores], abeClientInformation: AbeClientInformationInterface, softwareInformation: SoftwareInformation, gameInfo: GameInfo, heading: string, columnTwoHeading: string, isAscending: bool, preload: bool): HighScores {.discardable.} =
+        let logUtil: LogUtil = LogUtil.getInstance()
         try:
-            highScores: HighScores = RemoteHighScores.hashTable.get(gameInfo)
-            if highScores is None:
-                highScores = RemoteHighScores(abeClientInformation, softwareInformation, gameInfo, heading, columnTwoHeading, isAscending, preload)
+            var highScores: HighScores = HighScores(JObject(RemoteHighScores.hashTable.get(gameInfo)))
+            if (jIsNil(highScores)):
+                highScores = newRemoteHighScores(abeClientInformation, softwareInformation, gameInfo, heading, columnTwoHeading, isAscending, preload)
                 RemoteHighScores.hashTable.put(gameInfo, highScores)
             return highScores
-        except Exception as e:
-            commonStrings: CommonStrings = CommonStrings.getInstance()
+        except CatchableError as jcaught:
+            let e = jToException(jcaught)
+            let commonStrings: CommonStrings = CommonStrings.getInstance()
             logUtil.put(commonStrings.EXCEPTION, RemoteErrorHighScoresSingletonFactory.getInstance(), commonStrings.GET_INSTANCE, e)
             return RemoteErrorHighScoresSingletonFactory.getInstance()
-    
 
-    def addHighScore(self, newHighScore: HighScore) -> None:
-        from org.allbinary.game.score.remote.RemoteHighScoresSubmissionProcessorFactory import RemoteHighScoresSubmissionProcessorFactory
-        from org.allbinary.game.score.HighScore import HighScore
-        RemoteHighScoresSubmissionProcessorFactory.getInstance().process(self, self.abeClientInformation, newHighScore)
-    
+method addHighScore*(this: RemoteHighScores, newHighScore: HighScore) =
+        RemoteHighScoresSubmissionProcessorFactory.getInstance().process(this, this.abeClientInformation, newHighScore)
 
-    def update(self, hashtable: ABHashtable[object, object]) -> None:
-        from org.allbinary.game.score.remote.RemoteHighScoresData import RemoteHighScoresData
-        from java.util.Enumeration import Enumeration
-        from org.allbinary.util.BasicArrayList import BasicArrayList
-        from org.allbinary.game.score.HighScore import HighScore
-        from org.allbinary.logic.string.StringMaker import StringMaker
-        from org.allbinary.string.CommonLabels import CommonLabels
-        from org.allbinary.string.CommonStrings import CommonStrings
-        from org.allbinary.util.ABHashtable import ABHashtable
-        self.getList().clear()
-        vector: BasicArrayList = hashtable.get(RemoteHighScoresData.getInstance().HIGH_SCORES)
-        if vector is not None:
-            size: int = vector.size()
-            for index in range(0, size):
-                highScoreVector: BasicArrayList = vector.get(index)
-                displayName: str = highScoreVector.get(0)
-                score: str = highScoreVector.get(1)
-                longScore: int = int(score)
-                highScore: HighScore = HighScore(-1, displayName, None, longScore)
-                self.getList().add(highScore)
+method update*(this: RemoteHighScores, hashtable: ABHashtable) {.base.} =
+        this.getList().clear()
+        let vector: BasicArrayList = BasicArrayList(JObject(hashtable.get(JObject(JObject(RemoteHighScoresData.getInstance().HIGH_SCORES)))))
+        if (not jIsNil(vector)):
+            let size: int32 = vector.size()
+            block:
+                var index: int32 = 0
+                while index < size:
+                    defer: index = index +% 1
+                    let highScoreVector: BasicArrayList = BasicArrayList(JObject(vector.get(index)))
+                    let displayName: string = jstr(highScoreVector.get(0))
+                    let score: string = jstr(highScoreVector.get(1))
+                    let longScore: int64 = jParseLong(score)
+                    let highScore: HighScore = newHighScore(-1, displayName, nil, longScore)
+                    this.getList().add(highScore)
         else:
-            NEXT_ELEMENT: str = str(StringMaker().append(CommonLabels.getInstance().NEXT).append("Element: "))
-            commonStrings: CommonStrings = CommonStrings.getInstance()
-            enumeration: Enumeration = hashtable.elements()
-            nextElement: object = None
-            while self.enumerationUtil.hasMoreElements(enumeration):
-                nextElement = self.enumerationUtil.nextElement(enumeration)
-                self.logUtil.putF(NEXT_ELEMENT + str(nextElement), self, commonStrings.PROCESS)
-    
+            let NEXT_ELEMENT: string = newStringMaker().append(CommonLabels.getInstance().NEXT).append("Element: ").toString()
+            let commonStrings: CommonStrings = CommonStrings.getInstance()
+            let enumeration: Enumeration = hashtable.elements()
+            var nextElement: JObject = nil
+            while this.enumerationUtil.hasMoreElements(enumeration):
+                nextElement = this.enumerationUtil.nextElement(enumeration)
+                this.logUtil.putF(jstr(NEXT_ELEMENT) & jstr(nextElement), this, commonStrings.PROCESS)
 
-    def setAscending(self, ascending: bool) -> None:
-        self.ascending = ascending
-    
+method setAscending*(this: RemoteHighScores, ascending: bool) {.base.} =
+        this.ascending = ascending
 
-    def getAscending(self) -> bool:
-        return self.ascending
-    
+method getAscending*(this: RemoteHighScores): bool {.base, discardable.} =
+        return this.ascending
 
-    def getSoftwareInformation(self) -> SoftwareInformation:
-        from org.allbinary.logic.system.SoftwareInformation import SoftwareInformation
-        return self.softwareInformation
-# from java.util.Enumeration import Enumeration
-# from org.allbinary.util.BasicArrayList import BasicArrayList
-# from org.allbinary.game.GameInfo import GameInfo
-# from org.allbinary.game.score.HighScore import HighScore
-# from org.allbinary.game.score.RemoteErrorHighScoresSingletonFactory import RemoteErrorHighScoresSingletonFactory
-# from org.allbinary.logic.StdUtil import StdUtil
-# from org.allbinary.logic.communication.log.LogUtil import LogUtil
-# from org.allbinary.logic.string.StringMaker import StringMaker
-# from org.allbinary.logic.system.SoftwareInformation import SoftwareInformation
-# from org.allbinary.logic.system.security.licensing.AbeClientInformationInterface import AbeClientInformationInterface
-# from org.allbinary.string.CommonLabels import CommonLabels
-# from org.allbinary.string.CommonStrings import CommonStrings
-# from org.allbinary.util.ABHashtable import ABHashtable
-# from org.allbinary.util.EnumerationUtil import EnumerationUtil
+method getSoftwareInformation*(this: RemoteHighScores): SoftwareInformation {.base, discardable.} =
+        return this.softwareInformation
 
-
-def _RemoteHighScores_hashTable() -> object:
-    from org.allbinary.logic.StdUtil import StdUtil
-    from org.allbinary.util.ABHashtable import ABHashtable
-    return StdUtil.getInstance().createHashtable()
-
-lazy_static(RemoteHighScores, "hashTable", _RemoteHighScores_hashTable)
+when declared(newRemoteHighScoresHook7):
+    newRemoteHighScoresHook7 = proc (abeClientInformation: AbeClientInformationInterface, softwareInformation: SoftwareInformation, gameInfo: GameInfo, heading: string, columnTwoHeading: string, ascending: bool, preload: bool): HighScores = newRemoteHighScores(abeClientInformation, softwareInformation, gameInfo, heading, columnTwoHeading, ascending, preload)
 

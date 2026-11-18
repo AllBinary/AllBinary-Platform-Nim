@@ -1,51 +1,71 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.ag.layer.pickup
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/game/layer/pickup/PickupLayer as PickupLayerModule
+export PickupLayerModule
+import org/allbinary/game/multiplayer/layer/RemoteInfo as RemoteInfoModule
+export RemoteInfoModule
+import org/allbinary/game/tick/TickableInterface as TickableInterfaceModule
+export TickableInterfaceModule
+import org/allbinary/layer/AllBinaryLayerManager as AllBinaryLayerManagerModule
+export AllBinaryLayerManagerModule
 
-from org.allbinary.game.layer.pickup.PickupLayer import PickupLayer
-from org.allbinary.game.tick.TickableInterface import TickableInterface
+type
+    FallingPickupLayer* = ref object of PickupLayer
 
+converter jAsTickableInterface*(value: FallingPickupLayer): TickableInterface = cast[TickableInterface](value)
+proc newFallingPickupLayer*(remoteInfo: RemoteInfo): FallingPickupLayer
+proc initFallingPickupLayer*(this: FallingPickupLayer, remoteInfo: RemoteInfo)
+method processTick*(this: FallingPickupLayer, allBinaryLayerManager: AllBinaryLayerManager)
+method implmentsTickableInterface*(this: FallingPickupLayer): bool {.discardable.}
+import org/allbinary/animation/NullAnimationFactory as NullAnimationFactoryModule
+export NullAnimationFactoryModule
+import org/allbinary/game/layer/pickup/CountedPickedUpLayerInterfaceFactory as CountedPickedUpLayerInterfaceFactoryModule
+export CountedPickedUpLayerInterfaceFactoryModule
+import org/allbinary/graphics/PointFactory as PointFactoryModule
+export PointFactoryModule
+import org/allbinary/graphics/Rectangle as RectangleModule
+export RectangleModule
+import org/allbinary/view/ViewPosition as ViewPositionModule
+export ViewPositionModule
 
-class FallingPickupLayer(PickupLayer, TickableInterface):
-    NAME: str = "FallingPickupLayer"
-    
+var FallingPickupLayer_NAMEValue: string
+var FallingPickupLayer_NAMESet = false
+proc NAME*(t: typedesc[FallingPickupLayer]): string =
+    if not FallingPickupLayer_NAMESet:
+        FallingPickupLayer_NAMESet = true
+        FallingPickupLayer_NAMEValue = "FallingPickupLayer"
+    FallingPickupLayer_NAMEValue
 
-    def __init__(self, remoteInfo: RemoteInfo) -> None:
-        from org.allbinary.animation.NullAnimationFactory import NullAnimationFactory
-        from org.allbinary.game.layer.pickup.CountedPickedUpLayerInterfaceFactory import CountedPickedUpLayerInterfaceFactory
-        from org.allbinary.game.multiplayer.layer.RemoteInfo import RemoteInfo
-        from org.allbinary.graphics.PointFactory import PointFactory
-        from org.allbinary.graphics.Rectangle import Rectangle
-        from org.allbinary.view.ViewPosition import ViewPosition
-        super().__init__(FallingPickupLayer.NAME, remoteInfo, 0, CountedPickedUpLayerInterfaceFactory.NULL_COUNTED_PICKUP_LAYER_FACTORY, NullAnimationFactory.getFactoryInstance().getInstance(0), Rectangle(PointFactory.getInstance().ZERO_ZERO, 0, 0), ViewPosition.getInstanceD())
-    
+proc initFallingPickupLayer*(this: FallingPickupLayer, remoteInfo: RemoteInfo) =
+        initPickupLayer(this, FallingPickupLayer.NAME, remoteInfo, 0, CountedPickedUpLayerInterfaceFactory.NULL_COUNTED_PICKUP_LAYER_FACTORY, NullAnimationFactory.getFactoryInstance().getInstance(0), newRectangle(PointFactory.getInstance().ZERO_ZERO, 0, 0), ViewPosition.getInstanceD())
 
-    def processTick(self, allBinaryLayerManager: AllBinaryLayerManager) -> None:
-        from org.allbinary.layer.AllBinaryLayerManager import AllBinaryLayerManager
-        self.setPosition(self.x, self.y + 1, self.z)
-    
+proc newFallingPickupLayer*(remoteInfo: RemoteInfo): FallingPickupLayer =
+    result = FallingPickupLayer()
+    initFallingPickupLayer(result, remoteInfo)
 
-    def implmentsTickableInterface(self) -> bool:
-        return True
-# from org.allbinary.animation.NullAnimationFactory import NullAnimationFactory
-# from org.allbinary.game.layer.pickup.CountedPickedUpLayerInterfaceFactory import CountedPickedUpLayerInterfaceFactory
-# from org.allbinary.game.multiplayer.layer.RemoteInfo import RemoteInfo
-# from org.allbinary.graphics.PointFactory import PointFactory
-# from org.allbinary.graphics.Rectangle import Rectangle
-# from org.allbinary.layer.AllBinaryLayerManager import AllBinaryLayerManager
-# from org.allbinary.view.ViewPosition import ViewPosition
+method processTick*(this: FallingPickupLayer, allBinaryLayerManager: AllBinaryLayerManager) =
+        this.setPosition(this.x, this.y +% 1, this.z)
 
+method implmentsTickableInterface*(this: FallingPickupLayer): bool {.discardable.} =
+        return true
+
+when declared(newFallingPickupLayerHook1):
+    newFallingPickupLayerHook1 = proc (remoteInfo: RemoteInfo): PickupLayer = newFallingPickupLayer(remoteInfo)
 

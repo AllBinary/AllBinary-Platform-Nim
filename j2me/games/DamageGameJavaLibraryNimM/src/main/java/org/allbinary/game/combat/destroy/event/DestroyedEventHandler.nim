@@ -1,106 +1,107 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.combat.destroy.event
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/game/layer/special/CollidableDestroyableDamageableLayer as CollidableDestroyableDamageableLayerModule
+export CollidableDestroyableDamageableLayerModule
+import org/allbinary/logic/util/event/AllBinaryEventObject as AllBinaryEventObjectModule
+export AllBinaryEventObjectModule
+import org/allbinary/logic/util/event/EventListenerInterface as EventListenerInterfaceModule
+export EventListenerInterfaceModule
+import org/allbinary/logic/util/event/handler/BasicEventHandler as BasicEventHandlerModule
+export BasicEventHandlerModule
+import org/allbinary/util/BasicArrayList as BasicArrayListModule
+export BasicArrayListModule
 
-import threading
-from java.lang.JavaRuntimeStatic import lazy_static
-from org.allbinary.logic.util.event.handler.BasicEventHandler import BasicEventHandler
+type
+    DestroyedEventHandler* = ref object of BasicEventHandler
+        list*: BasicArrayList
 
+proc newDestroyedEventHandler*(): DestroyedEventHandler
+proc initDestroyedEventHandler*(this: DestroyedEventHandler)
+proc getInstance*(t: typedesc[DestroyedEventHandler]): DestroyedEventHandler {.discardable.}
+method addListener*(this: DestroyedEventHandler, collidableDestroyableDamageableLayer: CollidableDestroyableDamageableLayer) {.base.}
+method removeAllListeners*(this: DestroyedEventHandler)
+method removeListener*(this: DestroyedEventHandler, eventListenerInterface: EventListenerInterface)
+method fireEvent*(this: DestroyedEventHandler, eventObject: AllBinaryEventObject)
+method process*(this: DestroyedEventHandler, eventObject: AllBinaryEventObject, eventListenerInterface: EventListenerInterface)
+import org/allbinary/logic/util/event/EventStrings as EventStringsModule
+export EventStringsModule
+import org/allbinary/util/BasicArrayListD as BasicArrayListDModule
+export BasicArrayListDModule
+import org/allbinary/game/combat/destroy/event/DestroyedEvent as DestroyedEventModule
+export DestroyedEventModule
+import org/allbinary/game/combat/destroy/event/DestroyedEventListenerInterface as DestroyedEventListenerInterfaceModule
+export DestroyedEventListenerInterfaceModule
 
-class DestroyedEventHandler(BasicEventHandler):
-    instance: DestroyedEventHandler = None
-    _lock = threading.RLock()
+var DestroyedEventHandler_instanceValue: DestroyedEventHandler
+var DestroyedEventHandler_instanceSet = false
+proc instance*(t: typedesc[DestroyedEventHandler]): DestroyedEventHandler =
+    if not DestroyedEventHandler_instanceSet:
+        DestroyedEventHandler_instanceSet = true
+        DestroyedEventHandler_instanceValue = newDestroyedEventHandler()
+    DestroyedEventHandler_instanceValue
 
-    def _init_fields(self) -> None:
-        from org.allbinary.util.BasicArrayList import BasicArrayList
-        from org.allbinary.util.BasicArrayListD import BasicArrayListD
-        self.list_: BasicArrayList = BasicArrayListD()
-    
+# Java field initializers run after the base initializer
+proc initFieldsDestroyedEventHandler(this: DestroyedEventHandler) =
+    this.list = newBasicArrayListD()
+    discard
 
-    @staticmethod
-    def getInstance() -> DestroyedEventHandler:
-        with DestroyedEventHandler._lock:
-            return DestroyedEventHandler._getInstance_unlocked()
-
-    @staticmethod
-    def _getInstance_unlocked() -> DestroyedEventHandler:
+proc getInstance*(t: typedesc[DestroyedEventHandler]): DestroyedEventHandler {.discardable.} =
         return DestroyedEventHandler.instance
-    
 
-    def __init__(self) -> None:
-        super().__init__()
-        self._init_fields()
-    
+proc initDestroyedEventHandler*(this: DestroyedEventHandler) =
+        initBasicEventHandler(this)
+        this.initFieldsDestroyedEventHandler()
+        discard
 
-    def addListener(self, collidableDestroyableDamageableLayer: CollidableDestroyableDamageableLayer) -> None:
-        from org.allbinary.game.layer.special.CollidableDestroyableDamageableLayer import CollidableDestroyableDamageableLayer
-        if not self.list_.contains(collidableDestroyableDamageableLayer):
-            self.list_.add(collidableDestroyableDamageableLayer)
-    
+proc newDestroyedEventHandler*(): DestroyedEventHandler =
+    result = DestroyedEventHandler()
+    initDestroyedEventHandler(result)
 
-    def removeAllListeners(self) -> None:
-        with self._lock:
-            return self._removeAllListeners_unlocked()
+method addListener*(this: DestroyedEventHandler, collidableDestroyableDamageableLayer: CollidableDestroyableDamageableLayer) {.base.} =
+        if (not this.list.contains(collidableDestroyableDamageableLayer)):
+            this.list.add(collidableDestroyableDamageableLayer)
 
-    def _removeAllListeners_unlocked(self) -> None:
-        self.list_.clear()
-        super().removeAllListeners()
-    
+method removeAllListeners*(this: DestroyedEventHandler) =
+        this.list.clear()
+        procCall BasicEventHandler(this).removeAllListeners()
 
-    def removeListener(self, eventListenerInterface: EventListenerInterface) -> None:
-        with self._lock:
-            return self._removeListener_unlocked(eventListenerInterface)
+method removeListener*(this: DestroyedEventHandler, eventListenerInterface: EventListenerInterface) =
+        this.list.remove(eventListenerInterface)
+        procCall BasicEventHandler(this).removeListener(eventListenerInterface)
 
-    def _removeListener_unlocked(self, eventListenerInterface: EventListenerInterface) -> None:
-        from org.allbinary.logic.util.event.EventListenerInterface import EventListenerInterface
-        self.list_.remove(eventListenerInterface)
-        super().removeListener(eventListenerInterface)
-    
+method fireEvent*(this: DestroyedEventHandler, eventObject: AllBinaryEventObject) =
+        block:
+            var index: int32 = this.list.size()
+            while jPreDecrement(index) >= 0:
+                try:
+                    var collidableDestroyableDamageableLayer: CollidableDestroyableDamageableLayer = CollidableDestroyableDamageableLayer(JObject(this.list.objectArray[index]))
+                    collidableDestroyableDamageableLayer.onDestroyed(DestroyedEvent(JObject(eventObject)))
+                except CatchableError as jcaught:
+                    let e = jToException(jcaught)
+                    this.logUtil.put(this.commonStrings.EXCEPTION, this, EventStrings.getInstance().FIRE_EVENT, e)
+        procCall BasicEventHandler(this).fireEvent(eventObject)
 
-    # throws Exception
-    def fireEvent(self, eventObject: AllBinaryEventObject) -> None:
-        from org.allbinary.game.layer.special.CollidableDestroyableDamageableLayer import CollidableDestroyableDamageableLayer
-        from org.allbinary.logic.util.event.AllBinaryEventObject import AllBinaryEventObject
-        from org.allbinary.logic.util.event.EventStrings import EventStrings
-        index = self.list_.size()
-        while (index := index - 1) >= 0:
-            try:
-                collidableDestroyableDamageableLayer: CollidableDestroyableDamageableLayer = self.list_.objectArray[index]
-                collidableDestroyableDamageableLayer.onDestroyed(eventObject)
-            except Exception as e:
-                self.logUtil.put(self.commonStrings.EXCEPTION, self, EventStrings.getInstance().FIRE_EVENT, e)
-        super().fireEvent(eventObject)
-    
+method process*(this: DestroyedEventHandler, eventObject: AllBinaryEventObject, eventListenerInterface: EventListenerInterface) =
+        let destroyedEventListenerInterface: DestroyedEventListenerInterface = DestroyedEventListenerInterface(JObject(eventListenerInterface))
+        destroyedEventListenerInterface.onDestroyed(DestroyedEvent(JObject(eventObject)))
 
-    # throws Exception
-    def process(self, eventObject: AllBinaryEventObject, eventListenerInterface: EventListenerInterface) -> None:
-        from org.allbinary.logic.util.event.AllBinaryEventObject import AllBinaryEventObject
-        from org.allbinary.logic.util.event.EventListenerInterface import EventListenerInterface
-        destroyedEventListenerInterface: DestroyedEventListenerInterface = eventListenerInterface
-        destroyedEventListenerInterface.onDestroyed(eventObject)
-# from org.allbinary.game.layer.special.CollidableDestroyableDamageableLayer import CollidableDestroyableDamageableLayer
-# from org.allbinary.logic.util.event.AllBinaryEventObject import AllBinaryEventObject
-# from org.allbinary.logic.util.event.EventListenerInterface import EventListenerInterface
-# from org.allbinary.logic.util.event.EventStrings import EventStrings
-# from org.allbinary.util.BasicArrayList import BasicArrayList
-# from org.allbinary.util.BasicArrayListD import BasicArrayListD
-
-
-def _DestroyedEventHandler_instance() -> object:
-    return DestroyedEventHandler()
-
-lazy_static(DestroyedEventHandler, "instance", _DestroyedEventHandler_instance)
+when declared(newDestroyedEventHandlerHook0):
+    newDestroyedEventHandlerHook0 = proc (): BasicEventHandler = newDestroyedEventHandler()
 

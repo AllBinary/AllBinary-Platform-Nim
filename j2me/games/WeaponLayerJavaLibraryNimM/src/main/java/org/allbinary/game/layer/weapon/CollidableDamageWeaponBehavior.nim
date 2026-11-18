@@ -1,102 +1,110 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.layer.weapon
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/game/collision/CollidableInterfaceCompositeInterface as CollidableInterfaceCompositeInterfaceModule
+export CollidableInterfaceCompositeInterfaceModule
+import org/allbinary/game/collision/CollisionHelper as CollisionHelperModule
+export CollisionHelperModule
+import org/allbinary/game/collision/CollisionType as CollisionTypeModule
+export CollisionTypeModule
+import org/allbinary/game/layer/CollidableCompositeLayer as CollidableCompositeLayerModule
+export CollidableCompositeLayerModule
+import org/allbinary/game/layer/special/CollidableDestroyableDamageableBehavior as CollidableDestroyableDamageableBehaviorModule
+export CollidableDestroyableDamageableBehaviorModule
+import org/allbinary/layer/AllBinaryLayer as AllBinaryLayerModule
+export AllBinaryLayerModule
 
-from org.allbinary.game.layer.special.CollidableDestroyableDamageableBehavior import CollidableDestroyableDamageableBehavior
+type
+    CollidableDamageWeaponBehavior* = ref object of CollidableDestroyableDamageableBehavior
+        collided*: bool
+        collisionHelper*: CollisionHelper
+
+proc newCollidableDamageWeaponBehavior*(collidable: bool): CollidableDamageWeaponBehavior
+proc initCollidableDamageWeaponBehavior*(this: CollidableDamageWeaponBehavior, collidable: bool)
+method init*(this: CollidableDamageWeaponBehavior, sourceLayerInterface: AllBinaryLayer) {.base.}
+method isCollision*(this: CollidableDamageWeaponBehavior, ownerLayer: CollidableCompositeLayer, collisionLayer: CollidableCompositeLayer): bool {.discardable.}
+method collide*(this: CollidableDamageWeaponBehavior, ownerLayer: CollidableCompositeLayer, collisionLayer: CollidableCompositeLayer)
+method isCollisionInterface*(this: CollidableDamageWeaponBehavior, ownerLayer: CollidableCompositeLayer, collidableInterfaceCompositeInterface: CollidableInterfaceCompositeInterface): bool {.discardable.}
+method collideInterface*(this: CollidableDamageWeaponBehavior, ownerLayer: CollidableCompositeLayer, collidableInterfaceCompositeInterface: CollidableInterfaceCompositeInterface)
+method getCollisionTypeWith*(this: CollidableDamageWeaponBehavior, layerInterface: AllBinaryLayer): CollisionType {.discardable.}
+method isCollided*(this: CollidableDamageWeaponBehavior): bool {.base, discardable.}
+method setCollided*(this: CollidableDamageWeaponBehavior, collided: bool) {.base.}
+import org/allbinary/game/collision/CollidableHelperFactory as CollidableHelperFactoryModule
+export CollidableHelperFactoryModule
+import org/allbinary/game/collision/CollisionTypeFactory as CollisionTypeFactoryModule
+export CollisionTypeFactoryModule
+import org/allbinary/game/combat/damage/DamageableInterface as DamageableInterfaceModule
+export DamageableInterfaceModule
 
 
-class CollidableDamageWeaponBehavior(CollidableDestroyableDamageableBehavior):
-
-    def _init_fields(self) -> None:
-        from org.allbinary.game.collision.CollisionHelper import CollisionHelper
-        self.collided: bool = False
-        self.collisionHelper: CollisionHelper = None
+# Java field initializers run after the base initializer
+proc initFieldsCollidableDamageWeaponBehavior(this: CollidableDamageWeaponBehavior) =
+    this.collided = false
     
+    discard
 
-    def __init__(self, collidable: bool) -> None:
-        from org.allbinary.game.collision.CollidableHelperFactory import CollidableHelperFactory
-        super().__init__(collidable)
-        self._init_fields()
-        self.setCollided(False)
-        self.setCollidable(True)
-        self.collisionHelper = CollidableHelperFactory.getInstance()
-    
+proc initCollidableDamageWeaponBehavior*(this: CollidableDamageWeaponBehavior, collidable: bool) =
+        initCollidableDestroyableDamageableBehavior(this, collidable)
+        this.initFieldsCollidableDamageWeaponBehavior()
+        this.setCollided(false)
+        this.setCollidable(true)
+        this.collisionHelper = CollidableHelperFactory.getInstance()
 
-    def init(self, sourceLayerInterface: AllBinaryLayer) -> None:
-        from org.allbinary.layer.AllBinaryLayer import AllBinaryLayer
-        self.setCollided(False)
-        self.collisionHelper.setOwnerLayerInterface(sourceLayerInterface)
-    
+proc newCollidableDamageWeaponBehavior*(collidable: bool): CollidableDamageWeaponBehavior =
+    result = CollidableDamageWeaponBehavior()
+    initCollidableDamageWeaponBehavior(result, collidable)
 
-    def isCollision(self, ownerLayer: CollidableCompositeLayer, collisionLayer: CollidableCompositeLayer) -> bool:
-        from org.allbinary.game.layer.CollidableCompositeLayer import CollidableCompositeLayer
-        if self.collisionHelper.isCollidable(collisionLayer):
+method init*(this: CollidableDamageWeaponBehavior, sourceLayerInterface: AllBinaryLayer) {.base.} =
+        this.setCollided(false)
+        this.collisionHelper.setOwnerLayerInterface(sourceLayerInterface)
+
+method isCollision*(this: CollidableDamageWeaponBehavior, ownerLayer: CollidableCompositeLayer, collisionLayer: CollidableCompositeLayer): bool {.discardable.} =
+        if this.collisionHelper.isCollidable(collisionLayer):
             if ownerLayer.getGroupInterface()[0] != collisionLayer.getGroupInterface()[0]:
-                return super().isCollision(ownerLayer, collisionLayer)
-        return False
-    
+                return procCall CollidableDestroyableDamageableBehavior(this).isCollision(ownerLayer, collisionLayer)
+        return false
 
-    # throws Exception
-    def collide(self, ownerLayer: CollidableCompositeLayer, collisionLayer: CollidableCompositeLayer) -> None:
-        from org.allbinary.game.layer.CollidableCompositeLayer import CollidableCompositeLayer
-        super().collide(ownerLayer, collisionLayer)
-        self.collided = True
-    
+method collide*(this: CollidableDamageWeaponBehavior, ownerLayer: CollidableCompositeLayer, collisionLayer: CollidableCompositeLayer) =
+        procCall CollidableDestroyableDamageableBehavior(this).collide(ownerLayer, collisionLayer)
+        this.collided = true
 
-    def isCollisionInterface(self, ownerLayer: CollidableCompositeLayer, collidableInterfaceCompositeInterface: CollidableInterfaceCompositeInterface) -> bool:
-        from org.allbinary.game.collision.CollidableInterfaceCompositeInterface import CollidableInterfaceCompositeInterface
-        from org.allbinary.game.layer.CollidableCompositeLayer import CollidableCompositeLayer
-        from org.allbinary.layer.AllBinaryLayer import AllBinaryLayer
-        if self.collisionHelper.isCollidable(collidableInterfaceCompositeInterface):
-            layerInterface: AllBinaryLayer = collidableInterfaceCompositeInterface
+method isCollisionInterface*(this: CollidableDamageWeaponBehavior, ownerLayer: CollidableCompositeLayer, collidableInterfaceCompositeInterface: CollidableInterfaceCompositeInterface): bool {.discardable.} =
+        if this.collisionHelper.isCollidable(CollidableCompositeLayer(JObject(collidableInterfaceCompositeInterface))):
+            let layerInterface: AllBinaryLayer = AllBinaryLayer(JObject(collidableInterfaceCompositeInterface))
             if ownerLayer.getGroupInterface()[0] != layerInterface.getGroupInterface()[0]:
-                if self.layerCollisionUtil.isCollision(ownerLayer, layerInterface):
-                    return True
-        return False
-    
+                if this.layerCollisionUtil.isCollision(ownerLayer, layerInterface):
+                    return true
+        return false
 
-    # throws Exception
-    def collideInterface(self, ownerLayer: CollidableCompositeLayer, collidableInterfaceCompositeInterface: CollidableInterfaceCompositeInterface) -> None:
-        from org.allbinary.game.collision.CollidableInterfaceCompositeInterface import CollidableInterfaceCompositeInterface
-        from org.allbinary.game.combat.damage.DamageableInterface import DamageableInterface
-        from org.allbinary.game.layer.CollidableCompositeLayer import CollidableCompositeLayer
-        self.damageUtil.process(ownerLayer, collidableInterfaceCompositeInterface)
-        self.collided = True
-    
+method collideInterface*(this: CollidableDamageWeaponBehavior, ownerLayer: CollidableCompositeLayer, collidableInterfaceCompositeInterface: CollidableInterfaceCompositeInterface) =
+        this.damageUtil.process(DamageableInterface(JObject(ownerLayer)), DamageableInterface(JObject(collidableInterfaceCompositeInterface)))
+        this.collided = true
 
-    def getCollisionTypeWith(self, layerInterface: AllBinaryLayer) -> CollisionType:
-        from org.allbinary.game.collision.CollisionType import CollisionType
-        from org.allbinary.game.collision.CollisionTypeFactory import CollisionTypeFactory
-        from org.allbinary.layer.AllBinaryLayer import AllBinaryLayer
+method getCollisionTypeWith*(this: CollidableDamageWeaponBehavior, layerInterface: AllBinaryLayer): CollisionType {.discardable.} =
         return CollisionTypeFactory.getInstance().COLLISION
-    
 
-    def isCollided(self) -> bool:
-        return self.collided
-    
+method isCollided*(this: CollidableDamageWeaponBehavior): bool {.base, discardable.} =
+        return this.collided
 
-    def setCollided(self, collided: bool) -> None:
-        self.collided = collided
-# from org.allbinary.game.collision.CollidableHelperFactory import CollidableHelperFactory
-# from org.allbinary.game.collision.CollidableInterfaceCompositeInterface import CollidableInterfaceCompositeInterface
-# from org.allbinary.game.collision.CollisionHelper import CollisionHelper
-# from org.allbinary.game.collision.CollisionType import CollisionType
-# from org.allbinary.game.collision.CollisionTypeFactory import CollisionTypeFactory
-# from org.allbinary.game.combat.damage.DamageableInterface import DamageableInterface
-# from org.allbinary.game.layer.CollidableCompositeLayer import CollidableCompositeLayer
-# from org.allbinary.layer.AllBinaryLayer import AllBinaryLayer
+method setCollided*(this: CollidableDamageWeaponBehavior, collided: bool) {.base.} =
+        this.collided = collided
 
+when declared(newCollidableDamageWeaponBehaviorHook1):
+    newCollidableDamageWeaponBehaviorHook1 = proc (collidable: bool): CollidableDestroyableDamageableBehavior = newCollidableDamageWeaponBehavior(collidable)
 

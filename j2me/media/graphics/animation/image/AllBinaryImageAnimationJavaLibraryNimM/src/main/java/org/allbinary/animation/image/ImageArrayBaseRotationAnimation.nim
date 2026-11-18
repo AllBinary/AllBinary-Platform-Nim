@@ -1,139 +1,164 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.animation.image
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import javax/microedition/lcdui/Graphics as GraphicsModule
+export GraphicsModule
+import javax/microedition/lcdui/Image as ImageModule
+export ImageModule
+import org/allbinary/animation/AnimationBehavior as AnimationBehaviorModule
+export AnimationBehaviorModule
+import org/allbinary/animation/RotationAnimation as RotationAnimationModule
+export RotationAnimationModule
+import org/allbinary/math/AngleInfo as AngleInfoModule
+export AngleInfoModule
+import org/allbinary/media/image/ImageModifierUtil as ImageModifierUtilModule
+export ImageModifierUtilModule
 
-from org.allbinary.animation.RotationAnimation import RotationAnimation
+type
+    ImageArrayBaseRotationAnimation* = ref object of RotationAnimation
+        imageModifierUtil*: ImageModifierUtil
+        originalImageArray*: JArray[Image]
+        imageArray*: JArray[Image]
+        currentImage*: Image
+        totalFrames*: int32
+        anchor*: int32
+
+proc newImageArrayBaseRotationAnimation*(originalImageArray: JArray[Image], angleInfo: AngleInfo, animationBehavior: AnimationBehavior): ImageArrayBaseRotationAnimation
+proc initImageArrayBaseRotationAnimation*(this: ImageArrayBaseRotationAnimation, originalImageArray: JArray[Image], angleInfo: AngleInfo, animationBehavior: AnimationBehavior)
+method getAnimationSize*(this: ImageArrayBaseRotationAnimation): int32 {.discardable.}
+method setAlpha*(this: ImageArrayBaseRotationAnimation, alpha: int32)
+method nextRotation*(this: ImageArrayBaseRotationAnimation)
+method previousRotation*(this: ImageArrayBaseRotationAnimation)
+method setFrame*(this: ImageArrayBaseRotationAnimation, index2: int32)
+method setSequence*(this: ImageArrayBaseRotationAnimation, sequence: JArray[int32])
+method getSequence*(this: ImageArrayBaseRotationAnimation): JArray[int32] {.discardable.}
+method setImageArray*(this: ImageArrayBaseRotationAnimation, imageArray: JArray[Image]) {.base.}
+method paintXY*(this: ImageArrayBaseRotationAnimation, graphics: Graphics, x: int32, y: int32)
+method close*(this: ImageArrayBaseRotationAnimation) {.base.}
+method finalize*(this: ImageArrayBaseRotationAnimation)
+import javax/microedition/lcdui/NullImage as NullImageModule
+export NullImageModule
+import org/allbinary/DisposalUtil as DisposalUtilModule
+export DisposalUtilModule
+import org/allbinary/graphics/Anchor as AnchorModule
+export AnchorModule
+import org/allbinary/logic/math/PrimitiveIntUtil as PrimitiveIntUtilModule
+export PrimitiveIntUtilModule
+import org/allbinary/util/CircularIndexUtil as CircularIndexUtilModule
+export CircularIndexUtilModule
 
 
-class ImageArrayBaseRotationAnimation(RotationAnimation):
-
-    def _init_fields(self) -> None:
-        from javax.microedition.lcdui.Image import Image
-        from javax.microedition.lcdui.NullImage import NullImage
-        from org.allbinary.graphics.Anchor import Anchor
-        from org.allbinary.media.image.ImageModifierUtil import ImageModifierUtil
-        self.imageModifierUtil: ImageModifierUtil = ImageModifierUtil.getInstanceOrCreate()
-        self.originalImageArray: list[Image] = None
-        self.imageArray: list[Image] = NullImage.NULL_IMAGE_ARRAY
-        self.currentImage: Image = None
-        self.totalFrames: int = 0
-        self.anchor: int = Anchor.TOP_LEFT
+# Java field initializers run after the base initializer
+proc initFieldsImageArrayBaseRotationAnimation(this: ImageArrayBaseRotationAnimation) =
+    this.imageModifierUtil = ImageModifierUtil.getInstanceOrCreate()
     
-
-    def __init__(self, originalImageArray: list[Image], angleInfo: AngleInfo, animationBehavior: AnimationBehavior) -> None:
-        from javax.microedition.lcdui.Image import Image
-        from org.allbinary.animation.AnimationBehavior import AnimationBehavior
-        from org.allbinary.math.AngleInfo import AngleInfo
-        from org.allbinary.util.CircularIndexUtil import CircularIndexUtil
-        super().__init__(angleInfo, CircularIndexUtil.createInstance(360 / angleInfo.getAngleIncrementInfo().getAngleIncrement()), animationBehavior)
-        self._init_fields()
-        self.originalImageArray = originalImageArray
-        self.setImageArray(self.imageModifierUtil.getImageArray(originalImageArray))
-        self.currentImage = self.imageArray[self.circularIndexUtil.getIndex()]
+    this.imageArray = NullImage.NULL_IMAGE_ARRAY
     
+    this.totalFrames = 0
+    this.anchor = Anchor.TOP_LEFT
+    discard
 
-    # throws Exception
-    def getAnimationSize(self) -> int:
-        return self.getSize()
-    
+proc initImageArrayBaseRotationAnimation*(this: ImageArrayBaseRotationAnimation, originalImageArray: JArray[Image], angleInfo: AngleInfo, animationBehavior: AnimationBehavior) =
+        initRotationAnimation(this, angleInfo, CircularIndexUtil.createInstance(360 div int32(angleInfo.getAngleIncrementInfo().getAngleIncrement())), animationBehavior)
+        this.initFieldsImageArrayBaseRotationAnimation()
+        this.originalImageArray = originalImageArray
+        this.setImageArray(this.imageModifierUtil.getImageArray(originalImageArray))
+        this.currentImage = this.imageArray[this.circularIndexUtil.getIndex()]
 
-    def setAlpha(self, alpha: int) -> None:
-        if self.alphaP != alpha:
-            super().setAlpha(alpha)
-            self.imageModifierUtil.reset()
-            index: int = self.circularIndexUtil.getIndex()
-            self.imageModifierUtil.setAlpha(self.originalImageArray[index], self.imageArray[index], index, self.alphaP)
-    
+proc newImageArrayBaseRotationAnimation*(originalImageArray: JArray[Image], angleInfo: AngleInfo, animationBehavior: AnimationBehavior): ImageArrayBaseRotationAnimation =
+    result = ImageArrayBaseRotationAnimation()
+    initImageArrayBaseRotationAnimation(result, originalImageArray, angleInfo, animationBehavior)
 
-    def nextRotation(self) -> None:
-        super().nextRotation()
-        index: int = self.circularIndexUtil.getIndex()
-        self.imageModifierUtil.setAlpha(self.originalImageArray[index], self.imageArray[index], index, self.alphaP)
-        self.currentImage = self.imageArray[index]
-    
+method getAnimationSize*(this: ImageArrayBaseRotationAnimation): int32 {.discardable.} =
+        return this.getSize()
 
-    def previousRotation(self) -> None:
-        super().previousRotation()
-        index: int = self.circularIndexUtil.getIndex()
-        self.imageModifierUtil.setAlpha(self.originalImageArray[index], self.imageArray[index], index, self.alphaP)
-        self.currentImage = self.imageArray[index]
-    
+method setAlpha*(this: ImageArrayBaseRotationAnimation, alpha: int32) =
+        if this.alphaP != alpha:
+            procCall RotationAnimation(this).setAlpha(alpha)
+            this.imageModifierUtil.reset()
+            let index: int32 = this.circularIndexUtil.getIndex()
+            this.imageModifierUtil.setAlpha(this.originalImageArray[index], this.imageArray[index], index, this.alphaP)
 
-    def setFrame(self, index2: int) -> None:
-        super().setFrame(index2)
-        index: int = self.circularIndexUtil.getIndex()
-        self.imageModifierUtil.setAlpha(self.originalImageArray[index], self.imageArray[index], index, self.alphaP)
-        self.currentImage = self.imageArray[index]
-    
+method nextRotation*(this: ImageArrayBaseRotationAnimation) =
+        procCall RotationAnimation(this).nextRotation()
+        let index: int32 = this.circularIndexUtil.getIndex()
+        this.imageModifierUtil.setAlpha(this.originalImageArray[index], this.imageArray[index], index, this.alphaP)
+        this.currentImage = this.imageArray[index]
 
-    def setSequence(self, sequence: list[int]) -> None:
-        pass
-    
+method previousRotation*(this: ImageArrayBaseRotationAnimation) =
+        procCall RotationAnimation(this).previousRotation()
+        let index: int32 = this.circularIndexUtil.getIndex()
+        this.imageModifierUtil.setAlpha(this.originalImageArray[index], this.imageArray[index], index, this.alphaP)
+        this.currentImage = this.imageArray[index]
 
-    def getSequence(self) -> list[int]:
-        from org.allbinary.logic.math.PrimitiveIntUtil import PrimitiveIntUtil
+method setFrame*(this: ImageArrayBaseRotationAnimation, index2: int32) =
+        procCall RotationAnimation(this).setFrame(index2)
+        let index: int32 = this.circularIndexUtil.getIndex()
+        this.imageModifierUtil.setAlpha(this.originalImageArray[index], this.imageArray[index], index, this.alphaP)
+        this.currentImage = this.imageArray[index]
+
+method setSequence*(this: ImageArrayBaseRotationAnimation, sequence: JArray[int32]) =
+        discard
+
+method getSequence*(this: ImageArrayBaseRotationAnimation): JArray[int32] {.discardable.} =
         return PrimitiveIntUtil.getArrayInstance()
-    
 
-    def setImageArray(self, imageArray: list[Image]) -> None:
-        from javax.microedition.lcdui.Image import Image
-        from org.allbinary.util.CircularIndexUtil import CircularIndexUtil
-        self.imageArray = imageArray
-        self.totalFrames = len(imageArray)
-        self.circularIndexUtil = CircularIndexUtil.createInstance(self.totalFrames)
-    
+method setImageArray*(this: ImageArrayBaseRotationAnimation, imageArray: JArray[Image]) {.base.} =
+        this.imageArray = imageArray
+        this.totalFrames = imageArray.length
+        this.circularIndexUtil = CircularIndexUtil.createInstance(this.totalFrames)
 
-    def paintXY(self, graphics: Graphics, x: int, y: int) -> None:
-        from javax.microedition.lcdui.Graphics import Graphics
-        graphics.drawImage(self.currentImage, x, y, self.anchor)
-    
+method paintXY*(this: ImageArrayBaseRotationAnimation, graphics: Graphics, x: int32, y: int32) =
+        graphics.drawImage(this.currentImage, x, y, this.anchor)
 
-    # throws Exception
-    def close(self) -> None:
-        from org.allbinary.DisposalUtil import DisposalUtil
-        disposalUtil: DisposalUtil = DisposalUtil.getInstance()
-        size2: int = len(self.imageArray)
-        for index in range(0, size2):
-            disposalUtil.disposeImage(self.imageArray[index])
-        size: int = len(self.originalImageArray)
-        for index in range(0, size):
-            disposalUtil.disposeImage(self.originalImageArray[index])
-        disposalUtil.disposeImage(self.currentImage)
-    
+method close*(this: ImageArrayBaseRotationAnimation) {.base.} =
+        let disposalUtil: DisposalUtil = DisposalUtil.getInstance()
+        let size2: int32 = this.imageArray.length
+        block:
+            var index: int32 = 0
+            while index < size2:
+                defer: index = index +% 1
+                disposalUtil.disposeImage(this.imageArray[index])
+        let size: int32 = this.originalImageArray.length
+        block:
+            var index: int32 = 0
+            while index < size:
+                defer: index = index +% 1
+                disposalUtil.disposeImage(this.originalImageArray[index])
+        disposalUtil.disposeImage(this.currentImage)
 
-    # throws Throwable
-    def finalize(self) -> None:
-        from org.allbinary.DisposalUtil import DisposalUtil
-        disposalUtil: DisposalUtil = DisposalUtil.getInstance()
-        size2: int = len(self.imageArray)
-        for index in range(0, size2):
-            disposalUtil.disposeImage(self.imageArray[index])
-        size: int = len(self.originalImageArray)
-        for index in range(0, size):
-            disposalUtil.disposeImage(self.originalImageArray[index])
-        disposalUtil.disposeImage(self.currentImage)
-# from javax.microedition.lcdui.Graphics import Graphics
-# from javax.microedition.lcdui.Image import Image
-# from javax.microedition.lcdui.NullImage import NullImage
-# from org.allbinary.DisposalUtil import DisposalUtil
-# from org.allbinary.animation.AnimationBehavior import AnimationBehavior
-# from org.allbinary.graphics.Anchor import Anchor
-# from org.allbinary.logic.math.PrimitiveIntUtil import PrimitiveIntUtil
-# from org.allbinary.math.AngleInfo import AngleInfo
-# from org.allbinary.media.image.ImageModifierUtil import ImageModifierUtil
-# from org.allbinary.util.CircularIndexUtil import CircularIndexUtil
+method finalize*(this: ImageArrayBaseRotationAnimation) =
+        let disposalUtil: DisposalUtil = DisposalUtil.getInstance()
+        let size2: int32 = this.imageArray.length
+        block:
+            var index: int32 = 0
+            while index < size2:
+                defer: index = index +% 1
+                disposalUtil.disposeImage(this.imageArray[index])
+        let size: int32 = this.originalImageArray.length
+        block:
+            var index: int32 = 0
+            while index < size:
+                defer: index = index +% 1
+                disposalUtil.disposeImage(this.originalImageArray[index])
+        disposalUtil.disposeImage(this.currentImage)
 
+when declared(newImageArrayBaseRotationAnimationHook3):
+    newImageArrayBaseRotationAnimationHook3 = proc (originalImageArray: JArray[Image], angleInfo: AngleInfo, animationBehavior: AnimationBehavior): RotationAnimation = newImageArrayBaseRotationAnimation(originalImageArray, angleInfo, animationBehavior)
 

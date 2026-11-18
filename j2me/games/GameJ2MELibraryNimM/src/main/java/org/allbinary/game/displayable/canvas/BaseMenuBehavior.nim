@@ -1,66 +1,74 @@
-# 
-# AllBinary Open License Version 1 
-# Copyright (c) 2022 AllBinary 
-#  
-# By agreeing to this license you and any business entity you represent are 
-# legally bound to the AllBinary Open License Version 1 legal agreement. 
-#  
-# You may obtain the AllBinary Open License Version 1 legal agreement from 
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
-#  
-# Created By: Travis Berthelot 
-#   
+#[
+  
+  AllBinary Open License Version 1 
+  Copyright (c) 2022 AllBinary 
+   
+  By agreeing to this license you and any business entity you represent are 
+  legally bound to the AllBinary Open License Version 1 legal agreement. 
+   
+  You may obtain the AllBinary Open License Version 1 legal agreement from 
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
+   
+  Created By: Travis Berthelot 
+    
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.displayable.canvas
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/graphics/displayable/event/DisplayChangeEvent as DisplayChangeEventModule
+export DisplayChangeEventModule
+import org/allbinary/game/displayable/canvas/AllBinaryGameCanvas as AllBinaryGameCanvasModule
+export AllBinaryGameCanvasModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    BaseMenuBehavior* = ref object of JObject
 
+proc newBaseMenuBehavior*(): BaseMenuBehavior
+proc getInstance*(t: typedesc[BaseMenuBehavior]): BaseMenuBehavior {.discardable.}
+method onDisplayChangeEvent*(this: BaseMenuBehavior, allBinaryGameCanvas: AllBinaryGameCanvas, displayChangeEvent: DisplayChangeEvent) {.base.}
+method initSpecialPaint*(this: BaseMenuBehavior, allBinaryGameCanvas: AllBinaryGameCanvas) {.base.}
+method initMenu*(this: BaseMenuBehavior, allBinaryGameCanvas: AllBinaryGameCanvas) {.base.}
+method updateMenu*(this: BaseMenuBehavior, allBinaryGameCanvas: AllBinaryGameCanvas) {.base.}
+method popupMenu*(this: BaseMenuBehavior, allBinaryGameCanvas: AllBinaryGameCanvas) {.base.}
+method closeMenu*(this: BaseMenuBehavior, allBinaryGameCanvas: AllBinaryGameCanvas) {.base.}
+import org/allbinary/graphics/paint/NullPaintable as NullPaintableModule
+export NullPaintableModule
 
-class BaseMenuBehavior:
-    instance: BaseMenuBehavior = None
-    
+var BaseMenuBehavior_instanceValue: BaseMenuBehavior
+var BaseMenuBehavior_instanceSet = false
+proc instance*(t: typedesc[BaseMenuBehavior]): BaseMenuBehavior =
+    if not BaseMenuBehavior_instanceSet:
+        BaseMenuBehavior_instanceSet = true
+        BaseMenuBehavior_instanceValue = newBaseMenuBehavior()
+    BaseMenuBehavior_instanceValue
 
-    @staticmethod
-    def getInstance() -> BaseMenuBehavior:
+proc initBaseMenuBehavior*(this: BaseMenuBehavior) =
+    discard
+
+proc newBaseMenuBehavior*(): BaseMenuBehavior =
+    result = BaseMenuBehavior()
+    initBaseMenuBehavior(result)
+
+proc getInstance*(t: typedesc[BaseMenuBehavior]): BaseMenuBehavior {.discardable.} =
         return BaseMenuBehavior.instance
-    
 
-    # throws Exception
-    def onDisplayChangeEvent(self, allBinaryGameCanvas: AllBinaryGameCanvas, displayChangeEvent: DisplayChangeEvent) -> None:
-        from org.allbinary.graphics.displayable.event.DisplayChangeEvent import DisplayChangeEvent
-        pass
-    
+method onDisplayChangeEvent*(this: BaseMenuBehavior, allBinaryGameCanvas: AllBinaryGameCanvas, displayChangeEvent: DisplayChangeEvent) {.base.} =
+        discard
 
-    def initSpecialPaint(self, allBinaryGameCanvas: AllBinaryGameCanvas) -> None:
-        from org.allbinary.graphics.paint.NullPaintable import NullPaintable
+method initSpecialPaint*(this: BaseMenuBehavior, allBinaryGameCanvas: AllBinaryGameCanvas) {.base.} =
         allBinaryGameCanvas.setNonBotPaintableP(NullPaintable.getInstance())
-    
 
-    # throws Exception
-    def initMenu(self, allBinaryGameCanvas: AllBinaryGameCanvas) -> None:
-        pass
-    
+method initMenu*(this: BaseMenuBehavior, allBinaryGameCanvas: AllBinaryGameCanvas) {.base.} =
+        discard
 
-    # throws Exception
-    def updateMenu(self, allBinaryGameCanvas: AllBinaryGameCanvas) -> None:
-        pass
-    
+method updateMenu*(this: BaseMenuBehavior, allBinaryGameCanvas: AllBinaryGameCanvas) {.base.} =
+        discard
 
-    # throws Exception
-    def popupMenu(self, allBinaryGameCanvas: AllBinaryGameCanvas) -> None:
-        pass
-    
+method popupMenu*(this: BaseMenuBehavior, allBinaryGameCanvas: AllBinaryGameCanvas) {.base.} =
+        discard
 
-    def closeMenu(self, allBinaryGameCanvas: AllBinaryGameCanvas) -> None:
-        pass
-# from org.allbinary.graphics.displayable.event.DisplayChangeEvent import DisplayChangeEvent
-# from org.allbinary.graphics.paint.NullPaintable import NullPaintable
-
-
-def _BaseMenuBehavior_instance() -> object:
-    return BaseMenuBehavior()
-
-lazy_static(BaseMenuBehavior, "instance", _BaseMenuBehavior_instance)
+method closeMenu*(this: BaseMenuBehavior, allBinaryGameCanvas: AllBinaryGameCanvas) {.base.} =
+        discard
 

@@ -1,46 +1,60 @@
-# 
-# AllBinary Open License Version 1 
-# Copyright (c) 2022 AllBinary 
-#  
-# By agreeing to this license you and any business entity you represent are 
-# legally bound to the AllBinary Open License Version 1 legal agreement. 
-#  
-# You may obtain the AllBinary Open License Version 1 legal agreement from 
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
-#  
-# Created By: Travis Berthelot 
-#   
+#[
+  
+  AllBinary Open License Version 1 
+  Copyright (c) 2022 AllBinary 
+   
+  By agreeing to this license you and any business entity you represent are 
+  legally bound to the AllBinary Open License Version 1 legal agreement. 
+   
+  You may obtain the AllBinary Open License Version 1 legal agreement from 
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
+   
+  Created By: Travis Berthelot 
+    
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.canvas
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import java/lang/Integer as IntegerModule
+export IntegerModule
+import org/allbinary/graphics/GPoint as GPointModule
+export GPointModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    GameGlobalsFactory* = ref object of JObject
+        newCanvas*: bool
+        newDisplaybleTime*: int64
+        point*: GPoint
 
+proc newGameGlobalsFactory*(): GameGlobalsFactory
+proc getInstance*(t: typedesc[GameGlobalsFactory]): GameGlobalsFactory {.discardable.}
+import org/allbinary/graphics/PointFactory as PointFactoryModule
+export PointFactoryModule
 
-class GameGlobalsFactory:
-    instance: GameGlobalsFactory = None
+var GameGlobalsFactory_instanceValue: GameGlobalsFactory
+var GameGlobalsFactory_instanceSet = false
+proc instance*(t: typedesc[GameGlobalsFactory]): GameGlobalsFactory =
+    if not GameGlobalsFactory_instanceSet:
+        GameGlobalsFactory_instanceSet = true
+        GameGlobalsFactory_instanceValue = newGameGlobalsFactory()
+    GameGlobalsFactory_instanceValue
 
-    def _init_fields(self) -> None:
-        from org.allbinary.graphics.GPoint import GPoint
-        from org.allbinary.graphics.PointFactory import PointFactory
-        self.newCanvas: bool = True
-        self.newDisplaybleTime: int = int(-2147483648)
-        self.point: GPoint = PointFactory.getInstance().ZERO_ZERO
+# Java field initializers run after the base initializer
+proc initFieldsGameGlobalsFactory(this: GameGlobalsFactory) =
+    this.newCanvas = true
+    this.newDisplaybleTime = int64(Integer.MIN_VALUE)
+    this.point = PointFactory.getInstance().ZERO_ZERO
+    discard
 
-    def __init__(self) -> None:
-        self._init_fields()
-    
+proc initGameGlobalsFactory*(this: GameGlobalsFactory) =
+    this.initFieldsGameGlobalsFactory()
 
-    @staticmethod
-    def getInstance() -> GameGlobalsFactory:
+proc newGameGlobalsFactory*(): GameGlobalsFactory =
+    result = GameGlobalsFactory()
+    initGameGlobalsFactory(result)
+
+proc getInstance*(t: typedesc[GameGlobalsFactory]): GameGlobalsFactory {.discardable.} =
         return GameGlobalsFactory.instance
-# from org.allbinary.graphics.GPoint import GPoint
-# from org.allbinary.graphics.PointFactory import PointFactory
-
-
-def _GameGlobalsFactory_instance() -> object:
-    return GameGlobalsFactory()
-
-lazy_static(GameGlobalsFactory, "instance", _GameGlobalsFactory_instance)
 

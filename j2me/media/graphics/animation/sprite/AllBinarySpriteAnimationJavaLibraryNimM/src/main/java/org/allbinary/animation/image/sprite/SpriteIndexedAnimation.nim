@@ -1,147 +1,159 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.animation.image.sprite
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import javax/microedition/lcdui/Graphics as GraphicsModule
+export GraphicsModule
+import javax/microedition/lcdui/Image as ImageModule
+export ImageModule
+import javax/microedition/lcdui/game/Sprite as SpriteModule
+export SpriteModule
+import org/allbinary/animation/AnimationBehavior as AnimationBehaviorModule
+export AnimationBehaviorModule
+import org/allbinary/animation/IndexedAnimation as IndexedAnimationModule
+export IndexedAnimationModule
+import org/allbinary/graphics/color/BasicColor as BasicColorModule
+export BasicColorModule
+import org/allbinary/graphics/color/ColorCompositeInterface as ColorCompositeInterfaceModule
+export ColorCompositeInterfaceModule
 
-from org.allbinary.animation.IndexedAnimation import IndexedAnimation
-from org.allbinary.graphics.color.ColorCompositeInterface import ColorCompositeInterface
+type
+    SpriteIndexedAnimation* = ref object of IndexedAnimation
+        sprite*: Sprite
+        image*: Image
+        basicColorArray*: JArray[BasicColor]
+
+converter jAsColorCompositeInterface*(value: SpriteIndexedAnimation): ColorCompositeInterface = cast[ColorCompositeInterface](value)
+proc newSpriteIndexedAnimation*(sprite: Sprite, image: Image, basicColorArray: JArray[BasicColor], animationBehavior: AnimationBehavior): SpriteIndexedAnimation
+proc initSpriteIndexedAnimation*(this: SpriteIndexedAnimation, sprite: Sprite, image: Image, basicColorArray: JArray[BasicColor], animationBehavior: AnimationBehavior)
+method getAnimationSize*(this: SpriteIndexedAnimation): int32 {.discardable.}
+method setBasicColorP*(this: SpriteIndexedAnimation, basicColor: BasicColor)
+method getBasicColorP*(this: SpriteIndexedAnimation): BasicColor {.discardable.}
+method paintFrame*(this: SpriteIndexedAnimation, graphics: Graphics, frame: int32, x: int32, y: int32) {.base.}
+method paintXY*(this: SpriteIndexedAnimation, graphics: Graphics, x: int32, y: int32)
+method paint*(this: SpriteIndexedAnimation, graphics: Graphics) {.base.}
+method nextFrame*(this: SpriteIndexedAnimation)
+method previousFrame*(this: SpriteIndexedAnimation)
+method getSize*(this: SpriteIndexedAnimation): int32 {.discardable.}
+method setFrame*(this: SpriteIndexedAnimation, frame: int32)
+method getFrame*(this: SpriteIndexedAnimation): int32 {.discardable.}
+method isLastFrame*(this: SpriteIndexedAnimation): bool {.discardable.}
+method getLastFrame*(this: SpriteIndexedAnimation): int32 {.base, discardable.}
+method setSequence*(this: SpriteIndexedAnimation, sequence: JArray[int32])
+method getSequence*(this: SpriteIndexedAnimation): JArray[int32] {.discardable.}
+method close*(this: SpriteIndexedAnimation) {.base.}
+method finalize*(this: SpriteIndexedAnimation)
+import org/allbinary/graphics/color/BasicColorFactory as BasicColorFactoryModule
+export BasicColorFactoryModule
+import org/allbinary/logic/math/PrimitiveIntUtil as PrimitiveIntUtilModule
+export PrimitiveIntUtilModule
+import org/allbinary/logic/string/StringMaker as StringMakerModule
+export StringMakerModule
+import org/allbinary/string/CommonLabels as CommonLabelsModule
+export CommonLabelsModule
 
 
-class SpriteIndexedAnimation(IndexedAnimation, ColorCompositeInterface):
-
-    def _init_fields(self) -> None:
-        from javax.microedition.lcdui.Image import Image
-        from javax.microedition.lcdui.game.Sprite import Sprite
-        from org.allbinary.graphics.color.BasicColor import BasicColor
-        self.sprite: Sprite = None
-        self.image: Image = None
-        self.basicColorArray: list[BasicColor] = None
+# Java field initializers run after the base initializer
+proc initFieldsSpriteIndexedAnimation(this: SpriteIndexedAnimation) =
     
-
-    def __init__(self, sprite: Sprite, image: Image, basicColorArray: list[BasicColor], animationBehavior: AnimationBehavior) -> None:
-        from javax.microedition.lcdui.Image import Image
-        from javax.microedition.lcdui.game.Sprite import Sprite
-        from org.allbinary.animation.AnimationBehavior import AnimationBehavior
-        from org.allbinary.graphics.color.BasicColor import BasicColor
-        from org.allbinary.logic.string.StringMaker import StringMaker
-        from org.allbinary.string.CommonLabels import CommonLabels
-        super().__init__(animationBehavior)
-        self._init_fields()
-        self.sprite = sprite
-        self.image = image
-        self.basicColorArray = basicColorArray
-        if len(self.basicColorArray) != 0 and self.getSize() != len(self.basicColorArray):
-            raise Exception(str(StringMaker().append(CommonLabels.getInstance().TOTAL_LABEL).appendint(self.getSize()).append("!=").appendint(len(self.basicColorArray))))
     
-
-    # throws Exception
-    def getAnimationSize(self) -> int:
-        return self.getSize()
     
+    discard
 
-    def setBasicColorP(self, basicColor: BasicColor) -> None:
-        from org.allbinary.graphics.color.BasicColor import BasicColor
-        for index in range(0, len(self.basicColorArray)):
-            if basicColor == self.basicColorArray[index]:
-                self.setFrame(index)
-                break
-    
+proc initSpriteIndexedAnimation*(this: SpriteIndexedAnimation, sprite: Sprite, image: Image, basicColorArray: JArray[BasicColor], animationBehavior: AnimationBehavior) =
+        initIndexedAnimation(this, animationBehavior)
+        this.initFieldsSpriteIndexedAnimation()
+        this.sprite = sprite
+        this.image = image
+        this.basicColorArray = basicColorArray
+        if this.basicColorArray.length != 0 and this.getSize() != this.basicColorArray.length:
+            raise newJException("Exception", newStringMaker().append(CommonLabels.getInstance().TOTAL_LABEL).appendint(this.getSize()).append("!=").appendint(this.basicColorArray.length).toString())
 
-    def getBasicColorP(self) -> BasicColor:
-        from org.allbinary.graphics.color.BasicColor import BasicColor
-        from org.allbinary.graphics.color.BasicColorFactory import BasicColorFactory
-        if len(self.basicColorArray) < self.getFrame():
-            return self.basicColorArray[self.getFrame()]
+proc newSpriteIndexedAnimation*(sprite: Sprite, image: Image, basicColorArray: JArray[BasicColor], animationBehavior: AnimationBehavior): SpriteIndexedAnimation =
+    result = SpriteIndexedAnimation()
+    initSpriteIndexedAnimation(result, sprite, image, basicColorArray, animationBehavior)
+
+method getAnimationSize*(this: SpriteIndexedAnimation): int32 {.discardable.} =
+        return this.getSize()
+
+method setBasicColorP*(this: SpriteIndexedAnimation, basicColor: BasicColor) =
+        block:
+            var index: int32 = 0
+            while index < this.basicColorArray.length:
+                defer: index = index +% 1
+                if basicColor == this.basicColorArray[index]:
+                    this.setFrame(index)
+                    break
+
+method getBasicColorP*(this: SpriteIndexedAnimation): BasicColor {.discardable.} =
+        if this.basicColorArray.length < this.getFrame():
+            return this.basicColorArray[this.getFrame()]
         else:
             return BasicColorFactory.getInstance().WHITE
-    
 
-    def paintFrame(self, graphics: Graphics, frame: int, x: int, y: int) -> None:
-        from javax.microedition.lcdui.Graphics import Graphics
-        self.setFrame(frame)
-        self.sprite.setPosition(x, y)
-        self.sprite.paint(graphics)
-    
+method paintFrame*(this: SpriteIndexedAnimation, graphics: Graphics, frame: int32, x: int32, y: int32) {.base.} =
+        this.setFrame(frame)
+        this.sprite.setPosition(x, y)
+        this.sprite.paint(graphics)
 
-    def paintXY(self, graphics: Graphics, x: int, y: int) -> None:
-        from javax.microedition.lcdui.Graphics import Graphics
-        self.sprite.setPosition(x, y)
-        self.sprite.paint(graphics)
-    
+method paintXY*(this: SpriteIndexedAnimation, graphics: Graphics, x: int32, y: int32) =
+        this.sprite.setPosition(x, y)
+        this.sprite.paint(graphics)
 
-    def paint(self, graphics: Graphics) -> None:
-        from javax.microedition.lcdui.Graphics import Graphics
-        self.sprite.paint(graphics)
-    
+method paint*(this: SpriteIndexedAnimation, graphics: Graphics) {.base.} =
+        this.sprite.paint(graphics)
 
-    def nextFrame(self) -> None:
-        self.sprite.nextFrame()
-    
+method nextFrame*(this: SpriteIndexedAnimation) =
+        this.sprite.nextFrame()
 
-    def previousFrame(self) -> None:
-        self.sprite.prevFrame()
-    
+method previousFrame*(this: SpriteIndexedAnimation) =
+        this.sprite.prevFrame()
 
-    def getSize(self) -> int:
-        return self.sprite.getRawFrameCount()
-    
+method getSize*(this: SpriteIndexedAnimation): int32 {.discardable.} =
+        return this.sprite.getRawFrameCount()
 
-    def setFrame(self, frame: int) -> None:
-        self.sprite.setFrame(frame)
-    
+method setFrame*(this: SpriteIndexedAnimation, frame: int32) =
+        this.sprite.setFrame(frame)
 
-    def getFrame(self) -> int:
-        return self.sprite.getFrame()
-    
+method getFrame*(this: SpriteIndexedAnimation): int32 {.discardable.} =
+        return this.sprite.getFrame()
 
-    def isLastFrame(self) -> bool:
-        if self.sprite.getFrame() == self.getSize() - 1:
-            return True
+method isLastFrame*(this: SpriteIndexedAnimation): bool {.discardable.} =
+        if this.sprite.getFrame() == this.getSize() -% 1:
+            return true
         else:
-            return False
-    
+            return false
 
-    def getLastFrame(self) -> int:
-        return self.getSize()
-    
+method getLastFrame*(this: SpriteIndexedAnimation): int32 {.base, discardable.} =
+        return this.getSize()
 
-    def setSequence(self, sequence: list[int]) -> None:
-        pass
-    
+method setSequence*(this: SpriteIndexedAnimation, sequence: JArray[int32]) =
+        discard
 
-    def getSequence(self) -> list[int]:
-        from org.allbinary.logic.math.PrimitiveIntUtil import PrimitiveIntUtil
+method getSequence*(this: SpriteIndexedAnimation): JArray[int32] {.discardable.} =
         return PrimitiveIntUtil.getArrayInstance()
-    
 
-    # throws Exception
-    def close(self) -> None:
-        pass
-    
+method close*(this: SpriteIndexedAnimation) {.base.} =
+        discard
 
-    # throws Throwable
-    def finalize(self) -> None:
-        pass
-# from javax.microedition.lcdui.Graphics import Graphics
-# from javax.microedition.lcdui.Image import Image
-# from javax.microedition.lcdui.game.Sprite import Sprite
-# from org.allbinary.animation.AnimationBehavior import AnimationBehavior
-# from org.allbinary.graphics.color.BasicColor import BasicColor
-# from org.allbinary.graphics.color.BasicColorFactory import BasicColorFactory
-# from org.allbinary.logic.math.PrimitiveIntUtil import PrimitiveIntUtil
-# from org.allbinary.logic.string.StringMaker import StringMaker
-# from org.allbinary.string.CommonLabels import CommonLabels
+method finalize*(this: SpriteIndexedAnimation) =
+        discard
 
+when declared(newSpriteIndexedAnimationHook4):
+    newSpriteIndexedAnimationHook4 = proc (sprite: Sprite, image: Image, basicColorArray: JArray[BasicColor], animationBehavior: AnimationBehavior): IndexedAnimation = newSpriteIndexedAnimation(sprite, image, basicColorArray, animationBehavior)
 

@@ -1,56 +1,69 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.media.audio
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import javax/microedition/media/Control as ControlModule
+export ControlModule
+import org/allbinary/media/audio/BasicPlayer as BasicPlayerModule
+export BasicPlayerModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
-from org.allbinary.media.audio.BasicPlayer import BasicPlayer
+type
+    NoPlayer* = ref object of BasicPlayer
 
+proc newNoPlayer*(): NoPlayer
+proc initNoPlayer*(this: NoPlayer)
+method close*(this: NoPlayer)
+method getContentType*(this: NoPlayer): string {.discardable.}
+method getControl*(this: NoPlayer, controlType: string): Control {.discardable.}
+method getControls*(this: NoPlayer): JArray[Control] {.discardable.}
+import org/allbinary/logic/string/StringUtil as StringUtilModule
+export StringUtilModule
+import org/allbinary/media/audio/NullControl as NullControlModule
+export NullControlModule
 
-class NoPlayer(BasicPlayer):
-    NO_PLAYER: NoPlayer = None
-    
+var NoPlayer_NO_PLAYERValue: NoPlayer
+var NoPlayer_NO_PLAYERSet = false
+proc NO_PLAYERStatic*(t: typedesc[NoPlayer]): NoPlayer =
+    if not NoPlayer_NO_PLAYERSet:
+        NoPlayer_NO_PLAYERSet = true
+        NoPlayer_NO_PLAYERValue = newNoPlayer()
+    NoPlayer_NO_PLAYERValue
 
-    def __init__(self) -> None:
-        super().__init__()
-    
+proc initNoPlayer*(this: NoPlayer) =
+        initBasicPlayer(this)
+        discard
 
-    def close(self) -> None:
-        pass
-    
+proc newNoPlayer*(): NoPlayer =
+    result = NoPlayer()
+    initNoPlayer(result)
 
-    def getContentType(self) -> str:
-        from org.allbinary.logic.string.StringUtil import StringUtil
+method close*(this: NoPlayer) =
+        discard
+
+method getContentType*(this: NoPlayer): string {.discardable.} =
         return StringUtil.getInstance().NULL_STRING
-    
 
-    def getControl(self, controlType: str) -> Control:
-        from org.allbinary.media.audio.NullControl import NullControl
-        from javax.microedition.media.Control import Control
-        return NullControl()
-    
+method getControl*(this: NoPlayer, controlType: string): Control {.discardable.} =
+        return newNullControl()
 
-    def getControls(self) -> list[Control]:
-        from javax.microedition.media.Control import Control
-        return [None] * (0)
-# from javax.microedition.media.Control import Control
-# from org.allbinary.logic.string.StringUtil import StringUtil
+method getControls*(this: NoPlayer): JArray[Control] {.discardable.} =
+        return newJArray[Control](0, default(Control))
 
-
-def _NoPlayer_NO_PLAYER() -> object:
-    return NoPlayer()
-
-lazy_static(NoPlayer, "NO_PLAYER", _NoPlayer_NO_PLAYER)
+when declared(newNoPlayerHook0):
+    newNoPlayerHook0 = proc (): BasicPlayer = newNoPlayer()
 

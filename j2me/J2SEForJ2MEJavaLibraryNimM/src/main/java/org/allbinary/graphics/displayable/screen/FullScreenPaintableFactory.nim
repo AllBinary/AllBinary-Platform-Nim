@@ -1,44 +1,54 @@
-# 
-# AllBinary Open License Version 1 
-# Copyright (c) 2022 AllBinary 
-#  
-# By agreeing to this license you and any business entity you represent are 
-# legally bound to the AllBinary Open License Version 1 legal agreement. 
-#  
-# You may obtain the AllBinary Open License Version 1 legal agreement from 
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
-#  
-# Created By: Travis Berthelot 
-#   
+#[
+  
+  AllBinary Open License Version 1 
+  Copyright (c) 2022 AllBinary 
+   
+  By agreeing to this license you and any business entity you represent are 
+  legally bound to the AllBinary Open License Version 1 legal agreement. 
+   
+  You may obtain the AllBinary Open License Version 1 legal agreement from 
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
+   
+  Created By: Travis Berthelot 
+    
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.graphics.displayable.screen
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/graphics/paint/Paintable as PaintableModule
+export PaintableModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    FullScreenPaintableFactory* = ref object of JObject
+        paintable*: Paintable
 
+proc newFullScreenPaintableFactory*(): FullScreenPaintableFactory
+proc getInstance*(t: typedesc[FullScreenPaintableFactory]): FullScreenPaintableFactory {.discardable.}
+import org/allbinary/graphics/paint/NullPaintable as NullPaintableModule
+export NullPaintableModule
 
-class FullScreenPaintableFactory:
-    instance: FullScreenPaintableFactory = None
+var FullScreenPaintableFactory_instanceValue: FullScreenPaintableFactory
+var FullScreenPaintableFactory_instanceSet = false
+proc instance*(t: typedesc[FullScreenPaintableFactory]): FullScreenPaintableFactory =
+    if not FullScreenPaintableFactory_instanceSet:
+        FullScreenPaintableFactory_instanceSet = true
+        FullScreenPaintableFactory_instanceValue = newFullScreenPaintableFactory()
+    FullScreenPaintableFactory_instanceValue
 
-    def _init_fields(self) -> None:
-        from org.allbinary.graphics.paint.NullPaintable import NullPaintable
-        from org.allbinary.graphics.paint.Paintable import Paintable
-        self.paintable: Paintable = NullPaintable.getInstance()
+# Java field initializers run after the base initializer
+proc initFieldsFullScreenPaintableFactory(this: FullScreenPaintableFactory) =
+    this.paintable = NullPaintable.getInstance()
+    discard
 
-    def __init__(self) -> None:
-        self._init_fields()
-    
+proc initFullScreenPaintableFactory*(this: FullScreenPaintableFactory) =
+    this.initFieldsFullScreenPaintableFactory()
 
-    @staticmethod
-    def getInstance() -> FullScreenPaintableFactory:
+proc newFullScreenPaintableFactory*(): FullScreenPaintableFactory =
+    result = FullScreenPaintableFactory()
+    initFullScreenPaintableFactory(result)
+
+proc getInstance*(t: typedesc[FullScreenPaintableFactory]): FullScreenPaintableFactory {.discardable.} =
         return FullScreenPaintableFactory.instance
-# from org.allbinary.graphics.paint.NullPaintable import NullPaintable
-# from org.allbinary.graphics.paint.Paintable import Paintable
-
-
-def _FullScreenPaintableFactory_instance() -> object:
-    return FullScreenPaintableFactory()
-
-lazy_static(FullScreenPaintableFactory, "instance", _FullScreenPaintableFactory_instance)
 

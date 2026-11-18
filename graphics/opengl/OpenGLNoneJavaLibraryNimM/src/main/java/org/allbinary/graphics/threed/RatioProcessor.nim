@@ -1,26 +1,37 @@
-# 
-# AllBinary Open License Version 1 
-# Copyright (c) 2025 AllBinary 
-#  
-# By agreeing to this license you and any business entity you represent are 
-# legally bound to the AllBinary Open License Version 1 legal agreement. 
-#  
-# You may obtain the AllBinary Open License Version 1 legal agreement from 
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
-#  
-# Created By: Travis Berthelot 
-#   
+#[
+  
+  AllBinary Open License Version 1 
+  Copyright (c) 2025 AllBinary 
+   
+  By agreeing to this license you and any business entity you represent are 
+  legally bound to the AllBinary Open License Version 1 legal agreement. 
+   
+  You may obtain the AllBinary Open License Version 1 legal agreement from 
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
+   
+  Created By: Travis Berthelot 
+    
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.graphics.threed
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+
+type
+    RatioProcessor* = ref object of JObject
+
+proc newRatioProcessor*(): RatioProcessor
+method setCustom*(this: RatioProcessor, width: int32, height: int32, ratio: float32) {.base.}
 
 
+proc initRatioProcessor*(this: RatioProcessor) =
+    discard
 
-class RatioProcessor:
-    
+proc newRatioProcessor*(): RatioProcessor =
+    result = RatioProcessor()
+    initRatioProcessor(result)
 
-    def setCustom(self, width: int, height: int, ratio: float) -> None:
-        pass
-
+method setCustom*(this: RatioProcessor, width: int32, height: int32, ratio: float32) {.base.} =
+        discard
 

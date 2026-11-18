@@ -1,14 +1,23 @@
 # Generated Code Do Not Modify
 # package org.allbinary.graph
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+
+type
+    V* = ref object of JObject
+
+proc newV*(): V
+method getId*(this: V): int32 {.base, discardable.}
 
 
+proc initV*(this: V) =
+    discard
 
-class V:
-    
+proc newV*(): V =
+    result = V()
+    initV(result)
 
-    def getId(self) -> int:
+method getId*(this: V): int32 {.base, discardable.} =
         return 0
-
 

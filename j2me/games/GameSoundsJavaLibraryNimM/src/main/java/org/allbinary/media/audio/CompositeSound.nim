@@ -1,34 +1,47 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.media.audio
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/media/audio/Sound as SoundModule
+export SoundModule
 
-from org.allbinary.media.audio.Sound import Sound
+type
+    CompositeSound* = ref object of Sound
+
+proc newCompositeSound*(resource: string): CompositeSound
+proc initCompositeSound*(this: CompositeSound, resource: string)
+method init*(this: CompositeSound)
+import org/allbinary/media/audio/PlayerComposite as PlayerCompositeModule
+export PlayerCompositeModule
+import org/allbinary/media/audio/AllBinaryMediaManager as AllBinaryMediaManagerModule
+export AllBinaryMediaManagerModule
 
 
-class CompositeSound(Sound):
-    
+proc initCompositeSound*(this: CompositeSound, resource: string) =
+        initSound(this, resource)
 
-    def __init__(self, resource: str) -> None:
-        super().__init__(resource)
-    
+proc newCompositeSound*(resource: string): CompositeSound =
+    result = CompositeSound()
+    initCompositeSound(result, resource)
 
-    # throws Exception
-    def init(self) -> None:
-        from org.allbinary.media.audio.PlayerComposite import PlayerComposite
-        from org.allbinary.media.audio.AllBinaryMediaManager import AllBinaryMediaManager
-        self.setPlayerP(PlayerComposite(AllBinaryMediaManager.createPlayer(self.getResource()), 570))
+method init*(this: CompositeSound) =
+        this.setPlayerP(newPlayerComposite(AllBinaryMediaManager.createPlayer(this.getResource()), 570))
 
+when declared(newCompositeSoundHook1):
+    newCompositeSoundHook1 = proc (resource: string): Sound = newCompositeSound(resource)
 

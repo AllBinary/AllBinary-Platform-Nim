@@ -18,6 +18,7 @@ compiler="$(cygpath -u "$6")"
 read -r -a compiler_flags <<< "$7"
 artifact="$8"
 fail_on_error="${9:-true}"
+cycle_types="G:/mnt/bc/mydev/work/allbinary_src/JavaAsXmlToLanguageLibraryM/src/main/java/org/allbinary/converter/nim/NimCycleTypes.java"
 
 if [ ! -d "$source_dir" ]; then
     echo "No Nim sources: $source_dir"
@@ -25,38 +26,38 @@ if [ ! -d "$source_dir" ]; then
 fi
 
 rm -rf "$output_dir" "$object_dir"
-mkdir -p "$output_dir/src" "$object_dir"
+mkdir -p "$output_dir/src" "$object_dir/src"
+# Nim can not compile types of different modules that use each other (Graphics and Image), so NimCycleTypes moves the
+# type sections of each group of modules that import each other to one jcycletypes_ module on a copy of the sources,
+# and makes every module import the members with a member's superclasses before the member (a Nim method override
+# must come after its base method). The changed copy is checked and written to <output>/src.
+cp -R "$source_dir/." "$object_dir/src/"
+order_edges="$object_dir/order-edges.txt"
+cycle_arguments=("$(cygpath -w "$object_dir/src")" "$(cygpath -w "$order_edges")")
+if [ -d "$dependency_dir/src" ]; then
+    cycle_arguments+=("$(cygpath -w "$dependency_dir/src")")
+fi
+if ! java "$cycle_types" "${cycle_arguments[@]}"; then
+    echo "NimCycleTypes failed: $artifact" >&2
+    exit 1
+fi
+source_dir="$object_dir/src"
 cp -R "$source_dir/." "$output_dir/src/"
 
 # Nim module names must be identifiers so the aggregate module is allmodules
 aggregate="$object_dir/allmodules.nim"
 : > "$aggregate"
 count=0
-# Two classes that use each other compile when the one that imports the other late (an import after its procs are
-# declared, see JavaAsXmlToNim.xsl nimClassImports) is compiled first, so a module comes before the modules it imports
-# late (tsort of "module lateImport" pairs) and the modules with late imports come first.
-# Any other module that imports B must also come after A (it would load B before A otherwise).
-imports="$object_dir/imports.txt"
-: > "$imports"
-edges="$object_dir/late-imports.txt"
+# Modules that import each other are in one group (above), so the only order the aggregate module needs is the
+# members with superclasses before their subclasses (tsort of NimCycleTypes "superclassMember member" pairs).
+edges="$object_dir/order-edges-all.txt"
 : > "$edges"
 while IFS= read -r -d '' file; do
     module="${file#"$source_dir"/}"
     module="${module%.nim}"
     echo "$module $module" >> "$edges"
-    awk -v module="$module" '/^(proc|method|func) / { declared = 1 } /^import / { print (declared ? "late" : "early") " " module " " $2 }' "$file" | while read -r kind from to; do
-        if [ -f "$source_dir/$to.nim" ]; then echo "$kind $from $to" >> "$imports"; fi
-    done
 done < <(find "$source_dir" -type f -name '*.nim' -print0 | sort -z)
-awk '{ importers[$3] = importers[$3] " " $2 } $1 == "late" { late[++count] = $2 " " $3 }
-    END {
-        for (index_ = 1; index_ <= count; index_++) {
-            split(late[index_], pair, " ")
-            print pair[1] " " pair[2]
-            split(importers[pair[2]], list, " ")
-            for (item in list) { if (list[item] != pair[1]) print pair[1] " " list[item] }
-        }
-    }' "$imports" >> "$edges"
+cat "$order_edges" >> "$edges"
 while IFS= read -r module; do
     printf 'import %s as Module%d\n' "$module" "$count" >> "$aggregate"
     count=$((count + 1))

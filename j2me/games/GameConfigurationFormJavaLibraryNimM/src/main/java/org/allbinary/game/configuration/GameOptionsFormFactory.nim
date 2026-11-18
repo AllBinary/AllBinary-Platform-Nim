@@ -1,61 +1,74 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.configuration
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import javax/microedition/lcdui/CommandListener as CommandListenerModule
+export CommandListenerModule
+import org/allbinary/graphics/color/BasicColor as BasicColorModule
+export BasicColorModule
+import org/allbinary/graphics/displayable/screen/CommandForm as CommandFormModule
+export CommandFormModule
+import org/allbinary/logic/communication/log/LogUtil as LogUtilModule
+export LogUtilModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    GameOptionsFormFactory* = ref object of JObject
+        logUtil*: LogUtil
 
+proc newGameOptionsFormFactory*(): GameOptionsFormFactory
+proc initGameOptionsFormFactory*(this: GameOptionsFormFactory)
+proc getInstance*(t: typedesc[GameOptionsFormFactory]): GameOptionsFormFactory {.discardable.}
+method init*(this: GameOptionsFormFactory, commandListener: CommandListener, title: string, backgrounBasicColor: BasicColor, foregroundBasicColor: BasicColor): CommandForm {.base, discardable.}
+import org/allbinary/string/CommonStrings as CommonStringsModule
+export CommonStringsModule
+import org/allbinary/game/configuration/GameOptionsForm as GameOptionsFormModule
+export GameOptionsFormModule
 
-class GameOptionsFormFactory:
-    instance: GameOptionsFormFactory = None
+var GameOptionsFormFactory_instanceValue: GameOptionsFormFactory
+var GameOptionsFormFactory_instanceSet = false
+proc instance*(t: typedesc[GameOptionsFormFactory]): GameOptionsFormFactory =
+    if not GameOptionsFormFactory_instanceSet:
+        GameOptionsFormFactory_instanceSet = true
+        GameOptionsFormFactory_instanceValue = newGameOptionsFormFactory()
+    GameOptionsFormFactory_instanceValue
 
-    def _init_fields(self) -> None:
-        from org.allbinary.logic.communication.log.LogUtil import LogUtil
-        self.logUtil: LogUtil = LogUtil.getInstance()
-    
+# Java field initializers run after the base initializer
+proc initFieldsGameOptionsFormFactory(this: GameOptionsFormFactory) =
+    this.logUtil = LogUtil.getInstance()
+    discard
 
-    def __init__(self) -> None:
-        self._init_fields()
-    
+proc initGameOptionsFormFactory*(this: GameOptionsFormFactory) =
+        this.initFieldsGameOptionsFormFactory()
+        discard
 
-    @staticmethod
-    def getInstance() -> GameOptionsFormFactory:
+proc newGameOptionsFormFactory*(): GameOptionsFormFactory =
+    result = GameOptionsFormFactory()
+    initGameOptionsFormFactory(result)
+
+proc getInstance*(t: typedesc[GameOptionsFormFactory]): GameOptionsFormFactory {.discardable.} =
         return GameOptionsFormFactory.instance
-    
 
-    def init(self, commandListener: CommandListener, title: str, backgrounBasicColor: BasicColor, foregroundBasicColor: BasicColor) -> CommandForm:
-        from org.allbinary.game.configuration.GameOptionsForm import GameOptionsForm
-        from javax.microedition.lcdui.CommandListener import CommandListener
-        from org.allbinary.graphics.color.BasicColor import BasicColor
-        from org.allbinary.graphics.displayable.screen.CommandForm import CommandForm
-        from org.allbinary.string.CommonStrings import CommonStrings
+method init*(this: GameOptionsFormFactory, commandListener: CommandListener, title: string, backgrounBasicColor: BasicColor, foregroundBasicColor: BasicColor): CommandForm {.base, discardable.} =
         try:
-            return GameOptionsForm(commandListener, title, backgrounBasicColor, foregroundBasicColor)
-        except Exception as e:
-            commonStrings: CommonStrings = CommonStrings.getInstance()
-            self.logUtil.put(commonStrings.EXCEPTION, self, commonStrings.INIT, e)
+            return newGameOptionsForm(commandListener, title, backgrounBasicColor, foregroundBasicColor)
+        except CatchableError as jcaught:
+            let e = jToException(jcaught)
+            let commonStrings: CommonStrings = CommonStrings.getInstance()
+            this.logUtil.put(commonStrings.EXCEPTION, this, commonStrings.INIT, e)
             return CommandForm.getNullCommandForm()
-# from javax.microedition.lcdui.CommandListener import CommandListener
-# from org.allbinary.graphics.color.BasicColor import BasicColor
-# from org.allbinary.graphics.displayable.screen.CommandForm import CommandForm
-# from org.allbinary.logic.communication.log.LogUtil import LogUtil
-# from org.allbinary.string.CommonStrings import CommonStrings
-
-
-def _GameOptionsFormFactory_instance() -> object:
-    return GameOptionsFormFactory()
-
-lazy_static(GameOptionsFormFactory, "instance", _GameOptionsFormFactory_instance)
 

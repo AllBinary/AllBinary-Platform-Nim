@@ -1,61 +1,82 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.score
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/util/CircularIndexUtil as CircularIndexUtilModule
+export CircularIndexUtilModule
+import org/allbinary/game/score/HighScoresHelperBase as HighScoresHelperBaseModule
+export HighScoresHelperBaseModule
+import org/allbinary/game/score/HighScores as HighScoresModule
+export HighScoresModule
 
-from org.allbinary.game.score.HighScoresHelperBase import HighScoresHelperBase
+type
+    HighScoresHelper* = ref object of HighScoresHelperBase
+        circularIndexUtil*: CircularIndexUtil
+        lastIndex*: int32
+
+proc newHighScoresHelper*(): HighScoresHelper
+method setHighScoresArray*(this: HighScoresHelper, highScoresArrayP: JArray[HighScores])
+method getNextHighScores*(this: HighScoresHelper): HighScores {.discardable.}
+method isAnyHighScores*(this: HighScoresHelper): bool {.discardable.}
 
 
-class HighScoresHelper(HighScoresHelperBase):
+# Java field initializers run after the base initializer
+proc initFieldsHighScoresHelper(this: HighScoresHelper) =
+    this.circularIndexUtil = CircularIndexUtil.createInstanceAt(0, 0)
+    this.lastIndex = -1
+    discard
 
-    def _init_fields(self) -> None:
-        from org.allbinary.util.CircularIndexUtil import CircularIndexUtil
-        self.circularIndexUtil: CircularIndexUtil = CircularIndexUtil.createInstanceAt(0, 0)
-        self.lastIndex: int = -1
+proc initHighScoresHelper*(this: HighScoresHelper) =
+    initHighScoresHelperBase(this)
+    this.initFieldsHighScoresHelper()
 
-    def __init__(self) -> None:
-        super().__init__()
-        self._init_fields()
-    
+proc newHighScoresHelper*(): HighScoresHelper =
+    result = HighScoresHelper()
+    initHighScoresHelper(result)
 
-    def setHighScoresArray(self, highScoresArrayP: list[HighScores]) -> None:
-        super().setHighScoresArray(highScoresArrayP)
-        self.circularIndexUtil.setSize(len(self.highScoresArrayP))
-    
+method setHighScoresArray*(this: HighScoresHelper, highScoresArrayP: JArray[HighScores]) =
+        procCall HighScoresHelperBase(this).setHighScoresArray(highScoresArrayP)
+        this.circularIndexUtil.setSize(this.highScoresArrayP.length)
 
-    def getNextHighScores(self) -> HighScores:
-        highScores: HighScores = self.highScoresArrayP[self.circularIndexUtil.getIndex()]
-        index: int = 0
-        while (highScores.getTotal() < 1 or self.lastIndex == self.circularIndexUtil.getIndex()) and index < len(self.highScoresArrayP):
-            self.circularIndexUtil.next()
-            highScores = self.highScoresArrayP[self.circularIndexUtil.getIndex()]
-            index += 1
-        self.lastIndex = self.circularIndexUtil.getIndex()
+method getNextHighScores*(this: HighScoresHelper): HighScores {.discardable.} =
+        var highScores: HighScores = this.highScoresArrayP[this.circularIndexUtil.getIndex()]
+        var index: int32 = 0
+        while (highScores.getTotal() < 1 or this.lastIndex == this.circularIndexUtil.getIndex()) and index < this.highScoresArrayP.length:
+            this.circularIndexUtil.next()
+            highScores = this.highScoresArrayP[this.circularIndexUtil.getIndex()]
+            index = index +% 1
+        this.lastIndex = this.circularIndexUtil.getIndex()
         return highScores
-    
 
-    def isAnyHighScores(self) -> bool:
-        if len(self.highScoresArrayP) < 1:
-            return False
-        anyScores: bool = False
-        highScores: HighScores = None
-        for index in range(len(self.highScoresArrayP) - 1, 0 - 1, -1):
-            highScores = self.highScoresArrayP[index]
-            if highScores.getTotal() > 0:
-                anyScores = True
+method isAnyHighScores*(this: HighScoresHelper): bool {.discardable.} =
+        if this.highScoresArrayP.length < 1:
+            return false
+        var anyScores: bool = false
+        var highScores: HighScores = nil
+        block:
+            var index: int32 = this.highScoresArrayP.length -% 1
+            while index >= 0:
+                defer: index = index -% 1
+                highScores = this.highScoresArrayP[index]
+                if highScores.getTotal() > 0:
+                    anyScores = true
         return anyScores
-# from org.allbinary.util.CircularIndexUtil import CircularIndexUtil
 
+when declared(newHighScoresHelperHook0):
+    newHighScoresHelperHook0 = proc (): HighScoresHelperBase = newHighScoresHelper()
 

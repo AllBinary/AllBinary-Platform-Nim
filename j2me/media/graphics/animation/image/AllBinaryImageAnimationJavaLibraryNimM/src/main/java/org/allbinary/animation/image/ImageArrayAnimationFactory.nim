@@ -1,64 +1,77 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.animation.image
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import javax/microedition/lcdui/Image as ImageModule
+export ImageModule
+import org/allbinary/animation/Animation as AnimationModule
+export AnimationModule
+import org/allbinary/animation/AnimationBehaviorFactory as AnimationBehaviorFactoryModule
+export AnimationBehaviorFactoryModule
+import org/allbinary/animation/AnimationInterfaceFactoryInterface as AnimationInterfaceFactoryInterfaceModule
+export AnimationInterfaceFactoryInterfaceModule
+import org/allbinary/media/ScaleProperties as ScalePropertiesModule
+export ScalePropertiesModule
 
-from org.allbinary.animation.AnimationInterfaceFactoryInterface import AnimationInterfaceFactoryInterface
+type
+    ImageArrayAnimationFactory* = ref object of AnimationInterfaceFactoryInterface
+        dx*: int32
+        dy*: int32
+        imageArray*: JArray[Image]
+        animationBehaviorFactory*: AnimationBehaviorFactory
+
+proc newImageArrayAnimationFactory*(imageArray: JArray[Image], dx: int32, dy: int32, animationBehaviorFactory: AnimationBehaviorFactory): ImageArrayAnimationFactory
+proc initImageArrayAnimationFactory*(this: ImageArrayAnimationFactory, imageArray: JArray[Image], dx: int32, dy: int32, animationBehaviorFactory: AnimationBehaviorFactory)
+method getInstance*(this: ImageArrayAnimationFactory, instanceId: int32): Animation {.discardable.}
+method setInitialScale*(this: ImageArrayAnimationFactory, scaleProperties: ScaleProperties)
+import org/allbinary/animation/AnimationBehavior as AnimationBehaviorModule
+export AnimationBehaviorModule
+import org/allbinary/animation/image/ImageArrayAnimation as ImageArrayAnimationModule
+export ImageArrayAnimationModule
+import org/allbinary/animation/image/AdjustedImageArrayAnimation as AdjustedImageArrayAnimationModule
+export AdjustedImageArrayAnimationModule
 
 
-class ImageArrayAnimationFactory(AnimationInterfaceFactoryInterface):
-
-    def _init_fields(self) -> None:
-        from javax.microedition.lcdui.Image import Image
-        from org.allbinary.animation.AnimationBehaviorFactory import AnimationBehaviorFactory
-        self.dx: int = 0
-        self.dy: int = 0
-        self.imageArray: list[Image] = None
-        self.animationBehaviorFactory: AnimationBehaviorFactory = None
+# Java field initializers run after the base initializer
+proc initFieldsImageArrayAnimationFactory(this: ImageArrayAnimationFactory) =
+    this.dx = 0
+    this.dy = 0
     
-
-    def __init__(self, imageArray: list[Image], dx: int, dy: int, animationBehaviorFactory: AnimationBehaviorFactory) -> None:
-        from javax.microedition.lcdui.Image import Image
-        from org.allbinary.animation.AnimationBehaviorFactory import AnimationBehaviorFactory
-        self._init_fields()
-        self.imageArray = imageArray
-        self.animationBehaviorFactory = animationBehaviorFactory
-        self.dx = dx
-        self.dy = dy
     
+    discard
 
-    # throws Exception
-    def getInstance(self, instanceId: int) -> Animation:
-        from org.allbinary.animation.image.ImageArrayAnimation import ImageArrayAnimation
-        from org.allbinary.animation.image.AdjustedImageArrayAnimation import AdjustedImageArrayAnimation
-        from org.allbinary.animation.Animation import Animation
-        from org.allbinary.animation.AnimationBehavior import AnimationBehavior
-        if self.dx != 0 or self.dy != 0:
-            return AdjustedImageArrayAnimation(self.imageArray, self.dx, self.dy, self.animationBehaviorFactory.getOrCreateInstance())
+proc initImageArrayAnimationFactory*(this: ImageArrayAnimationFactory, imageArray: JArray[Image], dx: int32, dy: int32, animationBehaviorFactory: AnimationBehaviorFactory) =
+        this.initFieldsImageArrayAnimationFactory()
+        this.imageArray = imageArray
+        this.animationBehaviorFactory = animationBehaviorFactory
+        this.dx = dx
+        this.dy = dy
+
+proc newImageArrayAnimationFactory*(imageArray: JArray[Image], dx: int32, dy: int32, animationBehaviorFactory: AnimationBehaviorFactory): ImageArrayAnimationFactory =
+    result = ImageArrayAnimationFactory()
+    initImageArrayAnimationFactory(result, imageArray, dx, dy, animationBehaviorFactory)
+
+method getInstance*(this: ImageArrayAnimationFactory, instanceId: int32): Animation {.discardable.} =
+        if this.dx != 0 or this.dy != 0:
+            return newAdjustedImageArrayAnimation(this.imageArray, this.dx, this.dy, this.animationBehaviorFactory.getOrCreateInstance())
         else:
-            return ImageArrayAnimation(self.imageArray, AnimationBehavior.getInstance())
-    
+            return newImageArrayAnimation(this.imageArray, AnimationBehavior.getInstance())
 
-    def setInitialScale(self, scaleProperties: ScaleProperties) -> None:
-        from org.allbinary.media.ScaleProperties import ScaleProperties
-        pass
-# from javax.microedition.lcdui.Image import Image
-# from org.allbinary.animation.Animation import Animation
-# from org.allbinary.animation.AnimationBehavior import AnimationBehavior
-# from org.allbinary.animation.AnimationBehaviorFactory import AnimationBehaviorFactory
-# from org.allbinary.logic.communication.log.ForcedLogUtil import ForcedLogUtil
-# from org.allbinary.media.ScaleProperties import ScaleProperties
-
+method setInitialScale*(this: ImageArrayAnimationFactory, scaleProperties: ScaleProperties) =
+        discard
 

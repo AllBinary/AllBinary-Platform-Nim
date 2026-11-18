@@ -1,42 +1,50 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.graphics.opengles
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    OpenGLFeatureUtil* = ref object of JObject
 
+proc newOpenGLFeatureUtil*(): OpenGLFeatureUtil
+proc initOpenGLFeatureUtil*(this: OpenGLFeatureUtil)
+proc getInstance*(t: typedesc[OpenGLFeatureUtil]): OpenGLFeatureUtil {.discardable.}
+method isAnyThreed*(this: OpenGLFeatureUtil): bool {.base, discardable.}
 
-class OpenGLFeatureUtil:
-    instance: OpenGLFeatureUtil = None
-    
+var OpenGLFeatureUtil_instanceValue: OpenGLFeatureUtil
+var OpenGLFeatureUtil_instanceSet = false
+proc instance*(t: typedesc[OpenGLFeatureUtil]): OpenGLFeatureUtil =
+    if not OpenGLFeatureUtil_instanceSet:
+        OpenGLFeatureUtil_instanceSet = true
+        OpenGLFeatureUtil_instanceValue = newOpenGLFeatureUtil()
+    OpenGLFeatureUtil_instanceValue
 
-    @staticmethod
-    def getInstance() -> OpenGLFeatureUtil:
+proc getInstance*(t: typedesc[OpenGLFeatureUtil]): OpenGLFeatureUtil {.discardable.} =
         return OpenGLFeatureUtil.instance
-    
 
-    def __init__(self) -> None:
-        pass
-    
+proc initOpenGLFeatureUtil*(this: OpenGLFeatureUtil) =
+        discard
+        discard
 
-    def isAnyThreed(self) -> bool:
-        return False
+proc newOpenGLFeatureUtil*(): OpenGLFeatureUtil =
+    result = OpenGLFeatureUtil()
+    initOpenGLFeatureUtil(result)
 
-
-def _OpenGLFeatureUtil_instance() -> object:
-    return OpenGLFeatureUtil()
-
-lazy_static(OpenGLFeatureUtil, "instance", _OpenGLFeatureUtil_instance)
+method isAnyThreed*(this: OpenGLFeatureUtil): bool {.base, discardable.} =
+        return false
 

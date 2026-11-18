@@ -1,41 +1,53 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.combat.destroy.event
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/game/displayable/canvas/AllBinaryGameCanvas as AllBinaryGameCanvasModule
+export AllBinaryGameCanvasModule
+import org/allbinary/logic/util/event/AllBinaryEventObject as AllBinaryEventObjectModule
+export AllBinaryEventObjectModule
+import org/allbinary/logic/util/event/AllBinaryEventObjectFactoryInterface as AllBinaryEventObjectFactoryInterfaceModule
+export AllBinaryEventObjectFactoryInterfaceModule
 
-from org.allbinary.logic.util.event.AllBinaryEventObjectFactoryInterface import AllBinaryEventObjectFactoryInterface
+type
+    DestroyEventFactory* = ref object of AllBinaryEventObjectFactoryInterface
+        combatGameCanvas*: AllBinaryGameCanvas
+
+proc newDestroyEventFactory*(combatGameCanvas: AllBinaryGameCanvas): DestroyEventFactory
+proc initDestroyEventFactory*(this: DestroyEventFactory, combatGameCanvas: AllBinaryGameCanvas)
+method getInstance*(this: DestroyEventFactory): AllBinaryEventObject {.discardable.}
+import org/allbinary/game/combat/destroy/event/DestroyedEvent as DestroyedEventModule
+export DestroyedEventModule
 
 
-class DestroyEventFactory(AllBinaryEventObjectFactoryInterface):
-
-    def _init_fields(self) -> None:
-        from org.allbinary.game.displayable.canvas.AllBinaryGameCanvas import AllBinaryGameCanvas
-        self.combatGameCanvas: AllBinaryGameCanvas = None
+# Java field initializers run after the base initializer
+proc initFieldsDestroyEventFactory(this: DestroyEventFactory) =
     
+    discard
 
-    def __init__(self, combatGameCanvas: AllBinaryGameCanvas) -> None:
-        from org.allbinary.game.displayable.canvas.AllBinaryGameCanvas import AllBinaryGameCanvas
-        self._init_fields()
-        self.combatGameCanvas = combatGameCanvas
-    
+proc initDestroyEventFactory*(this: DestroyEventFactory, combatGameCanvas: AllBinaryGameCanvas) =
+        this.initFieldsDestroyEventFactory()
+        this.combatGameCanvas = combatGameCanvas
 
-    def getInstance(self) -> AllBinaryEventObject:
-        from org.allbinary.game.combat.destroy.event.DestroyedEvent import DestroyedEvent
-        from org.allbinary.logic.util.event.AllBinaryEventObject import AllBinaryEventObject
-        return DestroyedEvent(self.combatGameCanvas)
-# from org.allbinary.game.displayable.canvas.AllBinaryGameCanvas import AllBinaryGameCanvas
-# from org.allbinary.logic.util.event.AllBinaryEventObject import AllBinaryEventObject
+proc newDestroyEventFactory*(combatGameCanvas: AllBinaryGameCanvas): DestroyEventFactory =
+    result = DestroyEventFactory()
+    initDestroyEventFactory(result, combatGameCanvas)
 
+method getInstance*(this: DestroyEventFactory): AllBinaryEventObject {.discardable.} =
+        return newDestroyedEvent(this.combatGameCanvas)
 

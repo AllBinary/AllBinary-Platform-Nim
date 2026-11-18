@@ -1,34 +1,46 @@
-# 
-# AllBinary Open License Version 1 
-# Copyright (c) 2025 AllBinary 
-#  
-# By agreeing to this license you and any business entity you represent are 
-# legally bound to the AllBinary Open License Version 1 legal agreement. 
-#  
-# You may obtain the AllBinary Open License Version 1 legal agreement from 
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
-#  
-# Created By: Travis Berthelot 
-#   
+#[
+  
+  AllBinary Open License Version 1 
+  Copyright (c) 2025 AllBinary 
+   
+  By agreeing to this license you and any business entity you represent are 
+  legally bound to the AllBinary Open License Version 1 legal agreement. 
+   
+  You may obtain the AllBinary Open License Version 1 legal agreement from 
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
+   
+  Created By: Travis Berthelot 
+    
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.health
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/game/health/HealthListenerInterface as HealthListenerInterfaceModule
+export HealthListenerInterfaceModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
-from org.allbinary.game.health.HealthListenerInterface import HealthListenerInterface
+type
+    NullHealthListener* = ref object of HealthListenerInterface
 
+proc newNullHealthListener*(): NullHealthListener
+method onHealthChange*(this: NullHealthListener)
 
-class NullHealthListener(HealthListenerInterface):
-    NULL_HEALTH_LISTENER: NullHealthListener = None
-    
+var NullHealthListener_NULL_HEALTH_LISTENERValue: NullHealthListener
+var NullHealthListener_NULL_HEALTH_LISTENERSet = false
+proc NULL_HEALTH_LISTENERStatic*(t: typedesc[NullHealthListener]): NullHealthListener =
+    if not NullHealthListener_NULL_HEALTH_LISTENERSet:
+        NullHealthListener_NULL_HEALTH_LISTENERSet = true
+        NullHealthListener_NULL_HEALTH_LISTENERValue = newNullHealthListener()
+    NullHealthListener_NULL_HEALTH_LISTENERValue
 
-    def onHealthChange(self) -> None:
-        pass
+proc initNullHealthListener*(this: NullHealthListener) =
+    discard
 
+proc newNullHealthListener*(): NullHealthListener =
+    result = NullHealthListener()
+    initNullHealthListener(result)
 
-def _NullHealthListener_NULL_HEALTH_LISTENER() -> object:
-    return NullHealthListener()
-
-lazy_static(NullHealthListener, "NULL_HEALTH_LISTENER", _NullHealthListener_NULL_HEALTH_LISTENER)
+method onHealthChange*(this: NullHealthListener) =
+        discard
 

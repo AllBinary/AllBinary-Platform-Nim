@@ -1,69 +1,91 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.media
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import java/lang/Integer as IntegerModule
+export IntegerModule
+import javax/microedition/lcdui/Graphics as GraphicsModule
+export GraphicsModule
+import org/allbinary/graphics/displayable/DisplayInfoSingleton as DisplayInfoSingletonModule
+export DisplayInfoSingletonModule
+import org/allbinary/graphics/font/MyFontProcessor as MyFontProcessorModule
+export MyFontProcessorModule
+import org/allbinary/graphics/font/UpdateMyFontInterface as UpdateMyFontInterfaceModule
+export UpdateMyFontInterfaceModule
+import org/allbinary/time/TimeDelayHelper as TimeDelayHelperModule
+export TimeDelayHelperModule
+import org/allbinary/media/AllBinaryVibrationME as AllBinaryVibrationMEModule
+export AllBinaryVibrationMEModule
 
-from org.allbinary.graphics.font.UpdateMyFontInterface import UpdateMyFontInterface
-from org.allbinary.media.AllBinaryVibrationME import AllBinaryVibrationME
+type
+    AllBinaryVisualDebugVibration* = ref object of AllBinaryVibrationME
+        displayInfoSingleton*: DisplayInfoSingleton
+        timeDelayHelper*: TimeDelayHelper
+        VIBRATING*: string
+        myFontProcessor*: MyFontProcessor
+        anchor*: int32
+        width*: int32
+
+converter jAsUpdateMyFontInterface*(value: AllBinaryVisualDebugVibration): UpdateMyFontInterface = cast[UpdateMyFontInterface](value)
+proc newAllBinaryVisualDebugVibration*(): AllBinaryVisualDebugVibration
+method updateMeasurement*(this: AllBinaryVisualDebugVibration, graphics: Graphics)
+method vibrate*(this: AllBinaryVisualDebugVibration, duration: int32, `type`: int32, volume: int32)
+method paint*(this: AllBinaryVisualDebugVibration, graphics: Graphics) {.base.}
+import javax/microedition/lcdui/Font as FontModule
+export FontModule
+import org/allbinary/graphics/Anchor as AnchorModule
+export AnchorModule
+import org/allbinary/graphics/font/UpdateMyFontProcessor as UpdateMyFontProcessorModule
+export UpdateMyFontProcessorModule
 
 
-class AllBinaryVisualDebugVibration(AllBinaryVibrationME, UpdateMyFontInterface):
+# Java field initializers run after the base initializer
+proc initFieldsAllBinaryVisualDebugVibration(this: AllBinaryVisualDebugVibration) =
+    this.displayInfoSingleton = DisplayInfoSingleton.getInstance()
+    this.timeDelayHelper = newTimeDelayHelper(Integer.MAX_VALUE)
+    this.VIBRATING = "Vibrating"
+    this.myFontProcessor = newUpdateMyFontProcessor(this)
+    this.anchor = Anchor.TOP_LEFT
+    this.width = 0
+    discard
 
-    def _init_fields(self) -> None:
-        from org.allbinary.graphics.Anchor import Anchor
-        from org.allbinary.graphics.displayable.DisplayInfoSingleton import DisplayInfoSingleton
-        from org.allbinary.graphics.font.MyFontProcessor import MyFontProcessor
-        from org.allbinary.graphics.font.UpdateMyFontProcessor import UpdateMyFontProcessor
-        from org.allbinary.time.TimeDelayHelper import TimeDelayHelper
-        self.displayInfoSingleton: DisplayInfoSingleton = DisplayInfoSingleton.getInstance()
-        self.timeDelayHelper: TimeDelayHelper = TimeDelayHelper(2147483647)
-        self.VIBRATING: str = "Vibrating"
-        self.myFontProcessor: MyFontProcessor = UpdateMyFontProcessor(self)
-        self.anchor: int = Anchor.TOP_LEFT
-        self.width: int = 0
+proc initAllBinaryVisualDebugVibration*(this: AllBinaryVisualDebugVibration) =
+    initAllBinaryVibrationME(this)
+    this.initFieldsAllBinaryVisualDebugVibration()
 
-    def __init__(self) -> None:
-        super().__init__()
-        self._init_fields()
-    
+proc newAllBinaryVisualDebugVibration*(): AllBinaryVisualDebugVibration =
+    result = AllBinaryVisualDebugVibration()
+    initAllBinaryVisualDebugVibration(result)
 
-    def updateMeasurement(self, graphics: Graphics) -> None:
-        from javax.microedition.lcdui.Font import Font
-        from javax.microedition.lcdui.Graphics import Graphics
-        from org.allbinary.graphics.font.MyFontProcessor import MyFontProcessor
-        font: Font = graphics.getFont()
-        self.width = font.stringWidth(self.VIBRATING)
-        self.myFontProcessor = MyFontProcessor.getInstance()
-    
+method updateMeasurement*(this: AllBinaryVisualDebugVibration, graphics: Graphics) =
+        let font: Font = graphics.getFont()
+        this.width = font.stringWidth(this.VIBRATING)
+        this.myFontProcessor = MyFontProcessor.getInstance()
 
-    def vibrate(self, duration: int, type_: int, volume: int) -> None:
-        self.timeDelayHelper.delay = duration
-    
+method vibrate*(this: AllBinaryVisualDebugVibration, duration: int32, `type`: int32, volume: int32) =
+        this.timeDelayHelper.delay = duration
 
-    def paint(self, graphics: Graphics) -> None:
-        from javax.microedition.lcdui.Graphics import Graphics
-        if self.timeDelayHelper.isTimeTNT():
-            self.timeDelayHelper.delay = 2147483647
-            self.myFontProcessor.process(graphics)
-            graphics.drawString(self.VIBRATING, self.displayInfoSingleton.getLastHalfWidth() - (self.width >> 1), 0, self.anchor)
-# from javax.microedition.lcdui.Font import Font
-# from javax.microedition.lcdui.Graphics import Graphics
-# from org.allbinary.graphics.Anchor import Anchor
-# from org.allbinary.graphics.displayable.DisplayInfoSingleton import DisplayInfoSingleton
-# from org.allbinary.graphics.font.MyFontProcessor import MyFontProcessor
-# from org.allbinary.graphics.font.UpdateMyFontProcessor import UpdateMyFontProcessor
-# from org.allbinary.time.TimeDelayHelper import TimeDelayHelper
+method paint*(this: AllBinaryVisualDebugVibration, graphics: Graphics) {.base.} =
+        if this.timeDelayHelper.isTimeTNT():
+            this.timeDelayHelper.delay = Integer.MAX_VALUE
+            this.myFontProcessor.process(graphics)
+            graphics.drawString(this.VIBRATING, this.displayInfoSingleton.getLastHalfWidth() -% (ashr(this.width, 1)), 0, this.anchor)
 
+when declared(newAllBinaryVisualDebugVibrationHook0):
+    newAllBinaryVisualDebugVibrationHook0 = proc (): AllBinaryVibrationME = newAllBinaryVisualDebugVibration()
 

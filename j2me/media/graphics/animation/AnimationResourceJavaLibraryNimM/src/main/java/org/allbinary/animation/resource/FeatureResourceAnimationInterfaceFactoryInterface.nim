@@ -1,32 +1,35 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.animation.resource
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/game/configuration/feature/GameFeatureControlledInterface as GameFeatureControlledInterfaceModule
+export GameFeatureControlledInterfaceModule
+import org/allbinary/game/resource/RectangleResourceFactoryInterface as RectangleResourceFactoryInterfaceModule
+export RectangleResourceFactoryInterfaceModule
+import org/allbinary/util/ABHashtable as ABHashtableModule
+export ABHashtableModule
+import org/allbinary/animation/resource/ResourceAnimationInterfaceFactoryInterface as ResourceAnimationInterfaceFactoryInterfaceModule
+export ResourceAnimationInterfaceFactoryInterfaceModule
 
-from org.allbinary.game.configuration.feature.GameFeatureControlledInterface import GameFeatureControlledInterface
-from org.allbinary.game.resource.RectangleResourceFactoryInterface import RectangleResourceFactoryInterface
-from org.allbinary.animation.resource.ResourceAnimationInterfaceFactoryInterface import ResourceAnimationInterfaceFactoryInterface
+type
+    FeatureResourceAnimationInterfaceFactoryInterface* = ref object of ResourceAnimationInterfaceFactoryInterface
 
 
-# Java interface
-class FeatureResourceAnimationInterfaceFactoryInterface(ResourceAnimationInterfaceFactoryInterface, RectangleResourceFactoryInterface, GameFeatureControlledInterface):
-    
-
-    def getHashtable(self) -> ABHashtable[object, object]:
-        from org.allbinary.util.ABHashtable import ABHashtable
-        raise NotImplementedError()
-# from org.allbinary.util.ABHashtable import ABHashtable
-
+method getHashtable*(this: FeatureResourceAnimationInterfaceFactoryInterface): ABHashtable {.base, discardable.} =
+        raise newJException("AbstractMethodError", "getHashtable")
 

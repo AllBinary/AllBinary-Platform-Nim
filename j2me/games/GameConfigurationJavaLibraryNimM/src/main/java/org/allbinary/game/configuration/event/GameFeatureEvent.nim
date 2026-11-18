@@ -1,40 +1,55 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.configuration.event
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/logic/util/event/AllBinaryEventObject as AllBinaryEventObjectModule
+export AllBinaryEventObjectModule
 
-from org.allbinary.logic.util.event.AllBinaryEventObject import AllBinaryEventObject
+type
+    GameFeatureEvent* = ref object of AllBinaryEventObject
+        whatChanged*: string
+
+proc newGameFeatureEvent*(anyType: JObject, whatChanged: string): GameFeatureEvent
+proc initGameFeatureEvent*(this: GameFeatureEvent, anyType: JObject, whatChanged: string)
+method getWhatChanged*(this: GameFeatureEvent): string {.base, discardable.}
+method getGameOption*(this: GameFeatureEvent): JObject {.base, discardable.}
 
 
-class GameFeatureEvent(AllBinaryEventObject):
-
-    def _init_fields(self) -> None:
-        self.whatChanged: str = None
+# Java field initializers run after the base initializer
+proc initFieldsGameFeatureEvent(this: GameFeatureEvent) =
     
+    discard
 
-    def __init__(self, anyType: object, whatChanged: str) -> None:
-        super().__init__(anyType)
-        self._init_fields()
-        self.whatChanged = whatChanged
-    
+proc initGameFeatureEvent*(this: GameFeatureEvent, anyType: JObject, whatChanged: string) =
+        initAllBinaryEventObject(this, anyType)
+        this.initFieldsGameFeatureEvent()
+        this.whatChanged = whatChanged
 
-    def getWhatChanged(self) -> str:
-        return self.whatChanged
-    
+proc newGameFeatureEvent*(anyType: JObject, whatChanged: string): GameFeatureEvent =
+    result = GameFeatureEvent()
+    initGameFeatureEvent(result, anyType, whatChanged)
 
-    def getGameOption(self) -> object:
-        return self.getSource()
+method getWhatChanged*(this: GameFeatureEvent): string {.base, discardable.} =
+        return this.whatChanged
 
+method getGameOption*(this: GameFeatureEvent): JObject {.base, discardable.} =
+        return this.getSource()
+
+when declared(newGameFeatureEventHook2):
+    newGameFeatureEventHook2 = proc (anyType: JObject, whatChanged: string): AllBinaryEventObject = newGameFeatureEvent(anyType, whatChanged)
 

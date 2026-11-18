@@ -1,161 +1,180 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.image
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import java/io/InputStream as InputStreamModule
+export InputStreamModule
+import javax/microedition/lcdui/Image as ImageModule
+export ImageModule
+import org/allbinary/logic/communication/log/LogUtil as LogUtilModule
+export LogUtilModule
+import org/allbinary/util/ABHashtable as ABHashtableModule
+export ABHashtableModule
+import org/allbinary/util/BasicArrayList as BasicArrayListModule
+export BasicArrayListModule
+import org/allbinary/image/ImageFactory as ImageFactoryModule
+export ImageFactoryModule
+
+type
+    ImageCacheBase* = ref object of JObject
+        logUtil*: LogUtil
+        imageFactory*: ImageFactory
+        hashtable*: ABHashtable
+        SIZE*: int32
+        widths*: JArray[int32]
+        heights*: JArray[int32]
+        listOfList*: JArray[BasicArrayList]
+        availableListOfList*: JArray[BasicArrayList]
+        volume*: int32
+        nextIndex*: int32
+
+proc newImageCacheBase*(): ImageCacheBase
+proc initImageCacheBase*(this: ImageCacheBase)
+method getImage*(this: ImageCacheBase, resourceId: JObject): Image {.base, discardable.}
+method releaseAll*(this: ImageCacheBase) {.base.}
+method getIndexWH*(this: ImageCacheBase, width: int32, height: int32): int32 {.base, discardable.}
+method getFromAvailable*(this: ImageCacheBase, foundIndex: int32, width: int32, height: int32): Image {.base, discardable.}
+method get*(this: ImageCacheBase, caller: string, width: int32, height: int32): Image {.base, discardable.}
+method getWithKey*(this: ImageCacheBase, key: JObject): Image {.base, discardable.}
+method createImage*(this: ImageCacheBase, caller: string, width: int32, height: int32): Image {.base, discardable.}
+method createImageFromInputStream*(this: ImageCacheBase, key: JObject, inputStream: InputStream): Image {.base, discardable.}
+method toString*(this: ImageCacheBase): string {.discardable.}
+method getHashtableP*(this: ImageCacheBase): ABHashtable {.base, discardable.}
+method init*(this: ImageCacheBase, image: Image) {.base.}
+method initProgress*(this: ImageCacheBase) {.base.}
+import javax/microedition/lcdui/NullImage as NullImageModule
+export NullImageModule
+import org/allbinary/logic/StdUtil as StdUtilModule
+export StdUtilModule
+import org/allbinary/logic/string/StringMaker as StringMakerModule
+export StringMakerModule
+import org/allbinary/string/CommonLabels as CommonLabelsModule
+export CommonLabelsModule
+import org/allbinary/string/CommonSeps as CommonSepsModule
+export CommonSepsModule
+import org/allbinary/util/BasicArrayListD as BasicArrayListDModule
+export BasicArrayListDModule
 
 
+# Java field initializers run after the base initializer
+proc initFieldsImageCacheBase(this: ImageCacheBase) =
+    this.logUtil = LogUtil.getInstance()
+    this.imageFactory = ImageFactory.getInstance()
+    this.hashtable = StdUtil.getInstance().createHashtable()
+    this.SIZE = 128
+    this.widths = newJArray[int32](this.SIZE, default(int32))
+    this.heights = newJArray[int32](this.SIZE, default(int32))
+    this.listOfList = newJArray[BasicArrayList](this.SIZE, default(BasicArrayList))
+    this.availableListOfList = newJArray[BasicArrayList](this.SIZE, default(BasicArrayList))
+    this.volume = 0
+    this.nextIndex = 0
+    discard
 
-class ImageCacheBase:
+proc initImageCacheBase*(this: ImageCacheBase) =
+        this.initFieldsImageCacheBase()
+        block:
+            var index: int32 = this.listOfList.length -% 1
+            while index >= 0:
+                defer: index = index -% 1
+                this.listOfList[index] = newBasicArrayListD()
+        block:
+            var index: int32 = this.availableListOfList.length -% 1
+            while index >= 0:
+                defer: index = index -% 1
+                this.availableListOfList[index] = newBasicArrayListD()
 
-    def _init_fields(self) -> None:
-        from org.allbinary.logic.StdUtil import StdUtil
-        from org.allbinary.logic.communication.log.LogUtil import LogUtil
-        from org.allbinary.util.ABHashtable import ABHashtable
-        from org.allbinary.util.BasicArrayList import BasicArrayList
-        self.logUtil: LogUtil = LogUtil.getInstance()
-        self.imageFactory: ImageFactory = ImageFactory.getInstance()
-        self.hashtable: ABHashtable[object, object] = StdUtil.getInstance().createHashtable()
-        self.SIZE: int = 128
-        self.widths: list[int] = [0] * (self.SIZE)
-        self.heights: list[int] = [0] * (self.SIZE)
-        self.listOfList: list[BasicArrayList] = [None] * (self.SIZE)
-        self.availableListOfList: list[BasicArrayList] = [None] * (self.SIZE)
-        self.volume: int = 0
-        self.nextIndex: int = 0
-    
+proc newImageCacheBase*(): ImageCacheBase =
+    result = ImageCacheBase()
+    initImageCacheBase(result)
 
-    def __init__(self) -> None:
-        from org.allbinary.util.BasicArrayListD import BasicArrayListD
-        self._init_fields()
-        for index in range(len(self.listOfList) - 1, 0 - 1, -1):
-            self.listOfList[index] = BasicArrayListD()
-        for index in range(len(self.availableListOfList) - 1, 0 - 1, -1):
-            self.availableListOfList[index] = BasicArrayListD()
-    
+method getImage*(this: ImageCacheBase, resourceId: JObject): Image {.base, discardable.} =
+        let imageCanBeNull: JObject = this.hashtable.get(resourceId)
+        if (jIsNil(imageCanBeNull)):
+            return NullImage.NULL_IMAGEStatic
+        return Image(JObject(imageCanBeNull))
 
-    def getImage(self, resourceId: object) -> Image:
-        from javax.microedition.lcdui.Image import Image
-        from javax.microedition.lcdui.NullImage import NullImage
-        imageCanBeNull: object = self.hashtable.get(resourceId)
-        if imageCanBeNull is None:
-            return NullImage.NULL_IMAGE
-        return imageCanBeNull
-    
+method releaseAll*(this: ImageCacheBase) {.base.} =
+        block:
+            var index: int32 = this.listOfList.length -% 1
+            while index >= 0:
+                defer: index = index -% 1
+                this.availableListOfList[index].clear()
+                this.availableListOfList[index].addAllList(this.listOfList[index])
+        this.logUtil.putF(newStringMaker().append("ImageCache: ").append(this.toString()).toString(), this, "releaseAll")
 
-    def releaseAll(self) -> None:
-        from org.allbinary.logic.string.StringMaker import StringMaker
-        for index in range(len(self.listOfList) - 1, 0 - 1, -1):
-            self.availableListOfList[index].clear()
-            self.availableListOfList[index].addAllList(self.listOfList[index])
-        self.logUtil.putF(str(StringMaker().append("ImageCache: ").append(str(self))), self, "releaseAll")
-    
-
-    def getIndexWH(self, width: int, height: int) -> int:
-        foundIndex: int = -1
-        size: int = len(self.widths)
-        for index in range(0, size):
-            if self.widths[index] == width and self.heights[index] == height:
-                foundIndex = index
-                return foundIndex
+method getIndexWH*(this: ImageCacheBase, width: int32, height: int32): int32 {.base, discardable.} =
+        var foundIndex: int32 = -1
+        var size: int32 = this.widths.length
+        block:
+            var index: int32 = 0
+            while index < size:
+                defer: index = index +% 1
+                if this.widths[index] == width and this.heights[index] == height:
+                    foundIndex = index
+                    return foundIndex
         return foundIndex
-    
 
-    def getFromAvailable(self, foundIndex: int, width: int, height: int) -> Image:
-        from javax.microedition.lcdui.Image import Image
-        from javax.microedition.lcdui.NullImage import NullImage
-        from org.allbinary.util.BasicArrayList import BasicArrayList
+method getFromAvailable*(this: ImageCacheBase, foundIndex: int32, width: int32, height: int32): Image {.base, discardable.} =
         if foundIndex != -1:
-            if self.availableListOfList[foundIndex].size() > 0:
-                list_: BasicArrayList = self.availableListOfList[foundIndex]
-                return list_.removeAt(list_.size() - 1)
-        return NullImage.NULL_IMAGE
-    
+            if this.availableListOfList[foundIndex].size() > 0:
+                var list: BasicArrayList = this.availableListOfList[foundIndex]
+                return Image(JObject(list.removeAt(list.size() -% 1)))
+        return NullImage.NULL_IMAGEStatic
 
-    # throws Exception
-    def get(self, caller: str, width: int, height: int) -> Image:
-        from javax.microedition.lcdui.Image import Image
-        raise RuntimeError()
-    
+method get*(this: ImageCacheBase, caller: string, width: int32, height: int32): Image {.base, discardable.} =
+        raise newJException("RuntimeException", "")
 
-    # throws Exception
-    def getWithKey(self, key: object) -> Image:
-        from javax.microedition.lcdui.Image import Image
-        raise RuntimeError()
-    
+method getWithKey*(this: ImageCacheBase, key: JObject): Image {.base, discardable.} =
+        raise newJException("RuntimeException", "")
 
-    # throws Exception
-    def createImage(self, caller: str, width: int, height: int) -> Image:
-        from javax.microedition.lcdui.Image import Image
-        return self.imageFactory.createImage(caller, width, height)
-    
+method createImage*(this: ImageCacheBase, caller: string, width: int32, height: int32): Image {.base, discardable.} =
+        return this.imageFactory.createImage(caller, width, height)
 
-    # throws Exception
-    def createImageFromInputStream(self, key: object, inputStream: InputStream) -> Image:
-        from java.io.InputStream import InputStream
-        from javax.microedition.lcdui.Image import Image
-        return self.imageFactory.createImageFromInputStream(key, inputStream)
-    
+method createImageFromInputStream*(this: ImageCacheBase, key: JObject, inputStream: InputStream): Image {.base, discardable.} =
+        return this.imageFactory.createImageFromInputStream(key, inputStream)
 
-    def toString(self) -> str:
-        from org.allbinary.logic.string.StringMaker import StringMaker
-        from org.allbinary.string.CommonLabels import CommonLabels
-        from org.allbinary.string.CommonSeps import CommonSeps
-        stringBuffer: StringMaker = StringMaker()
-        for index in range(self.nextIndex - 1, 0 - 1, -1):
-            width: int = self.widths[index]
-            height: int = self.heights[index]
-            total: int = self.listOfList[index].size()
-            totalAvailable: int = self.availableListOfList[index].size()
-            stringBuffer.append(" w: ")
-            stringBuffer.appendint(width)
-            stringBuffer.append(" h: ")
-            stringBuffer.appendint(height)
-            stringBuffer.append(CommonSeps.getInstance().SPACE)
-            stringBuffer.append(CommonLabels.getInstance().TOTAL_LABEL)
-            stringBuffer.appendint(total)
-            stringBuffer.append(" available: ")
-            stringBuffer.appendint(totalAvailable)
-        return str(stringBuffer)
+method toString*(this: ImageCacheBase): string {.discardable.} =
+        let stringBuffer: StringMaker = newStringMaker()
+        block:
+            var index: int32 = this.nextIndex -% 1
+            while index >= 0:
+                defer: index = index -% 1
+                let width: int32 = this.widths[index]
+                let height: int32 = this.heights[index]
+                let total: int32 = this.listOfList[index].size()
+                let totalAvailable: int32 = this.availableListOfList[index].size()
+                stringBuffer.append(" w: ")
+                stringBuffer.appendint(width)
+                stringBuffer.append(" h: ")
+                stringBuffer.appendint(height)
+                stringBuffer.append(CommonSeps.getInstance().SPACE)
+                stringBuffer.append(CommonLabels.getInstance().TOTAL_LABEL)
+                stringBuffer.appendint(total)
+                stringBuffer.append(" available: ")
+                stringBuffer.appendint(totalAvailable)
+        return stringBuffer.toString()
 
-    def __str__(self) -> str:
-        return self.toString()
-    
+method getHashtableP*(this: ImageCacheBase): ABHashtable {.base, discardable.} =
+        return this.hashtable
 
-    def getHashtableP(self) -> ABHashtable[object, object]:
-        from org.allbinary.util.ABHashtable import ABHashtable
-        return self.hashtable
-    
+method init*(this: ImageCacheBase, image: Image) {.base.} =
+        discard
 
-    def init(self, image: Image) -> None:
-        from javax.microedition.lcdui.Image import Image
-        pass
-    
-
-    def initProgress(self) -> None:
-        pass
-# from java.io.InputStream import InputStream
-# from javax.microedition.lcdui.Image import Image
-# from javax.microedition.lcdui.NullImage import NullImage
-# from org.allbinary.logic.StdUtil import StdUtil
-# from org.allbinary.logic.communication.log.LogUtil import LogUtil
-# from org.allbinary.logic.string.StringMaker import StringMaker
-# from org.allbinary.string.CommonLabels import CommonLabels
-# from org.allbinary.string.CommonSeps import CommonSeps
-# from org.allbinary.util.ABHashtable import ABHashtable
-# from org.allbinary.util.BasicArrayList import BasicArrayList
-# from org.allbinary.util.BasicArrayListD import BasicArrayListD
-from org.allbinary.image.ImageFactory import ImageFactory
-
+method initProgress*(this: ImageCacheBase) {.base.} =
+        discard
 

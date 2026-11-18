@@ -1,93 +1,105 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.input.event
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/game/input/LocalPlayerInputIdFactory as LocalPlayerInputIdFactoryModule
+export LocalPlayerInputIdFactoryModule
+import org/allbinary/logic/util/event/EventListenerInterface as EventListenerInterfaceModule
+export EventListenerInterfaceModule
+import org/allbinary/game/input/event/DownGameKeyEventHandlerBase as DownGameKeyEventHandlerBaseModule
+export DownGameKeyEventHandlerBaseModule
 
-import threading
-from java.lang.JavaRuntimeStatic import lazy_static
-from org.allbinary.game.input.event.DownGameKeyEventHandlerBase import DownGameKeyEventHandlerBase
+type
+    DownGameKeyEventHandler* = ref object of DownGameKeyEventHandlerBase
+        playerInputIdFactory*: LocalPlayerInputIdFactory
 
+proc newDownGameKeyEventHandler*(): DownGameKeyEventHandler
+proc initDownGameKeyEventHandler*(this: DownGameKeyEventHandler)
+proc getInstance*(t: typedesc[DownGameKeyEventHandler]): DownGameKeyEventHandler {.discardable.}
+method getInstanceForDevice*(this: DownGameKeyEventHandler, deviceId: int32): DownGameKeyEventHandlerBase {.base, discardable.}
+method getInstanceForPlayer*(this: DownGameKeyEventHandler, playerInputId: int32): DownGameKeyEventHandlerBase {.base, discardable.}
+method removeAllListeners*(this: DownGameKeyEventHandler)
+method removeListenerSingleThreaded*(this: DownGameKeyEventHandler, eventListenerInterface: EventListenerInterface)
+method removeListener*(this: DownGameKeyEventHandler, eventListenerInterface: EventListenerInterface)
 
-class DownGameKeyEventHandler(DownGameKeyEventHandlerBase):
-    instance: DownGameKeyEventHandler = None
-    instanceArray: list[DownGameKeyEventHandlerBase] = None
-    _lock = threading.RLock()
+var DownGameKeyEventHandler_instanceValue: DownGameKeyEventHandler
+var DownGameKeyEventHandler_instanceSet = false
+proc instance*(t: typedesc[DownGameKeyEventHandler]): DownGameKeyEventHandler =
+    if not DownGameKeyEventHandler_instanceSet:
+        DownGameKeyEventHandler_instanceSet = true
+        DownGameKeyEventHandler_instanceValue = newDownGameKeyEventHandler()
+    DownGameKeyEventHandler_instanceValue
+var DownGameKeyEventHandler_instanceArrayValue: JArray[DownGameKeyEventHandlerBase]
+var DownGameKeyEventHandler_instanceArraySet = false
+proc instanceArray*(t: typedesc[DownGameKeyEventHandler]): JArray[DownGameKeyEventHandlerBase] =
+    if not DownGameKeyEventHandler_instanceArraySet:
+        DownGameKeyEventHandler_instanceArraySet = true
+        DownGameKeyEventHandler_instanceArrayValue = newJArrayFromRefs[DownGameKeyEventHandlerBase](newDownGameKeyEventHandlerBase(), newDownGameKeyEventHandlerBase(), newDownGameKeyEventHandlerBase(), newDownGameKeyEventHandlerBase(), newDownGameKeyEventHandlerBase(), newDownGameKeyEventHandlerBase())
+    DownGameKeyEventHandler_instanceArrayValue
 
-    def _init_fields(self) -> None:
-        from org.allbinary.game.input.LocalPlayerInputIdFactory import LocalPlayerInputIdFactory
-        self.playerInputIdFactory: LocalPlayerInputIdFactory = LocalPlayerInputIdFactory.getInstance()
-    
+# Java field initializers run after the base initializer
+proc initFieldsDownGameKeyEventHandler(this: DownGameKeyEventHandler) =
+    this.playerInputIdFactory = LocalPlayerInputIdFactory.getInstance()
+    discard
 
-    @staticmethod
-    def getInstance() -> DownGameKeyEventHandler:
+proc getInstance*(t: typedesc[DownGameKeyEventHandler]): DownGameKeyEventHandler {.discardable.} =
         return DownGameKeyEventHandler.instance
-    
 
-    def getInstanceForDevice(self, deviceId: int) -> DownGameKeyEventHandlerBase:
-        playerInputId: int = self.playerInputIdFactory.getPlayerForDevice(deviceId)
+method getInstanceForDevice*(this: DownGameKeyEventHandler, deviceId: int32): DownGameKeyEventHandlerBase {.base, discardable.} =
+        let playerInputId: int32 = this.playerInputIdFactory.getPlayerForDevice(deviceId)
         return DownGameKeyEventHandler.instanceArray[playerInputId]
-    
 
-    def getInstanceForPlayer(self, playerInputId: int) -> DownGameKeyEventHandlerBase:
+method getInstanceForPlayer*(this: DownGameKeyEventHandler, playerInputId: int32): DownGameKeyEventHandlerBase {.base, discardable.} =
         return DownGameKeyEventHandler.instanceArray[playerInputId]
-    
 
-    def __init__(self) -> None:
-        super().__init__()
-        self._init_fields()
-    
+proc initDownGameKeyEventHandler*(this: DownGameKeyEventHandler) =
+        initDownGameKeyEventHandlerBase(this)
+        this.initFieldsDownGameKeyEventHandler()
+        discard
 
-    def removeAllListeners(self) -> None:
-        super().removeAllListeners()
-        for index in range(len(DownGameKeyEventHandler.instanceArray) - 1, 0 - 1, -1):
-            DownGameKeyEventHandler.instanceArray[index].removeAllListeners()
-    
+proc newDownGameKeyEventHandler*(): DownGameKeyEventHandler =
+    result = DownGameKeyEventHandler()
+    initDownGameKeyEventHandler(result)
 
-    def removeListenerSingleThreaded(self, eventListenerInterface: EventListenerInterface) -> None:
-        from org.allbinary.logic.util.event.EventListenerInterface import EventListenerInterface
-        super().removeListenerSingleThreaded(eventListenerInterface)
-        for index in range(len(DownGameKeyEventHandler.instanceArray) - 1, 0 - 1, -1):
-            DownGameKeyEventHandler.instanceArray[index].removeListenerSingleThreaded(eventListenerInterface)
-    
+method removeAllListeners*(this: DownGameKeyEventHandler) =
+        procCall DownGameKeyEventHandlerBase(this).removeAllListeners()
+        block:
+            var index: int32 = DownGameKeyEventHandler.instanceArray.length -% 1
+            while index >= 0:
+                defer: index = index -% 1
+                DownGameKeyEventHandler.instanceArray[index].removeAllListeners()
 
-    def removeListener(self, eventListenerInterface: EventListenerInterface) -> None:
-        with self._lock:
-            return self._removeListener_unlocked(eventListenerInterface)
+method removeListenerSingleThreaded*(this: DownGameKeyEventHandler, eventListenerInterface: EventListenerInterface) =
+        procCall DownGameKeyEventHandlerBase(this).removeListenerSingleThreaded(eventListenerInterface)
+        block:
+            var index: int32 = DownGameKeyEventHandler.instanceArray.length -% 1
+            while index >= 0:
+                defer: index = index -% 1
+                DownGameKeyEventHandler.instanceArray[index].removeListenerSingleThreaded(eventListenerInterface)
 
-    def _removeListener_unlocked(self, eventListenerInterface: EventListenerInterface) -> None:
-        from org.allbinary.logic.util.event.EventListenerInterface import EventListenerInterface
-        super().removeListener(eventListenerInterface)
-        for index in range(len(DownGameKeyEventHandler.instanceArray) - 1, 0 - 1, -1):
-            DownGameKeyEventHandler.instanceArray[index].removeListener(eventListenerInterface)
-# from org.allbinary.game.input.LocalPlayerInputIdFactory import LocalPlayerInputIdFactory
-# from org.allbinary.logic.util.event.EventListenerInterface import EventListenerInterface
+method removeListener*(this: DownGameKeyEventHandler, eventListenerInterface: EventListenerInterface) =
+        procCall DownGameKeyEventHandlerBase(this).removeListener(eventListenerInterface)
+        block:
+            var index: int32 = DownGameKeyEventHandler.instanceArray.length -% 1
+            while index >= 0:
+                defer: index = index -% 1
+                DownGameKeyEventHandler.instanceArray[index].removeListener(eventListenerInterface)
 
-
-def _DownGameKeyEventHandler_instance() -> object:
-    return DownGameKeyEventHandler()
-
-lazy_static(DownGameKeyEventHandler, "instance", _DownGameKeyEventHandler_instance)
-
-def _DownGameKeyEventHandler_instanceArray() -> object:
-    from org.allbinary.game.input.event.DownGameKeyEventHandlerBase import DownGameKeyEventHandlerBase
-    from org.allbinary.game.input.event.DownGameKeyEventHandlerBase import DownGameKeyEventHandlerBase
-    from org.allbinary.game.input.event.DownGameKeyEventHandlerBase import DownGameKeyEventHandlerBase
-    from org.allbinary.game.input.event.DownGameKeyEventHandlerBase import DownGameKeyEventHandlerBase
-    from org.allbinary.game.input.event.DownGameKeyEventHandlerBase import DownGameKeyEventHandlerBase
-    from org.allbinary.game.input.event.DownGameKeyEventHandlerBase import DownGameKeyEventHandlerBase
-    return [DownGameKeyEventHandlerBase(), DownGameKeyEventHandlerBase(), DownGameKeyEventHandlerBase(), DownGameKeyEventHandlerBase(), DownGameKeyEventHandlerBase(), DownGameKeyEventHandlerBase()]
-
-lazy_static(DownGameKeyEventHandler, "instanceArray", _DownGameKeyEventHandler_instanceArray)
+when declared(newDownGameKeyEventHandlerHook0):
+    newDownGameKeyEventHandlerHook0 = proc (): DownGameKeyEventHandlerBase = newDownGameKeyEventHandler()
 

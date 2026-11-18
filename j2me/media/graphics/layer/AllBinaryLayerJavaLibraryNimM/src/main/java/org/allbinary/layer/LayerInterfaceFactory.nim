@@ -1,76 +1,94 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.layer
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import java/lang/Integer as IntegerModule
+export IntegerModule
+import org/allbinary/logic/communication/log/LogUtil as LogUtilModule
+export LogUtilModule
+import org/allbinary/util/ABHashtable as ABHashtableModule
+export ABHashtableModule
+import org/allbinary/util/BasicArrayList as BasicArrayListModule
+export BasicArrayListModule
+import org/allbinary/layer/LayerInterfaceFactoryInterface as LayerInterfaceFactoryInterfaceModule
+export LayerInterfaceFactoryInterfaceModule
+import org/allbinary/layer/AllBinaryLayer as AllBinaryLayerModule
+export AllBinaryLayerModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    LayerInterfaceFactory* = ref object of JObject
+        logUtil*: LogUtil
+        list*: BasicArrayList
+        HASHTABLE_LABEL*: string
 
+proc newLayerInterfaceFactory*(): LayerInterfaceFactory
+proc getInstance*(t: typedesc[LayerInterfaceFactory]): LayerInterfaceFactory {.discardable.}
+method init*(this: LayerInterfaceFactory) {.base.}
+method getNexInstance*(this: LayerInterfaceFactory, hashtable: ABHashtable, x: int32, y: int32, z: int32): AllBinaryLayer {.base, discardable.}
+method add*(this: LayerInterfaceFactory, layerInterfaceFactoryInterface: LayerInterfaceFactoryInterface) {.base.}
+import org/allbinary/logic/string/StringMaker as StringMakerModule
+export StringMakerModule
+import org/allbinary/logic/string/StringUtil as StringUtilModule
+export StringUtilModule
+import org/allbinary/string/CommonStrings as CommonStringsModule
+export CommonStringsModule
+import org/allbinary/util/BasicArrayListD as BasicArrayListDModule
+export BasicArrayListDModule
+import org/allbinary/util/BasicArrayListUtil as BasicArrayListUtilModule
+export BasicArrayListUtilModule
+import org/allbinary/layer/Layer as LayerModule
+export LayerModule
 
-class LayerInterfaceFactory:
-    SINGLETON: LayerInterfaceFactory = None
+var LayerInterfaceFactory_SINGLETONValue: LayerInterfaceFactory
+var LayerInterfaceFactory_SINGLETONSet = false
+proc SINGLETON*(t: typedesc[LayerInterfaceFactory]): LayerInterfaceFactory =
+    if not LayerInterfaceFactory_SINGLETONSet:
+        LayerInterfaceFactory_SINGLETONSet = true
+        LayerInterfaceFactory_SINGLETONValue = newLayerInterfaceFactory()
+    LayerInterfaceFactory_SINGLETONValue
 
-    def _init_fields(self) -> None:
-        from org.allbinary.logic.communication.log.LogUtil import LogUtil
-        from org.allbinary.util.BasicArrayList import BasicArrayList
-        from org.allbinary.util.BasicArrayListUtil import BasicArrayListUtil
-        self.logUtil: LogUtil = LogUtil.getInstance()
-        self.list_: BasicArrayList = BasicArrayListUtil.getInstance().getImmutableInstance()
-        self.HASHTABLE_LABEL: str = "Hashtable: "
+# Java field initializers run after the base initializer
+proc initFieldsLayerInterfaceFactory(this: LayerInterfaceFactory) =
+    this.logUtil = LogUtil.getInstance()
+    this.list = BasicArrayListUtil.getInstance().getImmutableInstance()
+    this.HASHTABLE_LABEL = "Hashtable: "
+    discard
 
-    def __init__(self) -> None:
-        self._init_fields()
-    
+proc initLayerInterfaceFactory*(this: LayerInterfaceFactory) =
+    this.initFieldsLayerInterfaceFactory()
 
-    @staticmethod
-    def getInstance() -> LayerInterfaceFactory:
+proc newLayerInterfaceFactory*(): LayerInterfaceFactory =
+    result = LayerInterfaceFactory()
+    initLayerInterfaceFactory(result)
+
+proc getInstance*(t: typedesc[LayerInterfaceFactory]): LayerInterfaceFactory {.discardable.} =
         return LayerInterfaceFactory.SINGLETON
-    
 
-    def init(self) -> None:
-        from org.allbinary.util.BasicArrayListD import BasicArrayListD
-        self.list_ = BasicArrayListD()
-    
+method init*(this: LayerInterfaceFactory) {.base.} =
+        this.list = newBasicArrayListD()
 
-    # throws Exception
-    def getNexInstance(self, hashtable: ABHashtable[object, object], x: int, y: int, z: int) -> AllBinaryLayer:
-        from org.allbinary.layer.Layer import Layer
-        from org.allbinary.logic.string.StringMaker import StringMaker
-        from org.allbinary.logic.string.StringUtil import StringUtil
-        from org.allbinary.string.CommonStrings import CommonStrings
-        from org.allbinary.util.ABHashtable import ABHashtable
-        commonStrings: CommonStrings = CommonStrings.getInstance()
-        self.logUtil.putF(str(StringMaker().append(self.HASHTABLE_LABEL).append(StringUtil.getInstance().toString(hashtable))), self, commonStrings.GET_INSTANCE)
-        typeInteger: int = hashtable.get(Layer.ID)
-        layerInterfaceFactoryInterface: LayerInterfaceFactoryInterface = self.list_.objectArray[int(typeInteger) - 1]
+method getNexInstance*(this: LayerInterfaceFactory, hashtable: ABHashtable, x: int32, y: int32, z: int32): AllBinaryLayer {.base, discardable.} =
+        let commonStrings: CommonStrings = CommonStrings.getInstance()
+        this.logUtil.putF(newStringMaker().append(this.HASHTABLE_LABEL).append(StringUtil.getInstance().toString(hashtable)).toString(), this, commonStrings.GET_INSTANCE)
+        let typeInteger: int32 = jUnboxInteger(hashtable.get(JObject(JObject(Layer.ID))))
+        let layerInterfaceFactoryInterface: LayerInterfaceFactoryInterface = LayerInterfaceFactoryInterface(JObject(this.list.objectArray[typeInteger.intValue() -% 1]))
         return layerInterfaceFactoryInterface.getNextInstance(hashtable, x, y, z)
-    
 
-    def add(self, layerInterfaceFactoryInterface: LayerInterfaceFactoryInterface) -> None:
-        self.list_.add(layerInterfaceFactoryInterface)
-# from org.allbinary.logic.communication.log.LogUtil import LogUtil
-# from org.allbinary.logic.string.StringMaker import StringMaker
-# from org.allbinary.logic.string.StringUtil import StringUtil
-# from org.allbinary.string.CommonStrings import CommonStrings
-# from org.allbinary.util.ABHashtable import ABHashtable
-# from org.allbinary.util.BasicArrayList import BasicArrayList
-# from org.allbinary.util.BasicArrayListD import BasicArrayListD
-# from org.allbinary.util.BasicArrayListUtil import BasicArrayListUtil
-
-
-def _LayerInterfaceFactory_SINGLETON() -> object:
-    return LayerInterfaceFactory()
-
-lazy_static(LayerInterfaceFactory, "SINGLETON", _LayerInterfaceFactory_SINGLETON)
+method add*(this: LayerInterfaceFactory, layerInterfaceFactoryInterface: LayerInterfaceFactoryInterface) {.base.} =
+        this.list.add(layerInterfaceFactoryInterface)
 

@@ -1,116 +1,138 @@
-# 
-# AllBinary Open License Version 1 
-# Copyright (c) 2011 AllBinary 
-#  
-# By agreeing to this license you and any business entity you represent are 
-# legally bound to the AllBinary Open License Version 1 legal agreement. 
-#  
-# You may obtain the AllBinary Open License Version 1 legal agreement from 
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
-#  
-# Created By: Travis Berthelot 
-#   
+#[
+  
+  AllBinary Open License Version 1 
+  Copyright (c) 2011 AllBinary 
+   
+  By agreeing to this license you and any business entity you represent are 
+  legally bound to the AllBinary Open License Version 1 legal agreement. 
+   
+  You may obtain the AllBinary Open License Version 1 legal agreement from 
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
+   
+  Created By: Travis Berthelot 
+    
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.layer
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/layer/event/LayerManagerEvent as LayerManagerEventModule
+export LayerManagerEventModule
+import org/allbinary/layer/event/LayerManagerEventHandler as LayerManagerEventHandlerModule
+export LayerManagerEventHandlerModule
+import org/allbinary/layer/LayerManager as LayerManagerModule
+export LayerManagerModule
+import org/allbinary/layer/LayerProcessor as LayerProcessorModule
+export LayerProcessorModule
+import org/allbinary/layer/AllBinaryLayer as AllBinaryLayerModule
+export AllBinaryLayerModule
 
-import threading
-from org.allbinary.layer.LayerManager import LayerManager
+type
+    AllBinaryLayerManager* = ref object of LayerManager
+        layerManagerEventHandler*: LayerManagerEventHandler
+        createLayerManagerEvent*: LayerManagerEvent
+        deleteLayerManagerEvent*: LayerManagerEvent
+        basicLayerProcessorArray*: JArray[LayerProcessor]
+
+proc newAllBinaryLayerManager*(): AllBinaryLayerManager
+proc initAllBinaryLayerManager*(this: AllBinaryLayerManager)
+method getLayerProcessorArray*(this: AllBinaryLayerManager): JArray[LayerProcessor] {.base, discardable.}
+method setLayerProcessorArray*(this: AllBinaryLayerManager, layerProcessorArray: JArray[LayerProcessor]) {.base.}
+method log*(this: AllBinaryLayerManager) {.base.}
+method append*(this: AllBinaryLayerManager, layerInterface: AllBinaryLayer)
+method appendAt*(this: AllBinaryLayerManager, layerInterface: AllBinaryLayer, index: int32)
+method appendProcessors*(this: AllBinaryLayerManager, layerInterface: AllBinaryLayer) {.base.}
+method remove*(this: AllBinaryLayerManager, layerInterface: AllBinaryLayer)
+method process*(this: AllBinaryLayerManager) {.base.}
+method cleanup*(this: AllBinaryLayerManager)
+import org/allbinary/layer/LayerManagerNoDebug as LayerManagerNoDebugModule
+export LayerManagerNoDebugModule
 
 
-class AllBinaryLayerManager(LayerManager):
-    _lock = threading.RLock()
+# Java field initializers run after the base initializer
+proc initFieldsAllBinaryLayerManager(this: AllBinaryLayerManager) =
+    this.layerManagerEventHandler = LayerManagerEventHandler.getInstance()
+    this.createLayerManagerEvent = newLayerManagerEvent(this, this.layerManagerEventHandler.CREATE)
+    this.deleteLayerManagerEvent = newLayerManagerEvent(this, this.layerManagerEventHandler.DELETE)
+    this.basicLayerProcessorArray = newJArray[LayerProcessor](0, default(LayerProcessor))
+    discard
 
-    def _init_fields(self) -> None:
-        from org.allbinary.layer.event.LayerManagerEvent import LayerManagerEvent
-        from org.allbinary.layer.event.LayerManagerEventHandler import LayerManagerEventHandler
-        self.layerManagerEventHandler: LayerManagerEventHandler = LayerManagerEventHandler.getInstance()
-        self.createLayerManagerEvent: LayerManagerEvent = LayerManagerEvent(self, self.layerManagerEventHandler.CREATE)
-        self.deleteLayerManagerEvent: LayerManagerEvent = LayerManagerEvent(self, self.layerManagerEventHandler.DELETE)
-        self.basicLayerProcessorArray: list[LayerProcessor] = [None] * (0)
-    
+proc initAllBinaryLayerManager*(this: AllBinaryLayerManager) =
+        initLayerManager(this, LayerManagerNoDebug.getInstance())
+        this.initFieldsAllBinaryLayerManager()
 
-    def __init__(self) -> None:
-        from org.allbinary.layer.LayerManagerNoDebug import LayerManagerNoDebug
-        super().__init__(LayerManagerNoDebug.getInstance())
-        self._init_fields()
-    
+proc newAllBinaryLayerManager*(): AllBinaryLayerManager =
+    result = AllBinaryLayerManager()
+    initAllBinaryLayerManager(result)
 
-    def getLayerProcessorArray(self) -> list[LayerProcessor]:
-        return self.basicLayerProcessorArray
-    
+method getLayerProcessorArray*(this: AllBinaryLayerManager): JArray[LayerProcessor] {.base, discardable.} =
+        return this.basicLayerProcessorArray
 
-    def setLayerProcessorArray(self, layerProcessorArray: list[LayerProcessor]) -> None:
-        self.basicLayerProcessorArray = layerProcessorArray
-    
+method setLayerProcessorArray*(this: AllBinaryLayerManager, layerProcessorArray: JArray[LayerProcessor]) {.base.} =
+        this.basicLayerProcessorArray = layerProcessorArray
 
-    def log(self) -> None:
-        size: int = len(self.basicLayerProcessorArray)
-        for index in range(0, size):
-            layerProcessorInterface: LayerProcessor = self.basicLayerProcessorArray[index]
-    
+method log*(this: AllBinaryLayerManager) {.base.} =
+        var size: int32 = this.basicLayerProcessorArray.length
+        block:
+            var index: int32 = 0
+            while index < size:
+                defer: index = index +% 1
+                var layerProcessorInterface: LayerProcessor = this.basicLayerProcessorArray[index]
 
-    # throws Exception
-    def append(self, layerInterface: AllBinaryLayer) -> None:
-        if not self.contains(layerInterface):
-            self.appendProcessors(layerInterface)
-            super().append(layerInterface)
-    
+method append*(this: AllBinaryLayerManager, layerInterface: AllBinaryLayer) =
+        if (not this.contains(layerInterface)):
+            this.appendProcessors(layerInterface)
+            procCall LayerManager(this).append(layerInterface)
 
-    # throws Exception
-    def appendAt(self, layerInterface: AllBinaryLayer, index: int) -> None:
-        if not self.contains(layerInterface):
-            self.appendProcessors(layerInterface)
-            super().appendAt(layerInterface, index)
-    
+method appendAt*(this: AllBinaryLayerManager, layerInterface: AllBinaryLayer, index: int32) =
+        if (not this.contains(layerInterface)):
+            this.appendProcessors(layerInterface)
+            procCall LayerManager(this).appendAt(layerInterface, index)
 
-    # throws Exception
-    def appendProcessors(self, layerInterface: AllBinaryLayer) -> None:
-        self.createLayerManagerEvent.setLayerInterface(layerInterface)
-        self.layerManagerEventHandler.fireEvent(self.createLayerManagerEvent)
-        layerProcessorInterface: LayerProcessor = None
-        index = len(self.basicLayerProcessorArray)
-        while (index := index - 1) >= 0:
-            layerProcessorInterface = self.basicLayerProcessorArray[index]
-            if layerProcessorInterface.isProcessorLayer(layerInterface):
-                layerProcessorInterface.getLayerManager().append(layerInterface)
-    
+method appendProcessors*(this: AllBinaryLayerManager, layerInterface: AllBinaryLayer) {.base.} =
+        this.createLayerManagerEvent.setLayerInterface(layerInterface)
+        this.layerManagerEventHandler.fireEvent(this.createLayerManagerEvent)
+        var layerProcessorInterface: LayerProcessor = nil
+        block:
+            var index: int32 = this.basicLayerProcessorArray.length
+            while jPreDecrement(index) >= 0:
+                layerProcessorInterface = this.basicLayerProcessorArray[index]
+                if layerProcessorInterface.isProcessorLayer(layerInterface):
+                    layerProcessorInterface.getLayerManager().append(layerInterface)
 
-    # throws Exception
-    def remove(self, layerInterface: AllBinaryLayer) -> None:
-        with self._lock:
-            return self._remove_unlocked(layerInterface)
+method remove*(this: AllBinaryLayerManager, layerInterface: AllBinaryLayer) =
+        this.deleteLayerManagerEvent.setLayerInterface(layerInterface)
+        this.layerManagerEventHandler.fireDeleteEvent(this.deleteLayerManagerEvent)
+        var layerProcessorInterface: LayerProcessor = nil
+        block:
+            var index: int32 = this.basicLayerProcessorArray.length
+            while jPreDecrement(index) >= 0:
+                layerProcessorInterface = this.basicLayerProcessorArray[index]
+                layerProcessorInterface.getLayerManager().remove(layerInterface)
+        procCall LayerManager(this).remove(layerInterface)
 
-    def _remove_unlocked(self, layerInterface: AllBinaryLayer) -> None:
-        self.deleteLayerManagerEvent.setLayerInterface(layerInterface)
-        self.layerManagerEventHandler.fireDeleteEvent(self.deleteLayerManagerEvent)
-        layerProcessorInterface: LayerProcessor = None
-        index = len(self.basicLayerProcessorArray)
-        while (index := index - 1) >= 0:
-            layerProcessorInterface = self.basicLayerProcessorArray[index]
-            layerProcessorInterface.getLayerManager().remove(layerInterface)
-        super().remove(layerInterface)
-    
+method process*(this: AllBinaryLayerManager) {.base.} =
+        var layerProcessorInterface: LayerProcessor = nil
+        var size: int32 = this.basicLayerProcessorArray.length
+        block:
+            var index: int32 = 0
+            while index < size:
+                defer: index = index +% 1
+                layerProcessorInterface = this.basicLayerProcessorArray[index]
+                layerProcessorInterface.process(this)
 
-    # throws Exception
-    def process(self) -> None:
-        layerProcessorInterface: LayerProcessor = None
-        size: int = len(self.basicLayerProcessorArray)
-        for index in range(0, size):
-            layerProcessorInterface = self.basicLayerProcessorArray[index]
-            layerProcessorInterface.process(self)
-    
+method cleanup*(this: AllBinaryLayerManager) =
+        var layerProcessorInterface: LayerProcessor = nil
+        var size: int32 = this.basicLayerProcessorArray.length
+        block:
+            var index: int32 = 0
+            while index < size:
+                defer: index = index +% 1
+                layerProcessorInterface = this.basicLayerProcessorArray[index]
+                layerProcessorInterface.getLayerManager().cleanup()
+        procCall LayerManager(this).cleanup()
 
-    # throws Exception
-    def cleanup(self) -> None:
-        layerProcessorInterface: LayerProcessor = None
-        size: int = len(self.basicLayerProcessorArray)
-        for index in range(0, size):
-            layerProcessorInterface = self.basicLayerProcessorArray[index]
-            layerProcessorInterface.getLayerManager().cleanup()
-        super().cleanup()
-# from org.allbinary.layer.event.LayerManagerEvent import LayerManagerEvent
-# from org.allbinary.layer.event.LayerManagerEventHandler import LayerManagerEventHandler
-
+when declared(newAllBinaryLayerManagerHook0):
+    newAllBinaryLayerManagerHook0 = proc (): LayerManager = newAllBinaryLayerManager()
 

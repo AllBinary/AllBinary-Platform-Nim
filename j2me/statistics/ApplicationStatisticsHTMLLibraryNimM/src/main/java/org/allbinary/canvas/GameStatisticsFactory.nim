@@ -1,60 +1,70 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.canvas
 
-from __future__ import annotations
-
-from java.lang.JavaRuntimeStatic import lazy_static
-from org.allbinary.canvas.BaseGameStatistics import BaseGameStatistics
-
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/logic/string/StringMaker as StringMakerModule
+export StringMakerModule
+import org/allbinary/canvas/BaseGameStatistics as BaseGameStatisticsModule
+export BaseGameStatisticsModule
 
 #ActualPlatform
-class GameStatisticsFactory(BaseGameStatistics):
-    instance: GameStatisticsFactory = None
+type
+    GameStatisticsFactory* = ref object of BaseGameStatistics
+        stringBuffer*: StringMaker
 
-    def _init_fields(self) -> None:
-        from org.allbinary.logic.string.StringMaker import StringMaker
-        self.stringBuffer: StringMaker = StringMaker()
+proc newGameStatisticsFactory*(): GameStatisticsFactory
+proc getInstance*(t: typedesc[GameStatisticsFactory]): GameStatisticsFactory {.discardable.}
+method add*(this: GameStatisticsFactory, string: string)
+method toString*(this: GameStatisticsFactory): string {.discardable.}
 
-    def __init__(self) -> None:
-        super().__init__()
-        self._init_fields()
-    
+var GameStatisticsFactory_instanceValue: GameStatisticsFactory
+var GameStatisticsFactory_instanceSet = false
+proc instance*(t: typedesc[GameStatisticsFactory]): GameStatisticsFactory =
+    if not GameStatisticsFactory_instanceSet:
+        GameStatisticsFactory_instanceSet = true
+        GameStatisticsFactory_instanceValue = newGameStatisticsFactory()
+    GameStatisticsFactory_instanceValue
 
-    @staticmethod
-    def getInstance() -> GameStatisticsFactory:
+# Java field initializers run after the base initializer
+proc initFieldsGameStatisticsFactory(this: GameStatisticsFactory) =
+    this.stringBuffer = newStringMaker()
+    discard
+
+proc initGameStatisticsFactory*(this: GameStatisticsFactory) =
+    initBaseGameStatistics(this)
+    this.initFieldsGameStatisticsFactory()
+
+proc newGameStatisticsFactory*(): GameStatisticsFactory =
+    result = GameStatisticsFactory()
+    initGameStatisticsFactory(result)
+
+proc getInstance*(t: typedesc[GameStatisticsFactory]): GameStatisticsFactory {.discardable.} =
         return GameStatisticsFactory.instance
-    
 
-    def add(self, string: str) -> None:
-        if self.stringBuffer.length() > 12000:
-            self.stringBuffer.delete(0, self.stringBuffer.length())
-            self.stringBuffer.append("Old Stats Cleared")
-        self.stringBuffer.append(string)
-    
+method add*(this: GameStatisticsFactory, string: string) =
+        if this.stringBuffer.length() > 12000:
+            this.stringBuffer.delete(0, this.stringBuffer.length())
+            this.stringBuffer.append("Old Stats Cleared")
+        this.stringBuffer.append(string)
 
-    def toString(self) -> str:
-        from org.allbinary.logic.string.StringMaker import StringMaker
-        return str(StringMaker().append(str(super())).append(str(self.stringBuffer)))
+method toString*(this: GameStatisticsFactory): string {.discardable.} =
+        return newStringMaker().append(procCall BaseGameStatistics(this).toString()).append(this.stringBuffer.toString()).toString()
 
-    def __str__(self) -> str:
-        return self.toString()
-# from org.allbinary.logic.string.StringMaker import StringMaker
-
-
-def _GameStatisticsFactory_instance() -> object:
-    return GameStatisticsFactory()
-
-lazy_static(GameStatisticsFactory, "instance", _GameStatisticsFactory_instance)
+when declared(newGameStatisticsFactoryHook0):
+    newGameStatisticsFactoryHook0 = proc (): BaseGameStatistics = newGameStatisticsFactory()
 

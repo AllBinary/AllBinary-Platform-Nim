@@ -1,55 +1,80 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.displayable.canvas
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/logic/communication/log/LogUtil as LogUtilModule
+export LogUtilModule
+import org/allbinary/thread/ABRunnable as ABRunnableModule
+export ABRunnableModule
+import org/allbinary/game/displayable/canvas/DemoCanvas as DemoCanvasModule
+export DemoCanvasModule
 
-from org.allbinary.thread.ABRunnable import ABRunnable
+type
+    DemoGameStartupRunnable* = ref object of ABRunnable
+        logUtil*: LogUtil
+        demoCanvas*: DemoCanvas
 
+proc newDemoGameStartupRunnable*(demoCanvas: DemoCanvas): DemoGameStartupRunnable
+proc initDemoGameStartupRunnable*(this: DemoGameStartupRunnable, demoCanvas: DemoCanvas)
+method run*(this: DemoGameStartupRunnable)
+method getType*(this: DemoGameStartupRunnable): int32 {.discardable.}
+import org/allbinary/string/CommonStrings as CommonStringsModule
+export CommonStringsModule
 
-class DemoGameStartupRunnable(ABRunnable):
-    TYPE: int = 4
+var DemoGameStartupRunnable_TYPEValue: int32
+var DemoGameStartupRunnable_TYPESet = false
+proc TYPE*(t: typedesc[DemoGameStartupRunnable]): int32 =
+    if not DemoGameStartupRunnable_TYPESet:
+        DemoGameStartupRunnable_TYPESet = true
+        DemoGameStartupRunnable_TYPEValue = 4
+    DemoGameStartupRunnable_TYPEValue
 
-    def _init_fields(self) -> None:
-        from org.allbinary.logic.communication.log.LogUtil import LogUtil
-        self.logUtil: LogUtil = LogUtil.getInstance()
-        self.demoCanvas: DemoCanvas = None
+# Java field initializers run after the base initializer
+proc initFieldsDemoGameStartupRunnable(this: DemoGameStartupRunnable) =
+    this.logUtil = LogUtil.getInstance()
     
+    discard
 
-    def __init__(self, demoCanvas: DemoCanvas) -> None:
-        super().__init__()
-        self._init_fields()
-        self.demoCanvas = demoCanvas
-    
+proc initDemoGameStartupRunnable*(this: DemoGameStartupRunnable, demoCanvas: DemoCanvas) =
+        initABRunnable(this)
+        this.initFieldsDemoGameStartupRunnable()
+        this.demoCanvas = demoCanvas
 
-    def run(self) -> None:
-        from org.allbinary.string.CommonStrings import CommonStrings
+proc newDemoGameStartupRunnable*(demoCanvas: DemoCanvas): DemoGameStartupRunnable =
+    result = DemoGameStartupRunnable()
+    initDemoGameStartupRunnable(result, demoCanvas)
+
+method run*(this: DemoGameStartupRunnable) =
         try:
-            self.setRunning(True)
-            self.demoCanvas.stopGameDemo()
-            self.demoCanvas.create()
-            self.demoCanvas.start()
-            self.setRunning(False)
-        except Exception as e:
-            self.setRunning(False)
-            commonStrings: CommonStrings = CommonStrings.getInstance()
-            self.logUtil.put(commonStrings.EXCEPTION, self, commonStrings.RUN, e)
-    
+            this.setRunning(true)
+            this.demoCanvas.stopGameDemo()
+            this.demoCanvas.create()
+            this.demoCanvas.start()
+            this.setRunning(false)
+        except CatchableError as jcaught:
+            let e = jToException(jcaught)
+            this.setRunning(false)
+            let commonStrings: CommonStrings = CommonStrings.getInstance()
+            this.logUtil.put(commonStrings.EXCEPTION, this, commonStrings.RUN, e)
 
-    def getType(self) -> int:
+method getType*(this: DemoGameStartupRunnable): int32 {.discardable.} =
         return DemoGameStartupRunnable.TYPE
-# from org.allbinary.logic.communication.log.LogUtil import LogUtil
-# from org.allbinary.string.CommonStrings import CommonStrings
 
+when declared(newDemoGameStartupRunnableHook1):
+    newDemoGameStartupRunnableHook1 = proc (demoCanvas: DemoCanvas): ABRunnable = newDemoGameStartupRunnable(demoCanvas)
 

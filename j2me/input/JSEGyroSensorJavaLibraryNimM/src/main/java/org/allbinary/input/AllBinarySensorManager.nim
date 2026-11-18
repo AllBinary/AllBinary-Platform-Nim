@@ -1,65 +1,79 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.input
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/util/BasicArrayList as BasicArrayListModule
+export BasicArrayListModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    AllBinarySensorManager* = ref object of JObject
+        ORIENTATION_SENSOR_INPUT*: string
+        ORIENTATION_TYPE*: string
+        list*: BasicArrayList
 
+proc newAllBinarySensorManager*(): AllBinarySensorManager
+proc initAllBinarySensorManager*(this: AllBinarySensorManager)
+proc getInstance*(t: typedesc[AllBinarySensorManager]): AllBinarySensorManager {.discardable.}
+method init*(this: AllBinarySensorManager) {.base.}
+method getSensorNamesList*(this: AllBinarySensorManager): BasicArrayList {.base, discardable.}
+method shutdown*(this: AllBinarySensorManager) {.base.}
+import org/allbinary/logic/NullUtil as NullUtilModule
+export NullUtilModule
+import org/allbinary/util/BasicArrayListD as BasicArrayListDModule
+export BasicArrayListDModule
 
-class AllBinarySensorManager:
-    instance: object = None
+var AllBinarySensorManager_instanceValue: JObject
+var AllBinarySensorManager_instanceSet = false
+proc instance*(t: typedesc[AllBinarySensorManager]): JObject =
+    if not AllBinarySensorManager_instanceSet:
+        AllBinarySensorManager_instanceSet = true
+        AllBinarySensorManager_instanceValue = NullUtil.getInstance().NULL_OBJECT
+    AllBinarySensorManager_instanceValue
+proc `instance=`*(t: typedesc[AllBinarySensorManager], value: JObject) =
+    AllBinarySensorManager_instanceSet = true
+    AllBinarySensorManager_instanceValue = value
 
-    def _init_fields(self) -> None:
-        from org.allbinary.util.BasicArrayList import BasicArrayList
-        from org.allbinary.util.BasicArrayListD import BasicArrayListD
-        self.ORIENTATION_SENSOR_INPUT: str = "Orientation Sensor Input"
-        self.ORIENTATION_TYPE: str = "Orientation Type"
-        self.list_: BasicArrayList = BasicArrayListD()
-    
+# Java field initializers run after the base initializer
+proc initFieldsAllBinarySensorManager(this: AllBinarySensorManager) =
+    this.ORIENTATION_SENSOR_INPUT = "Orientation Sensor Input"
+    this.ORIENTATION_TYPE = "Orientation Type"
+    this.list = newBasicArrayListD()
+    discard
 
-    @staticmethod
-    def getInstance() -> AllBinarySensorManager:
-        from org.allbinary.logic.NullUtil import NullUtil
+proc getInstance*(t: typedesc[AllBinarySensorManager]): AllBinarySensorManager {.discardable.} =
         if AllBinarySensorManager.instance == NullUtil.getInstance().NULL_OBJECT:
-            AllBinarySensorManager.instance = AllBinarySensorManager()
-        return AllBinarySensorManager.instance
-    
+            AllBinarySensorManager.instance = newAllBinarySensorManager()
+        return AllBinarySensorManager(JObject(AllBinarySensorManager.instance))
 
-    def __init__(self) -> None:
-        self._init_fields()
-    
+proc initAllBinarySensorManager*(this: AllBinarySensorManager) =
+        this.initFieldsAllBinarySensorManager()
+        discard
 
-    def init(self) -> None:
-        pass
-    
+proc newAllBinarySensorManager*(): AllBinarySensorManager =
+    result = AllBinarySensorManager()
+    initAllBinarySensorManager(result)
 
-    def getSensorNamesList(self) -> BasicArrayList:
-        from org.allbinary.util.BasicArrayList import BasicArrayList
-        return self.list_
-    
+method init*(this: AllBinarySensorManager) {.base.} =
+        discard
 
-    def shutdown(self) -> None:
-        pass
-# from org.allbinary.logic.NullUtil import NullUtil
-# from org.allbinary.util.BasicArrayList import BasicArrayList
-# from org.allbinary.util.BasicArrayListD import BasicArrayListD
+method getSensorNamesList*(this: AllBinarySensorManager): BasicArrayList {.base, discardable.} =
+        return this.list
 
-
-def _AllBinarySensorManager_instance() -> object:
-    from org.allbinary.logic.NullUtil import NullUtil
-    return NullUtil.getInstance().NULL_OBJECT
-
-lazy_static(AllBinarySensorManager, "instance", _AllBinarySensorManager_instance)
+method shutdown*(this: AllBinarySensorManager) {.base.} =
+        discard
 

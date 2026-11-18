@@ -1,52 +1,66 @@
-# 
-# AllBinary Open License Version 1 
-# Copyright (c) 2025 AllBinary 
-#  
-# By agreeing to this license you and any business entity you represent are 
-# legally bound to the AllBinary Open License Version 1 legal agreement. 
-#  
-# You may obtain the AllBinary Open License Version 1 legal agreement from 
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
-#  
-# Created By: Travis Berthelot 
-#   
+#[
+  
+  AllBinary Open License Version 1 
+  Copyright (c) 2025 AllBinary 
+   
+  By agreeing to this license you and any business entity you represent are 
+  legally bound to the AllBinary Open License Version 1 legal agreement. 
+   
+  You may obtain the AllBinary Open License Version 1 legal agreement from 
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
+   
+  Created By: Travis Berthelot 
+    
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.input
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/layer/AllBinaryLayerManager as AllBinaryLayerManagerModule
+export AllBinaryLayerManagerModule
+import org/allbinary/game/input/PlayerGameInputCompositeInterface as PlayerGameInputCompositeInterfaceModule
+export PlayerGameInputCompositeInterfaceModule
+import org/allbinary/game/input/PlayerGameInput as PlayerGameInputModule
+export PlayerGameInputModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
-from org.allbinary.game.input.PlayerGameInputCompositeInterface import PlayerGameInputCompositeInterface
+type
+    NullPlayerGameInputComposite* = ref object of PlayerGameInputCompositeInterface
 
+proc newNullPlayerGameInputComposite*(): NullPlayerGameInputComposite
+method getName*(this: NullPlayerGameInputComposite): string {.discardable.}
+method processInput*(this: NullPlayerGameInputComposite, layerManager: AllBinaryLayerManager)
+method initInputProcessors*(this: NullPlayerGameInputComposite)
+method getPlayerGameInput*(this: NullPlayerGameInputComposite): PlayerGameInput {.discardable.}
+import org/allbinary/logic/string/StringUtil as StringUtilModule
+export StringUtilModule
+import org/allbinary/game/input/NoPlayerGameInput as NoPlayerGameInputModule
+export NoPlayerGameInputModule
 
-class NullPlayerGameInputComposite(PlayerGameInputCompositeInterface):
-    NULL_PLAYER_GAME_INPUT_COMPOSITE: NullPlayerGameInputComposite = None
-    
+var NullPlayerGameInputComposite_NULL_PLAYER_GAME_INPUT_COMPOSITEValue: NullPlayerGameInputComposite
+var NullPlayerGameInputComposite_NULL_PLAYER_GAME_INPUT_COMPOSITESet = false
+proc NULL_PLAYER_GAME_INPUT_COMPOSITEStatic*(t: typedesc[NullPlayerGameInputComposite]): NullPlayerGameInputComposite =
+    if not NullPlayerGameInputComposite_NULL_PLAYER_GAME_INPUT_COMPOSITESet:
+        NullPlayerGameInputComposite_NULL_PLAYER_GAME_INPUT_COMPOSITESet = true
+        NullPlayerGameInputComposite_NULL_PLAYER_GAME_INPUT_COMPOSITEValue = newNullPlayerGameInputComposite()
+    NullPlayerGameInputComposite_NULL_PLAYER_GAME_INPUT_COMPOSITEValue
 
-    def getName(self) -> str:
-        from org.allbinary.logic.string.StringUtil import StringUtil
+proc initNullPlayerGameInputComposite*(this: NullPlayerGameInputComposite) =
+    discard
+
+proc newNullPlayerGameInputComposite*(): NullPlayerGameInputComposite =
+    result = NullPlayerGameInputComposite()
+    initNullPlayerGameInputComposite(result)
+
+method getName*(this: NullPlayerGameInputComposite): string {.discardable.} =
         return StringUtil.getInstance().EMPTY_STRING
-    
 
-    # throws Exception
-    def processInput(self, layerManager: AllBinaryLayerManager) -> None:
-        from org.allbinary.layer.AllBinaryLayerManager import AllBinaryLayerManager
-        pass
-    
+method processInput*(this: NullPlayerGameInputComposite, layerManager: AllBinaryLayerManager) =
+        discard
 
-    def initInputProcessors(self) -> None:
-        pass
-    
+method initInputProcessors*(this: NullPlayerGameInputComposite) =
+        discard
 
-    def getPlayerGameInput(self) -> PlayerGameInput:
-        from org.allbinary.game.input.NoPlayerGameInput import NoPlayerGameInput
+method getPlayerGameInput*(this: NullPlayerGameInputComposite): PlayerGameInput {.discardable.} =
         return NoPlayerGameInput.getInstance()
-# from org.allbinary.layer.AllBinaryLayerManager import AllBinaryLayerManager
-# from org.allbinary.logic.string.StringUtil import StringUtil
-
-
-def _NullPlayerGameInputComposite_NULL_PLAYER_GAME_INPUT_COMPOSITE() -> object:
-    return NullPlayerGameInputComposite()
-
-lazy_static(NullPlayerGameInputComposite, "NULL_PLAYER_GAME_INPUT_COMPOSITE", _NullPlayerGameInputComposite_NULL_PLAYER_GAME_INPUT_COMPOSITE)
 

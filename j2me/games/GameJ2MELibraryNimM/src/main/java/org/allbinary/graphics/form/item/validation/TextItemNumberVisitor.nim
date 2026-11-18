@@ -1,58 +1,75 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.graphics.form.item.validation
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/logic/communication/log/LogUtil as LogUtilModule
+export LogUtilModule
+import org/allbinary/logic/util/visitor/Visitor as VisitorModule
+export VisitorModule
 
-from org.allbinary.logic.util.visitor.Visitor import Visitor
+type
+    TextItemNumberVisitor* = ref object of Visitor
+        logUtil*: LogUtil
+
+proc newTextItemNumberVisitor*(): TextItemNumberVisitor
+proc initTextItemNumberVisitor*(this: TextItemNumberVisitor)
+method visit*(this: TextItemNumberVisitor, anyType: JObject): JObject {.discardable.}
+import org/allbinary/game/input/TextNotificationUtil as TextNotificationUtilModule
+export TextNotificationUtilModule
+import org/allbinary/logic/java/bool/BooleanFactory as BooleanFactoryModule
+export BooleanFactoryModule
+import org/allbinary/logic/string/StringValidationUtil as StringValidationUtilModule
+export StringValidationUtilModule
+import org/allbinary/string/CommonStrings as CommonStringsModule
+export CommonStringsModule
 
 
-class TextItemNumberVisitor(Visitor):
+# Java field initializers run after the base initializer
+proc initFieldsTextItemNumberVisitor(this: TextItemNumberVisitor) =
+    this.logUtil = LogUtil.getInstance()
+    discard
 
-    def _init_fields(self) -> None:
-        from org.allbinary.logic.communication.log.LogUtil import LogUtil
-        self.logUtil: LogUtil = LogUtil.getInstance()
-    
+proc initTextItemNumberVisitor*(this: TextItemNumberVisitor) =
+        initVisitor(this)
+        this.initFieldsTextItemNumberVisitor()
+        discard
 
-    def __init__(self) -> None:
-        super().__init__()
-        self._init_fields()
-    
+proc newTextItemNumberVisitor*(): TextItemNumberVisitor =
+    result = TextItemNumberVisitor()
+    initTextItemNumberVisitor(result)
 
-    def visit(self, anyType: object) -> object:
-        from org.allbinary.game.input.TextNotificationUtil import TextNotificationUtil
-        from org.allbinary.logic.java.bool.BooleanFactory import BooleanFactory
-        from org.allbinary.logic.string.StringValidationUtil import StringValidationUtil
-        from org.allbinary.string.CommonStrings import CommonStrings
-        value: str = anyType
-        if len(value) < 2:
-            stringValidationUtil: StringValidationUtil = StringValidationUtil.getInstance()
+method visit*(this: TextItemNumberVisitor, anyType: JObject): JObject {.discardable.} =
+        var value: string = jstr(anyType)
+        if jLength(value) < 2:
+            let stringValidationUtil: StringValidationUtil = StringValidationUtil.getInstance()
             if stringValidationUtil.isNumber(value):
                 return BooleanFactory.getInstance().TRUE
             else:
                 try:
                     TextNotificationUtil.getInstance().fireError("Numbers Only")
-                except Exception as e:
-                    commonStrings: CommonStrings = CommonStrings.getInstance()
-                    self.logUtil.put(commonStrings.EXCEPTION, self, commonStrings.VISIT, e)
+                except CatchableError as jcaught:
+                    let e = jToException(jcaught)
+                    let commonStrings: CommonStrings = CommonStrings.getInstance()
+                    this.logUtil.put(commonStrings.EXCEPTION, this, commonStrings.VISIT, e)
                 return BooleanFactory.getInstance().FALSE
         else:
             return BooleanFactory.getInstance().FALSE
-# from org.allbinary.game.input.TextNotificationUtil import TextNotificationUtil
-# from org.allbinary.logic.communication.log.LogUtil import LogUtil
-# from org.allbinary.logic.java.bool.BooleanFactory import BooleanFactory
-# from org.allbinary.logic.string.StringValidationUtil import StringValidationUtil
-# from org.allbinary.string.CommonStrings import CommonStrings
 
+when declared(newTextItemNumberVisitorHook0):
+    newTextItemNumberVisitorHook0 = proc (): Visitor = newTextItemNumberVisitor()
 

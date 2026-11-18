@@ -1,41 +1,47 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+
+type
+    J2MEUtil* = ref object of JObject
+
+proc newJ2MEUtil*(): J2MEUtil
+proc initJ2MEUtil*(this: J2MEUtil)
+proc isJ2ME*(t: typedesc[J2MEUtil]): bool {.discardable.}
+proc isJ2SE*(t: typedesc[J2MEUtil]): bool {.discardable.}
+proc isHTML*(t: typedesc[J2MEUtil]): bool {.discardable.}
 
 
+proc initJ2MEUtil*(this: J2MEUtil) =
+        discard
+        discard
 
-class J2MEUtil:
-    
+proc newJ2MEUtil*(): J2MEUtil =
+    result = J2MEUtil()
+    initJ2MEUtil(result)
 
-    def __init__(self) -> None:
-        pass
-    
+proc isJ2ME*(t: typedesc[J2MEUtil]): bool {.discardable.} =
+        return false
 
-    @staticmethod
-    def isJ2ME() -> bool:
-        return False
-    
+proc isJ2SE*(t: typedesc[J2MEUtil]): bool {.discardable.} =
+        return true
 
-    @staticmethod
-    def isJ2SE() -> bool:
-        return True
-    
-
-    @staticmethod
-    def isHTML() -> bool:
-        return False
-
+proc isHTML*(t: typedesc[J2MEUtil]): bool {.discardable.} =
+        return false
 

@@ -1,41 +1,55 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.graphics.displayable.screen
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import javax/microedition/lcdui/Displayable as DisplayableModule
+export DisplayableModule
+import org/allbinary/canvas/Processor as ProcessorModule
+export ProcessorModule
 
-from org.allbinary.canvas.Processor import Processor
+type
+    ScreenRepaintProcessor* = ref object of Processor
+        displayable*: Displayable
+
+proc newScreenRepaintProcessor*(displayable: Displayable): ScreenRepaintProcessor
+proc initScreenRepaintProcessor*(this: ScreenRepaintProcessor, displayable: Displayable)
+method process*(this: ScreenRepaintProcessor)
+import org/allbinary/graphics/displayable/screen/ScreenRepaintUtil as ScreenRepaintUtilModule
+export ScreenRepaintUtilModule
 
 
-class ScreenRepaintProcessor(Processor):
-
-    def _init_fields(self) -> None:
-        from javax.microedition.lcdui.Displayable import Displayable
-        self.displayable: Displayable = None
+# Java field initializers run after the base initializer
+proc initFieldsScreenRepaintProcessor(this: ScreenRepaintProcessor) =
     
+    discard
 
-    def __init__(self, displayable: Displayable) -> None:
-        from javax.microedition.lcdui.Displayable import Displayable
-        super().__init__()
-        self._init_fields()
-        self.displayable = displayable
-    
+proc initScreenRepaintProcessor*(this: ScreenRepaintProcessor, displayable: Displayable) =
+        initProcessor(this)
+        this.initFieldsScreenRepaintProcessor()
+        this.displayable = displayable
 
-    # throws Exception
-    def process(self) -> None:
-        from org.allbinary.graphics.displayable.screen.ScreenRepaintUtil import ScreenRepaintUtil
-        ScreenRepaintUtil.repaint(self.displayable)
-# from javax.microedition.lcdui.Displayable import Displayable
+proc newScreenRepaintProcessor*(displayable: Displayable): ScreenRepaintProcessor =
+    result = ScreenRepaintProcessor()
+    initScreenRepaintProcessor(result, displayable)
 
+method process*(this: ScreenRepaintProcessor) =
+        ScreenRepaintUtil.repaint(this.displayable)
+
+when declared(newScreenRepaintProcessorHook1):
+    newScreenRepaintProcessorHook1 = proc (displayable: Displayable): Processor = newScreenRepaintProcessor(displayable)
 

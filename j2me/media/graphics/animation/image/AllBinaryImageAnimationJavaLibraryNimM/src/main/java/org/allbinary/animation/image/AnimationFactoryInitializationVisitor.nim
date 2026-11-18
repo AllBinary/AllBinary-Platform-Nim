@@ -1,62 +1,75 @@
-# 
-# AllBinary Open License Version 1 
-# Copyright (c) 2022 AllBinary 
-#  
-# By agreeing to this license you and any business entity you represent are 
-# legally bound to the AllBinary Open License Version 1 legal agreement. 
-#  
-# You may obtain the AllBinary Open License Version 1 legal agreement from 
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
-#  
-# Created By: Travis Berthelot 
-#   
+#[
+  
+  AllBinary Open License Version 1 
+  Copyright (c) 2022 AllBinary 
+   
+  By agreeing to this license you and any business entity you represent are 
+  legally bound to the AllBinary Open License Version 1 legal agreement. 
+   
+  You may obtain the AllBinary Open License Version 1 legal agreement from 
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
+   
+  Created By: Travis Berthelot 
+    
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.animation.image
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+
+type
+    AnimationFactoryInitializationVisitor* = ref object of JObject
+        width*: int32
+        height*: int32
+        dx*: int32
+        dy*: int32
+        originalDx*: int32
+        originalDy*: int32
+
+proc newAnimationFactoryInitializationVisitor*(): AnimationFactoryInitializationVisitor
+method visit*(this: AnimationFactoryInitializationVisitor) {.base.}
+method toString*(this: AnimationFactoryInitializationVisitor): string {.discardable.}
+import org/allbinary/logic/string/StringMaker as StringMakerModule
+export StringMakerModule
+import org/allbinary/math/PositionStrings as PositionStringsModule
+export PositionStringsModule
+import org/allbinary/string/CommonLabels as CommonLabelsModule
+export CommonLabelsModule
+import org/allbinary/string/CommonSeps as CommonSepsModule
+export CommonSepsModule
 
 
+# Java field initializers run after the base initializer
+proc initFieldsAnimationFactoryInitializationVisitor(this: AnimationFactoryInitializationVisitor) =
+    this.width = 0
+    this.height = 0
+    this.dx = 0
+    this.dy = 0
+    this.originalDx = 0
+    this.originalDy = 0
+    discard
 
-class AnimationFactoryInitializationVisitor:
+proc initAnimationFactoryInitializationVisitor*(this: AnimationFactoryInitializationVisitor) =
+    this.initFieldsAnimationFactoryInitializationVisitor()
 
-    def _init_fields(self) -> None:
-        self.width: int = 0
-        self.height: int = 0
-        self.dx: int = 0
-        self.dy: int = 0
-        self.originalDx: int = 0
-        self.originalDy: int = 0
+proc newAnimationFactoryInitializationVisitor*(): AnimationFactoryInitializationVisitor =
+    result = AnimationFactoryInitializationVisitor()
+    initAnimationFactoryInitializationVisitor(result)
 
-    def __init__(self) -> None:
-        self._init_fields()
-    
+method visit*(this: AnimationFactoryInitializationVisitor) {.base.} =
+        discard
 
-    def visit(self) -> None:
-        pass
-    
-
-    def toString(self) -> str:
-        from org.allbinary.logic.string.StringMaker import StringMaker
-        from org.allbinary.math.PositionStrings import PositionStrings
-        from org.allbinary.string.CommonLabels import CommonLabels
-        from org.allbinary.string.CommonSeps import CommonSeps
-        commonSeps: CommonSeps = CommonSeps.getInstance()
-        commonLabels: CommonLabels = CommonLabels.getInstance()
-        stringBuffer: StringMaker = StringMaker()
-        stringBuffer.append(PositionStrings.getInstance().DX_LABEL).appendfloat(float(self.dx))
-        stringBuffer.append(PositionStrings.getInstance().DY_LABEL).appendfloat(float(self.dy))
+method toString*(this: AnimationFactoryInitializationVisitor): string {.discardable.} =
+        let commonSeps: CommonSeps = CommonSeps.getInstance()
+        let commonLabels: CommonLabels = CommonLabels.getInstance()
+        let stringBuffer: StringMaker = newStringMaker()
+        stringBuffer.append(PositionStrings.getInstance().DX_LABEL).appendfloat(float32(this.dx))
+        stringBuffer.append(PositionStrings.getInstance().DY_LABEL).appendfloat(float32(this.dy))
         stringBuffer.append(commonLabels.WIDTH_LABEL)
-        stringBuffer.appendint(self.width)
+        stringBuffer.appendint(this.width)
         stringBuffer.append(commonSeps.SPACE)
         stringBuffer.append(commonLabels.HEIGHT_LABEL)
-        stringBuffer.appendint(self.height)
-        return str(stringBuffer)
-
-    def __str__(self) -> str:
-        return self.toString()
-# from org.allbinary.logic.string.StringMaker import StringMaker
-# from org.allbinary.math.PositionStrings import PositionStrings
-# from org.allbinary.string.CommonLabels import CommonLabels
-# from org.allbinary.string.CommonSeps import CommonSeps
-
+        stringBuffer.appendint(this.height)
+        return stringBuffer.toString()
 

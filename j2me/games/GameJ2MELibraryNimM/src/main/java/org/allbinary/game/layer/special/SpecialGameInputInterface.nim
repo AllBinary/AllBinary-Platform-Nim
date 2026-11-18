@@ -1,98 +1,66 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.layer.special
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/game/input/event/GameKeyEvent as GameKeyEventModule
+export GameKeyEventModule
+import org/allbinary/graphics/paint/PaintableInterface as PaintableInterfaceModule
+export PaintableInterfaceModule
+import org/allbinary/layer/AllBinaryLayerManager as AllBinaryLayerManagerModule
+export AllBinaryLayerManagerModule
 
-from org.allbinary.graphics.paint.PaintableInterface import PaintableInterface
+type
+    SpecialGameInputInterface* = ref object of PaintableInterface
 
 
-# Java interface
-class SpecialGameInputInterface(PaintableInterface):
-    
+method up*(this: SpecialGameInputInterface) {.base.} =
+        raise newJException("AbstractMethodError", "up")
 
-    # throws Exception
-    def up(self) -> None:
-        raise NotImplementedError()
-    
+method down*(this: SpecialGameInputInterface) {.base.} =
+        raise newJException("AbstractMethodError", "down")
 
-    # throws Exception
-    def down(self) -> None:
-        raise NotImplementedError()
-    
+method right*(this: SpecialGameInputInterface) {.base.} =
+        raise newJException("AbstractMethodError", "right")
 
-    # throws Exception
-    def right(self) -> None:
-        raise NotImplementedError()
-    
+method left*(this: SpecialGameInputInterface) {.base.} =
+        raise newJException("AbstractMethodError", "left")
 
-    # throws Exception
-    def left(self) -> None:
-        raise NotImplementedError()
-    
+method strafeLeft*(this: SpecialGameInputInterface) {.base.} =
+        raise newJException("AbstractMethodError", "strafeLeft")
 
-    # throws Exception
-    def strafeLeft(self) -> None:
-        raise NotImplementedError()
-    
+method strafeRight*(this: SpecialGameInputInterface) {.base.} =
+        raise newJException("AbstractMethodError", "strafeRight")
 
-    # throws Exception
-    def strafeRight(self) -> None:
-        raise NotImplementedError()
-    
+method fire*(this: SpecialGameInputInterface, layerManager: AllBinaryLayerManager, gameKeyEvent: GameKeyEvent) {.base.} =
+        raise newJException("AbstractMethodError", "fire")
 
-    # throws Exception
-    def fire(self, layerManager: AllBinaryLayerManager, gameKeyEvent: GameKeyEvent) -> None:
-        from org.allbinary.game.input.event.GameKeyEvent import GameKeyEvent
-        from org.allbinary.layer.AllBinaryLayerManager import AllBinaryLayerManager
-        raise NotImplementedError()
-    
+method special1*(this: SpecialGameInputInterface, layerManager: AllBinaryLayerManager, gameKeyEvent: GameKeyEvent) {.base.} =
+        raise newJException("AbstractMethodError", "special1")
 
-    # throws Exception
-    def special1(self, layerManager: AllBinaryLayerManager, gameKeyEvent: GameKeyEvent) -> None:
-        from org.allbinary.game.input.event.GameKeyEvent import GameKeyEvent
-        from org.allbinary.layer.AllBinaryLayerManager import AllBinaryLayerManager
-        raise NotImplementedError()
-    
+method special2*(this: SpecialGameInputInterface, layerManager: AllBinaryLayerManager, gameKeyEvent: GameKeyEvent) {.base.} =
+        raise newJException("AbstractMethodError", "special2")
 
-    # throws Exception
-    def special2(self, layerManager: AllBinaryLayerManager, gameKeyEvent: GameKeyEvent) -> None:
-        from org.allbinary.game.input.event.GameKeyEvent import GameKeyEvent
-        from org.allbinary.layer.AllBinaryLayerManager import AllBinaryLayerManager
-        raise NotImplementedError()
-    
+method special3*(this: SpecialGameInputInterface, layerManager: AllBinaryLayerManager, gameKeyEvent: GameKeyEvent) {.base.} =
+        raise newJException("AbstractMethodError", "special3")
 
-    # throws Exception
-    def special3(self, layerManager: AllBinaryLayerManager, gameKeyEvent: GameKeyEvent) -> None:
-        from org.allbinary.game.input.event.GameKeyEvent import GameKeyEvent
-        from org.allbinary.layer.AllBinaryLayerManager import AllBinaryLayerManager
-        raise NotImplementedError()
-    
+method special4*(this: SpecialGameInputInterface, layerManager: AllBinaryLayerManager, gameKeyEvent: GameKeyEvent) {.base.} =
+        raise newJException("AbstractMethodError", "special4")
 
-    # throws Exception
-    def special4(self, layerManager: AllBinaryLayerManager, gameKeyEvent: GameKeyEvent) -> None:
-        from org.allbinary.game.input.event.GameKeyEvent import GameKeyEvent
-        from org.allbinary.layer.AllBinaryLayerManager import AllBinaryLayerManager
-        raise NotImplementedError()
-    
-
-    # throws Exception
-    def special5(self, layerManager: AllBinaryLayerManager, gameKeyEvent: GameKeyEvent) -> None:
-        from org.allbinary.game.input.event.GameKeyEvent import GameKeyEvent
-        from org.allbinary.layer.AllBinaryLayerManager import AllBinaryLayerManager
-        raise NotImplementedError()
-# from org.allbinary.game.input.event.GameKeyEvent import GameKeyEvent
-# from org.allbinary.layer.AllBinaryLayerManager import AllBinaryLayerManager
-
+method special5*(this: SpecialGameInputInterface, layerManager: AllBinaryLayerManager, gameKeyEvent: GameKeyEvent) {.base.} =
+        raise newJException("AbstractMethodError", "special5")
 

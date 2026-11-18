@@ -1,64 +1,82 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.ai
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import java/lang/Integer as IntegerModule
+export IntegerModule
+import org/allbinary/util/ABHashtable as ABHashtableModule
+export ABHashtableModule
+import org/allbinary/util/BasicArrayList as BasicArrayListModule
+export BasicArrayListModule
+import org/allbinary/game/ai/ArtificialIntelligenceInterfaceFactoryInterface as ArtificialIntelligenceInterfaceFactoryInterfaceModule
+export ArtificialIntelligenceInterfaceFactoryInterfaceModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    ArtificialIntelligenceInterfaceFactoryInterfaceFactory* = ref object of JObject
+        list*: BasicArrayList
 
+proc newArtificialIntelligenceInterfaceFactoryInterfaceFactory*(): ArtificialIntelligenceInterfaceFactoryInterfaceFactory
+method clear*(this: ArtificialIntelligenceInterfaceFactoryInterfaceFactory) {.base.}
+proc getInstance*(t: typedesc[ArtificialIntelligenceInterfaceFactoryInterfaceFactory]): ArtificialIntelligenceInterfaceFactoryInterfaceFactory {.discardable.}
+method getInstanceFromCollection*(this: ArtificialIntelligenceInterfaceFactoryInterfaceFactory, hashtable: ABHashtable): ArtificialIntelligenceInterfaceFactoryInterface {.base, discardable.}
+method add*(this: ArtificialIntelligenceInterfaceFactoryInterfaceFactory, artificialIntelligenceInterfaceFactoryInterface: ArtificialIntelligenceInterfaceFactoryInterface) {.base.}
+import org/allbinary/util/BasicArrayListD as BasicArrayListDModule
+export BasicArrayListDModule
+import org/allbinary/util/BasicArrayListUtil as BasicArrayListUtilModule
+export BasicArrayListUtilModule
+import org/allbinary/game/ai/BasicAI as BasicAIModule
+export BasicAIModule
 
-class ArtificialIntelligenceInterfaceFactoryInterfaceFactory:
-    SINGLETON: ArtificialIntelligenceInterfaceFactoryInterfaceFactory = None
+var ArtificialIntelligenceInterfaceFactoryInterfaceFactory_SINGLETONValue: ArtificialIntelligenceInterfaceFactoryInterfaceFactory
+var ArtificialIntelligenceInterfaceFactoryInterfaceFactory_SINGLETONSet = false
+proc SINGLETON*(t: typedesc[ArtificialIntelligenceInterfaceFactoryInterfaceFactory]): ArtificialIntelligenceInterfaceFactoryInterfaceFactory =
+    if not ArtificialIntelligenceInterfaceFactoryInterfaceFactory_SINGLETONSet:
+        ArtificialIntelligenceInterfaceFactoryInterfaceFactory_SINGLETONSet = true
+        ArtificialIntelligenceInterfaceFactoryInterfaceFactory_SINGLETONValue = newArtificialIntelligenceInterfaceFactoryInterfaceFactory()
+    ArtificialIntelligenceInterfaceFactoryInterfaceFactory_SINGLETONValue
+proc `SINGLETON=`*(t: typedesc[ArtificialIntelligenceInterfaceFactoryInterfaceFactory], value: ArtificialIntelligenceInterfaceFactoryInterfaceFactory) =
+    ArtificialIntelligenceInterfaceFactoryInterfaceFactory_SINGLETONSet = true
+    ArtificialIntelligenceInterfaceFactoryInterfaceFactory_SINGLETONValue = value
 
-    def _init_fields(self) -> None:
-        from org.allbinary.util.BasicArrayList import BasicArrayList
-        from org.allbinary.util.BasicArrayListUtil import BasicArrayListUtil
-        self.list_: BasicArrayList = BasicArrayListUtil.getInstance().getImmutableInstance()
+# Java field initializers run after the base initializer
+proc initFieldsArtificialIntelligenceInterfaceFactoryInterfaceFactory(this: ArtificialIntelligenceInterfaceFactoryInterfaceFactory) =
+    this.list = BasicArrayListUtil.getInstance().getImmutableInstance()
+    discard
 
-    def __init__(self) -> None:
-        self._init_fields()
-    
+proc initArtificialIntelligenceInterfaceFactoryInterfaceFactory*(this: ArtificialIntelligenceInterfaceFactoryInterfaceFactory) =
+    this.initFieldsArtificialIntelligenceInterfaceFactoryInterfaceFactory()
 
-    def clear(self) -> None:
-        from org.allbinary.util.BasicArrayListD import BasicArrayListD
-        self.list_ = BasicArrayListD()
-    
+proc newArtificialIntelligenceInterfaceFactoryInterfaceFactory*(): ArtificialIntelligenceInterfaceFactoryInterfaceFactory =
+    result = ArtificialIntelligenceInterfaceFactoryInterfaceFactory()
+    initArtificialIntelligenceInterfaceFactoryInterfaceFactory(result)
 
-    @staticmethod
-    def getInstance() -> ArtificialIntelligenceInterfaceFactoryInterfaceFactory:
+method clear*(this: ArtificialIntelligenceInterfaceFactoryInterfaceFactory) {.base.} =
+        this.list = newBasicArrayListD()
+
+proc getInstance*(t: typedesc[ArtificialIntelligenceInterfaceFactoryInterfaceFactory]): ArtificialIntelligenceInterfaceFactoryInterfaceFactory {.discardable.} =
         return ArtificialIntelligenceInterfaceFactoryInterfaceFactory.SINGLETON
-    
 
-    def getInstanceFromCollection(self, hashtable: ABHashtable[object, object]) -> ArtificialIntelligenceInterfaceFactoryInterface:
-        from org.allbinary.game.ai.BasicAI import BasicAI
-        from org.allbinary.util.ABHashtable import ABHashtable
-        typeInteger: int = hashtable.get(BasicAI.ID)
-        type_: int = int(typeInteger)
-        artificialIntelligenceInterfaceFactoryInterface: ArtificialIntelligenceInterfaceFactoryInterface = self.list_.objectArray[type_ - 1]
+method getInstanceFromCollection*(this: ArtificialIntelligenceInterfaceFactoryInterfaceFactory, hashtable: ABHashtable): ArtificialIntelligenceInterfaceFactoryInterface {.base, discardable.} =
+        let typeInteger: int32 = jUnboxInteger(hashtable.get(JObject(JObject(BasicAI.ID))))
+        var `type`: int32 = typeInteger.intValue()
+        let artificialIntelligenceInterfaceFactoryInterface: ArtificialIntelligenceInterfaceFactoryInterface = ArtificialIntelligenceInterfaceFactoryInterface(JObject(this.list.objectArray[`type` -% 1]))
         return artificialIntelligenceInterfaceFactoryInterface
-    
 
-    def add(self, artificialIntelligenceInterfaceFactoryInterface: ArtificialIntelligenceInterfaceFactoryInterface) -> None:
-        self.list_.add(artificialIntelligenceInterfaceFactoryInterface)
-# from org.allbinary.util.ABHashtable import ABHashtable
-# from org.allbinary.util.BasicArrayList import BasicArrayList
-# from org.allbinary.util.BasicArrayListD import BasicArrayListD
-# from org.allbinary.util.BasicArrayListUtil import BasicArrayListUtil
-
-
-def _ArtificialIntelligenceInterfaceFactoryInterfaceFactory_SINGLETON() -> object:
-    return ArtificialIntelligenceInterfaceFactoryInterfaceFactory()
-
-lazy_static(ArtificialIntelligenceInterfaceFactoryInterfaceFactory, "SINGLETON", _ArtificialIntelligenceInterfaceFactoryInterfaceFactory_SINGLETON)
+method add*(this: ArtificialIntelligenceInterfaceFactoryInterfaceFactory, artificialIntelligenceInterfaceFactoryInterface: ArtificialIntelligenceInterfaceFactoryInterface) {.base.} =
+        this.list.add(artificialIntelligenceInterfaceFactoryInterface)
 

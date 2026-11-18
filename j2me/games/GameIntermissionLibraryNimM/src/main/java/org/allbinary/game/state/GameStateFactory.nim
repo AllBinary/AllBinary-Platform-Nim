@@ -1,55 +1,73 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.state
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/game/state/GameState as GameStateModule
+export GameStateModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    GameStateFactory* = ref object of JObject
+        index*: int32
+        NO_GAME_STATE*: GameState
+        PLAYING_GAME_STATE*: GameState
+        SHOW_END_RESULT_GAME_STATE*: GameState
+        SHOW_HIGH_SCORE_GAME_STATE*: GameState
 
+proc newGameStateFactory*(): GameStateFactory
+proc initGameStateFactory*(this: GameStateFactory)
+proc getInstance*(t: typedesc[GameStateFactory]): GameStateFactory {.discardable.}
+method createGameState*(this: GameStateFactory, name: string): GameState {.base, discardable.}
+import org/allbinary/logic/NullUtil as NullUtilModule
+export NullUtilModule
 
-class GameStateFactory:
-    instance: object = None
+var GameStateFactory_instanceValue: JObject
+var GameStateFactory_instanceSet = false
+proc instance*(t: typedesc[GameStateFactory]): JObject =
+    if not GameStateFactory_instanceSet:
+        GameStateFactory_instanceSet = true
+        GameStateFactory_instanceValue = NullUtil.getInstance().NULL_OBJECT
+    GameStateFactory_instanceValue
+proc `instance=`*(t: typedesc[GameStateFactory], value: JObject) =
+    GameStateFactory_instanceSet = true
+    GameStateFactory_instanceValue = value
 
-    def _init_fields(self) -> None:
-        self.index: int = 0
-        self.NO_GAME_STATE: GameState = self.createGameState("NO_GAME_STATE")
-        self.PLAYING_GAME_STATE: GameState = self.createGameState("PLAYING_GAME_STATE")
-        self.SHOW_END_RESULT_GAME_STATE: GameState = self.createGameState("SHOW_END_RESULT_GAME_STATE")
-        self.SHOW_HIGH_SCORE_GAME_STATE: GameState = self.createGameState("SHOW_HIGH_SCORE_GAME_STATE")
-    
+# Java field initializers run after the base initializer
+proc initFieldsGameStateFactory(this: GameStateFactory) =
+    this.index = 0
+    this.NO_GAME_STATE = this.createGameState("NO_GAME_STATE")
+    this.PLAYING_GAME_STATE = this.createGameState("PLAYING_GAME_STATE")
+    this.SHOW_END_RESULT_GAME_STATE = this.createGameState("SHOW_END_RESULT_GAME_STATE")
+    this.SHOW_HIGH_SCORE_GAME_STATE = this.createGameState("SHOW_HIGH_SCORE_GAME_STATE")
+    discard
 
-    @staticmethod
-    def getInstance() -> GameStateFactory:
-        from org.allbinary.logic.NullUtil import NullUtil
+proc getInstance*(t: typedesc[GameStateFactory]): GameStateFactory {.discardable.} =
         if GameStateFactory.instance == NullUtil.getInstance().NULL_OBJECT:
-            GameStateFactory.instance = GameStateFactory()
-        return GameStateFactory.instance
-    
+            GameStateFactory.instance = newGameStateFactory()
+        return GameStateFactory(JObject(GameStateFactory.instance))
 
-    def __init__(self) -> None:
-        self._init_fields()
-    
+proc initGameStateFactory*(this: GameStateFactory) =
+        this.initFieldsGameStateFactory()
+        discard
 
-    def createGameState(self, name: str) -> GameState:
-        from org.allbinary.game.state.GameState import GameState
-        return GameState(name, ((setattr(self, "index", self.index + 1) or self.index) - 1))
-# from org.allbinary.logic.NullUtil import NullUtil
+proc newGameStateFactory*(): GameStateFactory =
+    result = GameStateFactory()
+    initGameStateFactory(result)
 
-
-def _GameStateFactory_instance() -> object:
-    from org.allbinary.logic.NullUtil import NullUtil
-    return NullUtil.getInstance().NULL_OBJECT
-
-lazy_static(GameStateFactory, "instance", _GameStateFactory_instance)
+method createGameState*(this: GameStateFactory, name: string): GameState {.base, discardable.} =
+        return newGameState(name, jPostIncrement(this.index))
 

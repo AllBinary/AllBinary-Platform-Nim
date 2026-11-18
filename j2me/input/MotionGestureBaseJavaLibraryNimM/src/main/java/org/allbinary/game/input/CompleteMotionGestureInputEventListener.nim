@@ -1,21 +1,33 @@
 # Generated Code Do Not Modify
 # package org.allbinary.game.input
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/logic/util/event/AllBinaryEventObject as AllBinaryEventObjectModule
+export AllBinaryEventObjectModule
+import org/allbinary/game/input/CompleteMotionGestureInputEventListenerInterface as CompleteMotionGestureInputEventListenerInterfaceModule
+export CompleteMotionGestureInputEventListenerInterfaceModule
+import org/allbinary/game/input/CompleteMotionGestureInputEvent as CompleteMotionGestureInputEventModule
+export CompleteMotionGestureInputEventModule
 
-from org.allbinary.game.input.CompleteMotionGestureInputEventListenerInterface import CompleteMotionGestureInputEventListenerInterface
+type
+    CompleteMotionGestureInputEventListener* = ref object of CompleteMotionGestureInputEventListenerInterface
+
+proc newCompleteMotionGestureInputEventListener*(): CompleteMotionGestureInputEventListener
+method onEvent*(this: CompleteMotionGestureInputEventListener, eventObject: AllBinaryEventObject)
+method onCompleteMotionGestureInputEvent*(this: CompleteMotionGestureInputEventListener, completeMotionGestureInputEvent: CompleteMotionGestureInputEvent)
 
 
-class CompleteMotionGestureInputEventListener(CompleteMotionGestureInputEventListenerInterface):
-    
+proc initCompleteMotionGestureInputEventListener*(this: CompleteMotionGestureInputEventListener) =
+    discard
 
-    def onEvent(self, eventObject: AllBinaryEventObject) -> None:
-        from org.allbinary.logic.util.event.AllBinaryEventObject import AllBinaryEventObject
-        pass
-    
+proc newCompleteMotionGestureInputEventListener*(): CompleteMotionGestureInputEventListener =
+    result = CompleteMotionGestureInputEventListener()
+    initCompleteMotionGestureInputEventListener(result)
 
-    def onCompleteMotionGestureInputEvent(self, completeMotionGestureInputEvent: CompleteMotionGestureInputEvent) -> None:
-        pass
-# from org.allbinary.logic.util.event.AllBinaryEventObject import AllBinaryEventObject
+method onEvent*(this: CompleteMotionGestureInputEventListener, eventObject: AllBinaryEventObject) =
+        discard
 
+method onCompleteMotionGestureInputEvent*(this: CompleteMotionGestureInputEventListener, completeMotionGestureInputEvent: CompleteMotionGestureInputEvent) =
+        discard
 

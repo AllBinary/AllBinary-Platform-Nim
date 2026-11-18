@@ -1,63 +1,83 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.animation
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/graphics/color/BasicColor as BasicColorModule
+export BasicColorModule
+import org/allbinary/vector/VectorInfo as VectorInfoModule
+export VectorInfoModule
+import org/allbinary/animation/ProceduralAnimationInterfaceFactoryInterface as ProceduralAnimationInterfaceFactoryInterfaceModule
+export ProceduralAnimationInterfaceFactoryInterfaceModule
+import org/allbinary/animation/VectorAnimationFactoryInterface as VectorAnimationFactoryInterfaceModule
+export VectorAnimationFactoryInterfaceModule
+import org/allbinary/animation/VectorExplosionGenerator as VectorExplosionGeneratorModule
+export VectorExplosionGeneratorModule
+import org/allbinary/animation/Animation as AnimationModule
+export AnimationModule
 
-from org.allbinary.animation.ProceduralAnimationInterfaceFactoryInterface import ProceduralAnimationInterfaceFactoryInterface
+type
+    IndependentVectorExplosionRotationAnimationFactory* = ref object of ProceduralAnimationInterfaceFactoryInterface
+        framePoints*: JArray[JArray[JArray[int32]]]
+        vectorInfo*: VectorInfo
+        basicColor*: BasicColor
+        vectorAnimationFactoryInterface*: VectorAnimationFactoryInterface
+        vectorExplosionGenerator*: VectorExplosionGenerator
+
+proc newIndependentVectorExplosionRotationAnimationFactory*(vectorInfo: VectorInfo, basicColor: BasicColor, vectorAnimationFactoryInterface: VectorAnimationFactoryInterface): IndependentVectorExplosionRotationAnimationFactory
+proc initIndependentVectorExplosionRotationAnimationFactory*(this: IndependentVectorExplosionRotationAnimationFactory, vectorInfo: VectorInfo, basicColor: BasicColor, vectorAnimationFactoryInterface: VectorAnimationFactoryInterface)
+method init*(this: IndependentVectorExplosionRotationAnimationFactory) {.base.}
+method getInstanceAnimation*(this: IndependentVectorExplosionRotationAnimationFactory, animationInterface: Animation): Animation {.discardable.}
+import org/allbinary/logic/NullUtil as NullUtilModule
+export NullUtilModule
+import org/allbinary/animation/VectorRotationGenerator as VectorRotationGeneratorModule
+export VectorRotationGeneratorModule
+import org/allbinary/animation/IndexedAnimation as IndexedAnimationModule
+export IndexedAnimationModule
 
 
-class IndependentVectorExplosionRotationAnimationFactory(ProceduralAnimationInterfaceFactoryInterface):
-
-    def _init_fields(self) -> None:
-        from org.allbinary.graphics.color.BasicColor import BasicColor
-        from org.allbinary.logic.NullUtil import NullUtil
-        from org.allbinary.vector.VectorInfo import VectorInfo
-        self.framePoints: list[list[list[int]]] = NullUtil.getInstance().NULL_INT_ARRAY_ARRAY_ARRAY
-        self.vectorInfo: VectorInfo = None
-        self.basicColor: BasicColor = None
-        self.vectorAnimationFactoryInterface: VectorAnimationFactoryInterface = None
-        self.vectorExplosionGenerator: VectorExplosionGenerator = VectorExplosionGenerator.getInstance()
+# Java field initializers run after the base initializer
+proc initFieldsIndependentVectorExplosionRotationAnimationFactory(this: IndependentVectorExplosionRotationAnimationFactory) =
+    this.framePoints = NullUtil.getInstance().NULL_INT_ARRAY_ARRAY_ARRAY
     
-
-    def __init__(self, vectorInfo: VectorInfo, basicColor: BasicColor, vectorAnimationFactoryInterface: VectorAnimationFactoryInterface) -> None:
-        from org.allbinary.graphics.color.BasicColor import BasicColor
-        from org.allbinary.vector.VectorInfo import VectorInfo
-        self._init_fields()
-        self.vectorInfo = vectorInfo
-        self.basicColor = basicColor
-        self.vectorAnimationFactoryInterface = vectorAnimationFactoryInterface
-        self.init()
     
-
-    # throws Exception
-    def init(self) -> None:
-        from org.allbinary.animation.VectorRotationGenerator import VectorRotationGenerator
-        self.framePoints = VectorRotationGenerator.getInstance().getInstance(self.vectorInfo)
     
+    this.vectorExplosionGenerator = VectorExplosionGenerator.getInstance()
+    discard
 
-    # throws Exception
-    def getInstanceAnimation(self, animationInterface: Animation) -> Animation:
-        frame: int = 0
-        if animationInterface is not None:
-            rotationAnimationInterface: IndexedAnimation = animationInterface
+proc initIndependentVectorExplosionRotationAnimationFactory*(this: IndependentVectorExplosionRotationAnimationFactory, vectorInfo: VectorInfo, basicColor: BasicColor, vectorAnimationFactoryInterface: VectorAnimationFactoryInterface) =
+        this.initFieldsIndependentVectorExplosionRotationAnimationFactory()
+        this.vectorInfo = vectorInfo
+        this.basicColor = basicColor
+        this.vectorAnimationFactoryInterface = vectorAnimationFactoryInterface
+        this.init()
+
+proc newIndependentVectorExplosionRotationAnimationFactory*(vectorInfo: VectorInfo, basicColor: BasicColor, vectorAnimationFactoryInterface: VectorAnimationFactoryInterface): IndependentVectorExplosionRotationAnimationFactory =
+    result = IndependentVectorExplosionRotationAnimationFactory()
+    initIndependentVectorExplosionRotationAnimationFactory(result, vectorInfo, basicColor, vectorAnimationFactoryInterface)
+
+method init*(this: IndependentVectorExplosionRotationAnimationFactory) {.base.} =
+        this.framePoints = VectorRotationGenerator.getInstance().getInstance(this.vectorInfo)
+
+method getInstanceAnimation*(this: IndependentVectorExplosionRotationAnimationFactory, animationInterface: Animation): Animation {.discardable.} =
+        var frame: int32 = 0
+        if (not jIsNil(animationInterface)):
+            var rotationAnimationInterface: IndexedAnimation = IndexedAnimation(JObject(animationInterface))
             frame = rotationAnimationInterface.getFrame()
-        points: list[list[list[int]]] = self.vectorExplosionGenerator.getInstance(self.framePoints[frame], 6, self.vectorExplosionGenerator.ROTATION)
-        return self.vectorAnimationFactoryInterface.getInstance(points, self.basicColor)
-# from org.allbinary.graphics.color.BasicColor import BasicColor
-# from org.allbinary.logic.NullUtil import NullUtil
-# from org.allbinary.vector.VectorInfo import VectorInfo
-from org.allbinary.animation.VectorExplosionGenerator import VectorExplosionGenerator
-
+        var points: JArray[JArray[JArray[int32]]] = this.vectorExplosionGenerator.getInstance(this.framePoints[frame], 6, this.vectorExplosionGenerator.ROTATION)
+        return this.vectorAnimationFactoryInterface.getInstance(points, this.basicColor)
 

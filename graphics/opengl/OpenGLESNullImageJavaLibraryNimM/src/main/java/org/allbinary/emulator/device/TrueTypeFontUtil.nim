@@ -1,77 +1,89 @@
-# 
-# AllBinary Open License Version 1 
-# Copyright (c) 2011 AllBinary 
-# 
-# By agreeing to this license you and any business entity you represent are 
-# legally bound to the AllBinary Open License Version 1 legal agreement. 
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from 
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
-# 
-# Created By: Travis Berthelot 
-#  
+#[
+  
+  AllBinary Open License Version 1 
+  Copyright (c) 2011 AllBinary 
+  
+  By agreeing to this license you and any business entity you represent are 
+  legally bound to the AllBinary Open License Version 1 legal agreement. 
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from 
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
+  
+  Created By: Travis Berthelot 
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.emulator.device
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import javax/microedition/khronos/opengles/GL10 as GL10Module
+export GL10Module
+import javax/microedition/lcdui/Image as ImageModule
+export ImageModule
+import org/allbinary/graphics/color/BasicColor as BasicColorModule
+export BasicColorModule
+import org/allbinary/image/opengles/OpenGLESImage as OpenGLESImageModule
+export OpenGLESImageModule
+import org/allbinary/emulator/device/TrueTypeFontUtilBase as TrueTypeFontUtilBaseModule
+export TrueTypeFontUtilBaseModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
-from org.allbinary.emulator.device.TrueTypeFontUtilBase import TrueTypeFontUtilBase
+type
+    TrueTypeFontUtil* = ref object of TrueTypeFontUtilBase
+        fontImage*: OpenGLESImage
 
+proc newTrueTypeFontUtil*(): TrueTypeFontUtil
+proc initTrueTypeFontUtil*(this: TrueTypeFontUtil)
+proc getInstance*(t: typedesc[TrueTypeFontUtil]): TrueTypeFontUtil {.discardable.}
+method getAsTextureSize*(this: TrueTypeFontUtil, textureSize: int32): int32 {.discardable.}
+method getCellSize*(this: TrueTypeFontUtil, cellSize: int32): int32 {.discardable.}
+method getFontBitmap*(this: TrueTypeFontUtil, filename: string, fontSize: int32, cellSize: int32, basicColor: BasicColor): Image {.base, discardable.}
+method saveFontAtlasAsFile*(this: TrueTypeFontUtil) {.base.}
+method getFontBitmapGL*(this: TrueTypeFontUtil, gl: GL10, filename: string, cellSize: int32, basicColor: BasicColor): Image {.base, discardable.}
+method getFontWidths*(this: TrueTypeFontUtil, filename: string, fontSize: int32): JArray[int32] {.base, discardable.}
 
-class TrueTypeFontUtil(TrueTypeFontUtilBase):
-    instance: TrueTypeFontUtil = None
+var TrueTypeFontUtil_instanceValue: TrueTypeFontUtil
+var TrueTypeFontUtil_instanceSet = false
+proc instance*(t: typedesc[TrueTypeFontUtil]): TrueTypeFontUtil =
+    if not TrueTypeFontUtil_instanceSet:
+        TrueTypeFontUtil_instanceSet = true
+        TrueTypeFontUtil_instanceValue = newTrueTypeFontUtil()
+    TrueTypeFontUtil_instanceValue
 
-    def _init_fields(self) -> None:
-        from org.allbinary.image.opengles.OpenGLESImage import OpenGLESImage
-        self.fontImage: OpenGLESImage = OpenGLESImage.NULL_OPENGL_IMAGE
-    
+# Java field initializers run after the base initializer
+proc initFieldsTrueTypeFontUtil(this: TrueTypeFontUtil) =
+    this.fontImage = OpenGLESImage.NULL_OPENGL_IMAGE
+    discard
 
-    @staticmethod
-    def getInstance() -> TrueTypeFontUtil:
+proc getInstance*(t: typedesc[TrueTypeFontUtil]): TrueTypeFontUtil {.discardable.} =
         return TrueTypeFontUtil.instance
-    
 
-    def __init__(self) -> None:
-        super().__init__(1)
-        self._init_fields()
-    
+proc initTrueTypeFontUtil*(this: TrueTypeFontUtil) =
+        initTrueTypeFontUtilBase(this, 1)
+        this.initFieldsTrueTypeFontUtil()
 
-    def getAsTextureSize(self, textureSize: int) -> int:
-        raise RuntimeError()
-    
+proc newTrueTypeFontUtil*(): TrueTypeFontUtil =
+    result = TrueTypeFontUtil()
+    initTrueTypeFontUtil(result)
 
-    def getCellSize(self, cellSize: int) -> int:
-        raise RuntimeError()
-    
+method getAsTextureSize*(this: TrueTypeFontUtil, textureSize: int32): int32 {.discardable.} =
+        raise newJException("RuntimeException", "")
 
-    def getFontBitmap(self, filename: str, fontSize: int, cellSize: int, basicColor: BasicColor) -> Image:
-        from javax.microedition.lcdui.Image import Image
-        from org.allbinary.graphics.color.BasicColor import BasicColor
-        raise RuntimeError()
-    
+method getCellSize*(this: TrueTypeFontUtil, cellSize: int32): int32 {.discardable.} =
+        raise newJException("RuntimeException", "")
 
-    def saveFontAtlasAsFile(self) -> None:
-        pass
-    
+method getFontBitmap*(this: TrueTypeFontUtil, filename: string, fontSize: int32, cellSize: int32, basicColor: BasicColor): Image {.base, discardable.} =
+        raise newJException("RuntimeException", "")
 
-    def getFontBitmapGL(self, gl: GL10, filename: str, cellSize: int, basicColor: BasicColor) -> Image:
-        from javax.microedition.khronos.opengles.GL10 import GL10
-        from javax.microedition.lcdui.Image import Image
-        from org.allbinary.graphics.color.BasicColor import BasicColor
-        raise RuntimeError()
-    
+method saveFontAtlasAsFile*(this: TrueTypeFontUtil) {.base.} =
+        discard
 
-    def getFontWidths(self, filename: str, fontSize: int) -> list[int]:
-        raise RuntimeError()
-# from javax.microedition.khronos.opengles.GL10 import GL10
-# from javax.microedition.lcdui.Image import Image
-# from org.allbinary.graphics.color.BasicColor import BasicColor
-# from org.allbinary.image.opengles.OpenGLESImage import OpenGLESImage
+method getFontBitmapGL*(this: TrueTypeFontUtil, gl: GL10, filename: string, cellSize: int32, basicColor: BasicColor): Image {.base, discardable.} =
+        raise newJException("RuntimeException", "")
 
+method getFontWidths*(this: TrueTypeFontUtil, filename: string, fontSize: int32): JArray[int32] {.base, discardable.} =
+        raise newJException("RuntimeException", "")
 
-def _TrueTypeFontUtil_instance() -> object:
-    return TrueTypeFontUtil()
-
-lazy_static(TrueTypeFontUtil, "instance", _TrueTypeFontUtil_instance)
+when declared(newTrueTypeFontUtilHook0):
+    newTrueTypeFontUtilHook0 = proc (): TrueTypeFontUtilBase = newTrueTypeFontUtil()
 

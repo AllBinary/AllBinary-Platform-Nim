@@ -1,31 +1,31 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.ai
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/graphics/IdentifierInterface as IdentifierInterfaceModule
+export IdentifierInterfaceModule
+import org/allbinary/layer/AllBinaryLayerManager as AllBinaryLayerManagerModule
+export AllBinaryLayerManagerModule
 
-from org.allbinary.graphics.IdentifierInterface import IdentifierInterface
+type
+    ArtificialIntelligenceInterface* = ref object of IdentifierInterface
 
 
-# Java interface
-class ArtificialIntelligenceInterface(IdentifierInterface):
-    
-
-    # throws Exception
-    def processAI(self, layerManager: AllBinaryLayerManager) -> None:
-        from org.allbinary.layer.AllBinaryLayerManager import AllBinaryLayerManager
-        raise NotImplementedError()
-# from org.allbinary.layer.AllBinaryLayerManager import AllBinaryLayerManager
-
+method processAI*(this: ArtificialIntelligenceInterface, layerManager: AllBinaryLayerManager) {.base.} =
+        raise newJException("AbstractMethodError", "processAI")
 

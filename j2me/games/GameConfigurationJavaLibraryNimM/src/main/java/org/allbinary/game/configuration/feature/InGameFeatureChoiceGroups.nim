@@ -1,67 +1,83 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.configuration.feature
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/util/ABHashtable as ABHashtableModule
+export ABHashtableModule
+import org/allbinary/util/BasicArrayList as BasicArrayListModule
+export BasicArrayListModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    InGameFeatureChoiceGroups* = ref object of JObject
+        hashtable*: ABHashtable
 
+proc newInGameFeatureChoiceGroups*(): InGameFeatureChoiceGroups
+proc initInGameFeatureChoiceGroups*(this: InGameFeatureChoiceGroups)
+proc getExclusiveInstance*(t: typedesc[InGameFeatureChoiceGroups]): InGameFeatureChoiceGroups {.discardable.}
+proc getMultipleInstance*(t: typedesc[InGameFeatureChoiceGroups]): InGameFeatureChoiceGroups {.discardable.}
+method get*(this: InGameFeatureChoiceGroups): ABHashtable {.base, discardable.}
+method add*(this: InGameFeatureChoiceGroups, name: string, list: BasicArrayList) {.base.}
+import org/allbinary/logic/StdUtil as StdUtilModule
+export StdUtilModule
 
-class InGameFeatureChoiceGroups:
-    gameFeatureChoiceGroupsExclusive: InGameFeatureChoiceGroups = None
-    gameFeatureChoiceGroupsMultiple: InGameFeatureChoiceGroups = None
+var InGameFeatureChoiceGroups_gameFeatureChoiceGroupsExclusiveValue: InGameFeatureChoiceGroups
+var InGameFeatureChoiceGroups_gameFeatureChoiceGroupsExclusiveSet = false
+proc gameFeatureChoiceGroupsExclusive*(t: typedesc[InGameFeatureChoiceGroups]): InGameFeatureChoiceGroups =
+    if not InGameFeatureChoiceGroups_gameFeatureChoiceGroupsExclusiveSet:
+        InGameFeatureChoiceGroups_gameFeatureChoiceGroupsExclusiveSet = true
+        InGameFeatureChoiceGroups_gameFeatureChoiceGroupsExclusiveValue = newInGameFeatureChoiceGroups()
+    InGameFeatureChoiceGroups_gameFeatureChoiceGroupsExclusiveValue
+proc `gameFeatureChoiceGroupsExclusive=`*(t: typedesc[InGameFeatureChoiceGroups], value: InGameFeatureChoiceGroups) =
+    InGameFeatureChoiceGroups_gameFeatureChoiceGroupsExclusiveSet = true
+    InGameFeatureChoiceGroups_gameFeatureChoiceGroupsExclusiveValue = value
+var InGameFeatureChoiceGroups_gameFeatureChoiceGroupsMultipleValue: InGameFeatureChoiceGroups
+var InGameFeatureChoiceGroups_gameFeatureChoiceGroupsMultipleSet = false
+proc gameFeatureChoiceGroupsMultiple*(t: typedesc[InGameFeatureChoiceGroups]): InGameFeatureChoiceGroups =
+    if not InGameFeatureChoiceGroups_gameFeatureChoiceGroupsMultipleSet:
+        InGameFeatureChoiceGroups_gameFeatureChoiceGroupsMultipleSet = true
+        InGameFeatureChoiceGroups_gameFeatureChoiceGroupsMultipleValue = newInGameFeatureChoiceGroups()
+    InGameFeatureChoiceGroups_gameFeatureChoiceGroupsMultipleValue
+proc `gameFeatureChoiceGroupsMultiple=`*(t: typedesc[InGameFeatureChoiceGroups], value: InGameFeatureChoiceGroups) =
+    InGameFeatureChoiceGroups_gameFeatureChoiceGroupsMultipleSet = true
+    InGameFeatureChoiceGroups_gameFeatureChoiceGroupsMultipleValue = value
 
-    def _init_fields(self) -> None:
-        from org.allbinary.logic.StdUtil import StdUtil
-        from org.allbinary.util.ABHashtable import ABHashtable
-        self.hashtable: ABHashtable[object, object] = StdUtil.getInstance().createHashtable()
-    
+# Java field initializers run after the base initializer
+proc initFieldsInGameFeatureChoiceGroups(this: InGameFeatureChoiceGroups) =
+    this.hashtable = StdUtil.getInstance().createHashtable()
+    discard
 
-    def __init__(self) -> None:
-        self._init_fields()
-    
+proc initInGameFeatureChoiceGroups*(this: InGameFeatureChoiceGroups) =
+        this.initFieldsInGameFeatureChoiceGroups()
+        discard
 
-    @staticmethod
-    def getExclusiveInstance() -> InGameFeatureChoiceGroups:
+proc newInGameFeatureChoiceGroups*(): InGameFeatureChoiceGroups =
+    result = InGameFeatureChoiceGroups()
+    initInGameFeatureChoiceGroups(result)
+
+proc getExclusiveInstance*(t: typedesc[InGameFeatureChoiceGroups]): InGameFeatureChoiceGroups {.discardable.} =
         return InGameFeatureChoiceGroups.gameFeatureChoiceGroupsExclusive
-    
 
-    @staticmethod
-    def getMultipleInstance() -> InGameFeatureChoiceGroups:
+proc getMultipleInstance*(t: typedesc[InGameFeatureChoiceGroups]): InGameFeatureChoiceGroups {.discardable.} =
         return InGameFeatureChoiceGroups.gameFeatureChoiceGroupsMultiple
-    
 
-    def get(self) -> ABHashtable[object, object]:
-        from org.allbinary.util.ABHashtable import ABHashtable
-        return self.hashtable
-    
+method get*(this: InGameFeatureChoiceGroups): ABHashtable {.base, discardable.} =
+        return this.hashtable
 
-    def add(self, name: str, list_: BasicArrayList) -> None:
-        from org.allbinary.util.BasicArrayList import BasicArrayList
-        self.hashtable.put(name, list_)
-# from org.allbinary.logic.StdUtil import StdUtil
-# from org.allbinary.util.ABHashtable import ABHashtable
-# from org.allbinary.util.BasicArrayList import BasicArrayList
-
-
-def _InGameFeatureChoiceGroups_gameFeatureChoiceGroupsExclusive() -> object:
-    return InGameFeatureChoiceGroups()
-
-lazy_static(InGameFeatureChoiceGroups, "gameFeatureChoiceGroupsExclusive", _InGameFeatureChoiceGroups_gameFeatureChoiceGroupsExclusive)
-
-def _InGameFeatureChoiceGroups_gameFeatureChoiceGroupsMultiple() -> object:
-    return InGameFeatureChoiceGroups()
-
-lazy_static(InGameFeatureChoiceGroups, "gameFeatureChoiceGroupsMultiple", _InGameFeatureChoiceGroups_gameFeatureChoiceGroupsMultiple)
+method add*(this: InGameFeatureChoiceGroups, name: string, list: BasicArrayList) {.base.} =
+        this.hashtable.put(name, list)
 

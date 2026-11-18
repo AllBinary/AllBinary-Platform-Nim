@@ -1,54 +1,73 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.layer.pickup
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/animation/Animation as AnimationModule
+export AnimationModule
+import org/allbinary/layer/AllBinaryLayer as AllBinaryLayerModule
+export AllBinaryLayerModule
+import org/allbinary/game/layer/pickup/PickedUpLayerInterfaceFactoryBase as PickedUpLayerInterfaceFactoryBaseModule
+export PickedUpLayerInterfaceFactoryBaseModule
+import org/allbinary/game/layer/pickup/PickedUpLayerType as PickedUpLayerTypeModule
+export PickedUpLayerTypeModule
+import org/allbinary/game/layer/pickup/IconLayer as IconLayerModule
+export IconLayerModule
 
-from org.allbinary.game.layer.pickup.PickedUpLayerInterfaceFactoryBase import PickedUpLayerInterfaceFactoryBase
+type
+    PickedUpLayerInterfaceFactory* = ref object of PickedUpLayerInterfaceFactoryBase
+        pickedUpLayerType*: PickedUpLayerType
+        iconLayer*: IconLayer
+        animationInterface*: Animation
+
+proc newPickedUpLayerInterfaceFactory*(pickeUpLayerType: PickedUpLayerType, iconLayer: IconLayer, animationInterface: Animation): PickedUpLayerInterfaceFactory
+proc initPickedUpLayerInterfaceFactory*(this: PickedUpLayerInterfaceFactory, pickeUpLayerType: PickedUpLayerType, iconLayer: IconLayer, animationInterface: Animation)
+method getIconLayer*(this: PickedUpLayerInterfaceFactory): AllBinaryLayer {.discardable.}
+method getAnimationInterface*(this: PickedUpLayerInterfaceFactory): Animation {.discardable.}
+method getPickedUpLayerType*(this: PickedUpLayerInterfaceFactory): PickedUpLayerType {.discardable.}
 
 
-class PickedUpLayerInterfaceFactory(PickedUpLayerInterfaceFactoryBase):
-
-    def _init_fields(self) -> None:
-        from org.allbinary.animation.Animation import Animation
-        self.pickedUpLayerType: PickedUpLayerType = None
-        self.iconLayer: IconLayer = None
-        self.animationInterface: Animation = None
+# Java field initializers run after the base initializer
+proc initFieldsPickedUpLayerInterfaceFactory(this: PickedUpLayerInterfaceFactory) =
     
-
-    def __init__(self, pickeUpLayerType: PickedUpLayerType, iconLayer: IconLayer, animationInterface: Animation) -> None:
-        from org.allbinary.animation.Animation import Animation
-        super().__init__()
-        self._init_fields()
-        self.pickedUpLayerType = pickeUpLayerType
-        self.animationInterface = animationInterface
-        self.iconLayer = iconLayer
     
-
-    def getIconLayer(self) -> AllBinaryLayer:
-        from org.allbinary.layer.AllBinaryLayer import AllBinaryLayer
-        return self.iconLayer
     
+    discard
 
-    def getAnimationInterface(self) -> Animation:
-        from org.allbinary.animation.Animation import Animation
-        return self.animationInterface
-    
+proc initPickedUpLayerInterfaceFactory*(this: PickedUpLayerInterfaceFactory, pickeUpLayerType: PickedUpLayerType, iconLayer: IconLayer, animationInterface: Animation) =
+        initPickedUpLayerInterfaceFactoryBase(this)
+        this.initFieldsPickedUpLayerInterfaceFactory()
+        this.pickedUpLayerType = pickeUpLayerType
+        this.animationInterface = animationInterface
+        this.iconLayer = iconLayer
 
-    def getPickedUpLayerType(self) -> PickedUpLayerType:
-        return self.pickedUpLayerType
-# from org.allbinary.animation.Animation import Animation
-# from org.allbinary.layer.AllBinaryLayer import AllBinaryLayer
+proc newPickedUpLayerInterfaceFactory*(pickeUpLayerType: PickedUpLayerType, iconLayer: IconLayer, animationInterface: Animation): PickedUpLayerInterfaceFactory =
+    result = PickedUpLayerInterfaceFactory()
+    initPickedUpLayerInterfaceFactory(result, pickeUpLayerType, iconLayer, animationInterface)
 
+method getIconLayer*(this: PickedUpLayerInterfaceFactory): AllBinaryLayer {.discardable.} =
+        return this.iconLayer
+
+method getAnimationInterface*(this: PickedUpLayerInterfaceFactory): Animation {.discardable.} =
+        return this.animationInterface
+
+method getPickedUpLayerType*(this: PickedUpLayerInterfaceFactory): PickedUpLayerType {.discardable.} =
+        return this.pickedUpLayerType
+
+when declared(newPickedUpLayerInterfaceFactoryHook3):
+    newPickedUpLayerInterfaceFactoryHook3 = proc (pickeUpLayerType: PickedUpLayerType, iconLayer: IconLayer, animationInterface: Animation): PickedUpLayerInterfaceFactoryBase = newPickedUpLayerInterfaceFactory(pickeUpLayerType, iconLayer, animationInterface)
 

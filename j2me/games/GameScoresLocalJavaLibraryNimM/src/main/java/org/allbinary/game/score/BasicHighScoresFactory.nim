@@ -1,63 +1,89 @@
 # Generated Code Do Not Modify
 # package org.allbinary.game.score
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/game/GameInfo as GameInfoModule
+export GameInfoModule
+import org/allbinary/logic/communication/log/LogUtil as LogUtilModule
+export LogUtilModule
+import org/allbinary/logic/system/SoftwareInformation as SoftwareInformationModule
+export SoftwareInformationModule
+import org/allbinary/logic/system/security/licensing/AbeClientInformationInterface as AbeClientInformationInterfaceModule
+export AbeClientInformationInterfaceModule
+import org/allbinary/game/score/HighScoresBase as HighScoresBaseModule
+export HighScoresBaseModule
+import org/allbinary/game/score/HighScores as HighScoresModule
+export HighScoresModule
+import org/allbinary/game/score/HighScoresResultsListener as HighScoresResultsListenerModule
+export HighScoresResultsListenerModule
+import org/allbinary/game/score/HighScoresHelperBaseInterface as HighScoresHelperBaseInterfaceModule
+export HighScoresHelperBaseInterfaceModule
 
-from org.allbinary.game.score.HighScoresBase import HighScoresBase
+type
+    BasicHighScoresFactory* = ref object of HighScoresBase
+        logUtil*: LogUtil
+        abeClientInformation*: AbeClientInformationInterface
+        highScoresArray*: JArray[HighScores]
+        TOP*: string
+        SCORES*: string
+        PERSONAL_HIGH_SCORES*: string
+        FETCH*: string
+
+proc newBasicHighScoresFactory*(abeClientInformation: AbeClientInformationInterface, softwareInformation: SoftwareInformation): BasicHighScoresFactory
+proc initBasicHighScoresFactory*(this: BasicHighScoresFactory, abeClientInformation: AbeClientInformationInterface, softwareInformation: SoftwareInformation)
+method fetchHighScores*(this: BasicHighScoresFactory, gameInfo: GameInfo, highScoresResultsListener: HighScoresResultsListener)
+method fetchHighScoresPreload*(this: BasicHighScoresFactory, gameInfo: GameInfo, highScoresResultsListener: HighScoresResultsListener, preload: bool)
+method createHighScoresHelper*(this: BasicHighScoresFactory): HighScoresHelperBaseInterface {.discardable.}
+proc loaded*(t: typedesc[BasicHighScoresFactory], index2: int32): bool {.discardable.}
+import org/allbinary/game/score/RecordStoreHighScores as RecordStoreHighScoresModule
+export RecordStoreHighScoresModule
+import org/allbinary/game/score/ScoreComparator as ScoreComparatorModule
+export ScoreComparatorModule
+import org/allbinary/game/score/HighScoresHelper2 as HighScoresHelper2Module
+export HighScoresHelper2Module
 
 
-class BasicHighScoresFactory(HighScoresBase):
-
-    def _init_fields(self) -> None:
-        from org.allbinary.logic.communication.log.LogUtil import LogUtil
-        from org.allbinary.logic.system.security.licensing.AbeClientInformationInterface import AbeClientInformationInterface
-        self.logUtil: LogUtil = LogUtil.getInstance()
-        self.abeClientInformation: AbeClientInformationInterface = None
-        self.highScoresArray: list[HighScores] = [None] * (1)
-        self.TOP: str = "Top"
-        self.SCORES: str = "Scores"
-        self.PERSONAL_HIGH_SCORES: str = "Personal Top Scores"
-        self.FETCH: str = "fetchHighScores"
+# Java field initializers run after the base initializer
+proc initFieldsBasicHighScoresFactory(this: BasicHighScoresFactory) =
+    this.logUtil = LogUtil.getInstance()
     
+    this.highScoresArray = newJArray[HighScores](1, default(HighScores))
+    this.TOP = "Top"
+    this.SCORES = "Scores"
+    this.PERSONAL_HIGH_SCORES = "Personal Top Scores"
+    this.FETCH = "fetchHighScores"
+    discard
 
-    def __init__(self, abeClientInformation: AbeClientInformationInterface, softwareInformation: SoftwareInformation) -> None:
-        from org.allbinary.logic.system.SoftwareInformation import SoftwareInformation
-        from org.allbinary.logic.system.security.licensing.AbeClientInformationInterface import AbeClientInformationInterface
-        super().__init__()
-        self._init_fields()
-        self.abeClientInformation = abeClientInformation
-    
+proc initBasicHighScoresFactory*(this: BasicHighScoresFactory, abeClientInformation: AbeClientInformationInterface, softwareInformation: SoftwareInformation) =
+        initHighScoresBase(this)
+        this.initFieldsBasicHighScoresFactory()
+        this.abeClientInformation = abeClientInformation
 
-    def fetchHighScores(self, gameInfo: GameInfo, highScoresResultsListener: HighScoresResultsListener) -> None:
-        from org.allbinary.game.GameInfo import GameInfo
-        self.logUtil.putF("Getting Local HighScores", self, self.FETCH)
-        self.fetchHighScoresPreload(gameInfo, highScoresResultsListener, True)
-    
+proc newBasicHighScoresFactory*(abeClientInformation: AbeClientInformationInterface, softwareInformation: SoftwareInformation): BasicHighScoresFactory =
+    result = BasicHighScoresFactory()
+    initBasicHighScoresFactory(result, abeClientInformation, softwareInformation)
 
-    def fetchHighScoresPreload(self, gameInfo: GameInfo, highScoresResultsListener: HighScoresResultsListener, preload: bool) -> None:
-        from org.allbinary.game.score.RecordStoreHighScores import RecordStoreHighScores
-        from org.allbinary.game.score.ScoreComparator import ScoreComparator
-        from org.allbinary.game.GameInfo import GameInfo
+method fetchHighScores*(this: BasicHighScoresFactory, gameInfo: GameInfo, highScoresResultsListener: HighScoresResultsListener) =
+        this.logUtil.putF("Getting Local HighScores", this, this.FETCH)
+        this.fetchHighScoresPreload(gameInfo, highScoresResultsListener, true)
+
+method fetchHighScoresPreload*(this: BasicHighScoresFactory, gameInfo: GameInfo, highScoresResultsListener: HighScoresResultsListener, preload: bool) =
         try:
-            self.highScoresArray[0] = RecordStoreHighScores.getInstance(self.abeClientInformation, gameInfo, self.TOP, self.PERSONAL_HIGH_SCORES, self.SCORES, ScoreComparator(True))
-            highScoresResultsListener.setHighScoresArray(self.highScoresArray)
-        except Exception as e:
-            self.logUtil.put(self.commonStrings.EXCEPTION, self, self.FETCH, e)
-    
+            this.highScoresArray[0] = RecordStoreHighScores.getInstance(this.abeClientInformation, gameInfo, this.TOP, this.PERSONAL_HIGH_SCORES, this.SCORES, newScoreComparator(true))
+            highScoresResultsListener.setHighScoresArray(this.highScoresArray)
+        except CatchableError as jcaught:
+            let e = jToException(jcaught)
+            this.logUtil.put(this.commonStrings.EXCEPTION, this, this.FETCH, e)
 
-    def createHighScoresHelper(self) -> HighScoresHelperBaseInterface:
-        from org.allbinary.game.score.HighScoresHelper2 import HighScoresHelper2
-        return HighScoresHelper2()
-    
+method createHighScoresHelper*(this: BasicHighScoresFactory): HighScoresHelperBaseInterface {.discardable.} =
+        return newHighScoresHelper2()
 
-    @staticmethod
-    def loaded(index2: int) -> bool:
+proc loaded*(t: typedesc[BasicHighScoresFactory], index2: int32): bool {.discardable.} =
         if index2 >= 0:
-            return True
-        return False
-# from org.allbinary.game.GameInfo import GameInfo
-# from org.allbinary.logic.communication.log.LogUtil import LogUtil
-# from org.allbinary.logic.system.SoftwareInformation import SoftwareInformation
-# from org.allbinary.logic.system.security.licensing.AbeClientInformationInterface import AbeClientInformationInterface
+            return true
+        return false
 
+when declared(newBasicHighScoresFactoryHook2):
+    newBasicHighScoresFactoryHook2 = proc (abeClientInformation: AbeClientInformationInterface, softwareInformation: SoftwareInformation): HighScoresBase = newBasicHighScoresFactory(abeClientInformation, softwareInformation)
 

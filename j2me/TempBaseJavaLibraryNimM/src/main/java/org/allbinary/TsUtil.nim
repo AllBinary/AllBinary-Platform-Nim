@@ -62,7 +62,7 @@ method hashCode*(this: TsUtil, anyType: JObject): int32 {.base, discardable.} =
         return anyType.hashCode()
 
 method waitFor*(this: TsUtil, any: JObject, timeoutMillis: int64) {.base.} =
-        let anyType: JObject = JObject(any)
+        let anyType: JObject = JObject(JObject(any))
         anyType.wait(timeoutMillis)
 
 method compareTo*(this: TsUtil, a: string, b: string): int32 {.base, discardable.} =

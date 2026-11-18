@@ -1,72 +1,89 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.graphics
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/graphics/GPoint as GPointModule
+export GPointModule
+
+type
+    Line* = ref object of JObject
+        p1*: GPoint
+        p2*: GPoint
+        deltaX*: float64
+        deltaY*: float64
+
+proc newLine*(p1: GPoint, p2: GPoint): Line
+proc initLine*(this: Line, p1: GPoint, p2: GPoint)
+method getGradient*(this: Line): float64 {.base, discardable.}
+method update*(this: Line) {.base.}
+method getDeltaX*(this: Line): float64 {.base, discardable.}
+method getDeltaY*(this: Line): float64 {.base, discardable.}
+method getP1*(this: Line): GPoint {.base, discardable.}
+method getP2*(this: Line): GPoint {.base, discardable.}
+method setP1*(this: Line, p1: GPoint) {.base.}
+method setP2*(this: Line, p2: GPoint) {.base.}
+import org/allbinary/graphics/PointFactory as PointFactoryModule
+export PointFactoryModule
 
 
-
-class Line:
-
-    def _init_fields(self) -> None:
-        self.p1: GPoint = None
-        self.p2: GPoint = None
-        self.deltaX: float = 0.0
-        self.deltaY: float = 0.0
+# Java field initializers run after the base initializer
+proc initFieldsLine(this: Line) =
     
-
-    def __init__(self, p1: GPoint, p2: GPoint) -> None:
-        from org.allbinary.graphics.PointFactory import PointFactory
-        self._init_fields()
-        self.p1 = PointFactory.getInstance().ZERO_ZERO
-        self.p2 = self.p1
-        self.setP1(p1)
-        self.setP2(p2)
     
+    this.deltaX = 0.0
+    this.deltaY = 0.0
+    discard
 
-    def getGradient(self) -> float:
-        return self.getDeltaY() / self.getDeltaX()
-    
+proc initLine*(this: Line, p1: GPoint, p2: GPoint) =
+        this.initFieldsLine()
+        this.p1 = PointFactory.getInstance().ZERO_ZERO
+        this.p2 = this.p1
+        this.setP1(p1)
+        this.setP2(p2)
 
-    def update(self) -> None:
-        self.deltaX = float(self.getP1().getX()) - self.getP2().getX()
-        self.deltaY = float(self.getP1().getY()) - self.getP2().getY()
-    
+proc newLine*(p1: GPoint, p2: GPoint): Line =
+    result = Line()
+    initLine(result, p1, p2)
 
-    def getDeltaX(self) -> float:
-        return self.deltaX
-    
+method getGradient*(this: Line): float64 {.base, discardable.} =
+        return this.getDeltaY() / this.getDeltaX()
 
-    def getDeltaY(self) -> float:
-        return self.deltaY
-    
+method update*(this: Line) {.base.} =
+        this.deltaX = float64(this.getP1().getX()) - float64(this.getP2().getX())
+        this.deltaY = float64(this.getP1().getY()) - float64(this.getP2().getY())
 
-    def getP1(self) -> GPoint:
-        return self.p1
-    
+method getDeltaX*(this: Line): float64 {.base, discardable.} =
+        return this.deltaX
 
-    def getP2(self) -> GPoint:
-        return self.p2
-    
+method getDeltaY*(this: Line): float64 {.base, discardable.} =
+        return this.deltaY
 
-    def setP1(self, p1: GPoint) -> None:
-        self.p1 = p1
-        self.update()
-    
+method getP1*(this: Line): GPoint {.base, discardable.} =
+        return this.p1
 
-    def setP2(self, p2: GPoint) -> None:
-        self.p2 = p2
-        self.update()
+method getP2*(this: Line): GPoint {.base, discardable.} =
+        return this.p2
 
+method setP1*(this: Line, p1: GPoint) {.base.} =
+        this.p1 = p1
+        this.update()
+
+method setP2*(this: Line, p2: GPoint) {.base.} =
+        this.p2 = p2
+        this.update()
 

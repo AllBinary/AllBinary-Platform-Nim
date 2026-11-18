@@ -1,50 +1,60 @@
-# 
-# AllBinary Open License Version 1 
-# Copyright (c) 2022 AllBinary 
-#  
-# By agreeing to this license you and any business entity you represent are 
-# legally bound to the AllBinary Open License Version 1 legal agreement. 
-#  
-# You may obtain the AllBinary Open License Version 1 legal agreement from 
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
-#  
-# Created By: Travis Berthelot 
-#   
+#[
+  
+  AllBinary Open License Version 1 
+  Copyright (c) 2022 AllBinary 
+   
+  By agreeing to this license you and any business entity you represent are 
+  legally bound to the AllBinary Open License Version 1 legal agreement. 
+   
+  You may obtain the AllBinary Open License Version 1 legal agreement from 
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
+   
+  Created By: Travis Berthelot 
+    
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.persistance
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/logic/system/security/licensing/AbeClientInformationInterface as AbeClientInformationInterfaceModule
+export AbeClientInformationInterfaceModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    PlatformRecordIdUtil* = ref object of JObject
+        PLATFORM_SHORT_NAME*: string
 
+proc newPlatformRecordIdUtil*(): PlatformRecordIdUtil
+proc getInstance*(t: typedesc[PlatformRecordIdUtil]): PlatformRecordIdUtil {.discardable.}
+method getRecordId*(this: PlatformRecordIdUtil, abeClientInformation: AbeClientInformationInterface, baseRecordId: string): string {.base, discardable.}
+import org/allbinary/logic/string/StringMaker as StringMakerModule
+export StringMakerModule
+import org/allbinary/string/CommonSeps as CommonSepsModule
+export CommonSepsModule
 
-class PlatformRecordIdUtil:
-    instance: PlatformRecordIdUtil = None
+var PlatformRecordIdUtil_instanceValue: PlatformRecordIdUtil
+var PlatformRecordIdUtil_instanceSet = false
+proc instance*(t: typedesc[PlatformRecordIdUtil]): PlatformRecordIdUtil =
+    if not PlatformRecordIdUtil_instanceSet:
+        PlatformRecordIdUtil_instanceSet = true
+        PlatformRecordIdUtil_instanceValue = newPlatformRecordIdUtil()
+    PlatformRecordIdUtil_instanceValue
 
-    def _init_fields(self) -> None:
-        self.PLATFORM_SHORT_NAME: str = "JME"
+# Java field initializers run after the base initializer
+proc initFieldsPlatformRecordIdUtil(this: PlatformRecordIdUtil) =
+    this.PLATFORM_SHORT_NAME = "JME"
+    discard
 
-    def __init__(self) -> None:
-        self._init_fields()
-    
+proc initPlatformRecordIdUtil*(this: PlatformRecordIdUtil) =
+    this.initFieldsPlatformRecordIdUtil()
 
-    @staticmethod
-    def getInstance() -> PlatformRecordIdUtil:
+proc newPlatformRecordIdUtil*(): PlatformRecordIdUtil =
+    result = PlatformRecordIdUtil()
+    initPlatformRecordIdUtil(result)
+
+proc getInstance*(t: typedesc[PlatformRecordIdUtil]): PlatformRecordIdUtil {.discardable.} =
         return PlatformRecordIdUtil.instance
-    
 
-    def getRecordId(self, abeClientInformation: AbeClientInformationInterface, baseRecordId: str) -> str:
-        from org.allbinary.logic.string.StringMaker import StringMaker
-        from org.allbinary.logic.system.security.licensing.AbeClientInformationInterface import AbeClientInformationInterface
-        from org.allbinary.string.CommonSeps import CommonSeps
-        return str(StringMaker().append(abeClientInformation.toShortString()).append(CommonSeps.getInstance().UNDERSCORE).append(self.PLATFORM_SHORT_NAME).append(baseRecordId))
-# from org.allbinary.logic.string.StringMaker import StringMaker
-# from org.allbinary.logic.system.security.licensing.AbeClientInformationInterface import AbeClientInformationInterface
-# from org.allbinary.string.CommonSeps import CommonSeps
-
-
-def _PlatformRecordIdUtil_instance() -> object:
-    return PlatformRecordIdUtil()
-
-lazy_static(PlatformRecordIdUtil, "instance", _PlatformRecordIdUtil_instance)
+method getRecordId*(this: PlatformRecordIdUtil, abeClientInformation: AbeClientInformationInterface, baseRecordId: string): string {.base, discardable.} =
+        return newStringMaker().append(abeClientInformation.toShortString()).append(CommonSeps.getInstance().UNDERSCORE).append(this.PLATFORM_SHORT_NAME).append(baseRecordId).toString()
 

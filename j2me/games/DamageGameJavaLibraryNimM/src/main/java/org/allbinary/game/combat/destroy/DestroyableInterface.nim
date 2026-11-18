@@ -1,29 +1,29 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.combat.destroy
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/layer/NamedInterface as NamedInterfaceModule
+export NamedInterfaceModule
 
-from org.allbinary.layer.NamedInterface import NamedInterface
+type
+    DestroyableInterface* = ref object of NamedInterface
 
 
-# Java interface
-class DestroyableInterface(NamedInterface):
-    
-
-    # throws Exception
-    def isDestroyed(self) -> bool:
-        raise NotImplementedError()
-
+method isDestroyed*(this: DestroyableInterface): bool {.base, discardable.} =
+        raise newJException("AbstractMethodError", "isDestroyed")
 

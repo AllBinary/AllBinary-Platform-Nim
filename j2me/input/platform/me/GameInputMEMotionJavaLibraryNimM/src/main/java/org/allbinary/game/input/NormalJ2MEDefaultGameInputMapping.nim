@@ -1,33 +1,42 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.input
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/game/input/mapping/PersistentInputMapping as PersistentInputMappingModule
+export PersistentInputMappingModule
 
-from org.allbinary.game.input.mapping.PersistentInputMapping import PersistentInputMapping
+type
+    NormalJ2MEDefaultGameInputMapping* = ref object of PersistentInputMapping
+
+proc newNormalJ2MEDefaultGameInputMapping*(): NormalJ2MEDefaultGameInputMapping
+proc initNormalJ2MEDefaultGameInputMapping*(this: NormalJ2MEDefaultGameInputMapping)
+import org/allbinary/game/configuration/persistance/GamePersistanceStrings as GamePersistanceStringsModule
+export GamePersistanceStringsModule
+import org/allbinary/game/input/mapping/InputToGameKeyMapping as InputToGameKeyMappingModule
+export InputToGameKeyMappingModule
+import org/allbinary/game/input/GameKeyFactory as GameKeyFactoryModule
+export GameKeyFactoryModule
 
 
-class NormalJ2MEDefaultGameInputMapping(PersistentInputMapping):
-    
-
-    def __init__(self) -> None:
-        from org.allbinary.game.input.GameKeyFactory import GameKeyFactory
-        from org.allbinary.game.configuration.persistance.GamePersistanceStrings import GamePersistanceStrings
-        from org.allbinary.game.input.mapping.InputToGameKeyMapping import InputToGameKeyMapping
-        super().__init__(GamePersistanceStrings.getInstance().DEFAULT_INPUT_MAPPING_RECORD_ID)
-        inputToGameKeyMapping: InputToGameKeyMapping = self.getInputMapping()
-        gameKeyFactory: GameKeyFactory = GameKeyFactory.getInstance()
+proc initNormalJ2MEDefaultGameInputMapping*(this: NormalJ2MEDefaultGameInputMapping) =
+        initPersistentInputMapping(this, GamePersistanceStrings.getInstance().DEFAULT_INPUT_MAPPING_RECORD_ID)
+        var inputToGameKeyMapping: InputToGameKeyMapping = this.getInputMapping()
+        let gameKeyFactory: GameKeyFactory = GameKeyFactory.getInstance()
         inputToGameKeyMapping.add(gameKeyFactory.UP, gameKeyFactory.KEY_NUM2)
         inputToGameKeyMapping.add(gameKeyFactory.LEFT, gameKeyFactory.KEY_NUM4)
         inputToGameKeyMapping.add(gameKeyFactory.RIGHT, gameKeyFactory.KEY_NUM6)
@@ -51,7 +60,11 @@ class NormalJ2MEDefaultGameInputMapping(PersistentInputMapping):
         inputToGameKeyMapping.add(gameKeyFactory.KEY_NUM9, gameKeyFactory.KEY_NUM9)
         inputToGameKeyMapping.add(gameKeyFactory.KEY_NUM0, gameKeyFactory.KEY_NUM0)
         inputToGameKeyMapping.add(gameKeyFactory.KEY_NUM1, gameKeyFactory.FIRE)
-# from org.allbinary.game.configuration.persistance.GamePersistanceStrings import GamePersistanceStrings
-# from org.allbinary.game.input.mapping.InputToGameKeyMapping import InputToGameKeyMapping
 
+proc newNormalJ2MEDefaultGameInputMapping*(): NormalJ2MEDefaultGameInputMapping =
+    result = NormalJ2MEDefaultGameInputMapping()
+    initNormalJ2MEDefaultGameInputMapping(result)
+
+when declared(newNormalJ2MEDefaultGameInputMappingHook0):
+    newNormalJ2MEDefaultGameInputMappingHook0 = proc (): PersistentInputMapping = newNormalJ2MEDefaultGameInputMapping()
 

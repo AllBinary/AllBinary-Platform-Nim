@@ -1,15 +1,24 @@
 # Generated Code Do Not Modify
 # package org.allbinary.graphics.form
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/graphics/form/CustomDisplayable as CustomDisplayableModule
+export CustomDisplayableModule
 
-from org.allbinary.graphics.form.CustomDisplayable import CustomDisplayable
+type
+    CustomScreen* = ref object of CustomDisplayable
+
+proc newCustomScreen*(): CustomScreen
 
 
-class CustomScreen(CustomDisplayable):
+proc initCustomScreen*(this: CustomScreen) =
+    initCustomDisplayable(this)
 
-    def __init__(self) -> None:
-        super().__init__()
-    pass
+proc newCustomScreen*(): CustomScreen =
+    result = CustomScreen()
+    initCustomScreen(result)
 
+when declared(newCustomScreenHook0):
+    newCustomScreenHook0 = proc (): CustomDisplayable = newCustomScreen()
 

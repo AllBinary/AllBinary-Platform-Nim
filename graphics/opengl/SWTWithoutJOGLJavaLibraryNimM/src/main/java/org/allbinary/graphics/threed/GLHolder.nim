@@ -1,41 +1,53 @@
-# 
-# AllBinary Open License Version 1 
-# Copyright (c) 2022 AllBinary 
-#  
-# By agreeing to this license you and any business entity you represent are 
-# legally bound to the AllBinary Open License Version 1 legal agreement. 
-#  
-# You may obtain the AllBinary Open License Version 1 legal agreement from 
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
-#  
-# Created By: Travis Berthelot 
-#   
+#[
+  
+  AllBinary Open License Version 1 
+  Copyright (c) 2022 AllBinary 
+   
+  By agreeing to this license you and any business entity you represent are 
+  legally bound to the AllBinary Open License Version 1 legal agreement. 
+   
+  You may obtain the AllBinary Open License Version 1 legal agreement from 
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
+   
+  Created By: Travis Berthelot 
+    
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.graphics.threed
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+
+type
+    GLHolder* = ref object of JObject
+        isCreated*: bool
+
+proc newGLHolder*(): GLHolder
+proc initGLHolder*(this: GLHolder)
+method runOnSurfaceCreated*(this: GLHolder, renderer: JObject) {.base.}
+method runOnSurfaceChanged*(this: GLHolder, renderer: JObject, width: int32, height: int32) {.base.}
+method run*(this: GLHolder, renderer: JObject) {.base.}
 
 
+# Java field initializers run after the base initializer
+proc initFieldsGLHolder(this: GLHolder) =
+    this.isCreated = true
+    discard
 
-class GLHolder:
+proc initGLHolder*(this: GLHolder) =
+        this.initFieldsGLHolder()
+        discard
 
-    def _init_fields(self) -> None:
-        self.isCreated: bool = True
-    
+proc newGLHolder*(): GLHolder =
+    result = GLHolder()
+    initGLHolder(result)
 
-    def __init__(self) -> None:
-        self._init_fields()
-    
+method runOnSurfaceCreated*(this: GLHolder, renderer: JObject) {.base.} =
+        discard
 
-    def runOnSurfaceCreated(self, renderer: object) -> None:
-        pass
-    
+method runOnSurfaceChanged*(this: GLHolder, renderer: JObject, width: int32, height: int32) {.base.} =
+        discard
 
-    def runOnSurfaceChanged(self, renderer: object, width: int, height: int) -> None:
-        pass
-    
-
-    def run(self, renderer: object) -> None:
-        pass
-
+method run*(this: GLHolder, renderer: JObject) {.base.} =
+        discard
 

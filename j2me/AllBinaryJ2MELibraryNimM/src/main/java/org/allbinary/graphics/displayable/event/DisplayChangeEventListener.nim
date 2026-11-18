@@ -1,29 +1,31 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.graphics.displayable.event
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/logic/util/event/EventListenerInterface as EventListenerInterfaceModule
+export EventListenerInterfaceModule
+import org/allbinary/graphics/displayable/event/DisplayChangeEvent as DisplayChangeEventModule
+export DisplayChangeEventModule
 
-from org.allbinary.logic.util.event.EventListenerInterface import EventListenerInterface
+type
+    DisplayChangeEventListener* = ref object of EventListenerInterface
 
 
-# Java interface
-class DisplayChangeEventListener(EventListenerInterface):
-    
-
-    # throws Exception
-    def onDisplayChangeEvent(self, displayChangeEvent: DisplayChangeEvent) -> None:
-        raise NotImplementedError()
-
+method onDisplayChangeEvent*(this: DisplayChangeEventListener, displayChangeEvent: DisplayChangeEvent) {.base.} =
+        raise newJException("AbstractMethodError", "onDisplayChangeEvent")
 

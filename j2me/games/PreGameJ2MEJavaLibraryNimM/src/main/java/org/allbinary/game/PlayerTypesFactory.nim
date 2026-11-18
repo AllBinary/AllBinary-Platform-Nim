@@ -1,43 +1,56 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/game/PlayerType as PlayerTypeModule
+export PlayerTypeModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    PlayerTypesFactory* = ref object of JObject
+        PLAYER_TYPE_ONE*: PlayerType
+        PLAYER_TYPE_TWO*: PlayerType
+        PLAYER_TYPE_THREE*: PlayerType
 
+proc newPlayerTypesFactory*(): PlayerTypesFactory
+proc getInstance*(t: typedesc[PlayerTypesFactory]): PlayerTypesFactory {.discardable.}
 
-class PlayerTypesFactory:
-    SINGLETON: PlayerTypesFactory = None
+var PlayerTypesFactory_SINGLETONValue: PlayerTypesFactory
+var PlayerTypesFactory_SINGLETONSet = false
+proc SINGLETON*(t: typedesc[PlayerTypesFactory]): PlayerTypesFactory =
+    if not PlayerTypesFactory_SINGLETONSet:
+        PlayerTypesFactory_SINGLETONSet = true
+        PlayerTypesFactory_SINGLETONValue = newPlayerTypesFactory()
+    PlayerTypesFactory_SINGLETONValue
 
-    def _init_fields(self) -> None:
-        self.PLAYER_TYPE_ONE: PlayerType = PlayerType("Player Type One", 0)
-        self.PLAYER_TYPE_TWO: PlayerType = PlayerType("Player Type Two", 1)
-        self.PLAYER_TYPE_THREE: PlayerType = PlayerType("Player Type Three", 2)
+# Java field initializers run after the base initializer
+proc initFieldsPlayerTypesFactory(this: PlayerTypesFactory) =
+    this.PLAYER_TYPE_ONE = newPlayerType("Player Type One", 0)
+    this.PLAYER_TYPE_TWO = newPlayerType("Player Type Two", 1)
+    this.PLAYER_TYPE_THREE = newPlayerType("Player Type Three", 2)
+    discard
 
-    def __init__(self) -> None:
-        self._init_fields()
-    
+proc initPlayerTypesFactory*(this: PlayerTypesFactory) =
+    this.initFieldsPlayerTypesFactory()
 
-    @staticmethod
-    def getInstance() -> PlayerTypesFactory:
+proc newPlayerTypesFactory*(): PlayerTypesFactory =
+    result = PlayerTypesFactory()
+    initPlayerTypesFactory(result)
+
+proc getInstance*(t: typedesc[PlayerTypesFactory]): PlayerTypesFactory {.discardable.} =
         return PlayerTypesFactory.SINGLETON
-from org.allbinary.game.PlayerType import PlayerType
-
-
-def _PlayerTypesFactory_SINGLETON() -> object:
-    return PlayerTypesFactory()
-
-lazy_static(PlayerTypesFactory, "SINGLETON", _PlayerTypesFactory_SINGLETON)
 

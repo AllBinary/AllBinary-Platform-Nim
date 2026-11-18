@@ -1,59 +1,67 @@
-# 
-# AllBinary Open License Version 1 
-# Copyright (c) 2025 AllBinary 
-# 
-# By agreeing to this license you and any business entity you represent are 
-# legally bound to the AllBinary Open License Version 1 legal agreement. 
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from 
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
-# 
-# Created By: Travis Berthelot 
-#  
+#[
+  
+  AllBinary Open License Version 1 
+  Copyright (c) 2025 AllBinary 
+  
+  By agreeing to this license you and any business entity you represent are 
+  legally bound to the AllBinary Open License Version 1 legal agreement. 
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from 
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
+  
+  Created By: Travis Berthelot 
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.logic.io
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import java/io/IOException as IOExceptionModule
+export IOExceptionModule
+import java/io/Reader as ReaderModule
+export ReaderModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
-from java.io.Reader import Reader
+type
+    NullReader* = ref object of Reader
 
+proc newNullReader*(): NullReader
+method read*(this: NullReader): int32 {.discardable.}
+method read*(this: NullReader, cbuf: JArray[uint16], off: int32, len: int32): int32 {.discardable.}
+method ready*(this: NullReader): bool {.discardable.}
+method skip*(this: NullReader, n: int64): int64 {.discardable.}
+method close*(this: NullReader)
 
-class NullReader(Reader):
-    NULL_READER: NullReader = None
+var NullReader_NULL_READERValue: NullReader
+var NullReader_NULL_READERSet = false
+proc NULL_READERStatic*(t: typedesc[NullReader]): NullReader =
+    if not NullReader_NULL_READERSet:
+        NullReader_NULL_READERSet = true
+        NullReader_NULL_READERValue = newNullReader()
+    NullReader_NULL_READERValue
 
-    def __init__(self) -> None:
-        super().__init__()
-    
+proc initNullReader*(this: NullReader) =
+    initReader(this)
 
-    # throws IOException
-    def read(self) -> int:
+proc newNullReader*(): NullReader =
+    result = NullReader()
+    initNullReader(result)
+
+method read*(this: NullReader): int32 {.discardable.} =
         return -1
-    
 
-    # throws IOException
-    # Java overloaded method: Python keeps the last definition
-    def read(self, cbuf: list[str], off: int, len_: int) -> int:
+method read*(this: NullReader, cbuf: JArray[uint16], off: int32, len: int32): int32 {.discardable.} =
         return -1
-    
 
-    # throws IOException
-    def ready(self) -> bool:
-        return False
-    
+method ready*(this: NullReader): bool {.discardable.} =
+        return false
 
-    # throws IOException
-    def skip(self, n: int) -> int:
-        return 0
-    
+method skip*(this: NullReader, n: int64): int64 {.discardable.} =
+        return 0'i64
 
-    def close(self) -> None:
-        pass
-# from java.io.IOException import IOException
+method close*(this: NullReader) =
+        discard
 
-
-def _NullReader_NULL_READER() -> object:
-    return NullReader()
-
-lazy_static(NullReader, "NULL_READER", _NullReader_NULL_READER)
+when declared(newNullReaderHook0):
+    newNullReaderHook0 = proc (): Reader = newNullReader()
 

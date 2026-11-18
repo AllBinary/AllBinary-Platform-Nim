@@ -1,49 +1,59 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.collision
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/game/layer/CollidableCompositeLayer as CollidableCompositeLayerModule
+export CollidableCompositeLayerModule
+import org/allbinary/game/collision/CollidableBaseBehavior as CollidableBaseBehaviorModule
+export CollidableBaseBehaviorModule
+import org/allbinary/game/collision/CollidableInterfaceCompositeInterface as CollidableInterfaceCompositeInterfaceModule
+export CollidableInterfaceCompositeInterfaceModule
 
-from org.allbinary.game.collision.CollidableBaseBehavior import CollidableBaseBehavior
+type
+    CollidableNeverCollideBehavior* = ref object of CollidableBaseBehavior
+
+proc newCollidableNeverCollideBehavior*(isCollidable: bool): CollidableNeverCollideBehavior
+proc initCollidableNeverCollideBehavior*(this: CollidableNeverCollideBehavior, isCollidable: bool)
+method isCollision*(this: CollidableNeverCollideBehavior, ownerLayer: CollidableCompositeLayer, allbinaryCollidableLayer: CollidableCompositeLayer): bool {.discardable.}
+method collide*(this: CollidableNeverCollideBehavior, ownerLayer: CollidableCompositeLayer, allbinaryCollidableLayer: CollidableCompositeLayer)
+method collideInterface*(this: CollidableNeverCollideBehavior, ownerLayer: CollidableCompositeLayer, collidableInterfaceCompositeInterface: CollidableInterfaceCompositeInterface)
+method isCollisionInterface*(this: CollidableNeverCollideBehavior, ownerLayer: CollidableCompositeLayer, collidableInterfaceCompositeInterface: CollidableInterfaceCompositeInterface): bool {.discardable.}
 
 
-class CollidableNeverCollideBehavior(CollidableBaseBehavior):
-    
+proc initCollidableNeverCollideBehavior*(this: CollidableNeverCollideBehavior, isCollidable: bool) =
+        initCollidableBaseBehavior(this, isCollidable)
 
-    def __init__(self, isCollidable: bool) -> None:
-        super().__init__(isCollidable)
-    
+proc newCollidableNeverCollideBehavior*(isCollidable: bool): CollidableNeverCollideBehavior =
+    result = CollidableNeverCollideBehavior()
+    initCollidableNeverCollideBehavior(result, isCollidable)
 
-    def isCollision(self, ownerLayer: CollidableCompositeLayer, allbinaryCollidableLayer: CollidableCompositeLayer) -> bool:
-        from org.allbinary.game.layer.CollidableCompositeLayer import CollidableCompositeLayer
-        return False
-    
+method isCollision*(this: CollidableNeverCollideBehavior, ownerLayer: CollidableCompositeLayer, allbinaryCollidableLayer: CollidableCompositeLayer): bool {.discardable.} =
+        return false
 
-    # throws Exception
-    def collide(self, ownerLayer: CollidableCompositeLayer, allbinaryCollidableLayer: CollidableCompositeLayer) -> None:
-        from org.allbinary.game.layer.CollidableCompositeLayer import CollidableCompositeLayer
-        pass
-    
+method collide*(this: CollidableNeverCollideBehavior, ownerLayer: CollidableCompositeLayer, allbinaryCollidableLayer: CollidableCompositeLayer) =
+        discard
 
-    def collideInterface(self, ownerLayer: CollidableCompositeLayer, collidableInterfaceCompositeInterface: CollidableInterfaceCompositeInterface) -> None:
-        from org.allbinary.game.layer.CollidableCompositeLayer import CollidableCompositeLayer
-        pass
-    
+method collideInterface*(this: CollidableNeverCollideBehavior, ownerLayer: CollidableCompositeLayer, collidableInterfaceCompositeInterface: CollidableInterfaceCompositeInterface) =
+        discard
 
-    def isCollisionInterface(self, ownerLayer: CollidableCompositeLayer, collidableInterfaceCompositeInterface: CollidableInterfaceCompositeInterface) -> bool:
-        from org.allbinary.game.layer.CollidableCompositeLayer import CollidableCompositeLayer
-        return False
-# from org.allbinary.game.layer.CollidableCompositeLayer import CollidableCompositeLayer
+method isCollisionInterface*(this: CollidableNeverCollideBehavior, ownerLayer: CollidableCompositeLayer, collidableInterfaceCompositeInterface: CollidableInterfaceCompositeInterface): bool {.discardable.} =
+        return false
 
+when declared(newCollidableNeverCollideBehaviorHook1):
+    newCollidableNeverCollideBehaviorHook1 = proc (isCollidable: bool): CollidableBaseBehavior = newCollidableNeverCollideBehavior(isCollidable)
 

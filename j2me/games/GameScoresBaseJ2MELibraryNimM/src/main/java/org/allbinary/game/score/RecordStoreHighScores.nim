@@ -1,315 +1,314 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.score
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import java/io/ByteArrayInputStream as ByteArrayInputStreamModule
+export ByteArrayInputStreamModule
+import java/io/DataInputStream as DataInputStreamModule
+export DataInputStreamModule
+import java/io/EOFException as EOFExceptionModule
+export EOFExceptionModule
+import java/io/IOException as IOExceptionModule
+export IOExceptionModule
+import javax/microedition/rms/RecordComparator as RecordComparatorModule
+export RecordComparatorModule
+import org/allbinary/TsUtil as TsUtilModule
+export TsUtilModule
+import org/allbinary/game/GameInfo as GameInfoModule
+export GameInfoModule
+import org/allbinary/logic/communication/log/LogUtil as LogUtilModule
+export LogUtilModule
+import org/allbinary/logic/system/security/licensing/AbeClientInformationInterface as AbeClientInformationInterfaceModule
+export AbeClientInformationInterfaceModule
+import org/allbinary/persistance/PlatformRecordIdUtil as PlatformRecordIdUtilModule
+export PlatformRecordIdUtilModule
+import org/allbinary/string/CommonStrings as CommonStringsModule
+export CommonStringsModule
+import org/allbinary/util/ABHashtable as ABHashtableModule
+export ABHashtableModule
+import org/allbinary/game/score/HighScores as HighScoresModule
+export HighScoresModule
+import org/allbinary/game/score/HighScore as HighScoreModule
+export HighScoreModule
 
-import threading
-from java.lang.JavaRuntimeStatic import lazy_static
-from org.allbinary.game.score.HighScores import HighScores
+type
+    RecordStoreHighScores* = ref object of HighScores
+        logUtil*: LogUtil
+        commonStrings*: CommonStrings
+        platformRecordIdUtil*: PlatformRecordIdUtil
+        tsUtil*: TsUtil
+        RECORD_ID*: string
+        MAXHIGHSCORES*: int32
+        gameInfo*: GameInfo
+        abeClientInformation*: AbeClientInformationInterface
+        recordComparatorInterface*: RecordComparator
 
+proc newRecordStoreHighScores*(abeClientInformation: AbeClientInformationInterface, gameInfo: GameInfo, name: string, heading: string, columnTwoHeading: string, recordComparatorInterface: RecordComparator): RecordStoreHighScores
+proc initRecordStoreHighScores*(this: RecordStoreHighScores, abeClientInformation: AbeClientInformationInterface, gameInfo: GameInfo, name: string, heading: string, columnTwoHeading: string, recordComparatorInterface: RecordComparator)
+proc getInstance*(t: typedesc[RecordStoreHighScores], abeClientInformation: AbeClientInformationInterface, gameInfo: GameInfo, highScoreName: string, heading: string, columnTwoHeading: string, recordComparatorInterface: RecordComparator): HighScores {.discardable.}
+method getRecordId*(this: RecordStoreHighScores, abeClientInformation: AbeClientInformationInterface): string {.base, discardable.}
+method addHighScore*(this: RecordStoreHighScores, newHighScore: HighScore)
+method removeLowestHighScore*(this: RecordStoreHighScores) {.base.}
+method load*(this: RecordStoreHighScores) {.base.}
+method isTooManyHighScores*(this: RecordStoreHighScores): bool {.base, discardable.}
+method isBestScore*(this: RecordStoreHighScores, newHighScore: HighScore): bool {.discardable.}
+method toString*(this: RecordStoreHighScores): string {.discardable.}
+import javax/microedition/rms/RecordEnumeration as RecordEnumerationModule
+export RecordEnumerationModule
+import javax/microedition/rms/RecordStore as RecordStoreModule
+export RecordStoreModule
+import javax/microedition/rms/RecordStoreException as RecordStoreExceptionModule
+export RecordStoreExceptionModule
+import javax/microedition/rms/RecordStoreNotFoundException as RecordStoreNotFoundExceptionModule
+export RecordStoreNotFoundExceptionModule
+import org/allbinary/game/configuration/persistance/NullRecordComparator as NullRecordComparatorModule
+export NullRecordComparatorModule
+import org/allbinary/game/configuration/persistance/NullRecordFilter as NullRecordFilterModule
+export NullRecordFilterModule
+import org/allbinary/game/configuration/persistance/NullRecordStore as NullRecordStoreModule
+export NullRecordStoreModule
+import org/allbinary/logic/StdUtil as StdUtilModule
+export StdUtilModule
+import org/allbinary/logic/communication/log/PreLogUtil as PreLogUtilModule
+export PreLogUtilModule
+import org/allbinary/logic/string/StringMaker as StringMakerModule
+export StringMakerModule
+import org/allbinary/string/CommonSeps as CommonSepsModule
+export CommonSepsModule
+import org/allbinary/util/BasicArrayList as BasicArrayListModule
+export BasicArrayListModule
+import org/allbinary/util/BasicArrayListD as BasicArrayListDModule
+export BasicArrayListDModule
+import org/allbinary/game/score/ScoreComparator as ScoreComparatorModule
+export ScoreComparatorModule
 
-class RecordStoreHighScores(HighScores):
-    hashTable: ABHashtable[object, object] = None
-    _lock = threading.RLock()
+var RecordStoreHighScores_hashTableValue: ABHashtable
+var RecordStoreHighScores_hashTableSet = false
+proc hashTable*(t: typedesc[RecordStoreHighScores]): ABHashtable =
+    if not RecordStoreHighScores_hashTableSet:
+        RecordStoreHighScores_hashTableSet = true
+        RecordStoreHighScores_hashTableValue = StdUtil.getInstance().createHashtable()
+    RecordStoreHighScores_hashTableValue
 
-    def _init_fields(self) -> None:
-        from javax.microedition.rms.RecordComparator import RecordComparator
-        from org.allbinary.TsUtil import TsUtil
-        from org.allbinary.game.GameInfo import GameInfo
-        from org.allbinary.logic.communication.log.LogUtil import LogUtil
-        from org.allbinary.logic.system.security.licensing.AbeClientInformationInterface import AbeClientInformationInterface
-        from org.allbinary.persistance.PlatformRecordIdUtil import PlatformRecordIdUtil
-        from org.allbinary.string.CommonStrings import CommonStrings
-        self.logUtil: LogUtil = LogUtil.getInstance()
-        self.commonStrings: CommonStrings = CommonStrings.getInstance()
-        self.platformRecordIdUtil: PlatformRecordIdUtil = PlatformRecordIdUtil.getInstance()
-        self.tsUtil: TsUtil = TsUtil.getInstance()
-        self.RECORD_ID: str = "_HS"
-        self.MAXHIGHSCORES: int = 100
-        self.gameInfo: GameInfo = None
-        self.abeClientInformation: AbeClientInformationInterface = None
-        self.recordComparatorInterface: RecordComparator = None
+# Java field initializers run after the base initializer
+proc initFieldsRecordStoreHighScores(this: RecordStoreHighScores) =
+    this.logUtil = LogUtil.getInstance()
+    this.commonStrings = CommonStrings.getInstance()
+    this.platformRecordIdUtil = PlatformRecordIdUtil.getInstance()
+    this.tsUtil = TsUtil.getInstance()
+    this.RECORD_ID = "_HS"
+    this.MAXHIGHSCORES = 100
     
-
-    def __init__(self, abeClientInformation: AbeClientInformationInterface, gameInfo: GameInfo, name: str, heading: str, columnTwoHeading: str, recordComparatorInterface: RecordComparator) -> None:
-        from javax.microedition.rms.RecordComparator import RecordComparator
-        from org.allbinary.game.GameInfo import GameInfo
-        from org.allbinary.logic.system.security.licensing.AbeClientInformationInterface import AbeClientInformationInterface
-        super().__init__(name, heading, columnTwoHeading)
-        self._init_fields()
-        self.abeClientInformation = abeClientInformation
-        self.gameInfo = gameInfo
-        self.recordComparatorInterface = recordComparatorInterface
-        self.load()
     
+    
+    discard
 
-    @staticmethod
-    def getInstance(abeClientInformation: AbeClientInformationInterface, gameInfo: GameInfo, highScoreName: str, heading: str, columnTwoHeading: str, recordComparatorInterface: RecordComparator) -> HighScores:
-        with RecordStoreHighScores._lock:
-            return RecordStoreHighScores._getInstance_unlocked(abeClientInformation, gameInfo, highScoreName, heading, columnTwoHeading, recordComparatorInterface)
+proc initRecordStoreHighScores*(this: RecordStoreHighScores, abeClientInformation: AbeClientInformationInterface, gameInfo: GameInfo, name: string, heading: string, columnTwoHeading: string, recordComparatorInterface: RecordComparator) =
+        initHighScores(this, name, heading, columnTwoHeading)
+        this.initFieldsRecordStoreHighScores()
+        this.abeClientInformation = abeClientInformation
+        this.gameInfo = gameInfo
+        this.recordComparatorInterface = recordComparatorInterface
+        this.load()
 
-    @staticmethod
-    def _getInstance_unlocked(abeClientInformation: AbeClientInformationInterface, gameInfo: GameInfo, highScoreName: str, heading: str, columnTwoHeading: str, recordComparatorInterface: RecordComparator) -> HighScores:
-        from javax.microedition.rms.RecordComparator import RecordComparator
-        from org.allbinary.game.GameInfo import GameInfo
-        from org.allbinary.logic.system.security.licensing.AbeClientInformationInterface import AbeClientInformationInterface
-        highScoresCanBeNull: object = RecordStoreHighScores.hashTable.get(highScoreName)
-        if highScoresCanBeNull is None:
-            highScores: HighScores = RecordStoreHighScores(abeClientInformation, gameInfo, highScoreName, heading, columnTwoHeading, recordComparatorInterface)
+proc newRecordStoreHighScores*(abeClientInformation: AbeClientInformationInterface, gameInfo: GameInfo, name: string, heading: string, columnTwoHeading: string, recordComparatorInterface: RecordComparator): RecordStoreHighScores =
+    result = RecordStoreHighScores()
+    initRecordStoreHighScores(result, abeClientInformation, gameInfo, name, heading, columnTwoHeading, recordComparatorInterface)
+
+proc getInstance*(t: typedesc[RecordStoreHighScores], abeClientInformation: AbeClientInformationInterface, gameInfo: GameInfo, highScoreName: string, heading: string, columnTwoHeading: string, recordComparatorInterface: RecordComparator): HighScores {.discardable.} =
+        let highScoresCanBeNull: JObject = RecordStoreHighScores.hashTable.get(JObject(JObject(highScoreName)))
+        if (jIsNil(highScoresCanBeNull)):
+            let highScores: HighScores = newRecordStoreHighScores(abeClientInformation, gameInfo, highScoreName, heading, columnTwoHeading, recordComparatorInterface)
             RecordStoreHighScores.hashTable.put(highScores.getName(), highScores)
             return highScores
-        return highScoresCanBeNull
-    
+        return HighScores(JObject(highScoresCanBeNull))
 
-    def getRecordId(self, abeClientInformation: AbeClientInformationInterface) -> str:
-        from org.allbinary.logic.string.StringMaker import StringMaker
-        from org.allbinary.logic.system.security.licensing.AbeClientInformationInterface import AbeClientInformationInterface
-        from org.allbinary.string.CommonSeps import CommonSeps
-        return self.platformRecordIdUtil.getRecordId(abeClientInformation, str(StringMaker().append(CommonSeps.getInstance().UNDERSCORE).append(self.getName()).append(self.RECORD_ID)))
-    
+method getRecordId*(this: RecordStoreHighScores, abeClientInformation: AbeClientInformationInterface): string {.base, discardable.} =
+        return this.platformRecordIdUtil.getRecordId(abeClientInformation, newStringMaker().append(CommonSeps.getInstance().UNDERSCORE).append(this.getName()).append(this.RECORD_ID).toString())
 
-    def addHighScore(self, newHighScore: HighScore) -> None:
-        with self._lock:
-            return self._addHighScore_unlocked(newHighScore)
-
-    def _addHighScore_unlocked(self, newHighScore: HighScore) -> None:
-        from javax.microedition.rms.RecordStore import RecordStore
-        from javax.microedition.rms.RecordStoreException import RecordStoreException
-        from org.allbinary.game.configuration.persistance.NullRecordStore import NullRecordStore
-        from org.allbinary.logic.communication.log.PreLogUtil import PreLogUtil
-        from org.allbinary.logic.string.StringMaker import StringMaker
-        recordStore: RecordStore = NullRecordStore.NULL_RECORD_STORE
+method addHighScore*(this: RecordStoreHighScores, newHighScore: HighScore) =
+        var recordStore: RecordStore = NullRecordStore.NULL_RECORD_STOREStatic
         try:
-            self.logUtil.putF(str(StringMaker().append("Adding HighScore: ").appendlong(int(newHighScore.getScore()))), self, self.commonStrings.ADD)
-            if self.isTooManyHighScores():
-                self.logUtil.putF("Removing Lowest Score", self, self.commonStrings.ADD)
-                self.removeLowestHighScore()
-            recordStore = RecordStore.openRecordStore(self.getRecordId(self.abeClientInformation), True)
-            highScoreBytes: list[int] = newHighScore.getAsBytes()
-            recordId: int = recordStore.addRecord(highScoreBytes, 0, len(highScoreBytes))
-            self.load()
-        except RecordStoreException as e:
-            self.logUtil.put(self.commonStrings.EXCEPTION, self, self.commonStrings.ADD, e)
-        except OSError as e:
-            self.logUtil.put(self.commonStrings.EXCEPTION, self, self.commonStrings.ADD, e)
-        except Exception as e:
-            self.logUtil.put(self.commonStrings.EXCEPTION, self, self.commonStrings.ADD, e)
+            this.logUtil.putF(newStringMaker().append("Adding HighScore: ").appendlong(newHighScore.getScore()).toString(), this, this.commonStrings.ADD)
+            if this.isTooManyHighScores():
+                this.logUtil.putF("Removing Lowest Score", this, this.commonStrings.ADD)
+                this.removeLowestHighScore()
+            recordStore = RecordStore.openRecordStore(this.getRecordId(this.abeClientInformation), true)
+            let highScoreBytes: JArray[int8] = newHighScore.getAsBytes()
+            let recordId: int32 = recordStore.addRecord(highScoreBytes, 0, highScoreBytes.length)
+            this.load()
+        except CatchableError as jcaught:
+            let e = jToException(jcaught)
+            this.logUtil.put(this.commonStrings.EXCEPTION, this, this.commonStrings.ADD, e)
+        except CatchableError as jcaught:
+            let e = jToException(jcaught)
+            this.logUtil.put(this.commonStrings.EXCEPTION, this, this.commonStrings.ADD, e)
+        except CatchableError as jcaught:
+            let e = jToException(jcaught)
+            this.logUtil.put(this.commonStrings.EXCEPTION, this, this.commonStrings.ADD, e)
         finally:
             try:
-                if recordStore is not None:
-                    PreLogUtil.put("Closing RecordStore", self, self.commonStrings.ADD)
+                if (not jIsNil(recordStore)):
+                    PreLogUtil.put("Closing RecordStore", this, this.commonStrings.ADD)
                     recordStore.closeRecordStore()
-            except RecordStoreException as e:
-                self.logUtil.put(self.commonStrings.EXCEPTION, self, self.commonStrings.ADD, e)
-    
+            except CatchableError as jcaught:
+                let e = jToException(jcaught)
+                this.logUtil.put(this.commonStrings.EXCEPTION, this, this.commonStrings.ADD, e)
 
-    def removeLowestHighScore(self) -> None:
-        from org.allbinary.game.score.HighScore import HighScore
-        from org.allbinary.game.score.HighScore import HighScore
-        from java.io.DataInputStream import DataInputStream
-        from javax.microedition.rms.RecordComparator import RecordComparator
-        from javax.microedition.rms.RecordEnumeration import RecordEnumeration
-        from javax.microedition.rms.RecordStore import RecordStore
-        from javax.microedition.rms.RecordStoreException import RecordStoreException
-        from org.allbinary.game.GameInfo import GameInfo
-        from org.allbinary.game.configuration.persistance.NullRecordComparator import NullRecordComparator
-        from org.allbinary.game.configuration.persistance.NullRecordFilter import NullRecordFilter
-        from org.allbinary.game.configuration.persistance.NullRecordStore import NullRecordStore
-        from org.allbinary.logic.communication.log.PreLogUtil import PreLogUtil
-        from org.allbinary.logic.string.StringMaker import StringMaker
-        recordStore: RecordStore = NullRecordStore.NULL_RECORD_STORE
+method removeLowestHighScore*(this: RecordStoreHighScores) {.base.} =
+        var recordStore: RecordStore = NullRecordStore.NULL_RECORD_STOREStatic
         try:
-            recordStore = RecordStore.openRecordStore(self.getRecordId(self.abeClientInformation), True)
-            recordEnum: RecordEnumeration = recordStore.enumerateRecords(NullRecordFilter.NULL_RECORD_FILTER, NullRecordComparator.NULL_RECORD_COMPARATOR, True)
-            scoreComparator: ScoreComparator = (self.recordComparatorInterface)
-            bestHighScore: HighScore = HighScore(-1, "none", GameInfo.NONE, scoreComparator.getBestScore())
-            recordAsBytes: list[int] = None
-            byteArrayInputStream: ByteArrayInputStream = None
-            inputStream: DataInputStream = None
+            recordStore = RecordStore.openRecordStore(this.getRecordId(this.abeClientInformation), true)
+            let recordEnum: RecordEnumeration = recordStore.enumerateRecords(NullRecordFilter.NULL_RECORD_FILTERStatic, NullRecordComparator.NULL_RECORD_COMPARATORStatic, true)
+            let scoreComparator: ScoreComparator = (ScoreComparator(JObject(this.recordComparatorInterface)))
+            var bestHighScore: HighScore = newHighScore(-1, "none", GameInfo.NONE, scoreComparator.getBestScore())
+            var recordAsBytes: JArray[int8] = nil
+            var byteArrayInputStream: ByteArrayInputStream = nil
+            var inputStream: DataInputStream = nil
             while recordEnum.hasNextElement():
-                id: int = recordEnum.nextRecordId()
-                recordAsBytes = self.tsUtil.getRecord(recordStore, id)
-                if recordAsBytes is not None:
-                    byteArrayInputStream = ByteArrayInputStream(recordAsBytes)
-                    inputStream = DataInputStream(byteArrayInputStream)
-                    name: str = inputStream.readUTF()
-                    nextScore: int = inputStream.readLong()
-                    nextCurrentHighScore: HighScore = HighScore(id, name, GameInfo.NONE, nextScore)
-                    if self.recordComparatorInterface.compare(nextCurrentHighScore.getAsBytes(), bestHighScore.getAsBytes()) == RecordComparator.FOLLOWS:
+                let id: int32 = recordEnum.nextRecordId()
+                recordAsBytes = this.tsUtil.getRecord(recordStore, id)
+                if (not jIsNil(recordAsBytes)):
+                    byteArrayInputStream = newByteArrayInputStream(recordAsBytes)
+                    inputStream = newDataInputStream(byteArrayInputStream)
+                    let name: string = inputStream.readUTF()
+                    let nextScore: int64 = inputStream.readLong()
+                    let nextCurrentHighScore: HighScore = newHighScore(id, name, GameInfo.NONE, nextScore)
+                    if this.recordComparatorInterface.compare(nextCurrentHighScore.getAsBytes(), bestHighScore.getAsBytes()) == RecordComparator.FOLLOWS:
                         bestHighScore = nextCurrentHighScore
             if bestHighScore.getId() != -1:
-                self.logUtil.putF(str(StringMaker().append("Removing Lowest HighScore: ").appendlong(int(bestHighScore.getScore()))), self, self.commonStrings.LOAD)
+                this.logUtil.putF(newStringMaker().append("Removing Lowest HighScore: ").appendlong(bestHighScore.getScore()).toString(), this, this.commonStrings.LOAD)
                 recordStore.deleteRecord(bestHighScore.getId())
-        except RecordStoreException as e:
-            self.logUtil.put(self.commonStrings.EXCEPTION, self, "removeLowestHighScore", e)
-        except Exception as e:
-            self.logUtil.put(self.commonStrings.EXCEPTION, self, "removeLowestHighScore", e)
+        except CatchableError as jcaught:
+            let e = jToException(jcaught)
+            this.logUtil.put(this.commonStrings.EXCEPTION, this, "removeLowestHighScore", e)
+        except CatchableError as jcaught:
+            let e = jToException(jcaught)
+            this.logUtil.put(this.commonStrings.EXCEPTION, this, "removeLowestHighScore", e)
         finally:
             try:
-                if recordStore is not None:
-                    PreLogUtil.put("Closing RecordStore", self, "removeLowestHighScore")
+                if (not jIsNil(recordStore)):
+                    PreLogUtil.put("Closing RecordStore", this, "removeLowestHighScore")
                     recordStore.closeRecordStore()
-            except RecordStoreException as e:
-                self.logUtil.put(self.commonStrings.EXCEPTION, self, "removeLowestHighScore", e)
-    
+            except CatchableError as jcaught:
+                let e = jToException(jcaught)
+                this.logUtil.put(this.commonStrings.EXCEPTION, this, "removeLowestHighScore", e)
 
-    def load(self) -> None:
-        from org.allbinary.game.score.HighScore import HighScore
-        from java.io.DataInputStream import DataInputStream
-        from javax.microedition.rms.RecordComparator import RecordComparator
-        from javax.microedition.rms.RecordEnumeration import RecordEnumeration
-        from javax.microedition.rms.RecordStore import RecordStore
-        from javax.microedition.rms.RecordStoreException import RecordStoreException
-        from javax.microedition.rms.RecordStoreNotFoundException import RecordStoreNotFoundException
-        from org.allbinary.game.GameInfo import GameInfo
-        from org.allbinary.game.configuration.persistance.NullRecordComparator import NullRecordComparator
-        from org.allbinary.game.configuration.persistance.NullRecordFilter import NullRecordFilter
-        from org.allbinary.game.configuration.persistance.NullRecordStore import NullRecordStore
-        from org.allbinary.logic.communication.log.PreLogUtil import PreLogUtil
-        from org.allbinary.util.BasicArrayList import BasicArrayList
-        from org.allbinary.util.BasicArrayListD import BasicArrayListD
-        recordStore: RecordStore = NullRecordStore.NULL_RECORD_STORE
+method load*(this: RecordStoreHighScores) {.base.} =
+        var recordStore: RecordStore = NullRecordStore.NULL_RECORD_STOREStatic
         try:
-            recordStore = RecordStore.openRecordStore(self.getRecordId(self.abeClientInformation), True)
-            self.setList(BasicArrayListD())
-            recordEnum: RecordEnumeration = recordStore.enumerateRecords(NullRecordFilter.NULL_RECORD_FILTER, NullRecordComparator.NULL_RECORD_COMPARATOR, True)
-            recordAsBytes: list[int] = None
-            byteArrayInputStream: ByteArrayInputStream = None
-            inputStream: DataInputStream = None
+            recordStore = RecordStore.openRecordStore(this.getRecordId(this.abeClientInformation), true)
+            this.setList(newBasicArrayListD())
+            let recordEnum: RecordEnumeration = recordStore.enumerateRecords(NullRecordFilter.NULL_RECORD_FILTERStatic, NullRecordComparator.NULL_RECORD_COMPARATORStatic, true)
+            var recordAsBytes: JArray[int8] = nil
+            var byteArrayInputStream: ByteArrayInputStream = nil
+            var inputStream: DataInputStream = nil
             while recordEnum.hasNextElement():
-                id: int = recordEnum.nextRecordId()
-                recordAsBytes = self.tsUtil.getRecord(recordStore, id)
-                if recordAsBytes is not None:
-                    byteArrayInputStream = ByteArrayInputStream(recordAsBytes)
-                    inputStream = DataInputStream(byteArrayInputStream)
+                let id: int32 = recordEnum.nextRecordId()
+                recordAsBytes = this.tsUtil.getRecord(recordStore, id)
+                if (not jIsNil(recordAsBytes)):
+                    byteArrayInputStream = newByteArrayInputStream(recordAsBytes)
+                    inputStream = newDataInputStream(byteArrayInputStream)
                     try:
-                        name: str = inputStream.readUTF()
-                        score: int = inputStream.readLong()
-                        newHighScore: HighScore = HighScore(id, name, GameInfo.NONE, score)
-                        list_: BasicArrayList = self.getList()
-                        size: int = list_.size()
-                        lastIndex: int = size
-                        for index in range(0, size):
-                            highScore: HighScore = list_.objectArray[index]
-                            if self.recordComparatorInterface.compare(newHighScore.getAsBytes(), highScore.getAsBytes()) == RecordComparator.PRECEDES:
-                                lastIndex = index
-                                break
-                        list_.addAt(lastIndex, newHighScore)
-                    except EOFException as e:
-                        self.logUtil.put("EOF", self, self.commonStrings.LOAD, e)
+                        let name: string = inputStream.readUTF()
+                        let score: int64 = inputStream.readLong()
+                        let newHighScore: HighScore = newHighScore(id, name, GameInfo.NONE, score)
+                        let list: BasicArrayList = this.getList()
+                        var size: int32 = list.size()
+                        var lastIndex: int32 = size
+                        block:
+                            var index: int32 = 0
+                            while index < size:
+                                defer: index = index +% 1
+                                let highScore: HighScore = HighScore(JObject(list.objectArray[index]))
+                                if this.recordComparatorInterface.compare(newHighScore.getAsBytes(), highScore.getAsBytes()) == RecordComparator.PRECEDES:
+                                    lastIndex = index
+                                    break
+                        list.addAt(lastIndex, newHighScore)
+                    except CatchableError as jcaught:
+                        let e = jToException(jcaught)
+                        this.logUtil.put("EOF", this, this.commonStrings.LOAD, e)
                         raise e
-        except RecordStoreNotFoundException as e:
-            self.logUtil.put("No High Scores", self, self.commonStrings.LOAD, e)
-        except RecordStoreException as e:
-            self.logUtil.put(self.commonStrings.UNKNOWN, self, self.commonStrings.LOAD, e)
-        except OSError as e:
-            self.logUtil.put(self.commonStrings.UNKNOWN, self, self.commonStrings.LOAD, e)
-        except Exception as e:
-            self.logUtil.put(self.commonStrings.UNKNOWN, self, self.commonStrings.LOAD, e)
+        except CatchableError as jcaught:
+            let e = jToException(jcaught)
+            this.logUtil.put("No High Scores", this, this.commonStrings.LOAD, e)
+        except CatchableError as jcaught:
+            let e = jToException(jcaught)
+            this.logUtil.put(this.commonStrings.UNKNOWN, this, this.commonStrings.LOAD, e)
+        except CatchableError as jcaught:
+            let e = jToException(jcaught)
+            this.logUtil.put(this.commonStrings.UNKNOWN, this, this.commonStrings.LOAD, e)
+        except CatchableError as jcaught:
+            let e = jToException(jcaught)
+            this.logUtil.put(this.commonStrings.UNKNOWN, this, this.commonStrings.LOAD, e)
         finally:
             try:
-                if recordStore is not None:
-                    PreLogUtil.put("Closing RecordStore", self, self.commonStrings.LOAD)
+                if (not jIsNil(recordStore)):
+                    PreLogUtil.put("Closing RecordStore", this, this.commonStrings.LOAD)
                     recordStore.closeRecordStore()
-            except RecordStoreException as e:
-                self.logUtil.put(self.commonStrings.EXCEPTION, self, self.commonStrings.LOAD, e)
-    
+            except CatchableError as jcaught:
+                let e = jToException(jcaught)
+                this.logUtil.put(this.commonStrings.EXCEPTION, this, this.commonStrings.LOAD, e)
 
-    def isTooManyHighScores(self) -> bool:
-        from org.allbinary.logic.string.StringMaker import StringMaker
-        if self.getList() is not None and self.getList().size() < self.MAXHIGHSCORES:
-            return False
+method isTooManyHighScores*(this: RecordStoreHighScores): bool {.base, discardable.} =
+        if (not jIsNil(this.getList())) and this.getList().size() < this.MAXHIGHSCORES:
+            return false
         else:
-            self.logUtil.putF(str(StringMaker().append("HighScores RecordStore Max Reached: ").appendint(self.MAXHIGHSCORES)), self, "isTooManyHighScores")
-            return True
-    
+            this.logUtil.putF(newStringMaker().append("HighScores RecordStore Max Reached: ").appendint(this.MAXHIGHSCORES).toString(), this, "isTooManyHighScores")
+            return true
 
-    # throws Exception
-    def isBestScore(self, newHighScore: HighScore) -> bool:
-        with self._lock:
-            return self._isBestScore_unlocked(newHighScore)
-
-    def _isBestScore_unlocked(self, newHighScore: HighScore) -> bool:
-        from javax.microedition.rms.RecordComparator import RecordComparator
-        from org.allbinary.util.BasicArrayList import BasicArrayList
+method isBestScore*(this: RecordStoreHighScores, newHighScore: HighScore): bool {.discardable.} =
         try:
-            if not self.isTooManyHighScores():
-                self.logUtil.putF("Slot Available for a High Score", self, "isBestScore")
-                return True
+            if (not this.isTooManyHighScores()):
+                this.logUtil.putF("Slot Available for a High Score", this, "isBestScore")
+                return true
             else:
-                list_: BasicArrayList = self.getList()
-                size: int = list_.size()
-                for index in range(0, size):
-                    highScore: HighScore = list_.objectArray[index]
-                    if self.recordComparatorInterface.compare(newHighScore.getAsBytes(), highScore.getAsBytes()) == RecordComparator.FOLLOWS:
-                        self.logUtil.putF("Obtained a High Score", self, "isBestScore")
-                        return True
-            self.logUtil.putF("Not a High Score", self, "isBestScore")
-            return False
-        except Exception as e:
-            self.logUtil.put(self.commonStrings.EXCEPTION, self, self.commonStrings.ADD, e)
+                let list: BasicArrayList = this.getList()
+                let size: int32 = list.size()
+                block:
+                    var index: int32 = 0
+                    while index < size:
+                        defer: index = index +% 1
+                        let highScore: HighScore = HighScore(JObject(list.objectArray[index]))
+                        if this.recordComparatorInterface.compare(newHighScore.getAsBytes(), highScore.getAsBytes()) == RecordComparator.FOLLOWS:
+                            this.logUtil.putF("Obtained a High Score", this, "isBestScore")
+                            return true
+            this.logUtil.putF("Not a High Score", this, "isBestScore")
+            return false
+        except CatchableError as jcaught:
+            let e = jToException(jcaught)
+            this.logUtil.put(this.commonStrings.EXCEPTION, this, this.commonStrings.ADD, e)
             raise e
-    
 
-    def toString(self) -> str:
-        from org.allbinary.logic.string.StringMaker import StringMaker
-        from org.allbinary.string.CommonSeps import CommonSeps
-        from org.allbinary.util.BasicArrayList import BasicArrayList
-        stringBuffer: StringMaker = StringMaker()
-        stringBuffer.append(str(super()))
-        list_: BasicArrayList = self.getList()
-        size: int = list_.size()
-        for index in range(0, size):
-            highScore: HighScore = list_.objectArray[index]
-            stringBuffer.append(highScore.getScoreString())
-            stringBuffer.append(CommonSeps.getInstance().COMMA_SEP)
-        return str(stringBuffer)
+method toString*(this: RecordStoreHighScores): string {.discardable.} =
+        let stringBuffer: StringMaker = newStringMaker()
+        stringBuffer.append(procCall HighScores(this).toString())
+        let list: BasicArrayList = this.getList()
+        let size: int32 = list.size()
+        block:
+            var index: int32 = 0
+            while index < size:
+                defer: index = index +% 1
+                let highScore: HighScore = HighScore(JObject(list.objectArray[index]))
+                stringBuffer.append(highScore.getScoreString())
+                stringBuffer.append(CommonSeps.getInstance().COMMA_SEP)
+        return stringBuffer.toString()
 
-    def __str__(self) -> str:
-        return self.toString()
-# from java.io.ByteArrayInputStream import ByteArrayInputStream
-# from java.io.DataInputStream import DataInputStream
-# from java.io.EOFException import EOFException
-# from java.io.IOException import IOException
-# from javax.microedition.rms.RecordComparator import RecordComparator
-# from javax.microedition.rms.RecordEnumeration import RecordEnumeration
-# from javax.microedition.rms.RecordStore import RecordStore
-# from javax.microedition.rms.RecordStoreException import RecordStoreException
-# from javax.microedition.rms.RecordStoreNotFoundException import RecordStoreNotFoundException
-# from org.allbinary.TsUtil import TsUtil
-# from org.allbinary.game.GameInfo import GameInfo
-# from org.allbinary.game.configuration.persistance.NullRecordComparator import NullRecordComparator
-# from org.allbinary.game.configuration.persistance.NullRecordFilter import NullRecordFilter
-# from org.allbinary.game.configuration.persistance.NullRecordStore import NullRecordStore
-# from org.allbinary.logic.StdUtil import StdUtil
-# from org.allbinary.logic.communication.log.LogUtil import LogUtil
-# from org.allbinary.logic.communication.log.PreLogUtil import PreLogUtil
-# from org.allbinary.logic.string.StringMaker import StringMaker
-# from org.allbinary.logic.system.security.licensing.AbeClientInformationInterface import AbeClientInformationInterface
-# from org.allbinary.persistance.PlatformRecordIdUtil import PlatformRecordIdUtil
-# from org.allbinary.string.CommonSeps import CommonSeps
-# from org.allbinary.string.CommonStrings import CommonStrings
-# from org.allbinary.util.ABHashtable import ABHashtable
-# from org.allbinary.util.BasicArrayList import BasicArrayList
-# from org.allbinary.util.BasicArrayListD import BasicArrayListD
-
-
-def _RecordStoreHighScores_hashTable() -> object:
-    from org.allbinary.logic.StdUtil import StdUtil
-    from org.allbinary.util.ABHashtable import ABHashtable
-    return StdUtil.getInstance().createHashtable()
-
-lazy_static(RecordStoreHighScores, "hashTable", _RecordStoreHighScores_hashTable)
+when declared(newRecordStoreHighScoresHook6):
+    newRecordStoreHighScoresHook6 = proc (abeClientInformation: AbeClientInformationInterface, gameInfo: GameInfo, name: string, heading: string, columnTwoHeading: string, recordComparatorInterface: RecordComparator): HighScores = newRecordStoreHighScores(abeClientInformation, gameInfo, name, heading, columnTwoHeading, recordComparatorInterface)
 

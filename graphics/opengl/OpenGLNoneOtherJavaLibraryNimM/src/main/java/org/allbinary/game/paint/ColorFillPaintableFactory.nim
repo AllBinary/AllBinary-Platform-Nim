@@ -1,51 +1,64 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.paint
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/graphics/color/BasicColor as BasicColorModule
+export BasicColorModule
+import org/allbinary/game/paint/ColorFillBasePaintable as ColorFillBasePaintableModule
+export ColorFillBasePaintableModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    ColorFillPaintableFactory* = ref object of JObject
 
+proc newColorFillPaintableFactory*(): ColorFillPaintableFactory
+proc getInstance*(t: typedesc[ColorFillPaintableFactory]): ColorFillPaintableFactory {.discardable.}
+method getInstance*(this: ColorFillPaintableFactory, basicColor: BasicColor, forThreedCanvas: bool): ColorFillBasePaintable {.base, discardable.}
+import org/allbinary/logic/system/os/GenericOperatingSystem as GenericOperatingSystemModule
+export GenericOperatingSystemModule
+import org/allbinary/logic/system/os/OperatingSystemFactory as OperatingSystemFactoryModule
+export OperatingSystemFactoryModule
+import org/allbinary/game/paint/ColorFillPaintable as ColorFillPaintableModule
+export ColorFillPaintableModule
+import org/allbinary/game/paint/OverScanColorFillPaintable as OverScanColorFillPaintableModule
+export OverScanColorFillPaintableModule
 
-class ColorFillPaintableFactory:
-    instance: ColorFillPaintableFactory = None
-    
+var ColorFillPaintableFactory_instanceValue: ColorFillPaintableFactory
+var ColorFillPaintableFactory_instanceSet = false
+proc instance*(t: typedesc[ColorFillPaintableFactory]): ColorFillPaintableFactory =
+    if not ColorFillPaintableFactory_instanceSet:
+        ColorFillPaintableFactory_instanceSet = true
+        ColorFillPaintableFactory_instanceValue = newColorFillPaintableFactory()
+    ColorFillPaintableFactory_instanceValue
 
-    @staticmethod
-    def getInstance() -> ColorFillPaintableFactory:
+proc initColorFillPaintableFactory*(this: ColorFillPaintableFactory) =
+    discard
+
+proc newColorFillPaintableFactory*(): ColorFillPaintableFactory =
+    result = ColorFillPaintableFactory()
+    initColorFillPaintableFactory(result)
+
+proc getInstance*(t: typedesc[ColorFillPaintableFactory]): ColorFillPaintableFactory {.discardable.} =
         return ColorFillPaintableFactory.instance
-    
 
-    # Java overloaded method: Python keeps the last definition
-    def getInstance(self, basicColor: BasicColor, forThreedCanvas: bool) -> ColorFillBasePaintable:
-        from org.allbinary.game.paint.ColorFillPaintable import ColorFillPaintable
-        from org.allbinary.game.paint.OverScanColorFillPaintable import OverScanColorFillPaintable
-        from org.allbinary.graphics.color.BasicColor import BasicColor
-        from org.allbinary.logic.system.os.GenericOperatingSystem import GenericOperatingSystem
-        from org.allbinary.logic.system.os.OperatingSystemFactory import OperatingSystemFactory
-        operatingSystem: GenericOperatingSystem = OperatingSystemFactory.getInstance().getOperatingSystemInstance()
+method getInstance*(this: ColorFillPaintableFactory, basicColor: BasicColor, forThreedCanvas: bool): ColorFillBasePaintable {.base, discardable.} =
+        let operatingSystem: GenericOperatingSystem = OperatingSystemFactory.getInstance().getOperatingSystemInstance()
         if operatingSystem.isOverScan():
-            return OverScanColorFillPaintable(basicColor)
+            return newOverScanColorFillPaintable(basicColor)
         else:
-            return ColorFillPaintable(basicColor)
-# from org.allbinary.graphics.color.BasicColor import BasicColor
-# from org.allbinary.logic.system.os.GenericOperatingSystem import GenericOperatingSystem
-# from org.allbinary.logic.system.os.OperatingSystemFactory import OperatingSystemFactory
-
-
-def _ColorFillPaintableFactory_instance() -> object:
-    return ColorFillPaintableFactory()
-
-lazy_static(ColorFillPaintableFactory, "instance", _ColorFillPaintableFactory_instance)
+            return newColorFillPaintable(basicColor)
 

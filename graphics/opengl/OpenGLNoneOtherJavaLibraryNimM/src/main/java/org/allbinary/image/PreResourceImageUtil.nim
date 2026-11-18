@@ -1,54 +1,62 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.image
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import javax/microedition/khronos/opengles/GL as GLModule
+export GLModule
+import javax/microedition/lcdui/Graphics as GraphicsModule
+export GraphicsModule
+import javax/microedition/lcdui/Image as ImageModule
+export ImageModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    PreResourceImageUtil* = ref object of JObject
 
+proc newPreResourceImageUtil*(): PreResourceImageUtil
+proc getInstance*(t: typedesc[PreResourceImageUtil]): PreResourceImageUtil {.discardable.}
+method encapsulate*(this: PreResourceImageUtil, image: Image): Image {.base, discardable.}
+method updateGL*(this: PreResourceImageUtil, gl: GL, image: Image) {.base.}
+method update*(this: PreResourceImageUtil, graphics: Graphics, image: Image) {.base.}
 
-class PreResourceImageUtil:
-    instance: PreResourceImageUtil = None
-    
+var PreResourceImageUtil_instanceValue: PreResourceImageUtil
+var PreResourceImageUtil_instanceSet = false
+proc instance*(t: typedesc[PreResourceImageUtil]): PreResourceImageUtil =
+    if not PreResourceImageUtil_instanceSet:
+        PreResourceImageUtil_instanceSet = true
+        PreResourceImageUtil_instanceValue = newPreResourceImageUtil()
+    PreResourceImageUtil_instanceValue
 
-    @staticmethod
-    def getInstance() -> PreResourceImageUtil:
+proc initPreResourceImageUtil*(this: PreResourceImageUtil) =
+    discard
+
+proc newPreResourceImageUtil*(): PreResourceImageUtil =
+    result = PreResourceImageUtil()
+    initPreResourceImageUtil(result)
+
+proc getInstance*(t: typedesc[PreResourceImageUtil]): PreResourceImageUtil {.discardable.} =
         return PreResourceImageUtil.instance
-    
 
-    def encapsulate(self, image: Image) -> Image:
-        from javax.microedition.lcdui.Image import Image
+method encapsulate*(this: PreResourceImageUtil, image: Image): Image {.base, discardable.} =
         return image
-    
 
-    def updateGL(self, gl: GL, image: Image) -> None:
-        from javax.microedition.khronos.opengles.GL import GL
-        from javax.microedition.lcdui.Image import Image
-        pass
-    
+method updateGL*(this: PreResourceImageUtil, gl: GL, image: Image) {.base.} =
+        discard
 
-    def update(self, graphics: Graphics, image: Image) -> None:
-        from javax.microedition.lcdui.Graphics import Graphics
-        from javax.microedition.lcdui.Image import Image
-        pass
-# from javax.microedition.khronos.opengles.GL import GL
-# from javax.microedition.lcdui.Graphics import Graphics
-# from javax.microedition.lcdui.Image import Image
-
-
-def _PreResourceImageUtil_instance() -> object:
-    return PreResourceImageUtil()
-
-lazy_static(PreResourceImageUtil, "instance", _PreResourceImageUtil_instance)
+method update*(this: PreResourceImageUtil, graphics: Graphics, image: Image) {.base.} =
+        discard
 

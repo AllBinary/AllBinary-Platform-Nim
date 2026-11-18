@@ -1,56 +1,66 @@
-# 
-# AllBinary Open License Version 1 
-# Copyright (c) 2025 AllBinary 
-#  
-# By agreeing to this license you and any business entity you represent are 
-# legally bound to the AllBinary Open License Version 1 legal agreement. 
-#  
-# You may obtain the AllBinary Open License Version 1 legal agreement from 
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
-#  
-# Created By: Travis Berthelot 
-#   
+#[
+  
+  AllBinary Open License Version 1 
+  Copyright (c) 2025 AllBinary 
+   
+  By agreeing to this license you and any business entity you represent are 
+  legally bound to the AllBinary Open License Version 1 legal agreement. 
+   
+  You may obtain the AllBinary Open License Version 1 legal agreement from 
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
+   
+  Created By: Travis Berthelot 
+    
+]#
 # Generated Code Do Not Modify
 # package org.allbinary
 
-from __future__ import annotations
-
-from java.lang.JavaRuntimeStatic import lazy_static
-
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import java/util/HashMap as HashMapModule
+export HashMapModule
+import java/util/Map as MapModule
+export MapModule
+import java/util/Set as SetModule
+export SetModule
 
 #J2SEForJ2ME
-class J2SEUtil:
-    instance: J2SEUtil = None
-    
+type
+    J2SEUtil* = ref object of JObject
 
-    @staticmethod
-    def getInstance() -> J2SEUtil:
+proc newJ2SEUtil*(): J2SEUtil
+proc getInstance*(t: typedesc[J2SEUtil]): J2SEUtil {.discardable.}
+method getHashMapAsArray*(this: J2SEUtil, hashMap: HashMap): JArray[JObject] {.base, discardable.}
+method getMapAsArray*(this: J2SEUtil, map: Map): JArray[JObject] {.base, discardable.}
+method getSetAsArray*(this: J2SEUtil, set: Set): JArray[JObject] {.base, discardable.}
+
+var J2SEUtil_instanceValue: J2SEUtil
+var J2SEUtil_instanceSet = false
+proc instance*(t: typedesc[J2SEUtil]): J2SEUtil =
+    if not J2SEUtil_instanceSet:
+        J2SEUtil_instanceSet = true
+        J2SEUtil_instanceValue = newJ2SEUtil()
+    J2SEUtil_instanceValue
+
+proc initJ2SEUtil*(this: J2SEUtil) =
+    discard
+
+proc newJ2SEUtil*(): J2SEUtil =
+    result = J2SEUtil()
+    initJ2SEUtil(result)
+
+proc getInstance*(t: typedesc[J2SEUtil]): J2SEUtil {.discardable.} =
         return J2SEUtil.instance
-    
 
-    def getHashMapAsArray(self, hashMap: HashMap[object, object]) -> list[object]:
-        from java.util.HashMap import HashMap
-        objectArray: list[object] = hashMap.keySet().toArray()
+method getHashMapAsArray*(this: J2SEUtil, hashMap: HashMap): JArray[JObject] {.base, discardable.} =
+        let objectArray: JArray[JObject] = hashMap.keySet().toArray()
         return objectArray
-    
 
-    def getMapAsArray(self, map: Map[object, object]) -> list[object]:
-        from java.util.Map import Map
-        objectArray: list[object] = map.keySet().toArray()
+method getMapAsArray*(this: J2SEUtil, map: Map): JArray[JObject] {.base, discardable.} =
+        let objectArray: JArray[JObject] = map.keySet().toArray()
         return objectArray
-    
 
-    def getSetAsArray(self, set: Set[str]) -> list[object]:
-        from java.util.Set import Set
-        objectArray: list[object] = set.toArray()
+method getSetAsArray*(this: J2SEUtil, set: Set): JArray[JObject] {.base, discardable.} =
+        let objectArray: JArray[JObject] = set.toArray()
         return objectArray
-# from java.util.HashMap import HashMap
-# from java.util.Map import Map
-# from java.util.Set import Set
-
-
-def _J2SEUtil_instance() -> object:
-    return J2SEUtil()
-
-lazy_static(J2SEUtil, "instance", _J2SEUtil_instance)
 

@@ -1,70 +1,91 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.layer.pickup
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/animation/Animation as AnimationModule
+export AnimationModule
+import org/allbinary/layer/AllBinaryLayer as AllBinaryLayerModule
+export AllBinaryLayerModule
+import org/allbinary/util/ABHashtable as ABHashtableModule
+export ABHashtableModule
+import org/allbinary/game/layer/pickup/PickedUpLayerInterfaceFactory as PickedUpLayerInterfaceFactoryModule
+export PickedUpLayerInterfaceFactoryModule
+import org/allbinary/game/layer/pickup/CountedPickedUpLayerInterfaceFactoryInterface as CountedPickedUpLayerInterfaceFactoryInterfaceModule
+export CountedPickedUpLayerInterfaceFactoryInterfaceModule
+import org/allbinary/game/layer/pickup/IconLayer as IconLayerModule
+export IconLayerModule
+import org/allbinary/game/layer/pickup/PickedUpLayerType as PickedUpLayerTypeModule
+export PickedUpLayerTypeModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
-from org.allbinary.game.layer.pickup.PickedUpLayerInterfaceFactory import PickedUpLayerInterfaceFactory
-from org.allbinary.game.layer.pickup.CountedPickedUpLayerInterfaceFactoryInterface import CountedPickedUpLayerInterfaceFactoryInterface
+type
+    CountedPickedUpLayerInterfaceFactory* = ref object of PickedUpLayerInterfaceFactory
+        id*: int32
 
+converter jAsCountedPickedUpLayerInterfaceFactoryInterface*(value: CountedPickedUpLayerInterfaceFactory): CountedPickedUpLayerInterfaceFactoryInterface = cast[CountedPickedUpLayerInterfaceFactoryInterface](value)
+proc newCountedPickedUpLayerInterfaceFactory*(pickeUpLayerType: PickedUpLayerType, iconLayer: IconLayer, animationInterface: Animation): CountedPickedUpLayerInterfaceFactory
+proc initCountedPickedUpLayerInterfaceFactory*(this: CountedPickedUpLayerInterfaceFactory, pickeUpLayerType: PickedUpLayerType, iconLayer: IconLayer, animationInterface: Animation)
+method getNextInstance*(this: CountedPickedUpLayerInterfaceFactory, hashtable: ABHashtable, x: int32, y: int32, z: int32): AllBinaryLayer {.discardable.}
+method getTotal*(this: CountedPickedUpLayerInterfaceFactory): int32 {.discardable.}
+method getId*(this: CountedPickedUpLayerInterfaceFactory): int32 {.discardable.}
+import org/allbinary/animation/NullAnimationFactory as NullAnimationFactoryModule
+export NullAnimationFactoryModule
+import org/allbinary/string/CommonStrings as CommonStringsModule
+export CommonStringsModule
+import org/allbinary/util/BasicArrayList as BasicArrayListModule
+export BasicArrayListModule
+import org/allbinary/game/layer/pickup/PickedUpLayerTypeFactory as PickedUpLayerTypeFactoryModule
+export PickedUpLayerTypeFactoryModule
+import org/allbinary/game/layer/pickup/CountedPickedUpLayerInterfaceFactoryPool as CountedPickedUpLayerInterfaceFactoryPoolModule
+export CountedPickedUpLayerInterfaceFactoryPoolModule
 
-class CountedPickedUpLayerInterfaceFactory(PickedUpLayerInterfaceFactory, CountedPickedUpLayerInterfaceFactoryInterface):
-    NULL_COUNTED_PICKUP_LAYER_FACTORY: CountedPickedUpLayerInterfaceFactory = None
+var CountedPickedUpLayerInterfaceFactory_NULL_COUNTED_PICKUP_LAYER_FACTORYValue: CountedPickedUpLayerInterfaceFactory
+var CountedPickedUpLayerInterfaceFactory_NULL_COUNTED_PICKUP_LAYER_FACTORYSet = false
+proc NULL_COUNTED_PICKUP_LAYER_FACTORY*(t: typedesc[CountedPickedUpLayerInterfaceFactory]): CountedPickedUpLayerInterfaceFactory =
+    if not CountedPickedUpLayerInterfaceFactory_NULL_COUNTED_PICKUP_LAYER_FACTORYSet:
+        CountedPickedUpLayerInterfaceFactory_NULL_COUNTED_PICKUP_LAYER_FACTORYSet = true
+        CountedPickedUpLayerInterfaceFactory_NULL_COUNTED_PICKUP_LAYER_FACTORYValue = newCountedPickedUpLayerInterfaceFactory(PickedUpLayerTypeFactory.getInstance().NONE, IconLayer.NULL_ICON_LAYER, NullAnimationFactory.getFactoryInstance().getInstance(0))
+    CountedPickedUpLayerInterfaceFactory_NULL_COUNTED_PICKUP_LAYER_FACTORYValue
 
-    def _init_fields(self) -> None:
-        self.id: int = None
+# Java field initializers run after the base initializer
+proc initFieldsCountedPickedUpLayerInterfaceFactory(this: CountedPickedUpLayerInterfaceFactory) =
     
+    discard
 
-    def __init__(self, pickeUpLayerType: PickedUpLayerType, iconLayer: IconLayer, animationInterface: Animation) -> None:
-        from org.allbinary.game.layer.pickup.CountedPickedUpLayerInterfaceFactoryPool import CountedPickedUpLayerInterfaceFactoryPool
-        from org.allbinary.animation.Animation import Animation
-        from org.allbinary.util.BasicArrayList import BasicArrayList
-        super().__init__(pickeUpLayerType, iconLayer, animationInterface)
-        self._init_fields()
-        list_: BasicArrayList = CountedPickedUpLayerInterfaceFactoryPool.getInstance().getList()
-        self.id = list_.size()
-        list_.add(self)
-    
+proc initCountedPickedUpLayerInterfaceFactory*(this: CountedPickedUpLayerInterfaceFactory, pickeUpLayerType: PickedUpLayerType, iconLayer: IconLayer, animationInterface: Animation) =
+        initPickedUpLayerInterfaceFactory(this, pickeUpLayerType, iconLayer, animationInterface)
+        this.initFieldsCountedPickedUpLayerInterfaceFactory()
+        var list: BasicArrayList = CountedPickedUpLayerInterfaceFactoryPool.getInstance().getList()
+        this.id = list.size()
+        list.add(this)
 
-    # throws Exception
-    def getNextInstance(self, hashtable: ABHashtable[object, object], x: int, y: int, z: int) -> AllBinaryLayer:
-        from org.allbinary.layer.AllBinaryLayer import AllBinaryLayer
-        from org.allbinary.string.CommonStrings import CommonStrings
-        from org.allbinary.util.ABHashtable import ABHashtable
-        raise Exception(CommonStrings.getInstance().NOT_IMPLEMENTED)
-    
+proc newCountedPickedUpLayerInterfaceFactory*(pickeUpLayerType: PickedUpLayerType, iconLayer: IconLayer, animationInterface: Animation): CountedPickedUpLayerInterfaceFactory =
+    result = CountedPickedUpLayerInterfaceFactory()
+    initCountedPickedUpLayerInterfaceFactory(result, pickeUpLayerType, iconLayer, animationInterface)
 
-    def getTotal(self) -> int:
+method getNextInstance*(this: CountedPickedUpLayerInterfaceFactory, hashtable: ABHashtable, x: int32, y: int32, z: int32): AllBinaryLayer {.discardable.} =
+        raise newJException("Exception", CommonStrings.getInstance().NOT_IMPLEMENTED)
+
+method getTotal*(this: CountedPickedUpLayerInterfaceFactory): int32 {.discardable.} =
         return -1
-    
 
-    def getId(self) -> int:
-        return self.id
-# from org.allbinary.animation.Animation import Animation
-# from org.allbinary.animation.NullAnimationFactory import NullAnimationFactory
-# from org.allbinary.layer.AllBinaryLayer import AllBinaryLayer
-# from org.allbinary.string.CommonStrings import CommonStrings
-# from org.allbinary.util.ABHashtable import ABHashtable
-# from org.allbinary.util.BasicArrayList import BasicArrayList
+method getId*(this: CountedPickedUpLayerInterfaceFactory): int32 {.discardable.} =
+        return this.id
 
-
-def _CountedPickedUpLayerInterfaceFactory_NULL_COUNTED_PICKUP_LAYER_FACTORY() -> object:
-    from org.allbinary.game.layer.pickup.PickedUpLayerTypeFactory import PickedUpLayerTypeFactory
-    from org.allbinary.game.layer.pickup.IconLayer import IconLayer
-    from org.allbinary.animation.NullAnimationFactory import NullAnimationFactory
-    return CountedPickedUpLayerInterfaceFactory(PickedUpLayerTypeFactory.getInstance().NONE, IconLayer.NULL_ICON_LAYER, NullAnimationFactory.getFactoryInstance().getInstance(0))
-
-lazy_static(CountedPickedUpLayerInterfaceFactory, "NULL_COUNTED_PICKUP_LAYER_FACTORY", _CountedPickedUpLayerInterfaceFactory_NULL_COUNTED_PICKUP_LAYER_FACTORY)
+when declared(newCountedPickedUpLayerInterfaceFactoryHook3):
+    newCountedPickedUpLayerInterfaceFactoryHook3 = proc (pickeUpLayerType: PickedUpLayerType, iconLayer: IconLayer, animationInterface: Animation): PickedUpLayerInterfaceFactory = newCountedPickedUpLayerInterfaceFactory(pickeUpLayerType, iconLayer, animationInterface)
 

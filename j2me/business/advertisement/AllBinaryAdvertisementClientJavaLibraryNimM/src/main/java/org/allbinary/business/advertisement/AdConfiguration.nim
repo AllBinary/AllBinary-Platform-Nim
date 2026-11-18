@@ -1,62 +1,75 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.business.advertisement
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/direction/Direction as DirectionModule
+export DirectionModule
+import org/allbinary/game/state/GameState as GameStateModule
+export GameStateModule
+
+type
+    AdConfiguration* = ref object of JObject
+        INNERACTIVE*: string
+        LEADBOLT*: string
+        ADMOB*: string
+
+proc newAdConfiguration*(advertIdArray: JArray[JObject]): AdConfiguration
+proc initAdConfiguration*(this: AdConfiguration, advertIdArray: JArray[JObject])
+method getValidAdSpots*(this: AdConfiguration): JArray[Direction] {.base, discardable.}
+method process*(this: AdConfiguration, gameState: GameState) {.base.}
+method processDemo*(this: AdConfiguration, state: int32) {.base.}
+method setShowAds*(this: AdConfiguration) {.base.}
+method setToggleAds*(this: AdConfiguration, showAds: bool) {.base.}
+method isShowAds*(this: AdConfiguration): bool {.base, discardable.}
 
 
-
-class AdConfiguration:
-
-    def _init_fields(self) -> None:
-        self.INNERACTIVE: str = None
-        self.LEADBOLT: str = None
-        self.ADMOB: str = None
+# Java field initializers run after the base initializer
+proc initFieldsAdConfiguration(this: AdConfiguration) =
     
-
-    def __init__(self, advertIdArray: list[object]) -> None:
-        self._init_fields()
-        self.INNERACTIVE = advertIdArray[0]
-        self.ADMOB = advertIdArray[1]
-        self.LEADBOLT = advertIdArray[2]
     
-
-    def getValidAdSpots(self) -> list[Direction]:
-        from org.allbinary.direction.Direction import Direction
-        return [None] * (0)
     
+    discard
 
-    def process(self, gameState: GameState) -> None:
-        from org.allbinary.game.state.GameState import GameState
-        pass
-    
+proc initAdConfiguration*(this: AdConfiguration, advertIdArray: JArray[JObject]) =
+        this.initFieldsAdConfiguration()
+        this.INNERACTIVE = jstr(advertIdArray[0])
+        this.ADMOB = jstr(advertIdArray[1])
+        this.LEADBOLT = jstr(advertIdArray[2])
 
-    def processDemo(self, state: int) -> None:
-        pass
-    
+proc newAdConfiguration*(advertIdArray: JArray[JObject]): AdConfiguration =
+    result = AdConfiguration()
+    initAdConfiguration(result, advertIdArray)
 
-    def setShowAds(self) -> None:
-        pass
-    
+method getValidAdSpots*(this: AdConfiguration): JArray[Direction] {.base, discardable.} =
+        return newJArray[Direction](0, default(Direction))
 
-    def setToggleAds(self, showAds: bool) -> None:
-        pass
-    
+method process*(this: AdConfiguration, gameState: GameState) {.base.} =
+        discard
 
-    def isShowAds(self) -> bool:
-        return True
-# from org.allbinary.direction.Direction import Direction
-# from org.allbinary.game.state.GameState import GameState
+method processDemo*(this: AdConfiguration, state: int32) {.base.} =
+        discard
 
+method setShowAds*(this: AdConfiguration) {.base.} =
+        discard
+
+method setToggleAds*(this: AdConfiguration, showAds: bool) {.base.} =
+        discard
+
+method isShowAds*(this: AdConfiguration): bool {.base, discardable.} =
+        return true
 

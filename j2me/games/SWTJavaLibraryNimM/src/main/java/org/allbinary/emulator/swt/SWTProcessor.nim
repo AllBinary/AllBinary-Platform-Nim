@@ -1,50 +1,62 @@
-# 
-# AllBinary Open License Version 1 
-# Copyright (c) 2022 AllBinary 
-#  
-# By agreeing to this license you and any business entity you represent are 
-# legally bound to the AllBinary Open License Version 1 legal agreement. 
-#  
-# You may obtain the AllBinary Open License Version 1 legal agreement from 
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
-#  
-# Created By: Travis Berthelot 
-#   
+#[
+  
+  AllBinary Open License Version 1 
+  Copyright (c) 2022 AllBinary 
+   
+  By agreeing to this license you and any business entity you represent are 
+  legally bound to the AllBinary Open License Version 1 legal agreement. 
+   
+  You may obtain the AllBinary Open License Version 1 legal agreement from 
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
+   
+  Created By: Travis Berthelot 
+    
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.emulator.swt
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import java/lang/Runnable as RunnableModule
+export RunnableModule
+import org/eclipse/swt/widgets/Display as DisplayModule
+export DisplayModule
 
-import time
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    SWTProcessor* = ref object of JObject
+        runnable*: Runnable
 
+proc newSWTProcessor*(): SWTProcessor
+proc initSWTProcessor*(this: SWTProcessor)
+proc getInstance*(t: typedesc[SWTProcessor]): SWTProcessor {.discardable.}
+method process*(this: SWTProcessor, display: Display) {.base.}
+import org/allbinary/thread/NullRunnable as NullRunnableModule
+export NullRunnableModule
 
-class SWTProcessor:
-    instance: SWTProcessor = None
+var SWTProcessor_instanceValue: SWTProcessor
+var SWTProcessor_instanceSet = false
+proc instance*(t: typedesc[SWTProcessor]): SWTProcessor =
+    if not SWTProcessor_instanceSet:
+        SWTProcessor_instanceSet = true
+        SWTProcessor_instanceValue = newSWTProcessor()
+    SWTProcessor_instanceValue
 
-    def _init_fields(self) -> None:
-        from org.allbinary.thread.NullRunnable import NullRunnable
-        self.runnable: object = NullRunnable.getInstance()
-    
+# Java field initializers run after the base initializer
+proc initFieldsSWTProcessor(this: SWTProcessor) =
+    this.runnable = NullRunnable.getInstance()
+    discard
 
-    @staticmethod
-    def getInstance() -> SWTProcessor:
+proc getInstance*(t: typedesc[SWTProcessor]): SWTProcessor {.discardable.} =
         return SWTProcessor.instance
-    
 
-    def __init__(self) -> None:
-        self._init_fields()
-    
+proc initSWTProcessor*(this: SWTProcessor) =
+        this.initFieldsSWTProcessor()
+        discard
 
-    def process(self, display: Display) -> None:
-        from org.eclipse.swt.widgets.Display import Display
+proc newSWTProcessor*(): SWTProcessor =
+    result = SWTProcessor()
+    initSWTProcessor(result)
+
+method process*(this: SWTProcessor, display: Display) {.base.} =
         display.sleep()
-# from org.allbinary.thread.NullRunnable import NullRunnable
-# from org.eclipse.swt.widgets.Display import Display
-
-
-def _SWTProcessor_instance() -> object:
-    return SWTProcessor()
-
-lazy_static(SWTProcessor, "instance", _SWTProcessor_instance)
 

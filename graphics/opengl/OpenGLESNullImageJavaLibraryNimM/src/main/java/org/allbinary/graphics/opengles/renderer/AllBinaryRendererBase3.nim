@@ -1,50 +1,60 @@
-# 
-# AllBinary Open License Version 1 
-# Copyright (c) 2022 AllBinary 
-#  
-# By agreeing to this license you and any business entity you represent are 
-# legally bound to the AllBinary Open License Version 1 legal agreement. 
-#  
-# You may obtain the AllBinary Open License Version 1 legal agreement from 
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
-#  
-# Created By: Travis Berthelot 
-#   
+#[
+  
+  AllBinary Open License Version 1 
+  Copyright (c) 2022 AllBinary 
+   
+  By agreeing to this license you and any business entity you represent are 
+  legally bound to the AllBinary Open License Version 1 legal agreement. 
+   
+  You may obtain the AllBinary Open License Version 1 legal agreement from 
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
+   
+  Created By: Travis Berthelot 
+    
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.graphics.opengles.renderer
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import javax/microedition/khronos/opengles/GL10 as GL10Module
+export GL10Module
+import javax/microedition/lcdui/Image as ImageModule
+export ImageModule
+import org/allbinary/util/BasicArrayList as BasicArrayListModule
+export BasicArrayListModule
+
+type
+    AllBinaryRendererBase3* = ref object of JObject
+        list*: BasicArrayList
+
+proc newAllBinaryRendererBase3*(): AllBinaryRendererBase3
+method update*(this: AllBinaryRendererBase3, gl: GL10) {.base.}
+method add*(this: AllBinaryRendererBase3, image: Image) {.base.}
+import org/allbinary/image/opengles/OpenGLESImage as OpenGLESImageModule
+export OpenGLESImageModule
+import org/allbinary/util/BasicArrayListD as BasicArrayListDModule
+export BasicArrayListDModule
 
 
+# Java field initializers run after the base initializer
+proc initFieldsAllBinaryRendererBase3(this: AllBinaryRendererBase3) =
+    this.list = newBasicArrayListD()
+    discard
 
-class AllBinaryRendererBase3:
+proc initAllBinaryRendererBase3*(this: AllBinaryRendererBase3) =
+    this.initFieldsAllBinaryRendererBase3()
 
-    def _init_fields(self) -> None:
-        from org.allbinary.util.BasicArrayList import BasicArrayList
-        from org.allbinary.util.BasicArrayListD import BasicArrayListD
-        self.list_: BasicArrayList = BasicArrayListD()
+proc newAllBinaryRendererBase3*(): AllBinaryRendererBase3 =
+    result = AllBinaryRendererBase3()
+    initAllBinaryRendererBase3(result)
 
-    def __init__(self) -> None:
-        self._init_fields()
-    
-
-    # throws Exception
-    def update(self, gl: GL10) -> None:
-        from javax.microedition.khronos.opengles.GL10 import GL10
-        from org.allbinary.image.opengles.OpenGLESImage import OpenGLESImage
-        while self.list_.size() > 0:
-            openGLESImage: OpenGLESImage = self.list_.removeAt(0)
-            if openGLESImage is not None:
+method update*(this: AllBinaryRendererBase3, gl: GL10) {.base.} =
+        while this.list.size() > 0:
+            let openGLESImage: OpenGLESImage = OpenGLESImage(JObject(this.list.removeAt(0)))
+            if (not jIsNil(openGLESImage)):
                 openGLESImage.set(gl)
-    
 
-    def add(self, image: Image) -> None:
-        from javax.microedition.lcdui.Image import Image
-        self.list_.add(image)
-# from javax.microedition.khronos.opengles.GL10 import GL10
-# from javax.microedition.lcdui.Image import Image
-# from org.allbinary.image.opengles.OpenGLESImage import OpenGLESImage
-# from org.allbinary.util.BasicArrayList import BasicArrayList
-# from org.allbinary.util.BasicArrayListD import BasicArrayListD
-
+method add*(this: AllBinaryRendererBase3, image: Image) {.base.} =
+        this.list.add(image)
 

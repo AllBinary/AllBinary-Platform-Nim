@@ -1,99 +1,105 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.displayable.canvas
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/game/input/event/GameKeyEvent as GameKeyEventModule
+export GameKeyEventModule
+import org/allbinary/graphics/form/ScrollSelectionForm as ScrollSelectionFormModule
+export ScrollSelectionFormModule
+import org/allbinary/input/motion/gesture/observer/MotionGestureEvent as MotionGestureEventModule
+export MotionGestureEventModule
+import org/allbinary/time/TimeDelayHelper as TimeDelayHelperModule
+export TimeDelayHelperModule
+import org/allbinary/util/BasicArrayList as BasicArrayListModule
+export BasicArrayListModule
+import org/allbinary/game/displayable/canvas/CommandFormInputProcessor as CommandFormInputProcessorModule
+export CommandFormInputProcessorModule
+import org/allbinary/game/displayable/canvas/GameCommandCanvas as GameCommandCanvasModule
+export GameCommandCanvasModule
 
-import threading
-from org.allbinary.game.displayable.canvas.CommandFormInputProcessor import CommandFormInputProcessor
+type
+    ImmediateCommandFormInputProcessor* = ref object of CommandFormInputProcessor
+        timeHelper*: TimeDelayHelper
+        gameCommandCanvas*: GameCommandCanvas
+
+proc newImmediateCommandFormInputProcessor*(gameKeyEventList: BasicArrayList, playerInputId: int32, gameCommandCanvas: GameCommandCanvas, form: ScrollSelectionForm): ImmediateCommandFormInputProcessor
+proc initImmediateCommandFormInputProcessor*(this: ImmediateCommandFormInputProcessor, gameKeyEventList: BasicArrayList, playerInputId: int32, gameCommandCanvas: GameCommandCanvas, form: ScrollSelectionForm)
+method onPressGameKeyEvent*(this: ImmediateCommandFormInputProcessor, gameKeyEvent: GameKeyEvent)
+method onDownGameKeyEvent*(this: ImmediateCommandFormInputProcessor, gameKeyEvent: GameKeyEvent)
+method onUpGameKeyEvent*(this: ImmediateCommandFormInputProcessor, gameKeyEvent: GameKeyEvent)
+method onMotionGestureEvent*(this: ImmediateCommandFormInputProcessor, motionGestureEvent: MotionGestureEvent)
 
 
-class ImmediateCommandFormInputProcessor(CommandFormInputProcessor):
-    _lock = threading.RLock()
-
-    def _init_fields(self) -> None:
-        from org.allbinary.time.TimeDelayHelper import TimeDelayHelper
-        self.timeHelper: TimeDelayHelper = TimeDelayHelper(25)
-        self.gameCommandCanvas: GameCommandCanvas = None
+# Java field initializers run after the base initializer
+proc initFieldsImmediateCommandFormInputProcessor(this: ImmediateCommandFormInputProcessor) =
+    this.timeHelper = newTimeDelayHelper(25)
     
+    discard
 
-    def __init__(self, gameKeyEventList: BasicArrayList, playerInputId: int, gameCommandCanvas: GameCommandCanvas, form: ScrollSelectionForm) -> None:
-        from org.allbinary.graphics.form.ScrollSelectionForm import ScrollSelectionForm
-        from org.allbinary.util.BasicArrayList import BasicArrayList
-        super().__init__(gameKeyEventList, playerInputId, gameCommandCanvas, form)
-        self._init_fields()
-        self.gameCommandCanvas = gameCommandCanvas
-    
+proc initImmediateCommandFormInputProcessor*(this: ImmediateCommandFormInputProcessor, gameKeyEventList: BasicArrayList, playerInputId: int32, gameCommandCanvas: GameCommandCanvas, form: ScrollSelectionForm) =
+        initCommandFormInputProcessor(this, gameKeyEventList, playerInputId, gameCommandCanvas, form)
+        this.initFieldsImmediateCommandFormInputProcessor()
+        this.gameCommandCanvas = gameCommandCanvas
 
-    def onPressGameKeyEvent(self, gameKeyEvent: GameKeyEvent) -> None:
-        with self._lock:
-            return self._onPressGameKeyEvent_unlocked(gameKeyEvent)
+proc newImmediateCommandFormInputProcessor*(gameKeyEventList: BasicArrayList, playerInputId: int32, gameCommandCanvas: GameCommandCanvas, form: ScrollSelectionForm): ImmediateCommandFormInputProcessor =
+    result = ImmediateCommandFormInputProcessor()
+    initImmediateCommandFormInputProcessor(result, gameKeyEventList, playerInputId, gameCommandCanvas, form)
 
-    def _onPressGameKeyEvent_unlocked(self, gameKeyEvent: GameKeyEvent) -> None:
-        from org.allbinary.game.input.event.GameKeyEvent import GameKeyEvent
+method onPressGameKeyEvent*(this: ImmediateCommandFormInputProcessor, gameKeyEvent: GameKeyEvent) =
         try:
-            super().onPressGameKeyEvent(gameKeyEvent)
-            if self.timeHelper.isTimeTNT():
-                self.processInputList()
-                self.gameCommandCanvas.repaintBehavior.onChangeRepaint(self.getCanvas())
-        except Exception as e:
-            self.logUtil.put(self.commonStrings.EXCEPTION, self, self.gameInputStrings.ON_PRESS_GAME_KEY, e)
-    
+            procCall CommandFormInputProcessor(this).onPressGameKeyEvent(gameKeyEvent)
+            if this.timeHelper.isTimeTNT():
+                this.processInputList()
+                this.gameCommandCanvas.repaintBehavior.onChangeRepaint(this.getCanvas())
+        except CatchableError as jcaught:
+            let e = jToException(jcaught)
+            this.logUtil.put(this.commonStrings.EXCEPTION, this, this.gameInputStrings.ON_PRESS_GAME_KEY, e)
 
-    def onDownGameKeyEvent(self, gameKeyEvent: GameKeyEvent) -> None:
-        with self._lock:
-            return self._onDownGameKeyEvent_unlocked(gameKeyEvent)
-
-    def _onDownGameKeyEvent_unlocked(self, gameKeyEvent: GameKeyEvent) -> None:
-        from org.allbinary.game.input.event.GameKeyEvent import GameKeyEvent
+method onDownGameKeyEvent*(this: ImmediateCommandFormInputProcessor, gameKeyEvent: GameKeyEvent) =
         try:
-            super().onDownGameKeyEvent(gameKeyEvent)
-            if self.timeHelper.isTimeTNT():
-                self.processInputList()
-                self.gameCommandCanvas.repaintBehavior.onChangeRepaint(self.getCanvas())
-        except Exception as e:
-            self.logUtil.put(self.commonStrings.EXCEPTION, self, self.gameInputStrings.ON_DOWN_GAME_KEY, e)
-    
+            procCall CommandFormInputProcessor(this).onDownGameKeyEvent(gameKeyEvent)
+            if this.timeHelper.isTimeTNT():
+                this.processInputList()
+                this.gameCommandCanvas.repaintBehavior.onChangeRepaint(this.getCanvas())
+        except CatchableError as jcaught:
+            let e = jToException(jcaught)
+            this.logUtil.put(this.commonStrings.EXCEPTION, this, this.gameInputStrings.ON_DOWN_GAME_KEY, e)
 
-    def onUpGameKeyEvent(self, gameKeyEvent: GameKeyEvent) -> None:
-        with self._lock:
-            return self._onUpGameKeyEvent_unlocked(gameKeyEvent)
-
-    def _onUpGameKeyEvent_unlocked(self, gameKeyEvent: GameKeyEvent) -> None:
-        from org.allbinary.game.input.event.GameKeyEvent import GameKeyEvent
+method onUpGameKeyEvent*(this: ImmediateCommandFormInputProcessor, gameKeyEvent: GameKeyEvent) =
         try:
-            super().onUpGameKeyEvent(gameKeyEvent)
-            if self.timeHelper.isTimeTNT():
-                self.processInputList()
-                self.gameCommandCanvas.repaintBehavior.onChangeRepaint(self.getCanvas())
-        except Exception as e:
-            self.logUtil.put(self.commonStrings.EXCEPTION, self, self.gameInputStrings.ON_UP_GAME_KEY, e)
-    
+            procCall CommandFormInputProcessor(this).onUpGameKeyEvent(gameKeyEvent)
+            if this.timeHelper.isTimeTNT():
+                this.processInputList()
+                this.gameCommandCanvas.repaintBehavior.onChangeRepaint(this.getCanvas())
+        except CatchableError as jcaught:
+            let e = jToException(jcaught)
+            this.logUtil.put(this.commonStrings.EXCEPTION, this, this.gameInputStrings.ON_UP_GAME_KEY, e)
 
-    def onMotionGestureEvent(self, motionGestureEvent: MotionGestureEvent) -> None:
-        from org.allbinary.input.motion.gesture.observer.MotionGestureEvent import MotionGestureEvent
+method onMotionGestureEvent*(this: ImmediateCommandFormInputProcessor, motionGestureEvent: MotionGestureEvent) =
         try:
-            super().onMotionGestureEvent(motionGestureEvent)
-            if self.timeHelper.isTimeTNT():
-                self.processInputList()
-                self.gameCommandCanvas.repaintBehavior.onChangeRepaint(self.getCanvas())
-        except Exception as e:
-            self.logUtil.put(self.commonStrings.EXCEPTION, self, "onMotionGestureEvent", e)
-# from org.allbinary.game.input.event.GameKeyEvent import GameKeyEvent
-# from org.allbinary.graphics.form.ScrollSelectionForm import ScrollSelectionForm
-# from org.allbinary.input.motion.gesture.observer.MotionGestureEvent import MotionGestureEvent
-# from org.allbinary.time.TimeDelayHelper import TimeDelayHelper
-# from org.allbinary.util.BasicArrayList import BasicArrayList
+            procCall CommandFormInputProcessor(this).onMotionGestureEvent(motionGestureEvent)
+            if this.timeHelper.isTimeTNT():
+                this.processInputList()
+                this.gameCommandCanvas.repaintBehavior.onChangeRepaint(this.getCanvas())
+        except CatchableError as jcaught:
+            let e = jToException(jcaught)
+            this.logUtil.put(this.commonStrings.EXCEPTION, this, "onMotionGestureEvent", e)
 
+when declared(newImmediateCommandFormInputProcessorHook4):
+    newImmediateCommandFormInputProcessorHook4 = proc (gameKeyEventList: BasicArrayList, playerInputId: int32, gameCommandCanvas: GameCommandCanvas, form: ScrollSelectionForm): CommandFormInputProcessor = newImmediateCommandFormInputProcessor(gameKeyEventList, playerInputId, gameCommandCanvas, form)
 

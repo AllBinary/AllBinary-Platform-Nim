@@ -1,87 +1,106 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.media.audio
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/string/CommonStrings as CommonStringsModule
+export CommonStringsModule
+import org/allbinary/util/BasicArrayList as BasicArrayListModule
+export BasicArrayListModule
+import org/allbinary/media/audio/Sound as SoundModule
+export SoundModule
 
+type
+    PlayerQueue* = ref object of JObject
+        commonStrings*: CommonStrings
+        list*: BasicArrayList
+        max*: int32
 
+proc newPlayerQueue*(max: int32): PlayerQueue
+proc initPlayerQueue*(this: PlayerQueue, max: int32)
+method add*(this: PlayerQueue, sound: Sound) {.base.}
+method process*(this: PlayerQueue): bool {.base, discardable.}
+method clear*(this: PlayerQueue) {.base.}
+method toString*(this: PlayerQueue): string {.discardable.}
+import org/allbinary/logic/communication/log/PreLogUtil as PreLogUtilModule
+export PreLogUtilModule
+import org/allbinary/logic/string/StringMaker as StringMakerModule
+export StringMakerModule
+import org/allbinary/logic/string/StringUtil as StringUtilModule
+export StringUtilModule
+import org/allbinary/util/BasicArrayListD as BasicArrayListDModule
+export BasicArrayListDModule
+import org/allbinary/media/audio/NoSound as NoSoundModule
+export NoSoundModule
 
-class PlayerQueue:
-    TOTAL: str = "Sounds In Queue: "
+var PlayerQueue_TOTALValue: string
+var PlayerQueue_TOTALSet = false
+proc TOTAL*(t: typedesc[PlayerQueue]): string =
+    if not PlayerQueue_TOTALSet:
+        PlayerQueue_TOTALSet = true
+        PlayerQueue_TOTALValue = "Sounds In Queue: "
+    PlayerQueue_TOTALValue
 
-    def _init_fields(self) -> None:
-        from org.allbinary.string.CommonStrings import CommonStrings
-        from org.allbinary.util.BasicArrayList import BasicArrayList
-        from org.allbinary.util.BasicArrayListD import BasicArrayListD
-        self.commonStrings: CommonStrings = CommonStrings.getInstance()
-        self.list_: BasicArrayList = BasicArrayListD()
-        self.max: int = None
+# Java field initializers run after the base initializer
+proc initFieldsPlayerQueue(this: PlayerQueue) =
+    this.commonStrings = CommonStrings.getInstance()
+    this.list = newBasicArrayListD()
     
+    discard
 
-    def __init__(self, max: int) -> None:
-        self._init_fields()
-        self.max = max
-    
+proc initPlayerQueue*(this: PlayerQueue, max: int32) =
+        this.initFieldsPlayerQueue()
+        this.max = max
 
-    def add(self, sound: Sound) -> None:
-        from org.allbinary.logic.communication.log.PreLogUtil import PreLogUtil
+proc newPlayerQueue*(max: int32): PlayerQueue =
+    result = PlayerQueue()
+    initPlayerQueue(result, max)
+
+method add*(this: PlayerQueue, sound: Sound) {.base.} =
         try:
-            if not self.list_.contains(sound):
-                self.list_.add(sound)
-        except Exception as e:
-            PreLogUtil.put(self.commonStrings.EXCEPTION, self, self.commonStrings.ADD)
-    
+            if (not this.list.contains(sound)):
+                this.list.add(sound)
+        except CatchableError as jcaught:
+            let e = jToException(jcaught)
+            PreLogUtil.put(this.commonStrings.EXCEPTION, this, this.commonStrings.ADD)
 
-    def process(self) -> bool:
-        from org.allbinary.media.audio.NoSound import NoSound
-        from org.allbinary.logic.communication.log.PreLogUtil import PreLogUtil
-        from org.allbinary.logic.string.StringMaker import StringMaker
-        from org.allbinary.logic.string.StringUtil import StringUtil
-        sound: Sound = NoSound.getInstance()
+method process*(this: PlayerQueue): bool {.base, discardable.} =
+        var sound: Sound = NoSound.getInstance()
         try:
-            played: bool = False
-            if self.list_.size() > 0:
-                sound = self.list_.removeAt(0)
-                if sound is not None:
+            var played: bool = false
+            if this.list.size() > 0:
+                sound = Sound(JObject(this.list.removeAt(0)))
+                if (not jIsNil(sound)):
                     sound.getPlayerP().start()
-                while self.list_.size() > self.max:
-                    self.list_.removeAt(0)
-                played = True
+                while this.list.size() > this.max:
+                    this.list.removeAt(0)
+                played = true
             return played
-        except Exception as e:
-            resource: str = StringUtil.getInstance().EMPTY_STRING
-            if sound is not None:
+        except CatchableError as jcaught:
+            let e = jToException(jcaught)
+            var resource: string = StringUtil.getInstance().EMPTY_STRING
+            if (not jIsNil(sound)):
                 resource = sound.getResource()
-            PreLogUtil.put(str(StringMaker().append(self.commonStrings.EXCEPTION_LABEL).append(resource)), self, self.commonStrings.PROCESS)
-            return False
-    
+            PreLogUtil.put(newStringMaker().append(this.commonStrings.EXCEPTION_LABEL).append(resource).toString(), this, this.commonStrings.PROCESS)
+            return false
 
-    def clear(self) -> None:
-        self.list_.clear()
-    
+method clear*(this: PlayerQueue) {.base.} =
+        this.list.clear()
 
-    def toString(self) -> str:
-        from org.allbinary.logic.string.StringMaker import StringMaker
-        return str(StringMaker().append(PlayerQueue.TOTAL).appendint(self.list_.size()))
-
-    def __str__(self) -> str:
-        return self.toString()
-# from org.allbinary.logic.communication.log.PreLogUtil import PreLogUtil
-# from org.allbinary.logic.string.StringMaker import StringMaker
-# from org.allbinary.logic.string.StringUtil import StringUtil
-# from org.allbinary.string.CommonStrings import CommonStrings
-# from org.allbinary.util.BasicArrayList import BasicArrayList
-# from org.allbinary.util.BasicArrayListD import BasicArrayListD
-
+method toString*(this: PlayerQueue): string {.discardable.} =
+        return newStringMaker().append(PlayerQueue.TOTAL).appendint(this.list.size()).toString()
 

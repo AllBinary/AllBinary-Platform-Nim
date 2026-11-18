@@ -1,65 +1,70 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.input.gyro
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/input/AllBinarySensor as AllBinarySensorModule
+export AllBinarySensorModule
+
+type
+    SensorGameUpdateProcessor* = ref object of JObject
+        inputSensor*: AllBinarySensor
+
+proc newSensorGameUpdateProcessor*(): SensorGameUpdateProcessor
+method setInputSensor*(this: SensorGameUpdateProcessor, inputSensor: AllBinarySensor) {.base.}
+method getInputSensor*(this: SensorGameUpdateProcessor): AllBinarySensor {.base, discardable.}
+method process*(this: SensorGameUpdateProcessor, anyType: JObject) {.base.}
+method sendNotifications*(this: SensorGameUpdateProcessor, anyType: JObject) {.base.}
+method isAnySensor*(this: SensorGameUpdateProcessor): bool {.base, discardable.}
+method setNoSensors*(this: SensorGameUpdateProcessor) {.base.}
+import org/allbinary/input/NoAllBinarySensor as NoAllBinarySensorModule
+export NoAllBinarySensorModule
 
 
+# Java field initializers run after the base initializer
+proc initFieldsSensorGameUpdateProcessor(this: SensorGameUpdateProcessor) =
+    this.inputSensor = NoAllBinarySensor.getInstance()
+    discard
 
-class SensorGameUpdateProcessor:
+proc initSensorGameUpdateProcessor*(this: SensorGameUpdateProcessor) =
+    this.initFieldsSensorGameUpdateProcessor()
 
-    def _init_fields(self) -> None:
-        from org.allbinary.input.AllBinarySensor import AllBinarySensor
-        from org.allbinary.input.NoAllBinarySensor import NoAllBinarySensor
-        self.inputSensor: AllBinarySensor = NoAllBinarySensor.getInstance()
+proc newSensorGameUpdateProcessor*(): SensorGameUpdateProcessor =
+    result = SensorGameUpdateProcessor()
+    initSensorGameUpdateProcessor(result)
 
-    def __init__(self) -> None:
-        self._init_fields()
-    
+method setInputSensor*(this: SensorGameUpdateProcessor, inputSensor: AllBinarySensor) {.base.} =
+        this.inputSensor = inputSensor
 
-    def setInputSensor(self, inputSensor: AllBinarySensor) -> None:
-        from org.allbinary.input.AllBinarySensor import AllBinarySensor
-        self.inputSensor = inputSensor
-    
+method getInputSensor*(this: SensorGameUpdateProcessor): AllBinarySensor {.base, discardable.} =
+        return this.inputSensor
 
-    def getInputSensor(self) -> AllBinarySensor:
-        from org.allbinary.input.AllBinarySensor import AllBinarySensor
-        return self.inputSensor
-    
+method process*(this: SensorGameUpdateProcessor, anyType: JObject) {.base.} =
+        discard
 
-    # throws Exception
-    def process(self, anyType: object) -> None:
-        pass
-    
+method sendNotifications*(this: SensorGameUpdateProcessor, anyType: JObject) {.base.} =
+        discard
 
-    # throws Exception
-    def sendNotifications(self, anyType: object) -> None:
-        pass
-    
-
-    def isAnySensor(self) -> bool:
-        from org.allbinary.input.NoAllBinarySensor import NoAllBinarySensor
-        if self.inputSensor == NoAllBinarySensor.getInstance():
-            return False
+method isAnySensor*(this: SensorGameUpdateProcessor): bool {.base, discardable.} =
+        if this.inputSensor == NoAllBinarySensor.getInstance():
+            return false
         else:
-            return True
-    
+            return true
 
-    def setNoSensors(self) -> None:
-        from org.allbinary.input.NoAllBinarySensor import NoAllBinarySensor
-        self.setInputSensor(NoAllBinarySensor.getInstance())
-# from org.allbinary.input.AllBinarySensor import AllBinarySensor
-# from org.allbinary.input.NoAllBinarySensor import NoAllBinarySensor
-
+method setNoSensors*(this: SensorGameUpdateProcessor) {.base.} =
+        this.setInputSensor(NoAllBinarySensor.getInstance())
 

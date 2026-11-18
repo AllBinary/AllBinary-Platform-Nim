@@ -1,38 +1,35 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.media.audio
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import javax/microedition/media/Player as PlayerModule
+export PlayerModule
+
+type
+    SoundInterface* = ref object of JObject
 
 
+method getResource*(this: SoundInterface): string {.base, discardable.} =
+        raise newJException("AbstractMethodError", "getResource")
 
-# Java interface
-class SoundInterface:
-    
+method getPlayerP*(this: SoundInterface): Player {.base, discardable.} =
+        raise newJException("AbstractMethodError", "getPlayerP")
 
-    def getResource(self) -> str:
-        raise NotImplementedError()
-    
-
-    def getPlayerP(self) -> Player:
-        from javax.microedition.media.Player import Player
-        raise NotImplementedError()
-    
-
-    # throws Exception
-    def init(self) -> None:
-        raise NotImplementedError()
-# from javax.microedition.media.Player import Player
-
+method init*(this: SoundInterface) {.base.} =
+        raise newJException("AbstractMethodError", "init")
 

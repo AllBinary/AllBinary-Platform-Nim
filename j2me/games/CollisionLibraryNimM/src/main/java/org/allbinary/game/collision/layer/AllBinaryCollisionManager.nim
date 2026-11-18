@@ -1,66 +1,76 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.collision.layer
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/game/collision/CollidableInterfaceCompositeInterface as CollidableInterfaceCompositeInterfaceModule
+export CollidableInterfaceCompositeInterfaceModule
+import org/allbinary/layer/LayerManager as LayerManagerModule
+export LayerManagerModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    AllBinaryCollisionManager* = ref object of JObject
 
+proc newAllBinaryCollisionManager*(): AllBinaryCollisionManager
+proc initAllBinaryCollisionManager*(this: AllBinaryCollisionManager)
+proc getInstance*(t: typedesc[AllBinaryCollisionManager]): AllBinaryCollisionManager {.discardable.}
+method process*(this: AllBinaryCollisionManager, layerManager: LayerManager, collidableInterfaceCompositeInterface: CollidableInterfaceCompositeInterface, startIndex: int32) {.base.}
+method collide*(this: AllBinaryCollisionManager, layerManager: LayerManager, collidableInterfaceCompositeInterface: CollidableInterfaceCompositeInterface, collidableInterfaceCompositeInterface2: CollidableInterfaceCompositeInterface) {.base.}
+import org/allbinary/game/collision/CollidableBaseBehavior as CollidableBaseBehaviorModule
+export CollidableBaseBehaviorModule
+import org/allbinary/game/layer/CollidableCompositeLayer as CollidableCompositeLayerModule
+export CollidableCompositeLayerModule
 
-class AllBinaryCollisionManager:
-    allBinaryCollisionManager: AllBinaryCollisionManager = None
-    
+var AllBinaryCollisionManager_allBinaryCollisionManagerValue: AllBinaryCollisionManager
+var AllBinaryCollisionManager_allBinaryCollisionManagerSet = false
+proc allBinaryCollisionManager*(t: typedesc[AllBinaryCollisionManager]): AllBinaryCollisionManager =
+    if not AllBinaryCollisionManager_allBinaryCollisionManagerSet:
+        AllBinaryCollisionManager_allBinaryCollisionManagerSet = true
+        AllBinaryCollisionManager_allBinaryCollisionManagerValue = newAllBinaryCollisionManager()
+    AllBinaryCollisionManager_allBinaryCollisionManagerValue
+proc `allBinaryCollisionManager=`*(t: typedesc[AllBinaryCollisionManager], value: AllBinaryCollisionManager) =
+    AllBinaryCollisionManager_allBinaryCollisionManagerSet = true
+    AllBinaryCollisionManager_allBinaryCollisionManagerValue = value
 
-    def __init__(self) -> None:
-        pass
-    
+proc initAllBinaryCollisionManager*(this: AllBinaryCollisionManager) =
+        discard
+        discard
 
-    @staticmethod
-    def getInstance() -> AllBinaryCollisionManager:
+proc newAllBinaryCollisionManager*(): AllBinaryCollisionManager =
+    result = AllBinaryCollisionManager()
+    initAllBinaryCollisionManager(result)
+
+proc getInstance*(t: typedesc[AllBinaryCollisionManager]): AllBinaryCollisionManager {.discardable.} =
         return AllBinaryCollisionManager.allBinaryCollisionManager
-    
 
-    # throws Exception
-    def process(self, layerManager: LayerManager, collidableInterfaceCompositeInterface: CollidableInterfaceCompositeInterface, startIndex: int) -> None:
-        from org.allbinary.game.collision.CollidableInterfaceCompositeInterface import CollidableInterfaceCompositeInterface
-        from org.allbinary.layer.LayerManager import LayerManager
-        size: int = layerManager.getSize()
-        for index in range(startIndex + 1, size):
-            collidableInterfaceCompositeInterface2: CollidableInterfaceCompositeInterface = layerManager.getLayerAt(index)
-            self.collide(layerManager, collidableInterfaceCompositeInterface, collidableInterfaceCompositeInterface2)
-    
+method process*(this: AllBinaryCollisionManager, layerManager: LayerManager, collidableInterfaceCompositeInterface: CollidableInterfaceCompositeInterface, startIndex: int32) {.base.} =
+        var size: int32 = layerManager.getSize()
+        block:
+            var index: int32 = startIndex +% 1
+            while index < size:
+                defer: index = index +% 1
+                var collidableInterfaceCompositeInterface2: CollidableInterfaceCompositeInterface = CollidableInterfaceCompositeInterface(JObject(layerManager.getLayerAt(index)))
+                this.collide(layerManager, collidableInterfaceCompositeInterface, collidableInterfaceCompositeInterface2)
 
-    # throws Exception
-    def collide(self, layerManager: LayerManager, collidableInterfaceCompositeInterface: CollidableInterfaceCompositeInterface, collidableInterfaceCompositeInterface2: CollidableInterfaceCompositeInterface) -> None:
-        from org.allbinary.game.collision.CollidableBaseBehavior import CollidableBaseBehavior
-        from org.allbinary.game.collision.CollidableInterfaceCompositeInterface import CollidableInterfaceCompositeInterface
-        from org.allbinary.game.layer.CollidableCompositeLayer import CollidableCompositeLayer
-        from org.allbinary.layer.LayerManager import LayerManager
-        collidableBase2: CollidableBaseBehavior = collidableInterfaceCompositeInterface2.getCollidableInferface()
-        collidableBase: CollidableBaseBehavior = collidableInterfaceCompositeInterface.getCollidableInferface()
-        if collidableBase2.isCollidable(collidableInterfaceCompositeInterface):
-            if collidableBase.isCollisionInterface(collidableInterfaceCompositeInterface, collidableInterfaceCompositeInterface2):
-                collidableBase.collideInterface(collidableInterfaceCompositeInterface, collidableInterfaceCompositeInterface2)
-                collidableBase2.collideInterface(collidableInterfaceCompositeInterface, collidableInterfaceCompositeInterface)
-# from org.allbinary.game.collision.CollidableBaseBehavior import CollidableBaseBehavior
-# from org.allbinary.game.collision.CollidableInterfaceCompositeInterface import CollidableInterfaceCompositeInterface
-# from org.allbinary.game.layer.CollidableCompositeLayer import CollidableCompositeLayer
-# from org.allbinary.layer.LayerManager import LayerManager
-
-
-def _AllBinaryCollisionManager_allBinaryCollisionManager() -> object:
-    return AllBinaryCollisionManager()
-
-lazy_static(AllBinaryCollisionManager, "allBinaryCollisionManager", _AllBinaryCollisionManager_allBinaryCollisionManager)
+method collide*(this: AllBinaryCollisionManager, layerManager: LayerManager, collidableInterfaceCompositeInterface: CollidableInterfaceCompositeInterface, collidableInterfaceCompositeInterface2: CollidableInterfaceCompositeInterface) {.base.} =
+        var collidableBase2: CollidableBaseBehavior = collidableInterfaceCompositeInterface2.getCollidableInferface()
+        var collidableBase: CollidableBaseBehavior = collidableInterfaceCompositeInterface.getCollidableInferface()
+        if collidableBase2.isCollidable(CollidableCompositeLayer(JObject(collidableInterfaceCompositeInterface))):
+            if collidableBase.isCollisionInterface(CollidableCompositeLayer(JObject(collidableInterfaceCompositeInterface)), collidableInterfaceCompositeInterface2):
+                collidableBase.collideInterface(CollidableCompositeLayer(JObject(collidableInterfaceCompositeInterface)), collidableInterfaceCompositeInterface2)
+                collidableBase2.collideInterface(CollidableCompositeLayer(JObject(collidableInterfaceCompositeInterface)), collidableInterfaceCompositeInterface)
 

@@ -1,75 +1,94 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.direction
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
 
+type
+    Direction* = ref object of JObject
+        name*: string
+        otherName*: string
+        value*: int32
+        frameFactor*: int32
 
+proc newDirection*(name: string, otherName: string, value: int32, frameFactor: int32): Direction
+proc initDirection*(this: Direction, name: string, otherName: string, value: int32, frameFactor: int32)
+proc getInstance*(t: typedesc[Direction], direction: int32): Direction {.discardable.}
+method getValue*(this: Direction): int32 {.base, discardable.}
+method getFrameFactor*(this: Direction): int32 {.base, discardable.}
+method getOtherName*(this: Direction): string {.base, discardable.}
+method getName*(this: Direction): string {.base, discardable.}
+method toString*(this: Direction): string {.discardable.}
+import org/allbinary/logic/string/StringMaker as StringMakerModule
+export StringMakerModule
 
-class Direction:
-    directionArray: list[Direction] = [None] * (13)
+var Direction_directionArrayValue: JArray[Direction]
+var Direction_directionArraySet = false
+proc directionArray*(t: typedesc[Direction]): JArray[Direction] =
+    if not Direction_directionArraySet:
+        Direction_directionArraySet = true
+        Direction_directionArrayValue = newJArray[Direction](13, default(Direction))
+    Direction_directionArrayValue
+proc `directionArray=`*(t: typedesc[Direction], value: JArray[Direction]) =
+    Direction_directionArraySet = true
+    Direction_directionArrayValue = value
 
-    def _init_fields(self) -> None:
-        self.name: str = None
-        self.otherName: str = None
-        self.value: int = None
-        self.frameFactor: int = None
+# Java field initializers run after the base initializer
+proc initFieldsDirection(this: Direction) =
     
-
-    def __init__(self, name: str, otherName: str, value: int, frameFactor: int) -> None:
-        self._init_fields()
-        self.name = name
-        self.otherName = otherName
-        self.value = value
-        self.frameFactor = frameFactor
-        Direction.directionArray[value] = self
     
+    
+    
+    discard
 
-    @staticmethod
-    def getInstance(direction: int) -> Direction:
+proc initDirection*(this: Direction, name: string, otherName: string, value: int32, frameFactor: int32) =
+        this.initFieldsDirection()
+        this.name = name
+        this.otherName = otherName
+        this.value = value
+        this.frameFactor = frameFactor
+        Direction.directionArray[value] = this
+
+proc newDirection*(name: string, otherName: string, value: int32, frameFactor: int32): Direction =
+    result = Direction()
+    initDirection(result, name, otherName, value, frameFactor)
+
+proc getInstance*(t: typedesc[Direction], direction: int32): Direction {.discardable.} =
         return Direction.directionArray[direction]
-    
 
-    def getValue(self) -> int:
-        return self.value
-    
+method getValue*(this: Direction): int32 {.base, discardable.} =
+        return this.value
 
-    def getFrameFactor(self) -> int:
-        return self.frameFactor
-    
+method getFrameFactor*(this: Direction): int32 {.base, discardable.} =
+        return this.frameFactor
 
-    def getOtherName(self) -> str:
-        return self.otherName
-    
+method getOtherName*(this: Direction): string {.base, discardable.} =
+        return this.otherName
 
-    def getName(self) -> str:
-        return self.name
-    
+method getName*(this: Direction): string {.base, discardable.} =
+        return this.name
 
-    def toString(self) -> str:
-        from org.allbinary.logic.string.StringMaker import StringMaker
-        stringBuffer: StringMaker = StringMaker()
+method toString*(this: Direction): string {.discardable.} =
+        var stringBuffer: StringMaker = newStringMaker()
         stringBuffer.append("Direction: ")
-        stringBuffer.append(self.getName())
+        stringBuffer.append(this.getName())
         stringBuffer.append(" Or: ")
-        stringBuffer.append(self.getOtherName())
+        stringBuffer.append(this.getOtherName())
         stringBuffer.append(" Value: ")
-        stringBuffer.appendint(self.value)
-        return str(stringBuffer)
-
-    def __str__(self) -> str:
-        return self.toString()
-# from org.allbinary.logic.string.StringMaker import StringMaker
-
+        stringBuffer.appendint(this.value)
+        return stringBuffer.toString()
 

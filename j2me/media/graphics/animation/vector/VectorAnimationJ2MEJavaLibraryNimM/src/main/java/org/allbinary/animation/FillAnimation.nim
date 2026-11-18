@@ -1,72 +1,88 @@
 # Generated Code Do Not Modify
 # package org.allbinary.animation
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import javax/microedition/lcdui/Graphics as GraphicsModule
+export GraphicsModule
+import org/allbinary/graphics/color/BasicColor as BasicColorModule
+export BasicColorModule
+import org/allbinary/animation/IndexedAnimation as IndexedAnimationModule
+export IndexedAnimationModule
+import org/allbinary/animation/AnimationBehavior as AnimationBehaviorModule
+export AnimationBehaviorModule
 
-from org.allbinary.animation.IndexedAnimation import IndexedAnimation
+type
+    FillAnimation* = ref object of IndexedAnimation
+        pixelBuffer*: JArray[int32]
+        width*: int32
+        height*: int32
+
+proc newFillAnimation*(pixelBuffer: JArray[int32], width: int32, height: int32, animationBehavior: AnimationBehavior): FillAnimation
+proc initFillAnimation*(this: FillAnimation, pixelBuffer: JArray[int32], width: int32, height: int32, animationBehavior: AnimationBehavior)
+method setBasicColorP*(this: FillAnimation, basicColor: BasicColor)
+method changeBasicColor*(this: FillAnimation, basicColor: BasicColor)
+method setAlpha*(this: FillAnimation, alpha: int32)
+method setScale*(this: FillAnimation, scaleX: float32, scaleY: float32)
+method setMaxScale*(this: FillAnimation, maxScaleX: float32, maxScaleY: float32)
+method updateModifiers*(this: FillAnimation) {.base.}
+method paint*(this: FillAnimation, g: Graphics) {.base.}
 
 
-class FillAnimation(IndexedAnimation):
-
-    def _init_fields(self) -> None:
-        self.pixelBuffer: list[int] = None
-        self.width: int = None
-        self.height: int = None
+# Java field initializers run after the base initializer
+proc initFieldsFillAnimation(this: FillAnimation) =
     
-
-    def __init__(self, pixelBuffer: list[int], width: int, height: int, animationBehavior: AnimationBehavior) -> None:
-        super().__init__(animationBehavior)
-        self._init_fields()
-        self.width = 100
-        self.height = 100
-        self.pixelBuffer = pixelBuffer
     
+    
+    discard
 
-    def setBasicColorP(self, basicColor: BasicColor) -> None:
-        from org.allbinary.graphics.color.BasicColor import BasicColor
-        changed: bool = False
-        if self.getBasicColorP() is None or int(self.getBasicColorP()) != int(basicColor):
-            changed = True
-        super().setBasicColorP(basicColor)
+proc initFillAnimation*(this: FillAnimation, pixelBuffer: JArray[int32], width: int32, height: int32, animationBehavior: AnimationBehavior) =
+        initIndexedAnimation(this, animationBehavior)
+        this.initFieldsFillAnimation()
+        this.width = 100
+        this.height = 100
+        this.pixelBuffer = pixelBuffer
+
+proc newFillAnimation*(pixelBuffer: JArray[int32], width: int32, height: int32, animationBehavior: AnimationBehavior): FillAnimation =
+    result = FillAnimation()
+    initFillAnimation(result, pixelBuffer, width, height, animationBehavior)
+
+method setBasicColorP*(this: FillAnimation, basicColor: BasicColor) =
+        var changed: bool = false
+        if (jIsNil(this.getBasicColorP())) or this.getBasicColorP().intValue() != basicColor.intValue():
+            changed = true
+        procCall IndexedAnimation(this).setBasicColorP(basicColor)
         if changed:
-            self.updateModifiers()
-    
+            this.updateModifiers()
 
-    def changeBasicColor(self, basicColor: BasicColor) -> None:
-        from org.allbinary.graphics.color.BasicColor import BasicColor
-        changed: bool = False
-        if self.getChangeBasicColor() is None or int(self.getChangeBasicColor()) != int(basicColor):
-            changed = True
-        super().changeBasicColor(basicColor)
+method changeBasicColor*(this: FillAnimation, basicColor: BasicColor) =
+        var changed: bool = false
+        if (jIsNil(this.getChangeBasicColor())) or this.getChangeBasicColor().intValue() != basicColor.intValue():
+            changed = true
+        procCall IndexedAnimation(this).changeBasicColor(basicColor)
         if changed:
-            self.updateModifiers()
-    
+            this.updateModifiers()
 
-    def setAlpha(self, alpha: int) -> None:
-        changed: bool = False
-        if self.alphaP != alpha:
-            changed = True
-        super().setAlpha(alpha)
+method setAlpha*(this: FillAnimation, alpha: int32) =
+        var changed: bool = false
+        if this.alphaP != alpha:
+            changed = true
+        procCall IndexedAnimation(this).setAlpha(alpha)
         if changed:
-            self.updateModifiers()
-    
+            this.updateModifiers()
 
-    def setScale(self, scaleX: float, scaleY: float) -> None:
-        pass
-    
+method setScale*(this: FillAnimation, scaleX: float32, scaleY: float32) =
+        discard
 
-    def setMaxScale(self, maxScaleX: float, maxScaleY: float) -> None:
-        pass
-    
+method setMaxScale*(this: FillAnimation, maxScaleX: float32, maxScaleY: float32) =
+        discard
 
-    def updateModifiers(self) -> None:
-        pass
-    
+method updateModifiers*(this: FillAnimation) {.base.} =
+        discard
 
-    def paint(self, g: Graphics) -> None:
-        from javax.microedition.lcdui.Graphics import Graphics
-        g.drawRGB(self.pixelBuffer, 0, self.width, 0, 0, self.width, self.height, True)
-# from javax.microedition.lcdui.Graphics import Graphics
-# from org.allbinary.graphics.color.BasicColor import BasicColor
+method paint*(this: FillAnimation, g: Graphics) {.base.} =
+        g.drawRGB(this.pixelBuffer, 0, this.width, 0, 0, this.width, this.height, true)
 
+when declared(newFillAnimationHook4):
+    newFillAnimationHook4 = proc (pixelBuffer: JArray[int32], width: int32, height: int32, animationBehavior: AnimationBehavior): IndexedAnimation = newFillAnimation(pixelBuffer, width, height, animationBehavior)
 

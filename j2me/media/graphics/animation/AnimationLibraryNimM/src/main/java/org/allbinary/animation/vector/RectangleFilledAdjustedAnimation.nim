@@ -1,67 +1,83 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.animation.vector
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import javax/microedition/lcdui/Graphics as GraphicsModule
+export GraphicsModule
+import org/allbinary/graphics/color/BasicColor as BasicColorModule
+export BasicColorModule
+import org/allbinary/graphics/color/ColorCompositeInterface as ColorCompositeInterfaceModule
+export ColorCompositeInterfaceModule
+import org/allbinary/animation/vector/RectangleFilledAnimation as RectangleFilledAnimationModule
+export RectangleFilledAnimationModule
 
-from org.allbinary.graphics.color.ColorCompositeInterface import ColorCompositeInterface
-from org.allbinary.animation.vector.RectangleFilledAnimation import RectangleFilledAnimation
+type
+    RectangleFilledAdjustedAnimation* = ref object of RectangleFilledAnimation
+        offsetX*: int32
+        offsetY*: int32
+
+converter jAsColorCompositeInterface*(value: RectangleFilledAdjustedAnimation): ColorCompositeInterface = cast[ColorCompositeInterface](value)
+proc newRectangleFilledAdjustedAnimation*(width: int32, height: int32, offsetX: int32, offsetY: int32, basicColor: BasicColor): RectangleFilledAdjustedAnimation
+proc initRectangleFilledAdjustedAnimation*(this: RectangleFilledAdjustedAnimation, width: int32, height: int32, offsetX: int32, offsetY: int32, basicColor: BasicColor)
+method nextFrame*(this: RectangleFilledAdjustedAnimation)
+method paintXY*(this: RectangleFilledAdjustedAnimation, graphics: Graphics, x: int32, y: int32)
+method setOffsetX*(this: RectangleFilledAdjustedAnimation, offsetX: int32) {.base.}
+method setOffsetY*(this: RectangleFilledAdjustedAnimation, offsetY: int32) {.base.}
+method getBasicColorP*(this: RectangleFilledAdjustedAnimation): BasicColor {.discardable.}
+method setBasicColorP*(this: RectangleFilledAdjustedAnimation, basicColor: BasicColor)
 
 
-class RectangleFilledAdjustedAnimation(RectangleFilledAnimation, ColorCompositeInterface):
-
-    def _init_fields(self) -> None:
-        self.offsetX: int = None
-        self.offsetY: int = None
+# Java field initializers run after the base initializer
+proc initFieldsRectangleFilledAdjustedAnimation(this: RectangleFilledAdjustedAnimation) =
     
-
-    def __init__(self, width: int, height: int, offsetX: int, offsetY: int, basicColor: BasicColor) -> None:
-        from org.allbinary.graphics.color.BasicColor import BasicColor
-        super().__init__(width, height, basicColor)
-        self._init_fields()
-        self.offsetX = offsetX
-        self.offsetY = offsetY
-        self.setBasicColorP(basicColor)
     
+    discard
 
-    def nextFrame(self) -> None:
-        pass
-    
+proc initRectangleFilledAdjustedAnimation*(this: RectangleFilledAdjustedAnimation, width: int32, height: int32, offsetX: int32, offsetY: int32, basicColor: BasicColor) =
+        initRectangleFilledAnimation(this, width, height, basicColor)
+        this.initFieldsRectangleFilledAdjustedAnimation()
+        this.offsetX = offsetX
+        this.offsetY = offsetY
+        this.setBasicColorP(basicColor)
 
-    def paintXY(self, graphics: Graphics, x: int, y: int) -> None:
-        from javax.microedition.lcdui.Graphics import Graphics
-        self.basicSetColorUtil.setBasicColorP3(graphics, self.getBasicColorP(), self.getColor())
-        super().paintXY(graphics, x + self.offsetX, y + self.offsetY)
-    
+proc newRectangleFilledAdjustedAnimation*(width: int32, height: int32, offsetX: int32, offsetY: int32, basicColor: BasicColor): RectangleFilledAdjustedAnimation =
+    result = RectangleFilledAdjustedAnimation()
+    initRectangleFilledAdjustedAnimation(result, width, height, offsetX, offsetY, basicColor)
 
-    def setOffsetX(self, offsetX: int) -> None:
-        self.offsetX = offsetX
-    
+method nextFrame*(this: RectangleFilledAdjustedAnimation) =
+        discard
 
-    def setOffsetY(self, offsetY: int) -> None:
-        self.offsetY = offsetY
-    
+method paintXY*(this: RectangleFilledAdjustedAnimation, graphics: Graphics, x: int32, y: int32) =
+        this.basicSetColorUtil.setBasicColorP3(graphics, this.getBasicColorP(), this.getColor())
+        procCall RectangleFilledAnimation(this).paintXY(graphics, x +% this.offsetX, y +% this.offsetY)
 
-    def getBasicColorP(self) -> BasicColor:
-        from org.allbinary.graphics.color.BasicColor import BasicColor
-        return super().getBasicColorP()
-    
+method setOffsetX*(this: RectangleFilledAdjustedAnimation, offsetX: int32) {.base.} =
+        this.offsetX = offsetX
 
-    def setBasicColorP(self, basicColor: BasicColor) -> None:
-        from org.allbinary.graphics.color.BasicColor import BasicColor
-        super().setBasicColorP(basicColor)
-# from javax.microedition.lcdui.Graphics import Graphics
-# from org.allbinary.graphics.color.BasicColor import BasicColor
+method setOffsetY*(this: RectangleFilledAdjustedAnimation, offsetY: int32) {.base.} =
+        this.offsetY = offsetY
 
+method getBasicColorP*(this: RectangleFilledAdjustedAnimation): BasicColor {.discardable.} =
+        return procCall RectangleFilledAnimation(this).getBasicColorP()
+
+method setBasicColorP*(this: RectangleFilledAdjustedAnimation, basicColor: BasicColor) =
+        procCall RectangleFilledAnimation(this).setBasicColorP(basicColor)
+
+when declared(newRectangleFilledAdjustedAnimationHook5):
+    newRectangleFilledAdjustedAnimationHook5 = proc (width: int32, height: int32, offsetX: int32, offsetY: int32, basicColor: BasicColor): RectangleFilledAnimation = newRectangleFilledAdjustedAnimation(width, height, offsetX, offsetY, basicColor)
 

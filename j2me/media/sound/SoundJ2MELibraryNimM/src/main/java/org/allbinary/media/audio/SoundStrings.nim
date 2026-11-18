@@ -1,45 +1,60 @@
-# 
-# AllBinary Open License Version 1 
-# Copyright (c) 2025 AllBinary 
-#  
-# By agreeing to this license you and any business entity you represent are 
-# legally bound to the AllBinary Open License Version 1 legal agreement. 
-#  
-# You may obtain the AllBinary Open License Version 1 legal agreement from 
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
-#  
-# Created By: Travis Berthelot 
-#   
+#[
+  
+  AllBinary Open License Version 1 
+  Copyright (c) 2025 AllBinary 
+   
+  By agreeing to this license you and any business entity you represent are 
+  legally bound to the AllBinary Open License Version 1 legal agreement. 
+   
+  You may obtain the AllBinary Open License Version 1 legal agreement from 
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
+   
+  Created By: Travis Berthelot 
+    
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.media.audio
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    SoundStrings* = ref object of JObject
+        STOP_ALL*: string
+        CLOSE_ALL*: string
+        SOUND*: string
+        INIT_SOUND*: string
+        STOPPING_SOUND*: string
+        CLOSING_SOUND*: string
 
+proc newSoundStrings*(): SoundStrings
+proc getInstance*(t: typedesc[SoundStrings]): SoundStrings {.discardable.}
 
-class SoundStrings:
-    instance: SoundStrings = None
+var SoundStrings_instanceValue: SoundStrings
+var SoundStrings_instanceSet = false
+proc instance*(t: typedesc[SoundStrings]): SoundStrings =
+    if not SoundStrings_instanceSet:
+        SoundStrings_instanceSet = true
+        SoundStrings_instanceValue = newSoundStrings()
+    SoundStrings_instanceValue
 
-    def _init_fields(self) -> None:
-        self.STOP_ALL: str = "stopAll"
-        self.CLOSE_ALL: str = "closeAll"
-        self.SOUND: str = " Sound: "
-        self.INIT_SOUND: str = "Initializing Sound: "
-        self.STOPPING_SOUND: str = "Stopping Sound: "
-        self.CLOSING_SOUND: str = "Closing Sound: "
+# Java field initializers run after the base initializer
+proc initFieldsSoundStrings(this: SoundStrings) =
+    this.STOP_ALL = "stopAll"
+    this.CLOSE_ALL = "closeAll"
+    this.SOUND = " Sound: "
+    this.INIT_SOUND = "Initializing Sound: "
+    this.STOPPING_SOUND = "Stopping Sound: "
+    this.CLOSING_SOUND = "Closing Sound: "
+    discard
 
-    def __init__(self) -> None:
-        self._init_fields()
-    
+proc initSoundStrings*(this: SoundStrings) =
+    this.initFieldsSoundStrings()
 
-    @staticmethod
-    def getInstance() -> SoundStrings:
+proc newSoundStrings*(): SoundStrings =
+    result = SoundStrings()
+    initSoundStrings(result)
+
+proc getInstance*(t: typedesc[SoundStrings]): SoundStrings {.discardable.} =
         return SoundStrings.instance
-
-
-def _SoundStrings_instance() -> object:
-    return SoundStrings()
-
-lazy_static(SoundStrings, "instance", _SoundStrings_instance)
 

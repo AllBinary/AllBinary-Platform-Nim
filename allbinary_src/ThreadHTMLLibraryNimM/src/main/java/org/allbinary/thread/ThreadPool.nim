@@ -103,7 +103,7 @@ method runAPriorityTask*(this: ThreadPool) {.base.} =
             let runnable: Runnable = this.getTask()
             if (jSame(runnable, this.NULL_RUNNABLE)):
                 return
-            this.currentPriorityRunnable = PriorityRunnable(runnable)
+            this.currentPriorityRunnable = PriorityRunnable(JObject(runnable))
             if (not (this.currentPriorityRunnable == this.threadObjectUtil.NULL_PRIORITY_RUNNABLE)):
                 this.currentPriorityRunnable.reset()
                 this.currentPriorityRunnable.run()
@@ -129,7 +129,7 @@ method runTaskWithPriority*(this: ThreadPool, task: PriorityRunnable) {.base.} =
                 var index: int32 = 0
                 while index < size:
                     defer: index = index +% 1
-                    runnable = PriorityRunnable(this.taskQueue.get(index))
+                    runnable = PriorityRunnable(JObject(this.taskQueue.get(index)))
                     if runnable.getPriority() > task.getPriority():
                         lowerPriorityRunnable = runnable
                         break
@@ -148,7 +148,7 @@ method runTask*(this: ThreadPool, task: Runnable) {.base.} =
 method getTask*(this: ThreadPool): Runnable {.base, discardable.} =
         if this.taskQueue.isEmpty():
             return this.NULL_RUNNABLE
-        return Runnable(this.taskQueue.removeAt(0))
+        return Runnable(JObject(this.taskQueue.removeAt(0)))
 
 method clear*(this: ThreadPool) {.base.} =
         this.taskQueue.clear()

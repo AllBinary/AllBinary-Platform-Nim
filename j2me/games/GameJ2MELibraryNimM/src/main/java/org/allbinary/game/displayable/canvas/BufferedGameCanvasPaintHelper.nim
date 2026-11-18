@@ -1,66 +1,94 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.displayable.canvas
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import javax/microedition/lcdui/Canvas as CanvasModule
+export CanvasModule
+import javax/microedition/lcdui/Graphics as GraphicsModule
+export GraphicsModule
+import javax/microedition/lcdui/Image as ImageModule
+export ImageModule
+import org/allbinary/graphics/paint/ProcessPaintable as ProcessPaintableModule
+export ProcessPaintableModule
+import org/allbinary/util/CircularIndexUtil as CircularIndexUtilModule
+export CircularIndexUtilModule
+import org/allbinary/game/displayable/canvas/AllBinaryGameCanvas as AllBinaryGameCanvasModule
+export AllBinaryGameCanvasModule
 
-from org.allbinary.graphics.paint.ProcessPaintable import ProcessPaintable
+type
+    BufferedGameCanvasPaintHelper* = ref object of ProcessPaintable
+        gameCanvas*: Canvas
+        offScreenImage*: JArray[Image]
+        previousImage*: Image
+        circularIndexUtil*: CircularIndexUtil
+        drawCircularIndexUtil*: CircularIndexUtil
+        anchor*: int32
 
+proc newBufferedGameCanvasPaintHelper*(gameCanvas: AllBinaryGameCanvas): BufferedGameCanvasPaintHelper
+proc initBufferedGameCanvasPaintHelper*(this: BufferedGameCanvasPaintHelper, gameCanvas: AllBinaryGameCanvas)
+method process*(this: BufferedGameCanvasPaintHelper)
+method paint*(this: BufferedGameCanvasPaintHelper, graphics: Graphics)
+import javax/microedition/lcdui/NullCanvas as NullCanvasModule
+export NullCanvasModule
+import javax/microedition/lcdui/NullImage as NullImageModule
+export NullImageModule
+import org/allbinary/graphics/Anchor as AnchorModule
+export AnchorModule
+import org/allbinary/graphics/displayable/MyCanvas as MyCanvasModule
+export MyCanvasModule
 
-class BufferedGameCanvasPaintHelper(ProcessPaintable):
-    MAX_IMAGES: int = 4
+var BufferedGameCanvasPaintHelper_MAX_IMAGESValue: int32
+var BufferedGameCanvasPaintHelper_MAX_IMAGESSet = false
+proc MAX_IMAGES*(t: typedesc[BufferedGameCanvasPaintHelper]): int32 =
+    if not BufferedGameCanvasPaintHelper_MAX_IMAGESSet:
+        BufferedGameCanvasPaintHelper_MAX_IMAGESSet = true
+        BufferedGameCanvasPaintHelper_MAX_IMAGESValue = 4
+    BufferedGameCanvasPaintHelper_MAX_IMAGESValue
 
-    def _init_fields(self) -> None:
-        from javax.microedition.lcdui.Canvas import Canvas
-        from javax.microedition.lcdui.Image import Image
-        from javax.microedition.lcdui.NullCanvas import NullCanvas
-        from javax.microedition.lcdui.NullImage import NullImage
-        from org.allbinary.graphics.Anchor import Anchor
-        from org.allbinary.util.CircularIndexUtil import CircularIndexUtil
-        self.gameCanvas: Canvas = NullCanvas.NULL_CANVAS
-        self.offScreenImage: list[Image] = [None] * (BufferedGameCanvasPaintHelper.MAX_IMAGES)
-        self.previousImage: Image = NullImage.NULL_IMAGE
-        self.circularIndexUtil: CircularIndexUtil = CircularIndexUtil.createInstance(BufferedGameCanvasPaintHelper.MAX_IMAGES)
-        self.drawCircularIndexUtil: CircularIndexUtil = CircularIndexUtil.createInstanceAt(BufferedGameCanvasPaintHelper.MAX_IMAGES - 1, BufferedGameCanvasPaintHelper.MAX_IMAGES)
-        self.anchor: int = Anchor.TOP_LEFT
-    
+# Java field initializers run after the base initializer
+proc initFieldsBufferedGameCanvasPaintHelper(this: BufferedGameCanvasPaintHelper) =
+    this.gameCanvas = NullCanvas.NULL_CANVASStatic
+    this.offScreenImage = newJArray[Image](BufferedGameCanvasPaintHelper.MAX_IMAGES, default(Image))
+    this.previousImage = NullImage.NULL_IMAGEStatic
+    this.circularIndexUtil = CircularIndexUtil.createInstance(BufferedGameCanvasPaintHelper.MAX_IMAGES)
+    this.drawCircularIndexUtil = CircularIndexUtil.createInstanceAt(BufferedGameCanvasPaintHelper.MAX_IMAGES -% 1, BufferedGameCanvasPaintHelper.MAX_IMAGES)
+    this.anchor = Anchor.TOP_LEFT
+    discard
 
-    def __init__(self, gameCanvas: AllBinaryGameCanvas) -> None:
-        super().__init__()
-        self._init_fields()
-        raise Exception("No Longer Used")
-    
+proc initBufferedGameCanvasPaintHelper*(this: BufferedGameCanvasPaintHelper, gameCanvas: AllBinaryGameCanvas) =
+        initProcessPaintable(this)
+        this.initFieldsBufferedGameCanvasPaintHelper()
+        raise newJException("Exception", "No Longer Used")
 
-    def process(self) -> None:
-        from org.allbinary.graphics.displayable.MyCanvas import MyCanvas
-        myCanvas: MyCanvas = (self.gameCanvas)
-        myCanvas.draw(self.offScreenImage[self.circularIndexUtil.getIndex()].getGraphics())
-        self.circularIndexUtil.next()
-        self.drawCircularIndexUtil.next()
-    
+proc newBufferedGameCanvasPaintHelper*(gameCanvas: AllBinaryGameCanvas): BufferedGameCanvasPaintHelper =
+    result = BufferedGameCanvasPaintHelper()
+    initBufferedGameCanvasPaintHelper(result, gameCanvas)
 
-    def paint(self, graphics: Graphics) -> None:
-        from javax.microedition.lcdui.Graphics import Graphics
-        self.previousImage = self.offScreenImage[self.drawCircularIndexUtil.getIndex()]
-        graphics.drawImage(self.previousImage, 0, 0, self.anchor)
-# from javax.microedition.lcdui.Canvas import Canvas
-# from javax.microedition.lcdui.Graphics import Graphics
-# from javax.microedition.lcdui.Image import Image
-# from javax.microedition.lcdui.NullCanvas import NullCanvas
-# from javax.microedition.lcdui.NullImage import NullImage
-# from org.allbinary.graphics.Anchor import Anchor
-# from org.allbinary.graphics.displayable.MyCanvas import MyCanvas
-# from org.allbinary.util.CircularIndexUtil import CircularIndexUtil
+method process*(this: BufferedGameCanvasPaintHelper) =
+        let myCanvas: MyCanvas = (MyCanvas(JObject(this.gameCanvas)))
+        myCanvas.draw(this.offScreenImage[this.circularIndexUtil.getIndex()].getGraphics())
+        this.circularIndexUtil.next()
+        this.drawCircularIndexUtil.next()
 
+method paint*(this: BufferedGameCanvasPaintHelper, graphics: Graphics) =
+        this.previousImage = this.offScreenImage[this.drawCircularIndexUtil.getIndex()]
+        graphics.drawImage(this.previousImage, 0, 0, this.anchor)
+
+when declared(newBufferedGameCanvasPaintHelperHook1):
+    newBufferedGameCanvasPaintHelperHook1 = proc (gameCanvas: AllBinaryGameCanvas): ProcessPaintable = newBufferedGameCanvasPaintHelper(gameCanvas)
 

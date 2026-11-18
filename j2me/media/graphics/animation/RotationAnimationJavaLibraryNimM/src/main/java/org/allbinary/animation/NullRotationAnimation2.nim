@@ -1,40 +1,53 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-#
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-#
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-#
-# Created By: Travis Berthelot
-# 
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+ 
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+ 
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ 
+  Created By: Travis Berthelot
+  
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.animation
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import javax/microedition/lcdui/Graphics as GraphicsModule
+export GraphicsModule
+import org/allbinary/animation/NullRotationAnimation as NullRotationAnimationModule
+export NullRotationAnimationModule
 
-from org.allbinary.animation.NullRotationAnimation import NullRotationAnimation
+type
+    NullRotationAnimation2* = ref object of NullRotationAnimation
+
+proc newNullRotationAnimation2*(): NullRotationAnimation2
+proc initNullRotationAnimation2*(this: NullRotationAnimation2)
+method paintXY*(this: NullRotationAnimation2, graphics: Graphics, x: int32, y: int32)
+import org/allbinary/math/AngleFactory as AngleFactoryModule
+export AngleFactoryModule
+import org/allbinary/math/AngleInfo as AngleInfoModule
+export AngleInfoModule
+import org/allbinary/util/CircularIndexUtil as CircularIndexUtilModule
+export CircularIndexUtilModule
+import org/allbinary/animation/IndexedAnimationBehavior as IndexedAnimationBehaviorModule
+export IndexedAnimationBehaviorModule
 
 
-class NullRotationAnimation2(NullRotationAnimation):
-    
+proc initNullRotationAnimation2*(this: NullRotationAnimation2) =
+        initNullRotationAnimation(this, AngleInfo.getInstance(AngleFactory.getInstance().QUARTER_TOTAL_ANGLE), CircularIndexUtil.createInstance(4), newIndexedAnimationBehavior(1, 250))
 
-    def __init__(self) -> None:
-        from org.allbinary.animation.IndexedAnimationBehavior import IndexedAnimationBehavior
-        from org.allbinary.math.AngleFactory import AngleFactory
-        from org.allbinary.math.AngleInfo import AngleInfo
-        from org.allbinary.util.CircularIndexUtil import CircularIndexUtil
-        super().__init__(AngleInfo.getInstance(AngleFactory.getInstance().QUARTER_TOTAL_ANGLE), CircularIndexUtil.createInstance(4), IndexedAnimationBehavior(1, 250))
-    
+proc newNullRotationAnimation2*(): NullRotationAnimation2 =
+    result = NullRotationAnimation2()
+    initNullRotationAnimation2(result)
 
-    def paintXY(self, graphics: Graphics, x: int, y: int) -> None:
-        from javax.microedition.lcdui.Graphics import Graphics
-        pass
-# from javax.microedition.lcdui.Graphics import Graphics
-# from org.allbinary.math.AngleFactory import AngleFactory
-# from org.allbinary.math.AngleInfo import AngleInfo
-# from org.allbinary.util.CircularIndexUtil import CircularIndexUtil
+method paintXY*(this: NullRotationAnimation2, graphics: Graphics, x: int32, y: int32) =
+        discard
 
+when declared(newNullRotationAnimation2Hook0):
+    newNullRotationAnimation2Hook0 = proc (): NullRotationAnimation = newNullRotationAnimation2()
 

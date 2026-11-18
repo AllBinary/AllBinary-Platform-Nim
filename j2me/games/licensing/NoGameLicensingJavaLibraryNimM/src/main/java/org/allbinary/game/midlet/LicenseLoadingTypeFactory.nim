@@ -1,44 +1,58 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.midlet
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/game/midlet/LicenseLoadingType as LicenseLoadingTypeModule
+export LicenseLoadingTypeModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    LicenseLoadingTypeFactory* = ref object of JObject
+        INITIAL_LOADING*: LicenseLoadingType
+        GAME_START*: LicenseLoadingType
+        LOGIN*: LicenseLoadingType
+        OTHER*: LicenseLoadingType
 
+proc newLicenseLoadingTypeFactory*(): LicenseLoadingTypeFactory
+proc getIntance*(t: typedesc[LicenseLoadingTypeFactory]): LicenseLoadingTypeFactory {.discardable.}
 
-class LicenseLoadingTypeFactory:
-    instance: LicenseLoadingTypeFactory = None
+var LicenseLoadingTypeFactory_instanceValue: LicenseLoadingTypeFactory
+var LicenseLoadingTypeFactory_instanceSet = false
+proc instance*(t: typedesc[LicenseLoadingTypeFactory]): LicenseLoadingTypeFactory =
+    if not LicenseLoadingTypeFactory_instanceSet:
+        LicenseLoadingTypeFactory_instanceSet = true
+        LicenseLoadingTypeFactory_instanceValue = newLicenseLoadingTypeFactory()
+    LicenseLoadingTypeFactory_instanceValue
 
-    def _init_fields(self) -> None:
-        self.INITIAL_LOADING: LicenseLoadingType = LicenseLoadingType("Initial Loading")
-        self.GAME_START: LicenseLoadingType = LicenseLoadingType("Game Start")
-        self.LOGIN: LicenseLoadingType = LicenseLoadingType("Login")
-        self.OTHER: LicenseLoadingType = LicenseLoadingType("Other/Usually The First Non Demo Level")
+# Java field initializers run after the base initializer
+proc initFieldsLicenseLoadingTypeFactory(this: LicenseLoadingTypeFactory) =
+    this.INITIAL_LOADING = newLicenseLoadingType("Initial Loading")
+    this.GAME_START = newLicenseLoadingType("Game Start")
+    this.LOGIN = newLicenseLoadingType("Login")
+    this.OTHER = newLicenseLoadingType("Other/Usually The First Non Demo Level")
+    discard
 
-    def __init__(self) -> None:
-        self._init_fields()
-    
+proc initLicenseLoadingTypeFactory*(this: LicenseLoadingTypeFactory) =
+    this.initFieldsLicenseLoadingTypeFactory()
 
-    @staticmethod
-    def getIntance() -> LicenseLoadingTypeFactory:
+proc newLicenseLoadingTypeFactory*(): LicenseLoadingTypeFactory =
+    result = LicenseLoadingTypeFactory()
+    initLicenseLoadingTypeFactory(result)
+
+proc getIntance*(t: typedesc[LicenseLoadingTypeFactory]): LicenseLoadingTypeFactory {.discardable.} =
         return LicenseLoadingTypeFactory.instance
-from org.allbinary.game.midlet.LicenseLoadingType import LicenseLoadingType
-
-
-def _LicenseLoadingTypeFactory_instance() -> object:
-    return LicenseLoadingTypeFactory()
-
-lazy_static(LicenseLoadingTypeFactory, "instance", _LicenseLoadingTypeFactory_instance)
 

@@ -1,122 +1,136 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.animation
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/direction/Direction as DirectionModule
+export DirectionModule
+import org/allbinary/direction/DirectionUtil as DirectionUtilModule
+export DirectionUtilModule
+import org/allbinary/math/Angle as AngleModule
+export AngleModule
+import org/allbinary/math/AngleInfo as AngleInfoModule
+export AngleInfoModule
+import org/allbinary/math/FrameUtil as FrameUtilModule
+export FrameUtilModule
+import org/allbinary/util/CircularIndexUtil as CircularIndexUtilModule
+export CircularIndexUtilModule
+import org/allbinary/animation/IndexedAnimation as IndexedAnimationModule
+export IndexedAnimationModule
+import org/allbinary/animation/RotationAnimationInterface as RotationAnimationInterfaceModule
+export RotationAnimationInterfaceModule
+import org/allbinary/animation/AnimationBehavior as AnimationBehaviorModule
+export AnimationBehaviorModule
 
-from org.allbinary.animation.IndexedAnimation import IndexedAnimation
-from org.allbinary.animation.RotationAnimationInterface import RotationAnimationInterface
+type
+    RotationAnimation* = ref object of IndexedAnimation
+        frameUtil*: FrameUtil
+        directionUtil*: DirectionUtil
+        angleInfo*: AngleInfo
+        circularIndexUtil*: CircularIndexUtil
+
+converter jAsRotationAnimationInterface*(value: RotationAnimation): RotationAnimationInterface = cast[RotationAnimationInterface](value)
+proc newRotationAnimation*(angleInfo: AngleInfo, circularIndexUtil: CircularIndexUtil, animationBehavior: AnimationBehavior): RotationAnimation
+proc initRotationAnimation*(this: RotationAnimation, angleInfo: AngleInfo, circularIndexUtil: CircularIndexUtil, animationBehavior: AnimationBehavior)
+method nextRotationX*(this: RotationAnimation) {.base.}
+method previousRotationX*(this: RotationAnimation) {.base.}
+method nextRotation*(this: RotationAnimation)
+method previousRotation*(this: RotationAnimation)
+method nextRotationZ*(this: RotationAnimation) {.base.}
+method previousRotationZ*(this: RotationAnimation) {.base.}
+method setFrame*(this: RotationAnimation, index: int32)
+method setFrameByDirection*(this: RotationAnimation, direction: Direction)
+method setFrameToAngle*(this: RotationAnimation, angle: Angle)
+method adjustFrameToAngle*(this: RotationAnimation, angle: Angle)
+method adjustFrame*(this: RotationAnimation, angle: int16)
+method getFrame*(this: RotationAnimation): int32 {.discardable.}
+method getSize*(this: RotationAnimation): int32 {.discardable.}
+method getAngleInfoP*(this: RotationAnimation): AngleInfo {.discardable.}
+method toString*(this: RotationAnimation): string {.discardable.}
+import org/allbinary/logic/string/StringMaker as StringMakerModule
+export StringMakerModule
 
 
-class RotationAnimation(IndexedAnimation, RotationAnimationInterface):
-
-    def _init_fields(self) -> None:
-        from org.allbinary.direction.DirectionUtil import DirectionUtil
-        from org.allbinary.math.AngleInfo import AngleInfo
-        from org.allbinary.math.FrameUtil import FrameUtil
-        from org.allbinary.util.CircularIndexUtil import CircularIndexUtil
-        self.frameUtil: FrameUtil = FrameUtil.getInstance()
-        self.directionUtil: DirectionUtil = DirectionUtil.getInstance()
-        self.angleInfo: AngleInfo = None
-        self.circularIndexUtil: CircularIndexUtil = None
+# Java field initializers run after the base initializer
+proc initFieldsRotationAnimation(this: RotationAnimation) =
+    this.frameUtil = FrameUtil.getInstance()
+    this.directionUtil = DirectionUtil.getInstance()
     
-
-    def __init__(self, angleInfo: AngleInfo, circularIndexUtil: CircularIndexUtil, animationBehavior: AnimationBehavior) -> None:
-        from org.allbinary.math.AngleInfo import AngleInfo
-        from org.allbinary.util.CircularIndexUtil import CircularIndexUtil
-        super().__init__(animationBehavior)
-        self._init_fields()
-        self.angleInfo = angleInfo
-        self.circularIndexUtil = circularIndexUtil
     
+    discard
 
-    def nextRotationX(self) -> None:
-        pass
-    
+proc initRotationAnimation*(this: RotationAnimation, angleInfo: AngleInfo, circularIndexUtil: CircularIndexUtil, animationBehavior: AnimationBehavior) =
+        initIndexedAnimation(this, animationBehavior)
+        this.initFieldsRotationAnimation()
+        this.angleInfo = angleInfo
+        this.circularIndexUtil = circularIndexUtil
 
-    def previousRotationX(self) -> None:
-        pass
-    
+proc newRotationAnimation*(angleInfo: AngleInfo, circularIndexUtil: CircularIndexUtil, animationBehavior: AnimationBehavior): RotationAnimation =
+    result = RotationAnimation()
+    initRotationAnimation(result, angleInfo, circularIndexUtil, animationBehavior)
 
-    def nextRotation(self) -> None:
-        self.angleInfo.adjustAngle(self.circularIndexUtil.next())
-    
+method nextRotationX*(this: RotationAnimation) {.base.} =
+        discard
 
-    def previousRotation(self) -> None:
-        self.angleInfo.adjustAngle(self.circularIndexUtil.previous())
-    
+method previousRotationX*(this: RotationAnimation) {.base.} =
+        discard
 
-    def nextRotationZ(self) -> None:
-        pass
-    
+method nextRotation*(this: RotationAnimation) =
+        this.angleInfo.adjustAngle(this.circularIndexUtil.next())
 
-    def previousRotationZ(self) -> None:
-        pass
-    
+method previousRotation*(this: RotationAnimation) =
+        this.angleInfo.adjustAngle(this.circularIndexUtil.previous())
 
-    def setFrame(self, index: int) -> None:
-        self.circularIndexUtil.setIndex(index)
-        newFrame: int = self.circularIndexUtil.getIndex()
-        self.angleInfo.adjustAngle(newFrame)
-    
+method nextRotationZ*(this: RotationAnimation) {.base.} =
+        discard
 
-    def setFrameByDirection(self, direction: Direction) -> None:
-        from org.allbinary.direction.Direction import Direction
-        from org.allbinary.math.Angle import Angle
-        angle: Angle = self.directionUtil.getFrameAngle(direction)
-        self.adjustFrameToAngle(angle)
-    
+method previousRotationZ*(this: RotationAnimation) {.base.} =
+        discard
 
-    def setFrameToAngle(self, angle: Angle) -> None:
-        from org.allbinary.math.Angle import Angle
-        self.adjustFrameToAngle(angle)
-    
+method setFrame*(this: RotationAnimation, index: int32) =
+        this.circularIndexUtil.setIndex(index)
+        let newFrame: int32 = this.circularIndexUtil.getIndex()
+        this.angleInfo.adjustAngle(newFrame)
 
-    def adjustFrameToAngle(self, angle: Angle) -> None:
-        from org.allbinary.math.Angle import Angle
-        self.adjustFrame(angle.getValue())
-    
+method setFrameByDirection*(this: RotationAnimation, direction: Direction) =
+        let angle: Angle = this.directionUtil.getFrameAngle(direction)
+        this.adjustFrameToAngle(angle)
 
-    def adjustFrame(self, angle: int) -> None:
-        self.setFrame(self.frameUtil.getFrameForAngle(angle, int(self.angleInfo.getAngleIncrementInfo().getAngleIncrement())))
-    
+method setFrameToAngle*(this: RotationAnimation, angle: Angle) =
+        this.adjustFrameToAngle(angle)
 
-    def getFrame(self) -> int:
-        return self.circularIndexUtil.getIndex()
-    
+method adjustFrameToAngle*(this: RotationAnimation, angle: Angle) =
+        this.adjustFrame(angle.getValue())
 
-    def getSize(self) -> int:
-        return self.circularIndexUtil.getSize()
-    
+method adjustFrame*(this: RotationAnimation, angle: int16) =
+        this.setFrame(this.frameUtil.getFrameForAngle(angle, int32(this.angleInfo.getAngleIncrementInfo().getAngleIncrement())))
 
-    def getAngleInfoP(self) -> AngleInfo:
-        from org.allbinary.math.AngleInfo import AngleInfo
-        return self.angleInfo
-    
+method getFrame*(this: RotationAnimation): int32 {.discardable.} =
+        return this.circularIndexUtil.getIndex()
 
-    def toString(self) -> str:
-        from org.allbinary.logic.string.StringMaker import StringMaker
-        return str(StringMaker().append(str(super())).append("circularIndexUtil: ").append(str(self.circularIndexUtil)).append("angleInfo: ").append(str(self.angleInfo)))
+method getSize*(this: RotationAnimation): int32 {.discardable.} =
+        return this.circularIndexUtil.getSize()
 
-    def __str__(self) -> str:
-        return self.toString()
-# from org.allbinary.direction.Direction import Direction
-# from org.allbinary.direction.DirectionUtil import DirectionUtil
-# from org.allbinary.logic.string.StringMaker import StringMaker
-# from org.allbinary.math.Angle import Angle
-# from org.allbinary.math.AngleInfo import AngleInfo
-# from org.allbinary.math.FrameUtil import FrameUtil
-# from org.allbinary.util.CircularIndexUtil import CircularIndexUtil
+method getAngleInfoP*(this: RotationAnimation): AngleInfo {.discardable.} =
+        return this.angleInfo
 
+method toString*(this: RotationAnimation): string {.discardable.} =
+        return newStringMaker().append(procCall IndexedAnimation(this).toString()).append("circularIndexUtil: ").append(this.circularIndexUtil.toString()).append("angleInfo: ").append(this.angleInfo.toString()).toString()
+
+when declared(newRotationAnimationHook3):
+    newRotationAnimationHook3 = proc (angleInfo: AngleInfo, circularIndexUtil: CircularIndexUtil, animationBehavior: AnimationBehavior): IndexedAnimation = newRotationAnimation(angleInfo, circularIndexUtil, animationBehavior)
 

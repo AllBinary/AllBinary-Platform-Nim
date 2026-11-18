@@ -1,157 +1,158 @@
-# 
-# AllBinary Open License Version 1 
-# Copyright (c) 2025 AllBinary 
-#  
-# By agreeing to this license you and any business entity you represent are 
-# legally bound to the AllBinary Open License Version 1 legal agreement. 
-#  
-# You may obtain the AllBinary Open License Version 1 legal agreement from 
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
-#  
-# Created By: Travis Berthelot 
-#   
+#[
+  
+  AllBinary Open License Version 1 
+  Copyright (c) 2025 AllBinary 
+   
+  By agreeing to this license you and any business entity you represent are 
+  legally bound to the AllBinary Open License Version 1 legal agreement. 
+   
+  You may obtain the AllBinary Open License Version 1 legal agreement from 
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
+   
+  Created By: Travis Berthelot 
+    
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.displayable.canvas
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import java/lang/Thread as ThreadModule
+export ThreadModule
+import javax/microedition/lcdui/CommandListener as CommandListenerModule
+export CommandListenerModule
+import javax/microedition/lcdui/Graphics as GraphicsModule
+export GraphicsModule
+import javax/microedition/lcdui/Item as ItemModule
+export ItemModule
+import org/allbinary/game/state/GameState as GameStateModule
+export GameStateModule
+import org/allbinary/game/state/GameStateFactory as GameStateFactoryModule
+export GameStateFactoryModule
+import org/allbinary/util/ABHashtable as ABHashtableModule
+export ABHashtableModule
+import org/allbinary/game/displayable/canvas/GameCanvasRunnableInterface as GameCanvasRunnableInterfaceModule
+export GameCanvasRunnableInterfaceModule
 
-import threading
-from java.lang.JavaRuntimeStatic import lazy_static
-from org.allbinary.game.displayable.canvas.GameCanvasRunnableInterface import GameCanvasRunnableInterface
+type
+    NullGameCanvasRunnable* = ref object of GameCanvasRunnableInterface
+        gameStateFactory*: GameStateFactory
 
+proc newNullGameCanvasRunnable*(): NullGameCanvasRunnable
+method getTitle*(this: NullGameCanvasRunnable): string {.discardable.}
+method isInitialized*(this: NullGameCanvasRunnable): bool {.discardable.}
+method isPaused*(this: NullGameCanvasRunnable): bool {.discardable.}
+method unPause*(this: NullGameCanvasRunnable)
+method pause*(this: NullGameCanvasRunnable)
+method isHighScoreSubmitted*(this: NullGameCanvasRunnable): bool {.discardable.}
+method setHighScoreSubmitted*(this: NullGameCanvasRunnable, highScoreSubmitted: bool)
+method processGameOver*(this: NullGameCanvasRunnable)
+method isGameOver*(this: NullGameCanvasRunnable): bool {.discardable.}
+method initCommands*(this: NullGameCanvasRunnable, cmdListener: CommandListener)
+method getCurrentStateHashtable*(this: NullGameCanvasRunnable): ABHashtable {.discardable.}
+method getLoadStateHashtable*(this: NullGameCanvasRunnable): ABHashtable {.discardable.}
+method setLoadStateHashtable*(this: NullGameCanvasRunnable, hashtable: ABHashtable)
+method getType*(this: NullGameCanvasRunnable): int32 {.discardable.}
+method setGameState*(this: NullGameCanvasRunnable, gameState: GameState)
+method getGameState*(this: NullGameCanvasRunnable): GameState {.discardable.}
+method itemStateChanged*(this: NullGameCanvasRunnable, item: Item)
+method paint*(this: NullGameCanvasRunnable, graphics: Graphics)
+method paintThreed*(this: NullGameCanvasRunnable, graphics: Graphics)
+method isRunning*(this: NullGameCanvasRunnable): bool {.discardable.}
+method setRunning*(this: NullGameCanvasRunnable, isRunning: bool)
+method setThread*(this: NullGameCanvasRunnable, thread: JThread)
+method run*(this: NullGameCanvasRunnable)
+import org/allbinary/logic/StdUtil as StdUtilModule
+export StdUtilModule
+import org/allbinary/logic/string/StringUtil as StringUtilModule
+export StringUtilModule
 
-class NullGameCanvasRunnable(GameCanvasRunnableInterface):
-    NULL_GAME_CANVAS_RUNNABLE: NullGameCanvasRunnable = None
+var NullGameCanvasRunnable_NULL_GAME_CANVAS_RUNNABLEValue: NullGameCanvasRunnable
+var NullGameCanvasRunnable_NULL_GAME_CANVAS_RUNNABLESet = false
+proc NULL_GAME_CANVAS_RUNNABLEStatic*(t: typedesc[NullGameCanvasRunnable]): NullGameCanvasRunnable =
+    if not NullGameCanvasRunnable_NULL_GAME_CANVAS_RUNNABLESet:
+        NullGameCanvasRunnable_NULL_GAME_CANVAS_RUNNABLESet = true
+        NullGameCanvasRunnable_NULL_GAME_CANVAS_RUNNABLEValue = newNullGameCanvasRunnable()
+    NullGameCanvasRunnable_NULL_GAME_CANVAS_RUNNABLEValue
 
-    def _init_fields(self) -> None:
-        from org.allbinary.game.state.GameStateFactory import GameStateFactory
-        self.gameStateFactory: GameStateFactory = GameStateFactory.getInstance()
+# Java field initializers run after the base initializer
+proc initFieldsNullGameCanvasRunnable(this: NullGameCanvasRunnable) =
+    this.gameStateFactory = GameStateFactory.getInstance()
+    discard
 
-    def __init__(self) -> None:
-        self._init_fields()
-    
+proc initNullGameCanvasRunnable*(this: NullGameCanvasRunnable) =
+    this.initFieldsNullGameCanvasRunnable()
 
-    def getTitle(self) -> str:
-        from org.allbinary.logic.string.StringUtil import StringUtil
+proc newNullGameCanvasRunnable*(): NullGameCanvasRunnable =
+    result = NullGameCanvasRunnable()
+    initNullGameCanvasRunnable(result)
+
+method getTitle*(this: NullGameCanvasRunnable): string {.discardable.} =
         return StringUtil.getInstance().EMPTY_STRING
-    
 
-    def isInitialized(self) -> bool:
-        return False
-    
+method isInitialized*(this: NullGameCanvasRunnable): bool {.discardable.} =
+        return false
 
-    def isPaused(self) -> bool:
-        return False
-    
+method isPaused*(this: NullGameCanvasRunnable): bool {.discardable.} =
+        return false
 
-    def unPause(self) -> None:
-        pass
-    
+method unPause*(this: NullGameCanvasRunnable) =
+        discard
 
-    def pause(self) -> None:
-        pass
-    
+method pause*(this: NullGameCanvasRunnable) =
+        discard
 
-    def isHighScoreSubmitted(self) -> bool:
-        return False
-    
+method isHighScoreSubmitted*(this: NullGameCanvasRunnable): bool {.discardable.} =
+        return false
 
-    # throws Exception
-    def setHighScoreSubmitted(self, highScoreSubmitted: bool) -> None:
-        pass
-    
+method setHighScoreSubmitted*(this: NullGameCanvasRunnable, highScoreSubmitted: bool) =
+        discard
 
-    # throws Exception
-    def processGameOver(self) -> None:
-        pass
-    
+method processGameOver*(this: NullGameCanvasRunnable) =
+        discard
 
-    def isGameOver(self) -> bool:
-        return False
-    
+method isGameOver*(this: NullGameCanvasRunnable): bool {.discardable.} =
+        return false
 
-    def initCommands(self, cmdListener: CommandListener) -> None:
-        from javax.microedition.lcdui.CommandListener import CommandListener
-        pass
-    
+method initCommands*(this: NullGameCanvasRunnable, cmdListener: CommandListener) =
+        discard
 
-    # throws Exception
-    def getCurrentStateHashtable(self) -> ABHashtable[object, object]:
-        from org.allbinary.logic.StdUtil import StdUtil
-        from org.allbinary.util.ABHashtable import ABHashtable
+method getCurrentStateHashtable*(this: NullGameCanvasRunnable): ABHashtable {.discardable.} =
         return StdUtil.getInstance().NULL_TABLE
-    
 
-    # throws Exception
-    def getLoadStateHashtable(self) -> ABHashtable[object, object]:
-        from org.allbinary.logic.StdUtil import StdUtil
-        from org.allbinary.util.ABHashtable import ABHashtable
+method getLoadStateHashtable*(this: NullGameCanvasRunnable): ABHashtable {.discardable.} =
         return StdUtil.getInstance().NULL_TABLE
-    
 
-    # throws Exception
-    def setLoadStateHashtable(self, hashtable: ABHashtable[object, object]) -> None:
-        from org.allbinary.util.ABHashtable import ABHashtable
-        pass
-    
+method setLoadStateHashtable*(this: NullGameCanvasRunnable, hashtable: ABHashtable) =
+        discard
 
-    def getType(self) -> int:
+method getType*(this: NullGameCanvasRunnable): int32 {.discardable.} =
         return -1
-    
 
-    # throws Exception
-    def setGameState(self, gameState: GameState) -> None:
-        from org.allbinary.game.state.GameState import GameState
-        pass
-    
+method setGameState*(this: NullGameCanvasRunnable, gameState: GameState) =
+        discard
 
-    def getGameState(self) -> GameState:
-        from org.allbinary.game.state.GameState import GameState
-        return self.gameStateFactory.NO_GAME_STATE
-    
+method getGameState*(this: NullGameCanvasRunnable): GameState {.discardable.} =
+        return this.gameStateFactory.NO_GAME_STATE
 
-    def itemStateChanged(self, item: Item) -> None:
-        from javax.microedition.lcdui.Item import Item
-        pass
-    
+method itemStateChanged*(this: NullGameCanvasRunnable, item: Item) =
+        discard
 
-    def paint(self, graphics: Graphics) -> None:
-        from javax.microedition.lcdui.Graphics import Graphics
-        pass
-    
+method paint*(this: NullGameCanvasRunnable, graphics: Graphics) =
+        discard
 
-    def paintThreed(self, graphics: Graphics) -> None:
-        from javax.microedition.lcdui.Graphics import Graphics
-        pass
-    
+method paintThreed*(this: NullGameCanvasRunnable, graphics: Graphics) =
+        discard
 
-    def isRunning(self) -> bool:
-        return False
-    
+method isRunning*(this: NullGameCanvasRunnable): bool {.discardable.} =
+        return false
 
-    def setRunning(self, isRunning: bool) -> None:
-        pass
-    
+method setRunning*(this: NullGameCanvasRunnable, isRunning: bool) =
+        discard
 
-    # throws Exception
-    def setThread(self, thread: threading.Thread) -> None:
-        pass
-    
+method setThread*(this: NullGameCanvasRunnable, thread: JThread) =
+        discard
 
-    def run(self) -> None:
-        pass
-# from javax.microedition.lcdui.CommandListener import CommandListener
-# from javax.microedition.lcdui.Graphics import Graphics
-# from javax.microedition.lcdui.Item import Item
-# from org.allbinary.game.state.GameState import GameState
-# from org.allbinary.game.state.GameStateFactory import GameStateFactory
-# from org.allbinary.logic.StdUtil import StdUtil
-# from org.allbinary.logic.string.StringUtil import StringUtil
-# from org.allbinary.util.ABHashtable import ABHashtable
-
-
-def _NullGameCanvasRunnable_NULL_GAME_CANVAS_RUNNABLE() -> object:
-    return NullGameCanvasRunnable()
-
-lazy_static(NullGameCanvasRunnable, "NULL_GAME_CANVAS_RUNNABLE", _NullGameCanvasRunnable_NULL_GAME_CANVAS_RUNNABLE)
+method run*(this: NullGameCanvasRunnable) =
+        discard
 

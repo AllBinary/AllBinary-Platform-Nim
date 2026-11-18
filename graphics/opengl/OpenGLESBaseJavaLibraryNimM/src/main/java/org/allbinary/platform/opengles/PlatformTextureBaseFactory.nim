@@ -1,45 +1,56 @@
-# 
-# AllBinary Open License Version 1 
-# Copyright (c) 2022 AllBinary 
-#  
-# By agreeing to this license you and any business entity you represent are 
-# legally bound to the AllBinary Open License Version 1 legal agreement. 
-#  
-# You may obtain the AllBinary Open License Version 1 legal agreement from 
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
-#  
-# Created By: Travis Berthelot 
-#   
+#[
+  
+  AllBinary Open License Version 1 
+  Copyright (c) 2022 AllBinary 
+   
+  By agreeing to this license you and any business entity you represent are 
+  legally bound to the AllBinary Open License Version 1 legal agreement. 
+   
+  You may obtain the AllBinary Open License Version 1 legal agreement from 
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
+   
+  Created By: Travis Berthelot 
+    
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.platform.opengles
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import javax/microedition/khronos/opengles/GL10 as GL10Module
+export GL10Module
+import javax/microedition/lcdui/Image as ImageModule
+export ImageModule
+import org/allbinary/string/CommonStrings as CommonStringsModule
+export CommonStringsModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    PlatformTextureBaseFactory* = ref object of JObject
+        commonStrings*: CommonStrings
 
+proc newPlatformTextureBaseFactory*(): PlatformTextureBaseFactory
+method load*(this: PlatformTextureBaseFactory, gl: GL10, target: int32, level: int32, image: Image, border: int32, flip: bool) {.base.}
 
-class PlatformTextureBaseFactory:
-    NULL_PLATFORM_TEXTURE_BASE_FACTORY: PlatformTextureBaseFactory = None
+var PlatformTextureBaseFactory_NULL_PLATFORM_TEXTURE_BASE_FACTORYValue: PlatformTextureBaseFactory
+var PlatformTextureBaseFactory_NULL_PLATFORM_TEXTURE_BASE_FACTORYSet = false
+proc NULL_PLATFORM_TEXTURE_BASE_FACTORY*(t: typedesc[PlatformTextureBaseFactory]): PlatformTextureBaseFactory =
+    if not PlatformTextureBaseFactory_NULL_PLATFORM_TEXTURE_BASE_FACTORYSet:
+        PlatformTextureBaseFactory_NULL_PLATFORM_TEXTURE_BASE_FACTORYSet = true
+        PlatformTextureBaseFactory_NULL_PLATFORM_TEXTURE_BASE_FACTORYValue = newPlatformTextureBaseFactory()
+    PlatformTextureBaseFactory_NULL_PLATFORM_TEXTURE_BASE_FACTORYValue
 
-    def _init_fields(self) -> None:
-        from org.allbinary.string.CommonStrings import CommonStrings
-        self.commonStrings: CommonStrings = CommonStrings.getInstance()
+# Java field initializers run after the base initializer
+proc initFieldsPlatformTextureBaseFactory(this: PlatformTextureBaseFactory) =
+    this.commonStrings = CommonStrings.getInstance()
+    discard
 
-    def __init__(self) -> None:
-        self._init_fields()
-    
+proc initPlatformTextureBaseFactory*(this: PlatformTextureBaseFactory) =
+    this.initFieldsPlatformTextureBaseFactory()
 
-    def load(self, gl: GL10, target: int, level: int, image: Image, border: int, flip: bool) -> None:
-        from javax.microedition.khronos.opengles.GL10 import GL10
-        from javax.microedition.lcdui.Image import Image
-        pass
-# from javax.microedition.khronos.opengles.GL10 import GL10
-# from javax.microedition.lcdui.Image import Image
-# from org.allbinary.string.CommonStrings import CommonStrings
+proc newPlatformTextureBaseFactory*(): PlatformTextureBaseFactory =
+    result = PlatformTextureBaseFactory()
+    initPlatformTextureBaseFactory(result)
 
-
-def _PlatformTextureBaseFactory_NULL_PLATFORM_TEXTURE_BASE_FACTORY() -> object:
-    return PlatformTextureBaseFactory()
-
-lazy_static(PlatformTextureBaseFactory, "NULL_PLATFORM_TEXTURE_BASE_FACTORY", _PlatformTextureBaseFactory_NULL_PLATFORM_TEXTURE_BASE_FACTORY)
+method load*(this: PlatformTextureBaseFactory, gl: GL10, target: int32, level: int32, image: Image, border: int32, flip: bool) {.base.} =
+        discard
 

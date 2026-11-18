@@ -1,39 +1,50 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.input.motion.button
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/input/motion/button/TouchButtonResource as TouchButtonResourceModule
+export TouchButtonResourceModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
-from org.allbinary.input.motion.button.TouchButtonResource import TouchButtonResource
+type
+    TouchButtonReverseResource* = ref object of TouchButtonResource
 
+proc newTouchButtonReverseResource*(): TouchButtonReverseResource
+proc initTouchButtonReverseResource*(this: TouchButtonReverseResource)
+proc getInstance*(t: typedesc[TouchButtonReverseResource]): TouchButtonResource {.discardable.}
 
-class TouchButtonReverseResource(TouchButtonResource):
-    instance: TouchButtonResource = None
-    
+var TouchButtonReverseResource_instanceValue: TouchButtonResource
+var TouchButtonReverseResource_instanceSet = false
+proc instance*(t: typedesc[TouchButtonReverseResource]): TouchButtonResource =
+    if not TouchButtonReverseResource_instanceSet:
+        TouchButtonReverseResource_instanceSet = true
+        TouchButtonReverseResource_instanceValue = newTouchButtonReverseResource()
+    TouchButtonReverseResource_instanceValue
 
-    @staticmethod
-    def getInstance() -> TouchButtonResource:
+proc getInstance*(t: typedesc[TouchButtonReverseResource]): TouchButtonResource {.discardable.} =
         return TouchButtonReverseResource.instance
-    
 
-    def __init__(self) -> None:
-        super().__init__("/touch_button_reverse_64_by_64.png", "/touch_button_reverse_hint_64_by_64.png")
+proc initTouchButtonReverseResource*(this: TouchButtonReverseResource) =
+        initTouchButtonResource(this, "/touch_button_reverse_64_by_64.png", "/touch_button_reverse_hint_64_by_64.png")
 
+proc newTouchButtonReverseResource*(): TouchButtonReverseResource =
+    result = TouchButtonReverseResource()
+    initTouchButtonReverseResource(result)
 
-def _TouchButtonReverseResource_instance() -> object:
-    return TouchButtonReverseResource()
-
-lazy_static(TouchButtonReverseResource, "instance", _TouchButtonReverseResource_instance)
+when declared(newTouchButtonReverseResourceHook0):
+    newTouchButtonReverseResourceHook0 = proc (): TouchButtonResource = newTouchButtonReverseResource()
 

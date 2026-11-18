@@ -1,46 +1,59 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.tick
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/layer/AllBinaryLayer as AllBinaryLayerModule
+export AllBinaryLayerModule
+import org/allbinary/layer/AllBinaryLayerManager as AllBinaryLayerManagerModule
+export AllBinaryLayerManagerModule
+import org/allbinary/layer/LayerProcessor as LayerProcessorModule
+export LayerProcessorModule
 
-from org.allbinary.layer.LayerProcessor import LayerProcessor
+type
+    TickableLayerProcessor* = ref object of LayerProcessor
+
+proc newTickableLayerProcessor*(): TickableLayerProcessor
+proc initTickableLayerProcessor*(this: TickableLayerProcessor)
+method processAt*(this: TickableLayerProcessor, allBinaryLayerManager: AllBinaryLayerManager, layerInterface: AllBinaryLayer, index: int32)
+method isProcessorLayer*(this: TickableLayerProcessor, layerInterface: AllBinaryLayer): bool {.discardable.}
+import org/allbinary/game/tick/TickableLayerManager as TickableLayerManagerModule
+export TickableLayerManagerModule
+import org/allbinary/game/tick/TickableInterface as TickableInterfaceModule
+export TickableInterfaceModule
 
 
-class TickableLayerProcessor(LayerProcessor):
-    
+proc initTickableLayerProcessor*(this: TickableLayerProcessor) =
+        initLayerProcessor(this, newTickableLayerManager())
 
-    def __init__(self) -> None:
-        from org.allbinary.game.tick.TickableLayerManager import TickableLayerManager
-        super().__init__(TickableLayerManager())
-    
+proc newTickableLayerProcessor*(): TickableLayerProcessor =
+    result = TickableLayerProcessor()
+    initTickableLayerProcessor(result)
 
-    # throws Exception
-    def processAt(self, allBinaryLayerManager: AllBinaryLayerManager, layerInterface: AllBinaryLayer, index: int) -> None:
-        from org.allbinary.layer.AllBinaryLayer import AllBinaryLayer
-        from org.allbinary.layer.AllBinaryLayerManager import AllBinaryLayerManager
-        tickableInterface: TickableInterface = layerInterface
+method processAt*(this: TickableLayerProcessor, allBinaryLayerManager: AllBinaryLayerManager, layerInterface: AllBinaryLayer, index: int32) =
+        var tickableInterface: TickableInterface = TickableInterface(JObject(layerInterface))
         tickableInterface.processTick(allBinaryLayerManager)
-    
 
-    def isProcessorLayer(self, layerInterface: AllBinaryLayer) -> bool:
-        from org.allbinary.layer.AllBinaryLayer import AllBinaryLayer
+method isProcessorLayer*(this: TickableLayerProcessor, layerInterface: AllBinaryLayer): bool {.discardable.} =
         if layerInterface.implmentsTickableInterface():
-            return True
+            return true
         else:
-            return False
-# from org.allbinary.layer.AllBinaryLayer import AllBinaryLayer
-# from org.allbinary.layer.AllBinaryLayerManager import AllBinaryLayerManager
+            return false
 
+when declared(newTickableLayerProcessorHook0):
+    newTickableLayerProcessorHook0 = proc (): LayerProcessor = newTickableLayerProcessor()
 

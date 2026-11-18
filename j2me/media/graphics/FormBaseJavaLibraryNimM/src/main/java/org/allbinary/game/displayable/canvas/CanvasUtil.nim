@@ -1,34 +1,45 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#   
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+    
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.displayable.canvas
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+
+type
+    CanvasUtil* = ref object of JObject
+
+proc newCanvasUtil*(): CanvasUtil
+proc initCanvasUtil*(this: CanvasUtil)
+proc getKeyName*(t: typedesc[CanvasUtil], key: int32): string {.discardable.}
+import javax/microedition/lcdui/Canvas as CanvasModule
+export CanvasModule
+import org/allbinary/string/CommonPhoneStrings as CommonPhoneStringsModule
+export CommonPhoneStringsModule
 
 
+proc initCanvasUtil*(this: CanvasUtil) =
+        discard
+        discard
 
-class CanvasUtil:
-    
+proc newCanvasUtil*(): CanvasUtil =
+    result = CanvasUtil()
+    initCanvasUtil(result)
 
-    def __init__(self) -> None:
-        pass
-    
-
-    @staticmethod
-    def getKeyName(key: int) -> str:
-        from javax.microedition.lcdui.Canvas import Canvas
-        from org.allbinary.string.CommonPhoneStrings import CommonPhoneStrings
-        commonPhoneStrings: CommonPhoneStrings = CommonPhoneStrings.getInstance()
+proc getKeyName*(t: typedesc[CanvasUtil], key: int32): string {.discardable.} =
+        let commonPhoneStrings: CommonPhoneStrings = CommonPhoneStrings.getInstance()
         if key == Canvas.UP:
             return commonPhoneStrings.UP
         elif key == Canvas.DOWN:
@@ -40,7 +51,4 @@ class CanvasUtil:
         elif key == Canvas.FIRE:
             return commonPhoneStrings.FIRE
         return "UNKNOWN KEY"
-# from javax.microedition.lcdui.Canvas import Canvas
-# from org.allbinary.string.CommonPhoneStrings import CommonPhoneStrings
-
 

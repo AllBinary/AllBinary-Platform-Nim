@@ -57,7 +57,7 @@ proc newPrimaryThreadPool*(poolName: string, numThreads: int32, priority: int32)
     initPrimaryThreadPool(result, poolName, numThreads, priority)
 
 method runTask*(this: PrimaryThreadPool, task: Runnable) =
-        this.logUtil.putF(newStringMaker().append(StringUtil.getInstance().toString(task)).appendlong(int64(jCurrentTimeMillis())).toString(), this, this.threadPoolStrings.ADD_TASK)
+        this.logUtil.putF(newStringMaker().append(StringUtil.getInstance().toString(task)).appendlong(jCurrentTimeMillis()).toString(), this, this.threadPoolStrings.ADD_TASK)
         procCall ThreadPool(this).runTask(task)
 
 method startTask*(this: PrimaryThreadPool, task: Runnable) =

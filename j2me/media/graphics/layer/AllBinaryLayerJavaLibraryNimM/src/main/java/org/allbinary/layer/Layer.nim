@@ -1,127 +1,146 @@
-# 
-# AllBinary Open License Version 1 
-# Copyright (c) 2011 AllBinary 
-#  
-# By agreeing to this license you and any business entity you represent are 
-# legally bound to the AllBinary Open License Version 1 legal agreement. 
-#  
-# You may obtain the AllBinary Open License Version 1 legal agreement from 
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
-#  
-# Created By: Travis Berthelot 
-#   
+#[
+  
+  AllBinary Open License Version 1 
+  Copyright (c) 2011 AllBinary 
+   
+  By agreeing to this license you and any business entity you represent are 
+  legally bound to the AllBinary Open License Version 1 legal agreement. 
+   
+  You may obtain the AllBinary Open License Version 1 legal agreement from 
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
+   
+  Created By: Travis Berthelot 
+    
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.layer
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import java/lang/Integer as IntegerModule
+export IntegerModule
+import javax/microedition/lcdui/Graphics as GraphicsModule
+export GraphicsModule
+import org/allbinary/logic/communication/log/LogUtil as LogUtilModule
+export LogUtilModule
+import org/allbinary/logic/string/StringMaker as StringMakerModule
+export StringMakerModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    Layer* = ref object of JObject
+        logUtil*: LogUtil
+        x*: int32
+        y*: int32
+        z*: int32
+        width*: int32
+        height*: int32
+        visible*: bool
 
+proc newLayer*(width: int32, height: int32): Layer
+proc initLayer*(this: Layer, width: int32, height: int32)
+method setPosition*(this: Layer, x: int32, y: int32, z: int32) {.base.}
+method moveDXY*(this: Layer, dx: int32, dy: int32) {.base.}
+method moveDXYZ*(this: Layer, dx: int32, dy: int32, dz: int32) {.base.}
+method getXP*(this: Layer): int32 {.base, discardable.}
+method getYP*(this: Layer): int32 {.base, discardable.}
+method getZP*(this: Layer): int32 {.base, discardable.}
+method getWidth*(this: Layer): int32 {.base, discardable.}
+method getHeight*(this: Layer): int32 {.base, discardable.}
+method getDepth*(this: Layer): int64 {.base, discardable.}
+method setVisible*(this: Layer, visible: bool) {.base.}
+method isVisible*(this: Layer): bool {.base, discardable.}
+method paint*(this: Layer, graphics: Graphics) {.base.}
+method setLayerWidth*(this: Layer, width: int32) {.base.}
+method setLayerHeight*(this: Layer, height: int32) {.base.}
+method toStringAppend*(this: Layer, stringBuffer: StringMaker) {.base.}
+import org/allbinary/graphics/displayable/CanvasStrings as CanvasStringsModule
+export CanvasStringsModule
+import org/allbinary/logic/math/SmallIntegerSingletonFactory as SmallIntegerSingletonFactoryModule
+export SmallIntegerSingletonFactoryModule
+import org/allbinary/string/CommonStrings as CommonStringsModule
+export CommonStringsModule
 
-class Layer:
-    ID: int = None
+var Layer_IDValue: int32
+var Layer_IDSet = false
+proc ID*(t: typedesc[Layer]): int32 =
+    if not Layer_IDSet:
+        Layer_IDSet = true
+        Layer_IDValue = SmallIntegerSingletonFactory.getInstance().getAt(0)
+    Layer_IDValue
 
-    def _init_fields(self) -> None:
-        from org.allbinary.logic.communication.log.LogUtil import LogUtil
-        self.logUtil: LogUtil = LogUtil.getInstance()
-        self.x: int = 0
-        self.y: int = 0
-        self.z: int = 3
-        self.width: int = 0
-        self.height: int = 0
-        self.visible: bool = True
-    
+# Java field initializers run after the base initializer
+proc initFieldsLayer(this: Layer) =
+    this.logUtil = LogUtil.getInstance()
+    this.x = 0
+    this.y = 0
+    this.z = 3
+    this.width = 0
+    this.height = 0
+    this.visible = true
+    discard
 
-    def __init__(self, width: int, height: int) -> None:
-        self._init_fields()
-        self.setLayerWidth(width)
-        self.setLayerHeight(height)
-    
+proc initLayer*(this: Layer, width: int32, height: int32) =
+        this.initFieldsLayer()
+        this.setLayerWidth(width)
+        this.setLayerHeight(height)
 
-    def setPosition(self, x: int, y: int, z: int) -> None:
-        self.x = x
-        self.y = y
-        self.z = z
-    
+proc newLayer*(width: int32, height: int32): Layer =
+    result = Layer()
+    initLayer(result, width, height)
 
-    def moveDXY(self, dx: int, dy: int) -> None:
-        self.x += dx
-        self.y += dy
-    
+method setPosition*(this: Layer, x: int32, y: int32, z: int32) {.base.} =
+        this.x = x
+        this.y = y
+        this.z = z
 
-    def moveDXYZ(self, dx: int, dy: int, dz: int) -> None:
-        self.x += dx
-        self.y += dy
-        self.z += dz
-    
+method moveDXY*(this: Layer, dx: int32, dy: int32) {.base.} =
+        this.x = this.x +% dx
+        this.y = this.y +% dy
 
-    def getXP(self) -> int:
-        return self.x
-    
+method moveDXYZ*(this: Layer, dx: int32, dy: int32, dz: int32) {.base.} =
+        this.x = this.x +% dx
+        this.y = this.y +% dy
+        this.z = this.z +% dz
 
-    def getYP(self) -> int:
-        return self.y
-    
+method getXP*(this: Layer): int32 {.base, discardable.} =
+        return this.x
 
-    def getZP(self) -> int:
-        return self.z
-    
+method getYP*(this: Layer): int32 {.base, discardable.} =
+        return this.y
 
-    def getWidth(self) -> int:
-        return self.width
-    
+method getZP*(this: Layer): int32 {.base, discardable.} =
+        return this.z
 
-    def getHeight(self) -> int:
-        return self.height
-    
+method getWidth*(this: Layer): int32 {.base, discardable.} =
+        return this.width
 
-    def getDepth(self) -> int:
-        return 0
-    
+method getHeight*(this: Layer): int32 {.base, discardable.} =
+        return this.height
 
-    def setVisible(self, visible: bool) -> None:
-        self.visible = visible
-    
+method getDepth*(this: Layer): int64 {.base, discardable.} =
+        return 0'i64
 
-    def isVisible(self) -> bool:
-        return self.visible
-    
+method setVisible*(this: Layer, visible: bool) {.base.} =
+        this.visible = visible
 
-    def paint(self, graphics: Graphics) -> None:
-        from javax.microedition.lcdui.Graphics import Graphics
-        from org.allbinary.graphics.displayable.CanvasStrings import CanvasStrings
-        from org.allbinary.string.CommonStrings import CommonStrings
-        commonStrings: CommonStrings = CommonStrings.getInstance()
-        canvasStrings: CanvasStrings = CanvasStrings.getInstance()
-        self.logUtil.putF(commonStrings.NOT_IMPLEMENTED, self, canvasStrings.PAINT)
-    
+method isVisible*(this: Layer): bool {.base, discardable.} =
+        return this.visible
 
-    def setLayerWidth(self, width: int) -> None:
+method paint*(this: Layer, graphics: Graphics) {.base.} =
+        let commonStrings: CommonStrings = CommonStrings.getInstance()
+        let canvasStrings: CanvasStrings = CanvasStrings.getInstance()
+        this.logUtil.putF(commonStrings.NOT_IMPLEMENTED, this, canvasStrings.PAINT)
+
+method setLayerWidth*(this: Layer, width: int32) {.base.} =
         if width < 0:
-            raise ValueError()
-        self.width = width
-    
+            raise newJException("IllegalArgumentException", "")
+        this.width = width
 
-    def setLayerHeight(self, height: int) -> None:
+method setLayerHeight*(this: Layer, height: int32) {.base.} =
         if height < 0:
-            raise ValueError()
-        self.height = height
-    
+            raise newJException("IllegalArgumentException", "")
+        this.height = height
 
-    def toStringAppend(self, stringBuffer: StringMaker) -> None:
-        from org.allbinary.logic.string.StringMaker import StringMaker
-        pass
-# from javax.microedition.lcdui.Graphics import Graphics
-# from org.allbinary.graphics.displayable.CanvasStrings import CanvasStrings
-# from org.allbinary.logic.communication.log.LogUtil import LogUtil
-# from org.allbinary.logic.math.SmallIntegerSingletonFactory import SmallIntegerSingletonFactory
-# from org.allbinary.logic.string.StringMaker import StringMaker
-# from org.allbinary.string.CommonStrings import CommonStrings
-
-
-def _Layer_ID() -> object:
-    from org.allbinary.logic.math.SmallIntegerSingletonFactory import SmallIntegerSingletonFactory
-    return SmallIntegerSingletonFactory.getInstance().getAt(0)
-
-lazy_static(Layer, "ID", _Layer_ID)
+method toStringAppend*(this: Layer, stringBuffer: StringMaker) {.base.} =
+        discard
 

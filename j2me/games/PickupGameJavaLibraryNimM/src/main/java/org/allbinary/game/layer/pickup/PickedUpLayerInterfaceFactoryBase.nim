@@ -1,46 +1,60 @@
-# 
-# AllBinary Open License Version 1 
-# Copyright (c) 2025 AllBinary 
-#  
-# By agreeing to this license you and any business entity you represent are 
-# legally bound to the AllBinary Open License Version 1 legal agreement. 
-#  
-# You may obtain the AllBinary Open License Version 1 legal agreement from 
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
-#  
-# Created By: Travis Berthelot 
-#   
+#[
+  
+  AllBinary Open License Version 1 
+  Copyright (c) 2025 AllBinary 
+   
+  By agreeing to this license you and any business entity you represent are 
+  legally bound to the AllBinary Open License Version 1 legal agreement. 
+   
+  You may obtain the AllBinary Open License Version 1 legal agreement from 
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
+   
+  Created By: Travis Berthelot 
+    
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.layer.pickup
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/animation/Animation as AnimationModule
+export AnimationModule
+import org/allbinary/layer/AllBinaryLayer as AllBinaryLayerModule
+export AllBinaryLayerModule
+import org/allbinary/game/layer/pickup/PickedUpLayerInterfaceFactoryInterface as PickedUpLayerInterfaceFactoryInterfaceModule
+export PickedUpLayerInterfaceFactoryInterfaceModule
+import org/allbinary/game/layer/pickup/PickedUpLayerType as PickedUpLayerTypeModule
+export PickedUpLayerTypeModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
-from org.allbinary.game.layer.pickup.PickedUpLayerInterfaceFactoryInterface import PickedUpLayerInterfaceFactoryInterface
+type
+    PickedUpLayerInterfaceFactoryBase* = ref object of PickedUpLayerInterfaceFactoryInterface
 
+proc newPickedUpLayerInterfaceFactoryBase*(): PickedUpLayerInterfaceFactoryBase
+method getIconLayer*(this: PickedUpLayerInterfaceFactoryBase): AllBinaryLayer {.discardable.}
+method getAnimationInterface*(this: PickedUpLayerInterfaceFactoryBase): Animation {.discardable.}
+method getPickedUpLayerType*(this: PickedUpLayerInterfaceFactoryBase): PickedUpLayerType {.discardable.}
 
-class PickedUpLayerInterfaceFactoryBase(PickedUpLayerInterfaceFactoryInterface):
-    NULL_PICKED_UP_LAYER_FACTORY_BASE: PickedUpLayerInterfaceFactoryBase = None
-    
+var PickedUpLayerInterfaceFactoryBase_NULL_PICKED_UP_LAYER_FACTORY_BASEValue: PickedUpLayerInterfaceFactoryBase
+var PickedUpLayerInterfaceFactoryBase_NULL_PICKED_UP_LAYER_FACTORY_BASESet = false
+proc NULL_PICKED_UP_LAYER_FACTORY_BASE*(t: typedesc[PickedUpLayerInterfaceFactoryBase]): PickedUpLayerInterfaceFactoryBase =
+    if not PickedUpLayerInterfaceFactoryBase_NULL_PICKED_UP_LAYER_FACTORY_BASESet:
+        PickedUpLayerInterfaceFactoryBase_NULL_PICKED_UP_LAYER_FACTORY_BASESet = true
+        PickedUpLayerInterfaceFactoryBase_NULL_PICKED_UP_LAYER_FACTORY_BASEValue = newPickedUpLayerInterfaceFactoryBase()
+    PickedUpLayerInterfaceFactoryBase_NULL_PICKED_UP_LAYER_FACTORY_BASEValue
 
-    def getIconLayer(self) -> AllBinaryLayer:
-        from org.allbinary.layer.AllBinaryLayer import AllBinaryLayer
-        raise RuntimeError()
-    
+proc initPickedUpLayerInterfaceFactoryBase*(this: PickedUpLayerInterfaceFactoryBase) =
+    discard
 
-    def getAnimationInterface(self) -> Animation:
-        from org.allbinary.animation.Animation import Animation
-        raise RuntimeError()
-    
+proc newPickedUpLayerInterfaceFactoryBase*(): PickedUpLayerInterfaceFactoryBase =
+    result = PickedUpLayerInterfaceFactoryBase()
+    initPickedUpLayerInterfaceFactoryBase(result)
 
-    def getPickedUpLayerType(self) -> PickedUpLayerType:
-        raise RuntimeError()
-# from org.allbinary.animation.Animation import Animation
-# from org.allbinary.layer.AllBinaryLayer import AllBinaryLayer
+method getIconLayer*(this: PickedUpLayerInterfaceFactoryBase): AllBinaryLayer {.discardable.} =
+        raise newJException("RuntimeException", "")
 
+method getAnimationInterface*(this: PickedUpLayerInterfaceFactoryBase): Animation {.discardable.} =
+        raise newJException("RuntimeException", "")
 
-def _PickedUpLayerInterfaceFactoryBase_NULL_PICKED_UP_LAYER_FACTORY_BASE() -> object:
-    return PickedUpLayerInterfaceFactoryBase()
-
-lazy_static(PickedUpLayerInterfaceFactoryBase, "NULL_PICKED_UP_LAYER_FACTORY_BASE", _PickedUpLayerInterfaceFactoryBase_NULL_PICKED_UP_LAYER_FACTORY_BASE)
+method getPickedUpLayerType*(this: PickedUpLayerInterfaceFactoryBase): PickedUpLayerType {.discardable.} =
+        raise newJException("RuntimeException", "")
 

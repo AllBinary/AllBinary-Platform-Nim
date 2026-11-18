@@ -1,50 +1,60 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.media.image
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import javax/microedition/lcdui/Image as ImageModule
+export ImageModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
+type
+    ImageRotationUtil* = ref object of JObject
+        anchor*: int32
 
+proc newImageRotationUtil*(): ImageRotationUtil
+proc initImageRotationUtil*(this: ImageRotationUtil)
+proc getInstance*(t: typedesc[ImageRotationUtil]): ImageRotationUtil {.discardable.}
+method createRotatedImage*(this: ImageRotationUtil, originalImage: Image, rotationInDegrees: int32): Image {.base, discardable.}
+import org/allbinary/graphics/Anchor as AnchorModule
+export AnchorModule
 
-class ImageRotationUtil:
-    instance: ImageRotationUtil = None
+var ImageRotationUtil_instanceValue: ImageRotationUtil
+var ImageRotationUtil_instanceSet = false
+proc instance*(t: typedesc[ImageRotationUtil]): ImageRotationUtil =
+    if not ImageRotationUtil_instanceSet:
+        ImageRotationUtil_instanceSet = true
+        ImageRotationUtil_instanceValue = newImageRotationUtil()
+    ImageRotationUtil_instanceValue
 
-    def _init_fields(self) -> None:
-        from org.allbinary.graphics.Anchor import Anchor
-        self.anchor: int = Anchor.TOP_LEFT
-    
+# Java field initializers run after the base initializer
+proc initFieldsImageRotationUtil(this: ImageRotationUtil) =
+    this.anchor = Anchor.TOP_LEFT
+    discard
 
-    @staticmethod
-    def getInstance() -> ImageRotationUtil:
+proc getInstance*(t: typedesc[ImageRotationUtil]): ImageRotationUtil {.discardable.} =
         return ImageRotationUtil.instance
-    
 
-    def __init__(self) -> None:
-        self._init_fields()
-    
+proc initImageRotationUtil*(this: ImageRotationUtil) =
+        this.initFieldsImageRotationUtil()
+        discard
 
-    # throws Exception
-    def createRotatedImage(self, originalImage: Image, rotationInDegrees: int) -> Image:
-        from javax.microedition.lcdui.Image import Image
+proc newImageRotationUtil*(): ImageRotationUtil =
+    result = ImageRotationUtil()
+    initImageRotationUtil(result)
+
+method createRotatedImage*(this: ImageRotationUtil, originalImage: Image, rotationInDegrees: int32): Image {.base, discardable.} =
         return originalImage
-# from javax.microedition.lcdui.Image import Image
-# from org.allbinary.graphics.Anchor import Anchor
-
-
-def _ImageRotationUtil_instance() -> object:
-    return ImageRotationUtil()
-
-lazy_static(ImageRotationUtil, "instance", _ImageRotationUtil_instance)
 

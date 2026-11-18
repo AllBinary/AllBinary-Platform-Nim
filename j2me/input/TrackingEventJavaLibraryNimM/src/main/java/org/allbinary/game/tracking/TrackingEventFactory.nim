@@ -1,35 +1,47 @@
-#
-# AllBinary Open License Version 1
-# Copyright (c) 2011 AllBinary
-# 
-# By agreeing to this license you and any business entity you represent are
-# legally bound to the AllBinary Open License Version 1 legal agreement.
-# 
-# You may obtain the AllBinary Open License Version 1 legal agreement from
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-# 
-# Created By: Travis Berthelot
-#  
+#[
+ 
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.tracking
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/logic/util/event/AllBinaryEventObject as AllBinaryEventObjectModule
+export AllBinaryEventObjectModule
+import org/allbinary/logic/util/event/AllBinaryEventObjectFactoryInterface as AllBinaryEventObjectFactoryInterfaceModule
+export AllBinaryEventObjectFactoryInterfaceModule
 
-from org.allbinary.logic.util.event.AllBinaryEventObjectFactoryInterface import AllBinaryEventObjectFactoryInterface
+type
+    TrackingEventFactory* = ref object of AllBinaryEventObjectFactoryInterface
+
+proc newTrackingEventFactory*(): TrackingEventFactory
+proc initTrackingEventFactory*(this: TrackingEventFactory)
+method getInstance*(this: TrackingEventFactory): AllBinaryEventObject {.discardable.}
+import org/allbinary/game/tracking/TrackingEvent as TrackingEventModule
+export TrackingEventModule
+import org/allbinary/game/tracking/TrackingEventHandler as TrackingEventHandlerModule
+export TrackingEventHandlerModule
 
 
-class TrackingEventFactory(AllBinaryEventObjectFactoryInterface):
-    
+proc initTrackingEventFactory*(this: TrackingEventFactory) =
+        discard
+        discard
 
-    def __init__(self) -> None:
-        pass
-    
+proc newTrackingEventFactory*(): TrackingEventFactory =
+    result = TrackingEventFactory()
+    initTrackingEventFactory(result)
 
-    def getInstance(self) -> AllBinaryEventObject:
-        from org.allbinary.game.tracking.TrackingEvent import TrackingEvent
-        from org.allbinary.game.tracking.TrackingEventHandler import TrackingEventHandler
-        from org.allbinary.logic.util.event.AllBinaryEventObject import AllBinaryEventObject
-        return TrackingEvent(TrackingEventHandler.getInstance())
-# from org.allbinary.logic.util.event.AllBinaryEventObject import AllBinaryEventObject
-
+method getInstance*(this: TrackingEventFactory): AllBinaryEventObject {.discardable.} =
+        return newTrackingEvent(TrackingEventHandler.getInstance())
 

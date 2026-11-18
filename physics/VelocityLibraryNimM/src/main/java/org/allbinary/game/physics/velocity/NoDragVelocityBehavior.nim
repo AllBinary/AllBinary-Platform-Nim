@@ -1,33 +1,45 @@
-# 
-# AllBinary Open License Version 1 
-# Copyright (c) 2022 AllBinary 
-#  
-# By agreeing to this license you and any business entity you represent are 
-# legally bound to the AllBinary Open License Version 1 legal agreement. 
-#  
-# You may obtain the AllBinary Open License Version 1 legal agreement from 
-# AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
-#  
-# Created By: Travis Berthelot 
-#   
+#[
+  
+  AllBinary Open License Version 1 
+  Copyright (c) 2022 AllBinary 
+   
+  By agreeing to this license you and any business entity you represent are 
+  legally bound to the AllBinary Open License Version 1 legal agreement. 
+   
+  You may obtain the AllBinary Open License Version 1 legal agreement from 
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
+   
+  Created By: Travis Berthelot 
+    
+]#
 # Generated Code Do Not Modify
 # package org.allbinary.game.physics.velocity
 
-from __future__ import annotations
+{.warning[UnusedImport]: off.}
+import allbinary_java
+import org/allbinary/game/physics/velocity/VelocityBehaviorBase as VelocityBehaviorBaseModule
+export VelocityBehaviorBaseModule
 
-from java.lang.JavaRuntimeStatic import lazy_static
-from org.allbinary.game.physics.velocity.VelocityBehaviorBase import VelocityBehaviorBase
+type
+    NoDragVelocityBehavior* = ref object of VelocityBehaviorBase
 
+proc newNoDragVelocityBehavior*(): NoDragVelocityBehavior
 
-class NoDragVelocityBehavior(VelocityBehaviorBase):
-    instance: NoDragVelocityBehavior = None
+var NoDragVelocityBehavior_instanceValue: NoDragVelocityBehavior
+var NoDragVelocityBehavior_instanceSet = false
+proc instance*(t: typedesc[NoDragVelocityBehavior]): NoDragVelocityBehavior =
+    if not NoDragVelocityBehavior_instanceSet:
+        NoDragVelocityBehavior_instanceSet = true
+        NoDragVelocityBehavior_instanceValue = newNoDragVelocityBehavior()
+    NoDragVelocityBehavior_instanceValue
 
-    def __init__(self) -> None:
-        super().__init__()
+proc initNoDragVelocityBehavior*(this: NoDragVelocityBehavior) =
+    initVelocityBehaviorBase(this)
 
+proc newNoDragVelocityBehavior*(): NoDragVelocityBehavior =
+    result = NoDragVelocityBehavior()
+    initNoDragVelocityBehavior(result)
 
-def _NoDragVelocityBehavior_instance() -> object:
-    return NoDragVelocityBehavior()
-
-lazy_static(NoDragVelocityBehavior, "instance", _NoDragVelocityBehavior_instance)
+when declared(newNoDragVelocityBehaviorHook0):
+    newNoDragVelocityBehaviorHook0 = proc (): VelocityBehaviorBase = newNoDragVelocityBehavior()
 
