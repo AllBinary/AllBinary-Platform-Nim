@@ -144,7 +144,7 @@ method load*(this: GameConfigurationCentral, abeClientInformation: AbeClientInfo
                 let hashtable: ABHashtable = keyValuePersistance.get(0)
                 let anyType: JObject = JObject(JObject(this.SCALE.getName()))
                 let value: string = jstr(hashtable.get(anyType))
-                this.SCALE.setValue(smallIntegerSingletonFactory.getAt(jParseInt(value).intValue()))
+                this.SCALE.setValue(smallIntegerSingletonFactory.getAt(jValueOfInt(value).intValue()))
             else:
                 this.logUtil.putF("No Game Configuration To Load", this, commonStrings.LOAD)
         except CatchableError as jcaught:

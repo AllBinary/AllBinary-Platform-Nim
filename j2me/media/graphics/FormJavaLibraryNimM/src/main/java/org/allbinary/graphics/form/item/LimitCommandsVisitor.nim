@@ -57,7 +57,7 @@ proc newLimitCommandsVisitor*(): LimitCommandsVisitor =
 method visit*(this: LimitCommandsVisitor, anyType: JObject): JObject {.discardable.} =
         var command: Command = Command(JObject(anyType))
         var booleanFactory: BooleanFactory = BooleanFactory.getInstance()
-        if this.isNotSmallDisplay or command.getPriority() == 1 or command == GameCommandsFactory.getInstance().EXIT_COMMAND or command == GameCommandsFactory.getInstance().EXIT_WITHOUT_PROGRESS_COMMAND:
+        if this.isNotSmallDisplay or command.getPriority() == 1 or (jSame(command, GameCommandsFactory.getInstance().EXIT_COMMAND)) or (jSame(command, GameCommandsFactory.getInstance().EXIT_WITHOUT_PROGRESS_COMMAND)):
             return booleanFactory.TRUE
         else:
             return booleanFactory.FALSE

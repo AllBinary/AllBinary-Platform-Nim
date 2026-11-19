@@ -104,7 +104,7 @@ method update*(this: HealthHudWidget) {.base.} =
                     this.xArray[index] = this.getX() +% (index *% 16)
 
 method setX*(this: HealthHudWidget, x: int32) =
-        procCall BasicHud(this).setX(x)
+        jSuperStatement(procCall BasicHud(this).setX(x))
         this.update()
 
 method onHealthChange*(this: HealthHudWidget) =

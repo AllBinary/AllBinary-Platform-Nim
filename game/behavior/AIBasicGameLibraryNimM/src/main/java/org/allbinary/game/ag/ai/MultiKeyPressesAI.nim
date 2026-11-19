@@ -91,17 +91,17 @@ method update*(this: MultiKeyPressesAI) {.base.} =
 
 method toggle*(this: MultiKeyPressesAI) =
         if this.toggleTimeHelper.isTime(this.gameTickTimeDelayHelper.startTime):
-            procCall KeyPressesAI(this).toggle()
+            jSuperStatement(procCall KeyPressesAI(this).toggle())
             this.update()
 
 method disable*(this: MultiKeyPressesAI) =
         if this.toggleTimeHelper.isTime(this.gameTickTimeDelayHelper.startTime):
-            procCall KeyPressesAI(this).disable()
+            jSuperStatement(procCall KeyPressesAI(this).disable())
             this.update()
 
 method enable*(this: MultiKeyPressesAI) =
         if this.toggleTimeHelper.isTime(this.gameTickTimeDelayHelper.startTime):
-            procCall KeyPressesAI(this).enable()
+            jSuperStatement(procCall KeyPressesAI(this).enable())
             this.update()
 
 when declared(newMultiKeyPressesAIHook3):

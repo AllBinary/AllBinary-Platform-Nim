@@ -29,6 +29,9 @@ export PositionInterfaceModule
 type
     LayerInterface* = ref object of NamedInterface
 
+converter jAsPaintableInterface*(value: LayerInterface): PaintableInterface = cast[PaintableInterface](value)
+converter jAsGroupInterfaceCompositeInterface*(value: LayerInterface): GroupInterfaceCompositeInterface = cast[GroupInterfaceCompositeInterface](value)
+converter jAsPositionInterface*(value: LayerInterface): PositionInterface = cast[PositionInterface](value)
 
 method getHeight*(this: LayerInterface): int32 {.base, discardable.} =
         raise newJException("AbstractMethodError", "getHeight")

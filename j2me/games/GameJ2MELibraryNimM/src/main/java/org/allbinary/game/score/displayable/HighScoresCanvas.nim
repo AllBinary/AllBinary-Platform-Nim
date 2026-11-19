@@ -150,11 +150,11 @@ method initCommands*(this: HighScoresCanvas, cmdListener: CommandListener) =
         this.setCommandListener(cmdListener)
 
 method open*(this: HighScoresCanvas) =
-        procCall GameCommandCanvas(this).open()
+        jSuperStatement(procCall GameCommandCanvas(this).open())
         this.highScoresCanvasInputProcessor.open()
 
 method close*(this: HighScoresCanvas) =
-        procCall GameCommandCanvas(this).close()
+        jSuperStatement(procCall GameCommandCanvas(this).close())
         this.highScoresCanvasInputProcessor.close()
 
 method paint*(this: HighScoresCanvas, graphics: Graphics) =
@@ -162,7 +162,7 @@ method paint*(this: HighScoresCanvas, graphics: Graphics) =
         this.paintable.paint(graphics)
         if (not jSame(this.waitPaintable, this.paintable)):
             this.highScoresCanvasInputProcessor.paint(graphics)
-        procCall GameCommandCanvas(this).paint(graphics)
+        jSuperStatement(procCall GameCommandCanvas(this).paint(graphics))
         this.hasPainted = true
 
 method executeUpdate*(this: HighScoresCanvas) {.base.} =
@@ -207,7 +207,7 @@ method updateCommand*(this: HighScoresCanvas, command: Command) {.base.} =
                 this.addCommand(this.highScoreCommandsFactory.HIGH_SCORE_COMMANDS[nextIndex])
         this.currentCommand = command
         this.close()
-        procCall GameCommandCanvas(this).initMenu()
+        jSuperStatement(procCall GameCommandCanvas(this).initMenu())
         this.open()
         this.repaintBehavior.onChangeRepaint(this)
 

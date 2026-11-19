@@ -94,7 +94,7 @@ method getIndex*(this: ImageCache, key: JObject): int32 {.base, discardable.} =
             var index: int32 = 0
             while index < size:
                 defer: index = index +% 1
-                if resourceStringArray[index] == key:
+                if (jSame(resourceStringArray[index], key)):
                     return index
         this.logUtil.putF(newStringMaker().append("unable to find key: ").append(StringUtil.getInstance().toString(key)).toString(), this, this.commonStrings.RUN)
         raise newJException("RuntimeException", "")
@@ -102,7 +102,7 @@ method getIndex*(this: ImageCache, key: JObject): int32 {.base, discardable.} =
 method get*(this: ImageCache, caller: string, width: int32, height: int32): Image {.discardable.} =
         var foundIndex: int32 = this.getIndexWH(width, height)
         var image: Image = this.getFromAvailable(foundIndex, width, height)
-        if image == NullImage.NULL_IMAGEStatic:
+        if (jSame(image, NullImage.NULL_IMAGEStatic)):
             this.volume = this.volume + width *% height
             if this.volume > 32000:
                 this.tsUtil.gc()
@@ -120,7 +120,7 @@ method get*(this: ImageCache, caller: string, width: int32, height: int32): Imag
 
 method getWithKey*(this: ImageCache, key: JObject): Image {.discardable.} =
         var image: Image = this.getImage(key)
-        if image == NullImage.NULL_IMAGEStatic:
+        if (jSame(image, NullImage.NULL_IMAGEStatic)):
             let resourceUtil: ResourceUtil = ResourceUtil.getInstance()
             let resourceInputStream: InputStream = resourceUtil.getResourceAsStream(jstr(key))
             if (jIsNil(resourceInputStream)):

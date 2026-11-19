@@ -32,6 +32,7 @@ type
         offsetY*: int32
 
 converter jAsColorCompositeInterface*(value: RectangleFilledAdjustedAnimation): ColorCompositeInterface = cast[ColorCompositeInterface](value)
+converter jAsBasicColorCompositeSetterInterface*(value: RectangleFilledAdjustedAnimation): BasicColorCompositeSetterInterface = cast[BasicColorCompositeSetterInterface](value)
 proc newRectangleFilledAdjustedAnimation*(width: int32, height: int32, offsetX: int32, offsetY: int32, basicColor: BasicColor): RectangleFilledAdjustedAnimation
 proc initRectangleFilledAdjustedAnimation*(this: RectangleFilledAdjustedAnimation, width: int32, height: int32, offsetX: int32, offsetY: int32, basicColor: BasicColor)
 method nextFrame*(this: RectangleFilledAdjustedAnimation)
@@ -64,7 +65,7 @@ method nextFrame*(this: RectangleFilledAdjustedAnimation) =
 
 method paintXY*(this: RectangleFilledAdjustedAnimation, graphics: Graphics, x: int32, y: int32) =
         this.basicSetColorUtil.setBasicColorP3(graphics, this.getBasicColorP(), this.getColor())
-        procCall RectangleFilledAnimation(this).paintXY(graphics, x +% this.offsetX, y +% this.offsetY)
+        jSuperStatement(procCall RectangleFilledAnimation(this).paintXY(graphics, x +% this.offsetX, y +% this.offsetY))
 
 method setOffsetX*(this: RectangleFilledAdjustedAnimation, offsetX: int32) {.base.} =
         this.offsetX = offsetX
@@ -76,7 +77,7 @@ method getBasicColorP*(this: RectangleFilledAdjustedAnimation): BasicColor {.dis
         return procCall RectangleFilledAnimation(this).getBasicColorP()
 
 method setBasicColorP*(this: RectangleFilledAdjustedAnimation, basicColor: BasicColor) =
-        procCall RectangleFilledAnimation(this).setBasicColorP(basicColor)
+        jSuperStatement(procCall RectangleFilledAnimation(this).setBasicColorP(basicColor))
 
 when declared(newRectangleFilledAdjustedAnimationHook5):
     newRectangleFilledAdjustedAnimationHook5 = proc (width: int32, height: int32, offsetX: int32, offsetY: int32, basicColor: BasicColor): RectangleFilledAnimation = newRectangleFilledAdjustedAnimation(width, height, offsetX, offsetY, basicColor)

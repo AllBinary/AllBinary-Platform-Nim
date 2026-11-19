@@ -44,6 +44,12 @@ type
         circularIndexUtil*: CircularIndexUtil
 
 converter jAsRotationAnimationInterface*(value: RotationAnimation): RotationAnimationInterface = cast[RotationAnimationInterface](value)
+converter jAsIndexedAnimationInterface*(value: RotationAnimation): IndexedAnimationInterface = cast[IndexedAnimationInterface](value)
+converter jAsSequentialAnimationInterface*(value: RotationAnimation): SequentialAnimationInterface = cast[SequentialAnimationInterface](value)
+converter jAsAnimationInterface*(value: RotationAnimation): AnimationInterface = cast[AnimationInterface](value)
+converter jAsLocationPaintableInterface*(value: RotationAnimation): LocationPaintableInterface = cast[LocationPaintableInterface](value)
+converter jAsSequenceInterface*(value: RotationAnimation): SequenceInterface = cast[SequenceInterface](value)
+converter jAsDirectionalInterface*(value: RotationAnimation): DirectionalInterface = cast[DirectionalInterface](value)
 proc newRotationAnimation*(angleInfo: AngleInfo, circularIndexUtil: CircularIndexUtil, animationBehavior: AnimationBehavior): RotationAnimation
 proc initRotationAnimation*(this: RotationAnimation, angleInfo: AngleInfo, circularIndexUtil: CircularIndexUtil, animationBehavior: AnimationBehavior)
 method nextRotationX*(this: RotationAnimation) {.base.}

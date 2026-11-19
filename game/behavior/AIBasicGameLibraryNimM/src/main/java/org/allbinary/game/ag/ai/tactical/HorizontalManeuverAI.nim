@@ -74,9 +74,9 @@ method processAI*(this: HorizontalManeuverAI, allBinaryLayerManager: AllBinaryLa
             x = x -% this.currentSpeed
         ownerLayerInterface.setPosition(x, ownerLayerInterface.getYP(), ownerLayerInterface.getZP())
         if this.currentRelativeAngle == 0:
-            procCall BasicAI(this).processKeyAI(Canvas.KEY_NUM0)
+            jSuperStatement(procCall BasicAI(this).processKeyAI(Canvas.KEY_NUM0))
         elif this.currentRelativeAngle == 180:
-            procCall BasicAI(this).processKeyAI(Canvas.KEY_POUND)
+            jSuperStatement(procCall BasicAI(this).processKeyAI(Canvas.KEY_POUND))
 
 method reverse*(this: HorizontalManeuverAI) {.base.} =
         if this.currentRelativeAngle == 180:

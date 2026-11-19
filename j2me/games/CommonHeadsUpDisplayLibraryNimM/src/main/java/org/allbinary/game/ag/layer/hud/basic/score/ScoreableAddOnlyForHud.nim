@@ -52,7 +52,7 @@ method removePoints*(this: ScoreableAddOnlyForHud, points: int32) =
         discard
 
 method addPoints*(this: ScoreableAddOnlyForHud, points: int32) =
-        procCall Scoreable(this).addPoints(points)
+        jSuperStatement(procCall Scoreable(this).addPoints(points))
         this.getScoreHudWidget().add(points)
 
 method getScoreHudWidget*(this: ScoreableAddOnlyForHud): ScoreHudWidget {.base, discardable.} =

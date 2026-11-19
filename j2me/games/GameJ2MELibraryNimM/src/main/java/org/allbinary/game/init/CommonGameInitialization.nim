@@ -64,7 +64,7 @@ proc newCommonGameInitialization*(resourceInitializationArray: JArray[ResourceIn
     initCommonGameInitialization(result, resourceInitializationArray, portion)
 
 method init*(this: CommonGameInitialization, abeClientInformation: AbeClientInformationInterface, commandListener: CommandListener, level: int32) =
-        procCall BaseGameInitialization(this).init(abeClientInformation, commandListener, level)
+        jSuperStatement(procCall BaseGameInitialization(this).init(abeClientInformation, commandListener, level))
         let resourceLoadingLevelFactory: ResourceLoadingLevelFactory = ResourceLoadingLevelFactory.getInstance()
         if (not this.isGameInitialized()) and level == resourceLoadingLevelFactory.LOAD_ALL.getLevel():
             this.setGameInitialized(true)
@@ -77,7 +77,7 @@ method init*(this: CommonGameInitialization, abeClientInformation: AbeClientInfo
             progressCanvas.addNormalPortion(50, "Angles")
             this.initGame()
             this.resourceInitializationArray[this.GAME_RESOURCES].init()
-        procCall BaseGameInitialization(this).resourceInitialization(level)
+        jSuperStatement(procCall BaseGameInitialization(this).resourceInitialization(level))
 
 method initGame*(this: CommonGameInitialization) {.base.} =
         raise newJException("Exception", this.commonStrings.NOT_IMPLEMENTED)

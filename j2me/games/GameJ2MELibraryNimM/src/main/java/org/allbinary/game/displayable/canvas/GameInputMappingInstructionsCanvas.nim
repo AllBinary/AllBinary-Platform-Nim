@@ -105,7 +105,7 @@ method paint*(this: GameInputMappingInstructionsCanvas, graphics: Graphics) =
         graphics.setColor(this.foregroundColor)
         graphics.drawString(this.TITLE, halfWidth -% beginWidth, this.fontHeight, this.anchor)
         this.drawStringUtil.drawCenterStrings(graphics, this.instructions, this.displayInfo.getLastWidth(), this.fontHeight, halfWidth, 3 *% this.fontHeight)
-        procCall GameCommandCanvas(this).paint(graphics)
+        jSuperStatement(procCall GameCommandCanvas(this).paint(graphics))
 
 when declared(newGameInputMappingInstructionsCanvasHook2):
     newGameInputMappingInstructionsCanvasHook2 = proc (commandListener: CommandListener, allBinaryGameLayerManager: AllBinaryGameLayerManager): GameCommandCanvas = newGameInputMappingInstructionsCanvas(commandListener, allBinaryGameLayerManager)

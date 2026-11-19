@@ -26,6 +26,9 @@ type
     InitUpdatePaintable* = ref object of Paintable
 
 converter jAsInitUpdatePaintableInterface*(value: InitUpdatePaintable): InitUpdatePaintableInterface = cast[InitUpdatePaintableInterface](value)
+converter jAsInitInterface*(value: InitUpdatePaintable): InitInterface = cast[InitInterface](value)
+converter jAsUpdateInterface*(value: InitUpdatePaintable): UpdateInterface = cast[UpdateInterface](value)
+converter jAsPaintableInterface*(value: InitUpdatePaintable): PaintableInterface = cast[PaintableInterface](value)
 proc newInitUpdatePaintable*(): InitUpdatePaintable
 proc initInitUpdatePaintable*(this: InitUpdatePaintable)
 method init*(this: InitUpdatePaintable)

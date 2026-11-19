@@ -53,7 +53,7 @@ proc newCollidableCharacterNoDamageBehavior*(collidable: bool): CollidableCharac
 method collide*(this: CollidableCharacterNoDamageBehavior, ownerLayer: CollidableCompositeLayer, collidableInterfaceCompositeInterface: CollidableCompositeLayer) =
         let collisionTypeFactory: CollisionTypeFactory = CollisionTypeFactory.getInstance()
         let collisionType: CollisionType = collidableInterfaceCompositeInterface.getCollidableInferface().getCollisionTypeWith(ownerLayer)
-        if collisionType == collisionTypeFactory.PICKUP:
+        if (jSame(collisionType, collisionTypeFactory.PICKUP)):
             let collidableDestroyableDamageableLayer: CollidableDestroyableDamageableLayer = CollidableDestroyableDamageableLayer(JObject(ownerLayer))
             collidableDestroyableDamageableLayer.getPickupBehavior().doPickupLayer(PickedUpLayerInterface(JObject(collidableInterfaceCompositeInterface)))
         else:

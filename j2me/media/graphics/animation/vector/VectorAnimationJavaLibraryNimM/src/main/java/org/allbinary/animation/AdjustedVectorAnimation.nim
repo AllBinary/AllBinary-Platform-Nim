@@ -53,7 +53,7 @@ proc newAdjustedVectorAnimation*(currentPoints: JArray[JArray[JArray[int32]]], b
     initAdjustedVectorAnimation(result, currentPoints, basicColor, dx, dy, animationBehavior)
 
 method paintXY*(this: AdjustedVectorAnimation, graphics: Graphics, x: int32, y: int32) =
-        procCall VectorAnimation(this).paintXY(graphics, x +% this.dx, y +% this.dy)
+        jSuperStatement(procCall VectorAnimation(this).paintXY(graphics, x +% this.dx, y +% this.dy))
 
 when declared(newAdjustedVectorAnimationHook5):
     newAdjustedVectorAnimationHook5 = proc (currentPoints: JArray[JArray[JArray[int32]]], basicColor: BasicColor, dx: int32, dy: int32, animationBehavior: AnimationBehavior): VectorAnimation = newAdjustedVectorAnimation(currentPoints, basicColor, dx, dy, animationBehavior)

@@ -124,7 +124,7 @@ proc newAllBinaryMidlet*(): AllBinaryMidlet =
 
 method setDisplay*(this: AllBinaryMidlet, newDisplay: Displayable) {.base.} =
         var title: string = StringUtil.getInstance().EMPTY_STRING
-        if newDisplay != NullCanvas.NULL_CANVASStatic:
+        if (not jSame(newDisplay, NullCanvas.NULL_CANVASStatic)):
             title = newDisplay.getTitle()
             this.logUtil.putF(newStringMaker().append(this.SETTING_U).append(title).append(this.U_DISPLAY_U).append(StringUtil.getInstance().toString(newDisplay)).toString(), this, this.SET_DISPLAY)
         let display: Display = this.getDisplay()

@@ -88,8 +88,30 @@ if [ "$status" = "0" ]; then
 fi
 # Like Java, a dependency is not checked again here: its own optional dependencies (TsUtil and LogFormatUtil for
 # LogUtil) are not transitive so they are missing. Only errors in this project's modules and the runtime fail the build.
-project_errors="$(echo "$output" | grep -E '\.nim\([0-9]+, [0-9]+\) Error' | grep -v -F "$(cygpath -w "$short_root/d")")"
-if [ -z "$project_errors" ] && echo "$output" | grep -q -E '\.nim\([0-9]+, [0-9]+\) Error'; then
+# An error in the Nim standard library (illformed AST in seqs_v2.nim) is reported at the library line after the
+# "template/generic instantiation ... from here" chain that led to it: it is a dependency error when the outermost link of
+# that chain is in a dependency (NullImage.nim of a dependency that can not see Image). The same holds for an error in a
+# generic of the runtime (newJArray of allbinary_java.nim made with a type a dependency can not see).
+dependency_path="$(cygpath -w "$short_root/d")"
+runtime_path="$(cygpath -w "$short_root/r")"
+library_path="$(cygpath -w "$(dirname "$(dirname "$compiler")")/lib")"
+# The paths go through the environment: awk -v would read the backslashes of a Windows path as escapes
+project_errors="$(echo "$output" | NIM_DEPENDENCY_PATH="$dependency_path" NIM_RUNTIME_PATH="$runtime_path" NIM_LIBRARY_PATH="$library_path" awk '
+    BEGIN { dependency = ENVIRON["NIM_DEPENDENCY_PATH"]; runtime = ENVIRON["NIM_RUNTIME_PATH"]; library = ENVIRON["NIM_LIBRARY_PATH"] }
+    /\.nim\([0-9]+, [0-9]+\) template\/generic instantiation/ {
+        if (origin == "" && index($0, library) != 1 && index($0, runtime) != 1) { origin = $0 }
+        next
+    }
+    /\.nim\([0-9]+, [0-9]+\) Error/ {
+        if (index($0, dependency) > 0) { origin = ""; next }
+        if ((index($0, library) == 1 || index($0, runtime) == 1) && origin != "" && index(origin, dependency) > 0) { origin = ""; next }
+        print
+        origin = ""
+    }')"
+# grep -c reads all of the output: grep -q stops at the first match, and with pipefail the echo it cut off (SIGPIPE on a
+# long output of dependency errors) made this test false
+error_count="$(echo "$output" | grep -c -E '\.nim\([0-9]+, [0-9]+\) Error')"
+if [ -z "$project_errors" ] && [ "$error_count" -gt 0 ]; then
     echo "Nim dependency errors only: $artifact"
     exit 0
 fi

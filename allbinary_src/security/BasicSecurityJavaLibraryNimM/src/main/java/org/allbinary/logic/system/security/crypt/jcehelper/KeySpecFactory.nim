@@ -19,6 +19,10 @@
 import allbinary_java
 import java/security/spec/KeySpec as KeySpecModule
 export KeySpecModule
+import javax/crypto/spec/DESKeySpec as DESKeySpecModule
+export DESKeySpecModule
+import javax/crypto/spec/DESedeKeySpec as DESedeKeySpecModule
+export DESedeKeySpecModule
 
 type
     KeySpecFactory* = ref object of JObject

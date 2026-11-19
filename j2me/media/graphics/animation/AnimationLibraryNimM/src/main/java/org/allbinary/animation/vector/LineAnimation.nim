@@ -35,6 +35,7 @@ type
         line*: JArray[JArray[int32]]
 
 converter jAsColorCompositeInterface*(value: LineAnimation): ColorCompositeInterface = cast[ColorCompositeInterface](value)
+converter jAsBasicColorCompositeSetterInterface*(value: LineAnimation): BasicColorCompositeSetterInterface = cast[BasicColorCompositeSetterInterface](value)
 converter jAsPositionInterface*(value: LineAnimation): PositionInterface = cast[PositionInterface](value)
 proc newLineAnimation*(basicColor: BasicColor): LineAnimation
 proc initLineAnimation*(this: LineAnimation, basicColor: BasicColor)
@@ -94,7 +95,7 @@ method getBasicColorP*(this: LineAnimation): BasicColor {.discardable.} =
         return procCall Animation(this).getBasicColorP()
 
 method setBasicColorP*(this: LineAnimation, basicColor: BasicColor) =
-        procCall Animation(this).setBasicColorP(basicColor)
+        jSuperStatement(procCall Animation(this).setBasicColorP(basicColor))
 
 when declared(newLineAnimationHook1):
     newLineAnimationHook1 = proc (basicColor: BasicColor): Animation = newLineAnimation(basicColor)

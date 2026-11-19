@@ -99,7 +99,7 @@ method isCollision*(this: CollidableWeaponBehavior, ownerLayer: CollidableCompos
         return false
 
 method collide*(this: CollidableWeaponBehavior, ownerLayer: CollidableCompositeLayer, collisionLayer: CollidableCompositeLayer) =
-        procCall CollidableDestroyableDamageableBehavior(this).collide(ownerLayer, collisionLayer)
+        jSuperStatement(procCall CollidableDestroyableDamageableBehavior(this).collide(ownerLayer, collisionLayer))
         this.collided = true
 
 method isCollisionInterface*(this: CollidableWeaponBehavior, ownerLayer: CollidableCompositeLayer, collidableInterfaceCompositeInterface: CollidableInterfaceCompositeInterface): bool {.discardable.} =

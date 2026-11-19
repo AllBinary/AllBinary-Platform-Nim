@@ -58,7 +58,7 @@ method init*(this: DelayedConstantVelocityMovement, speedBasicDecimal: BasicDeci
 
 method process*(this: DelayedConstantVelocityMovement, layer: AllBinaryGameLayer) =
         if this.timeDelayHelper.isTime(GameTickTimeDelayHelperFactory.getInstance().startTime):
-            procCall BasicConstantVelocityMovement(this).process(layer)
+            jSuperStatement(procCall BasicConstantVelocityMovement(this).process(layer))
 
 when declared(newDelayedConstantVelocityMovementHook2):
     newDelayedConstantVelocityMovementHook2 = proc (basicDecimal: BasicDecimal, velocityProperties: BasicVelocityProperties): BasicConstantVelocityMovement = newDelayedConstantVelocityMovement(basicDecimal, velocityProperties)

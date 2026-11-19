@@ -65,7 +65,7 @@ proc initMineWeaponResources*(this: MineWeaponResources) =
         let SIZE_FIVE: string = SMALL
         let SIZE_SIX: string = SMALL
         let SIZE: JArray[string] = newJArrayFrom[string]([SMALL, MEDIUM, SIZE_FOUR, SIZE_FIVE, SIZE_SIX])
-        procCall BasicGameResources(this).init(ROOT, SIZE)
+        jSuperStatement(procCall BasicGameResources(this).init(ROOT, SIZE))
 
 proc newMineWeaponResources*(): MineWeaponResources =
     result = MineWeaponResources()

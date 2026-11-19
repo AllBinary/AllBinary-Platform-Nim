@@ -68,7 +68,7 @@ proc getInstance*(t: typedesc[PlatformFormInputMappingFactory]): PlatformFormInp
 
 method getOrCreate*(this: PlatformFormInputMappingFactory): InputToGameKeyMapping {.base, discardable.} =
         try:
-            if this.inputToGameKeyMapping == InputToGameKeyMapping.getNullInstance():
+            if (jSame(this.inputToGameKeyMapping, InputToGameKeyMapping.getNullInstance())):
                 var inputToGameKeyMapping: InputToGameKeyMapping = newInputToGameKeyMapping()
                 let gameKeyFactory: GameKeyFactory = GameKeyFactory.getInstance()
                 inputToGameKeyMapping.add(gameKeyFactory.UP, gameKeyFactory.UP)

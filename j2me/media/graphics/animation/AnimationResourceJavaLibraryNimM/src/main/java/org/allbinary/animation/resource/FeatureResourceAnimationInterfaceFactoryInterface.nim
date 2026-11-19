@@ -29,6 +29,8 @@ export ResourceAnimationInterfaceFactoryInterfaceModule
 type
     FeatureResourceAnimationInterfaceFactoryInterface* = ref object of ResourceAnimationInterfaceFactoryInterface
 
+converter jAsRectangleResourceFactoryInterface*(value: FeatureResourceAnimationInterfaceFactoryInterface): RectangleResourceFactoryInterface = cast[RectangleResourceFactoryInterface](value)
+converter jAsGameFeatureControlledInterface*(value: FeatureResourceAnimationInterfaceFactoryInterface): GameFeatureControlledInterface = cast[GameFeatureControlledInterface](value)
 
 method getHashtable*(this: FeatureResourceAnimationInterfaceFactoryInterface): ABHashtable {.base, discardable.} =
         raise newJException("AbstractMethodError", "getHashtable")

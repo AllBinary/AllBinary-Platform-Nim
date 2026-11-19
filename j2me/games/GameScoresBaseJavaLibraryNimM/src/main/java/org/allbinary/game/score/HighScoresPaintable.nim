@@ -46,6 +46,7 @@ type
         charHeight*: int32
 
 converter jAsColorChangeListener*(value: HighScoresPaintable): ColorChangeListener = cast[ColorChangeListener](value)
+converter jAsEventListenerInterface*(value: HighScoresPaintable): EventListenerInterface = cast[EventListenerInterface](value)
 converter jAsUpdateMyFontInterface*(value: HighScoresPaintable): UpdateMyFontInterface = cast[UpdateMyFontInterface](value)
 proc newHighScoresPaintable*(): HighScoresPaintable
 proc initHighScoresPaintable*(this: HighScoresPaintable)

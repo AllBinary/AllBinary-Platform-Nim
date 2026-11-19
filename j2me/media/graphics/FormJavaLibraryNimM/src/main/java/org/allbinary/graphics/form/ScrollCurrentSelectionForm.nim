@@ -106,18 +106,18 @@ proc newScrollCurrentSelectionForm*(title: string, items: JArray[ABCustomItem], 
     initScrollCurrentSelectionForm(result, title, items, formPaintableFactory, border, adjustedExtraBorder, moveForSmallScreen, backgroundBasicColor, foregroundBasicColor)
 
 method init*(this: ScrollCurrentSelectionForm, rectangle: Rectangle, formType: FormType) =
-        procCall ScrollSelectionForm(this).init(rectangle, formType)
+        jSuperStatement(procCall ScrollSelectionForm(this).init(rectangle, formType))
         let formTypeFactory: FormTypeFactory = FormTypeFactory.getInstance()
-        if formType == formTypeFactory.TEMP_HORIZONTAL_FORM:
+        if (jSame(formType, formTypeFactory.TEMP_HORIZONTAL_FORM)):
             this.processor = newTempHorizontalFormProcessor(this)
             this.preItemIndexDx = newTempHorizontalItemIndexDx(this)
-        elif formType == formTypeFactory.HORIZONTAL_FORM:
+        elif (jSame(formType, formTypeFactory.HORIZONTAL_FORM)):
             this.processor = newHorizontalFormProcessor(this)
             this.preItemIndexDx = newHorizontalItemIndexDx(this)
-        elif formType == formTypeFactory.VERTICAL_CENTER_FORM:
+        elif (jSame(formType, formTypeFactory.VERTICAL_CENTER_FORM)):
             this.processor = newVerticalFormProcessor(this)
             this.preItemIndexDx = newVerticalItemIndexDx(this)
-        elif formType == formTypeFactory.NULL_FORM_TYPE:
+        elif (jSame(formType, formTypeFactory.NULL_FORM_TYPE)):
             discard
         else:
             this.logUtil.putF(formTypeFactory.UNK, this, this.commonStrings.INIT)
@@ -208,11 +208,11 @@ method paint*(this: ScrollCurrentSelectionForm, graphics: Graphics) =
                     else:
                         delta = this.paintUnselectedItem(graphics, index, item, deltaX +% diffX, deltaY)
                         this.paintable.paint(graphics, index, deltaX +% diffX, deltaY)
-                    if this.formType == formTypeFactory.TEMP_HORIZONTAL_FORM:
+                    if (jSame(this.formType, formTypeFactory.TEMP_HORIZONTAL_FORM)):
                         discard
-                    elif this.formType == formTypeFactory.HORIZONTAL_FORM:
+                    elif (jSame(this.formType, formTypeFactory.HORIZONTAL_FORM)):
                         deltaX = delta
-                    elif this.formType == formTypeFactory.VERTICAL_CENTER_FORM:
+                    elif (jSame(this.formType, formTypeFactory.VERTICAL_CENTER_FORM)):
                         deltaY = delta
                     else:
                         raise newJException("Exception", formTypeFactory.UNK)

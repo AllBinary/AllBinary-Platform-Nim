@@ -86,7 +86,7 @@ method write*(this: ApplicationConfiguration) {.base.} =
         discard
 
 method update*(this: ApplicationConfiguration, gameFeature: Feature) {.base.} =
-        if gameFeature == MainFeatureFactory.getInstance().FULL_SCREEN:
+        if (jSame(gameFeature, MainFeatureFactory.getInstance().FULL_SCREEN)):
             let features: Features = Features.getInstance()
             if features.isFeature(gameFeature):
                 if (not this.isFullscreen()):

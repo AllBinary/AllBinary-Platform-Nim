@@ -79,7 +79,7 @@ method updateMeasurement*(this: TimeHudWidget, graphics: Graphics) =
         let font: Font = graphics.getFont()
         this.updateMaxWidth = font.getSize() *% 5
         this.offset = font.stringWidth(this.TIME_STRING) +% MyFontProcessor.defaultStringWidth(font, 3)
-        procCall BasicHud(this).updateMeasurement(graphics)
+        jSuperStatement(procCall BasicHud(this).updateMeasurement(graphics))
 
 method update*(this: TimeHudWidget) {.base.} =
         this.timer.update()
@@ -93,7 +93,7 @@ method getTimer*(this: TimeHudWidget): HudTimer {.base, discardable.} =
         return this.timer
 
 method paint*(this: TimeHudWidget, graphics: Graphics) {.base.} =
-        procCall BasicHud(this).paintDX(graphics, this.TIME_CHAR_ARRAY, 0, this.TIME_CHAR_ARRAY.length, this.string, 0, this.totalDigits, this.offset)
+        jSuperStatement(procCall BasicHud(this).paintDX(graphics, this.TIME_CHAR_ARRAY, 0, this.TIME_CHAR_ARRAY.length, this.string, 0, this.totalDigits, this.offset))
 
 when declared(newTimeHudWidgetHook5):
     newTimeHudWidgetHook5 = proc (location: int32, direction: int32, bufferZone: int32, basicColor: BasicColor, timer: HudTimer): BasicHud = newTimeHudWidget(location, direction, bufferZone, basicColor, timer)

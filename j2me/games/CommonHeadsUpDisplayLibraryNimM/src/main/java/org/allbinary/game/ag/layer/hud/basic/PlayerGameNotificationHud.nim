@@ -134,7 +134,7 @@ proc newPlayerGameNotificationHud*(location: int32, direction: int32, bufferZone
 
 method updateMeasurement*(this: PlayerGameNotificationHud, graphics: Graphics) =
         try:
-            procCall GameNotificationHud(this).updateMeasurement(graphics)
+            jSuperStatement(procCall GameNotificationHud(this).updateMeasurement(graphics))
             let font: Font = graphics.getFont()
             this.width = font.stringWidth(this.string)
             this.processor.process()
@@ -211,7 +211,7 @@ method clear*(this: PlayerGameNotificationHud) =
 
 method paint*(this: PlayerGameNotificationHud, graphics: Graphics) =
         this.myFontProcessor.process(graphics)
-        procCall GameNotificationHud(this).paintString(graphics, this.string)
+        jSuperStatement(procCall GameNotificationHud(this).paintString(graphics, this.string))
 
 when declared(newPlayerGameNotificationHudHook4):
     newPlayerGameNotificationHudHook4 = proc (location: int32, direction: int32, bufferZone: int32, basicColor: BasicColor): GameNotificationHud = newPlayerGameNotificationHud(location, direction, bufferZone, basicColor)

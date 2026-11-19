@@ -67,7 +67,7 @@ method setDy*(this: AdjustCustomTextAnimation, dy: int32) =
         this.dy = dy
 
 method paintXY*(this: AdjustCustomTextAnimation, graphics: Graphics, x: int32, y: int32) =
-        procCall CustomTextAnimation(this).paintXY(graphics, x +% this.dx, y +% this.dy)
+        jSuperStatement(procCall CustomTextAnimation(this).paintXY(graphics, x +% this.dx, y +% this.dy))
 
 when declared(newAdjustCustomTextAnimationHook5):
     newAdjustCustomTextAnimationHook5 = proc (text: string, fontSize: int32, dx: int32, dy: int32, animationBehavior: AnimationBehavior): CustomTextAnimation = newAdjustCustomTextAnimation(text, fontSize, dx, dy, animationBehavior)

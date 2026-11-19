@@ -75,11 +75,15 @@ method run*(this: PooledThread) =
                 this.threadPool.runningTask = true
                 this.threadPool.startTask(task2)
             except CatchableError as jcaught:
-                let ex = jToException(jcaught)
-                let logUtil: LogUtil = LogUtil.getInstance()
-                logUtil.putF(this.INTERRUPT_EXCEPTION, this, this.commonStrings.RUN)
-                break
-            if task2 == this.threadObjectUtil.NULL_PRIORITY_RUNNABLE:
+                let jexception = jToException(jcaught)
+                if jCatches(jexception, "InterruptedException"):
+                    let ex = jexception
+                    let logUtil: LogUtil = LogUtil.getInstance()
+                    logUtil.putF(this.INTERRUPT_EXCEPTION, this, this.commonStrings.RUN)
+                    break
+                else:
+                    raise jcaught
+            if (jSame(task2, this.threadObjectUtil.NULL_PRIORITY_RUNNABLE)):
                 break
             try:
                 task2.run()

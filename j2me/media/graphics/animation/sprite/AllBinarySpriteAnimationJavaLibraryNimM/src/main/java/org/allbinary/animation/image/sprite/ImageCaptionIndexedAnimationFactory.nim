@@ -93,7 +93,7 @@ proc initFieldsImageCaptionIndexedAnimationFactory(this: ImageCaptionIndexedAnim
 
 proc initImageCaptionIndexedAnimationFactory*(this: ImageCaptionIndexedAnimationFactory, captionImage: Image, spriteMovieImage: Image, soundInterface: Sound, frameWidth: int32, frameHeight: int32, captionDx: int32, captionDy: int32, dx: int32, dy: int32, time: int32, animationBehaviorFactory: AnimationBehaviorFactory) =
         this.initFieldsImageCaptionIndexedAnimationFactory()
-        if animationBehaviorFactory == AnimationBehaviorFactory.getInstance():
+        if (jSame(animationBehaviorFactory, AnimationBehaviorFactory.getInstance())):
             ForcedLogUtil.log("Using default AnimationBehaviorFactory with IndexedAnimationFactory", this)
         this.captionImage = captionImage
         this.spriteMovieImage = spriteMovieImage

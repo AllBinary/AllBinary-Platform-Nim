@@ -83,11 +83,11 @@ method damage*(this: MineLayer, damage: int32, damageType: int32) =
         this.totalDamage = this.getInitDamage() +% 1
 
 method getDamage*(this: MineLayer, damageType: int32): int32 {.discardable.} =
-        procCall SimpleWeaponLayer(this).getDamage(damageType)
+        jSuperStatement(procCall SimpleWeaponLayer(this).getDamage(damageType))
         return this.getInitDamage()
 
 method setDestroyed*(this: MineLayer, destroyed: bool) =
-        procCall SimpleWeaponLayer(this).setDestroyed(destroyed)
+        jSuperStatement(procCall SimpleWeaponLayer(this).setDestroyed(destroyed))
         if this.isDestroyed():
             this.viewPositionEventHandler.removeListener(this)
 

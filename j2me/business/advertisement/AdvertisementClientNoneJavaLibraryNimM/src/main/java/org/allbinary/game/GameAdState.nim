@@ -32,6 +32,7 @@ type
     GameAdState* = ref object of GameAdStateBase
 
 converter jAsVirtualKeyboardEventListenerInterface*(value: GameAdState): VirtualKeyboardEventListenerInterface = cast[VirtualKeyboardEventListenerInterface](value)
+converter jAsEventListenerInterface*(value: GameAdState): EventListenerInterface = cast[EventListenerInterface](value)
 proc newGameAdState*(adConfiguration: AdConfiguration): GameAdState
 proc initGameAdState*(this: GameAdState, adConfiguration: AdConfiguration)
 method onVirtualKeyboardEvent*(this: GameAdState, virtualKeyboardEvent: VirtualKeyboardEvent)
@@ -52,7 +53,7 @@ method onVirtualKeyboardEvent*(this: GameAdState, virtualKeyboardEvent: VirtualK
         discard
 
 method onEvent*(this: GameAdState, eventObject: AllBinaryEventObject) =
-        procCall GameAdStateBase(this).onEvent(eventObject)
+        jSuperStatement(procCall GameAdStateBase(this).onEvent(eventObject))
 
 when declared(newGameAdStateHook1):
     newGameAdStateHook1 = proc (adConfiguration: AdConfiguration): GameAdStateBase = newGameAdState(adConfiguration)

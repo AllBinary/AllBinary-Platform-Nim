@@ -45,6 +45,10 @@ type
         viewPosition*: ViewPositionBase
 
 converter jAsLayerInterface*(value: AllBinaryLayer): LayerInterface = cast[LayerInterface](value)
+converter jAsNamedInterface*(value: AllBinaryLayer): NamedInterface = cast[NamedInterface](value)
+converter jAsPaintableInterface*(value: AllBinaryLayer): PaintableInterface = cast[PaintableInterface](value)
+converter jAsGroupInterfaceCompositeInterface*(value: AllBinaryLayer): GroupInterfaceCompositeInterface = cast[GroupInterfaceCompositeInterface](value)
+converter jAsPositionInterface*(value: AllBinaryLayer): PositionInterface = cast[PositionInterface](value)
 proc newAllBinaryLayer*(name: string, rectangle: Rectangle, viewPosition: ViewPositionBase): AllBinaryLayer
 proc initAllBinaryLayer*(this: AllBinaryLayer, name: string, rectangle: Rectangle, viewPosition: ViewPositionBase)
 method setPosition*(this: AllBinaryLayer, x: int32, y: int32, z: int32)
@@ -141,10 +145,10 @@ proc newAllBinaryLayer*(name: string, rectangle: Rectangle, viewPosition: ViewPo
     initAllBinaryLayer(result, name, rectangle, viewPosition)
 
 method setPosition*(this: AllBinaryLayer, x: int32, y: int32, z: int32) =
-        procCall Layer(this).setPosition(x, y, z)
+        jSuperStatement(procCall Layer(this).setPosition(x, y, z))
 
 method moveDXYZ*(this: AllBinaryLayer, dx: int32, dy: int32, dz: int32) =
-        procCall Layer(this).moveDXYZ(dx, dy, dz)
+        jSuperStatement(procCall Layer(this).moveDXYZ(dx, dy, dz))
 
 method getXP*(this: AllBinaryLayer): int32 {.discardable.} =
         return procCall Layer(this).getXP()
@@ -162,13 +166,13 @@ method getHeight*(this: AllBinaryLayer): int32 {.discardable.} =
         return procCall Layer(this).getHeight()
 
 method setVisible*(this: AllBinaryLayer, visible: bool) =
-        procCall Layer(this).setVisible(visible)
+        jSuperStatement(procCall Layer(this).setVisible(visible))
 
 method isVisible*(this: AllBinaryLayer): bool {.discardable.} =
         return procCall Layer(this).isVisible()
 
 method paint*(this: AllBinaryLayer, graphics: Graphics) =
-        procCall Layer(this).paint(graphics)
+        jSuperStatement(procCall Layer(this).paint(graphics))
 
 method onChangeEvent*(this: AllBinaryLayer, layerManagerEvent: ViewPositionEvent) {.base.} =
         discard

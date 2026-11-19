@@ -50,7 +50,7 @@ method processInput*(this: PopupCommandFormInputProcessor, key: int32): int32 {.
         return procCall CommandFormInputProcessor(this).processInput(key)
 
 method processMotionInput*(this: PopupCommandFormInputProcessor, motionGestureEvent: MotionGestureEvent) =
-        procCall CommandFormInputProcessor(this).processMotionInput(motionGestureEvent)
+        jSuperStatement(procCall CommandFormInputProcessor(this).processMotionInput(motionGestureEvent))
 
 when declared(newPopupCommandFormInputProcessorHook5):
     newPopupCommandFormInputProcessorHook5 = proc (gameKeyEventList: BasicArrayList, playerInputId: int32, gameCanvas: MyCanvas, form: ScrollSelectionForm, popupMenuInputProcessor: PopupMenuInputProcessor): CommandFormInputProcessor = newPopupCommandFormInputProcessor(gameKeyEventList, playerInputId, gameCanvas, form, popupMenuInputProcessor)

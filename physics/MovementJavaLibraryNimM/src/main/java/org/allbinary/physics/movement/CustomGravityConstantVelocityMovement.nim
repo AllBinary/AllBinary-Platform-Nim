@@ -54,7 +54,7 @@ proc newCustomGravityConstantVelocityMovement*(speedBasicDecimal: BasicDecimal, 
     initCustomGravityConstantVelocityMovement(result, speedBasicDecimal, customGravity)
 
 method process*(this: CustomGravityConstantVelocityMovement, layer: AllBinaryGameLayer) =
-        procCall BasicConstantVelocityMovement(this).process(layer)
+        jSuperStatement(procCall BasicConstantVelocityMovement(this).process(layer))
         this.gravityUtil.process(this.getVelocityProperties(), this.customGravity)
         let velocityProperties: VelocityProperties = VelocityProperties(JObject(this.getVelocityProperties()))
         velocityProperties.limitMaxYForwardVelocity()

@@ -87,7 +87,7 @@ proc getNullInstance*(t: typedesc[CollidableCompositeLayer]): CollidableComposit
 proc initCollidableCompositeLayer*(this: CollidableCompositeLayer, name: string, layerInfo: Rectangle, viewPosition: ViewPositionBase, collidableBaseBehaviorFactory: CollidableBaseBehaviorFactory) =
         initAllBinaryGameLayer(this, name, layerInfo, viewPosition)
         this.initFieldsCollidableCompositeLayer()
-        if collidableBaseBehaviorFactory != CollidableNeverCollideBehaviorFactory.getInstance():
+        if (not jSame(collidableBaseBehaviorFactory, CollidableNeverCollideBehaviorFactory.getInstance())):
             this.setCollidableInferface(collidableBaseBehaviorFactory.createBehavior())
 
 proc newCollidableCompositeLayer*(name: string, layerInfo: Rectangle, viewPosition: ViewPositionBase, collidableBaseBehaviorFactory: CollidableBaseBehaviorFactory): CollidableCompositeLayer =
@@ -109,7 +109,7 @@ method implmentsCollidableInterface*(this: CollidableCompositeLayer): bool {.dis
 
 method toStringAppend*(this: CollidableCompositeLayer, stringBuffer: StringMaker) =
         let commonSeps: CommonSeps = CommonSeps.getInstance()
-        procCall AllBinaryGameLayer(this).toStringAppend(stringBuffer)
+        jSuperStatement(procCall AllBinaryGameLayer(this).toStringAppend(stringBuffer))
         stringBuffer.append(commonSeps.NEW_LINE)
         stringBuffer.append(this.getCollidableInferface().toString())
 

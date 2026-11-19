@@ -89,15 +89,15 @@ method addListener*(this: DownKeyEventHandlerBase, playerGameInput: PlayerGameIn
 
 method removeAllListeners*(this: DownKeyEventHandlerBase) =
         this.list.clear()
-        procCall BasicEventHandler(this).removeAllListeners()
+        jSuperStatement(procCall BasicEventHandler(this).removeAllListeners())
 
 method removeListenerSingleThreaded*(this: DownKeyEventHandlerBase, eventListenerInterface: EventListenerInterface) =
         this.list.remove(eventListenerInterface)
-        procCall BasicEventHandler(this).removeListenerSingleThreaded(eventListenerInterface)
+        jSuperStatement(procCall BasicEventHandler(this).removeListenerSingleThreaded(eventListenerInterface))
 
 method removeListener*(this: DownKeyEventHandlerBase, eventListenerInterface: EventListenerInterface) =
         this.list.remove(eventListenerInterface)
-        procCall BasicEventHandler(this).removeListener(eventListenerInterface)
+        jSuperStatement(procCall BasicEventHandler(this).removeListener(eventListenerInterface))
 
 method fireEventI*(this: DownKeyEventHandlerBase, eventObject: int32) {.base.} =
         block:

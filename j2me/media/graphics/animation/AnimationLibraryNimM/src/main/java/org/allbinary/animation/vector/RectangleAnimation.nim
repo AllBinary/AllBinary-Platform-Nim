@@ -32,6 +32,7 @@ type
         height*: int32
 
 converter jAsColorCompositeInterface*(value: RectangleAnimation): ColorCompositeInterface = cast[ColorCompositeInterface](value)
+converter jAsBasicColorCompositeSetterInterface*(value: RectangleAnimation): BasicColorCompositeSetterInterface = cast[BasicColorCompositeSetterInterface](value)
 proc newRectangleAnimation*(width: int32, height: int32, basicColor: BasicColor): RectangleAnimation
 proc initRectangleAnimation*(this: RectangleAnimation, width: int32, height: int32, basicColor: BasicColor)
 method nextFrame*(this: RectangleAnimation)
@@ -76,7 +77,7 @@ method getBasicColorP*(this: RectangleAnimation): BasicColor {.discardable.} =
         return procCall Animation(this).getBasicColorP()
 
 method setBasicColorP*(this: RectangleAnimation, basicColor: BasicColor) =
-        procCall Animation(this).setBasicColorP(basicColor)
+        jSuperStatement(procCall Animation(this).setBasicColorP(basicColor))
 
 when declared(newRectangleAnimationHook3):
     newRectangleAnimationHook3 = proc (width: int32, height: int32, basicColor: BasicColor): Animation = newRectangleAnimation(width, height, basicColor)

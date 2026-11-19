@@ -40,7 +40,7 @@ export LifeLayerModule
 
 proc initLifeLayerCircularStaticPool*(this: LifeLayerCircularStaticPool, allbinaryLayerFactoryInterface: AllBinaryLayerFactoryInterface, total: int32) =
         initAllBinaryLayerCircularPool(this)
-        procCall AllBinaryLayerCircularPool(this).initAllBinaryLayerCircularPool(allbinaryLayerFactoryInterface, total)
+        jSuperStatement(procCall AllBinaryLayerCircularPool(this).initAllBinaryLayerCircularPool(allbinaryLayerFactoryInterface, total))
 
 proc newLifeLayerCircularStaticPool*(allbinaryLayerFactoryInterface: AllBinaryLayerFactoryInterface, total: int32): LifeLayerCircularStaticPool =
     result = LifeLayerCircularStaticPool()

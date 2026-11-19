@@ -51,7 +51,7 @@ proc newScoreHudWidget*(maxscore: int32, location: int32, direction: int32, buff
 method updateMeasurement*(this: ScoreHudWidget, graphics: Graphics) =
         let font: Font = graphics.getFont()
         this.updateMaxWidth = font.getSize() *% 5
-        procCall NumberStringHud(this).updateMeasurement(graphics)
+        jSuperStatement(procCall NumberStringHud(this).updateMeasurement(graphics))
 
 when declared(newScoreHudWidgetHook5):
     newScoreHudWidgetHook5 = proc (maxscore: int32, location: int32, direction: int32, bufferZone: int32, basicColor: BasicColor): NumberStringHud = newScoreHudWidget(maxscore, location, direction, bufferZone, basicColor)

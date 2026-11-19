@@ -139,9 +139,9 @@ method onMotionGestureEvent*(this: ReleaseControlledMotionGestureListener, ev: M
         if this.isMouseGestureOccurring == false:
             return
         var motionGestureInput: MotionGestureInput = ev.getMotionGesture()
-        if motionGestureInput == TouchMotionGestureFactory.getInstance().PRESSED:
+        if (jSame(motionGestureInput, TouchMotionGestureFactory.getInstance().PRESSED)):
             this.onPressedMotionGestureEvent(ev)
-        elif motionGestureInput == TouchMotionGestureFactory.getInstance().RELEASED:
+        elif (jSame(motionGestureInput, TouchMotionGestureFactory.getInstance().RELEASED)):
             this.released(ev)
         else:
             if this.currentMotionGesture != motionGestureInput:

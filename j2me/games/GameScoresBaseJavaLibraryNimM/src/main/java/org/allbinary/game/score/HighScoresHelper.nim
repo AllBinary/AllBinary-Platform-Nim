@@ -50,7 +50,7 @@ proc newHighScoresHelper*(): HighScoresHelper =
     initHighScoresHelper(result)
 
 method setHighScoresArray*(this: HighScoresHelper, highScoresArrayP: JArray[HighScores]) =
-        procCall HighScoresHelperBase(this).setHighScoresArray(highScoresArrayP)
+        jSuperStatement(procCall HighScoresHelperBase(this).setHighScoresArray(highScoresArrayP))
         this.circularIndexUtil.setSize(this.highScoresArrayP.length)
 
 method getNextHighScores*(this: HighScoresHelper): HighScores {.discardable.} =

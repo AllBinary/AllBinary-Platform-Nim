@@ -25,4 +25,5 @@ export PaintableInterfaceModule
 type
     PartInterface* = ref object of PaintableInterface
 
+converter jAsAnimationInterfaceCompositeInterface*(value: PartInterface): AnimationInterfaceCompositeInterface = cast[AnimationInterfaceCompositeInterface](value)
 

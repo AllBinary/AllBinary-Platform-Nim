@@ -96,7 +96,7 @@ proc newHorizontalScreenPatrolAI*(hashtable: ABHashtable, ownerLayerInterface: A
     initHorizontalScreenPatrolAI(result, hashtable, ownerLayerInterface, gameInput)
 
 method processAI*(this: HorizontalScreenPatrolAI, allBinaryLayerManager: AllBinaryLayerManager) =
-        procCall BasicAI(this).processKeyAI(this.keyDirection)
+        jSuperStatement(procCall BasicAI(this).processKeyAI(this.keyDirection))
         if this.timeDelayHelper.isTimeTNT():
             var layerInterface: AllBinaryLayer = this.getOwnerLayerInterface()
             var currentOwnerLayerX: int32 = layerInterface.getXP()
@@ -107,7 +107,7 @@ method processAI*(this: HorizontalScreenPatrolAI, allBinaryLayerManager: AllBina
                 this.firingX = this.displayInfoSingleton.getLastHalfWidth() +% MyRandomFactory.getInstance().getNextInt(this.displayInfoSingleton.getLastHalfWidth())
                 this.secondaryPlayerQueue.add(this.sound)
             if currentOwnerLayerX < this.firingX and currentOwnerLayerX > -layerInterface.getWidth():
-                procCall BasicAI(this).processKeyAI(Canvas.KEY_NUM1)
+                jSuperStatement(procCall BasicAI(this).processKeyAI(Canvas.KEY_NUM1))
                 let gameLayerManager: AllBinaryGameLayerManager = AllBinaryGameLayerManager(JObject(allBinaryLayerManager))
                 var FIRE: int32 = ashr((gameLayerManager.getGameInfo().getCurrentLevel() +% 12), 2)
                 if FIRE > this.MAX_FIRE:

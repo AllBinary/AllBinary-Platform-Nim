@@ -48,13 +48,13 @@ proc newPCGameInputMapping*(): PCGameInputMapping =
 method init*(this: PCGameInputMapping, abeClientInformation: AbeClientInformationInterface) =
         this.logUtil.putF(this.commonStrings.START, this, this.commonStrings.INIT)
         PCKeyFactory.getInstance()
-        procCall PersistentInputMapping(this).init(abeClientInformation)
+        jSuperStatement(procCall PersistentInputMapping(this).init(abeClientInformation))
         if this.getTotalMapped() == 0 or this.isDefaultNew():
             this.getInputMapping().addMapping(this.getDefault())
             this.save(abeClientInformation)
 
 method isDelete*(this: PCGameInputMapping, input: Input): bool {.discardable.} =
-        if input == PCKeyFactory.getInstance().DEL:
+        if (jSame(input, PCKeyFactory.getInstance().DEL)):
             return true
         else:
             return false

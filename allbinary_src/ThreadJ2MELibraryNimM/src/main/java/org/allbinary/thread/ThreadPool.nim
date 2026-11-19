@@ -149,7 +149,7 @@ method runTaskWithPriority*(this: ThreadPool, task: PriorityRunnable) {.base.} =
                         if runnable.getPriority() > task.getPriority():
                             lowerPriorityRunnable = runnable
                             break
-                if lowerPriorityRunnable == this.threadObjectUtil.NULL_PRIORITY_RUNNABLE:
+                if (jSame(lowerPriorityRunnable, this.threadObjectUtil.NULL_PRIORITY_RUNNABLE)):
                     this.taskQueue.add(task)
                 else:
                     let index: int32 = this.taskQueue.indexOf(lowerPriorityRunnable)

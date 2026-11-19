@@ -119,13 +119,13 @@ method processAI*(this: HorizontaRotationManeuverAI, allBinaryLayerManager: AllB
             this.drop()
         let index: int32 = this.circularIndexUtil.getIndex()
         if index mod this.currentSpeedDivisor == 0 and index mod 2 == 0:
-            procCall BasicAI(this).processKeyAI(Canvas.UP)
+            jSuperStatement(procCall BasicAI(this).processKeyAI(Canvas.UP))
             this.velocityInterface.limitMaxXYVelocity(this.velocityInterface.getMaxForwardVelocity() div this.currentSpeedDivisor)
         this.circularIndexUtil.next()
         if frame == angleIncrementInfo.LEFT_FRAME.intValue():
-            procCall BasicAI(this).processKeyAI(Canvas.KEY_NUM0)
+            jSuperStatement(procCall BasicAI(this).processKeyAI(Canvas.KEY_NUM0))
         elif frame == angleIncrementInfo.RIGHT_FRAME.intValue():
-            procCall BasicAI(this).processKeyAI(Canvas.KEY_POUND)
+            jSuperStatement(procCall BasicAI(this).processKeyAI(Canvas.KEY_POUND))
 
 method reverse*(this: HorizontaRotationManeuverAI) {.base.} =
         let rotationAnimationInterface: RotationAnimationInterface = RotationAnimationInterface(JObject(this.rotationAnimationInterface))

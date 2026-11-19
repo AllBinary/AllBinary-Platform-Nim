@@ -48,9 +48,9 @@ proc instance*(t: typedesc[WeaponLayerArrayLayerCircularStaticPool]): WeaponLaye
 proc initFieldsWeaponLayerArrayLayerCircularStaticPool(this: WeaponLayerArrayLayerCircularStaticPool) =
     this.MAX = 5
     this.circularIndexUtil = CircularIndexUtil.createInstance(this.MAX)
-    
-    
-    
+    this.WEAPONLAYER_ARRAY = newJArray[JArray[WeaponLayer]](this.MAX *% 2, nil)
+    this.TWO_WEAPONLAYER_ARRAY = newJArray[JArray[WeaponLayer]](this.MAX, nil)
+    this.THREE_WEAPONLAYER_ARRAY = newJArray[JArray[WeaponLayer]](this.MAX, nil)
     discard
 
 proc initWeaponLayerArrayLayerCircularStaticPool*(this: WeaponLayerArrayLayerCircularStaticPool) =
@@ -64,19 +64,16 @@ proc getInstance*(t: typedesc[WeaponLayerArrayLayerCircularStaticPool]): WeaponL
         return WeaponLayerArrayLayerCircularStaticPool.instance
 
 method init*(this: WeaponLayerArrayLayerCircularStaticPool) {.base.} =
-        let WEAPONLAYER_ARRAY: JArray[JArray[WeaponLayer]] = newJArray[JArray[WeaponLayer]](this.MAX *% 2, nil)
-        let TWO_WEAPONLAYER_ARRAY: JArray[JArray[WeaponLayer]] = newJArray[JArray[WeaponLayer]](this.MAX, nil)
-        let THREE_WEAPONLAYER_ARRAY: JArray[JArray[WeaponLayer]] = newJArray[JArray[WeaponLayer]](this.MAX, nil)
         block:
             var index: int32 = 0
             while index < this.MAX:
                 defer: index = index +% 1
-                WEAPONLAYER_ARRAY[index] = newJArray[WeaponLayer](1, default(WeaponLayer))
-                TWO_WEAPONLAYER_ARRAY[index] = newJArray[WeaponLayer](2, default(WeaponLayer))
-                THREE_WEAPONLAYER_ARRAY[index] = newJArray[WeaponLayer](3, default(WeaponLayer))
-        this.WEAPONLAYER_ARRAY = WEAPONLAYER_ARRAY
-        this.TWO_WEAPONLAYER_ARRAY = TWO_WEAPONLAYER_ARRAY
-        this.THREE_WEAPONLAYER_ARRAY = THREE_WEAPONLAYER_ARRAY
+                this.WEAPONLAYER_ARRAY[index] = newJArray[WeaponLayer](1, default(WeaponLayer))
+                this.TWO_WEAPONLAYER_ARRAY[index] = newJArray[WeaponLayer](2, default(WeaponLayer))
+                this.THREE_WEAPONLAYER_ARRAY[index] = newJArray[WeaponLayer](3, default(WeaponLayer))
+        this.WEAPONLAYER_ARRAY = this.WEAPONLAYER_ARRAY
+        this.TWO_WEAPONLAYER_ARRAY = this.TWO_WEAPONLAYER_ARRAY
+        this.THREE_WEAPONLAYER_ARRAY = this.THREE_WEAPONLAYER_ARRAY
 
 method getWeaponLayerArrays*(this: WeaponLayerArrayLayerCircularStaticPool, size: int32): JArray[JArray[WeaponLayer]] {.base, discardable.} =
         if size == 1:

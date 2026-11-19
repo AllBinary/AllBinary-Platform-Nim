@@ -41,6 +41,8 @@ type
         animationInterfaceArray*: JArray[RotationAnimation]
 
 converter jAsCompoundAnimationInterface*(value: CompoundRotationAnimation): CompoundAnimationInterface = cast[CompoundAnimationInterface](value)
+converter jAsAnimationInterface*(value: CompoundRotationAnimation): AnimationInterface = cast[AnimationInterface](value)
+converter jAsLocationPaintableInterface*(value: CompoundRotationAnimation): LocationPaintableInterface = cast[LocationPaintableInterface](value)
 proc newCompoundRotationAnimation*(animationInterfaceArray: JArray[RotationAnimation], animationBehavior: AnimationBehavior): CompoundRotationAnimation
 proc initCompoundRotationAnimation*(this: CompoundRotationAnimation, animationInterfaceArray: JArray[RotationAnimation], animationBehavior: AnimationBehavior)
 method setFrame*(this: CompoundRotationAnimation, index: int32)

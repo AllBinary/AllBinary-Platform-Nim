@@ -32,6 +32,7 @@ type
         colorP*: int32
 
 converter jAsColorCompositeInterface*(value: ColorFillBasePaintable): ColorCompositeInterface = cast[ColorCompositeInterface](value)
+converter jAsBasicColorCompositeSetterInterface*(value: ColorFillBasePaintable): BasicColorCompositeSetterInterface = cast[BasicColorCompositeSetterInterface](value)
 proc newColorFillBasePaintable*(basicColor: BasicColor): ColorFillBasePaintable
 proc initColorFillBasePaintable*(this: ColorFillBasePaintable, basicColor: BasicColor)
 method setBasicColorP*(this: ColorFillBasePaintable, basicColor: BasicColor)

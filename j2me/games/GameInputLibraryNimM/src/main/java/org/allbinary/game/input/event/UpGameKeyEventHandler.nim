@@ -77,7 +77,7 @@ proc newUpGameKeyEventHandler*(): UpGameKeyEventHandler =
     initUpGameKeyEventHandler(result)
 
 method removeAllListeners*(this: UpGameKeyEventHandler) =
-        procCall UpGameKeyEventHandlerBase(this).removeAllListeners()
+        jSuperStatement(procCall UpGameKeyEventHandlerBase(this).removeAllListeners())
         block:
             var index: int32 = UpGameKeyEventHandler.instanceArray.length -% 1
             while index >= 0:
@@ -85,7 +85,7 @@ method removeAllListeners*(this: UpGameKeyEventHandler) =
                 UpGameKeyEventHandler.instanceArray[index].removeAllListeners()
 
 method removeListenerSingleThreaded*(this: UpGameKeyEventHandler, eventListenerInterface: EventListenerInterface) =
-        procCall UpGameKeyEventHandlerBase(this).removeListenerSingleThreaded(eventListenerInterface)
+        jSuperStatement(procCall UpGameKeyEventHandlerBase(this).removeListenerSingleThreaded(eventListenerInterface))
         block:
             var index: int32 = UpGameKeyEventHandler.instanceArray.length -% 1
             while index >= 0:
@@ -93,7 +93,7 @@ method removeListenerSingleThreaded*(this: UpGameKeyEventHandler, eventListenerI
                 UpGameKeyEventHandler.instanceArray[index].removeListenerSingleThreaded(eventListenerInterface)
 
 method removeListener*(this: UpGameKeyEventHandler, eventListenerInterface: EventListenerInterface) =
-        procCall UpGameKeyEventHandlerBase(this).removeListener(eventListenerInterface)
+        jSuperStatement(procCall UpGameKeyEventHandlerBase(this).removeListener(eventListenerInterface))
         block:
             var index: int32 = UpGameKeyEventHandler.instanceArray.length -% 1
             while index >= 0:

@@ -87,7 +87,7 @@ method update*(this: BasicInputMappingHelpPaintable, selectedGameKey: GameKey, s
                 list = gameKeyMapping.getInputMapping().getMappedInput(gameKey)
                 stringMaker.delete(0, stringMaker.length())
                 keyInfo[index] = stringMaker.append(gameInputMapping.getName()).append(EQUAL).append(this.get(list)).toString()
-        procCall HelpPaintable(this).setInputInfoP(keyInfo)
+        jSuperStatement(procCall HelpPaintable(this).setInputInfoP(keyInfo))
 
 method get*(this: BasicInputMappingHelpPaintable, keyList: BasicArrayList): string {.base, discardable.} =
         let commonSeps: CommonSeps = CommonSeps.getInstance()

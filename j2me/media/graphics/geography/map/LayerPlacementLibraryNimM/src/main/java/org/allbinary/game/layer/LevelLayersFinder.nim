@@ -70,8 +70,8 @@ method get*(this: LevelLayersFinder, hashtable: ABHashtable): BasicArrayList {.b
         let list: BasicArrayList = newBasicArrayListD()
         let enumeration: Enumeration = hashtable.keys()
         var layerHashtableCanBeNull: ABHashtable = nil
-        var integerCanBeNull: int32 = nil
-        var cachedIntegerCanBeNull: int32 = nil
+        var integerCanBeNull: int32 = 0
+        var cachedIntegerCanBeNull: int32 = 0
         while this.enumerationUtil.hasMoreElements(enumeration):
             layerHashtableCanBeNull = ABHashtable(JObject(hashtable.get(JObject(JObject(this.enumerationUtil.nextElement(enumeration))))))
             integerCanBeNull = jUnboxInteger(layerHashtableCanBeNull.get(JObject(JObject(Layer.ID))))

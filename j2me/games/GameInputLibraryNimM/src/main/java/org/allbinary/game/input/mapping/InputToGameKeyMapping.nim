@@ -113,7 +113,7 @@ method clear*(this: InputToGameKeyMapping) {.base.} =
                 this.platformToGameKeyMapping[index] = this.gameKeyFactory.NONE
 
 method removeAll*(this: InputToGameKeyMapping) =
-        procCall InputMapping(this).removeAll()
+        jSuperStatement(procCall InputMapping(this).removeAll())
         this.clear()
 
 method addMapping*(this: InputToGameKeyMapping, inputToGameKeyMapping: InputToGameKeyMapping) =
@@ -122,7 +122,7 @@ method addMapping*(this: InputToGameKeyMapping, inputToGameKeyMapping: InputToGa
             while index >= 0:
                 defer: index = index -% 1
                 let input: Input = inputToGameKeyMapping.getInstance(index)
-                if input != this.gameKeyFactory.NONE:
+                if (not jSame(input, this.gameKeyFactory.NONE)):
                     this.addAll(input, inputToGameKeyMapping.getMappedInput(input))
 
 method addAll*(this: InputToGameKeyMapping, input: Input, list: BasicArrayList) {.base.} =
@@ -134,12 +134,12 @@ method addAll*(this: InputToGameKeyMapping, input: Input, list: BasicArrayList) 
                 this.add(input, mappedToInput)
 
 method add*(this: InputToGameKeyMapping, input: Input, mappedToInput: Input) =
-        procCall InputMapping(this).add(input, mappedToInput)
+        jSuperStatement(procCall InputMapping(this).add(input, mappedToInput))
         this.set(input, mappedToInput)
 
 method remove*(this: InputToGameKeyMapping, input: Input, mappedToInput: Input) =
         this.logUtil.putF(newStringMaker().append(CommonLabels.getInstance().START_LABEL).append(StringUtil.getInstance().toString(input)).append(" == ").append(StringUtil.getInstance().toString(mappedToInput)).toString(), this, "InputToGameKeyMapping::remove")
-        procCall InputMapping(this).remove(input, mappedToInput)
+        jSuperStatement(procCall InputMapping(this).remove(input, mappedToInput))
         this.set(input, this.gameKeyFactory.NONE)
 
 method set*(this: InputToGameKeyMapping, input: Input, mappedToInput: Input) {.base.} =

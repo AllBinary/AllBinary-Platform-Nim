@@ -60,7 +60,7 @@ method setFrameToAngle*(this: VectorRotationAnimation, angle: Angle) =
         this.adjustFrameToAngle(angle)
 
 method setFrame*(this: VectorRotationAnimation, index: int32) =
-        procCall VectorBaseRotationAnimation(this).setFrame(index)
+        jSuperStatement(procCall VectorBaseRotationAnimation(this).setFrame(index))
         this.angleInfo.adjustAngle(this.getFrame())
 
 method adjustFrame*(this: VectorRotationAnimation, newAngle: int16) =

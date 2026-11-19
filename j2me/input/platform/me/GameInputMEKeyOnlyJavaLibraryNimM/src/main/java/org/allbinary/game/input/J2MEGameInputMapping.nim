@@ -50,13 +50,13 @@ proc newJ2MEGameInputMapping*(): J2MEGameInputMapping =
 method init*(this: J2MEGameInputMapping, abeClientInformation: AbeClientInformationInterface) =
         this.logUtil.putF(this.commonStrings.START, this, this.commonStrings.INIT)
         J2MEKeyFactory.getInstance().init()
-        procCall PersistentInputMapping(this).init(abeClientInformation)
+        jSuperStatement(procCall PersistentInputMapping(this).init(abeClientInformation))
         if this.getTotalMapped() == 0 or this.isDefaultNew():
             this.getInputMapping().addMapping(this.getDefault())
             this.save(abeClientInformation)
 
 method isDelete*(this: J2MEGameInputMapping, input: Input): bool {.discardable.} =
-        if input == GameKeyFactory.getInstance().GAME_D:
+        if (jSame(input, GameKeyFactory.getInstance().GAME_D)):
             return true
         else:
             return false

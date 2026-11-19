@@ -40,7 +40,7 @@ export HealLayerModule
 
 proc initHealLayerCircularStaticPool*(this: HealLayerCircularStaticPool, allbinaryLayerFactoryInterface: AllBinaryLayerFactoryInterface, total: int32) =
         initAllBinaryLayerCircularPool(this)
-        procCall AllBinaryLayerCircularPool(this).initAllBinaryLayerCircularPool(allbinaryLayerFactoryInterface, total)
+        jSuperStatement(procCall AllBinaryLayerCircularPool(this).initAllBinaryLayerCircularPool(allbinaryLayerFactoryInterface, total))
 
 proc newHealLayerCircularStaticPool*(allbinaryLayerFactoryInterface: AllBinaryLayerFactoryInterface, total: int32): HealLayerCircularStaticPool =
     result = HealLayerCircularStaticPool()

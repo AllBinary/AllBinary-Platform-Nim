@@ -59,7 +59,7 @@ method init*(this: AdjustedImageBaseRotationAnimation, dx: int32, dy: int32) {.b
         this.dy = dy
 
 method paintXY*(this: AdjustedImageBaseRotationAnimation, graphics: Graphics, x: int32, y: int32) =
-        procCall ImageBaseRotationAnimation(this).paintXY(graphics, x +% this.dx, y +% this.dy)
+        jSuperStatement(procCall ImageBaseRotationAnimation(this).paintXY(graphics, x +% this.dx, y +% this.dy))
 
 when declared(newAdjustedImageBaseRotationAnimationHook6):
     newAdjustedImageBaseRotationAnimationHook6 = proc (image: Image, angleInfo: AngleInfo, totalAngle: int16, dx: int32, dy: int32, animationBehavior: AnimationBehavior): ImageBaseRotationAnimation = newAdjustedImageBaseRotationAnimation(image, angleInfo, totalAngle, dx, dy, animationBehavior)

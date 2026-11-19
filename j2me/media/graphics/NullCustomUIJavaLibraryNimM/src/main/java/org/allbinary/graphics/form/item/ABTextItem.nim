@@ -55,7 +55,7 @@ method getLabel*(this: ABTextItem): string {.discardable.} =
         return procCall CustomCustomItem(this).getLabel()
 
 method paintXY*(this: ABTextItem, graphics: Graphics, x: int32, y: int32) =
-        procCall CustomCustomItem(this).paintXY(graphics, x, y)
+        jSuperStatement(procCall CustomCustomItem(this).paintXY(graphics, x, y))
 
 when declared(newABTextItemHook5):
     newABTextItemHook5 = proc (label: string, layout: int32, altText: string, backgroundBasicColor: BasicColor, foregroundBasicColor: BasicColor): CustomCustomItem = newABTextItem(label, layout, altText, backgroundBasicColor, foregroundBasicColor)

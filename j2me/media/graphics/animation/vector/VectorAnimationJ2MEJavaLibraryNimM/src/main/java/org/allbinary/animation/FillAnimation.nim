@@ -51,7 +51,7 @@ method setBasicColorP*(this: FillAnimation, basicColor: BasicColor) =
         var changed: bool = false
         if (jIsNil(this.getBasicColorP())) or this.getBasicColorP().intValue() != basicColor.intValue():
             changed = true
-        procCall IndexedAnimation(this).setBasicColorP(basicColor)
+        jSuperStatement(procCall IndexedAnimation(this).setBasicColorP(basicColor))
         if changed:
             this.updateModifiers()
 
@@ -59,7 +59,7 @@ method changeBasicColor*(this: FillAnimation, basicColor: BasicColor) =
         var changed: bool = false
         if (jIsNil(this.getChangeBasicColor())) or this.getChangeBasicColor().intValue() != basicColor.intValue():
             changed = true
-        procCall IndexedAnimation(this).changeBasicColor(basicColor)
+        jSuperStatement(procCall IndexedAnimation(this).changeBasicColor(basicColor))
         if changed:
             this.updateModifiers()
 
@@ -67,7 +67,7 @@ method setAlpha*(this: FillAnimation, alpha: int32) =
         var changed: bool = false
         if this.alphaP != alpha:
             changed = true
-        procCall IndexedAnimation(this).setAlpha(alpha)
+        jSuperStatement(procCall IndexedAnimation(this).setAlpha(alpha))
         if changed:
             this.updateModifiers()
 

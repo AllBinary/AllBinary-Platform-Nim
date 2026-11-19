@@ -125,7 +125,7 @@ proc initInputMappingHelpPaintable*(this: InputMappingHelpPaintable, gameInputMa
         this.initFieldsInputMappingHelpPaintable()
         this.gameInputMappingArray = gameInputMappingArray
         this.update(this.NONE, this.NONE)
-        if backgroundBasicColor == this.basicColorFactory.WHITE or basicColor == this.basicColorFactory.WHITE:
+        if (jSame(backgroundBasicColor, this.basicColorFactory.WHITE)) or (jSame(basicColor, this.basicColorFactory.WHITE)):
             this.selectedBasicColor = this.basicColorFactory.RED
         else:
             this.selectedBasicColor = this.basicColorFactory.WHITE
@@ -186,7 +186,7 @@ method updateMeasurement*(this: InputMappingHelpPaintable, graphics: Graphics) =
                         if updateMyFontProperties.sepArray[index][index2] != this.EMPTY_STRING:
                             updateMyFontProperties.sepWidthArray[index][index2] = font.stringWidth(updateMyFontProperties.sepArray[index][index2])
         this.updateMyFontProperties = updateMyFontProperties
-        procCall HelpPaintable(this).updateMeasurement(graphics)
+        jSuperStatement(procCall HelpPaintable(this).updateMeasurement(graphics))
 
 method update*(this: InputMappingHelpPaintable, selectedGameKey: GameKey, selectedInput: Input) {.base.} =
         let stringMaker: StringMaker = newStringMaker()
@@ -230,7 +230,7 @@ method update*(this: InputMappingHelpPaintable, selectedGameKey: GameKey, select
         this.keyMappingArray = keyMappingArray
         this.actionBasicColor = actionBasicColor
         this.inputBasicColorArray = inputBasicColorArray
-        procCall HelpPaintable(this).setInputInfoP(keyInfo)
+        jSuperStatement(procCall HelpPaintable(this).setInputInfoP(keyInfo))
         this.myFontProcessor = this.updateMyFontProcessor
 
 method get*(this: InputMappingHelpPaintable, keyList: BasicArrayList): string {.base, discardable.} =

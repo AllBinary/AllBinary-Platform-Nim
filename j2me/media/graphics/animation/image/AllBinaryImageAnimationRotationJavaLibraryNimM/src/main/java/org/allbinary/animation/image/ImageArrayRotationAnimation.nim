@@ -64,7 +64,7 @@ method initImageArray*(this: ImageArrayRotationAnimation, imageArray: JArray[Ima
             raise newJException("Exception", "Wrong Number of Frames")
 
 method setImageArray*(this: ImageArrayRotationAnimation, imageArray: JArray[Image]) =
-        procCall ImageArrayBaseRotationAnimation(this).setImageArray(imageArray)
+        jSuperStatement(procCall ImageArrayBaseRotationAnimation(this).setImageArray(imageArray))
         this.angleInfo.adjustAngle(0)
 
 when declared(newImageArrayRotationAnimationHook4):

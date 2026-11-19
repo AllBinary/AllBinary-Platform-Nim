@@ -75,7 +75,7 @@ method init*(this: AdjustedImageArrayRotationAnimation, dx: int32, dy: int32) {.
         this.setDy(dy)
 
 method paintXY*(this: AdjustedImageArrayRotationAnimation, graphics: Graphics, x: int32, y: int32) =
-        procCall ImageArrayRotationAnimation(this).paintXY(graphics, x +% this.dx, y +% this.dy)
+        jSuperStatement(procCall ImageArrayRotationAnimation(this).paintXY(graphics, x +% this.dx, y +% this.dy))
 
 method setDx*(this: AdjustedImageArrayRotationAnimation, dx: int32) =
         this.dx = dx

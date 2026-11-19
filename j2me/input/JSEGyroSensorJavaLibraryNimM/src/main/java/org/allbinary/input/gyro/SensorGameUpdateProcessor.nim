@@ -66,7 +66,7 @@ method sendNotifications*(this: SensorGameUpdateProcessor, anyType: JObject) {.b
         discard
 
 method isAnySensor*(this: SensorGameUpdateProcessor): bool {.base, discardable.} =
-        if this.inputSensor == NoAllBinarySensor.getInstance():
+        if (jSame(this.inputSensor, NoAllBinarySensor.getInstance())):
             return false
         else:
             return true

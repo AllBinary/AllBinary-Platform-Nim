@@ -33,6 +33,7 @@ type
         motionGestureInput*: MotionGestureInput
 
 converter jAsCompleteMotionGestureInputInterface*(value: CompleteMotionGestureInputEvent): CompleteMotionGestureInputInterface = cast[CompleteMotionGestureInputInterface](value)
+converter jAsNamedInterface*(value: CompleteMotionGestureInputEvent): NamedInterface = cast[NamedInterface](value)
 proc newCompleteMotionGestureInputEvent*(name: string, motionGestureInput: MotionGestureInput): CompleteMotionGestureInputEvent
 proc initCompleteMotionGestureInputEvent*(this: CompleteMotionGestureInputEvent, name: string, motionGestureInput: MotionGestureInput)
 method setName*(this: CompleteMotionGestureInputEvent, name: string) {.base.}

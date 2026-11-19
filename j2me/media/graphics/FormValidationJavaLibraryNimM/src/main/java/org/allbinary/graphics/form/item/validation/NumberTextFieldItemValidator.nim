@@ -85,8 +85,12 @@ method isValid*(this: NumberTextFieldItemValidator): bool {.discardable.} =
             try:
                 jParseInt(this.textFieldItem.getString())
             except CatchableError as jcaught:
-                let e = jToException(jcaught)
-                `result` = BooleanFactory.getInstance().FALSE
+                let jexception = jToException(jcaught)
+                if jCatches(jexception, "NumberFormatException"):
+                    let e = jexception
+                    `result` = BooleanFactory.getInstance().FALSE
+                else:
+                    raise jcaught
         else:
             if textLength < 1:
                 `result` = BooleanFactory.getInstance().FALSE
@@ -112,9 +116,13 @@ method toList*(this: NumberTextFieldItemValidator): BasicArrayList {.discardable
                     stringMaker.delete(0, stringMaker.length())
                     list.add(stringMaker.append(name).append(" is to large").toString())
             except CatchableError as jcaught:
-                let e = jToException(jcaught)
-                stringMaker.delete(0, stringMaker.length())
-                list.add(stringMaker.append(name).append(" is not a number").toString())
+                let jexception = jToException(jcaught)
+                if jCatches(jexception, "NumberFormatException"):
+                    let e = jexception
+                    stringMaker.delete(0, stringMaker.length())
+                    list.add(stringMaker.append(name).append(" is not a number").toString())
+                else:
+                    raise jcaught
         else:
             if textLength < 1:
                 stringMaker.delete(0, stringMaker.length())

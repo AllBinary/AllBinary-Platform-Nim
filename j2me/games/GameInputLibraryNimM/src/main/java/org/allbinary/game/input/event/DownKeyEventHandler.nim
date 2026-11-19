@@ -77,7 +77,7 @@ proc newDownKeyEventHandler*(): DownKeyEventHandler =
     initDownKeyEventHandler(result)
 
 method removeAllListeners*(this: DownKeyEventHandler) =
-        procCall DownKeyEventHandlerBase(this).removeAllListeners()
+        jSuperStatement(procCall DownKeyEventHandlerBase(this).removeAllListeners())
         block:
             var index: int32 = DownKeyEventHandler.instanceArray.length -% 1
             while index >= 0:
@@ -85,7 +85,7 @@ method removeAllListeners*(this: DownKeyEventHandler) =
                 DownKeyEventHandler.instanceArray[index].removeAllListeners()
 
 method removeListenerSingleThreaded*(this: DownKeyEventHandler, eventListenerInterface: EventListenerInterface) =
-        procCall DownKeyEventHandlerBase(this).removeListenerSingleThreaded(eventListenerInterface)
+        jSuperStatement(procCall DownKeyEventHandlerBase(this).removeListenerSingleThreaded(eventListenerInterface))
         block:
             var index: int32 = DownKeyEventHandler.instanceArray.length -% 1
             while index >= 0:
@@ -93,7 +93,7 @@ method removeListenerSingleThreaded*(this: DownKeyEventHandler, eventListenerInt
                 DownKeyEventHandler.instanceArray[index].removeListenerSingleThreaded(eventListenerInterface)
 
 method removeListener*(this: DownKeyEventHandler, eventListenerInterface: EventListenerInterface) =
-        procCall DownKeyEventHandlerBase(this).removeListener(eventListenerInterface)
+        jSuperStatement(procCall DownKeyEventHandlerBase(this).removeListener(eventListenerInterface))
         block:
             var index: int32 = DownKeyEventHandler.instanceArray.length -% 1
             while index >= 0:

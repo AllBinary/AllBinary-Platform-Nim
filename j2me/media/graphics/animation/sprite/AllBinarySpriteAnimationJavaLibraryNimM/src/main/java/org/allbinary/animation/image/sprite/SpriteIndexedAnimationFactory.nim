@@ -38,6 +38,7 @@ type
         basicColorArray*: JArray[BasicColor]
 
 converter jAsProceduralAnimationInterfaceFactoryInterface*(value: SpriteIndexedAnimationFactory): ProceduralAnimationInterfaceFactoryInterface = cast[ProceduralAnimationInterfaceFactoryInterface](value)
+converter jAsBasicAnimationInterfaceFactoryInterface*(value: SpriteIndexedAnimationFactory): BasicAnimationInterfaceFactoryInterface = cast[BasicAnimationInterfaceFactoryInterface](value)
 proc newSpriteIndexedAnimationFactory*(image: Image, basicColorArray: JArray[BasicColor], sequenceArray: JArray[int32], width: int32, height: int32, dx: int32, dy: int32, animationBehaviorFactory: AnimationBehaviorFactory): SpriteIndexedAnimationFactory
 proc initSpriteIndexedAnimationFactory*(this: SpriteIndexedAnimationFactory, image: Image, basicColorArray: JArray[BasicColor], sequenceArray: JArray[int32], width: int32, height: int32, dx: int32, dy: int32, animationBehaviorFactory: AnimationBehaviorFactory)
 proc createCWHDXY*(t: typedesc[SpriteIndexedAnimationFactory], image: Image, basicColorArray: JArray[BasicColor], width: int32, height: int32, dx: int32, dy: int32, animationBehaviorFactory: AnimationBehaviorFactory): SpriteIndexedAnimationFactory {.discardable.}

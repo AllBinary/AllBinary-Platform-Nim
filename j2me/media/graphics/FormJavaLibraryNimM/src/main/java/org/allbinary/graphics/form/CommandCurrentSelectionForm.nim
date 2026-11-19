@@ -89,7 +89,7 @@ proc newCommandCurrentSelectionForm*(title: string, items: JArray[ABCustomItem],
 
 method updateMeasurement*(this: CommandCurrentSelectionForm, graphics: Graphics) =
         this.updateAll(graphics, this.getAllitems())
-        procCall ScrollCurrentSelectionForm(this).updateMeasurement(graphics)
+        jSuperStatement(procCall ScrollCurrentSelectionForm(this).updateMeasurement(graphics))
 
 method initAnimations*(this: CommandCurrentSelectionForm) {.base.} =
         let nullAnimation: Animation = NullAnimationFactory.getFactoryInstance().getInstance(0)
@@ -186,21 +186,21 @@ method append*(this: CommandCurrentSelectionForm, item: ABCustomItem): int32 {.d
         return `result`
 
 method delete*(this: CommandCurrentSelectionForm, itemNum: int32) =
-        procCall ScrollCurrentSelectionForm(this).delete(itemNum)
+        jSuperStatement(procCall ScrollCurrentSelectionForm(this).delete(itemNum))
 
 method deleteAll*(this: CommandCurrentSelectionForm) =
         this.initAnimations()
-        procCall ScrollCurrentSelectionForm(this).deleteAll()
+        jSuperStatement(procCall ScrollCurrentSelectionForm(this).deleteAll())
 
 method insert*(this: CommandCurrentSelectionForm, itemNum: int32, item: ABCustomItem) =
-        procCall ScrollCurrentSelectionForm(this).insert(itemNum, item)
+        jSuperStatement(procCall ScrollCurrentSelectionForm(this).insert(itemNum, item))
 
 method set*(this: CommandCurrentSelectionForm, itemNum: int32, item: ABCustomItem) =
-        procCall ScrollCurrentSelectionForm(this).set(itemNum, item)
+        jSuperStatement(procCall ScrollCurrentSelectionForm(this).set(itemNum, item))
 
 method paint*(this: CommandCurrentSelectionForm, graphics: Graphics) =
         this.myFontProcessor.process(graphics)
-        procCall ScrollCurrentSelectionForm(this).paint(graphics)
+        jSuperStatement(procCall ScrollCurrentSelectionForm(this).paint(graphics))
 
 method paintItem*(this: CommandCurrentSelectionForm, graphics: Graphics, index: int32, item: ABCustomItem, x: int32, y: int32): int32 {.discardable.} =
         this.selectedAnimationArray[index].paintXY(graphics, x, y)

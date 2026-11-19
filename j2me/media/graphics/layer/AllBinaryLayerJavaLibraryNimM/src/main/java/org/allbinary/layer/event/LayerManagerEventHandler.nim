@@ -88,11 +88,11 @@ method addListener*(this: LayerManagerEventHandler, layerManagerEventListener: L
 
 method removeAllListeners*(this: LayerManagerEventHandler) =
         this.list.clear()
-        procCall BasicEventHandler(this).removeAllListeners()
+        jSuperStatement(procCall BasicEventHandler(this).removeAllListeners())
 
 method removeListener*(this: LayerManagerEventHandler, eventListenerInterface: EventListenerInterface) =
         this.list.remove(eventListenerInterface)
-        procCall BasicEventHandler(this).removeListener(eventListenerInterface)
+        jSuperStatement(procCall BasicEventHandler(this).removeListener(eventListenerInterface))
 
 method fireEvent*(this: LayerManagerEventHandler, eventObject: AllBinaryEventObject) =
         block:
@@ -104,7 +104,7 @@ method fireEvent*(this: LayerManagerEventHandler, eventObject: AllBinaryEventObj
                 except CatchableError as jcaught:
                     let e = jToException(jcaught)
                     this.logUtil.put(this.commonStrings.EXCEPTION, this, EventStrings.getInstance().FIRE_EVENT, e)
-        procCall BasicEventHandler(this).fireEvent(eventObject)
+        jSuperStatement(procCall BasicEventHandler(this).fireEvent(eventObject))
 
 method fireDeleteEvent*(this: LayerManagerEventHandler, eventObject: AllBinaryEventObject) {.base.} =
         block:

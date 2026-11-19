@@ -91,7 +91,7 @@ proc initFieldsRemoteHighScores(this: RemoteHighScores) =
     this.enumerationUtil = EnumerationUtil.getInstance()
     
     
-    
+    this.ascending = false
     this.ASCENDING = "ASCENDING"
     discard
 

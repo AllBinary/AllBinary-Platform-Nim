@@ -137,7 +137,7 @@ method getHeight*(this: MyCanvas): int32 {.discardable.} =
         return procCall Canvas(this).getHeight()
 
 method setFullScreenMode*(this: MyCanvas, mode: bool) =
-        procCall Canvas(this).setFullScreenMode(mode)
+        jSuperStatement(procCall Canvas(this).setFullScreenMode(mode))
         this.displayInfo.update(this, this.canvasStrings.SET_FULL_SCREEN_MODE)
 
 method sizeChanged*(this: MyCanvas, w: int32, h: int32) =
@@ -152,11 +152,11 @@ method isCommand*(this: MyCanvas, command: Command): bool {.base, discardable.} 
 method addCommand*(this: MyCanvas, command: Command) =
         if (not this.commandStack.contains(command)):
             this.commandStack.push(command)
-            procCall Canvas(this).addCommand(command)
+            jSuperStatement(procCall Canvas(this).addCommand(command))
 
 method removeCommand*(this: MyCanvas, command: Command) =
         this.commandStack.removeElement(command)
-        procCall Canvas(this).removeCommand(command)
+        jSuperStatement(procCall Canvas(this).removeCommand(command))
 
 method removeAllCommands*(this: MyCanvas) =
         var size: int32 = this.commandStack.size()
@@ -164,10 +164,10 @@ method removeAllCommands*(this: MyCanvas) =
             var index: int32 = 0
             while index < size:
                 defer: index = index +% 1
-                procCall Canvas(this).removeCommand(Command(JObject(this.commandStack.pop())))
+                jSuperStatement(procCall Canvas(this).removeCommand(Command(JObject(this.commandStack.pop()))))
 
 method setCommandListener*(this: MyCanvas, l: CommandListener) =
-        procCall Canvas(this).setCommandListener(l)
+        jSuperStatement(procCall Canvas(this).setCommandListener(l))
         this.commandListener = l
 
 method getCustomCommandListener*(this: MyCanvas): CommandListener {.base, discardable.} =

@@ -119,13 +119,13 @@ method getF*(this: LogFormatUtil, className: string, functionName: string): Stri
         return stringBuffer
 
 method getO*(this: LogFormatUtil, exception: JObject): string {.base, discardable.} =
-        if exception != this.nullUtil.NULL_OBJECT:
+        if (not jSame(exception, this.nullUtil.NULL_OBJECT)):
             let stringBuffer: StringMaker = newStringMaker()
             stringBuffer.append(this.LOG_ERROR)
             let exceptionAsString: string = exception.toString()
             stringBuffer.append(exceptionAsString)
             stringBuffer.append(this.STACK_TRACE)
-            if exception != this.nullUtil.NULL_OBJECT:
+            if (not jSame(exception, this.nullUtil.NULL_OBJECT)):
                 stringBuffer.append(this.exceptionUtil.getStackTrace(jAsException(exception)))
             else:
                 stringBuffer.append(this.stringUtil.NULL_STRING)

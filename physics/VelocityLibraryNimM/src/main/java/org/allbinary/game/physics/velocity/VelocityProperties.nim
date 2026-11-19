@@ -28,6 +28,7 @@ type
         maxReverseVelocity*: int32
 
 converter jAsVelocityInterface*(value: VelocityProperties): VelocityInterface = cast[VelocityInterface](value)
+converter jAsBasicVelocityInterface*(value: VelocityProperties): BasicVelocityInterface = cast[BasicVelocityInterface](value)
 proc newVelocityProperties*(maxForwardVelocity: int32, maxReverseVelocity: int32): VelocityProperties
 proc initVelocityProperties*(this: VelocityProperties, maxForwardVelocity: int32, maxReverseVelocity: int32)
 method getMaxForwardVelocity*(this: VelocityProperties): int32 {.discardable.}
@@ -150,11 +151,11 @@ method isOverXYMaxVelocity*(this: VelocityProperties, maxVelocity: int32): bool 
         return false
 
 method setVelocityi*(this: VelocityProperties, magnitude: int64, angle: int32, otherAngle: int32) =
-        procCall BasicVelocityProperties(this).setVelocityi(magnitude, angle, otherAngle)
+        jSuperStatement(procCall BasicVelocityProperties(this).setVelocityi(magnitude, angle, otherAngle))
         this.limitXYToForwardAndReverseMaxVelocity()
 
 method addVelocityi*(this: VelocityProperties, magnitude: int64, angle: int32, otherAngle: int32) =
-        procCall BasicVelocityProperties(this).addVelocityi(magnitude, angle, otherAngle)
+        jSuperStatement(procCall BasicVelocityProperties(this).addVelocityi(magnitude, angle, otherAngle))
         this.limitXYToForwardAndReverseMaxVelocity()
 
 when declared(newVelocityPropertiesHook2):

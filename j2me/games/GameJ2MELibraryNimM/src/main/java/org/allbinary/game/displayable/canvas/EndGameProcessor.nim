@@ -65,7 +65,7 @@ method process*(this: EndGameProcessor) =
                 if this.gameCanvas.getGameState() == this.gameStateFactory.SHOW_END_RESULT_GAME_STATE:
                     let highScoresBase: HighScoresHelperBase = HighScoresHelperBase(JObject(this.gameCanvas.highScoresHelper))
                     let highScores: HighScores = highScoresBase.getSelectedHighScores()
-                    if highScores != NullHighScoresSingletonFactory.getInstance():
+                    if (not jSame(highScores, NullHighScoresSingletonFactory.getInstance())):
                         highScoresBase.selectHighScores()
                         this.gameCanvas.getRealHighScoresPaintable().setHighScores(highScores)
                         this.gameCanvas.setGameState(this.gameStateFactory.SHOW_HIGH_SCORE_GAME_STATE)

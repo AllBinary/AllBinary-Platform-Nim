@@ -72,10 +72,10 @@ method onCompleteMotionGestureInputEvent*(this: GameKeyFromMotionGestureEventLis
             var gameKeyCompleteMotionGestureInputEvent: GameKeyCompleteMotionGestureInputEvent = GameKeyCompleteMotionGestureInputEvent(JObject(completeMotionGestureInputEvent))
             var gameKeyEvent: GameKeyEvent = gameKeyCompleteMotionGestureInputEvent.getGameKeyEvent()
             if gameKeyEvent != this.previousGameKeyEvent:
-                if this.previousGameKeyEvent != GameKeyEvent.NONE:
+                if (not jSame(this.previousGameKeyEvent, GameKeyEvent.NONE)):
                     UpGameKeyEventHandler.getInstance().fireEvent(this.previousGameKeyEvent)
                 this.previousGameKeyEvent = gameKeyEvent
-                if (not jIsNil(gameKeyEvent)) and gameKeyEvent != GameKeyEvent.NONE:
+                if (not jIsNil(gameKeyEvent)) and (not jSame(gameKeyEvent, GameKeyEvent.NONE)):
                     DownGameKeyEventHandler.getInstance().fireEvent(gameKeyEvent)
         except CatchableError as jcaught:
             let e = jToException(jcaught)

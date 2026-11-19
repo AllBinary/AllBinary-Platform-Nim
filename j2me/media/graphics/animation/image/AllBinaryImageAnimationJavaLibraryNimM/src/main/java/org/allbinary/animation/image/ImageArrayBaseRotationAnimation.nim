@@ -90,25 +90,25 @@ method getAnimationSize*(this: ImageArrayBaseRotationAnimation): int32 {.discard
 
 method setAlpha*(this: ImageArrayBaseRotationAnimation, alpha: int32) =
         if this.alphaP != alpha:
-            procCall RotationAnimation(this).setAlpha(alpha)
+            jSuperStatement(procCall RotationAnimation(this).setAlpha(alpha))
             this.imageModifierUtil.reset()
             let index: int32 = this.circularIndexUtil.getIndex()
             this.imageModifierUtil.setAlpha(this.originalImageArray[index], this.imageArray[index], index, this.alphaP)
 
 method nextRotation*(this: ImageArrayBaseRotationAnimation) =
-        procCall RotationAnimation(this).nextRotation()
+        jSuperStatement(procCall RotationAnimation(this).nextRotation())
         let index: int32 = this.circularIndexUtil.getIndex()
         this.imageModifierUtil.setAlpha(this.originalImageArray[index], this.imageArray[index], index, this.alphaP)
         this.currentImage = this.imageArray[index]
 
 method previousRotation*(this: ImageArrayBaseRotationAnimation) =
-        procCall RotationAnimation(this).previousRotation()
+        jSuperStatement(procCall RotationAnimation(this).previousRotation())
         let index: int32 = this.circularIndexUtil.getIndex()
         this.imageModifierUtil.setAlpha(this.originalImageArray[index], this.imageArray[index], index, this.alphaP)
         this.currentImage = this.imageArray[index]
 
 method setFrame*(this: ImageArrayBaseRotationAnimation, index2: int32) =
-        procCall RotationAnimation(this).setFrame(index2)
+        jSuperStatement(procCall RotationAnimation(this).setFrame(index2))
         let index: int32 = this.circularIndexUtil.getIndex()
         this.imageModifierUtil.setAlpha(this.originalImageArray[index], this.imageArray[index], index, this.alphaP)
         this.currentImage = this.imageArray[index]

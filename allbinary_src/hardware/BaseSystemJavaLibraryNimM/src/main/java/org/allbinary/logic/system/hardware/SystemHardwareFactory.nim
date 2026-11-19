@@ -74,7 +74,7 @@ proc newSystemHardwareFactory*(): SystemHardwareFactory =
 
 method getInstance*(this: SystemHardwareFactory, operatingSystemInterface: GenericOperatingSystem): HardwareInterface {.base, discardable.} =
         try:
-            if this.hardwareInterface == NoHardware.getInstance():
+            if (jSame(this.hardwareInterface, NoHardware.getInstance())):
                 this.hardwareInterface = HardwareFactory.getInstance().getInstance(operatingSystemInterface)
             this.logUtil.putF("Found Hardware", this, this.commonStrings.CONSTRUCTOR)
         except CatchableError as jcaught:

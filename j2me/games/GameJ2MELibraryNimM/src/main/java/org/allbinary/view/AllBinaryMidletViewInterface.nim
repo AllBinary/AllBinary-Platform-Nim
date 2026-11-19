@@ -15,6 +15,10 @@ export EmulatorViewInterfaceModule
 type
     AllBinaryMidletViewInterface* = ref object of MidletCompositeInterface
 
+converter jAsEmulatorViewInterface*(value: AllBinaryMidletViewInterface): EmulatorViewInterface = cast[EmulatorViewInterface](value)
+converter jAsDemoGameMidletEventListener*(value: AllBinaryMidletViewInterface): DemoGameMidletEventListener = cast[DemoGameMidletEventListener](value)
+converter jAsEventListenerInterface*(value: AllBinaryMidletViewInterface): EventListenerInterface = cast[EventListenerInterface](value)
+converter jAsGameInitializedListenerInterface*(value: AllBinaryMidletViewInterface): GameInitializedListenerInterface = cast[GameInitializedListenerInterface](value)
 
 method onResume*(this: AllBinaryMidletViewInterface) {.base.} =
         raise newJException("AbstractMethodError", "onResume")

@@ -63,20 +63,20 @@ proc newLeftToRightImageAnimation*(image: Image, sequenceArray: JArray[int32], a
 
 method nextFrame*(this: LeftToRightImageAnimation) =
         if this.getSequence()[0] == -1:
-            procCall ImageSegmentAnimation(this).previousFrame()
+            jSuperStatement(procCall ImageSegmentAnimation(this).previousFrame())
         else:
-            procCall ImageSegmentAnimation(this).nextFrame()
+            jSuperStatement(procCall ImageSegmentAnimation(this).nextFrame())
         this.update()
 
 method previousFrame*(this: LeftToRightImageAnimation) =
         if this.getSequence()[0] == -1:
-            procCall ImageSegmentAnimation(this).nextFrame()
+            jSuperStatement(procCall ImageSegmentAnimation(this).nextFrame())
         else:
-            procCall ImageSegmentAnimation(this).previousFrame()
+            jSuperStatement(procCall ImageSegmentAnimation(this).previousFrame())
         this.update()
 
 method setFrame*(this: LeftToRightImageAnimation, index: int32) =
-        procCall ImageSegmentAnimation(this).setFrame(index)
+        jSuperStatement(procCall ImageSegmentAnimation(this).setFrame(index))
         this.update()
 
 method update*(this: LeftToRightImageAnimation) {.base.} =

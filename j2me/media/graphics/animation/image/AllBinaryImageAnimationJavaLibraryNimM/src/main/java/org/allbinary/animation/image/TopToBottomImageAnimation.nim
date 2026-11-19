@@ -63,20 +63,20 @@ proc newTopToBottomImageAnimation*(image: Image, sequenceArray: JArray[int32], a
 
 method nextFrame*(this: TopToBottomImageAnimation) =
         if this.getSequence()[0] == -1:
-            procCall ImageSegmentAnimation(this).previousFrame()
+            jSuperStatement(procCall ImageSegmentAnimation(this).previousFrame())
         else:
-            procCall ImageSegmentAnimation(this).nextFrame()
+            jSuperStatement(procCall ImageSegmentAnimation(this).nextFrame())
         this.update()
 
 method previousFrame*(this: TopToBottomImageAnimation) =
         if this.getSequence()[0] == -1:
-            procCall ImageSegmentAnimation(this).nextFrame()
+            jSuperStatement(procCall ImageSegmentAnimation(this).nextFrame())
         else:
-            procCall ImageSegmentAnimation(this).previousFrame()
+            jSuperStatement(procCall ImageSegmentAnimation(this).previousFrame())
         this.update()
 
 method setFrame*(this: TopToBottomImageAnimation, index: int32) =
-        procCall ImageSegmentAnimation(this).setFrame(index)
+        jSuperStatement(procCall ImageSegmentAnimation(this).setFrame(index))
         this.update()
 
 method update*(this: TopToBottomImageAnimation) {.base.} =

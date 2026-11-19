@@ -55,7 +55,7 @@ method processAI*(this: NumberLayersSequenceAI, allBinaryLayerManager: AllBinary
         if this.getIndex() == 0:
             if allBinaryLayerManager.getSize() < this.numberOfLayersLeft:
                 this.setIndex(1)
-        procCall SequenceAI(this).processAI(allBinaryLayerManager)
+        jSuperStatement(procCall SequenceAI(this).processAI(allBinaryLayerManager))
 
 when declared(newNumberLayersSequenceAIHook4):
     newNumberLayersSequenceAIHook4 = proc (numberOfEnemiesLeft: int32, artificialIntelligenceInterface: JArray[ArtificialIntelligenceInterface], ownerLayerInterface: AllBinaryLayer, gameInput: GameInput): SequenceAI = newNumberLayersSequenceAI(numberOfEnemiesLeft, artificialIntelligenceInterface, ownerLayerInterface, gameInput)

@@ -62,7 +62,7 @@ proc newImmediateCommandFormInputProcessor*(gameKeyEventList: BasicArrayList, pl
 
 method onPressGameKeyEvent*(this: ImmediateCommandFormInputProcessor, gameKeyEvent: GameKeyEvent) =
         try:
-            procCall CommandFormInputProcessor(this).onPressGameKeyEvent(gameKeyEvent)
+            jSuperStatement(procCall CommandFormInputProcessor(this).onPressGameKeyEvent(gameKeyEvent))
             if this.timeHelper.isTimeTNT():
                 this.processInputList()
                 this.gameCommandCanvas.repaintBehavior.onChangeRepaint(this.getCanvas())
@@ -72,7 +72,7 @@ method onPressGameKeyEvent*(this: ImmediateCommandFormInputProcessor, gameKeyEve
 
 method onDownGameKeyEvent*(this: ImmediateCommandFormInputProcessor, gameKeyEvent: GameKeyEvent) =
         try:
-            procCall CommandFormInputProcessor(this).onDownGameKeyEvent(gameKeyEvent)
+            jSuperStatement(procCall CommandFormInputProcessor(this).onDownGameKeyEvent(gameKeyEvent))
             if this.timeHelper.isTimeTNT():
                 this.processInputList()
                 this.gameCommandCanvas.repaintBehavior.onChangeRepaint(this.getCanvas())
@@ -82,7 +82,7 @@ method onDownGameKeyEvent*(this: ImmediateCommandFormInputProcessor, gameKeyEven
 
 method onUpGameKeyEvent*(this: ImmediateCommandFormInputProcessor, gameKeyEvent: GameKeyEvent) =
         try:
-            procCall CommandFormInputProcessor(this).onUpGameKeyEvent(gameKeyEvent)
+            jSuperStatement(procCall CommandFormInputProcessor(this).onUpGameKeyEvent(gameKeyEvent))
             if this.timeHelper.isTimeTNT():
                 this.processInputList()
                 this.gameCommandCanvas.repaintBehavior.onChangeRepaint(this.getCanvas())
@@ -92,7 +92,7 @@ method onUpGameKeyEvent*(this: ImmediateCommandFormInputProcessor, gameKeyEvent:
 
 method onMotionGestureEvent*(this: ImmediateCommandFormInputProcessor, motionGestureEvent: MotionGestureEvent) =
         try:
-            procCall CommandFormInputProcessor(this).onMotionGestureEvent(motionGestureEvent)
+            jSuperStatement(procCall CommandFormInputProcessor(this).onMotionGestureEvent(motionGestureEvent))
             if this.timeHelper.isTimeTNT():
                 this.processInputList()
                 this.gameCommandCanvas.repaintBehavior.onChangeRepaint(this.getCanvas())

@@ -84,7 +84,7 @@ method CombatGameCanvas_init*(this: CombatGameCanvas) {.base.} =
 
 method initApp*(this: CombatGameCanvas, abeClientInformation: AbeClientInformationInterface) =
         this.CombatGameCanvas_init()
-        procCall AllBinaryGameCanvas(this).initApp(abeClientInformation)
+        jSuperStatement(procCall AllBinaryGameCanvas(this).initApp(abeClientInformation))
 
 method initConfigurablePortion*(this: CombatGameCanvas, portion: int32) {.base.} =
         DestroyedLayerProcessor.init()
@@ -100,14 +100,14 @@ method initConfigurablePortion*(this: CombatGameCanvas, portion: int32) {.base.}
             CombatGameCanvas.basicLayerProcessor[0] = DestroyedLayerProcessor.getInstance()
 
 method processPlayingGame*(this: CombatGameCanvas) =
-        procCall AllBinaryGameCanvas(this).processPlayingGame()
+        jSuperStatement(procCall AllBinaryGameCanvas(this).processPlayingGame())
         block:
             var index: int32 = CombatGameCanvas.basicLayerProcessor.length
             while jPreDecrement(index) >= 0:
                 CombatGameCanvas.basicLayerProcessor[index].process(this.gameLayerManager)
 
 method cleanupGame*(this: CombatGameCanvas) =
-        procCall AllBinaryGameCanvas(this).cleanupGame()
+        jSuperStatement(procCall AllBinaryGameCanvas(this).cleanupGame())
         block:
             var index: int32 = CombatGameCanvas.basicLayerProcessor.length
             while jPreDecrement(index) >= 0:

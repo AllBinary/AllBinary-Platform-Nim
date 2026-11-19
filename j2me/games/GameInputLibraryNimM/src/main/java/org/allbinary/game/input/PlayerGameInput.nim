@@ -38,6 +38,10 @@ type
         playerInputId*: int32
 
 converter jAsGameKeyEventListenerInterface*(value: PlayerGameInput): GameKeyEventListenerInterface = cast[GameKeyEventListenerInterface](value)
+converter jAsDownGameKeyEventListenerInterface*(value: PlayerGameInput): DownGameKeyEventListenerInterface = cast[DownGameKeyEventListenerInterface](value)
+converter jAsEventListenerInterface*(value: PlayerGameInput): EventListenerInterface = cast[EventListenerInterface](value)
+converter jAsUpGameKeyEventListenerInterface*(value: PlayerGameInput): UpGameKeyEventListenerInterface = cast[UpGameKeyEventListenerInterface](value)
+converter jAsPressGameKeyEventListenerInterface*(value: PlayerGameInput): PressGameKeyEventListenerInterface = cast[PressGameKeyEventListenerInterface](value)
 proc newPlayerGameInput*(gameKeyEventList: BasicArrayList, removalGameKeyEventList: BasicArrayList, playerInputId: int32): PlayerGameInput
 proc initPlayerGameInput*(this: PlayerGameInput, gameKeyEventList: BasicArrayList, removalGameKeyEventList: BasicArrayList, playerInputId: int32)
 method onPressGameKeyEvent*(this: PlayerGameInput, gameKeyEvent: GameKeyEvent)

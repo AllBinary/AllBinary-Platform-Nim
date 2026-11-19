@@ -25,6 +25,7 @@ export SequenceInterfaceModule
 type
     SequentialAnimationInterface* = ref object of AnimationInterface
 
+converter jAsSequenceInterface*(value: SequentialAnimationInterface): SequenceInterface = cast[SequenceInterface](value)
 
 method getSize*(this: SequentialAnimationInterface): int32 {.base, discardable.} =
         raise newJException("AbstractMethodError", "getSize")

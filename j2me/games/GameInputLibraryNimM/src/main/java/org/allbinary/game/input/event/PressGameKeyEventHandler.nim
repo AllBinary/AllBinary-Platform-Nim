@@ -80,11 +80,11 @@ method addListener*(this: PressGameKeyEventHandler, playerGameInput: PlayerGameI
 
 method removeAllListeners*(this: PressGameKeyEventHandler) =
         this.list.clear()
-        procCall BasicEventHandler(this).removeAllListeners()
+        jSuperStatement(procCall BasicEventHandler(this).removeAllListeners())
 
 method removeListener*(this: PressGameKeyEventHandler, eventListenerInterface: EventListenerInterface) =
         this.list.remove(eventListenerInterface)
-        procCall BasicEventHandler(this).removeListener(eventListenerInterface)
+        jSuperStatement(procCall BasicEventHandler(this).removeListener(eventListenerInterface))
 
 method fireEvent*(this: PressGameKeyEventHandler, eventObject: AllBinaryEventObject) =
         block:
@@ -96,7 +96,7 @@ method fireEvent*(this: PressGameKeyEventHandler, eventObject: AllBinaryEventObj
                 except CatchableError as jcaught:
                     let e = jToException(jcaught)
                     this.logUtil.put(this.commonStrings.EXCEPTION, this, EventStrings.getInstance().FIRE_EVENT, e)
-        procCall BasicEventHandler(this).fireEvent(eventObject)
+        jSuperStatement(procCall BasicEventHandler(this).fireEvent(eventObject))
 
 method process*(this: PressGameKeyEventHandler, eventObject: AllBinaryEventObject, eventListenerInterface: EventListenerInterface) =
         let pressGameKeyEventListenerInterface: PressGameKeyEventListenerInterface = (PressGameKeyEventListenerInterface(JObject(eventListenerInterface)))

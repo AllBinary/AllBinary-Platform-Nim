@@ -37,6 +37,8 @@ type
         id*: int32
 
 converter jAsCountedPickedUpLayerInterfaceFactoryInterface*(value: CountedPickedUpLayerInterfaceFactory): CountedPickedUpLayerInterfaceFactoryInterface = cast[CountedPickedUpLayerInterfaceFactoryInterface](value)
+converter jAsPickedUpLayerInterfaceFactoryInterface*(value: CountedPickedUpLayerInterfaceFactory): PickedUpLayerInterfaceFactoryInterface = cast[PickedUpLayerInterfaceFactoryInterface](value)
+converter jAsLayerInterfaceFactoryInterface*(value: CountedPickedUpLayerInterfaceFactory): LayerInterfaceFactoryInterface = cast[LayerInterfaceFactoryInterface](value)
 proc newCountedPickedUpLayerInterfaceFactory*(pickeUpLayerType: PickedUpLayerType, iconLayer: IconLayer, animationInterface: Animation): CountedPickedUpLayerInterfaceFactory
 proc initCountedPickedUpLayerInterfaceFactory*(this: CountedPickedUpLayerInterfaceFactory, pickeUpLayerType: PickedUpLayerType, iconLayer: IconLayer, animationInterface: Animation)
 method getNextInstance*(this: CountedPickedUpLayerInterfaceFactory, hashtable: ABHashtable, x: int32, y: int32, z: int32): AllBinaryLayer {.discardable.}

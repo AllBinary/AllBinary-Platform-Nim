@@ -68,7 +68,7 @@ proc newLogUtil*(): LogUtil =
     initLogUtil(result)
 
 method putL*(this: LogUtil, log: Log) {.base.} =
-        if log == LogFactory.LOG:
+        if (jSame(log, LogFactory.LOG)):
             return
         let exception: JObject = log.getThrowable()
         if (jIsNil(exception)):

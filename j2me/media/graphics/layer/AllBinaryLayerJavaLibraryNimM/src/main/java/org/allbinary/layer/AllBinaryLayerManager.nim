@@ -83,12 +83,12 @@ method log*(this: AllBinaryLayerManager) {.base.} =
 method append*(this: AllBinaryLayerManager, layerInterface: AllBinaryLayer) =
         if (not this.contains(layerInterface)):
             this.appendProcessors(layerInterface)
-            procCall LayerManager(this).append(layerInterface)
+            jSuperStatement(procCall LayerManager(this).append(layerInterface))
 
 method appendAt*(this: AllBinaryLayerManager, layerInterface: AllBinaryLayer, index: int32) =
         if (not this.contains(layerInterface)):
             this.appendProcessors(layerInterface)
-            procCall LayerManager(this).appendAt(layerInterface, index)
+            jSuperStatement(procCall LayerManager(this).appendAt(layerInterface, index))
 
 method appendProcessors*(this: AllBinaryLayerManager, layerInterface: AllBinaryLayer) {.base.} =
         this.createLayerManagerEvent.setLayerInterface(layerInterface)
@@ -110,7 +110,7 @@ method remove*(this: AllBinaryLayerManager, layerInterface: AllBinaryLayer) =
             while jPreDecrement(index) >= 0:
                 layerProcessorInterface = this.basicLayerProcessorArray[index]
                 layerProcessorInterface.getLayerManager().remove(layerInterface)
-        procCall LayerManager(this).remove(layerInterface)
+        jSuperStatement(procCall LayerManager(this).remove(layerInterface))
 
 method process*(this: AllBinaryLayerManager) {.base.} =
         var layerProcessorInterface: LayerProcessor = nil
@@ -131,7 +131,7 @@ method cleanup*(this: AllBinaryLayerManager) =
                 defer: index = index +% 1
                 layerProcessorInterface = this.basicLayerProcessorArray[index]
                 layerProcessorInterface.getLayerManager().cleanup()
-        procCall LayerManager(this).cleanup()
+        jSuperStatement(procCall LayerManager(this).cleanup())
 
 when declared(newAllBinaryLayerManagerHook0):
     newAllBinaryLayerManagerHook0 = proc (): LayerManager = newAllBinaryLayerManager()

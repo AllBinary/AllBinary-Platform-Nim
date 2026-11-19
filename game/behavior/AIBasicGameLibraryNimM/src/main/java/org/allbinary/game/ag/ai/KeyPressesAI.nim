@@ -75,7 +75,7 @@ method processAI*(this: KeyPressesAI, allBinaryLayerManager: AllBinaryLayerManag
                 var index: int32 = 0
                 while index < this.keys.length:
                     defer: index = index +% 1
-                    procCall BasicAI(this).processKeyAI(this.keys[index].intValue())
+                    jSuperStatement(procCall BasicAI(this).processKeyAI(this.keys[index].intValue()))
 
 method toggle*(this: KeyPressesAI) {.base.} =
         if this.isOn():

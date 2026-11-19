@@ -77,36 +77,38 @@ method get*(this: XmlRpcRemoteHighScoresClient, anyType: JObject, cryptInterface
             var index: int32 = jLastIndexOf(serverUrl, uint16(ord('/')))
             serverUrl = jstr(jSubstring(serverUrl, 0, index +% 1)) & jstr(this.page)
             var stringBuffer: StringMaker = newStringMaker()
-            stringBuffer.append(XmlRpcAbeClient.TRYING)
+            stringBuffer.append(this.TRYING)
             stringBuffer.appendint(this.getServer())
-            stringBuffer.append(SEP)
+            stringBuffer.append(this.SEP)
             stringBuffer.append(serverUrl)
             this.logUtilOfXmlRpcRemoteHighScoresClient.putF(stringBuffer.toString(), this, this.commonStrings.GET)
             let xmlRpcClient: XmlRpcClient = newXmlRpcClient(serverUrl)
             this.setClient(xmlRpcClient)
             xmlRpcClient.setBasicAuthentication(StringUtil.getInstance().EMPTY_STRING, StringUtil.getInstance().EMPTY_STRING)
             var hashtable: ABHashtable = ABHashtable(JObject(anyType))
-            this.logUtilOfXmlRpcRemoteHighScoresClient.putF(jstr(XmlRpcAbeClient.CLIENT_INFO) & jstr(hashtable.toString()), this, this.commonStrings.GET)
+            this.logUtilOfXmlRpcRemoteHighScoresClient.putF(jstr(this.CLIENT_INFO) & jstr(hashtable.toString()), this, this.commonStrings.GET)
             param.add(hashtable)
             var `result`: JObject = xmlRpcClient.executeWithCrypt(this.getRemoteMethod(), param, cryptInterface)
-            this.logUtilOfXmlRpcRemoteHighScoresClient.putF(jstr(XmlRpcAbeClient.RESULT) & jstr(`result`.toString()), this, this.commonStrings.GET)
-            this.isOnline = true
+            this.logUtilOfXmlRpcRemoteHighScoresClient.putF(jstr(this.RESULT) & jstr(`result`.toString()), this, this.commonStrings.GET)
+            XmlRpcAbeClient.isOnline = true
             return `result`
         except CatchableError as jcaught:
-            let e = jToException(jcaught)
-            this.logUtilOfXmlRpcRemoteHighScoresClient.put(jstr(XmlRpcAbeClient.TRYING_OTHER_SERVERS) & jstr(ExceptionUtil.getInstance().getStackTrace(e)), this, this.commonStrings.GET, e)
-            if (not e.getMessage().startsWith(XmlRpcAbeClient.HOST_NOT_RESOLVED)):
+            let jexception = jToException(jcaught)
+            if jCatches(jexception, "IOException"):
+                let e = jexception
+                this.logUtilOfXmlRpcRemoteHighScoresClient.put(jstr(this.TRYING_OTHER_SERVERS) & jstr(ExceptionUtil.getInstance().getStackTrace(e)), this, this.commonStrings.GET, e)
+                if (not e.getMessage().startsWith(this.HOST_NOT_RESOLVED)):
+                    return this.tryAnother(anyType)
+                else:
+                    raise newJException("Exception", this.HOST_NOT_RESOLVED_MSG)
+            elif jCatches(jexception, "XmlRpcException"):
+                let e = jexception
+                this.logUtilOfXmlRpcRemoteHighScoresClient.put(this.SERVER_REPORTED_ERROR, this, this.commonStrings.GET, e)
                 return this.tryAnother(anyType)
             else:
-                raise newJException("Exception", XmlRpcAbeClient.HOST_NOT_RESOLVED_MSG)
-        except CatchableError as jcaught:
-            let e = jToException(jcaught)
-            this.logUtilOfXmlRpcRemoteHighScoresClient.put(XmlRpcAbeClient.SERVER_REPORTED_ERROR, this, this.commonStrings.GET, e)
-            return this.tryAnother(anyType)
-        except CatchableError as jcaught:
-            let e = jToException(jcaught)
-            this.logUtilOfXmlRpcRemoteHighScoresClient.put(XmlRpcAbeClient.UNKNOWN_ERROR, this, this.commonStrings.GET, e)
-            return this.tryAnother(anyType)
+                let e = jexception
+                this.logUtilOfXmlRpcRemoteHighScoresClient.put(this.UNKNOWN_ERROR, this, this.commonStrings.GET, e)
+                return this.tryAnother(anyType)
 
 when declared(newXmlRpcRemoteHighScoresClientHook3):
     newXmlRpcRemoteHighScoresClientHook3 = proc (clientInfo: AbeClientInformationInterface, page: string, remoteMethod: string): XmlRpcAbeClient = newXmlRpcRemoteHighScoresClient(clientInfo, page, remoteMethod)

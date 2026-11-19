@@ -108,7 +108,7 @@ method update*(this: GameInput) {.base.} =
                 block:
                     var index2: int32 = list.size()
                     while jPreDecrement(index2) >= 0:
-                        if list.objectArray[index2] == anyType:
+                        if (jSame(list.objectArray[index2], anyType)):
                             list.removeAt(index2)
         removeList.clear()
 

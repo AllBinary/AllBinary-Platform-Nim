@@ -79,7 +79,7 @@ method paintXY*(this: CustomTextAnimation, graphics: Graphics, x: int32, y: int3
         this.myFontProcessor.process(graphics)
         let existingFont: Font = graphics.getFont()
         this.fontDebugFactory.setFont(this.font, graphics)
-        procCall TextAnimation(this).paintXYNoUpdate(graphics, x, y)
+        jSuperStatement(procCall TextAnimation(this).paintXYNoUpdate(graphics, x, y))
         this.fontDebugFactory.setFont(existingFont, graphics)
 
 method setScale*(this: CustomTextAnimation, scaleX: float32, scaleY: float32) =
@@ -89,13 +89,13 @@ method setScale*(this: CustomTextAnimation, scaleX: float32, scaleY: float32) =
         this.font = Font.getFont(Font.FACE_SYSTEM, Font.STYLE_PLAIN, jToInt32(float64((float32(this.fontSize) * scaleX))))
 
 method setTextWithOnMeasure*(this: CustomTextAnimation, text: string, textChangeListener: TextChangeListener) =
-        procCall TextAnimation(this).setTextWithOnMeasure(text, textChangeListener)
+        jSuperStatement(procCall TextAnimation(this).setTextWithOnMeasure(text, textChangeListener))
 
 method setText*(this: CustomTextAnimation, text: string) =
         if this.lastText != text:
             this.hasChanged = true
             this.lastText = text
-            procCall TextAnimation(this).setText(text)
+            jSuperStatement(procCall TextAnimation(this).setText(text))
 
 method getText*(this: CustomTextAnimation): string {.discardable.} =
         return this.lastText

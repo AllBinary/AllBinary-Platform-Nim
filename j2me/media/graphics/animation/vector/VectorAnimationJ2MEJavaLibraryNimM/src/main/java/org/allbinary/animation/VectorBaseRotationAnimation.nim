@@ -35,6 +35,13 @@ type
         currentPoints*: JArray[JArray[JArray[int32]]]
 
 converter jAsVectorAnimationInterface*(value: VectorBaseRotationAnimation): VectorAnimationInterface = cast[VectorAnimationInterface](value)
+converter jAsIndexedAnimationInterface*(value: VectorBaseRotationAnimation): IndexedAnimationInterface = cast[IndexedAnimationInterface](value)
+converter jAsSequentialAnimationInterface*(value: VectorBaseRotationAnimation): SequentialAnimationInterface = cast[SequentialAnimationInterface](value)
+converter jAsAnimationInterface*(value: VectorBaseRotationAnimation): AnimationInterface = cast[AnimationInterface](value)
+converter jAsLocationPaintableInterface*(value: VectorBaseRotationAnimation): LocationPaintableInterface = cast[LocationPaintableInterface](value)
+converter jAsSequenceInterface*(value: VectorBaseRotationAnimation): SequenceInterface = cast[SequenceInterface](value)
+converter jAsColorCompositeInterface*(value: VectorBaseRotationAnimation): ColorCompositeInterface = cast[ColorCompositeInterface](value)
+converter jAsBasicColorCompositeSetterInterface*(value: VectorBaseRotationAnimation): BasicColorCompositeSetterInterface = cast[BasicColorCompositeSetterInterface](value)
 proc newVectorBaseRotationAnimation*(angleInfo: AngleInfo, currentPoints: JArray[JArray[JArray[int32]]], basicColor: BasicColor, animationBehavior: AnimationBehavior): VectorBaseRotationAnimation
 proc initVectorBaseRotationAnimation*(this: VectorBaseRotationAnimation, angleInfo: AngleInfo, currentPoints: JArray[JArray[JArray[int32]]], basicColor: BasicColor, animationBehavior: AnimationBehavior)
 method getAnimationSize*(this: VectorBaseRotationAnimation): int32 {.discardable.}
@@ -131,7 +138,7 @@ method getBasicColorP*(this: VectorBaseRotationAnimation): BasicColor {.discarda
         return procCall RotationAnimation(this).getBasicColorP()
 
 method setBasicColorP*(this: VectorBaseRotationAnimation, basicColor: BasicColor) =
-        procCall RotationAnimation(this).setBasicColorP(basicColor)
+        jSuperStatement(procCall RotationAnimation(this).setBasicColorP(basicColor))
 
 when declared(newVectorBaseRotationAnimationHook4):
     newVectorBaseRotationAnimationHook4 = proc (angleInfo: AngleInfo, currentPoints: JArray[JArray[JArray[int32]]], basicColor: BasicColor, animationBehavior: AnimationBehavior): RotationAnimation = newVectorBaseRotationAnimation(angleInfo, currentPoints, basicColor, animationBehavior)

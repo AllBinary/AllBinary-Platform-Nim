@@ -52,7 +52,7 @@ method isHighScoreCommand*(this: HighScoreCommandsBaseFactory, command: Command)
             var index: int32 = this.HIGH_SCORE_COMMANDS.length -% 1
             while index >= 0:
                 defer: index = index -% 1
-                if command == this.HIGH_SCORE_COMMANDS[index]:
+                if (jSame(command, this.HIGH_SCORE_COMMANDS[index])):
                     return true
         return false
 
@@ -61,7 +61,7 @@ method getIndex*(this: HighScoreCommandsBaseFactory, command: Command): int32 {.
             var index: int32 = this.HIGH_SCORE_COMMANDS.length -% 1
             while index >= 0:
                 defer: index = index -% 1
-                if command == this.HIGH_SCORE_COMMANDS[index]:
+                if (jSame(command, this.HIGH_SCORE_COMMANDS[index])):
                     return index
         raise newJException("Exception", "No Such Command")
 

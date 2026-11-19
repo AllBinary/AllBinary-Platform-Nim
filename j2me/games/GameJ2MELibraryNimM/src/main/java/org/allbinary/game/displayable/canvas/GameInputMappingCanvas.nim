@@ -149,7 +149,7 @@ proc newGameInputMappingCanvas*(abeClientInformation: AbeClientInformationInterf
     initGameInputMappingCanvas(result, abeClientInformation, commandListener, allBinaryGameLayerManager, helpPaintable)
 
 method close*(this: GameInputMappingCanvas) =
-        procCall GameCommandCanvas(this).close()
+        jSuperStatement(procCall GameCommandCanvas(this).close())
         this.paintable.process()
         this.selectedGameKey = this.NONE
         this.selectedInput = this.NONE
@@ -173,7 +173,7 @@ method keyRepeated*(this: GameInputMappingCanvas, keyCode: int32) =
 
 method keyPressedByDevice*(this: GameInputMappingCanvas, keyCode: int32, deviceId: int32) =
         this.addGameKey(keyCode, false)
-        procCall GameCommandCanvas(this).keyPressedByDevice(keyCode, 0)
+        jSuperStatement(procCall GameCommandCanvas(this).keyPressedByDevice(keyCode, 0))
 
 method addGameKey*(this: GameInputMappingCanvas, keyCode: int32, repeated: bool) {.base.} =
         try:
@@ -275,7 +275,7 @@ method paint*(this: GameInputMappingCanvas, graphics: Graphics) =
         this.colorFillPaintable.paint(graphics)
         this.helpPaintable.paint(graphics)
         this.paintable.paint(graphics)
-        procCall GameCommandCanvas(this).paint(graphics)
+        jSuperStatement(procCall GameCommandCanvas(this).paint(graphics))
 
 when declared(newGameInputMappingCanvasHook4):
     newGameInputMappingCanvasHook4 = proc (abeClientInformation: AbeClientInformationInterface, commandListener: CommandListener, allBinaryGameLayerManager: AllBinaryGameLayerManager, helpPaintable: HelpPaintable): GameCommandCanvas = newGameInputMappingCanvas(abeClientInformation, commandListener, allBinaryGameLayerManager, helpPaintable)

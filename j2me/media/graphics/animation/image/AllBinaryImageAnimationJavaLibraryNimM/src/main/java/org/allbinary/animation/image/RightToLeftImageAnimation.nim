@@ -64,15 +64,15 @@ proc newRightToLeftImageAnimation*(image: Image, animationBehavior: AnimationBeh
     initRightToLeftImageAnimation(result, image, animationBehavior)
 
 method nextFrame*(this: RightToLeftImageAnimation) =
-        procCall ImageSegmentAnimation(this).previousFrame()
+        jSuperStatement(procCall ImageSegmentAnimation(this).previousFrame())
         this.update()
 
 method previousFrame*(this: RightToLeftImageAnimation) =
-        procCall ImageSegmentAnimation(this).nextFrame()
+        jSuperStatement(procCall ImageSegmentAnimation(this).nextFrame())
         this.update()
 
 method setFrame*(this: RightToLeftImageAnimation, index: int32) =
-        procCall ImageSegmentAnimation(this).setFrame(index)
+        jSuperStatement(procCall ImageSegmentAnimation(this).setFrame(index))
         this.update()
 
 method update*(this: RightToLeftImageAnimation) {.base.} =

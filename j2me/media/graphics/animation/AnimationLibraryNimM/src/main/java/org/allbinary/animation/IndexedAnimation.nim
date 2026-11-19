@@ -35,6 +35,10 @@ type
         animationBehaviorP*: AnimationBehavior
 
 converter jAsIndexedAnimationInterface*(value: IndexedAnimation): IndexedAnimationInterface = cast[IndexedAnimationInterface](value)
+converter jAsSequentialAnimationInterface*(value: IndexedAnimation): SequentialAnimationInterface = cast[SequentialAnimationInterface](value)
+converter jAsAnimationInterface*(value: IndexedAnimation): AnimationInterface = cast[AnimationInterface](value)
+converter jAsLocationPaintableInterface*(value: IndexedAnimation): LocationPaintableInterface = cast[LocationPaintableInterface](value)
+converter jAsSequenceInterface*(value: IndexedAnimation): SequenceInterface = cast[SequenceInterface](value)
 proc newIndexedAnimation*(animationBehavior: AnimationBehavior): IndexedAnimation
 proc initIndexedAnimation*(this: IndexedAnimation, animationBehavior: AnimationBehavior)
 method getAnimationBehavior*(this: IndexedAnimation): AnimationBehavior {.base, discardable.}

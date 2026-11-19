@@ -45,6 +45,7 @@ type
         isFollowLimitedByTerrain*: bool
 
 converter jAsTrackingEventListenerInterface*(value: PacePatrolAI): TrackingEventListenerInterface = cast[TrackingEventListenerInterface](value)
+converter jAsEventListenerInterface*(value: PacePatrolAI): EventListenerInterface = cast[EventListenerInterface](value)
 proc newPacePatrolAI*(hashtable: ABHashtable, ownerLayerInterface: AllBinaryLayer, gameInput: GameInput): PacePatrolAI
 proc initPacePatrolAI*(this: PacePatrolAI, hashtable: ABHashtable, ownerLayerInterface: AllBinaryLayer, gameInput: GameInput)
 method processAI*(this: PacePatrolAI, allBinaryLayerManager: AllBinaryLayerManager)
@@ -93,22 +94,22 @@ method processAI*(this: PacePatrolAI, allBinaryLayerManager: AllBinaryLayerManag
         this.update()
         let direction: Direction = this.setFiringDirectionForTargetIfInRange()
         let directionFactory: DirectionFactory = DirectionFactory.getInstance()
-        if direction == directionFactory.LEFT:
+        if (jSame(direction, directionFactory.LEFT)):
             if this.lastKeyDirection != this.keyDirection or (not this.isFollowLimitedByTerrain):
-                procCall BasePatrolAI(this).processKeyAI(Canvas.LEFT)
+                jSuperStatement(procCall BasePatrolAI(this).processKeyAI(Canvas.LEFT))
             this.keyDirection = Canvas.LEFT
             this.lastKeyDirection = this.keyDirection
             this.xTotalDistance = 0
-            procCall BasePatrolAI(this).processKeyAI(Canvas.KEY_NUM1)
-        elif direction == directionFactory.RIGHT:
+            jSuperStatement(procCall BasePatrolAI(this).processKeyAI(Canvas.KEY_NUM1))
+        elif (jSame(direction, directionFactory.RIGHT)):
             if this.lastKeyDirection != this.keyDirection or (not this.isFollowLimitedByTerrain):
-                procCall BasePatrolAI(this).processKeyAI(Canvas.RIGHT)
+                jSuperStatement(procCall BasePatrolAI(this).processKeyAI(Canvas.RIGHT))
             this.keyDirection = Canvas.RIGHT
             this.lastKeyDirection = this.keyDirection
             this.xTotalDistance = 0
-            procCall BasePatrolAI(this).processKeyAI(Canvas.KEY_NUM1)
+            jSuperStatement(procCall BasePatrolAI(this).processKeyAI(Canvas.KEY_NUM1))
         else:
-            procCall BasePatrolAI(this).processKeyAI(this.keyDirection)
+            jSuperStatement(procCall BasePatrolAI(this).processKeyAI(this.keyDirection))
 
 method setFiringDirectionForTargetIfInRange*(this: PacePatrolAI): Direction {.base, discardable.} =
         let directionFactory: DirectionFactory = DirectionFactory.getInstance()

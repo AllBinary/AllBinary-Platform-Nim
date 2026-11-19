@@ -39,6 +39,7 @@ type
         basicColorArray*: JArray[BasicColor]
 
 converter jAsColorCompositeInterface*(value: SpriteIndexedAnimation): ColorCompositeInterface = cast[ColorCompositeInterface](value)
+converter jAsBasicColorCompositeSetterInterface*(value: SpriteIndexedAnimation): BasicColorCompositeSetterInterface = cast[BasicColorCompositeSetterInterface](value)
 proc newSpriteIndexedAnimation*(sprite: Sprite, image: Image, basicColorArray: JArray[BasicColor], animationBehavior: AnimationBehavior): SpriteIndexedAnimation
 proc initSpriteIndexedAnimation*(this: SpriteIndexedAnimation, sprite: Sprite, image: Image, basicColorArray: JArray[BasicColor], animationBehavior: AnimationBehavior)
 method getAnimationSize*(this: SpriteIndexedAnimation): int32 {.discardable.}
@@ -96,7 +97,7 @@ method setBasicColorP*(this: SpriteIndexedAnimation, basicColor: BasicColor) =
             var index: int32 = 0
             while index < this.basicColorArray.length:
                 defer: index = index +% 1
-                if basicColor == this.basicColorArray[index]:
+                if (jSame(basicColor, this.basicColorArray[index])):
                     this.setFrame(index)
                     break
 

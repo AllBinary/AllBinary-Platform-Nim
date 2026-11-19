@@ -104,13 +104,13 @@ method process*(this: LayerPlacer, layerPlacementInterface: LayerPlacementInterf
 method getPoint*(this: LayerPlacer, layerPlacementInterface: LayerPlacementInterface): GPoint {.base, discardable.} =
         let pointFactory: PointFactory = PointFactory.getInstance()
         let layerPlacementType: LayerPlacementType = layerPlacementInterface.getLayerType()
-        if layerPlacementType == LayerPlacementTypeFactory.getInstance().MAP:
+        if (jSame(layerPlacementType, LayerPlacementTypeFactory.getInstance().MAP)):
             let width: int32 = layerPlacementInterface.getWidth()
             let height: int32 = layerPlacementInterface.getHeight()
             let x: int32 = ((this.dimension.getX() -% width) div 2)
             let y: int32 = ((this.dimension.getY() -% height) div 2)
             return pointFactory.createXY(x, y)
-        elif layerPlacementType == LayerPlacementTypeFactory.getInstance().UP:
+        elif (jSame(layerPlacementType, LayerPlacementTypeFactory.getInstance().UP)):
             let width: int32 = layerPlacementInterface.getWidth()
             let height: int32 = layerPlacementInterface.getHeight()
             let x: int32 = ((this.dimension.getX() -% width) div 2)

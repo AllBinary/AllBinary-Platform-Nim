@@ -67,7 +67,7 @@ method get*(this: KeylessBasicArrayListCache): BasicArrayList {.base, discardabl
             return this.basicArrayListUtil.getImmutableInstance()
 
 method clear*(this: KeylessBasicArrayListCache) =
-        procCall IndexedBasicArrayListCache(this).clear()
+        jSuperStatement(procCall IndexedBasicArrayListCache(this).clear())
         var basicArrayList: BasicArrayList = nil
         block:
             var index: int32 = this.list.size() -% 1

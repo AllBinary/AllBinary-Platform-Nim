@@ -57,7 +57,7 @@ proc newOscillateVelocityMovement*(speedBasicDecimal: BasicDecimal, oscillateMin
     initOscillateVelocityMovement(result, speedBasicDecimal, oscillateMin, oscillateMax)
 
 method process*(this: OscillateVelocityMovement, layer: AllBinaryGameLayer) =
-        procCall BasicConstantVelocityMovement(this).process(layer)
+        jSuperStatement(procCall BasicConstantVelocityMovement(this).process(layer))
         if this.oscillate < this.oscillateMin:
             this.oscillatePositive = true
         elif this.oscillate > this.oscillateMax:

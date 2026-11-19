@@ -168,7 +168,7 @@ proc initFieldsScrollSelectionForm(this: ScrollSelectionForm) =
 
 proc createForm*(t: typedesc[ScrollSelectionForm], title: string, items: JArray[ABCustomItem], formPaintableFactory: ItemPaintableFactory, border: int32, backgroundBasicColor: BasicColor, foregroundBasicColor: BasicColor): PaintableForm {.discardable.} =
         try:
-            if formPaintableFactory == ItemPaintableFactory.getInstance():
+            if (jSame(formPaintableFactory, ItemPaintableFactory.getInstance())):
                 return newScrollSelectionForm(title, items, formPaintableFactory, border, -3, backgroundBasicColor, foregroundBasicColor)
             else:
                 let commonStrings: CommonStrings = CommonStrings.getInstance()
@@ -206,18 +206,18 @@ proc newScrollSelectionForm*(title: string, items: JArray[ABCustomItem], formPai
     initScrollSelectionForm(result, title, items, formPaintableFactory, border, adjustedExtraBorder, backgroundBasicColor, foregroundBasicColor)
 
 method init*(this: ScrollSelectionForm, rectangle: Rectangle, formType: FormType) =
-        procCall PaintableForm(this).init(rectangle, formType)
+        jSuperStatement(procCall PaintableForm(this).init(rectangle, formType))
         let formTypeFactory: FormTypeFactory = FormTypeFactory.getInstance()
-        if formType == formTypeFactory.HORIZONTAL_FORM:
+        if (jSame(formType, formTypeFactory.HORIZONTAL_FORM)):
             this.scrollSelectionFormFormTypeItemIndexPaintable = newScrollSelectionFormHorizontalPaintable(this)
             this.formTypeItemIndexDx = newScrollSelectionFormHorizontalDx(this)
-        elif formType == formTypeFactory.VERTICAL_CENTER_FORM:
+        elif (jSame(formType, formTypeFactory.VERTICAL_CENTER_FORM)):
             this.scrollSelectionFormFormTypeItemIndexPaintable = newScrollSelectionFormVerticalPaintable(this)
             this.formTypeItemIndexDx = newScrollSelectionFormVericalDx(this)
-        elif formType == formTypeFactory.TEMP_HORIZONTAL_FORM:
+        elif (jSame(formType, formTypeFactory.TEMP_HORIZONTAL_FORM)):
             this.scrollSelectionFormFormTypeItemIndexPaintable = newScrollSelectionFormTempHorizontalPaintable(this)
             this.formTypeItemIndexDx = newScrollSelectionFormTempHorizontalDx(this)
-        elif formType == formTypeFactory.NULL_FORM_TYPE:
+        elif (jSame(formType, formTypeFactory.NULL_FORM_TYPE)):
             discard
         else:
             raise newJException("Exception", formTypeFactory.UNK)
@@ -302,15 +302,15 @@ method getSelectedIndexForPoint*(this: ScrollSelectionForm, point: GPoint): int3
                     stringBuffer.appendint(index)
                     this.logUtil.putF(stringBuffer.toString(), this, ScrollSelectionForm.GET_SELECTED_INDEX)
                     return index
-                if this.formType == formTypeFactory.HORIZONTAL_FORM:
+                if (jSame(this.formType, formTypeFactory.HORIZONTAL_FORM)):
                     dx = dx +% width +% this.border
                     if dx > this.rectangle.getMaxX():
                         break
-                elif this.formType == formTypeFactory.VERTICAL_CENTER_FORM:
+                elif (jSame(this.formType, formTypeFactory.VERTICAL_CENTER_FORM)):
                     dy = dy +% height +% this.border
                     if dy > this.rectangle.getMaxY():
                         break
-                elif this.formType == formTypeFactory.NULL_FORM_TYPE:
+                elif (jSame(this.formType, formTypeFactory.NULL_FORM_TYPE)):
                     discard
                 else:
                     raise newJException("Exception", formTypeFactory.UNK)
@@ -321,17 +321,17 @@ method processInputKey*(this: ScrollSelectionForm, gameKeyCode: int32): int32 {.
         if this.size() == 0:
             return -1
         var index: int32 = this.getSelectedIndex()
-        if this.formType == formTypeFactory.HORIZONTAL_FORM or this.formType == formTypeFactory.TEMP_HORIZONTAL_FORM:
+        if (jSame(this.formType, formTypeFactory.HORIZONTAL_FORM)) or (jSame(this.formType, formTypeFactory.TEMP_HORIZONTAL_FORM)):
             if gameKeyCode == Canvas.RIGHT:
                 index = index +% 1
             elif gameKeyCode == Canvas.LEFT:
                 index = index -% 1
-        elif this.formType == formTypeFactory.VERTICAL_CENTER_FORM:
+        elif (jSame(this.formType, formTypeFactory.VERTICAL_CENTER_FORM)):
             if gameKeyCode == Canvas.DOWN:
                 index = index +% 1
             elif gameKeyCode == Canvas.UP:
                 index = index -% 1
-        elif this.formType == formTypeFactory.NULL_FORM_TYPE:
+        elif (jSame(this.formType, formTypeFactory.NULL_FORM_TYPE)):
             discard
         else:
             raise newJException("Exception", formTypeFactory.UNK)

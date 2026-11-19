@@ -102,13 +102,13 @@ method fillRect*(this: MultipleScrollSelectionHorizontalForm, graphics: Graphics
         graphics.fillRect(this.x, this.y, this.rectangle.getWidth(), this.rectangle.getHeight())
 
 method init*(this: MultipleScrollSelectionHorizontalForm, rectangle: Rectangle, formType: FormType) =
-        procCall ScrollSelectionForm(this).init(rectangle, formType)
+        jSuperStatement(procCall ScrollSelectionForm(this).init(rectangle, formType))
         let formTypeFactory: FormTypeFactory = FormTypeFactory.getInstance()
-        if formType == formTypeFactory.HORIZONTAL_FORM:
+        if (jSame(formType, formTypeFactory.HORIZONTAL_FORM)):
             this.multipleScrollSelectionHorizontalFormTypeItemIndexPaintable = newMultipleScrollSelectionFormHorizontalPaintable(this)
-        elif formType == formTypeFactory.VERTICAL_CENTER_FORM:
+        elif (jSame(formType, formTypeFactory.VERTICAL_CENTER_FORM)):
             this.multipleScrollSelectionHorizontalFormTypeItemIndexPaintable = newMultipleScrollSelectionFormVerticalPaintable(this)
-        elif formType == formTypeFactory.NULL_FORM_TYPE:
+        elif (jSame(formType, formTypeFactory.NULL_FORM_TYPE)):
             discard
         else:
             raise newJException("Exception", formTypeFactory.UNK)

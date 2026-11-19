@@ -38,7 +38,7 @@ export PointsLayerModule
 
 proc initPointsLayerCircularStaticPool*(this: PointsLayerCircularStaticPool, allbinaryLayerFactoryInterface: AllBinaryLayerFactoryInterface, total: int32) =
         initAllBinaryLayerCircularPool(this)
-        procCall AllBinaryLayerCircularPool(this).initAllBinaryLayerCircularPool(allbinaryLayerFactoryInterface, total)
+        jSuperStatement(procCall AllBinaryLayerCircularPool(this).initAllBinaryLayerCircularPool(allbinaryLayerFactoryInterface, total))
 
 proc newPointsLayerCircularStaticPool*(allbinaryLayerFactoryInterface: AllBinaryLayerFactoryInterface, total: int32): PointsLayerCircularStaticPool =
     result = PointsLayerCircularStaticPool()

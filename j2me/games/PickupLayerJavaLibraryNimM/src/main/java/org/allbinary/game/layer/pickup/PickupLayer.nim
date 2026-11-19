@@ -45,6 +45,11 @@ type
         animationInterface*: Animation
 
 converter jAsPickedUpLayerInterface*(value: PickupLayer): PickedUpLayerInterface = cast[PickedUpLayerInterface](value)
+converter jAsLayerInterface*(value: PickupLayer): LayerInterface = cast[LayerInterface](value)
+converter jAsNamedInterface*(value: PickupLayer): NamedInterface = cast[NamedInterface](value)
+converter jAsPaintableInterface*(value: PickupLayer): PaintableInterface = cast[PaintableInterface](value)
+converter jAsGroupInterfaceCompositeInterface*(value: PickupLayer): GroupInterfaceCompositeInterface = cast[GroupInterfaceCompositeInterface](value)
+converter jAsPositionInterface*(value: PickupLayer): PositionInterface = cast[PositionInterface](value)
 converter jAsPickupableInterface*(value: PickupLayer): PickupableInterface = cast[PickupableInterface](value)
 proc newPickupLayer*(name: string, remoteInfo: RemoteInfo, total: int32, pickedUpLayerInterfaceFactoryInterface: PickedUpLayerInterfaceFactoryInterface, animationInterface: Animation, rectangle: Rectangle, viewPosition: ViewPositionBase): PickupLayer
 proc initPickupLayer*(this: PickupLayer, name: string, remoteInfo: RemoteInfo, total: int32, pickedUpLayerInterfaceFactoryInterface: PickedUpLayerInterfaceFactoryInterface, animationInterface: Animation, rectangle: Rectangle, viewPosition: ViewPositionBase)

@@ -71,7 +71,7 @@ proc newLivesHudWidget*(animationInterface: Animation, lifeInterface: Life, loca
     initLivesHudWidget(result, animationInterface, lifeInterface, location, direction)
 
 method updateMeasurement*(this: LivesHudWidget, graphics: Graphics) =
-        procCall BasicHud(this).updateMeasurement(graphics)
+        jSuperStatement(procCall BasicHud(this).updateMeasurement(graphics))
         var maxLives: int32 = int32(this.getLifeInterface().getMaxlives())
         block:
             var index: int32 = 0
@@ -80,11 +80,11 @@ method updateMeasurement*(this: LivesHudWidget, graphics: Graphics) =
                 this.xArray[index] = this.getX() +% (index *% 16)
 
 method onDisplayChangeEvent*(this: LivesHudWidget, displayChangeEvent: DisplayChangeEvent) =
-        procCall BasicHud(this).onDisplayChangeEvent(displayChangeEvent)
+        jSuperStatement(procCall BasicHud(this).onDisplayChangeEvent(displayChangeEvent))
         this.myFontProcessor = this.updateMyFontProcessor
 
 method setX*(this: LivesHudWidget, x: int32) =
-        procCall BasicHud(this).setX(x)
+        jSuperStatement(procCall BasicHud(this).setX(x))
         this.myFontProcessor = this.updateMyFontProcessor
 
 method paint*(this: LivesHudWidget, graphics: Graphics) =

@@ -135,9 +135,9 @@ method onScrolledMotionGestureEvent*(this: GameMotionGestureListener, motionGest
 method onMotionGestureEvent*(this: GameMotionGestureListener, ev: MotionGestureEvent) =
         try:
             var motionGestureInput: MotionGestureInput = ev.getMotionGesture()
-            if motionGestureInput == TouchMotionGestureFactory.getInstance().PRESSED:
+            if (jSame(motionGestureInput, TouchMotionGestureFactory.getInstance().PRESSED)):
                 this.onPressedMotionGestureEvent(ev)
-            elif motionGestureInput == TouchMotionGestureFactory.getInstance().RELEASED:
+            elif (jSame(motionGestureInput, TouchMotionGestureFactory.getInstance().RELEASED)):
                 this.released(ev)
             else:
                 this.motionGestureCollection.add(motionGestureInput)

@@ -57,6 +57,7 @@ type
         gameKeyEventList*: BasicArrayList
 
 converter jAsViewPositionEventListenerInterface*(value: AllBinaryGameLayer): ViewPositionEventListenerInterface = cast[ViewPositionEventListenerInterface](value)
+converter jAsEventListenerInterface*(value: AllBinaryGameLayer): EventListenerInterface = cast[EventListenerInterface](value)
 converter jAsOpenGLSurfaceChangedInterface*(value: AllBinaryGameLayer): OpenGLSurfaceChangedInterface = cast[OpenGLSurfaceChangedInterface](value)
 proc newAllBinaryGameLayer*(name: string, layerInfo: Rectangle, viewPosition: ViewPositionBase): AllBinaryGameLayer
 proc initAllBinaryGameLayer*(this: AllBinaryGameLayer, name: string, layerInfo: Rectangle, viewPosition: ViewPositionBase)
@@ -151,11 +152,11 @@ method paintDebug*(this: AllBinaryGameLayer, graphics: Graphics) {.base.} =
         graphics.drawRect(viewX, viewY, this.getWidth(), this.getHeight())
 
 method setWidth*(this: AllBinaryGameLayer, width: int32) {.base.} =
-        procCall AllBinaryLayer(this).setLayerWidth(width)
+        jSuperStatement(procCall AllBinaryLayer(this).setLayerWidth(width))
         this.setHalfWidth(ashr(width, 1))
 
 method setHeight*(this: AllBinaryGameLayer, height: int32) {.base.} =
-        procCall AllBinaryLayer(this).setLayerHeight(height)
+        jSuperStatement(procCall AllBinaryLayer(this).setLayerHeight(height))
         this.setHalfHeight(ashr(height, 1))
 
 when declared(newAllBinaryGameLayerHook3):

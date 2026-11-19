@@ -136,8 +136,14 @@ type
         baseGameStatistics*: BaseGameStatistics
 
 converter jAsGameCanvasRunnableInterface*(value: StartCanvas): GameCanvasRunnableInterface = cast[GameCanvasRunnableInterface](value)
+converter jAsRunnableInterface*(value: StartCanvas): RunnableInterface = cast[RunnableInterface](value)
+converter jAsPaintableInterface*(value: StartCanvas): PaintableInterface = cast[PaintableInterface](value)
+converter jAsItemStateListener*(value: StartCanvas): ItemStateListener = cast[ItemStateListener](value)
+converter jAsGameStateCompositeInterface*(value: StartCanvas): GameStateCompositeInterface = cast[GameStateCompositeInterface](value)
 converter jAsMenuListener*(value: StartCanvas): MenuListener = cast[MenuListener](value)
+converter jAsGameKeyEventSourceInterface*(value: StartCanvas): GameKeyEventSourceInterface = cast[GameKeyEventSourceInterface](value)
 converter jAsDisplayChangeEventListener*(value: StartCanvas): DisplayChangeEventListener = cast[DisplayChangeEventListener](value)
+converter jAsEventListenerInterface*(value: StartCanvas): EventListenerInterface = cast[EventListenerInterface](value)
 proc newStartCanvas*(abeClientInformation: AbeClientInformationInterface, commandListener: CommandListener, highScoresFactoryInterface: HighScoresFactoryInterface, paintable: Paintable, overlayPaintable: InitUpdatePaintable, gameInitializationInterfaceFactoryInterface: BasicBuildGameInitializerFactory, isContinue: bool): StartCanvas
 proc initStartCanvas*(this: StartCanvas, abeClientInformation: AbeClientInformationInterface, commandListener: CommandListener, highScoresFactoryInterface: HighScoresFactoryInterface, paintable: Paintable, overlayPaintable: InitUpdatePaintable, gameInitializationInterfaceFactoryInterface: BasicBuildGameInitializerFactory, isContinue: bool)
 method onEvent*(this: StartCanvas, eventObject: AllBinaryEventObject)
@@ -572,7 +578,7 @@ method demoStateChange*(this: StartCanvas) {.base.} =
                 newState = 0
             else:
                 let highScores: HighScores = this.highScoresHelper.getNextHighScores()
-                if highScores == NullHighScoresSingletonFactory.getInstance():
+                if (jSame(highScores, NullHighScoresSingletonFactory.getInstance())):
                     newState = 0
                 else:
                     this.getRealHighScoresPaintable().setHighScores(highScores)
@@ -660,7 +666,7 @@ method run*(this: StartCanvas) =
         this.logUtil.putF(this.commonStrings.END_RUNNABLE, this, this.commonStrings.RUN)
 
 method setRunning*(this: StartCanvas, running: bool) =
-        procCall RunnableCanvas(this).setRunning(running)
+        jSuperStatement(procCall RunnableCanvas(this).setRunning(running))
         try:
             if (this.features.isDefault(this.openGLFeatureFactory.OPENGL) or J2MEUtil.isHTML()) and (not running):
                 let currentDisplayableFactory: CurrentDisplayableFactory = CurrentDisplayableFactory.getInstance()

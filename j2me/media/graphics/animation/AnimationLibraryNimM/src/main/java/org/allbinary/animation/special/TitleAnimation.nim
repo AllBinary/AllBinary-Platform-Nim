@@ -179,7 +179,7 @@ method paintXY*(this: TitleAnimation, graphics: Graphics, ax: int32, ay: int32) 
                 defer: index = index +% 1
                 deltaX = this.dxArray[index] +% x
                 deltaY = this.dyArray[index] +% this.y
-                if this.basicColorArray[index] != this.CLEAR_COLOR:
+                if (not jSame(this.basicColorArray[index], this.CLEAR_COLOR)):
                     this.basicSetColorUtil.setBasicColorP(graphics, this.basicColorArray[index])
                 this.animationInterfaceArray[index].paintXY(graphics, deltaX, deltaY)
 

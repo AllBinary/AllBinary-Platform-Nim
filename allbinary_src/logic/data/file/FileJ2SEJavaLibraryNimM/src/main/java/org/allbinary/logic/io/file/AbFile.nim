@@ -203,13 +203,13 @@ method listWithFilter*(this: AbFile, filter: FilenameFilter): JArray[string] {.d
         return this.file.list(filter)
 
 method listFiles*(this: AbFile): JArray[JObject] {.base, discardable.} =
-        return JArray[JObject](this.file.listFiles())
+        return cast[JArray[JObject]](this.file.listFiles())
 
 method listFilesFileNameFilter*(this: AbFile, filter: FilenameFilter): JArray[JObject] {.base, discardable.} =
-        return JArray[JObject](this.file.listFiles(filter))
+        return cast[JArray[JObject]](this.file.listFiles(filter))
 
 method listFilesFileFilter*(this: AbFile, filter: FileFilter): JArray[JObject] {.base, discardable.} =
-        return JArray[JObject](this.file.listFiles(filter))
+        return cast[JArray[JObject]](this.file.listFiles(filter))
 
 method mkdir*(this: AbFile): bool {.discardable.} =
         return this.file.mkdir()

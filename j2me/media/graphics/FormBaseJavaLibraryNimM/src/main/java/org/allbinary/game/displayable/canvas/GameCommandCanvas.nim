@@ -87,7 +87,9 @@ type
         fontHeight*: int32
 
 converter jAsMenuListener*(value: GameCommandCanvas): MenuListener = cast[MenuListener](value)
+converter jAsGameKeyEventSourceInterface*(value: GameCommandCanvas): GameKeyEventSourceInterface = cast[GameKeyEventSourceInterface](value)
 converter jAsDisplayChangeEventListener*(value: GameCommandCanvas): DisplayChangeEventListener = cast[DisplayChangeEventListener](value)
+converter jAsEventListenerInterface*(value: GameCommandCanvas): EventListenerInterface = cast[EventListenerInterface](value)
 converter jAsUpdateMyFontInterface*(value: GameCommandCanvas): UpdateMyFontInterface = cast[UpdateMyFontInterface](value)
 proc newGameCommandCanvas*(cmdListener: CommandListener, name: string, backgroundBasicColor: BasicColor, foregroundBasicColor: BasicColor): GameCommandCanvas
 proc initGameCommandCanvas*(this: GameCommandCanvas, cmdListener: CommandListener, name: string, backgroundBasicColor: BasicColor, foregroundBasicColor: BasicColor)
@@ -218,7 +220,7 @@ proc initGameCommandCanvas*(this: GameCommandCanvas, cmdListener: CommandListene
         this.foregroundColor = this.foregroundBasicColor.intValue()
         this.backgroundColor = this.backgroundBasicColor.intValue()
         this.initCommands(cmdListener)
-        if cmdListener != NullCommandListener.NULL_COMMAND_LISTENERStatic:
+        if (not jSame(cmdListener, NullCommandListener.NULL_COMMAND_LISTENERStatic)):
             try:
                 this.initMenu()
                 this.repaintProcessor.process()
@@ -258,7 +260,7 @@ method initCommands*(this: GameCommandCanvas, cmdListener: CommandListener) {.ba
 method initMenu*(this: GameCommandCanvas) {.base.} =
         let form: ScrollSelectionForm = this.createForm()
         this.menuForm = form
-        if form != ScrollSelectionFormNoneFactory.getInstance():
+        if (not jSame(form, ScrollSelectionFormNoneFactory.getInstance())):
             this.setMenuInputProcessor(newImmediateCommandFormInputProcessor(newBasicArrayListD(), -1, this, form))
             this.menuPaintable = newFormPaintable(form)
         this.repaintBehavior.onChangeRepaint(this)
@@ -316,7 +318,7 @@ method keyRepeatedByDevice*(this: GameCommandCanvas, keyCode: int32, deviceId: i
 method addGameKeyEvent*(this: GameCommandCanvas, keyCode: int32, deviceId: int32, repeated: bool) {.base.} =
         try:
             let gameKey: GameKey = this.inputToGameKeyMapping.getInstanceForCanvas(this, keyCode)
-            if gameKey != this.gameKeyFactory.NONE:
+            if (not jSame(gameKey, this.gameKeyFactory.NONE)):
                 let gameKeyEvent: GameKeyEvent = this.gameKeyEventFactory.getInstanceForInput(this, gameKey)
                 this.downGameKeyEventHandler.fireEvent(gameKeyEvent)
                 this.downGameKeyEventHandler.getInstanceForDevice(deviceId).fireEvent(gameKeyEvent)
@@ -329,7 +331,7 @@ method addGameKeyEvent*(this: GameCommandCanvas, keyCode: int32, deviceId: int32
 method removeGameKeyEvent*(this: GameCommandCanvas, keyCode: int32, deviceId: int32, repeated: bool) {.base.} =
         try:
             let gameKey: GameKey = this.inputToGameKeyMapping.getInstanceForCanvas(this, keyCode)
-            if gameKey != this.gameKeyFactory.NONE:
+            if (not jSame(gameKey, this.gameKeyFactory.NONE)):
                 let gameKeyEvent: GameKeyEvent = this.gameKeyEventFactory.getInstanceForInput(this, gameKey)
                 this.upGameKeyEventHandler.fireEvent(gameKeyEvent)
                 this.upGameKeyEventHandler.getInstanceForDevice(deviceId).fireEvent(gameKeyEvent)

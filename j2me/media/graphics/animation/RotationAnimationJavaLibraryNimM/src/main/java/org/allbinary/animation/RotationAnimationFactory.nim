@@ -58,7 +58,7 @@ proc initFieldsRotationAnimationFactory(this: RotationAnimationFactory) =
 
 proc createFactory*(t: typedesc[RotationAnimationFactory]): RotationAnimationFactory {.discardable.} =
         let totalAngle: int16 = AngleFactory.getInstance().TOTAL_ANGLE
-        return newRotationAnimationFactory(totalAngle, jToInt16((totalAngle div GameConfigurationCentral.getInstance().getGameControlFidelity())))
+        return newRotationAnimationFactory(totalAngle, jToInt16((int32(totalAngle) div GameConfigurationCentral.getInstance().getGameControlFidelity())))
 
 proc initRotationAnimationFactory*(this: RotationAnimationFactory, totalAngle: int16, angleIncrement: int16) =
         this.initFieldsRotationAnimationFactory()

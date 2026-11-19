@@ -27,4 +27,6 @@ export PressGameKeyEventListenerInterfaceModule
 type
     GameKeyEventListenerInterface* = ref object of DownGameKeyEventListenerInterface
 
+converter jAsUpGameKeyEventListenerInterface*(value: GameKeyEventListenerInterface): UpGameKeyEventListenerInterface = cast[UpGameKeyEventListenerInterface](value)
+converter jAsPressGameKeyEventListenerInterface*(value: GameKeyEventListenerInterface): PressGameKeyEventListenerInterface = cast[PressGameKeyEventListenerInterface](value)
 

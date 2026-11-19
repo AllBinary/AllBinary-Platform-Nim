@@ -137,7 +137,7 @@ method remove*(this: CurrentlyPressedTouchButtonSingletonDebug, touchButtonInput
         return isRemoved
 
 method add*(this: CurrentlyPressedTouchButtonSingletonDebug, touchButtonInput: TouchButtonInput) =
-        procCall CurrentlyPressedTouchButtonSingleton(this).add(touchButtonInput)
+        jSuperStatement(procCall CurrentlyPressedTouchButtonSingleton(this).add(touchButtonInput))
         this.listString = this.list.toString()
         this.string = newStringMaker().append(this.listString).append(this.appendText).toString()
 

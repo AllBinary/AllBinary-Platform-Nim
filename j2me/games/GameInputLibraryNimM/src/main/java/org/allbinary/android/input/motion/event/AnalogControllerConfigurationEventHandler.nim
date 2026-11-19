@@ -78,11 +78,11 @@ method addListener*(this: AnalogControllerConfigurationEventHandler, analogContr
 
 method removeAllListeners*(this: AnalogControllerConfigurationEventHandler) =
         this.list.clear()
-        procCall BasicEventHandler(this).removeAllListeners()
+        jSuperStatement(procCall BasicEventHandler(this).removeAllListeners())
 
 method removeListener*(this: AnalogControllerConfigurationEventHandler, eventListenerInterface: EventListenerInterface) =
         this.list.remove(eventListenerInterface)
-        procCall BasicEventHandler(this).removeListener(eventListenerInterface)
+        jSuperStatement(procCall BasicEventHandler(this).removeListener(eventListenerInterface))
 
 method fireEvent*(this: AnalogControllerConfigurationEventHandler, eventObject: AllBinaryEventObject) =
         block:
@@ -94,7 +94,7 @@ method fireEvent*(this: AnalogControllerConfigurationEventHandler, eventObject: 
                 except CatchableError as jcaught:
                     let e = jToException(jcaught)
                     this.logUtil.put(this.commonStrings.EXCEPTION, this, EventStrings.getInstance().FIRE_EVENT, e)
-        procCall BasicEventHandler(this).fireEvent(eventObject)
+        jSuperStatement(procCall BasicEventHandler(this).fireEvent(eventObject))
 
 method process*(this: AnalogControllerConfigurationEventHandler, eventObject: AllBinaryEventObject, eventListenerInterface: EventListenerInterface) =
         let analogControllerConfigurationEventListenerInterface: AnalogControllerConfigurationEventListenerInterface = (AnalogControllerConfigurationEventListenerInterface(JObject(eventListenerInterface)))

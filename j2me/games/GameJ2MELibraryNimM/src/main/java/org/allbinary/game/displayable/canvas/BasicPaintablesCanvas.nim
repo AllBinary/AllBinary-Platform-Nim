@@ -66,7 +66,7 @@ method paint*(this: BasicPaintablesCanvas, graphics: Graphics) =
             while index >= 0:
                 defer: index = index -% 1
                 this.paintableArray[index].paint(graphics)
-        procCall GameCommandCanvas(this).paint(graphics)
+        jSuperStatement(procCall GameCommandCanvas(this).paint(graphics))
 
 when declared(newBasicPaintablesCanvasHook4):
     newBasicPaintablesCanvasHook4 = proc (cmdListener: CommandListener, name: string, allBinaryGameLayerManager: AllBinaryGameLayerManager, paintableArray: JArray[Paintable]): GameCommandCanvas = newBasicPaintablesCanvas(cmdListener, name, allBinaryGameLayerManager, paintableArray)

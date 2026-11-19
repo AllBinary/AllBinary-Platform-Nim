@@ -116,7 +116,7 @@ proc newGameOptionsForm*(commandListener: CommandListener, title: string, backgr
     initGameOptionsForm(result, commandListener, title, backgrounBasicColor, foregroundBasicColor)
 
 method closeClientInformation*(this: GameOptionsForm, abeClientInformation: AbeClientInformationInterface) {.base.} =
-        procCall CommandForm(this).close()
+        jSuperStatement(procCall CommandForm(this).close())
         this.save(abeClientInformation)
 
 method addTextFieldsIfSimulated*(this: GameOptionsForm) {.base.} =
@@ -193,7 +193,7 @@ method save*(this: GameOptionsForm, abeClientInformation: AbeClientInformationIn
         let list: BasicArrayList = keyValuePersistance.getIds()
         keyValuePersistance.save(abeClientInformation, hashtable)
         let size2: int32 = list.size()
-        var integer: int32 = nil
+        var integer: int32 = 0
         block:
             var index: int32 = 0
             while index < size2:

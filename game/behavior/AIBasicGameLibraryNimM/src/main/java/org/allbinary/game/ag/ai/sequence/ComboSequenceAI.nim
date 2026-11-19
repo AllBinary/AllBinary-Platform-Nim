@@ -51,7 +51,7 @@ method processAI*(this: ComboSequenceAI, allBinaryLayerManager: AllBinaryLayerMa
             while index < size:
                 defer: index = index +% 1
                 this.setIndex(index)
-                procCall SequenceAI(this).processAI(allBinaryLayerManager)
+                jSuperStatement(procCall SequenceAI(this).processAI(allBinaryLayerManager))
 
 when declared(newComboSequenceAIHook3):
     newComboSequenceAIHook3 = proc (artificialIntelligenceInterface: JArray[ArtificialIntelligenceInterface], ownerLayerInterface: AllBinaryLayer, gameInput: GameInput): SequenceAI = newComboSequenceAI(artificialIntelligenceInterface, ownerLayerInterface, gameInput)

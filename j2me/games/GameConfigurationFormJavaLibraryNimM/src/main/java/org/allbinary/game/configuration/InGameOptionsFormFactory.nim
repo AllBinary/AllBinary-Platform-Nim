@@ -75,7 +75,7 @@ proc getInstance*(t: typedesc[InGameOptionsFormFactory]): InGameOptionsFormFacto
 
 method init*(this: InGameOptionsFormFactory, commandListener: CommandListener, initInterface: Init, title: string, backgrounBasicColor: BasicColor, foregroundBasicColor: BasicColor) {.base.} =
         try:
-            if this.SINGLETON == CommandForm.getNullCommandForm():
+            if (jSame(this.SINGLETON, CommandForm.getNullCommandForm())):
                 initInterface.init()
                 this.SINGLETON = newInGameOptionsForm(commandListener, title, backgrounBasicColor, foregroundBasicColor)
         except CatchableError as jcaught:

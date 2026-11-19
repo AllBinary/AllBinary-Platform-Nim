@@ -17,6 +17,10 @@
 
 {.warning[UnusedImport]: off.}
 import allbinary_java
+import javax/crypto/Cipher as CipherModule
+export CipherModule
+import javax/crypto/SecretKey as SecretKeyModule
+export SecretKeyModule
 import org/allbinary/logic/java/byteutil/ByteUtil as ByteUtilModule
 export ByteUtilModule
 import org/allbinary/logic/system/security/crypt/jcehelper/BaseSecretComposite as BaseSecretCompositeModule

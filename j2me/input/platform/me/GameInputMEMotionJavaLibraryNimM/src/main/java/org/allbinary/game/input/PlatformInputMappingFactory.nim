@@ -61,7 +61,7 @@ proc getInstance*(t: typedesc[PlatformInputMappingFactory]): PlatformInputMappin
 
 method getPersistentInputMappingInstance*(this: PlatformInputMappingFactory): PersistentInputMapping {.base, discardable.} =
         try:
-            if this.inputToGameKeyMapping == PersistentInputMapping.getNullInstance():
+            if (jSame(this.inputToGameKeyMapping, PersistentInputMapping.getNullInstance())):
                 this.inputToGameKeyMapping = newMotionJ2MEGameInputMapping()
         except CatchableError as jcaught:
             let e = jToException(jcaught)

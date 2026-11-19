@@ -30,6 +30,7 @@ type
     FallingPickupLayer* = ref object of PickupLayer
 
 converter jAsTickableInterface*(value: FallingPickupLayer): TickableInterface = cast[TickableInterface](value)
+converter jAsNamedInterface*(value: FallingPickupLayer): NamedInterface = cast[NamedInterface](value)
 proc newFallingPickupLayer*(remoteInfo: RemoteInfo): FallingPickupLayer
 proc initFallingPickupLayer*(this: FallingPickupLayer, remoteInfo: RemoteInfo)
 method processTick*(this: FallingPickupLayer, allBinaryLayerManager: AllBinaryLayerManager)

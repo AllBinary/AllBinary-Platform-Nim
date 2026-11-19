@@ -36,6 +36,13 @@ type
         circularIndexUtil*: CircularIndexUtil
 
 converter jAsVectorAnimationInterface*(value: VectorAnimation): VectorAnimationInterface = cast[VectorAnimationInterface](value)
+converter jAsIndexedAnimationInterface*(value: VectorAnimation): IndexedAnimationInterface = cast[IndexedAnimationInterface](value)
+converter jAsSequentialAnimationInterface*(value: VectorAnimation): SequentialAnimationInterface = cast[SequentialAnimationInterface](value)
+converter jAsAnimationInterface*(value: VectorAnimation): AnimationInterface = cast[AnimationInterface](value)
+converter jAsLocationPaintableInterface*(value: VectorAnimation): LocationPaintableInterface = cast[LocationPaintableInterface](value)
+converter jAsSequenceInterface*(value: VectorAnimation): SequenceInterface = cast[SequenceInterface](value)
+converter jAsColorCompositeInterface*(value: VectorAnimation): ColorCompositeInterface = cast[ColorCompositeInterface](value)
+converter jAsBasicColorCompositeSetterInterface*(value: VectorAnimation): BasicColorCompositeSetterInterface = cast[BasicColorCompositeSetterInterface](value)
 proc newVectorAnimation*(currentPoints: JArray[JArray[JArray[int32]]], basicColor: BasicColor, animationBehavior: AnimationBehavior): VectorAnimation
 proc initVectorAnimation*(this: VectorAnimation, currentPoints: JArray[JArray[JArray[int32]]], basicColor: BasicColor, animationBehavior: AnimationBehavior)
 proc createVectorAnimation*(t: typedesc[VectorAnimation], currentPoints2: JArray[JArray[int32]], basicColor: BasicColor, animationBehavior: AnimationBehavior): VectorAnimation {.discardable.}
@@ -95,7 +102,7 @@ method setBasicColorP*(this: VectorAnimation, basicColor: BasicColor) =
         var changed: bool = false
         if (jIsNil(this.getBasicColorP())) or this.getBasicColorP().intValue() != basicColor.intValue():
             changed = true
-        procCall IndexedAnimation(this).setBasicColorP(basicColor)
+        jSuperStatement(procCall IndexedAnimation(this).setBasicColorP(basicColor))
         if changed:
             this.updateModifiers()
 
@@ -103,7 +110,7 @@ method changeBasicColor*(this: VectorAnimation, basicColor: BasicColor) =
         var changed: bool = false
         if (jIsNil(this.getChangeBasicColor())) or this.getChangeBasicColor().intValue() != basicColor.intValue():
             changed = true
-        procCall IndexedAnimation(this).changeBasicColor(basicColor)
+        jSuperStatement(procCall IndexedAnimation(this).changeBasicColor(basicColor))
         if changed:
             this.updateModifiers()
 
@@ -111,7 +118,7 @@ method setAlpha*(this: VectorAnimation, alpha: int32) =
         var changed: bool = false
         if this.alphaP != alpha:
             changed = true
-        procCall IndexedAnimation(this).setAlpha(alpha)
+        jSuperStatement(procCall IndexedAnimation(this).setAlpha(alpha))
         if changed:
             this.updateModifiers()
 

@@ -154,7 +154,7 @@ method isIdInList*(this: GroupLayerManagerListener, id: int32, excludeGroupList:
             var index: int32 = size -% 1
             while index >= 0:
                 defer: index = index -% 1
-                groupInterfaceArray = JArray[Group](excludeGroupList.objectArray[index])
+                groupInterfaceArray = cast[JArray[Group]](excludeGroupList.objectArray[index])
                 let size2: int32 = groupInterfaceArray.length
                 block:
                     var index2: int32 = 0

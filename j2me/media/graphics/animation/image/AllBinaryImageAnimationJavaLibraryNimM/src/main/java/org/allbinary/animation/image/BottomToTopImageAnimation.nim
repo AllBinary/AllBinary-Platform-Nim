@@ -64,15 +64,15 @@ proc newBottomToTopImageAnimation*(image: Image, animationBehavior: AnimationBeh
     initBottomToTopImageAnimation(result, image, animationBehavior)
 
 method nextFrame*(this: BottomToTopImageAnimation) =
-        procCall ImageSegmentAnimation(this).previousFrame()
+        jSuperStatement(procCall ImageSegmentAnimation(this).previousFrame())
         this.update()
 
 method previousFrame*(this: BottomToTopImageAnimation) =
-        procCall ImageSegmentAnimation(this).nextFrame()
+        jSuperStatement(procCall ImageSegmentAnimation(this).nextFrame())
         this.update()
 
 method setFrame*(this: BottomToTopImageAnimation, index: int32) =
-        procCall ImageSegmentAnimation(this).setFrame(index)
+        jSuperStatement(procCall ImageSegmentAnimation(this).setFrame(index))
         this.update()
 
 method update*(this: BottomToTopImageAnimation) {.base.} =

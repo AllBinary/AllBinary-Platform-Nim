@@ -21,6 +21,12 @@ import java/security/Security as SecurityModule
 export SecurityModule
 import java/security/spec/KeySpec as KeySpecModule
 export KeySpecModule
+import javax/crypto/Cipher as CipherModule
+export CipherModule
+import javax/crypto/SecretKey as SecretKeyModule
+export SecretKeyModule
+import javax/crypto/SecretKeyFactory as SecretKeyFactoryModule
+export SecretKeyFactoryModule
 import org/allbinary/TsUtil as TsUtilModule
 export TsUtilModule
 import org/allbinary/init/crypt/jcehelper/CryptInterface as CryptInterfaceModule

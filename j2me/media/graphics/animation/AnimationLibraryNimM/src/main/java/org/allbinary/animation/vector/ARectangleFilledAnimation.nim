@@ -39,7 +39,7 @@ method nextFrame*(this: ARectangleFilledAnimation) =
         discard
 
 method paintXY*(this: ARectangleFilledAnimation, graphics: Graphics, unusedX: int32, unusedY: int32) =
-        procCall RectangleFilledAnimation(this).paintXY(graphics, this.x, this.y)
+        jSuperStatement(procCall RectangleFilledAnimation(this).paintXY(graphics, this.x, this.y))
 
 when declared(newARectangleFilledAnimationHook0):
     newARectangleFilledAnimationHook0 = proc (): RectangleFilledAnimation = newARectangleFilledAnimation()

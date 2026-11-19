@@ -61,15 +61,15 @@ proc newAdjustedSpriteIndexedAnimation*(sprite: Sprite, image: Image, basicColor
 method paintFrame*(this: AdjustedSpriteIndexedAnimation, graphics: Graphics, frame: int32, x: int32, y: int32) =
         this.setFrame(frame)
         this.sprite.setPosition(x +% this.dx, y +% this.dy)
-        procCall SpriteIndexedAnimation(this).paint(graphics)
+        jSuperStatement(procCall SpriteIndexedAnimation(this).paint(graphics))
 
 method paintXY*(this: AdjustedSpriteIndexedAnimation, g: Graphics, x: int32, y: int32) =
         this.sprite.setPosition(x +% this.dx, y +% this.dy)
-        procCall SpriteIndexedAnimation(this).paint(g)
+        jSuperStatement(procCall SpriteIndexedAnimation(this).paint(g))
 
 method paint*(this: AdjustedSpriteIndexedAnimation, g: Graphics) =
         this.sprite.setPosition(this.dx, this.dy)
-        procCall SpriteIndexedAnimation(this).paint(g)
+        jSuperStatement(procCall SpriteIndexedAnimation(this).paint(g))
 
 when declared(newAdjustedSpriteIndexedAnimationHook6):
     newAdjustedSpriteIndexedAnimationHook6 = proc (sprite: Sprite, image: Image, basicColorArray: JArray[BasicColor], dx: int32, dy: int32, animationBehavior: AnimationBehavior): SpriteIndexedAnimation = newAdjustedSpriteIndexedAnimation(sprite, image, basicColorArray, dx, dy, animationBehavior)

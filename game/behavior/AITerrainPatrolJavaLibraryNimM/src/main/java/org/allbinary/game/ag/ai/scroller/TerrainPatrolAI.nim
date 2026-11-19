@@ -72,7 +72,7 @@ proc newTerrainPatrolAI*(hashtable: ABHashtable, ownerLayerInterface: AllBinaryL
     initTerrainPatrolAI(result, hashtable, ownerLayerInterface, gameInput)
 
 method update*(this: TerrainPatrolAI) =
-        procCall PacePatrolAI(this).update()
+        jSuperStatement(procCall PacePatrolAI(this).update())
         this.changeDirectionIfCliffReached()
 
 method changeDirectionIfCliffReached*(this: TerrainPatrolAI) {.base.} =

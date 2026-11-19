@@ -121,7 +121,7 @@ method remove*(this: BasicArrayList, anyType: JObject): bool {.base, discardable
                 var index: int32 = 0
                 while index < this.currentIndex:
                     defer: index = index +% 1
-                    if anyType == this.objectArray[index] or anyType.equals(this.objectArray[index]):
+                    if (jSame(anyType, this.objectArray[index])) or anyType.equals(this.objectArray[index]):
                         let numMoved: int32 = this.currentIndex -% index -% 1
                         if numMoved > 0:
                             jArraycopy(this.objectArray, index +% 1, this.objectArray, index, numMoved)

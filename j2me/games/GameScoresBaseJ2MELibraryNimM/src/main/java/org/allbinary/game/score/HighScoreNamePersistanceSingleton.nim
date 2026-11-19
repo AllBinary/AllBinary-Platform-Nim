@@ -181,8 +181,12 @@ method load*(this: HighScoreNamePersistanceSingleton, abeClientInformation: AbeC
                     PreLogUtil.put("Closing RecordStore", this, this.commonStrings.LOAD)
                     recordStore.closeRecordStore()
             except CatchableError as jcaught:
-                let e = jToException(jcaught)
-                this.logUtil.put(this.commonStrings.EXCEPTION, this, this.commonStrings.LOAD, e)
+                let jexception = jToException(jcaught)
+                if jCatches(jexception, "RecordStoreException"):
+                    let e = jexception
+                    this.logUtil.put(this.commonStrings.EXCEPTION, this, this.commonStrings.LOAD, e)
+                else:
+                    raise jcaught
         return this.name
 
 method save*(this: HighScoreNamePersistanceSingleton, abeClientInformation: AbeClientInformationInterface, gameInfo: GameInfo, name: string) {.base.} =
@@ -205,6 +209,10 @@ method save*(this: HighScoreNamePersistanceSingleton, abeClientInformation: AbeC
                     PreLogUtil.put("Closing RecordStore", this, this.commonStrings.SAVE)
                     recordStore.closeRecordStore()
             except CatchableError as jcaught:
-                let e = jToException(jcaught)
-                this.logUtil.put(this.commonStrings.EXCEPTION, this, this.commonStrings.SAVE, e)
+                let jexception = jToException(jcaught)
+                if jCatches(jexception, "RecordStoreException"):
+                    let e = jexception
+                    this.logUtil.put(this.commonStrings.EXCEPTION, this, this.commonStrings.SAVE, e)
+                else:
+                    raise jcaught
 

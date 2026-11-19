@@ -129,7 +129,7 @@ method processMotionInput*(this: PopupMenuInputProcessor, motionGestureEvent: Mo
             return
         let touchMotionGestureFactory: TouchMotionGestureFactory = TouchMotionGestureFactory.getInstance()
         let motionGestureInput: MotionGestureInput = motionGestureEvent.getMotionGesture()
-        if motionGestureInput == touchMotionGestureFactory.RELEASED:
+        if (jSame(motionGestureInput, touchMotionGestureFactory.RELEASED)):
             var point: GPoint = motionGestureEvent.getCurrentPoint()
             var rectPoint: GPoint = this.rectangle.getPoint()
             if this.rectangleCollisionUtil.isInside(rectPoint.getX(), rectPoint.getY(), this.rectangle.getMaxX() +% 20, this.rectangle.getMaxY(), point.getX(), point.getY()):

@@ -89,7 +89,7 @@ method updateMeasurement*(this: LevelHudWidget, graphics: Graphics) =
         let font: Font = graphics.getFont()
         this.updateMaxWidth = font.getSize() *% 4
         this.offset = font.charsWidth(this.levelString, 0, this.levelString.length) +% font.getSize()
-        procCall BasicHud(this).updateMeasurement(graphics)
+        jSuperStatement(procCall BasicHud(this).updateMeasurement(graphics))
 
 method update*(this: LevelHudWidget) {.base.} =
         this.levelNumberCharArray = this.primitiveLongUtil.getCharArray(this.level)
@@ -116,7 +116,7 @@ method isComplete*(this: LevelHudWidget): bool {.base, discardable.} =
             return true
 
 method paint*(this: LevelHudWidget, graphics: Graphics) =
-        procCall BasicHud(this).paintDX(graphics, this.levelString, 0, this.levelString.length, this.levelNumberCharArray, 0, this.levelNumberTotalDigits, this.offset)
+        jSuperStatement(procCall BasicHud(this).paintDX(graphics, this.levelString, 0, this.levelString.length, this.levelNumberCharArray, 0, this.levelNumberTotalDigits, this.offset))
 
 method paintThreed*(this: LevelHudWidget, graphics: Graphics) =
         discard

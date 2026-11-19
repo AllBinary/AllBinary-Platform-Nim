@@ -153,22 +153,28 @@ method addHighScore*(this: RecordStoreHighScores, newHighScore: HighScore) =
             let recordId: int32 = recordStore.addRecord(highScoreBytes, 0, highScoreBytes.length)
             this.load()
         except CatchableError as jcaught:
-            let e = jToException(jcaught)
-            this.logUtil.put(this.commonStrings.EXCEPTION, this, this.commonStrings.ADD, e)
-        except CatchableError as jcaught:
-            let e = jToException(jcaught)
-            this.logUtil.put(this.commonStrings.EXCEPTION, this, this.commonStrings.ADD, e)
-        except CatchableError as jcaught:
-            let e = jToException(jcaught)
-            this.logUtil.put(this.commonStrings.EXCEPTION, this, this.commonStrings.ADD, e)
+            let jexception = jToException(jcaught)
+            if jCatches(jexception, "RecordStoreException"):
+                let e = jexception
+                this.logUtil.put(this.commonStrings.EXCEPTION, this, this.commonStrings.ADD, e)
+            elif jCatches(jexception, "IOException"):
+                let e = jexception
+                this.logUtil.put(this.commonStrings.EXCEPTION, this, this.commonStrings.ADD, e)
+            else:
+                let e = jexception
+                this.logUtil.put(this.commonStrings.EXCEPTION, this, this.commonStrings.ADD, e)
         finally:
             try:
                 if (not jIsNil(recordStore)):
                     PreLogUtil.put("Closing RecordStore", this, this.commonStrings.ADD)
                     recordStore.closeRecordStore()
             except CatchableError as jcaught:
-                let e = jToException(jcaught)
-                this.logUtil.put(this.commonStrings.EXCEPTION, this, this.commonStrings.ADD, e)
+                let jexception = jToException(jcaught)
+                if jCatches(jexception, "RecordStoreException"):
+                    let e = jexception
+                    this.logUtil.put(this.commonStrings.EXCEPTION, this, this.commonStrings.ADD, e)
+                else:
+                    raise jcaught
 
 method removeLowestHighScore*(this: RecordStoreHighScores) {.base.} =
         var recordStore: RecordStore = NullRecordStore.NULL_RECORD_STOREStatic
@@ -195,19 +201,25 @@ method removeLowestHighScore*(this: RecordStoreHighScores) {.base.} =
                 this.logUtil.putF(newStringMaker().append("Removing Lowest HighScore: ").appendlong(bestHighScore.getScore()).toString(), this, this.commonStrings.LOAD)
                 recordStore.deleteRecord(bestHighScore.getId())
         except CatchableError as jcaught:
-            let e = jToException(jcaught)
-            this.logUtil.put(this.commonStrings.EXCEPTION, this, "removeLowestHighScore", e)
-        except CatchableError as jcaught:
-            let e = jToException(jcaught)
-            this.logUtil.put(this.commonStrings.EXCEPTION, this, "removeLowestHighScore", e)
+            let jexception = jToException(jcaught)
+            if jCatches(jexception, "RecordStoreException"):
+                let e = jexception
+                this.logUtil.put(this.commonStrings.EXCEPTION, this, "removeLowestHighScore", e)
+            else:
+                let e = jexception
+                this.logUtil.put(this.commonStrings.EXCEPTION, this, "removeLowestHighScore", e)
         finally:
             try:
                 if (not jIsNil(recordStore)):
                     PreLogUtil.put("Closing RecordStore", this, "removeLowestHighScore")
                     recordStore.closeRecordStore()
             except CatchableError as jcaught:
-                let e = jToException(jcaught)
-                this.logUtil.put(this.commonStrings.EXCEPTION, this, "removeLowestHighScore", e)
+                let jexception = jToException(jcaught)
+                if jCatches(jexception, "RecordStoreException"):
+                    let e = jexception
+                    this.logUtil.put(this.commonStrings.EXCEPTION, this, "removeLowestHighScore", e)
+                else:
+                    raise jcaught
 
 method load*(this: RecordStoreHighScores) {.base.} =
         var recordStore: RecordStore = NullRecordStore.NULL_RECORD_STOREStatic
@@ -241,29 +253,39 @@ method load*(this: RecordStoreHighScores) {.base.} =
                                     break
                         list.addAt(lastIndex, newHighScore)
                     except CatchableError as jcaught:
-                        let e = jToException(jcaught)
-                        this.logUtil.put("EOF", this, this.commonStrings.LOAD, e)
-                        raise e
+                        let jexception = jToException(jcaught)
+                        if jCatches(jexception, "EOFException"):
+                            let e = jexception
+                            this.logUtil.put("EOF", this, this.commonStrings.LOAD, e)
+                            raise e
+                        else:
+                            raise jcaught
         except CatchableError as jcaught:
-            let e = jToException(jcaught)
-            this.logUtil.put("No High Scores", this, this.commonStrings.LOAD, e)
-        except CatchableError as jcaught:
-            let e = jToException(jcaught)
-            this.logUtil.put(this.commonStrings.UNKNOWN, this, this.commonStrings.LOAD, e)
-        except CatchableError as jcaught:
-            let e = jToException(jcaught)
-            this.logUtil.put(this.commonStrings.UNKNOWN, this, this.commonStrings.LOAD, e)
-        except CatchableError as jcaught:
-            let e = jToException(jcaught)
-            this.logUtil.put(this.commonStrings.UNKNOWN, this, this.commonStrings.LOAD, e)
+            let jexception = jToException(jcaught)
+            if jCatches(jexception, "RecordStoreNotFoundException"):
+                let e = jexception
+                this.logUtil.put("No High Scores", this, this.commonStrings.LOAD, e)
+            elif jCatches(jexception, "RecordStoreException"):
+                let e = jexception
+                this.logUtil.put(this.commonStrings.UNKNOWN, this, this.commonStrings.LOAD, e)
+            elif jCatches(jexception, "IOException"):
+                let e = jexception
+                this.logUtil.put(this.commonStrings.UNKNOWN, this, this.commonStrings.LOAD, e)
+            else:
+                let e = jexception
+                this.logUtil.put(this.commonStrings.UNKNOWN, this, this.commonStrings.LOAD, e)
         finally:
             try:
                 if (not jIsNil(recordStore)):
                     PreLogUtil.put("Closing RecordStore", this, this.commonStrings.LOAD)
                     recordStore.closeRecordStore()
             except CatchableError as jcaught:
-                let e = jToException(jcaught)
-                this.logUtil.put(this.commonStrings.EXCEPTION, this, this.commonStrings.LOAD, e)
+                let jexception = jToException(jcaught)
+                if jCatches(jexception, "RecordStoreException"):
+                    let e = jexception
+                    this.logUtil.put(this.commonStrings.EXCEPTION, this, this.commonStrings.LOAD, e)
+                else:
+                    raise jcaught
 
 method isTooManyHighScores*(this: RecordStoreHighScores): bool {.base, discardable.} =
         if (not jIsNil(this.getList())) and this.getList().size() < this.MAXHIGHSCORES:

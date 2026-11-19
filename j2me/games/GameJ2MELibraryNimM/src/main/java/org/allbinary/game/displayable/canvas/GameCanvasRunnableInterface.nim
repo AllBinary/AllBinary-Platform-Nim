@@ -33,6 +33,9 @@ export ABHashtableModule
 type
     GameCanvasRunnableInterface* = ref object of RunnableInterface
 
+converter jAsPaintableInterface*(value: GameCanvasRunnableInterface): PaintableInterface = cast[PaintableInterface](value)
+converter jAsItemStateListener*(value: GameCanvasRunnableInterface): ItemStateListener = cast[ItemStateListener](value)
+converter jAsGameStateCompositeInterface*(value: GameCanvasRunnableInterface): GameStateCompositeInterface = cast[GameStateCompositeInterface](value)
 
 method getTitle*(this: GameCanvasRunnableInterface): string {.base, discardable.} =
         raise newJException("AbstractMethodError", "getTitle")

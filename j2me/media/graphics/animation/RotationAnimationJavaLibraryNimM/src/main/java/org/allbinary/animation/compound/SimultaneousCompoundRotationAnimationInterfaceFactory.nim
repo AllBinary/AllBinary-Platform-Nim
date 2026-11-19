@@ -43,7 +43,7 @@ export SimultaneousCompoundRotationAnimationModule
 
 proc initSimultaneousCompoundRotationAnimationInterfaceFactory*(this: SimultaneousCompoundRotationAnimationInterfaceFactory, basicAnimationInterfaceFactoryInterfaceArray: JArray[AnimationInterfaceFactoryInterface], animationBehaviorFactory: AnimationBehaviorFactory) =
         initCompoundAnimationInterfaceFactory(this, basicAnimationInterfaceFactoryInterfaceArray, animationBehaviorFactory)
-        if animationBehaviorFactory == AnimationBehaviorFactory.getInstance():
+        if (jSame(animationBehaviorFactory, AnimationBehaviorFactory.getInstance())):
             ForcedLogUtil.log("Using default AnimationBehaviorFactory with IndexedAnimationFactory", this)
 
 proc newSimultaneousCompoundRotationAnimationInterfaceFactory*(basicAnimationInterfaceFactoryInterfaceArray: JArray[AnimationInterfaceFactoryInterface], animationBehaviorFactory: AnimationBehaviorFactory): SimultaneousCompoundRotationAnimationInterfaceFactory =

@@ -52,7 +52,7 @@ proc newTimedVectorAnimation*(currentPoints: JArray[JArray[JArray[int32]]], basi
 
 method nextFrame*(this: TimedVectorAnimation) =
         if this.timeElapsedHelper.isTime(GameTickTimeDelayHelperFactory.getInstance().startTime):
-            procCall VectorAnimation(this).nextFrame()
+            jSuperStatement(procCall VectorAnimation(this).nextFrame())
 
 when declared(newTimedVectorAnimationHook3):
     newTimedVectorAnimationHook3 = proc (currentPoints: JArray[JArray[JArray[int32]]], basicColor: BasicColor, animationBehavior: AnimationBehavior): VectorAnimation = newTimedVectorAnimation(currentPoints, basicColor, animationBehavior)

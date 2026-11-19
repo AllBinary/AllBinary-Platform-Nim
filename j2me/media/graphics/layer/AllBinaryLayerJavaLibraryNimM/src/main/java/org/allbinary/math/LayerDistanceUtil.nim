@@ -60,16 +60,16 @@ proc getInstance*(t: typedesc[LayerDistanceUtil]): LayerDistanceUtil {.discardab
 method getDistance*(this: LayerDistanceUtil, layerInterface: AllBinaryLayer, layerInterface2: AllBinaryLayer): int32 {.base, discardable.} =
         let dx: int32 = (layerInterface.getXP() +% layerInterface.getHalfWidth()) -% (layerInterface2.getXP() +% layerInterface2.getHalfWidth())
         let dy: int32 = (layerInterface.getYP() +% layerInterface.getHalfHeight()) -% (layerInterface2.getYP() +% layerInterface2.getHalfHeight())
-        return int32(this.mathUtil.sqrt((dx *% dx) +% (dy *% dy)))
+        return this.mathUtil.sqrt((dx *% dx) +% (dy *% dy))
 
 method getDistance3D*(this: LayerDistanceUtil, layerInterface: AllBinaryLayer, layerInterface2: AllBinaryLayer): int32 {.base, discardable.} =
         let dx: int32 = (layerInterface.getXP() +% layerInterface.getHalfWidth()) -% (layerInterface2.getXP() +% layerInterface2.getHalfWidth())
         let dy: int32 = (layerInterface.getYP() +% layerInterface.getHalfHeight()) -% (layerInterface2.getYP() +% layerInterface2.getHalfHeight())
         let dz: int32 = (layerInterface.getZP() +% layerInterface.getHalfDepth()) -% (layerInterface2.getZP() +% layerInterface2.getHalfDepth())
-        return int32(this.mathUtil.sqrt((dx *% dx) +% (dy *% dy) +% (dz *% dz)))
+        return this.mathUtil.sqrt((dx *% dx) +% (dy *% dy) +% (dz *% dz))
 
 method getDistanceAt*(this: LayerDistanceUtil, layerInterface: AllBinaryLayer, point: GPoint): int32 {.base, discardable.} =
         let dx: int32 = layerInterface.getXP() -% point.getX()
         let dy: int32 = layerInterface.getYP() -% point.getY()
-        return int32(this.mathUtil.sqrt((dx *% dx) +% (dy *% dy)))
+        return this.mathUtil.sqrt((dx *% dx) +% (dy *% dy))
 

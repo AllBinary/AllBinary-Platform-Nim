@@ -55,10 +55,10 @@ proc newSpinnerAI*(direction: JArray[int32], ownerLayerInterface: AllBinaryLayer
 
 method processAI*(this: SpinnerAI, allBinaryLayerManager: AllBinaryLayerManager) =
         if this.isEven:
-            procCall BasicAI(this).processKeyAI(this.direction[0])
+            jSuperStatement(procCall BasicAI(this).processKeyAI(this.direction[0]))
             this.isEven = false
         else:
-            procCall BasicAI(this).processKeyAI(Canvas.KEY_NUM1)
+            jSuperStatement(procCall BasicAI(this).processKeyAI(Canvas.KEY_NUM1))
             this.isEven = true
 
 when declared(newSpinnerAIHook3):

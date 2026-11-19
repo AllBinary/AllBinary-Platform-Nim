@@ -22,8 +22,8 @@ type
     TouchScreenTypeFactory* = ref object of JObject
 
 proc newTouchScreenTypeFactory*(): TouchScreenTypeFactory
+proc initTouchScreenTypeFactory*(this: TouchScreenTypeFactory)
 proc getInstance*(t: typedesc[TouchScreenTypeFactory]): TouchScreenTypeFactory {.discardable.}
-method TouchScreenTypeFactory*(this: TouchScreenTypeFactory) {.base.}
 import org/allbinary/input/motion/button/TouchScreenFactory as TouchScreenFactoryModule
 export TouchScreenFactoryModule
 
@@ -35,17 +35,14 @@ proc instance*(t: typedesc[TouchScreenTypeFactory]): TouchScreenTypeFactory =
         TouchScreenTypeFactory_instanceValue = newTouchScreenTypeFactory()
     TouchScreenTypeFactory_instanceValue
 
+proc getInstance*(t: typedesc[TouchScreenTypeFactory]): TouchScreenTypeFactory {.discardable.} =
+        return TouchScreenTypeFactory.instance
+
 proc initTouchScreenTypeFactory*(this: TouchScreenTypeFactory) =
-    discard
+        let touchScreenFactory: TouchScreenFactory = TouchScreenFactory.getInstance()
+        touchScreenFactory.setTouch(true)
 
 proc newTouchScreenTypeFactory*(): TouchScreenTypeFactory =
     result = TouchScreenTypeFactory()
     initTouchScreenTypeFactory(result)
-
-proc getInstance*(t: typedesc[TouchScreenTypeFactory]): TouchScreenTypeFactory {.discardable.} =
-        return TouchScreenTypeFactory.instance
-
-method TouchScreenTypeFactory*(this: TouchScreenTypeFactory) {.base.} =
-        let touchScreenFactory: TouchScreenFactory = TouchScreenFactory.getInstance()
-        touchScreenFactory.setTouch(true)
 

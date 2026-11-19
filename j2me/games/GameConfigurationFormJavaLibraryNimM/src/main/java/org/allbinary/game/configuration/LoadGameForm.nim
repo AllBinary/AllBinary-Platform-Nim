@@ -97,7 +97,7 @@ method update*(this: LoadGameForm) =
         else:
             this.meUtil.appendItem(this, newStringItem("No Saved Games", StringUtil.getInstance().EMPTY_STRING, Item.PLAIN))
             this.areChoices = false
-        procCall CommandForm(this).update()
+        jSuperStatement(procCall CommandForm(this).update())
 
 method add*(this: LoadGameForm, list: BasicArrayList, name: string, option: int32) {.base.} =
         var choiceGroup: ChoiceGroup = this.getChoiceGroup(list, name, option)
@@ -129,7 +129,7 @@ method getSelectedId*(this: LoadGameForm): int32 {.base, discardable.} =
 method getSelectedText*(this: LoadGameForm): int32 {.base, discardable.} =
         if this.areChoices:
             let choiceGroup: ChoiceGroup = ChoiceGroup(JObject(this.get(0)))
-            let value: int32 = jstr(choiceGroup.getString(choiceGroup.getSelectedIndex())).intValue()
+            let value: int32 = jValueOfInt(choiceGroup.getString(choiceGroup.getSelectedIndex())).intValue()
             return value
         else:
             return -1

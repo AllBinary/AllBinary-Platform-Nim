@@ -69,9 +69,11 @@ type
         isDropped*: bool
 
 converter jAsDestroyableInterface*(value: CollidableDestroyableDamageableLayer): DestroyableInterface = cast[DestroyableInterface](value)
+converter jAsNamedInterface*(value: CollidableDestroyableDamageableLayer): NamedInterface = cast[NamedInterface](value)
 converter jAsDamageableInterface*(value: CollidableDestroyableDamageableLayer): DamageableInterface = cast[DamageableInterface](value)
 converter jAsPickupCompositeInterface*(value: CollidableDestroyableDamageableLayer): PickupCompositeInterface = cast[PickupCompositeInterface](value)
 converter jAsSpecialGameInputInterface*(value: CollidableDestroyableDamageableLayer): SpecialGameInputInterface = cast[SpecialGameInputInterface](value)
+converter jAsPaintableInterface*(value: CollidableDestroyableDamageableLayer): PaintableInterface = cast[PaintableInterface](value)
 proc newCollidableDestroyableDamageableLayer*(groupInterface: JArray[Group], name: string, layerInfo: Rectangle, viewPosition: ViewPositionBase): CollidableDestroyableDamageableLayer
 proc initCollidableDestroyableDamageableLayer*(this: CollidableDestroyableDamageableLayer, groupInterface: JArray[Group], name: string, layerInfo: Rectangle, viewPosition: ViewPositionBase)
 proc getNullInstance*(t: typedesc[CollidableDestroyableDamageableLayer]): CollidableDestroyableDamageableLayer {.discardable.}
@@ -194,7 +196,7 @@ method initPositionXYZ*(this: CollidableDestroyableDamageableLayer, x: int32, y:
         this.initZ = z
 
 method paint*(this: CollidableDestroyableDamageableLayer, graphics: Graphics) =
-        procCall CollidableCompositeLayer(this).paint(graphics)
+        jSuperStatement(procCall CollidableCompositeLayer(this).paint(graphics))
 
 method damage*(this: CollidableDestroyableDamageableLayer, damage: int32, damageType: int32) =
         raise newJException("Exception", this.commonStrings.NOT_IMPLEMENTED)
@@ -309,7 +311,7 @@ method getPartInterfaceArray*(this: CollidableDestroyableDamageableLayer): JArra
 method toStringAppend*(this: CollidableDestroyableDamageableLayer, stringBuffer: StringMaker) =
         let commonSeps: CommonSeps = CommonSeps.getInstance()
         let positionStrings: PositionStrings = PositionStrings.getInstance()
-        procCall CollidableCompositeLayer(this).toStringAppend(stringBuffer)
+        jSuperStatement(procCall CollidableCompositeLayer(this).toStringAppend(stringBuffer))
         stringBuffer.append(commonSeps.NEW_LINE)
         let groupInterfaceArray: JArray[Group] = this.getGroupInterface()
         let size: int32 = groupInterfaceArray.length

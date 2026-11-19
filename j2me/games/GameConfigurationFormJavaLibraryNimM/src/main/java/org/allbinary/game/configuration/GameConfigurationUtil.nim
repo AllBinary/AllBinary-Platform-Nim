@@ -122,7 +122,7 @@ method setDefault*(this: GameConfigurationUtil, gauge: GameConfigurationGauge) {
 method updateChallange*(this: GameConfigurationUtil, gameOptionsForm: GameOptionsForm, gameConfiguration: GameConfiguration) {.base.} =
         var gameConfigurationSingleton: GameConfigurationSingleton = GameConfigurationSingleton.getInstance()
         var gameConfigurationCentral: GameConfigurationCentral = GameConfigurationCentral.getInstance()
-        if gameConfiguration == gameConfigurationCentral.CHALLENGE_LEVEL:
+        if (jSame(gameConfiguration, gameConfigurationCentral.CHALLENGE_LEVEL)):
             this.logUtil.putF(this.commonStrings.START, this, "updateChallange")
             gameConfigurationCentral.COLLIDE_DAMAGE.setValue(gameConfiguration.getValue())
             gameConfigurationCentral.ATTACK_CHALLENGE_LEVEL.setValue(gameConfiguration.getValue())
@@ -138,13 +138,13 @@ method updateChallange*(this: GameConfigurationUtil, gameOptionsForm: GameOption
                         var gauge: GameConfigurationGauge = GameConfigurationGauge(JObject(item))
                         var name: string = item.getLabel()
                         var nextGameConfiguration: GameConfiguration = gameConfigurationSingleton.getInstanceByName(name)
-                        if nextGameConfiguration == gameConfigurationCentral.COLLIDE_DAMAGE:
+                        if (jSame(nextGameConfiguration, gameConfigurationCentral.COLLIDE_DAMAGE)):
                             gauge.setValue(gameConfigurationCentral.COLLIDE_DAMAGE.getValue().intValue() - gameConfiguration.getMinValue().intValue())
-                        elif nextGameConfiguration == gameConfigurationCentral.DURABILITY_CHALLENGE_LEVEL:
+                        elif (jSame(nextGameConfiguration, gameConfigurationCentral.DURABILITY_CHALLENGE_LEVEL)):
                             gauge.setValue(gameConfigurationCentral.DURABILITY_CHALLENGE_LEVEL.getValue().intValue() - gameConfiguration.getMinValue().intValue())
-                        elif nextGameConfiguration == gameConfigurationCentral.ATTACK_CHALLENGE_LEVEL:
+                        elif (jSame(nextGameConfiguration, gameConfigurationCentral.ATTACK_CHALLENGE_LEVEL)):
                             gauge.setValue(gameConfigurationCentral.ATTACK_CHALLENGE_LEVEL.getValue().intValue() - gameConfiguration.getMinValue().intValue())
-                        elif nextGameConfiguration == gameConfigurationCentral.SPEED_CHALLENGE_LEVEL:
+                        elif (jSame(nextGameConfiguration, gameConfigurationCentral.SPEED_CHALLENGE_LEVEL)):
                             gauge.setValue(gameConfigurationCentral.SPEED_CHALLENGE_LEVEL.getValue().intValue() - gameConfiguration.getMinValue().intValue())
 
 method updateCompetitionValue*(this: GameConfigurationUtil) {.base.} =

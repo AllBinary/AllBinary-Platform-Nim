@@ -345,7 +345,7 @@ method pauseApp*(this: GameMidlet) =
 
 method pauseAppBackground*(this: GameMidlet, background: bool) {.base.} =
         this.logUtil.putF(this.commonStrings.START, this, this.PAUSE_APP_BACKGROUND)
-        if this.allbinaryGameCanvasRunnableInterface != NullGameCanvasRunnable.NULL_GAME_CANVAS_RUNNABLEStatic:
+        if (not jSame(this.allbinaryGameCanvasRunnableInterface, NullGameCanvasRunnable.NULL_GAME_CANVAS_RUNNABLEStatic)):
             this.allbinaryGameCanvasRunnableInterface.pause()
         else:
             this.logUtil.putF("<<<<<< Null", this, this.PAUSE_APP_BACKGROUND)
@@ -360,7 +360,7 @@ method unPauseAppBackground*(this: GameMidlet, background: bool) {.base.} =
         this.logUtil.putF(this.commonStrings.START, this, this.UN_PAUSE_APP_BACKGROUND)
         AllBinarySensorManager.getInstance().init()
         let gameCanvasRunnableInterface: GameCanvasRunnableInterface = this.allbinaryGameCanvasRunnableInterface
-        if gameCanvasRunnableInterface != NullGameCanvasRunnable.NULL_GAME_CANVAS_RUNNABLEStatic:
+        if (not jSame(gameCanvasRunnableInterface, NullGameCanvasRunnable.NULL_GAME_CANVAS_RUNNABLEStatic)):
             gameCanvasRunnableInterface.unPause()
         else:
             this.logUtil.putF("<<<<<< Null", this, this.UN_PAUSE_APP_BACKGROUND)
@@ -386,7 +386,7 @@ method destroyApp*(this: GameMidlet, unconditional: bool) =
                 this.mediaShutdown()
             else:
                 this.logUtil.putF("Midlet Managment Error: Midlet Should Only Be Destroyed Once", this, METHOD_NAME)
-            procCall ProgressMidlet(this).destroyApp(true)
+            jSuperStatement(procCall ProgressMidlet(this).destroyApp(true))
             PreLogUtil.put(this.commonStrings.END, this, METHOD_NAME)
         except CatchableError as jcaught:
             let e = jToException(jcaught)
@@ -400,12 +400,12 @@ method startApp*(this: GameMidlet) =
             let START_APP: string = "startApp"
             this.logUtil.putF(this.commonStrings.START, this, START_APP)
             let gameCanvasRunnableInterface: JObject = this.allbinaryGameCanvasRunnableInterface
-            if gameCanvasRunnableInterface == NullGameCanvasRunnable.NULL_GAME_CANVAS_RUNNABLEStatic:
+            if (jSame(gameCanvasRunnableInterface, NullGameCanvasRunnable.NULL_GAME_CANVAS_RUNNABLEStatic)):
                 this.gameMidletStateFactory.setCurrentGameState(this.gameStateFactory.NO_GAME_STATE)
                 this.setDemo()
             else:
                 this.logUtil.putF("GameCanvasRunnableInterface is available", this, START_APP)
-                if gameCanvasRunnableInterface == this.getCurrentDisplayable():
+                if (jSame(gameCanvasRunnableInterface, this.getCurrentDisplayable())):
                     this.unPauseAppBackground(false)
                 else:
                     this.logUtil.putF("GameCanvasRunnableInterface is not current displayable", this, START_APP)
@@ -427,25 +427,25 @@ method commandAction*(this: GameMidlet, command: Command, displayable: Displayab
             let gameCommandsFactory: GameCommandsFactory = GameCommandsFactory.getInstance()
             let allbinaryGameCanvasRunnableInterface: GameCanvasRunnableInterface = this.allbinaryGameCanvasRunnableInterface
             let gameCanvasRunnableInterface: JObject = allbinaryGameCanvasRunnableInterface
-            if command == gameCommandsFactory.SHOW_GAME_CANVAS:
-                if this.getDisplay().getCurrent() != gameCanvasRunnableInterface and allbinaryGameCanvasRunnableInterface.getType() != NullGameCanvasRunnable.NULL_GAME_CANVAS_RUNNABLEStatic.getType():
+            if (jSame(command, gameCommandsFactory.SHOW_GAME_CANVAS)):
+                if (not jSame(this.getDisplay().getCurrent(), gameCanvasRunnableInterface)) and allbinaryGameCanvasRunnableInterface.getType() != NullGameCanvasRunnable.NULL_GAME_CANVAS_RUNNABLEStatic.getType():
                     this.setDisplay(Displayable(JObject(gameCanvasRunnableInterface)))
                 this.unPauseAppBackground(false)
-            elif command == gameCommandsFactory.CLOSE_AND_SHOW_GAME_CANVAS:
+            elif (jSame(command, gameCommandsFactory.CLOSE_AND_SHOW_GAME_CANVAS)):
                 let menuListener: MenuListener = MenuListener(JObject(displayable))
                 menuListener.close()
                 this.setDisplay(Displayable(JObject(gameCanvasRunnableInterface)))
                 this.unPauseAppBackground(false)
-            elif command == gameCommandsFactory.EXIT_COMMAND:
+            elif (jSame(command, gameCommandsFactory.EXIT_COMMAND)):
                 if GameMidletEventHandler.getInstance().getEventListenerInterfaceListP().size() == 0:
                     this.exitProgress(true)
                 GameMidletEventHandler.getInstance().fireEvent(newDemoGameMidletEvent(this, DemoGameMidletStateFactory.getInstance().NONE))
-            elif command == gameCommandsFactory.EXIT_WITHOUT_PROGRESS_COMMAND:
+            elif (jSame(command, gameCommandsFactory.EXIT_WITHOUT_PROGRESS_COMMAND)):
                 this.exitProgress(false)
-            elif command == gameCommandsFactory.START_COMMAND or command == gameCommandsFactory.RESTART_COMMAND or command == gameCommandsFactory.CONTINUE_COMMAND:
-                if this.gameMidletStateFactory.getCurrentGameState() != this.gameStateFactory.PLAYING_GAME_STATE or command == gameCommandsFactory.RESTART_COMMAND:
+            elif (jSame(command, gameCommandsFactory.START_COMMAND)) or (jSame(command, gameCommandsFactory.RESTART_COMMAND)) or (jSame(command, gameCommandsFactory.CONTINUE_COMMAND)):
+                if this.gameMidletStateFactory.getCurrentGameState() != this.gameStateFactory.PLAYING_GAME_STATE or (jSame(command, gameCommandsFactory.RESTART_COMMAND)):
                     if this.gameStartTimeHelper.isTimeTNT():
-                        if command == gameCommandsFactory.START_COMMAND and this.isDemoLoading():
+                        if (jSame(command, gameCommandsFactory.START_COMMAND)) and this.isDemoLoading():
                             this.logUtil.putF("Trying to Start Game Before Loading Complete", this, this.midletStrings.COMMAND_ACTION)
                         else:
                             this.startedBefore = true
@@ -455,7 +455,7 @@ method commandAction*(this: GameMidlet, command: Command, displayable: Displayab
                         this.logUtil.putF("Starting Game Too Often", this, this.midletStrings.COMMAND_ACTION)
                 else:
                     this.logUtil.putF("Already in playing state", this, this.COMMAND_ACTION)
-            elif command == gameCommandsFactory.BUY_COMMAND:
+            elif (jSame(command, gameCommandsFactory.BUY_COMMAND)):
                 var inApplicationPurchaseFactory: InApplicationPurchaseFactory = InApplicationPurchaseFactory.getInstance()
                 let list: BasicArrayList = LockableFeatureFactory.getInstance().getList()
                 let lockableFeature: LockableFeature = LockableFeature(JObject(list.get(0)))
@@ -463,7 +463,7 @@ method commandAction*(this: GameMidlet, command: Command, displayable: Displayab
                     inApplicationPurchaseFactory.purchase(lockableFeature)
                 else:
                     TextNotificationUtil.getInstance().fireSuccess("Already Purchased")
-            elif command == gameCommandsFactory.QUIT_COMMAND:
+            elif (jSame(command, gameCommandsFactory.QUIT_COMMAND)):
                 if this.gameStartTimeHelper.isTimeTNT():
                     if (displayable of HighScoreTextBox):
                         let menuListener: MenuListener = MenuListener(JObject(displayable))
@@ -471,35 +471,35 @@ method commandAction*(this: GameMidlet, command: Command, displayable: Displayab
                     this.stopGameCanvasRunnableInterface()
                     this.gameMidletStateFactory.setCurrentGameState(this.gameStateFactory.NO_GAME_STATE)
                     this.setDemo()
-            elif command == this.myCommandsFactory.RESUME_COMMAND:
+            elif (jSame(command, this.myCommandsFactory.RESUME_COMMAND)):
                 this.unPauseAppBackground(false)
-            elif command == this.myCommandsFactory.PAUSE_COMMAND:
+            elif (jSame(command, this.myCommandsFactory.PAUSE_COMMAND)):
                 this.pauseAppBackground(false)
-            elif command == this.myCommandsFactory.SET_DISPLAYABLE:
+            elif (jSame(command, this.myCommandsFactory.SET_DISPLAYABLE)):
                 this.pauseAppBackground(false)
                 this.setDisplay(displayable)
-            elif command == gameCommandsFactory.SET_MENU_DISPLAYABLE:
+            elif (jSame(command, gameCommandsFactory.SET_MENU_DISPLAYABLE)):
                 this.pauseAppBackground(false)
                 let menuListener: MenuListener = MenuListener(JObject(displayable))
                 menuListener.open()
                 this.setDisplay(displayable)
-            elif command == gameCommandsFactory.START_TRACE:
+            elif (jSame(command, gameCommandsFactory.START_TRACE)):
                 this.debugInterface.start()
                 let gameCanvas: AllBinaryGameCanvas = AllBinaryGameCanvas(JObject(allbinaryGameCanvasRunnableInterface))
                 gameCanvas.addCommand(gameCommandsFactory.STOP_TRACE)
                 gameCanvas.removeCommand(gameCommandsFactory.START_TRACE)
-            elif command == gameCommandsFactory.STOP_TRACE:
+            elif (jSame(command, gameCommandsFactory.STOP_TRACE)):
                 this.pauseAppBackground(false)
                 this.debugInterface.stop()
                 this.unPauseAppBackground(false)
                 let gameCanvas: AllBinaryGameCanvas = AllBinaryGameCanvas(JObject(allbinaryGameCanvasRunnableInterface))
                 gameCanvas.addCommand(gameCommandsFactory.START_TRACE)
                 gameCanvas.removeCommand(gameCommandsFactory.STOP_TRACE)
-            elif command == gameCommandsFactory.DEFAULT_OPTIONS:
+            elif (jSame(command, gameCommandsFactory.DEFAULT_OPTIONS)):
                 let tempDisplayable: Displayable = displayable
                 if (tempDisplayable of GameOptionsForm):
                     GameFeatureFormUtil.getInstance().setDefault(CommandForm(JObject(tempDisplayable)))
-            elif command == GameInputMappingInstructionsCanvas.DISPLAY:
+            elif (jSame(command, GameInputMappingInstructionsCanvas.DISPLAY)):
                 let tempDisplayable: Displayable = displayable
                 if (tempDisplayable of GameInputMappingCanvas):
                     var gameInputMappingCanvas: GameInputMappingCanvas = GameInputMappingCanvas(JObject(tempDisplayable))
@@ -510,22 +510,22 @@ method commandAction*(this: GameMidlet, command: Command, displayable: Displayab
                 if (tempDisplayable of HighScoresCanvas):
                     let highScoresCanvas: HighScoresCanvas = HighScoresCanvas(JObject(tempDisplayable))
                     highScoresCanvas.updateCommand(command)
-            elif command == HighScoreCommands.getInstance().DISPLAY:
+            elif (jSame(command, HighScoreCommands.getInstance().DISPLAY)):
                 this.commandAction(gameCommandsFactory.SET_MENU_DISPLAYABLE, this.createHighScoresCanvas())
-            elif command == GameInputMappingInstructionsCanvas.CLOSE:
+            elif (jSame(command, GameInputMappingInstructionsCanvas.CLOSE)):
                 let menuListener: MenuListener = MenuListener(JObject(displayable))
                 menuListener.close()
                 this.commandAction(GameInputMappingCanvas.DISPLAY, NullCanvas.NULL_CANVASStatic)
-            elif command == GameInputMappingCanvas.DISPLAY:
+            elif (jSame(command, GameInputMappingCanvas.DISPLAY)):
                 if J2MEUtil.isHTML():
                     this.pauseAppBackground(false)
                 this.commandAction(gameCommandsFactory.SET_MENU_DISPLAYABLE, this.getInputMappingCanvas())
-            elif command == GameInputMappingCanvas.DEFAULT:
+            elif (jSame(command, GameInputMappingCanvas.DEFAULT)):
                 let tempDisplayable: Displayable = displayable
                 if (tempDisplayable of GameInputMappingCanvas):
                     var gameInputMappingCanvas: GameInputMappingCanvas = GameInputMappingCanvas(JObject(tempDisplayable))
                     gameInputMappingCanvas.setDefault()
-            elif command == InGameOptionsForm.DISPLAY:
+            elif (jSame(command, InGameOptionsForm.DISPLAY)):
                 this.pauseAppBackground(false)
                 let progressCanvas: ProgressCanvas = ProgressCanvasFactory.getInstance()
                 progressCanvas.addNormalPortion(50, "In Game Options")
@@ -535,10 +535,10 @@ method commandAction*(this: GameMidlet, command: Command, displayable: Displayab
                 let inGameOptionsForm: CommandForm = inGameOptionsFormFactory.get()
                 inGameOptionsForm.setItemStateListener(allbinaryGameCanvasRunnableInterface)
                 this.commandAction(gameCommandsFactory.SET_MENU_DISPLAYABLE, inGameOptionsForm)
-            elif command == InGameOptionsForm.DEFAULT:
+            elif (jSame(command, InGameOptionsForm.DEFAULT)):
                 let inGameOptionsForm: InGameOptionsForm = InGameOptionsForm(JObject(InGameOptionsFormFactory.getInstance().get()))
                 GameFeatureFormUtil.getInstance().setDefault(inGameOptionsForm)
-            elif command == gameCommandsFactory.DISPLAY_OPTIONS:
+            elif (jSame(command, gameCommandsFactory.DISPLAY_OPTIONS)):
                 AllBinaryMediaManager.setMuted(true)
                 this.stopAll()
                 let mainFeatureFactory: MainFeatureFactory = MainFeatureFactory.getInstance()
@@ -546,7 +546,7 @@ method commandAction*(this: GameMidlet, command: Command, displayable: Displayab
                 ResizableListenerHandler.getInstance().fireEvent(true)
                 this.setResized(false)
                 this.commandAction(gameCommandsFactory.SET_MENU_DISPLAYABLE, this.getGameOptionsForm())
-            elif command == gameCommandsFactory.CLOSE_OPTIONS:
+            elif (jSame(command, gameCommandsFactory.CLOSE_OPTIONS)):
                 ResizableListenerHandler.getInstance().fireEvent(false)
                 this.commandAction(gameCommandsFactory.CLOSE_AND_SHOW_GAME_CANVAS, displayable)
                 let stringBuffer: StringMaker = newStringMaker()
@@ -559,7 +559,7 @@ method commandAction*(this: GameMidlet, command: Command, displayable: Displayab
                 if this.isResized() or this.fullScreenUtil.isScreenChange(this.isFullScreen):
                     this.updateFullScreen()
                 AllBinaryMediaManager.setMuted(false)
-            elif command == gameCommandsFactory.DISPLAY_LOAD_FORM:
+            elif (jSame(command, gameCommandsFactory.DISPLAY_LOAD_FORM)):
                 this.pauseAppBackground(false)
                 let keyValuePersistance: KeyValuePersistance = GamePersistanceSingleton.getInstance()
                 keyValuePersistance.clear()
@@ -570,7 +570,7 @@ method commandAction*(this: GameMidlet, command: Command, displayable: Displayab
                 else:
                     this.getLoadGameForm().update()
                 this.commandAction(gameCommandsFactory.SET_MENU_DISPLAYABLE, this.getLoadGameForm())
-            elif command == gameCommandsFactory.LOAD_FILE:
+            elif (jSame(command, gameCommandsFactory.LOAD_FILE)):
                 let loadGameForm: LoadGameForm = LoadGameForm(JObject(this.getLoadGameForm()))
                 let index: int32 = loadGameForm.getSelectedId()
                 if index != -1:
@@ -581,7 +581,7 @@ method commandAction*(this: GameMidlet, command: Command, displayable: Displayab
                     PreLogUtil.put(BasicMotionGesturesHandler.getInstance().toString(), this, this.COMMAND_ACTION)
                     this.commandAction(gameCommandsFactory.START_COMMAND, NullCanvas.NULL_CANVASStatic)
                     PreLogUtil.put(BasicMotionGesturesHandler.getInstance().toString(), this, this.COMMAND_ACTION)
-            elif command == gameCommandsFactory.DELETE_FILE:
+            elif (jSame(command, gameCommandsFactory.DELETE_FILE)):
                 let loadGameForm: LoadGameForm = LoadGameForm(JObject(this.getLoadGameForm()))
                 let index: int32 = loadGameForm.getSelectedText()
                 if index != -1:
@@ -590,23 +590,23 @@ method commandAction*(this: GameMidlet, command: Command, displayable: Displayab
                     keyValuePersistance.clear()
                     keyValuePersistance.loadAllSize(this.abeClientInformation, 1)
                     this.getLoadGameForm().update()
-            elif command == gameCommandsFactory.SAVE:
+            elif (jSame(command, gameCommandsFactory.SAVE)):
                 let keyValuePersistance: KeyValuePersistance = GamePersistanceSingleton.getInstance()
                 this.pauseAppBackground(false)
                 keyValuePersistance.save(this.abeClientInformation, this.getCurrentStateHashtable())
                 this.unPauseAppBackground(false)
-            elif command == HighScoreUtil.SUBMIT_TEXTBOX_COMMAND:
+            elif (jSame(command, HighScoreUtil.SUBMIT_TEXTBOX_COMMAND)):
                 this.logUtil.putF("Submitted Score", this, this.COMMAND_ACTION)
                 if (displayable of HighScoreTextBox):
                     let highScoreTextBox: HighScoreTextBox = HighScoreTextBox(JObject(displayable))
                     highScoreTextBox.submitted = true
                 allbinaryGameCanvasRunnableInterface.setHighScoreSubmitted(true)
                 this.commandAction(gameCommandsFactory.CLOSE_AND_SHOW_GAME_CANVAS, displayable)
-            elif command == gameCommandsFactory.DISPLAY_ABOUT:
+            elif (jSame(command, gameCommandsFactory.DISPLAY_ABOUT)):
                 this.aboutCommandProcessor.process(this, gameCommandsFactory.SET_MENU_DISPLAYABLE, this.getAboutCanvas())
-            elif command == gameCommandsFactory.OPEN_WEB_URL:
+            elif (jSame(command, gameCommandsFactory.OPEN_WEB_URL)):
                 this.webCommandProcessor.process(this, gameCommandsFactory.OPEN_WEB_URL, NullCanvas.NULL_CANVASStatic)
-            elif command == gameCommandsFactory.TOGGLE_KEYBOARD:
+            elif (jSame(command, gameCommandsFactory.TOGGLE_KEYBOARD)):
                 let virtualKeyboardEventHandler: VirtualKeyboardEventHandler = VirtualKeyboardEventHandler.getInstance()
                 virtualKeyboardEventHandler.fireEvent(virtualKeyboardEventHandler.SHOW_EVENT)
             elif this.tsUtil.compareTo(command.getLabel(), gameCommandsFactory.TOGGLE_FULLSCREEN.getLabel()) == 0:
@@ -620,7 +620,7 @@ method commandAction*(this: GameMidlet, command: Command, displayable: Displayab
         except CatchableError as jcaught:
             let e = jToException(jcaught)
             this.logUtil.put(newStringMaker().append(this.commonStrings.EXCEPTION_LABEL).append(command.getLabel()).toString(), this, this.midletStrings.COMMAND_ACTION, e)
-            if command != GameCommandsFactory.getInstance().EXIT_COMMAND:
+            if (not jSame(command, GameCommandsFactory.getInstance().EXIT_COMMAND)):
                 this.exitProgress(false)
 
 method updateFullScreen*(this: GameMidlet) {.base.} =
@@ -662,7 +662,7 @@ method stopGameCanvasRunnableInterface*(this: GameMidlet) {.base.} =
         ColorChangeEventHandler.getInstance().removeAllListeners()
         GameEventHandlerUtil.removeAllListeners()
         let gameCanvasRunnableInterface: GameCanvasRunnableInterface = this.allbinaryGameCanvasRunnableInterface
-        if gameCanvasRunnableInterface != NullGameCanvasRunnable.NULL_GAME_CANVAS_RUNNABLEStatic:
+        if (not jSame(gameCanvasRunnableInterface, NullGameCanvasRunnable.NULL_GAME_CANVAS_RUNNABLEStatic)):
             this.logUtil.putF(newStringMaker().append("Set Running False: ").append(gameCanvasRunnableInterface.toString()).toString(), this, this.gameStrings.STOP_GAME_CANVAS_RUNNABLE_INTERFACE)
             gameCanvasRunnableInterface.setRunning(false)
         else:
@@ -697,7 +697,7 @@ method save*(this: GameMidlet) {.base.} =
 method getCurrentStateHashtable*(this: GameMidlet): ABHashtable {.discardable.} =
         this.logUtil.putF(this.commonStrings.START, this, "getCurrentStateHashtable")
         let hashtable: ABHashtable = StdUtil.getInstance().createHashtable()
-        if this.allbinaryGameCanvasRunnableInterface != NullGameCanvasRunnable.NULL_GAME_CANVAS_RUNNABLEStatic:
+        if (not jSame(this.allbinaryGameCanvasRunnableInterface, NullGameCanvasRunnable.NULL_GAME_CANVAS_RUNNABLEStatic)):
             let currentHashtable: ABHashtable = this.allbinaryGameCanvasRunnableInterface.getCurrentStateHashtable()
             let enumeration: Enumeration = currentHashtable.keys()
             var key: JObject = nil

@@ -33,6 +33,8 @@ type
         playerGameInput*: PlayerGameInput
 
 converter jAsPlayerGameInputCompositeInterface*(value: PlayerGameInputGameLayer): PlayerGameInputCompositeInterface = cast[PlayerGameInputCompositeInterface](value)
+converter jAsGameInputInterface*(value: PlayerGameInputGameLayer): GameInputInterface = cast[GameInputInterface](value)
+converter jAsNamedInterface*(value: PlayerGameInputGameLayer): NamedInterface = cast[NamedInterface](value)
 proc newPlayerGameInputGameLayer*(playerInputId: int32): PlayerGameInputGameLayer
 proc initPlayerGameInputGameLayer*(this: PlayerGameInputGameLayer, playerInputId: int32)
 method getPlayerGameInput*(this: PlayerGameInputGameLayer): PlayerGameInput {.discardable.}

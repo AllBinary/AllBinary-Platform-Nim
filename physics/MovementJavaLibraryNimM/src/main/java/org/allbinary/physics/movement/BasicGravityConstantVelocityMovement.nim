@@ -51,7 +51,7 @@ proc newBasicGravityConstantVelocityMovement*(speedBasicDecimal: BasicDecimal): 
     initBasicGravityConstantVelocityMovement(result, speedBasicDecimal)
 
 method process*(this: BasicGravityConstantVelocityMovement, layer: AllBinaryGameLayer) =
-        procCall BasicConstantVelocityMovement(this).process(layer)
+        jSuperStatement(procCall BasicConstantVelocityMovement(this).process(layer))
         this.gravityUtil.process(this.getVelocityProperties(), this.gravityUtil.GAME_GRAVITY_VELOCITY)
 
 when declared(newBasicGravityConstantVelocityMovementHook1):

@@ -59,7 +59,7 @@ method getSelectedHighScores*(this: HighScoresHelper2): HighScores {.discardable
         return this.selectedHighScores
 
 method setHighScoresArray*(this: HighScoresHelper2, highScoresArrayP: JArray[HighScores]) =
-        procCall HighScoresHelperBase(this).setHighScoresArray(highScoresArrayP)
+        jSuperStatement(procCall HighScoresHelperBase(this).setHighScoresArray(highScoresArrayP))
         this.circularIndexUtil.setSize(this.highScoresArrayP.length)
         this.selectHighScores()
 

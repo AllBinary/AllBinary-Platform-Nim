@@ -47,7 +47,7 @@ proc initFieldsTrackingEvent(this: TrackingEvent) =
 proc initTrackingEvent*(this: TrackingEvent, allBinaryLayerInterface: JObject) =
         initAllBinaryEventObject(this, allBinaryLayerInterface)
         this.initFieldsTrackingEvent()
-        if allBinaryLayerInterface != TrackingEventHandler.getInstance():
+        if (not jSame(allBinaryLayerInterface, TrackingEventHandler.getInstance())):
             this.setLayerInterface(AllBinaryLayer(JObject(allBinaryLayerInterface)))
 
 proc newTrackingEvent*(allBinaryLayerInterface: JObject): TrackingEvent =

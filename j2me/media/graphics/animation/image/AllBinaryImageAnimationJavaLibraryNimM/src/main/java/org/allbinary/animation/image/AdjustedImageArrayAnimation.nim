@@ -61,7 +61,7 @@ method init*(this: AdjustedImageArrayAnimation, dx: int32, dy: int32) {.base.} =
         this.setDy(dy)
 
 method paintXY*(this: AdjustedImageArrayAnimation, graphics: Graphics, x: int32, y: int32) =
-        procCall ImageArrayAnimation(this).paintXY(graphics, x +% this.dx, y +% this.dy)
+        jSuperStatement(procCall ImageArrayAnimation(this).paintXY(graphics, x +% this.dx, y +% this.dy))
 
 method setDx*(this: AdjustedImageArrayAnimation, dx: int32) =
         this.dx = dx

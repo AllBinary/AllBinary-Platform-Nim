@@ -59,7 +59,7 @@ proc newSecondaryThreadPool*(poolName: string, numThreads: int32, priority: int3
 
 method runTask*(this: SecondaryThreadPool, task: Runnable) =
         this.logUtil.putF(newStringMaker().append(StringUtil.getInstance().toString(task)).appendlong(jCurrentTimeMillis()).toString(), this, this.threadPoolStrings.ADD_TASK)
-        procCall ThreadPool(this).runTask(task)
+        jSuperStatement(procCall ThreadPool(this).runTask(task))
 
 method startTask*(this: SecondaryThreadPool, task: Runnable) =
         this.logUtil.putF(newStringMaker().append(this.threadPoolStrings.START_TASK).append(StringUtil.getInstance().toString(task)).appendlong(jCurrentTimeMillis()).toString(), this, this.commonStrings.RUN)

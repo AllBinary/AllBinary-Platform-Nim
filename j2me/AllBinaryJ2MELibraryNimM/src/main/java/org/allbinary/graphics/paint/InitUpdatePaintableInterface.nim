@@ -27,4 +27,6 @@ export PaintableInterfaceModule
 type
     InitUpdatePaintableInterface* = ref object of InitInterface
 
+converter jAsUpdateInterface*(value: InitUpdatePaintableInterface): UpdateInterface = cast[UpdateInterface](value)
+converter jAsPaintableInterface*(value: InitUpdatePaintableInterface): PaintableInterface = cast[PaintableInterface](value)
 

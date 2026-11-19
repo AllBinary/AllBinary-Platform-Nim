@@ -116,12 +116,12 @@ method doPickupLayer*(this: PickupBehavior, pickupLayerInterface: PickedUpLayerI
             let pickedUpLayerInterfaceFactoryInterface: PickedUpLayerInterfaceFactoryInterface = pickupLayerInterface.getPickedUpLayerInterfaceFactoryInterface()
             let pickedUpLayerType: PickedUpLayerType = pickedUpLayerInterfaceFactoryInterface.getPickedUpLayerType()
             let pickedUpLayerTypeFactory: PickedUpLayerTypeFactory = PickedUpLayerTypeFactory.getInstance()
-            if pickedUpLayerType == pickedUpLayerTypeFactory.BEAM or pickedUpLayerType == pickedUpLayerTypeFactory.MINE or pickedUpLayerType == pickedUpLayerTypeFactory.PROJECTILE or pickedUpLayerType == pickedUpLayerTypeFactory.ENHANCEMENT:
+            if (jSame(pickedUpLayerType, pickedUpLayerTypeFactory.BEAM)) or (jSame(pickedUpLayerType, pickedUpLayerTypeFactory.MINE)) or (jSame(pickedUpLayerType, pickedUpLayerTypeFactory.PROJECTILE)) or (jSame(pickedUpLayerType, pickedUpLayerTypeFactory.ENHANCEMENT)):
                 this.add(CountedPickedUpLayerInterfaceFactoryInterface(JObject(pickedUpLayerInterfaceFactoryInterface)))
             elif pickedUpLayerInterfaceFactoryInterface.getPickedUpLayerType() == pickedUpLayerTypeFactory.PART:
                 let collidableDestroyableDamageableLayer: CollidableDestroyableDamageableLayer = CollidableDestroyableDamageableLayer(JObject(this.ownerLayerInterface))
                 collidableDestroyableDamageableLayer.addPart(pickedUpLayerInterfaceFactoryInterface)
-            elif pickedUpLayerType == pickedUpLayerTypeFactory.NONE:
+            elif (jSame(pickedUpLayerType, pickedUpLayerTypeFactory.NONE)):
                 discard
             else:
                 let pickupProcessorInterface: PickupProcessorInterface = PickupProcessorInterface(JObject(pickedUpLayerInterfaceFactoryInterface))

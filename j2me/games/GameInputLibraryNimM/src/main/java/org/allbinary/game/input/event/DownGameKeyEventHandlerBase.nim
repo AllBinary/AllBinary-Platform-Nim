@@ -87,15 +87,15 @@ method addListener*(this: DownGameKeyEventHandlerBase, playerGameInput: PlayerGa
 
 method removeAllListeners*(this: DownGameKeyEventHandlerBase) =
         this.list.clear()
-        procCall BasicEventHandler(this).removeAllListeners()
+        jSuperStatement(procCall BasicEventHandler(this).removeAllListeners())
 
 method removeListenerSingleThreaded*(this: DownGameKeyEventHandlerBase, eventListenerInterface: EventListenerInterface) =
         this.list.remove(eventListenerInterface)
-        procCall BasicEventHandler(this).removeListenerSingleThreaded(eventListenerInterface)
+        jSuperStatement(procCall BasicEventHandler(this).removeListenerSingleThreaded(eventListenerInterface))
 
 method removeListener*(this: DownGameKeyEventHandlerBase, eventListenerInterface: EventListenerInterface) =
         this.list.remove(eventListenerInterface)
-        procCall BasicEventHandler(this).removeListener(eventListenerInterface)
+        jSuperStatement(procCall BasicEventHandler(this).removeListener(eventListenerInterface))
 
 method fireEvent*(this: DownGameKeyEventHandlerBase, eventObject: AllBinaryEventObject) =
         block:
@@ -107,7 +107,7 @@ method fireEvent*(this: DownGameKeyEventHandlerBase, eventObject: AllBinaryEvent
                 except CatchableError as jcaught:
                     let e = jToException(jcaught)
                     this.logUtil.put(this.commonStrings.EXCEPTION, this, EventStrings.getInstance().FIRE_EVENT, e)
-        procCall BasicEventHandler(this).fireEvent(eventObject)
+        jSuperStatement(procCall BasicEventHandler(this).fireEvent(eventObject))
 
 method process*(this: DownGameKeyEventHandlerBase, eventObject: AllBinaryEventObject, eventListenerInterface: EventListenerInterface) =
         let downGameKeyEventListenerInterface: DownGameKeyEventListenerInterface = DownGameKeyEventListenerInterface(JObject(eventListenerInterface))

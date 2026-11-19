@@ -35,6 +35,7 @@ type
         animationFactorySpriteScaleUtil*: AnimationFactorySpriteScaleUtil
 
 converter jAsProceduralAnimationInterfaceFactoryInterface*(value: AllBinarySpriteRotationAnimationFactory): ProceduralAnimationInterfaceFactoryInterface = cast[ProceduralAnimationInterfaceFactoryInterface](value)
+converter jAsBasicAnimationInterfaceFactoryInterface*(value: AllBinarySpriteRotationAnimationFactory): BasicAnimationInterfaceFactoryInterface = cast[BasicAnimationInterfaceFactoryInterface](value)
 proc newAllBinarySpriteRotationAnimationFactory*(image: Image, sequenceArray: JArray[int32], width: int32, height: int32, dx: int32, dy: int32, animationBehaviorFactory: AnimationBehaviorFactory): AllBinarySpriteRotationAnimationFactory
 proc initAllBinarySpriteRotationAnimationFactory*(this: AllBinarySpriteRotationAnimationFactory, image: Image, sequenceArray: JArray[int32], width: int32, height: int32, dx: int32, dy: int32, animationBehaviorFactory: AnimationBehaviorFactory)
 proc createWHDY*(t: typedesc[AllBinarySpriteRotationAnimationFactory], image: Image, dx: int32, dy: int32, animationBehaviorFactory: AnimationBehaviorFactory): AllBinarySpriteRotationAnimationFactory {.discardable.}
@@ -91,7 +92,7 @@ proc createWHF*(t: typedesc[AllBinarySpriteRotationAnimationFactory], image: Ima
 proc initAllBinarySpriteRotationAnimationFactory*(this: AllBinarySpriteRotationAnimationFactory, image: Image, sequenceArray: JArray[int32], width: int32, height: int32, dx: int32, dy: int32, animationBehaviorFactory: AnimationBehaviorFactory) =
         initBaseImageAnimationFactory(this, image, sequenceArray, width, height, dx, dy, animationBehaviorFactory)
         this.initFieldsAllBinarySpriteRotationAnimationFactory()
-        if animationBehaviorFactory == AnimationBehaviorFactory.getInstance():
+        if (jSame(animationBehaviorFactory, AnimationBehaviorFactory.getInstance())):
             ForcedLogUtil.log("Using default AnimationBehaviorFactory with IndexedAnimationFactory", this)
 
 proc newAllBinarySpriteRotationAnimationFactory*(image: Image, sequenceArray: JArray[int32], width: int32, height: int32, dx: int32, dy: int32, animationBehaviorFactory: AnimationBehaviorFactory): AllBinarySpriteRotationAnimationFactory =

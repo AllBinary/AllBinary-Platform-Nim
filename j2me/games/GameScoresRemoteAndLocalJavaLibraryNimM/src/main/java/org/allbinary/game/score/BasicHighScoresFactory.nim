@@ -114,9 +114,9 @@ method run*(this: BasicHighScoresFactory) =
                     let gameType: GameType = gameInfo.getGameType()
                     let gameTypeFactory: GameTypeFactory = GameTypeFactory.getInstance()
                     var gameInfo2: GameInfo = gameInfo
-                    if gameType == gameTypeFactory.SINGLE_PLAYER or gameType == gameTypeFactory.BOT:
+                    if (jSame(gameType, gameTypeFactory.SINGLE_PLAYER)) or (jSame(gameType, gameTypeFactory.BOT)):
                         gameInfo2 = BasicHighScoresGameInfoFactory.getInstance().SINGLE_PLAYER_SERVER
-                    elif gameType == gameTypeFactory.MULTI_PLAYER:
+                    elif (jSame(gameType, gameTypeFactory.MULTI_PLAYER)):
                         gameInfo2 = BasicHighScoresGameInfoFactory.getInstance().MULTI_PLAYER_SERVER
                     this.highScoresArray[1] = RemoteHighScores.getInstancePreload(this.abeClientInformation, this.softwareInformation, gameInfo2, this.WORLD_TOP_SCORES, this.SCORES, BooleanFactory.getInstance().FALSE, preload)
                     logUtil.putF(this.commonStrings.END, this, this.FETCH)

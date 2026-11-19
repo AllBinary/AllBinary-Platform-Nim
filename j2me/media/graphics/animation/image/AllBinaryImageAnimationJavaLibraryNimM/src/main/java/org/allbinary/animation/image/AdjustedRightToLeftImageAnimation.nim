@@ -57,7 +57,7 @@ method init*(this: AdjustedRightToLeftImageAnimation, dx: int32, dy: int32) {.ba
         this.dy = dy
 
 method paintXY*(this: AdjustedRightToLeftImageAnimation, graphics: Graphics, x: int32, y: int32) =
-        procCall RightToLeftImageAnimation(this).paintXY(graphics, x +% this.dx, y +% this.dy)
+        jSuperStatement(procCall RightToLeftImageAnimation(this).paintXY(graphics, x +% this.dx, y +% this.dy))
 
 when declared(newAdjustedRightToLeftImageAnimationHook4):
     newAdjustedRightToLeftImageAnimationHook4 = proc (image: Image, dx: int32, dy: int32, animationBehavior: AnimationBehavior): RightToLeftImageAnimation = newAdjustedRightToLeftImageAnimation(image, dx, dy, animationBehavior)

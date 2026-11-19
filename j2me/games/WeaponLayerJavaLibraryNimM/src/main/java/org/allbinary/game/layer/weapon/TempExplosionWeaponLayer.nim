@@ -53,7 +53,7 @@ method processTick*(this: TempExplosionWeaponLayer, allBinaryLayerManager: AllBi
         if this.timeDelayHelper.isTime(GameTickTimeDelayHelperFactory.getInstance().startTime):
             this.getCollidableInferface().collide(this, this)
             this.totalDamage = this.getInitDamage() +% 1
-        procCall SimpleWeaponLayer(this).processTick(allBinaryLayerManager)
+        jSuperStatement(procCall SimpleWeaponLayer(this).processTick(allBinaryLayerManager))
 
 when declared(newTempExplosionWeaponLayerHook6):
     newTempExplosionWeaponLayerHook6 = proc (name: string, movement: Movement, animationInterface: Animation, rectangle: Rectangle, viewPosition: ViewPositionBase, timeDelay: int32): SimpleWeaponLayer = newTempExplosionWeaponLayer(name, movement, animationInterface, rectangle, viewPosition, timeDelay)

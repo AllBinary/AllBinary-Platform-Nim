@@ -110,13 +110,13 @@ method initCommands*(this: HighScoreTextBox, cmdListener: CommandListener) =
 method open*(this: HighScoreTextBox) =
         this.virtualKeyboardEventHandler.open()
         this.paintable = NullPaintable.getInstance()
-        procCall CustomTextBox(this).open()
+        jSuperStatement(procCall CustomTextBox(this).open())
 
 method close*(this: HighScoreTextBox) =
         this.virtualKeyboardEventHandler.close()
         this.paintable = this.pleaseWait
         this.repaintBehavior.onChangeRepaint(this)
-        procCall CustomTextBox(this).close()
+        jSuperStatement(procCall CustomTextBox(this).close())
         this.removeCommand(HighScoreUtil.SUBMIT_TEXTBOX_COMMAND)
         this.update()
         if this.submitted:
@@ -129,10 +129,10 @@ method close*(this: HighScoreTextBox) =
 method update*(this: HighScoreTextBox) =
         let name: string = this.getTextFieldItem().getString()
         this.highScoreUtil.update(name)
-        procCall CustomTextBox(this).update()
+        jSuperStatement(procCall CustomTextBox(this).update())
 
 method paint*(this: HighScoreTextBox, graphics: Graphics) =
-        procCall CustomTextBox(this).paint(graphics)
+        jSuperStatement(procCall CustomTextBox(this).paint(graphics))
         this.paintable.paint(graphics)
 
 method saveHighScore*(this: HighScoreTextBox) {.base.} =

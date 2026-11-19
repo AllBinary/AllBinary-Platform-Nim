@@ -71,7 +71,7 @@ proc newMotionEventFactory*(source: JObject, id: int32): MotionEventFactory =
 method getInstance*(this: MotionEventFactory): AllBinaryEventObject {.discardable.} =
         let inputFactory: InputFactory = InputFactory.getInstance()
         let input: Input = inputFactory.getInstanceById(jPostIncrement(MotionEventFactory.index))
-        if input == inputFactory.NO_INPUT:
+        if (jSame(input, inputFactory.NO_INPUT)):
             return newMotionGestureEvent(this.source, this.id, MotionGestureInput(JObject(TouchMotionGestureFactory.getInstance().NO_MOTION)))
         else:
             return newMotionGestureEvent(this.source, this.id, MotionGestureInput(JObject(input)))

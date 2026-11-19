@@ -126,7 +126,7 @@ method paint*(this: CustomTextBox, graphics: Graphics) =
         if (not J2MEUtil.isJ2ME()):
             graphics.drawString(this.getTitle(), 8, 1, 0)
         this.paintXY(graphics, 8, graphics.getFont().getHeight() +% 2)
-        procCall GameCommandCanvas(this).paint(graphics)
+        jSuperStatement(procCall GameCommandCanvas(this).paint(graphics))
 
 method paintXY*(this: CustomTextBox, graphics: Graphics, x: int32, y: int32) {.base.} =
         this.textFieldItem.paintXY(graphics, x, y)

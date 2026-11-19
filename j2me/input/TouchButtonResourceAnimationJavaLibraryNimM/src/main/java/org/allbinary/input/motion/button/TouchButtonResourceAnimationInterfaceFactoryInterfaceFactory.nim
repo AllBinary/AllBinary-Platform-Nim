@@ -166,7 +166,7 @@ method initImageCache*(this: TouchButtonResourceAnimationInterfaceFactoryInterfa
             this.add(touchButtonStartResource.HINT, OneRowSpriteIndexedAnimationFactory.createFactory(touchButtonStartHintResource, AnimationBehaviorFactory.getInstance()))
         else:
             this.add(touchButtonStartResource.HINT, nullAnimationFactory)
-        procCall BaseResourceAnimationInterfaceFactoryInterfaceFactory(this).init(level)
+        jSuperStatement(procCall BaseResourceAnimationInterfaceFactoryInterfaceFactory(this).init(level))
 
 method isLoadingLevel*(this: TouchButtonResourceAnimationInterfaceFactoryInterfaceFactory, level: int32): bool {.discardable.} =
         let resourceLoadingLevelFactory: ResourceLoadingLevelFactory = ResourceLoadingLevelFactory.getInstance()

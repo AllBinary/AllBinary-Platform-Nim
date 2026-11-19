@@ -49,7 +49,7 @@ method addPlayer*(this: AnalogLocationInputFactory, playerInputId: int32) {.base
         var analogLocationInput: AnalogLocationInput = AnalogLocationInput.NULL_ANALOG_LOCATION_INPUT
         if playerInputId < this.list.size():
             analogLocationInput = AnalogLocationInput(JObject(this.list.get(playerInputId)))
-        if analogLocationInput == AnalogLocationInput.NULL_ANALOG_LOCATION_INPUT:
+        if (jSame(analogLocationInput, AnalogLocationInput.NULL_ANALOG_LOCATION_INPUT)):
             analogLocationInput = newAnalogLocationInput(playerInputId)
             this.list.add(analogLocationInput)
 

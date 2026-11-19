@@ -129,11 +129,11 @@ method processCommand*(this: CommandFormInputProcessor): int32 {.base, discardab
         this.logUtil.putF(command.toString(), this, this.PROCESS_COMMAND)
         let features: Features = Features.getInstance()
         let openGLFeatureFactory: OpenGLFeatureFactory = OpenGLFeatureFactory.getInstance()
-        if SWTUtil.isSWT and features.isFeature(openGLFeatureFactory.OPENGL) and command != GameCommandsFactory.getInstance().EXIT_COMMAND:
+        if SWTUtil.isSWT and features.isFeature(openGLFeatureFactory.OPENGL) and (not jSame(command, GameCommandsFactory.getInstance().EXIT_COMMAND)):
             newCommandRunnable(this, command).run()
         else:
             PrimaryThreadPool.getInstance().runTask(newCommandRunnable(this, command))
-        if command == GameCommandsFactory.getInstance().QUIT_COMMAND:
+        if (jSame(command, GameCommandsFactory.getInstance().QUIT_COMMAND)):
             return -1
         else:
             return 1
@@ -175,7 +175,7 @@ method processMotionInputs*(this: CommandFormInputProcessor): int32 {.base, disc
 method processMotionInput*(this: CommandFormInputProcessor, motionGestureEvent: MotionGestureEvent) {.base.} =
         let touchMotionGestureFactory: TouchMotionGestureFactory = TouchMotionGestureFactory.getInstance()
         let motionGestureInput: MotionGestureInput = motionGestureEvent.getMotionGesture()
-        if motionGestureInput == touchMotionGestureFactory.RELEASED:
+        if (jSame(motionGestureInput, touchMotionGestureFactory.RELEASED)):
             let point: GPoint = motionGestureEvent.getCurrentPoint()
             if this.form.isInForm(point):
                 let index: int32 = this.form.getSelectedIndexForPoint(point)
@@ -195,7 +195,7 @@ method processMotionInput*(this: CommandFormInputProcessor, motionGestureEvent: 
                 this.doubleClickTimeHelper.delay = this.DOUBLE_CLICK_DELAY
                 this.doubleClickTimeHelper.setStartTimeTNT()
             this.hasPressed = false
-        elif motionGestureInput == touchMotionGestureFactory.PRESSED:
+        elif (jSame(motionGestureInput, touchMotionGestureFactory.PRESSED)):
             this.doubleClickTimeHelper.delay = 0
             this.hasPressed = true
 

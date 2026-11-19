@@ -37,6 +37,11 @@ type
         loopCountTotal*: int32
 
 converter jAsSpecialAnimationInterface*(value: ImageArraySpecialAnimation): SpecialAnimationInterface = cast[SpecialAnimationInterface](value)
+converter jAsIndexedAnimationInterface*(value: ImageArraySpecialAnimation): IndexedAnimationInterface = cast[IndexedAnimationInterface](value)
+converter jAsSequentialAnimationInterface*(value: ImageArraySpecialAnimation): SequentialAnimationInterface = cast[SequentialAnimationInterface](value)
+converter jAsAnimationInterface*(value: ImageArraySpecialAnimation): AnimationInterface = cast[AnimationInterface](value)
+converter jAsLocationPaintableInterface*(value: ImageArraySpecialAnimation): LocationPaintableInterface = cast[LocationPaintableInterface](value)
+converter jAsSequenceInterface*(value: ImageArraySpecialAnimation): SequenceInterface = cast[SequenceInterface](value)
 proc newImageArraySpecialAnimation*(imageArray: JArray[Image], animationBehavior: AnimationBehavior): ImageArraySpecialAnimation
 proc initImageArraySpecialAnimation*(this: ImageArraySpecialAnimation, imageArray: JArray[Image], animationBehavior: AnimationBehavior)
 method getLoopCount*(this: ImageArraySpecialAnimation): int32 {.base, discardable.}
@@ -95,7 +100,7 @@ method paintXY*(this: ImageArraySpecialAnimation, graphics: Graphics, x: int32, 
         var y = y
         x = DisplayInfoSingleton.getInstance().getLastHalfWidth() -% (ashr(this.getImage(this.circularIndexUtil.getIndex()).getWidth(), 1))
         y = 5
-        procCall ImageArrayAnimation(this).paintXY(graphics, x, y)
+        jSuperStatement(procCall ImageArrayAnimation(this).paintXY(graphics, x, y))
 
 when declared(newImageArraySpecialAnimationHook2):
     newImageArraySpecialAnimationHook2 = proc (imageArray: JArray[Image], animationBehavior: AnimationBehavior): ImageArrayAnimation = newImageArraySpecialAnimation(imageArray, animationBehavior)

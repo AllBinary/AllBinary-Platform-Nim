@@ -34,6 +34,7 @@ type
         offsetY*: int32
 
 converter jAsColorCompositeInterface*(value: RectangleAdjustedAnimation): ColorCompositeInterface = cast[ColorCompositeInterface](value)
+converter jAsBasicColorCompositeSetterInterface*(value: RectangleAdjustedAnimation): BasicColorCompositeSetterInterface = cast[BasicColorCompositeSetterInterface](value)
 proc newRectangleAdjustedAnimation*(width: int32, height: int32, offsetX: int32, offsetY: int32, basicColor: BasicColor): RectangleAdjustedAnimation
 proc initRectangleAdjustedAnimation*(this: RectangleAdjustedAnimation, width: int32, height: int32, offsetX: int32, offsetY: int32, basicColor: BasicColor)
 method nextFrame*(this: RectangleAdjustedAnimation)
@@ -90,7 +91,7 @@ method getBasicColorP*(this: RectangleAdjustedAnimation): BasicColor {.discardab
         return procCall Animation(this).getBasicColorP()
 
 method setBasicColorP*(this: RectangleAdjustedAnimation, basicColor: BasicColor) =
-        procCall Animation(this).setBasicColorP(basicColor)
+        jSuperStatement(procCall Animation(this).setBasicColorP(basicColor))
 
 when declared(newRectangleAdjustedAnimationHook5):
     newRectangleAdjustedAnimationHook5 = proc (width: int32, height: int32, offsetX: int32, offsetY: int32, basicColor: BasicColor): Animation = newRectangleAdjustedAnimation(width, height, offsetX, offsetY, basicColor)

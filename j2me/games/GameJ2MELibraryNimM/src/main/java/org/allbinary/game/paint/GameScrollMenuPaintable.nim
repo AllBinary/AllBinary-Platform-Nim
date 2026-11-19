@@ -32,6 +32,7 @@ type
     GameScrollMenuPaintable* = ref object of BasicGameDemoPaintable
 
 converter jAsColorChangeListener*(value: GameScrollMenuPaintable): ColorChangeListener = cast[ColorChangeListener](value)
+converter jAsEventListenerInterface*(value: GameScrollMenuPaintable): EventListenerInterface = cast[EventListenerInterface](value)
 proc newGameScrollMenuPaintable*(mainDemoStatePaintable: Paintable, ownershipPaintable: Paintable, helpPaintableInterface: Paintable, basicColor: BasicColor): GameScrollMenuPaintable
 proc initGameScrollMenuPaintable*(this: GameScrollMenuPaintable, mainDemoStatePaintable: Paintable, ownershipPaintable: Paintable, helpPaintableInterface: Paintable, basicColor: BasicColor)
 method setState*(this: GameScrollMenuPaintable, state: int32)

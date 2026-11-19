@@ -36,6 +36,7 @@ type
         canvas*: Canvas
 
 converter jAsBaseMotionGestureEventListener*(value: BasicMenuInputProcessor): BaseMotionGestureEventListener = cast[BaseMotionGestureEventListener](value)
+converter jAsEventListenerInterface*(value: BasicMenuInputProcessor): EventListenerInterface = cast[EventListenerInterface](value)
 proc newBasicMenuInputProcessor*(gameKeyEventList: BasicArrayList, playerInputId: int32, gameCanvas: Canvas): BasicMenuInputProcessor
 proc initBasicMenuInputProcessor*(this: BasicMenuInputProcessor, gameKeyEventList: BasicArrayList, playerInputId: int32, gameCanvas: Canvas)
 method onMotionGestureEvent*(this: BasicMenuInputProcessor, motionGestureEvent: MotionGestureEvent)

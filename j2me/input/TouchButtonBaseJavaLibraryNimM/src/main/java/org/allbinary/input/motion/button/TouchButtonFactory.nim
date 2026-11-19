@@ -69,7 +69,7 @@ method defaultList*(this: TouchButtonFactory) {.base.} =
         this.toggle(false, this.LIST)
 
 method toggle*(this: TouchButtonFactory, save: bool, list: BasicArrayList) {.base.} =
-        if list != BasicArrayListUtil.getInstance().getImmutableInstance():
+        if (not jSame(list, BasicArrayListUtil.getInstance().getImmutableInstance())):
             this.savedList = list
             if (not this.saved):
                 this.list = this.savedList

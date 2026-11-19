@@ -69,8 +69,8 @@ method removeAllListeners*(this: GameNotificationEventHandler) =
         var list: BasicArrayList = this.eventListenerInterfaceList
         if list.size() > 0:
             eventListenerInterface = EventListenerInterface(JObject(list.objectArray[0]))
-        procCall BasicEventHandler(this).removeAllListeners()
-        if eventListenerInterface != NullEventListener.NULL_EVENT_LISTENERStatic:
+        jSuperStatement(procCall BasicEventHandler(this).removeAllListeners())
+        if (not jSame(eventListenerInterface, NullEventListener.NULL_EVENT_LISTENERStatic)):
             this.addListenerInterface(eventListenerInterface)
 
 proc getInstance*(t: typedesc[GameNotificationEventHandler]): GameNotificationEventHandler {.discardable.} =

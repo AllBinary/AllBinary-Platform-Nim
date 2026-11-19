@@ -60,7 +60,7 @@ method init*(this: TouchButtonResourceAnimationInterfaceFactoryInterfaceFactory,
 method initImageCache*(this: TouchButtonResourceAnimationInterfaceFactoryInterfaceFactory, imageCache: ImageCache, level: int32) =
         if this.isInitialized():
             return
-        procCall BaseResourceAnimationInterfaceFactoryInterfaceFactory(this).init(level)
+        jSuperStatement(procCall BaseResourceAnimationInterfaceFactoryInterfaceFactory(this).init(level))
 
 method isLoadingLevel*(this: TouchButtonResourceAnimationInterfaceFactoryInterfaceFactory, level: int32): bool {.discardable.} =
         var resourceLoadingLevelFactory: ResourceLoadingLevelFactory = ResourceLoadingLevelFactory.getInstance()

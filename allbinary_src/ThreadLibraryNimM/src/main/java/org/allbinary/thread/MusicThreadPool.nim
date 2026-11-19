@@ -58,7 +58,7 @@ proc newMusicThreadPool*(poolName: string, numThreads: int32, priority: int32): 
 
 method runTask*(this: MusicThreadPool, task: Runnable) =
         this.logUtil.putF(newStringMaker().append(StringUtil.getInstance().toString(task)).appendlong(jCurrentTimeMillis()).toString(), this, this.threadPoolStrings.ADD_TASK)
-        procCall ThreadPool(this).runTask(task)
+        jSuperStatement(procCall ThreadPool(this).runTask(task))
 
 method startTask*(this: MusicThreadPool, task: Runnable) =
         this.logUtil.putF(newStringMaker().append(this.threadPoolStrings.START_TASK).append(StringUtil.getInstance().toString(task)).appendlong(jCurrentTimeMillis()).toString(), this, this.commonStrings.RUN)

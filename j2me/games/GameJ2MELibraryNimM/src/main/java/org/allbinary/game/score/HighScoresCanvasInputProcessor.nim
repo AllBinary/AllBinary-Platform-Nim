@@ -64,15 +64,15 @@ method close*(this: HighScoresCanvasInputProcessor) {.base.} =
         discard
 
 method onPressGameKeyEvent*(this: HighScoresCanvasInputProcessor, gameKeyEvent: GameKeyEvent) =
-        procCall PlayerGameInput(this).onPressGameKeyEvent(gameKeyEvent)
+        jSuperStatement(procCall PlayerGameInput(this).onPressGameKeyEvent(gameKeyEvent))
         this.update()
 
 method onDownGameKeyEvent*(this: HighScoresCanvasInputProcessor, gameKeyEvent: GameKeyEvent) =
-        procCall PlayerGameInput(this).onDownGameKeyEvent(gameKeyEvent)
+        jSuperStatement(procCall PlayerGameInput(this).onDownGameKeyEvent(gameKeyEvent))
         this.update()
 
 method onUpGameKeyEvent*(this: HighScoresCanvasInputProcessor, gameKeyEvent: GameKeyEvent) =
-        procCall PlayerGameInput(this).onUpGameKeyEvent(gameKeyEvent)
+        jSuperStatement(procCall PlayerGameInput(this).onUpGameKeyEvent(gameKeyEvent))
         this.update()
 
 method paint*(this: HighScoresCanvasInputProcessor, graphics: Graphics) {.base.} =

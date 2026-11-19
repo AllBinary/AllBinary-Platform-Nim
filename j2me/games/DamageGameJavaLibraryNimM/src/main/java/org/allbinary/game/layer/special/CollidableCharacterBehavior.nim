@@ -53,11 +53,11 @@ proc newCollidableCharacterBehavior*(collidable: bool): CollidableCharacterBehav
 method collide*(this: CollidableCharacterBehavior, ownerLayer: CollidableCompositeLayer, collidableInterfaceCompositeInterface: CollidableCompositeLayer) =
         let collisionTypeFactory: CollisionTypeFactory = CollisionTypeFactory.getInstance()
         let collisionType: CollisionType = collidableInterfaceCompositeInterface.getCollidableInferface().getCollisionTypeWith(ownerLayer)
-        if collisionType == collisionTypeFactory.PICKUP:
+        if (jSame(collisionType, collisionTypeFactory.PICKUP)):
             let collidableDestroyableDamageableLayer: CollidableDestroyableDamageableLayer = CollidableDestroyableDamageableLayer(JObject(ownerLayer))
             collidableDestroyableDamageableLayer.getPickupBehavior().doPickupLayer(PickedUpLayerInterface(JObject(collidableInterfaceCompositeInterface)))
         else:
-            procCall CollidableDestroyableDamageableBehavior(this).collide(ownerLayer, collidableInterfaceCompositeInterface)
+            jSuperStatement(procCall CollidableDestroyableDamageableBehavior(this).collide(ownerLayer, collidableInterfaceCompositeInterface))
 
 method collideInterface*(this: CollidableCharacterBehavior, ownerLayer: CollidableCompositeLayer, collidableInterfaceCompositeInterface: CollidableInterfaceCompositeInterface) =
         ForcedLogUtil.log(this.commonStrings.NOT_IMPLEMENTED, this)

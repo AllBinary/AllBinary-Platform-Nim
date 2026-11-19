@@ -40,6 +40,7 @@ type
         testInputPaintable*: PaintableInterface
 
 converter jAsGameInputInterface*(value: TestingInputSingleton): GameInputInterface = cast[GameInputInterface](value)
+converter jAsNamedInterface*(value: TestingInputSingleton): NamedInterface = cast[NamedInterface](value)
 proc newTestingInputSingleton*(): TestingInputSingleton
 proc initTestingInputSingleton*(this: TestingInputSingleton)
 proc getInstance*(t: typedesc[TestingInputSingleton]): TestingInputSingleton {.discardable.}

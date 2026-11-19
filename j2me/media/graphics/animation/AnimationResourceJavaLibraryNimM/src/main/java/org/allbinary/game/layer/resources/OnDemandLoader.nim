@@ -90,7 +90,7 @@ method initAll*(this: OnDemandLoader, imageCache: ImageCache, loadingString: str
             var onDemandIndex: int32 = this.onDemandResourcesFactory.size()
             while jPreDecrement(onDemandIndex) >= 0:
                 onDemandResources = this.onDemandResourcesFactory.remove(onDemandIndex)
-                if onDemandResources != OnDemandResources.NULL_ON_DEMAND_RESOURCES:
+                if (not jSame(onDemandResources, OnDemandResources.NULL_ON_DEMAND_RESOURCES)):
                     index = onDemandResources.initAt(imageCache, this.resourceAnimationInterfaceFactoryInterfaceFactory, portion, loadingString, index)
 
 method initLevel*(this: OnDemandLoader, layerPlacementInterfaceBasicArrayListFactoryInterface: LayerPlacementInterfaceBasicArrayListFactoryInterface, imageCache: ImageCache, level: int32, loadingString: string) {.base.} =
@@ -104,6 +104,6 @@ method initLevel*(this: OnDemandLoader, layerPlacementInterfaceBasicArrayListFac
             var onDemandIndex: int32 = onDemandArray.length
             while jPreDecrement(onDemandIndex) >= 0:
                 onDemandResources = this.onDemandResourcesFactory.remove(onDemandArray[onDemandIndex])
-                if onDemandResources != OnDemandResources.NULL_ON_DEMAND_RESOURCES:
+                if (not jSame(onDemandResources, OnDemandResources.NULL_ON_DEMAND_RESOURCES)):
                     index = onDemandResources.initAt(imageCache, this.resourceAnimationInterfaceFactoryInterfaceFactory, portion, loadingString, index)
 

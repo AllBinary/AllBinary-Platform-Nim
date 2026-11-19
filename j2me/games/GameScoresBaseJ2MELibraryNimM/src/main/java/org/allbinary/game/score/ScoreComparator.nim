@@ -77,17 +77,19 @@ method compare*(this: ScoreComparator, recordOne: JArray[int8], recordTwo: JArra
             scoreOne = inputStreamOne.readLong()
             scoreTwo = inputStreamTwo.readLong()
         except CatchableError as jcaught:
-            let e = jToException(jcaught)
-            let commonStrings: CommonStrings = CommonStrings.getInstance()
-            this.logUtil.put(commonStrings.EXCEPTION, this, "compare", e)
-        except CatchableError as jcaught:
-            let e = jToException(jcaught)
-            let commonStrings: CommonStrings = CommonStrings.getInstance()
-            this.logUtil.put(commonStrings.EXCEPTION, this, "compare", e)
-        except CatchableError as jcaught:
-            let e = jToException(jcaught)
-            let commonStrings: CommonStrings = CommonStrings.getInstance()
-            this.logUtil.put(commonStrings.EXCEPTION, this, "compare", e)
+            let jexception = jToException(jcaught)
+            if jCatches(jexception, "EOFException"):
+                let e = jexception
+                let commonStrings: CommonStrings = CommonStrings.getInstance()
+                this.logUtil.put(commonStrings.EXCEPTION, this, "compare", e)
+            elif jCatches(jexception, "IOException"):
+                let e = jexception
+                let commonStrings: CommonStrings = CommonStrings.getInstance()
+                this.logUtil.put(commonStrings.EXCEPTION, this, "compare", e)
+            else:
+                let e = jexception
+                let commonStrings: CommonStrings = CommonStrings.getInstance()
+                this.logUtil.put(commonStrings.EXCEPTION, this, "compare", e)
         if this.isHighestBest:
             return this.getHighTooLow(scoreOne, scoreTwo)
         else:

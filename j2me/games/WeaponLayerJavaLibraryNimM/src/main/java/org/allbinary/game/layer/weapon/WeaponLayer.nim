@@ -64,6 +64,7 @@ type
         collidableWeaponBehavior*: CollidableWeaponBehavior
 
 converter jAsTickableInterface*(value: WeaponLayer): TickableInterface = cast[TickableInterface](value)
+converter jAsNamedInterface*(value: WeaponLayer): NamedInterface = cast[NamedInterface](value)
 proc newWeaponLayer*(name: string, remoteInfo: RemoteInfo, multiPlayerType: int32, movement: Movement, animationInterface: Animation, destroyedAnimationInterface: Animation, rectangle: Rectangle, viewPosition: ViewPositionBase): WeaponLayer
 proc initWeaponLayer*(this: WeaponLayer, name: string, remoteInfo: RemoteInfo, multiPlayerType: int32, movement: Movement, animationInterface: Animation, destroyedAnimationInterface: Animation, rectangle: Rectangle, viewPosition: ViewPositionBase)
 method setCollidableInferface*(this: WeaponLayer, collidableInferface: CollidableBaseBehavior)
@@ -140,7 +141,7 @@ proc newWeaponLayer*(name: string, remoteInfo: RemoteInfo, multiPlayerType: int3
     initWeaponLayer(result, name, remoteInfo, multiPlayerType, movement, animationInterface, destroyedAnimationInterface, rectangle, viewPosition)
 
 method setCollidableInferface*(this: WeaponLayer, collidableInferface: CollidableBaseBehavior) =
-        procCall MultiPlayerGameLayer(this).setCollidableInferface(collidableInferface)
+        jSuperStatement(procCall MultiPlayerGameLayer(this).setCollidableInferface(collidableInferface))
         this.collidableWeaponBehavior = CollidableWeaponBehavior(JObject(this.getCollidableInferface()))
 
 method initXYZ*(this: WeaponLayer, x: int32, y: int32, z: int32) {.base.} =

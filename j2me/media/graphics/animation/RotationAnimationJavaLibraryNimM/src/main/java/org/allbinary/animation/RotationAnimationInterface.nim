@@ -27,6 +27,7 @@ export IndexedAnimationInterfaceModule
 type
     RotationAnimationInterface* = ref object of IndexedAnimationInterface
 
+converter jAsDirectionalInterface*(value: RotationAnimationInterface): DirectionalInterface = cast[DirectionalInterface](value)
 
 method getAngleInfoP*(this: RotationAnimationInterface): AngleInfo {.base, discardable.} =
         raise newJException("AbstractMethodError", "getAngleInfoP")

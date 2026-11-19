@@ -233,12 +233,19 @@ type
         YIELD_SLEEP*: int64
 
 converter jAsAllBinaryGameCanvasInterface*(value: AllBinaryGameCanvas): AllBinaryGameCanvasInterface = cast[AllBinaryGameCanvasInterface](value)
+converter jAsDisplayableInterface*(value: AllBinaryGameCanvas): DisplayableInterface = cast[DisplayableInterface](value)
 converter jAsGameCanvasRunnableInterface*(value: AllBinaryGameCanvas): GameCanvasRunnableInterface = cast[GameCanvasRunnableInterface](value)
+converter jAsRunnableInterface*(value: AllBinaryGameCanvas): RunnableInterface = cast[RunnableInterface](value)
+converter jAsPaintableInterface*(value: AllBinaryGameCanvas): PaintableInterface = cast[PaintableInterface](value)
+converter jAsItemStateListener*(value: AllBinaryGameCanvas): ItemStateListener = cast[ItemStateListener](value)
+converter jAsGameStateCompositeInterface*(value: AllBinaryGameCanvas): GameStateCompositeInterface = cast[GameStateCompositeInterface](value)
 converter jAsMenuListener*(value: AllBinaryGameCanvas): MenuListener = cast[MenuListener](value)
+converter jAsGameKeyEventSourceInterface*(value: AllBinaryGameCanvas): GameKeyEventSourceInterface = cast[GameKeyEventSourceInterface](value)
 converter jAsIntermissionCompositeInterface*(value: AllBinaryGameCanvas): IntermissionCompositeInterface = cast[IntermissionCompositeInterface](value)
 converter jAsIntermissionEnableListenerInterface*(value: AllBinaryGameCanvas): IntermissionEnableListenerInterface = cast[IntermissionEnableListenerInterface](value)
 converter jAsPopupMenuInterface*(value: AllBinaryGameCanvas): PopupMenuInterface = cast[PopupMenuInterface](value)
 converter jAsDisplayChangeEventListener*(value: AllBinaryGameCanvas): DisplayChangeEventListener = cast[DisplayChangeEventListener](value)
+converter jAsEventListenerInterface*(value: AllBinaryGameCanvas): EventListenerInterface = cast[EventListenerInterface](value)
 converter jAsUpdateMyFontInterface*(value: AllBinaryGameCanvas): UpdateMyFontInterface = cast[UpdateMyFontInterface](value)
 proc newAllBinaryGameCanvas*(commandListener: CommandListener, gameLayerManager: AllBinaryGameLayerManager, highScoresFactoryInterface: HighScoresFactoryInterface, gameInitializationInterfaceFactoryInterface: BasicBuildGameInitializerFactory, buffered: bool): AllBinaryGameCanvas
 proc initAllBinaryGameCanvas*(this: AllBinaryGameCanvas, commandListener: CommandListener, gameLayerManager: AllBinaryGameLayerManager, highScoresFactoryInterface: HighScoresFactoryInterface, gameInitializationInterfaceFactoryInterface: BasicBuildGameInitializerFactory, buffered: bool)
@@ -728,9 +735,9 @@ method getInGameMenuBehavior*(this: AllBinaryGameCanvas): BaseMenuBehavior {.bas
 
 method setCurrentThread*(this: AllBinaryGameCanvas) =
         if J2MEUtil.isHTML():
-            procCall RunnableCanvas(this).setCurrentThreadFake()
+            jSuperStatement(procCall RunnableCanvas(this).setCurrentThreadFake())
         else:
-            procCall RunnableCanvas(this).setCurrentThread()
+            jSuperStatement(procCall RunnableCanvas(this).setCurrentThread())
 
 method onEvent*(this: AllBinaryGameCanvas, eventObject: AllBinaryEventObject) =
         ForcedLogUtil.log(EventStrings.getInstance().PERFORMANCE_MESSAGE, this)
@@ -748,12 +755,12 @@ method updateMenuFromEvent*(this: AllBinaryGameCanvas, displayChangeEvent: Displ
         let formType: FormType = FormTypeFactory.getInstance().getFormType()
         let rectangle: Rectangle = this.formUtil.createFormRectangle()
         this.menuForm.init(rectangle, formType)
-        if this.currentTouchInputFactory != NoButtonsTouchInputFactory.getInstance():
+        if (not jSame(this.currentTouchInputFactory, NoButtonsTouchInputFactory.getInstance())):
             this.touchButtonFactory.toggle(this.isPaused(), this.currentTouchInputFactory.getList())
         this.myFontProcessor = this.updateMyFontProcessor
 
 method processSleep*(this: AllBinaryGameCanvas) =
-        procCall RunnableCanvas(this).processSleep()
+        jSuperStatement(procCall RunnableCanvas(this).processSleep())
         if AllBinaryMediaManager.update():
             if (not this.primaryPlayerQueue.process()):
                 this.secondaryPlayerQueue.process()
@@ -761,7 +768,7 @@ method processSleep*(this: AllBinaryGameCanvas) =
             this.runnableCanvasRefreshHelper.process()
 
 method initPopupMenu*(this: AllBinaryGameCanvas) {.base.} =
-        if this.popupMenuInputProcessor == NoMenuInputProcessor.getInstance():
+        if (jSame(this.popupMenuInputProcessor, NoMenuInputProcessor.getInstance())):
             let features: Features = Features.getInstance()
             let popupMenuRectangle: Rectangle = this.myFormUtil.getPopupMenuRectangle()
             if features.isFeature(this.touchFeatureFactory.TOUCH_ENABLED):
@@ -792,7 +799,7 @@ method initMenu2*(this: AllBinaryGameCanvas) {.base.} =
         else:
             discard
         this.setMenuInputProcessor(this.getPopupMenuInputProcessor())
-        if scrollSelectionForm != ScrollSelectionFormNoneFactory.getInstance():
+        if (not jSame(scrollSelectionForm, ScrollSelectionFormNoneFactory.getInstance())):
             this.setFormPaintable(newFormPaintable(scrollSelectionForm))
         else:
             discard
@@ -824,7 +831,7 @@ method updateMenu2*(this: AllBinaryGameCanvas) {.base.} =
 method pause*(this: AllBinaryGameCanvas) =
         this.gameBehavior.pause(this)
         this.closeMenu()
-        procCall RunnableCanvas(this).pause()
+        jSuperStatement(procCall RunnableCanvas(this).pause())
         this.touchButtonFactory.toggle(this.isPaused(), BasicArrayListUtil.getInstance().getImmutableInstance())
         this.tsUtil.gc()
 
@@ -832,7 +839,7 @@ method unPause*(this: AllBinaryGameCanvas) =
         this.logUtil.putF(this.commonStrings.START, this, this.gameStrings.UNPAUSE)
         this.closeMenu()
         this.tsUtil.gc()
-        procCall RunnableCanvas(this).unPause()
+        jSuperStatement(procCall RunnableCanvas(this).unPause())
         this.touchButtonFactory.toggle(this.isPaused(), BasicArrayListUtil.getInstance().getImmutableInstance())
         this.gameBehavior.unPause(this)
 
@@ -1084,7 +1091,7 @@ method setGameState*(this: AllBinaryGameCanvas, gameState: GameState) =
 method updateGameState*(this: AllBinaryGameCanvas) {.base.} =
         let gameAdState: GameAdState = this.gameAdStateFactory.getCurrentInstance()
         gameAdState.processAdState(this.gameState, this.gameLayerManager.getGameInfo().getGameType())
-        if this.gameState != this.gameStateFactory.PLAYING_GAME_STATE:
+        if (not jSame(this.gameState, this.gameStateFactory.PLAYING_GAME_STATE)):
             gameAdState.processPageAdState()
 
 method updateGameKeyEventProcessor*(this: AllBinaryGameCanvas) {.base.} =
@@ -1204,7 +1211,7 @@ method loadState*(this: AllBinaryGameCanvas) {.base.} =
         var hashtable: ABHashtable = this.getLoadStateHashtable()
         if (not jIsNil(hashtable)) and hashtable.size() > 0:
             let levelAsString: string = jstr(hashtable.get(JObject(JObject(GameInfo.LEVEL_NAME))))
-            let level: int32 = jParseInt(levelAsString).intValue()
+            let level: int32 = jValueOfInt(levelAsString).intValue()
             let gameInfo: GameInfo = this.gameLayerManager.getGameInfo()
             gameInfo.setCurrentLevel(level)
 
@@ -1299,7 +1306,7 @@ method threadInit*(this: AllBinaryGameCanvas) {.base.} =
         discard
 
 method processGame*(this: AllBinaryGameCanvas) {.base.} =
-        procCall RunnableCanvas(this).process()
+        jSuperStatement(procCall RunnableCanvas(this).process())
         if AllBinaryMediaManager.update():
             if (not this.primaryPlayerQueue.process()):
                 this.secondaryPlayerQueue.process()
@@ -1377,7 +1384,7 @@ method run3*(this: AllBinaryGameCanvas) {.base.} =
         this.processLoopSleep()
 
 method setRunning*(this: AllBinaryGameCanvas, running: bool) =
-        procCall RunnableCanvas(this).setRunning(running)
+        jSuperStatement(procCall RunnableCanvas(this).setRunning(running))
         try:
             let features: Features = Features.getInstance()
             if running:

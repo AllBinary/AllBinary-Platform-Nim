@@ -25,6 +25,8 @@ export IndexedAnimationInterfaceModule
 type
     VectorAnimationInterface* = ref object of IndexedAnimationInterface
 
+converter jAsColorCompositeInterface*(value: VectorAnimationInterface): ColorCompositeInterface = cast[ColorCompositeInterface](value)
+converter jAsBasicColorCompositeSetterInterface*(value: VectorAnimationInterface): BasicColorCompositeSetterInterface = cast[BasicColorCompositeSetterInterface](value)
 
 method getPoints*(this: VectorAnimationInterface, frame: int32): JArray[JArray[int32]] {.base, discardable.} =
         raise newJException("AbstractMethodError", "getPoints")

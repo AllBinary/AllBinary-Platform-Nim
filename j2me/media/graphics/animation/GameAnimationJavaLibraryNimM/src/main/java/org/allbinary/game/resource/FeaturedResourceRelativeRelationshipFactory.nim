@@ -86,7 +86,7 @@ method getRelativeRelationshipList*(this: FeaturedResourceRelativeRelationshipFa
                 var featureInterface: ResourceRelativeRelationshipFactoryInterface = ResourceRelativeRelationshipFactoryInterface(JObject(featureReleaseList.objectArray[index]))
                 if featureInterface.isFeature():
                     var list: BasicArrayList = featureInterface.getResourceRelativeRelationshipList(resource)
-                    if list != this.basicArrayListUtil.getImmutableInstance():
+                    if (not jSame(list, this.basicArrayListUtil.getImmutableInstance())):
                         return this.duplicate(list, layer)
         raise newJException("Exception", newStringMaker().append("Not available for current feature selection or Resource: ").append(resource).toString())
 

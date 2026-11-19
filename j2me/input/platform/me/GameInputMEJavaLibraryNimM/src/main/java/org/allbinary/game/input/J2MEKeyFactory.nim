@@ -76,12 +76,12 @@ method init*(this: J2MEKeyFactory) {.base.} =
                 inputFactory.add(gameKeyArray[index].getId(), gameKeyArray[index])
 
 method isSubmission*(this: J2MEKeyFactory, input: Input): bool {.base, discardable.} =
-        if input == this.gameKeyFactory.FIRE:
+        if (jSame(input, this.gameKeyFactory.FIRE)):
             return true
         return false
 
 method isDelete*(this: J2MEKeyFactory, input: Input): bool {.base, discardable.} =
-        if input == this.gameKeyFactory.GAME_D:
+        if (jSame(input, this.gameKeyFactory.GAME_D)):
             return true
         return false
 
@@ -89,27 +89,27 @@ method isBackSpace*(this: J2MEKeyFactory, input: Input): bool {.base, discardabl
         return false
 
 method isUp*(this: J2MEKeyFactory, input: Input): bool {.base, discardable.} =
-        if input == this.gameKeyFactory.UP:
+        if (jSame(input, this.gameKeyFactory.UP)):
             return true
         return false
 
 method isDown*(this: J2MEKeyFactory, input: Input): bool {.base, discardable.} =
-        if input == this.gameKeyFactory.DOWN:
+        if (jSame(input, this.gameKeyFactory.DOWN)):
             return true
         return false
 
 method isLeft*(this: J2MEKeyFactory, input: Input): bool {.base, discardable.} =
-        if input == this.gameKeyFactory.LEFT:
+        if (jSame(input, this.gameKeyFactory.LEFT)):
             return true
         return false
 
 method isRight*(this: J2MEKeyFactory, input: Input): bool {.base, discardable.} =
-        if input == this.gameKeyFactory.RIGHT:
+        if (jSame(input, this.gameKeyFactory.RIGHT)):
             return true
         return false
 
 method isEnter*(this: J2MEKeyFactory, input: Input): bool {.base, discardable.} =
-        if input == this.gameKeyFactory.FIRE:
+        if (jSame(input, this.gameKeyFactory.FIRE)):
             return true
         return false
 

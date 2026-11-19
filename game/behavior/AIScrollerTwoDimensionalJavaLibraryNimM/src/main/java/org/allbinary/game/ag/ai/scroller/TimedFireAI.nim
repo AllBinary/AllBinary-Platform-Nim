@@ -73,7 +73,7 @@ proc newTimedFireAI*(delay: int32, ownerLayerInterface: AllBinaryLayer, gameInpu
 method processAI*(this: TimedFireAI, allBinaryLayerManager: AllBinaryLayerManager) =
         var timeFiredInterface: TimeFiredInterface = TimeFiredInterface(JObject(this.getOwnerLayerInterface()))
         if this.maxFireDelayTimeHelper.isTime(GameTickTimeDelayHelperFactory.getInstance().startTime) and timeFiredInterface.getLastFireTime() +% this.maxFireDelayTimeHelper.delay < this.maxFireDelayTimeHelper.getStartTime():
-            procCall BasicAI(this).processKeyAI(Canvas.KEY_NUM1)
+            jSuperStatement(procCall BasicAI(this).processKeyAI(Canvas.KEY_NUM1))
             this.maxFireDelayTimeHelper.delay = this.delay
 
 when declared(newTimedFireAIHook3):

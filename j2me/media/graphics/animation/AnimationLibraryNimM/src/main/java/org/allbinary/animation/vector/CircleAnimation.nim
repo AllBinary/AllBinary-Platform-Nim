@@ -33,6 +33,7 @@ type
         height*: int32
 
 converter jAsColorCompositeInterface*(value: CircleAnimation): ColorCompositeInterface = cast[ColorCompositeInterface](value)
+converter jAsBasicColorCompositeSetterInterface*(value: CircleAnimation): BasicColorCompositeSetterInterface = cast[BasicColorCompositeSetterInterface](value)
 proc newCircleAnimation*(width: int32, height: int32, basicColor: BasicColor): CircleAnimation
 proc initCircleAnimation*(this: CircleAnimation, width: int32, height: int32, basicColor: BasicColor)
 method nextFrame*(this: CircleAnimation)
@@ -72,7 +73,7 @@ method getBasicColorP*(this: CircleAnimation): BasicColor {.discardable.} =
         return procCall Animation(this).getBasicColorP()
 
 method setBasicColorP*(this: CircleAnimation, basicColor: BasicColor) =
-        procCall Animation(this).setBasicColorP(basicColor)
+        jSuperStatement(procCall Animation(this).setBasicColorP(basicColor))
 
 when declared(newCircleAnimationHook3):
     newCircleAnimationHook3 = proc (width: int32, height: int32, basicColor: BasicColor): Animation = newCircleAnimation(width, height, basicColor)

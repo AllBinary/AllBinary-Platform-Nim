@@ -55,10 +55,10 @@ proc newPathFindingThreadPool*(poolName: string, numThreads: int32, priority: in
     initPathFindingThreadPool(result, poolName, numThreads, priority)
 
 method runTaskWithPriority*(this: PathFindingThreadPool, task: PriorityRunnable) =
-        procCall ThreadPool(this).runTaskWithPriority(task)
+        jSuperStatement(procCall ThreadPool(this).runTaskWithPriority(task))
 
 method runTask*(this: PathFindingThreadPool, task: Runnable) =
-        procCall ThreadPool(this).runTask(task)
+        jSuperStatement(procCall ThreadPool(this).runTask(task))
 
 method startTask*(this: PathFindingThreadPool, task: Runnable) =
         discard

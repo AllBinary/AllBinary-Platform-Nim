@@ -47,6 +47,7 @@ type
 
 converter jAsMyCommandInterface*(value: CommandForm): MyCommandInterface = cast[MyCommandInterface](value)
 converter jAsMenuListener*(value: CommandForm): MenuListener = cast[MenuListener](value)
+converter jAsGameKeyEventSourceInterface*(value: CommandForm): GameKeyEventSourceInterface = cast[GameKeyEventSourceInterface](value)
 proc newCommandForm*(commandListener: CommandListener, formTitle: string, backgrounBasicColor: BasicColor, foregroundBasicColor: BasicColor): CommandForm
 proc initCommandForm*(this: CommandForm, commandListener: CommandListener, formTitle: string, backgrounBasicColor: BasicColor, foregroundBasicColor: BasicColor)
 proc getNullCommandForm*(t: typedesc[CommandForm]): CommandForm {.discardable.}
@@ -125,7 +126,7 @@ method getSourceId*(this: CommandForm): int32 {.discardable.} =
 
 method addCommand*(this: CommandForm, command: Command) =
         this.commandStack.push(command)
-        procCall Form(this).addCommand(command)
+        jSuperStatement(procCall Form(this).addCommand(command))
 
 method removeAllCommands*(this: CommandForm) =
         let size: int32 = this.commandStack.size()
@@ -133,7 +134,7 @@ method removeAllCommands*(this: CommandForm) =
             var index: int32 = 0
             while index < size:
                 defer: index = index +% 1
-                procCall Form(this).removeCommand(Command(JObject(this.commandStack.pop())))
+                jSuperStatement(procCall Form(this).removeCommand(Command(JObject(this.commandStack.pop()))))
 
 when declared(newCommandFormHook4):
     newCommandFormHook4 = proc (commandListener: CommandListener, formTitle: string, backgrounBasicColor: BasicColor, foregroundBasicColor: BasicColor): Form = newCommandForm(commandListener, formTitle, backgrounBasicColor, foregroundBasicColor)

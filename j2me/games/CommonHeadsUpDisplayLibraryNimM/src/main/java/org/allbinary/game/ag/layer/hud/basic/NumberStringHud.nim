@@ -91,7 +91,7 @@ proc newNumberStringHud*(prependString: string, max: int32, location: int32, dir
 method updateMeasurement*(this: NumberStringHud, graphics: Graphics) =
         let font: Font = graphics.getFont()
         this.offset = font.stringWidth(this.prependString) +% MyFontProcessor.defaultCharWidth(font)
-        procCall BasicHud(this).updateMeasurement(graphics)
+        jSuperStatement(procCall BasicHud(this).updateMeasurement(graphics))
 
 method get*(this: NumberStringHud): int32 {.base, discardable.} =
         return this.value
@@ -110,7 +110,7 @@ method reduce*(this: NumberStringHud, value: int32) {.base.} =
         this.set(this.value -% value)
 
 method paint*(this: NumberStringHud, graphics: Graphics) =
-        procCall BasicHud(this).paintDX(graphics, this.PREPEND_STRING, 0, this.PREPEND_STRING.length, this.valueString, 0, this.valueTotalDigits, this.offset)
+        jSuperStatement(procCall BasicHud(this).paintDX(graphics, this.PREPEND_STRING, 0, this.PREPEND_STRING.length, this.valueString, 0, this.valueTotalDigits, this.offset))
 
 method paintXY*(this: NumberStringHud, graphics: Graphics, x: int32, y: int32) {.base.} =
         this.myFontProcessor.process(graphics)

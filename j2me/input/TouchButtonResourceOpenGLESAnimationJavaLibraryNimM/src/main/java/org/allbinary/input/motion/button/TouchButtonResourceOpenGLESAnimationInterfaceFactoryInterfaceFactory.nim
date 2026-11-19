@@ -43,7 +43,7 @@ proc newTouchButtonResourceOpenGLESAnimationInterfaceFactoryInterfaceFactory*():
     initTouchButtonResourceOpenGLESAnimationInterfaceFactoryInterfaceFactory(result)
 
 method init*(this: TouchButtonResourceOpenGLESAnimationInterfaceFactoryInterfaceFactory, level: int32) =
-        procCall TouchButtonResourceAnimationInterfaceFactoryInterfaceFactory(this).initImageCache(OpenGLImageCacheFactory.getInstance(), level)
+        jSuperStatement(procCall TouchButtonResourceAnimationInterfaceFactoryInterfaceFactory(this).initImageCache(OpenGLImageCacheFactory.getInstance(), level))
 
 method isFeature*(this: TouchButtonResourceOpenGLESAnimationInterfaceFactoryInterfaceFactory): bool {.discardable.} =
         if Features.getInstance().isDefault(OpenGLFeatureFactory.getInstance().OPENGL):

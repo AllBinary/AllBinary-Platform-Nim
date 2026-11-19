@@ -73,7 +73,7 @@ method getResourceRelativeRelationshipList*(this: ResourceRelativeRelationshipFa
 
 method addResourceRelativeRelationship*(this: ResourceRelativeRelationshipFactory, resource: string, hardPoint: RelativeRelationship) =
         var list: BasicArrayList = this.getResourceRelativeRelationshipList(resource)
-        if list == this.basicArrayListUtil.getImmutableInstance():
+        if (jSame(list, this.basicArrayListUtil.getImmutableInstance())):
             list = newBasicArrayListD()
         list.add(hardPoint)
         this.hashtable.put(resource, list)

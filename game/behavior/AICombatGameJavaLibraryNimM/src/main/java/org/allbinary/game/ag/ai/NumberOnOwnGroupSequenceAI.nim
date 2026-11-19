@@ -62,7 +62,7 @@ method processAI*(this: NumberOnOwnGroupSequenceAI, allBinaryLayerManager: AllBi
             let size: int32 = GroupLayerManagerListener.getInstance().getGroupSizeFromInterface(layerInterface)
             if this.numberOnSameTeam[index].intValue() > size:
                 this.next()
-        procCall SequenceAI(this).processAI(allBinaryLayerManager)
+        jSuperStatement(procCall SequenceAI(this).processAI(allBinaryLayerManager))
 
 when declared(newNumberOnOwnGroupSequenceAIHook4):
     newNumberOnOwnGroupSequenceAIHook4 = proc (numberOnSameTeam: JArray[int32], artificialIntelligenceInterface: JArray[ArtificialIntelligenceInterface], ownerLayerInterface: AllBinaryLayer, gameInput: GameInput): SequenceAI = newNumberOnOwnGroupSequenceAI(numberOnSameTeam, artificialIntelligenceInterface, ownerLayerInterface, gameInput)

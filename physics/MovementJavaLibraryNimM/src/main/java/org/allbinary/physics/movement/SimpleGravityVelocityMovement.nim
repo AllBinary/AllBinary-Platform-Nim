@@ -52,7 +52,7 @@ proc newSimpleGravityVelocityMovement*(speedBasicDecimal: BasicDecimal): SimpleG
 
 method process*(this: SimpleGravityVelocityMovement, layer: AllBinaryGameLayer) =
         this.gravityUtil.process(this.getVelocityProperties(), this.gravityUtil.GAME_GRAVITY_VELOCITY)
-        procCall BasicConstantVelocityMovement(this).process(layer)
+        jSuperStatement(procCall BasicConstantVelocityMovement(this).process(layer))
 
 when declared(newSimpleGravityVelocityMovementHook1):
     newSimpleGravityVelocityMovementHook1 = proc (speedBasicDecimal: BasicDecimal): BasicConstantVelocityMovement = newSimpleGravityVelocityMovement(speedBasicDecimal)

@@ -103,31 +103,31 @@ proc getInstance*(t: typedesc[LayerManagerLogging]): LayerManagerLogging {.disca
 
 method append*(this: LayerManagerLogging, layerInterface: AllBinaryLayer) =
         this.stringBuilder.delete(0, this.stringBuilder.length())
-        this.logUtil.putF(this.stringBuilder.appendint(int32(TsUtil.getInstance().hashCode(this))).append(this.APPEND_OfLayerManagerLogging).append(layerInterface.getName()).toString(), this, this.APPEND)
+        this.logUtil.putF(this.stringBuilder.appendint(TsUtil.getInstance().hashCode(this)).append(this.APPEND_OfLayerManagerLogging).append(layerInterface.getName()).toString(), this, this.APPEND)
 
 method appendAt*(this: LayerManagerLogging, layerInterface: AllBinaryLayer, index: int32) =
         this.stringBuilder.delete(0, this.stringBuilder.length())
-        this.logUtil.putF(this.stringBuilder.appendint(int32(TsUtil.getInstance().hashCode(this))).append(this.APPEND_OfLayerManagerLogging).append(layerInterface.getName()).append(this.U_AT_U).appendint(index).toString(), this, this.APPEND)
+        this.logUtil.putF(this.stringBuilder.appendint(TsUtil.getInstance().hashCode(this)).append(this.APPEND_OfLayerManagerLogging).append(layerInterface.getName()).append(this.U_AT_U).appendint(index).toString(), this, this.APPEND)
 
 method remove*(this: LayerManagerLogging, layerInterface: AllBinaryLayer) =
         if (jIsNil(layerInterface)):
             this.stringBuilder.delete(0, this.stringBuilder.length())
-            this.logUtil.putF(this.stringBuilder.appendint(int32(TsUtil.getInstance().hashCode(this))).append(this.ATTEMPT_REMOVE_U).append(StringUtil.getInstance().toString(layerInterface)).toString(), this, this.REMOVEOfLayerManagerLogging)
+            this.logUtil.putF(this.stringBuilder.appendint(TsUtil.getInstance().hashCode(this)).append(this.ATTEMPT_REMOVE_U).append(StringUtil.getInstance().toString(layerInterface)).toString(), this, this.REMOVEOfLayerManagerLogging)
         else:
             this.stringBuilder.delete(0, this.stringBuilder.length())
-            this.logUtil.putF(this.stringBuilder.appendint(int32(TsUtil.getInstance().hashCode(this))).append(this.ATTEMPT_REMOVE_U).append(layerInterface.getName()).toString(), this, this.REMOVEOfLayerManagerLogging)
+            this.logUtil.putF(this.stringBuilder.appendint(TsUtil.getInstance().hashCode(this)).append(this.ATTEMPT_REMOVE_U).append(layerInterface.getName()).toString(), this, this.REMOVEOfLayerManagerLogging)
 
 method removeResult*(this: LayerManagerLogging, layerManager: LayerManager, layerInterface: AllBinaryLayer, `result`: bool) =
         if (jIsNil(layerInterface)):
             this.stringBuilder.delete(0, this.stringBuilder.length())
-            this.logUtil.putF(this.stringBuilder.appendint(int32(TsUtil.getInstance().hashCode(this))).append(this.REMOVE_U).append(StringUtil.getInstance().toString(layerInterface)).toString(), this, this.REMOVEOfLayerManagerLogging)
+            this.logUtil.putF(this.stringBuilder.appendint(TsUtil.getInstance().hashCode(this)).append(this.REMOVE_U).append(StringUtil.getInstance().toString(layerInterface)).toString(), this, this.REMOVEOfLayerManagerLogging)
         elif `result`:
             if LayerManagerLogging.removeFailed:
                 this.stringBuilder.delete(0, this.stringBuilder.length())
-                this.logUtil.putF(this.stringBuilder.appendint(int32(TsUtil.getInstance().hashCode(this))).append(this.REMOVE_U).append(layerInterface.getName()).toString(), this, this.REMOVEOfLayerManagerLogging)
+                this.logUtil.putF(this.stringBuilder.appendint(TsUtil.getInstance().hashCode(this)).append(this.REMOVE_U).append(layerInterface.getName()).toString(), this, this.REMOVEOfLayerManagerLogging)
         else:
             this.stringBuilder.delete(0, this.stringBuilder.length())
-            this.logUtil.putF(this.stringBuilder.appendint(int32(TsUtil.getInstance().hashCode(this))).append(this.DID_NOT_REMOVE).append(layerInterface.getName()).toString(), this, this.REMOVEOfLayerManagerLogging)
+            this.logUtil.putF(this.stringBuilder.appendint(TsUtil.getInstance().hashCode(this)).append(this.DID_NOT_REMOVE).append(layerInterface.getName()).toString(), this, this.REMOVEOfLayerManagerLogging)
             LayerManagerLogging.removeFailed = true
 
 method log*(this: LayerManagerLogging, layerManager: LayerManager) {.base.} =
@@ -147,7 +147,7 @@ method log*(this: LayerManagerLogging, layerManager: LayerManager) {.base.} =
 
 method clear*(this: LayerManagerLogging) =
         this.stringBuilder.delete(0, this.stringBuilder.length())
-        this.logUtil.putF(this.stringBuilder.appendint(int32(TsUtil.getInstance().hashCode(this))).append(this.CLEAR).toString(), this, this.CLEAR)
+        this.logUtil.putF(this.stringBuilder.appendint(TsUtil.getInstance().hashCode(this)).append(this.CLEAR).toString(), this, this.CLEAR)
 
 when declared(newLayerManagerLoggingHook0):
     newLayerManagerLoggingHook0 = proc (): LayerManagerLoggingBase = newLayerManagerLogging()

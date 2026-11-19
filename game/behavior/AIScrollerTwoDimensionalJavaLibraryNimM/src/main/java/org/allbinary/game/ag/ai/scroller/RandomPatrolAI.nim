@@ -61,15 +61,15 @@ method updateRandomDistance*(this: RandomPatrolAI) {.base.} =
         this.currentDistance = MyRandomFactory.getInstance().getAbsoluteNextInt(this.maxDistance.intValue())
 
 method processAI*(this: RandomPatrolAI, allBinaryLayerManager: AllBinaryLayerManager) =
-        procCall BasePatrolAI(this).update()
-        procCall BasePatrolAI(this).processKeyAI(this.keyDirection)
+        jSuperStatement(procCall BasePatrolAI(this).update())
+        jSuperStatement(procCall BasePatrolAI(this).processKeyAI(this.keyDirection))
         if this.changedDirection:
-            procCall BasePatrolAI(this).processKeyAI(Canvas.KEY_NUM1)
+            jSuperStatement(procCall BasePatrolAI(this).processKeyAI(Canvas.KEY_NUM1))
             this.updateRandomDistance()
             this.changedDirection = false
 
 method nextDirection*(this: RandomPatrolAI) =
-        procCall BasePatrolAI(this).nextDirection()
+        jSuperStatement(procCall BasePatrolAI(this).nextDirection())
         this.changedDirection = true
 
 when declared(newRandomPatrolAIHook3):

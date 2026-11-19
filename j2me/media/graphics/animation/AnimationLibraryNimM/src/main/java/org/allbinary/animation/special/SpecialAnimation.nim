@@ -28,6 +28,11 @@ type
     SpecialAnimation* = ref object of IndexedAnimation
 
 converter jAsSpecialAnimationInterface*(value: SpecialAnimation): SpecialAnimationInterface = cast[SpecialAnimationInterface](value)
+converter jAsIndexedAnimationInterface*(value: SpecialAnimation): IndexedAnimationInterface = cast[IndexedAnimationInterface](value)
+converter jAsSequentialAnimationInterface*(value: SpecialAnimation): SequentialAnimationInterface = cast[SequentialAnimationInterface](value)
+converter jAsAnimationInterface*(value: SpecialAnimation): AnimationInterface = cast[AnimationInterface](value)
+converter jAsLocationPaintableInterface*(value: SpecialAnimation): LocationPaintableInterface = cast[LocationPaintableInterface](value)
+converter jAsSequenceInterface*(value: SpecialAnimation): SequenceInterface = cast[SequenceInterface](value)
 proc newSpecialAnimation*(animationBehavior: AnimationBehavior): SpecialAnimation
 proc initSpecialAnimation*(this: SpecialAnimation, animationBehavior: AnimationBehavior)
 proc getInstance*(t: typedesc[SpecialAnimation]): SpecialAnimation {.discardable.}

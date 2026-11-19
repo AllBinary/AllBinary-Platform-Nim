@@ -150,8 +150,14 @@ type
         baseGameStatistics*: BaseGameStatistics
 
 converter jAsGameCanvasRunnableInterface*(value: DemoCanvas): GameCanvasRunnableInterface = cast[GameCanvasRunnableInterface](value)
+converter jAsRunnableInterface*(value: DemoCanvas): RunnableInterface = cast[RunnableInterface](value)
+converter jAsPaintableInterface*(value: DemoCanvas): PaintableInterface = cast[PaintableInterface](value)
+converter jAsItemStateListener*(value: DemoCanvas): ItemStateListener = cast[ItemStateListener](value)
+converter jAsGameStateCompositeInterface*(value: DemoCanvas): GameStateCompositeInterface = cast[GameStateCompositeInterface](value)
 converter jAsMenuListener*(value: DemoCanvas): MenuListener = cast[MenuListener](value)
+converter jAsGameKeyEventSourceInterface*(value: DemoCanvas): GameKeyEventSourceInterface = cast[GameKeyEventSourceInterface](value)
 converter jAsDisplayChangeEventListener*(value: DemoCanvas): DisplayChangeEventListener = cast[DisplayChangeEventListener](value)
+converter jAsEventListenerInterface*(value: DemoCanvas): EventListenerInterface = cast[EventListenerInterface](value)
 converter jAsDemoPaintableInterface*(value: DemoCanvas): DemoPaintableInterface = cast[DemoPaintableInterface](value)
 proc newDemoCanvas*(abeClientInformation: AbeClientInformationInterface, commandListener: CommandListener, highScoresFactoryInterface: HighScoresFactoryInterface, paintable: Paintable, overlayPaintable: InitUpdatePaintable, gameInitializationInterfaceFactoryInterface: BasicBuildGameInitializerFactory, isContinue: bool): DemoCanvas
 proc initDemoCanvas*(this: DemoCanvas, abeClientInformation: AbeClientInformationInterface, commandListener: CommandListener, highScoresFactoryInterface: HighScoresFactoryInterface, paintable: Paintable, overlayPaintable: InitUpdatePaintable, gameInitializationInterfaceFactoryInterface: BasicBuildGameInitializerFactory, isContinue: bool)
@@ -666,7 +672,7 @@ method demoStateChange*(this: DemoCanvas) {.base.} =
                 newState = 0
             else:
                 let highScores: HighScores = this.highScoresHelper.getNextHighScores()
-                if highScores == NullHighScoresSingletonFactory.getInstance():
+                if (jSame(highScores, NullHighScoresSingletonFactory.getInstance())):
                     newState = 0
                 else:
                     this.getRealHighScoresPaintable().setHighScores(highScores)
@@ -725,7 +731,7 @@ method preDemoProcess*(this: DemoCanvas) {.base.} =
         this.overlayPaintable.update()
 
 method process*(this: DemoCanvas) =
-        procCall RunnableCanvas(this).process()
+        jSuperStatement(procCall RunnableCanvas(this).process())
         this.getMenuInputProcessor().processInputList()
         this.preDemoProcess()
         if this.state == 0:
@@ -733,14 +739,14 @@ method process*(this: DemoCanvas) =
             if indexedAnimationBehavior.loopIndex < 1:
                 this.timeDelayHelper.setStartTimeTNT()
             var demoGameMidlet: DemoGameMidlet = DemoGameMidlet(JObject(this.getCustomCommandListener()))
-            if this.gameCanvas != NullGameCanvas.getInstance() and this.gameCanvas.isGameOver():
+            if (not jSame(this.gameCanvas, NullGameCanvas.getInstance())) and this.gameCanvas.isGameOver():
                 this.stopGameDemo()
                 var randomLevel: int32 = this.getNextRandom()
                 var gameInfo: GameInfo = this.gameCanvas.getLayerManager().getGameInfo()
                 gameInfo.setCurrentLevel(randomLevel)
                 this.gameCanvas.setGameOver(false)
                 this.start()
-            elif this.gameCanvas == NullGameCanvas.getInstance() and demoGameMidlet.isReady():
+            elif (jSame(this.gameCanvas, NullGameCanvas.getInstance())) and demoGameMidlet.isReady():
                 if (not this.demoGameRunnable.isRunning()):
                     this.startDemoGame()
                     this.demoGameRunnable.setRunning(true)
@@ -752,7 +758,7 @@ method startDemoGame*(this: DemoCanvas) {.base.} =
         DemoCanvasProgressUtil.showProgress(this)
 
 method stopGameDemo*(this: DemoCanvas) {.base.} =
-        if this.gameCanvas != NullGameCanvas.getInstance():
+        if (not jSame(this.gameCanvas, NullGameCanvas.getInstance())):
             this.logUtil.putF("Set Running False", this, "stopGameDemo")
             this.gameCanvas.setRunning(false)
         ThreadUtil.getInstance().join(this.canvasThread)
@@ -761,7 +767,7 @@ method showGamePaintable*(this: DemoCanvas) =
         let METHOD_NAME: string = "showGamePaintable"
         PreLogUtil.put(this.commonStrings.START, this, METHOD_NAME)
         let isDefault: bool = J2MEUtil.isHTML()
-        if this.gameCanvas != NullGameCanvas.getInstance() and (this.gameCanvas.isRunning() or isDefault or SWTUtil.isSWT) and (not (this.gameCanvas.getType() == NullGameCanvas.TYPE)):
+        if (not jSame(this.gameCanvas, NullGameCanvas.getInstance())) and (this.gameCanvas.isRunning() or isDefault or SWTUtil.isSWT) and (not (this.gameCanvas.getType() == NullGameCanvas.TYPE)):
             this.gameRunnable = this.gameCanvas.gameRunnable
             PreLogUtil.put("Showing Game", this, METHOD_NAME)
             this.setPaintableInterface(this.gameCanvas)
@@ -800,7 +806,7 @@ method run*(this: DemoCanvas) =
             this.initPostPaint()
             this.updateDemoState()
             if features.isDefault(openGLFeatureFactory.OPENGL_AS_GAME_THREAD):
-                while this.gameCanvas == NullGameCanvas.getInstance() or (not this.gameCanvas.isInitialized()):
+                while (jSame(this.gameCanvas, NullGameCanvas.getInstance())) or (not this.gameCanvas.isInitialized()):
                     this.loopTimeHelper.setStartTimeTNT()
                     this.processGame()
                     this.processLoopSleep()
@@ -829,7 +835,7 @@ method run3*(this: DemoCanvas) {.base.} =
         this.processLoopSleep()
 
 method setRunning*(this: DemoCanvas, running: bool) =
-        procCall RunnableCanvas(this).setRunning(running)
+        jSuperStatement(procCall RunnableCanvas(this).setRunning(running))
         try:
             let features: Features = Features.getInstance()
             let openGLFeatureFactory: OpenGLFeatureFactory = OpenGLFeatureFactory.getInstance()
@@ -867,7 +873,7 @@ method getGameCanvasRunnableInterface*(this: DemoCanvas): AllBinaryGameCanvas {.
 
 method isDemoLoading*(this: DemoCanvas): bool {.base, discardable.} =
         var gameCanvas: AllBinaryGameCanvas = this.gameCanvas
-        if gameCanvas == NullGameCanvas.getInstance():
+        if (jSame(gameCanvas, NullGameCanvas.getInstance())):
             return true
         elif gameCanvas.isInitialized():
             return false

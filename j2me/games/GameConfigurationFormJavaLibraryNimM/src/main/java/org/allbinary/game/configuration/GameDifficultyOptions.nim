@@ -84,10 +84,10 @@ proc newGameDifficultyOptions*(commandListener: CommandListener, title: string, 
     initGameDifficultyOptions(result, commandListener, title, list, backgrounBasicColor, foregroundBasicColor)
 
 method open*(this: GameDifficultyOptions) =
-        procCall CommandForm(this).open()
+        jSuperStatement(procCall CommandForm(this).open())
 
 method close*(this: GameDifficultyOptions) =
-        procCall CommandForm(this).close()
+        jSuperStatement(procCall CommandForm(this).close())
         this.save()
 
 method save*(this: GameDifficultyOptions) {.base.} =
@@ -103,7 +103,7 @@ method initCommands*(this: GameDifficultyOptions, cmdListener: CommandListener) 
 method update*(this: GameDifficultyOptions) =
         this.deleteAll()
         this.add(this.list, "Difficulty", Choice.EXCLUSIVE)
-        procCall CommandForm(this).update()
+        jSuperStatement(procCall CommandForm(this).update())
 
 method add*(this: GameDifficultyOptions, list: BasicArrayList, name: string, option: int32) {.base.} =
         let choiceGroup: ChoiceGroup = this.getChoiceGroup(list, name, option)
@@ -136,7 +136,7 @@ method getSelectedId*(this: GameDifficultyOptions): int32 {.base, discardable.} 
 
 method getSelectedText*(this: GameDifficultyOptions): int32 {.base, discardable.} =
         let choiceGroup: ChoiceGroup = ChoiceGroup(JObject(this.get(0)))
-        let value: int32 = jstr(choiceGroup.getString(choiceGroup.getSelectedIndex())).intValue()
+        let value: int32 = jValueOfInt(choiceGroup.getString(choiceGroup.getSelectedIndex())).intValue()
         return value
 
 when declared(newGameDifficultyOptionsHook5):

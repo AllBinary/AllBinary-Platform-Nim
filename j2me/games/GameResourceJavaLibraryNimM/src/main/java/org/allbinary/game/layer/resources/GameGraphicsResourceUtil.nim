@@ -111,11 +111,11 @@ method getStringForFeature*(this: GameGraphicsResourceUtil, graphicsFeature: Gra
         if features.isFeature(graphicsFeatureFactory.VECTOR_GRAPHICS):
             discard
         elif features.isFeature(graphicsFeatureFactory.IMAGE_GRAPHICS):
-            if graphicsFeature == graphicsFeatureFactory.IMAGE_TO_ARRAY_GRAPHICS or graphicsFeature == graphicsFeatureFactory.IMAGE_ROTATION_ON_THE_FLY:
+            if (jSame(graphicsFeature, graphicsFeatureFactory.IMAGE_TO_ARRAY_GRAPHICS)) or (jSame(graphicsFeature, graphicsFeatureFactory.IMAGE_ROTATION_ON_THE_FLY)):
                 discard
-            elif graphicsFeature == graphicsFeatureFactory.SPRITE_FULL_GRAPHICS:
+            elif (jSame(graphicsFeature, graphicsFeatureFactory.SPRITE_FULL_GRAPHICS)):
                 stringBuffer.append(this.SPRITE)
-            elif graphicsFeature == graphicsFeatureFactory.SPRITE_QUARTER_ROTATION_GRAPHICS:
+            elif (jSame(graphicsFeature, graphicsFeatureFactory.SPRITE_QUARTER_ROTATION_GRAPHICS)):
                 stringBuffer.append(this.QUARTER)
                 stringBuffer.append(this.SPRITE)
             else:

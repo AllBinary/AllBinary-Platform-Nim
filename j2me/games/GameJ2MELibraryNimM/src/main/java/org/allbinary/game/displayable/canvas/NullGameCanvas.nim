@@ -110,7 +110,7 @@ proc createCanvas*(t: typedesc[NullGameCanvas], gameLayerManager: AllBinaryGameL
 proc initNullGameCanvas*(this: NullGameCanvas, gameLayerManager: AllBinaryGameLayerManager) =
         initAllBinaryGameCanvas(this, NullCommandListener.NULL_COMMAND_LISTENERStatic, gameLayerManager, NoHighScoresFactory.getInstance(), BasicBuildGameInitializerFactory.NULL_BASE_BUILD_GMAE_INITIALIZER_FACTORY, false)
         this.initFieldsNullGameCanvas()
-        procCall AllBinaryGameCanvas(this).setWait(1200)
+        jSuperStatement(procCall AllBinaryGameCanvas(this).setWait(1200))
 
 proc newNullGameCanvas*(gameLayerManager: AllBinaryGameLayerManager): NullGameCanvas =
     result = NullGameCanvas()

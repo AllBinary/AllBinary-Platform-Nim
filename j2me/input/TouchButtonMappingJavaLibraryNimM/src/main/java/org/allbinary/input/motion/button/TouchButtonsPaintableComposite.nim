@@ -52,6 +52,7 @@ type
         IGNORE*: string
 
 converter jAsCompleteMotionGestureInputEventListenerInterface*(value: TouchButtonsPaintableComposite): CompleteMotionGestureInputEventListenerInterface = cast[CompleteMotionGestureInputEventListenerInterface](value)
+converter jAsEventListenerInterface*(value: TouchButtonsPaintableComposite): EventListenerInterface = cast[EventListenerInterface](value)
 proc newTouchButtonsPaintableComposite*(inputMappingInterface: InputMappingInterface, basicColor: BasicColor): TouchButtonsPaintableComposite
 proc initTouchButtonsPaintableComposite*(this: TouchButtonsPaintableComposite, inputMappingInterface: InputMappingInterface, basicColor: BasicColor)
 method onEvent*(this: TouchButtonsPaintableComposite, eventObject: AllBinaryEventObject)
@@ -112,11 +113,11 @@ method onCompleteMotionGestureInputEvent*(this: TouchButtonsPaintableComposite, 
             let gameKeyCompleteMotionGestureInputEvent: GameKeyCompleteMotionGestureInputEvent = GameKeyCompleteMotionGestureInputEvent(JObject(completeMotionGestureInputEvent))
             let gameKey: GameKey = gameKeyCompleteMotionGestureInputEvent.getGameKey()
             let motionGestureInput: MotionGestureInput = completeMotionGestureInputEvent.getMotionGestureInput()
-            if motionGestureInput == touchMotionGestureFactory.RELEASED:
+            if (jSame(motionGestureInput, touchMotionGestureFactory.RELEASED)):
                 this.logUtil.putF(this.RELEASE, this, this.METHOD_NAME)
                 this.released = true
                 return
-            if motionGestureInput == TouchMotionGestureFactory.getInstance().NO_MOTION and (not this.timeHelper.isTimeTNT()):
+            if (jSame(motionGestureInput, TouchMotionGestureFactory.getInstance().NO_MOTION)) and (not this.timeHelper.isTimeTNT()):
                 this.logUtil.putF(this.FAST_REPEAT, this, this.METHOD_NAME)
                 return
             if (not this.released):

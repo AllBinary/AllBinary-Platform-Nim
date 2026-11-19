@@ -59,7 +59,7 @@ proc newLurchRotationAI*(ownerLayerInterface: AllBinaryLayer, gameInput: GameInp
     initLurchRotationAI(result, ownerLayerInterface, gameInput)
 
 method reverse*(this: LurchRotationAI) =
-        procCall LurchAI(this).reverse()
+        jSuperStatement(procCall LurchAI(this).reverse())
         this.update()
 
 method update*(this: LurchRotationAI) {.base.} =

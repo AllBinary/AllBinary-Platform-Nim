@@ -76,6 +76,7 @@ type
         lastDirection*: Direction
 
 converter jAsTrackingEventListenerInterface*(value: DiveAndDirectionalTrackingAI): TrackingEventListenerInterface = cast[TrackingEventListenerInterface](value)
+converter jAsEventListenerInterface*(value: DiveAndDirectionalTrackingAI): EventListenerInterface = cast[EventListenerInterface](value)
 converter jAsDestroyedEventListenerInterface*(value: DiveAndDirectionalTrackingAI): DestroyedEventListenerInterface = cast[DestroyedEventListenerInterface](value)
 proc newDiveAndDirectionalTrackingAI*(ownerLayerInterface: AllBinaryLayer, artificialIntelligenceInterface: ArtificialIntelligenceInterface, gameInput: GameInput, visitor: Visitor): DiveAndDirectionalTrackingAI
 proc initDiveAndDirectionalTrackingAI*(this: DiveAndDirectionalTrackingAI, ownerLayerInterface: AllBinaryLayer, artificialIntelligenceInterface: ArtificialIntelligenceInterface, gameInput: GameInput, visitor: Visitor)
@@ -204,12 +205,12 @@ method target*(this: DiveAndDirectionalTrackingAI, allBinaryLayerManager: AllBin
                 this.directionOfTarget = directionFactory.LEFT
             elif xDistance < -this.MIN_DISTANCE:
                 this.directionOfTarget = directionFactory.RIGHT
-        if (not this.initialDropped) and this.directionOfTarget != directionFactory.NOT_BORDERED_WITH:
+        if (not this.initialDropped) and (not jSame(this.directionOfTarget, directionFactory.NOT_BORDERED_WITH)):
             this.drop()
         if this.initialDropped:
-            if this.directionOfTarget == directionFactory.UP or this.directionOfTarget == directionFactory.DOWN:
+            if (jSame(this.directionOfTarget, directionFactory.UP)) or (jSame(this.directionOfTarget, directionFactory.DOWN)):
                 this.verticalTargeting(x)
-            elif this.directionOfTarget == directionFactory.LEFT or this.directionOfTarget == directionFactory.RIGHT:
+            elif (jSame(this.directionOfTarget, directionFactory.LEFT)) or (jSame(this.directionOfTarget, directionFactory.RIGHT)):
                 this.horizontalTargeting(y)
             else:
                 this.artificialIntelligenceInterface.processAI(allBinaryLayerManager)
@@ -262,7 +263,7 @@ method dive*(this: DiveAndDirectionalTrackingAI) {.base.} =
         this.aiVistor.visit(this)
 
 method attack*(this: DiveAndDirectionalTrackingAI) {.base.} =
-        procCall BasicAI(this).processKeyAI(Canvas.KEY_NUM1)
+        jSuperStatement(procCall BasicAI(this).processKeyAI(Canvas.KEY_NUM1))
 
 method drop*(this: DiveAndDirectionalTrackingAI) {.base.} =
         if this.timeDelayHelper.isTime(this.gameTickTimeDelayHelper.startTime):
@@ -270,22 +271,22 @@ method drop*(this: DiveAndDirectionalTrackingAI) {.base.} =
             this.aiVistor.visit(this)
 
 method isBeyondTarget*(this: DiveAndDirectionalTrackingAI): bool {.base, discardable.} =
-        if this.directionOfTarget == this.directionFactory.DOWN:
+        if (jSame(this.directionOfTarget, this.directionFactory.DOWN)):
             if this.getOwnerLayerInterface().getYP() > this.lastTrackingLayerInterface.getYP() +% this.MIN_DISTANCE:
                 return true
             else:
                 return false
-        elif this.directionOfTarget == this.directionFactory.UP:
+        elif (jSame(this.directionOfTarget, this.directionFactory.UP)):
             if this.getOwnerLayerInterface().getYP() < this.lastTrackingLayerInterface.getYP() +% this.MIN_DISTANCE:
                 return true
             else:
                 return false
-        elif this.directionOfTarget == this.directionFactory.RIGHT:
+        elif (jSame(this.directionOfTarget, this.directionFactory.RIGHT)):
             if this.getOwnerLayerInterface().getXP() > this.lastTrackingLayerInterface.getXP() +% this.MIN_DISTANCE:
                 return true
             else:
                 return false
-        elif this.directionOfTarget == this.directionFactory.LEFT:
+        elif (jSame(this.directionOfTarget, this.directionFactory.LEFT)):
             if this.getOwnerLayerInterface().getXP() < this.lastTrackingLayerInterface.getXP() +% this.MIN_DISTANCE:
                 return true
             else:
@@ -308,10 +309,10 @@ method setLastDirection*(this: DiveAndDirectionalTrackingAI, lastDirection: Dire
         this.lastDirection = lastDirection
         var value: int32 = this.getLastDirection().getValue()
         if value < 4:
-            procCall BasicAI(this).setLastKey(this.directionToKeyMap[value])
+            jSuperStatement(procCall BasicAI(this).setLastKey(this.directionToKeyMap[value]))
 
 method setLastKey*(this: DiveAndDirectionalTrackingAI, lastKey: int32) =
-        procCall BasicAI(this).setLastKey(lastKey)
+        jSuperStatement(procCall BasicAI(this).setLastKey(lastKey))
         if this.getLastKey() == Canvas.LEFT:
             this.lastDirection = DirectionFactory.getInstance().LEFT
         elif this.getLastKey() == Canvas.DOWN:

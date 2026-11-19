@@ -25,6 +25,7 @@ export PickedUpLayerInterfaceFactoryInterfaceModule
 type
     CountedPickedUpLayerInterfaceFactoryInterface* = ref object of PickedUpLayerInterfaceFactoryInterface
 
+converter jAsLayerInterfaceFactoryInterface*(value: CountedPickedUpLayerInterfaceFactoryInterface): LayerInterfaceFactoryInterface = cast[LayerInterfaceFactoryInterface](value)
 
 method getId*(this: CountedPickedUpLayerInterfaceFactoryInterface): int32 {.base, discardable.} =
         raise newJException("AbstractMethodError", "getId")

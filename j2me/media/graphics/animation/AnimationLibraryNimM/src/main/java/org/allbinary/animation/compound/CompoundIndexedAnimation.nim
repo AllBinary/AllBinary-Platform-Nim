@@ -38,6 +38,8 @@ type
         animationInterfaceArray*: JArray[Animation]
 
 converter jAsCompoundAnimationInterface*(value: CompoundIndexedAnimation): CompoundAnimationInterface = cast[CompoundAnimationInterface](value)
+converter jAsAnimationInterface*(value: CompoundIndexedAnimation): AnimationInterface = cast[AnimationInterface](value)
+converter jAsLocationPaintableInterface*(value: CompoundIndexedAnimation): LocationPaintableInterface = cast[LocationPaintableInterface](value)
 proc newCompoundIndexedAnimation*(animationInterfaceArray: JArray[Animation], animationBehavior: AnimationBehavior): CompoundIndexedAnimation
 proc initCompoundIndexedAnimation*(this: CompoundIndexedAnimation, animationInterfaceArray: JArray[Animation], animationBehavior: AnimationBehavior)
 method setFrame*(this: CompoundIndexedAnimation, index: int32)

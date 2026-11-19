@@ -40,7 +40,7 @@ proc newSourceCollisionHelper*(layerInterface: AllBinaryLayer): SourceCollisionH
     initSourceCollisionHelper(result, layerInterface)
 
 method isCollidable*(this: SourceCollisionHelper, layerInterface: CollidableCompositeLayer): bool {.discardable.} =
-        if this.sourceLayerInterface != layerInterface:
+        if (not jSame(this.sourceLayerInterface, layerInterface)):
             return true
         return false
 

@@ -131,9 +131,9 @@ method loadAll*(this: InputPersistance, abeClientInformation: AbeClientInformati
                         inputId = int64(value)
                         gameActionInput = gameKeyFactory.getGameKey(jToInt32(gameActionInputId))
                         input = inputFactory.getInstanceById(jToInt32(inputId))
-                        if input == inputFactory.NO_INPUT or (jIsNil(gameActionInput)):
+                        if (jSame(input, inputFactory.NO_INPUT)) or (jIsNil(gameActionInput)):
                             stringBuffer.delete(0, stringBuffer.length())
-                            if input == inputFactory.NO_INPUT:
+                            if (jSame(input, inputFactory.NO_INPUT)):
                                 stringBuffer.append(this.persistanceStrings.ERROR_LOADING_ID)
                                 stringBuffer.appendlong(inputId)
                                 stringBuffer.append(this.persistanceStrings.GAME_ACTION_INPUT)

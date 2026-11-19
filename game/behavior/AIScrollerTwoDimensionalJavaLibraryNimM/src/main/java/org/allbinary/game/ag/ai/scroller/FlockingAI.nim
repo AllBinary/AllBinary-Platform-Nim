@@ -90,7 +90,7 @@ method processAI*(this: FlockingAI, allBinaryLayerManager: AllBinaryLayerManager
                         if distance > this.allowedDistance:
                             break
         if maxDistance > this.allowedDistance:
-            if farAllbinaryLayer != AllBinaryLayer.NULL_ALLBINARY_LAYER:
+            if (not jSame(farAllbinaryLayer, AllBinaryLayer.NULL_ALLBINARY_LAYER)):
                 ownerLayerInterface = this.getOwnerLayerInterface()
                 if farAllbinaryLayer.getXP() < ownerLayerInterface.getXP():
                     this.processKeyAI(Canvas.LEFT)

@@ -97,7 +97,7 @@ method getRectangleXY*(this: FeaturedAnimationInterfaceFactoryInterfaceFactory, 
                 let featureInterface: FeatureResourceAnimationInterfaceFactoryInterface = FeatureResourceAnimationInterfaceFactoryInterface(JObject(list.objectArray[index]))
                 if featureInterface.isFeature():
                     let rectangle: Rectangle = featureInterface.getRectangle(resource)
-                    if rectangle != RectangleFactory.SINGLETON:
+                    if (not jSame(rectangle, RectangleFactory.SINGLETON)):
                         return newRectangle(pointFactory.createXY(x, y), (ashr((rectangle.getWidth() *% scale), 1)), (ashr((rectangle.getHeight() *% scale), 1)))
         raise newJException("Exception", newStringMaker().append("No rectangle available for current feature selection or Resource: ").append(resource).toString())
 
@@ -121,7 +121,7 @@ method getBasicAnimationInterfaceFactoryInstance*(this: FeaturedAnimationInterfa
                 if featureInterface.isFeature():
                     resourceTypeAvailableList.add(featureInterface)
                     animationInterfaceFactoryInterface = featureInterface.getBasicAnimationInterfaceFactoryInstance(resource)
-                    if animationInterfaceFactoryInterface != NullAnimationFactory.NULL_NOT_FOR_USE_ANIMATION_FACTORY:
+                    if (not jSame(animationInterfaceFactoryInterface, NullAnimationFactory.NULL_NOT_FOR_USE_ANIMATION_FACTORY)):
                         return animationInterfaceFactoryInterface
         if resourceTypeAvailableList.size() > 0:
             let NO_ANIMATION_AVAILABLE_FROM: string = "No animation available from: "

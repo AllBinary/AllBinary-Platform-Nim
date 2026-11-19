@@ -40,6 +40,7 @@ type
         lastGameNotificationEvent*: GameNotificationEvent
 
 converter jAsGameNotificationListenerInterface*(value: GameNotificationHud): GameNotificationListenerInterface = cast[GameNotificationListenerInterface](value)
+converter jAsEventListenerInterface*(value: GameNotificationHud): EventListenerInterface = cast[EventListenerInterface](value)
 proc newGameNotificationHud*(location: int32, direction: int32, bufferZone: int32, basicColor: BasicColor): GameNotificationHud
 proc initGameNotificationHud*(this: GameNotificationHud, location: int32, direction: int32, bufferZone: int32, basicColor: BasicColor)
 method onEvent*(this: GameNotificationHud, eventObject: AllBinaryEventObject)

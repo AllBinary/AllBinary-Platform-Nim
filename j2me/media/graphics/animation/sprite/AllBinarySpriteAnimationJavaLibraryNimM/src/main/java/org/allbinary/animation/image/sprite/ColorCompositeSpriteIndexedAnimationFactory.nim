@@ -38,6 +38,7 @@ type
         basicColorArray*: JArray[BasicColor]
 
 converter jAsProceduralAnimationInterfaceFactoryInterface*(value: ColorCompositeSpriteIndexedAnimationFactory): ProceduralAnimationInterfaceFactoryInterface = cast[ProceduralAnimationInterfaceFactoryInterface](value)
+converter jAsBasicAnimationInterfaceFactoryInterface*(value: ColorCompositeSpriteIndexedAnimationFactory): BasicAnimationInterfaceFactoryInterface = cast[BasicAnimationInterfaceFactoryInterface](value)
 proc newColorCompositeSpriteIndexedAnimationFactory*(image: Image, basicColorArray: JArray[BasicColor], width: int32, height: int32, animationBehaviorFactory: AnimationBehaviorFactory): ColorCompositeSpriteIndexedAnimationFactory
 proc initColorCompositeSpriteIndexedAnimationFactory*(this: ColorCompositeSpriteIndexedAnimationFactory, image: Image, basicColorArray: JArray[BasicColor], width: int32, height: int32, animationBehaviorFactory: AnimationBehaviorFactory)
 method getInstance*(this: ColorCompositeSpriteIndexedAnimationFactory, instanceId: int32): Animation {.discardable.}

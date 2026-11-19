@@ -85,15 +85,15 @@ method addListener*(this: UpKeyEventHandlerBase, playerGameInput: PlayerGameInpu
 
 method removeAllListeners*(this: UpKeyEventHandlerBase) =
         this.list.clear()
-        procCall BasicEventHandler(this).removeAllListeners()
+        jSuperStatement(procCall BasicEventHandler(this).removeAllListeners())
 
 method removeListenerSingleThreaded*(this: UpKeyEventHandlerBase, eventListenerInterface: EventListenerInterface) =
         this.list.remove(eventListenerInterface)
-        procCall BasicEventHandler(this).removeListenerSingleThreaded(eventListenerInterface)
+        jSuperStatement(procCall BasicEventHandler(this).removeListenerSingleThreaded(eventListenerInterface))
 
 method removeListener*(this: UpKeyEventHandlerBase, eventListenerInterface: EventListenerInterface) =
         this.list.remove(eventListenerInterface)
-        procCall BasicEventHandler(this).removeListener(eventListenerInterface)
+        jSuperStatement(procCall BasicEventHandler(this).removeListener(eventListenerInterface))
 
 method fireEventForInteger*(this: UpKeyEventHandlerBase, eventObject: int32) {.base.} =
         block:
